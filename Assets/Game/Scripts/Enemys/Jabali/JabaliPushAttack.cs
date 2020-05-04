@@ -17,7 +17,7 @@ namespace Tools.StateMachine
             DealDamage = _DealDamage;
         }
 
-        protected override void Enter(JabaliEnemy.JabaliInputs input)
+        protected override void Enter(EState<JabaliEnemy.JabaliInputs> input)
         {
             base.Enter(input);
 

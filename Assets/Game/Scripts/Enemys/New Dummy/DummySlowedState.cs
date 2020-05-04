@@ -46,10 +46,8 @@ public class DummySlowedState : DummyFollowState
 
 
         }
-    
-        
 
-        protected override void Enter(TrueDummyEnemy.DummyEnemyInputs input)
+        protected override void Enter(EState<TrueDummyEnemy.DummyEnemyInputs> input)
         {
             base.Enter(input);
             anim.SetFloat("move", 0.3f);

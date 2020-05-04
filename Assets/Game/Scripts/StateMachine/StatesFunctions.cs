@@ -25,7 +25,7 @@ namespace Tools.StateMachine
             sm = _sm;
         }
 
-        protected abstract void Enter(T input);
+        protected abstract void Enter(EState<T> lastState);
 
         protected abstract void Update();
 

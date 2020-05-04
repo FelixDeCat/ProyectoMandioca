@@ -1,42 +1,24 @@
-﻿namespace Tools.StateMachine
+﻿using System;
+
+namespace Tools.StateMachine
 {
     using input = TrueDummyEnemy.DummyEnemyInputs;
     public class DummyStunState : DummyEnemyStates
     {
-        EState<input> attackState;
-        float currentAnimVel, timePetrify, timer;
-        bool startTimer;
-        public DummyStunState(EState<input> myState, EventStateMachine<input> _sm, float _petrify,
-                              EState<input> _attackState) : base(myState, _sm)
-        {
-            timePetrify = _petrify;
-            attackState = _attackState;
-        }
-        protected override void Enter(input input)
-        {
-            base.Enter(input);
-            currentAnimVel = anim.speed;
-            anim.speed = 0;
-            startTimer = true;
+        Action<EState<input>> EnterStun;
+        Action<string> UpdateStun;
+        Action<input> ExitStun;
 
-            
-        }
-        protected override void Update()
+        public DummyStunState(EState<input> myState, EventStateMachine<input> _sm, Action<EState<input>> _Enter,
+                          Action<string> _Update, Action<input> _Exit) : base(myState, _sm)
         {
-            if (startTimer)
-            {
-                timer *= UnityEngine.Time.deltaTime;
-                if (timer >= timePetrify)
-                    sm.SendInput(lastState.Name == attackState.Name ?
-                        input.ATTACK : (lastState.Name == "Begin_Attack" ?
-                        input.BEGIN_ATTACK : input.IDLE));
-            }
+            EnterStun = _Enter;
+            UpdateStun = _Update;
+            ExitStun = _Exit;
         }
-        protected override void Exit(input input)
-        {
-            base.Exit(input);
-            startTimer = false;
-            anim.speed = currentAnimVel;
-        }
+
+        protected override void Enter(EState<input> input) { base.Enter(input); EnterStun(input); }
+        protected override void Update() => UpdateStun(lastState.Name);
+        protected override void Exit(input input) => ExitStun(input);
     }
 }

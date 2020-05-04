@@ -19,7 +19,7 @@ namespace Tools.StateMachine
             ChangeHeavy = _ChangeHeavy;
         }
 
-        protected override void Enter(CharacterHead.PlayerInputs input)
+        protected override void Enter(EState<CharacterHead.PlayerInputs> input)
         {
             if (IsHeavy())
             {

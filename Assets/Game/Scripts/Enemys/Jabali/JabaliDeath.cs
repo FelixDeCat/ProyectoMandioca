@@ -6,7 +6,7 @@
         {
         }
 
-        protected override void Enter(JabaliEnemy.JabaliInputs input)
+        protected override void Enter(EState<JabaliEnemy.JabaliInputs> input)
         {
             anim.SetBool("Dead", true);
         }

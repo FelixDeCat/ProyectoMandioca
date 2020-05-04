@@ -12,8 +12,10 @@ namespace Tools.StateMachine
             timeParry = _timeParried;
         }
 
-        protected override void Enter(JabaliEnemy.JabaliInputs input)
+        protected override void Enter(EState<JabaliEnemy.JabaliInputs> input)
         {
+            base.Enter(input);
+
             anim.SetBool("Parried", true);
         }
 

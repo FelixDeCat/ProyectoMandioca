@@ -31,6 +31,10 @@ public class TrueDummyEnemy : EnemyBase
     [SerializeField] float forceRecall = 4;
     [SerializeField] float explosionForce = 20;
     [SerializeField] float petrifiedTime = 2;
+    private float stunTimer;
+    private Action<EState<DummyEnemyInputs>> EnterStun;
+    private Action<string> UpdateStun;
+    private Action<DummyEnemyInputs> ExitStun;
 
     [Range(0,1)]
     [SerializeField] float freezeSpeedSlowed = 0.5f;
@@ -69,8 +73,6 @@ public class TrueDummyEnemy : EnemyBase
         Main.instance.AddEntity(this);
 
         IAInitialize(Main.instance.GetCombatDirector());
-
-        
     }
 
     public override void OnPlayerExitInThisRoom()
@@ -241,9 +243,36 @@ public class TrueDummyEnemy : EnemyBase
 
     public override void InstaKill() { base.InstaKill(); }
 
+    float currentAnimSpeed;
+
     public override void OnPetrified()
     {
         base.OnPetrified();
+
+        EnterStun = (input) => {
+            currentAnimSpeed = animator.speed;
+            animator.speed = 0;
+        };
+
+        UpdateStun = (name) => {
+            stunTimer += Time.deltaTime;
+
+            if (stunTimer >= petrifiedTime)
+            {
+                if (name == "Begin_Attack")
+                    sm.SendInput(DummyEnemyInputs.BEGIN_ATTACK);
+                else if (name == "Attack")
+                    sm.SendInput(DummyEnemyInputs.ATTACK);
+                else
+                    sm.SendInput(DummyEnemyInputs.IDLE);
+            }
+        };
+
+        ExitStun = (input) => {
+            animator.speed = currentAnimSpeed;
+            stunTimer = 0;
+        };
+
         sm.SendInput(DummyEnemyInputs.PETRIFIED);
     }
 
@@ -307,7 +336,7 @@ public class TrueDummyEnemy : EnemyBase
     public override void ToAttack() { attacking = true; }
 
     #region STATE MACHINE THINGS
-    public enum DummyEnemyInputs { IDLE, BEGIN_ATTACK,ATTACK, GO_TO_POS, DIE, DISABLE, TAKE_DAMAGE, PETRIFIED, PARRIED, FREEZE };
+    public enum DummyEnemyInputs { IDLE, BEGIN_ATTACK,ATTACK, GO_TO_POS, DIE, DISABLE, TAKE_DAMAGE, PETRIFIED, PARRIED };
     void SetStates()
     {
         var idle = new EState<DummyEnemyInputs>("Idle");
@@ -319,7 +348,6 @@ public class TrueDummyEnemy : EnemyBase
         var die = new EState<DummyEnemyInputs>("Die");
         var disable = new EState<DummyEnemyInputs>("Disable");
         var petrified = new EState<DummyEnemyInputs>("Petrified");
-        var freeze = new EState<DummyEnemyInputs>("Freeze");
 
         ConfigureState.Create(idle)
             .SetTransition(DummyEnemyInputs.GO_TO_POS, goToPos)
@@ -327,7 +355,6 @@ public class TrueDummyEnemy : EnemyBase
             .SetTransition(DummyEnemyInputs.BEGIN_ATTACK, beginAttack)
             .SetTransition(DummyEnemyInputs.DIE, die)
             .SetTransition(DummyEnemyInputs.PETRIFIED, petrified)
-            .SetTransition(DummyEnemyInputs.FREEZE, freeze)
             .SetTransition(DummyEnemyInputs.DISABLE, disable)
             .Done();
 
@@ -336,7 +363,6 @@ public class TrueDummyEnemy : EnemyBase
             .SetTransition(DummyEnemyInputs.TAKE_DAMAGE, takeDamage)
             .SetTransition(DummyEnemyInputs.DIE, die)
             .SetTransition(DummyEnemyInputs.PETRIFIED, petrified)
-            .SetTransition(DummyEnemyInputs.FREEZE, freeze)
             .SetTransition(DummyEnemyInputs.DISABLE, disable)
             .Done();
 
@@ -344,7 +370,6 @@ public class TrueDummyEnemy : EnemyBase
             .SetTransition(DummyEnemyInputs.ATTACK, attack)
             .SetTransition(DummyEnemyInputs.DIE, die)
             .SetTransition(DummyEnemyInputs.PETRIFIED, petrified)
-            .SetTransition(DummyEnemyInputs.FREEZE, freeze)
             .SetTransition(DummyEnemyInputs.PARRIED, parried)
             .Done();
 
@@ -352,14 +377,12 @@ public class TrueDummyEnemy : EnemyBase
             .SetTransition(DummyEnemyInputs.IDLE, idle)
             .SetTransition(DummyEnemyInputs.DIE, die)
             .SetTransition(DummyEnemyInputs.PETRIFIED, petrified)
-            .SetTransition(DummyEnemyInputs.FREEZE, freeze)
             .SetTransition(DummyEnemyInputs.PARRIED, parried)
             .Done();
 
         ConfigureState.Create(parried)
             .SetTransition(DummyEnemyInputs.IDLE, idle)
             .SetTransition(DummyEnemyInputs.PETRIFIED, petrified)
-            .SetTransition(DummyEnemyInputs.FREEZE, freeze)
             .SetTransition(DummyEnemyInputs.DIE, die)
             .Done();
 
@@ -370,21 +393,11 @@ public class TrueDummyEnemy : EnemyBase
             .SetTransition(DummyEnemyInputs.DIE, die)
             .SetTransition(DummyEnemyInputs.DISABLE, disable)
             .Done();
-        
-        ConfigureState.Create(freeze)
-            .SetTransition(DummyEnemyInputs.IDLE, idle)
-            .SetTransition(DummyEnemyInputs.TAKE_DAMAGE, takeDamage)
-            .SetTransition(DummyEnemyInputs.DIE, die)
-            .SetTransition(DummyEnemyInputs.PETRIFIED, petrified)
-            .SetTransition(DummyEnemyInputs.FREEZE, freeze)
-            .SetTransition(DummyEnemyInputs.DISABLE, disable)
-            .Done();
 
         ConfigureState.Create(takeDamage)
             .SetTransition(DummyEnemyInputs.IDLE, idle)
             .SetTransition(DummyEnemyInputs.DISABLE, disable)
             .SetTransition(DummyEnemyInputs.PETRIFIED, petrified)
-            .SetTransition(DummyEnemyInputs.FREEZE, freeze)
             .SetTransition(DummyEnemyInputs.DIE, die)
             .Done();
 
@@ -400,7 +413,7 @@ public class TrueDummyEnemy : EnemyBase
         var head = Main.instance.GetChar();
 
         //Asignando las funciones de cada estado
-        new DummyIdleState(idle, sm, IsAttack, CurrentTargetPos, distanceToAttack, normalDistance, rotSpeed, this).SetAnimator(animator).SetRoot(rootTransform)
+        new DummyIdleState(idle, sm, IsAttack, distanceToAttack, normalDistance, rotSpeed, this).SetAnimator(animator).SetRoot(rootTransform)
                                                                                                                      .SetDirector(director);
 
         new DummyFollowState(goToPos, sm, avoidRadious, avoidWeight, rotSpeed, GetCurrentSpeed, CurrentTargetPos, normalDistance, this).SetAnimator(animator).SetRigidbody(rb)
@@ -414,10 +427,7 @@ public class TrueDummyEnemy : EnemyBase
 
         new DummyTDState(takeDamage, sm, recallTime).SetAnimator(animator);
 
-        new DummyStunState(petrified, sm, petrifiedTime, attack).SetAnimator(animator);
-        
-        new DummySlowedState(freezeTime, freezeSpeedSlowed , freeze_shader, freeze, sm, avoidRadious, avoidWeight, rotSpeed, GetCurrentSpeed, CurrentTargetPos, normalDistance, this).SetAnimator(animator).SetRigidbody(rb)
-            .SetRoot(rootTransform);
+        new DummyStunState(petrified, sm, StartStun, TickStun, EndStun);
 
         new DummyDieState(die, sm).SetAnimator(animator).SetDirector(director).SetRigidbody(rb);
 
@@ -425,6 +435,12 @@ public class TrueDummyEnemy : EnemyBase
     }
 
     float GetCurrentSpeed() { return currentSpeed; }
+
+    void StartStun(EState<DummyEnemyInputs> input) { EnterStun(input); }
+
+    void TickStun(string name) { UpdateStun(name); }
+
+    void EndStun(DummyEnemyInputs input) { ExitStun(input); }
 
     void DisableObject()
     {

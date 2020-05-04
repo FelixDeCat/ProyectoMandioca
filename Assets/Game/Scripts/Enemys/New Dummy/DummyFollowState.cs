@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using System;
 
 namespace Tools.StateMachine
@@ -29,7 +27,7 @@ namespace Tools.StateMachine
             rotationSpeed = _rotSpeed;
         }
 
-        protected override void Enter(TrueDummyEnemy.DummyEnemyInputs input)
+        protected override void Enter(EState<TrueDummyEnemy.DummyEnemyInputs> input)
         {
             base.Enter(input);
             anim.SetFloat("move", 0.3f);
@@ -41,7 +39,6 @@ namespace Tools.StateMachine
 
             rb.velocity = Vector3.zero;
             anim.SetFloat("move", 0);
-            //setear animación
         }
 
         protected override void Update()
@@ -73,9 +70,7 @@ namespace Tools.StateMachine
                 float distanceZ = Mathf.Abs(GetMyPos().transform.position.z - root.position.z);
 
                 if (distanceX < 0.7f && distanceZ < 0.7f)
-                {
                     sm.SendInput(TrueDummyEnemy.DummyEnemyInputs.IDLE);
-                }
             }
 
         }
@@ -106,7 +101,6 @@ namespace Tools.StateMachine
             if (obs)
             {
                 Vector3 diraux = (root.position - obs.position).normalized;
-                //diraux
 
                 diraux = new Vector3(diraux.x,0, diraux.z);
 

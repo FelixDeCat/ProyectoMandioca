@@ -22,7 +22,7 @@ namespace Tools.StateMachine
             return this;
         }
 
-        protected override void Enter(CharacterHead.PlayerInputs input) 
+        protected override void Enter(EState<CharacterHead.PlayerInputs> input) 
         {
 
             charMove.RotateHorizontal(0);

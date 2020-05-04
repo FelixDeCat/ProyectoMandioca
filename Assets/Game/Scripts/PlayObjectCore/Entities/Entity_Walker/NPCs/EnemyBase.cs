@@ -118,9 +118,11 @@ public abstract class EnemyBase : NPCBase, ICombatDirector
     Dictionary<int, float> effectsTimer =  new Dictionary<int, float>();
     protected Action EffectUpdate = delegate {}; 
 
+    System.Random key = new System.Random(1);
+
     protected void AddEffectTick(Action Effect, float duration, Action EndEffect)
     {
-        int myNumber = new System.Random(1).Next();
+        int myNumber = key.Next();
         effectsTimer.Add(myNumber, 0);
 
         Action MyUpdate = Effect;

@@ -12,7 +12,7 @@ namespace Tools.StateMachine
             timeToRecall = _recall;
         }
 
-        protected override void Enter(JabaliEnemy.JabaliInputs input)
+        protected override void Enter(EState<JabaliEnemy.JabaliInputs> input)
         {
             anim.SetBool("TakeDamage", true);
         }

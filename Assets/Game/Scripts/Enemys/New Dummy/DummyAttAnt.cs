@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 namespace Tools.StateMachine
 {
@@ -11,7 +9,6 @@ namespace Tools.StateMachine
         float rotationSpeed;
         ICombatDirector enemy;
 
-
         public DummyAttAnt(EState<TrueDummyEnemy.DummyEnemyInputs> myState, EventStateMachine<TrueDummyEnemy.DummyEnemyInputs> _sm,
                                 float _rotSpeed, ICombatDirector _enemy) : base(myState, _sm)
         {
@@ -20,11 +17,11 @@ namespace Tools.StateMachine
             rotationSpeed = _rotSpeed;
         }
 
-        protected override void Enter(TrueDummyEnemy.DummyEnemyInputs input)
+        protected override void Enter(EState<TrueDummyEnemy.DummyEnemyInputs> input)
         {
             base.Enter(input);
 
-            if (input != TrueDummyEnemy.DummyEnemyInputs.PETRIFIED)
+            if (input.Name != "Petrified")
             {
                 anim.SetBool("Attack", true);
                 combatDirector.RemoveToAttack(enemy, enemy.CurrentTarget());
@@ -36,19 +33,7 @@ namespace Tools.StateMachine
             base.Exit(input);
 
             if (input != TrueDummyEnemy.DummyEnemyInputs.PETRIFIED)
-            {
                 timer = 0;
-            }
-        }
-
-        protected override void FixedUpdate()
-        {
-            base.FixedUpdate();
-        }
-
-        protected override void LateUpdate()
-        {
-            base.LateUpdate();
         }
 
         protected override void Update()
@@ -63,9 +48,7 @@ namespace Tools.StateMachine
             timer += Time.deltaTime;
 
             if (timer >= cd)
-            {
                 sm.SendInput(TrueDummyEnemy.DummyEnemyInputs.ATTACK);
-            }
         }
     }
 }

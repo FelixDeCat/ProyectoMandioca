@@ -1,7 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using System;
+﻿using System;
 
 namespace Tools.StateMachine
 {
@@ -16,7 +13,7 @@ namespace Tools.StateMachine
             Desactive += _desac;
         }
 
-        protected override void Enter(TrueDummyEnemy.DummyEnemyInputs input)
+        protected override void Enter(EState<TrueDummyEnemy.DummyEnemyInputs> input)
         {
             base.Enter(input);
 
@@ -30,21 +27,6 @@ namespace Tools.StateMachine
 
             //Activo el objeto con lo que tenga que hacer cuando entro a la room
             Active();
-        }
-
-        protected override void FixedUpdate()
-        {
-            base.FixedUpdate();
-        }
-
-        protected override void LateUpdate()
-        {
-            base.LateUpdate();
-        }
-
-        protected override void Update()
-        {
-            base.Update();
         }
     }
 }

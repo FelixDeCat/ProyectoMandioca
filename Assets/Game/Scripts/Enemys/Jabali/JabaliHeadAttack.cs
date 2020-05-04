@@ -12,9 +12,9 @@ namespace Tools.StateMachine
             cdToAttack = _cdToAttack;
         }
 
-        protected override void Enter(JabaliEnemy.JabaliInputs input)
+        protected override void Enter(EState<JabaliEnemy.JabaliInputs> input)
         {
-            if (input != JabaliEnemy.JabaliInputs.PETRIFIED)
+            if (input.Name != "Petrified")
                 anim.SetTrigger("HeadOk");
         }
 

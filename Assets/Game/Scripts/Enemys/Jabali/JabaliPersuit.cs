@@ -19,7 +19,7 @@ namespace Tools.StateMachine
             distanceAprox = _distanceToPush;
         }
 
-        protected override void Enter(JabaliEnemy.JabaliInputs input)
+        protected override void Enter(EState<JabaliEnemy.JabaliInputs> input)
         {
             base.Enter(input);
             anim.SetFloat("Speed", 0.3f);

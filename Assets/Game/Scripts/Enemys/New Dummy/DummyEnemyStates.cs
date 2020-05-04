@@ -16,8 +16,8 @@ namespace Tools.StateMachine
         public DummyEnemyStates SetRoot(Transform _root) { root = _root; return this; }
         public DummyEnemyStates SetDirector(CombatDirector _director) { combatDirector = _director; return this; }
         #endregion
-        protected override void Enter(TrueDummyEnemy.DummyEnemyInputs input) { }
-        protected override void Exit(TrueDummyEnemy.DummyEnemyInputs input) => lastState = sm.Current;
+        protected override void Enter(EState<TrueDummyEnemy.DummyEnemyInputs> last) { lastState = last; }
+        protected override void Exit(TrueDummyEnemy.DummyEnemyInputs input) { }
         protected override void FixedUpdate() { }
         protected override void LateUpdate() { }
         protected override void Update() { }

@@ -7,7 +7,7 @@ namespace Tools.StateMachine
 {
     public class JabaliStates : StatesFunctions<JabaliEnemy.JabaliInputs>
     {
-        protected EState<TrueDummyEnemy.DummyEnemyInputs> lastState;
+        protected EState<JabaliEnemy.JabaliInputs> lastState;
         protected Animator anim;
         protected Transform root;
         protected Rigidbody rb;
@@ -58,9 +58,9 @@ namespace Tools.StateMachine
 
         #endregion
 
-        protected override void Enter(JabaliEnemy.JabaliInputs input)
+        protected override void Enter(EState<JabaliEnemy.JabaliInputs> input)
         {
-
+            lastState = input;
         }
 
         protected override void Exit(JabaliEnemy.JabaliInputs input)

@@ -14,9 +14,9 @@ namespace Tools.StateMachine
             chargeTime = _chargeTime;
         }
 
-        protected override void Enter(JabaliEnemy.JabaliInputs input)
+        protected override void Enter(EState<JabaliEnemy.JabaliInputs> input)
         {
-            if (input != JabaliEnemy.JabaliInputs.PETRIFIED)
+            if (input.Name != "Petrified")
             {
                 anim.SetBool("ChargeAttack", true);
                 combatDirector.RemoveToAttack(enemy, enemy.CurrentTarget());

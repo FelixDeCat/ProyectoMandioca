@@ -56,7 +56,7 @@ public class JabaliEnemy : EnemyBase
     private float timercooldown = 0;
     private float currentAnimSpeed;
     private float stunTimer;
-    private Action<JabaliInputs> EnterStun;
+    private Action<EState<JabaliInputs>> EnterStun;
     private Action<string> UpdateStun;
     private Action<JabaliInputs> ExitStun;
     private Material[] myMat;
@@ -493,7 +493,7 @@ public class JabaliEnemy : EnemyBase
     }
     bool IsChargeOk() { return chargeOk; }
 
-    void StartStun(JabaliInputs input) { EnterStun(input); }
+    void StartStun(EState<JabaliInputs> input) { EnterStun(input); }
 
     void TickStun(string name) { UpdateStun(name); }
 
