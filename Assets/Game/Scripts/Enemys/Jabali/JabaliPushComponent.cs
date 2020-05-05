@@ -43,13 +43,13 @@ public class JabaliPushComponent : CombatComponent
     {
         EntityBase entity = null;
 
-        var obstacles = Physics.OverlapSphere(rot.position, 1.5f, obstacleLayer);
+        var obstacles = Physics.OverlapSphere(rot.position, 1, obstacleLayer);
         for (int i = 0; i < obstacles.Length; i++)
         {
             Vector3 dir = obstacles[i].transform.position - rot.position;
             float angle = Vector3.Angle(rot.forward, dir);
 
-            if (dir.magnitude <= distance && angle < 45)
+            if (angle < 45)
             {
                 Stop();
             }

@@ -64,7 +64,7 @@ namespace Tools.StateMachine
 
                 if (IsAttack())
                 {
-                    if (IsChargeOk() && Vector3.Distance(pos1, pos2) > distanceToNormalAttack)
+                    if (IsChargeOk())
                         sm.SendInput(JabaliEnemy.JabaliInputs.CHARGE_PUSH);
                     else
                         sm.SendInput(JabaliEnemy.JabaliInputs.HEAD_ANTICIP);

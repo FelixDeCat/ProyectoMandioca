@@ -48,6 +48,7 @@ namespace Tools.StateMachine
                     Vector3 fowardRotation = new Vector3(dirForward.x, 0, dirForward.z);
 
                     Root(Move(fowardRotation));
+
                     if (Vector3.Distance(enemy.CurrentTarget().transform.position, root.position) <= distanceAprox && OnSight(enemy.CurrentTarget().transform))
                         sm.SendInput(JabaliEnemy.JabaliInputs.IDLE);
                 }

@@ -37,7 +37,7 @@ public class JabaliEnemy : EnemyBase
     [SerializeField] float stunChargeTime = 2;
     [SerializeField] float timeToObtainCharge = 5;
     [SerializeField] float chargeSpeed = 12;
-    private bool chargeOk = true;
+    private bool chargeOk = false;
     private float cargeTimer;
     private CombatDirector director;
 
@@ -80,6 +80,7 @@ public class JabaliEnemy : EnemyBase
         Debug.Log("OnInitialize");
         headAttack.Configure(HeadAttack);
         pushAttack.Configure(PushRelease, StunAfterCharge);
+        lineOfSight.Configurate(rootTransform);
         anim.Add_Callback("DealDamage", DealDamage);
         anim.Add_Callback("Death", DeathAnim);
         lifesystem.AddEventOnDeath(Die);
@@ -173,6 +174,9 @@ public class JabaliEnemy : EnemyBase
     void PushRelease(EntityBase e)
     {
         Attack_Result takeDmg = e.TakeDamage(normalDamage, transform.position, Damagetype.inparry);
+
+        if(e == entityTarget || e.GetComponent<CharacterHead>())
+            pushAttack.Stop();
     }
 
     void PushAttack() { pushAttack.ManualTriggerAttack(); }
@@ -289,6 +293,7 @@ public class JabaliEnemy : EnemyBase
         ExitStun = (input) => {
             animator.SetBool("Stun", false);
             stunTimer = 0;
+            chargeOk = false;
         };
 
         sm.SendInput(JabaliInputs.PETRIFIED);
@@ -466,14 +471,15 @@ public class JabaliEnemy : EnemyBase
 
         sm = new EventStateMachine<JabaliInputs>(idle, DebugState);
 
-        new JabaliIdle(idle, sm, distanceToCharge, normalDistance, distanceToAttack, IsAttack, IsChargeOk).SetThis(this).SetRotation(rootTransform, rotSpeed);
+        new JabaliIdle(idle, sm, distanceToCharge, distanceToAttack, normalDistance, IsAttack, IsChargeOk).SetThis(this).SetRotation(rootTransform, rotSpeed)
+            .SetDirector(director);
 
         new JabaliPersuit(persuit, sm, lineOfSight.OnSight, IsChargeOk, distanceToAttack, distanceToCharge - 1)
             .SetMovement(rb, this, avoidRadious, avoidWeight, GetCurrentSpeed, avoidMask).SetRotation(rootTransform, rotSpeed).SetAnimator(animator);
 
         new JabaliCharge(chargePush, sm, chargeTime).SetAnimator(animator).SetDirector(director).SetThis(this);
 
-        new JabaliPushAttack(push, sm, chargeSpeed, PushAttack).SetAnimator(animator).SetRigidbody(rb);
+        new JabaliPushAttack(push, sm, chargeSpeed, PushAttack).SetAnimator(animator).SetRigidbody(rb).SetRoot(rootTransform);
 
         new JabaliAttackAnticipation(headAnt, sm, normalAttAnticipation).SetAnimator(animator).SetRotation(rootTransform, rotSpeed).SetDirector(director).SetThis(this);
 
