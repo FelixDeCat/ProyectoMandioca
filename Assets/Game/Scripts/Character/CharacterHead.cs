@@ -588,21 +588,34 @@ public class CharacterHead : CharacterControllable
         if (InDash())
             return Attack_Result.inmune;
 
-        if (charBlock.IsParry(rot.position, attackDir, rot.forward))
+        if(dmgtype != Damagetype.inparry)
         {
-            Debug.LogWarning("PARRY perfect");
-            PerfectParry();
-            Main.instance.GetTimeManager().DoSlowMotion(timeScale, slowDuration);
-            customCam.DoFastZoom(10);
-            return Attack_Result.parried;
-        }
-        else if (charBlock.IsBlock(rot.position, attackDir, rot.forward))
-        {
-            blockParticle.Play();
-            charanim.BlockSomething();
-            charBlock.SetBlockCharges(-1);
-            lifesystem.Hit(dmg / 2);
-            return Attack_Result.blocked;
+            if (charBlock.IsParry(rot.position, attackDir, rot.forward))
+            {
+                Debug.LogWarning("PARRY perfect");
+                PerfectParry();
+                Main.instance.GetTimeManager().DoSlowMotion(timeScale, slowDuration);
+                customCam.DoFastZoom(10);
+                return Attack_Result.parried;
+            }
+            else if (charBlock.IsBlock(rot.position, attackDir, rot.forward))
+            {
+                blockParticle.Play();
+                charanim.BlockSomething();
+                charBlock.SetBlockCharges(-1);
+                lifesystem.Hit(dmg / 2);
+                return Attack_Result.blocked;
+            }
+            else
+            {
+                hitParticle.Play();
+                lifesystem.Hit(dmg);
+                Vector3 dir = (transform.position - attackDir).normalized;
+                rb.AddForce(new Vector3(dir.x, 0, dir.z) * dmg * onHitRecall, ForceMode.Force);
+                customCam.BeginShakeCamera();
+                Main.instance.Vibrate();
+                return Attack_Result.sucessful;
+            }
         }
         else
         {
