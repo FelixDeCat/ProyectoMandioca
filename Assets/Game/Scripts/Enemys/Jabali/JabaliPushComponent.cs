@@ -42,19 +42,6 @@ public class JabaliPushComponent : CombatComponent
     void Calculate()
     {
         EntityBase entity = null;
-
-        var obstacles = Physics.OverlapSphere(rot.position, 1, obstacleLayer);
-        for (int i = 0; i < obstacles.Length; i++)
-        {
-            Vector3 dir = obstacles[i].transform.position - rot.position;
-            float angle = Vector3.Angle(rot.forward, dir);
-
-            if (angle < 45)
-            {
-                Stop();
-            }
-        }
-
         var enemies = Physics.OverlapSphere(rot.position, distance, _lm);
         for (int i = 0; i < enemies.Length; i++)
         {
@@ -70,6 +57,11 @@ public class JabaliPushComponent : CombatComponent
 
         if (entity != null)
             callback.Invoke(entity);
+    }
+    private void OnTriggerEnter(Collider other)
+    {
+        if(other.gameObject.layer == obstacleLayer)
+            Stop();
     }
 
 }
