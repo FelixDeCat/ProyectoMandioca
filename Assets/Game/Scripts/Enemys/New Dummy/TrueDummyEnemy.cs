@@ -122,6 +122,15 @@ public class TrueDummyEnemy : EnemyBase
         {
             EffectUpdate();
 
+            if (combat)
+            {
+                if (Vector3.Distance(Main.instance.GetChar().transform.position, transform.position) > combatDistance + 2)
+                {
+                    director.RemoveToAttack(this,entityTarget);
+                    combat = false;
+                }
+            }
+
             if(!combat && entityTarget == null)
             {
                 if (Vector3.Distance(Main.instance.GetChar().transform.position, transform.position) <= combatDistance)

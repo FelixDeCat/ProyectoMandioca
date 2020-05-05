@@ -22,6 +22,7 @@ public class CharacterHead : CharacterControllable
 
     [Header("Movement Options")]
     [SerializeField] float speed = 5;
+    
     [SerializeField] Transform rot = null;
     CharacterMovement move;
 
@@ -143,6 +144,18 @@ public class CharacterHead : CharacterControllable
         rb = GetComponent<Rigidbody>();
 
         StartDebug();
+        DevelopTools.UI.Debug_UI_Tools.instance.CreateToogle("Speed for testing", false, ToogleSpeed);
+
+    }
+    float auxSpeedDebug;
+    string ToogleSpeed(bool active)
+    {
+        if (active)
+        {
+            speed *= 2;
+        }
+
+        return active ? "speed x2" : "speed normal"; 
     }
 
     #region SET STATES
@@ -306,6 +319,7 @@ public class CharacterHead : CharacterControllable
 
         new CharStun(stun, stateMachine)
             .Configurate(GetStunDuration, go_StunFeedback)
+            .SetMovement(this.move)
             .SetAnimator(charanim);
 
         new CharDead(dead, stateMachine);

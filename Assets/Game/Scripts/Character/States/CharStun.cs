@@ -24,7 +24,6 @@ namespace Tools.StateMachine
 
         protected override void Enter(EState<CharacterHead.PlayerInputs> input) 
         {
-
             charMove.RotateHorizontal(0);
             charMove.RotateVertical(0);
             charMove.MovementHorizontal(0);
