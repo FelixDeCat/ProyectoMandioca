@@ -60,7 +60,7 @@ public class JabaliPushComponent : CombatComponent
     }
     private void OnTriggerEnter(Collider other)
     {
-        if(other.gameObject.layer == obstacleLayer)
+        if ((1 << other.gameObject.layer & obstacleLayer) != 0)
             Stop();
     }
 
