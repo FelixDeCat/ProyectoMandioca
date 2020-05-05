@@ -47,6 +47,7 @@ public class UI3D_Element : MonoBehaviour, ISelectHandler, IDeselectHandler, IPo
         if (mycurrentModel) Destroy(mycurrentModel);
         go.transform.SetParent(parentmodel);
         go.transform.position = parentmodel.transform.position;
+        go.transform.localScale = new Vector3(1, 1, 1);
         mycurrentModel = go;
     }
     public GameObject GetModel() => mycurrentModel;
