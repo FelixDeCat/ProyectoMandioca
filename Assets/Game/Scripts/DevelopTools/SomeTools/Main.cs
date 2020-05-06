@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using Tools;
+using Tools.Extensions;
 using UnityEngine;
 //using XInputDotNetPure;
 
@@ -24,30 +25,23 @@ public class Main : MonoBehaviour
 
     [Header("Inspector References")]
     public EventManager eventManager;
-    [SerializeField] CharacterHead character;
-    [SerializeField] List<PlayObject> allentities;
-    [SerializeField] SkillManager_Pasivas pasives;
-    [SerializeField] SkillManager_Activas actives;
-    [SerializeField] LevelSystem levelSystem;
-    [SerializeField] TimeManager timeManager;
+    [SerializeField] CharacterHead character = null;
+    [SerializeField] List<PlayObject> allentities = new List<PlayObject>();
+    [SerializeField] SkillManager_Pasivas pasives = null;
+    [SerializeField] SkillManager_Activas actives = null;
+    [SerializeField] LevelSystem levelSystem = null;
+    [SerializeField] TimeManager timeManager = null;
+    [SerializeField] Spawner spawner = null;
 
     public GameUI_controller gameUiController;
 
-    private SensorForEnemysInRoom mySensorRoom;
     BaseRoom _currentRoom;
+
+    //estas dos cosas no deberian estar acá
+    private SensorForEnemysInRoom mySensorRoom;
     PopUpCrown _theCrown;
 
-   public Dungeon duntest;
-
-    public void SubscriteToEntities(PlayObject po)
-    {
-            allentities.Add(po);
-    }
-    public void UnsubscribeToEntities(PlayObject po)
-    {
-            allentities.Remove(po);
-    }
-
+    public Dungeon duntest;
 
     private void Awake()
     {
@@ -58,18 +52,6 @@ public class Main : MonoBehaviour
 
         myCamera = Camera.main.GetComponent<CustomCamera>();
     }
-
-    public void AddEntity(EntityBase b)
-    {
-        if (!allentities.Contains(b))
-            allentities.Add(b);
-    }
-    public void RemoveEntity(EntityBase b)
-    {
-        if (allentities.Contains(b))
-            allentities.Remove(b);
-    }
-
 
     void Start()
     {
@@ -127,7 +109,8 @@ public class Main : MonoBehaviour
         }
         return aux;
     }
-
+    public void AddEntity(EntityBase b) { if (!allentities.Contains(b)) allentities.Add(b); }
+    public void RemoveEntity(EntityBase b) { if (allentities.Contains(b)) allentities.Remove(b); }
     public List<T> GetListOfComponent<T>() where T : PlayObject
     {
         List<T> aux = new List<T>();
@@ -142,16 +125,10 @@ public class Main : MonoBehaviour
         }
         return aux;
     }
+    public List<PlayObject> GetListOfComponentInRadius(Vector3 position, float radius) => position.FindInRadiusNoPhysics(radius, allentities);
+    public List<PlayObject> GetListOfComponentInRadiusByCondition(Vector3 position, float radius, Func<PlayObject, bool> pred) => position.FindInRadiusByConditionNoPhysics(radius, allentities, pred);
 
     public void OnPlayerDeath() { }
-
-    public void PlayerDeath()
-    {
-        //if (FindObjectOfType<SceneMainBase>())
-        //{
-        //    FindObjectOfType<SceneMainBase>().OnPlayerDeath();
-        //}
-    }
 
     public void InitializePlayObjects() { foreach (var e in allentities) e.Initialize(); }
     public void Play() { foreach (var e in allentities) e.Resume(); }
@@ -163,6 +140,7 @@ public class Main : MonoBehaviour
     /////////////////////////////////////////////////////////////////////
     public CharacterHead GetChar() => character;
     public List<EnemyBase> GetEnemies() => GetListOfComponent<EnemyBase>();
+    public List<EnemyBase> GetEnemiesByPointInRadius(Vector3 point, float radius) => GetListOfComponentInRadius(point,radius).Select(x => x.GetComponent<EnemyBase>()).ToList();
     public List<EnemyBase> GetNoOptimizedListEnemies() => FindObjectsOfType<EnemyBase>().ToList();
 
     public SkillManager_Pasivas GetPasivesManager() => pasives;
@@ -184,22 +162,44 @@ public class Main : MonoBehaviour
     public void CameraShake() => myCamera.BeginShakeCamera();
     public void Vibrate() => rumble.OneShootRumble();
     public void Vibrate(float _strengh = 1, float _time_to_rumble = 0.2f) => rumble.OneShootRumble(_strengh, _time_to_rumble);
+    public TimeManager GetTimeManager() => timeManager;
 
 
 
     #region REMPLAZAR TODO ESTO POR UN GETSPAWNER() Y QUIEN LO NECESITE LO HAGA DESDE SU CODIGO
-    Spawner spawner = new Spawner();
+    // instrucciones para el que se encargue de esta tarea
+
+
+    //  1) esta linea queda acá
+    public Spawner GetSpawner() => spawner;
+
+
+   
+    /*
+     
+         ahora el spawner es un gameobject... ya esta tirado en la escena y referenciado
+
+         2 ) al spawner hay que agregarle un spawn de enemigos, experiencia y gritos
+         3 ) tooodas las funciones que estan aca abajo referidas al spawner hay que llevarselas dentro del spawner, tal vez borrarlas si no son necesarias.
+         4 ) replazar toodas las referencias que tengan doble llamada inecesaria
+         5 ) cuando llamo al spawner tengo que hacer x ej: main.instance.getSpawner().SpawnEnemy(EnemyType.Dummy, positionToSpawn)
+         
+         
+         */
+
+        ///todo esto que esta aca abajo tiene que volar
 
     public ItemWorld SpawnItem(ItemWorld item, Transform pos) => spawner.SpawnItem(item, pos);
     public GameObject SpawnItem(GameObject item, Transform pos) => spawner.SpawnItem(item, pos);
     public void SpawnItem(Item item, Transform pos) => spawner.SpawnItem(item, pos);
     public void SpawnItem(Item item, Vector3 pos) => spawner.SpawnItem(item, pos);
     public List<ItemWorld> SpawnListItems(ItemWorld item, Transform pos, int quantity) => spawner.spawnListItems(item, pos, quantity);
+    public List<GameObject> SpawnListItems(Item item, Vector3 pos, int quantity) => spawner.spawnListItems(item, pos, quantity);
     public List<GameObject> SpawnListItems(GameObject item, Transform pos, int quantity) => spawner.spawnListItems(item, pos, quantity);
 
     public GameObject SpawnWheel(SpawnData spawn, Transform pos) => spawner.SpawnByWheel(spawn, pos);
     #endregion
 
-    public TimeManager GetTimeManager() => timeManager;
+   
 
 }

@@ -7,12 +7,12 @@ using UnityEngine.UI;
 
 public class GameUI_controller : MonoBehaviour
 {
-    [SerializeField] Canvas myCanvas; public Canvas MyCanvas { get => myCanvas; }
+    [SerializeField] Canvas myCanvas = null; public Canvas MyCanvas { get => myCanvas; }
 
-    [SerializeField] private GameObject skillSelection_template_pf;
-    [SerializeField] private GameObject charStats_template_pf;
+    [SerializeField] private GameObject skillSelection_template_pf = null;
+    [SerializeField] private GameObject charStats_template_pf = null;
     
-    [SerializeField] private GameMenu_UI gameMenu_UI;
+    [SerializeField] private GameMenu_UI gameMenu_UI = null;
 
     [SerializeField] public RectTransform shieldPLaces;
 
@@ -20,8 +20,8 @@ public class GameUI_controller : MonoBehaviour
     Dictionary<UI_templates, GameObject> UiTemplateRegistry = new Dictionary<UI_templates, GameObject>();
 
     [Header("--XX--Canvas containers--XX--")]
-    [SerializeField] private RectTransform leftCanvas;
-    [SerializeField] private RectTransform rightCanvas;
+    [SerializeField] private RectTransform leftCanvas = null;
+    [SerializeField] private RectTransform rightCanvas = null;
 
     private SkillManager_Pasivas _skillManagerPasivas;
 

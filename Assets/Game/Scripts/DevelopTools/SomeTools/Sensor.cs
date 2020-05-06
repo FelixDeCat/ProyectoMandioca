@@ -5,8 +5,8 @@ using System.Collections.Generic;
 
 public class Sensor : MonoBehaviour
 {
-    [SerializeField] LayerMask layers_to_collide;
-    [SerializeField] Collider myc;
+    [SerializeField] LayerMask layers_to_collide = 0;
+    [SerializeField] Collider myc = null;
     Action<GameObject> Ev_Colision = delegate { };
     Action<GameObject> Ev_Exit = delegate { };
 

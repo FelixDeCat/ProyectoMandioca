@@ -44,7 +44,7 @@ public class FeedbackInteract_Pulsating : FeedbackInteractBase
         anim = false;
         toscale.transform.localScale = startscale;
     }
-    protected override void OnUpdate()
+    protected override void On_Condicional_Update()
     {
         if (anim)
         {
@@ -52,4 +52,5 @@ public class FeedbackInteract_Pulsating : FeedbackInteractBase
         }
     }
 
+    protected override void On_Permanent_Update() { }
 }

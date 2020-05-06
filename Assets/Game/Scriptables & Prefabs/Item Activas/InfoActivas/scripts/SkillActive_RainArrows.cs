@@ -6,14 +6,14 @@ using Tools.Extensions;
 public class SkillActive_RainArrows : SkillActivas
 {
     [Header("Rain arrows settings")]
-    [SerializeField] private float duration;
-    [SerializeField] private float dmgTotal;
-    [SerializeField] private int ticksAmount;
+    [SerializeField] private float duration = 6;
+    [SerializeField] private float dmgTotal = 5;
+    [SerializeField] private int ticksAmount = 6;
     private float dmgPerTick;
-    [SerializeField] private float range;
+    [SerializeField] private float range = 14;
     private float tickCount;
 
-    [SerializeField] private ParticleSystem arrowRain_ps;
+    [SerializeField] private ParticleSystem arrowRain_ps = null;
     private Vector3 anchorPos;
 
     private CharacterHead _hero;

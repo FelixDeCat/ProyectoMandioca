@@ -12,7 +12,7 @@ namespace DevelopTools
         /// <summary>
         /// Prefab que se quiere poolear
         /// </summary>
-        [SerializeField] private T prefab;
+        [SerializeField] private T prefab = null;
         /// <summary>
         /// Instancia del pool
         /// </summary>
@@ -22,7 +22,7 @@ namespace DevelopTools
         /// </summary>
         private Queue<T> objects = new Queue<T>();
 
-        [SerializeField] private int prewarmAmount;
+        [SerializeField] private int prewarmAmount = 5;
 
         private void Awake()
         {

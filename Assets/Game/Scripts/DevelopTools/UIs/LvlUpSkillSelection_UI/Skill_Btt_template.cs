@@ -7,7 +7,7 @@ using Button = UnityEngine.UI.Button;
 public class Skill_Btt_template : MonoBehaviour, ISelectHandler, ISubmitHandler, IPointerEnterHandler, IPointerDownHandler, IPointerExitHandler
 {
     private SkillInfo allocatedSkill;
-    [SerializeField] private GameObject selectedImage;
+    [SerializeField] private GameObject selectedImage = null;
 
     private Action<SkillInfo> OnSelected;
 

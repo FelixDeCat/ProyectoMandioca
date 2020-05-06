@@ -20,8 +20,9 @@ public abstract class FeedbackInteractBase : MonoBehaviour
     protected bool canupdate = false;
     public void Show() { canupdate = true; OnShow(); }
     public void Hide() { canupdate = false; OnHide(); }
-    private void Update() { if (canupdate) OnUpdate(); }
+    private void Update() { if (canupdate) On_Condicional_Update(); On_Permanent_Update(); }
     protected abstract void OnShow();
     protected abstract void OnHide();
-    protected abstract void OnUpdate();
+    protected abstract void On_Condicional_Update();
+    protected abstract void On_Permanent_Update();
 }

@@ -9,12 +9,12 @@ public class Debuggin_Template_Button : MonoBehaviour
     //func que le van a pasar
     Func<string> funcion;
     //referencia al boton
-    [SerializeField] private Button button; 
+    [SerializeField] private Button button = null; 
  
 
     //refes a las partes de texto del template
-    [SerializeField] private Text title;
-    [SerializeField] private Text value_changed;
+    [SerializeField] private Text title = null;
+    [SerializeField] private Text value_changed = null;
 
     private void Start()
     {

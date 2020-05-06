@@ -1,18 +1,33 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
-public class JabaliTD : MonoBehaviour
+namespace Tools.StateMachine
 {
-    // Start is called before the first frame update
-    void Start()
+    public class JabaliTD : JabaliStates
     {
-        
-    }
+        float timeToRecall;
+        float timer;
 
-    // Update is called once per frame
-    void Update()
-    {
-        
+        public JabaliTD(EState<JabaliEnemy.JabaliInputs> myState, EventStateMachine<JabaliEnemy.JabaliInputs> _sm, float _recall) : base(myState, _sm)
+        {
+            timeToRecall = _recall;
+        }
+
+        protected override void Enter(EState<JabaliEnemy.JabaliInputs> input)
+        {
+            anim.SetBool("TakeDamage", true);
+        }
+
+        protected override void Update()
+        {
+            timer += Time.deltaTime;
+
+            if (timer >= timeToRecall)
+                sm.SendInput(JabaliEnemy.JabaliInputs.IDLE);
+        }
+
+        protected override void Exit(JabaliEnemy.JabaliInputs input)
+        {
+            anim.SetBool("TakeDamage", false);
+        }
     }
 }

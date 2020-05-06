@@ -46,10 +46,8 @@ public class DummySlowedState : DummyFollowState
 
 
         }
-    
-        
 
-        protected override void Enter(TrueDummyEnemy.DummyEnemyInputs input)
+        protected override void Enter(EState<TrueDummyEnemy.DummyEnemyInputs> input)
         {
             base.Enter(input);
             anim.SetFloat("move", 0.3f);
@@ -142,42 +140,42 @@ public class DummySlowedState : DummyFollowState
         }
 
         Transform obs;
-        protected void ObstacleAvoidance(Vector3 dir)
-        {
-            obs = null;
-            var friends = Physics.OverlapSphere(root.position, radiousToAvoidance);
-            if (friends.Length > 0)
-            {
-                foreach (var item in friends)
-                {
-                    if (item.GetComponent<EntityBase>())
-                    {
-                        if (item.GetComponent<EntityBase>() != noObs)
-                        {
-                            if (!obs)
-                                obs = item.transform;
-                            else if (Vector3.Distance(item.transform.position, root.position) < Vector3.Distance(obs.position, root.position))
-                                obs = item.transform;
-                        }
-                    }
+        //protected void ObstacleAvoidance(Vector3 dir)
+        //{
+        //    obs = null;
+        //    var friends = Physics.OverlapSphere(root.position, radiousToAvoidance);
+        //    if (friends.Length > 0)
+        //    {
+        //        foreach (var item in friends)
+        //        {
+        //            if (item.GetComponent<EntityBase>())
+        //            {
+        //                if (item.GetComponent<EntityBase>() != noObs)
+        //                {
+        //                    if (!obs)
+        //                        obs = item.transform;
+        //                    else if (Vector3.Distance(item.transform.position, root.position) < Vector3.Distance(obs.position, root.position))
+        //                        obs = item.transform;
+        //                }
+        //            }
 
-                }
-            }
+        //        }
+        //    }
 
-            if (obs)
-            {
-                Vector3 diraux = (root.position - obs.position).normalized;
-                //diraux
+        //    if (obs)
+        //    {
+        //        Vector3 diraux = (root.position - obs.position).normalized;
+        //        //diraux
 
-                diraux = new Vector3(diraux.x,0, diraux.z);
+        //        diraux = new Vector3(diraux.x,0, diraux.z);
 
-                dir += diraux * avoidWeight;
-            }
-            //aca se le multiplica la GetSpeed con el percent de slowed
-            rb.velocity = new Vector3(dir.x * GetSpeed() * _percentSlowed, rb.velocity.y, dir.z * GetSpeed());
+        //        dir += diraux * avoidWeight;
+        //    }
+        //    //aca se le multiplica la GetSpeed con el percent de slowed
+        //    rb.velocity = new Vector3(dir.x * GetSpeed() * _percentSlowed, rb.velocity.y, dir.z * GetSpeed());
 
-            Vector3 forwardRotation = new Vector3(dir.normalized.x, 0, dir.normalized.z);
+        //    Vector3 forwardRotation = new Vector3(dir.normalized.x, 0, dir.normalized.z);
 
-            root.forward = Vector3.Lerp(root.forward, forwardRotation, rotationSpeed * Time.deltaTime);
-        }
+        //    root.forward = Vector3.Lerp(root.forward, forwardRotation, rotationSpeed * Time.deltaTime);
+        //}
 }

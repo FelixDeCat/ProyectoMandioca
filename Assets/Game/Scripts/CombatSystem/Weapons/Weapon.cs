@@ -22,7 +22,7 @@ public abstract class Weapon
 
     protected CharacterHead _head;
 
-    public Action<Attack_Result> AttackResult;
+    public Action<Attack_Result, Damagetype, EntityBase> AttackResult;
 
     public Weapon(float dmg, float r, string n, float angle)
     {
@@ -96,5 +96,5 @@ public abstract class Weapon
     {
         return originalRange;
     }
-    public abstract bool Attack(Transform pos, float damage);
+    public abstract void Attack(Transform pos, float damage, Damagetype dmg_type);
 }

@@ -10,7 +10,7 @@ public class GenericLifeSystem : MonoBehaviour
 
     [SerializeField] protected WorldCanvasPopUp lifeBar;
     [SerializeField] protected RectTransform canvas;
-    public FrontendStatBase uilife;
+    FrontendStatBase uilife;
 
     public int life = 100;
 
@@ -49,9 +49,9 @@ public class GenericLifeSystem : MonoBehaviour
         }
     }
 
-    public void Hit(int _val)
+    public bool Hit(int _val)
     {
-        lifeSystemEnemy.Hit(_val);
+        return lifeSystemEnemy.Hit(_val);
     }
 
     

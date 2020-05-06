@@ -1,48 +1,16 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using System.Linq;
-using System;
-
+﻿using UnityEngine;
 public class SkillRevive : SkillBase
 {
-    List<ReviveComponent> enemiesThatCanRevive = new List<ReviveComponent>();
-    
-    protected override void OnBeginSkill()
+    [SerializeField] GameObject model_minion = null;
+    protected override void OnBeginSkill() => Main.instance.eventManager.SubscribeToEvent(GameEvents.ENEMY_DEAD, EnemyDeath);
+    void EnemyDeath(params object[] param)
     {
-        enemiesThatCanRevive = new List<ReviveComponent>();
-        //enemiesCanRevive = Main.instance.GetListOf<ReviveComponent>();
-        enemiesThatCanRevive = FindObjectsOfType<ReviveComponent>().ToList();
-
-        for (int i = 0; i < enemiesThatCanRevive.Count; i++)
-        {
-            //print(enemiesThatCanRevive[i]);
-        }
-        
-        foreach (var item in enemiesThatCanRevive)
-        {
-            if (item != null)
-            {
-                item.Configure(SpawnMinionOnEnemyDeath);
-                item.OnBegin();
-            }
-        }
-    }
-
-    protected override void OnEndSkill()
-    {
-        foreach (var item in enemiesThatCanRevive)
-        {
-            if (item != null) item.OnEnd();
-        }
-    }
-    protected override void OnUpdateSkill() { }
-
-    void SpawnMinionOnEnemyDeath(Vector3 pos, ReviveComponent enemy, GameObject prefab)
-    {
-        var myMinion = GameObject.Instantiate(prefab);
+        Vector3 pos = (Vector3)param[0];
+        var myMinion = GameObject.Instantiate(model_minion);
         myMinion.transform.position = pos;
         myMinion.GetComponent<Minion>().Initialize();
     }
+    protected override void OnEndSkill() { }
+    protected override void OnUpdateSkill() { }
 
 }

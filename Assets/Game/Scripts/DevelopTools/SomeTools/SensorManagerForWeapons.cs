@@ -8,7 +8,7 @@ public enum SensorType { barrido, otros }
 //el sensor manager esta pensado para los triggers de las armas
 public class SensorManagerForWeapons : MonoBehaviour
 {
-    [SerializeField] Sensor sensorType;
+    [SerializeField] Sensor sensorType = null;
     Sensor current;
 
     public void SetCallback(Action<GameObject> callback) => sensorType.AddCallback_OnTriggerEnter(callback);

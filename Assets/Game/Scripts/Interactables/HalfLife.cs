@@ -10,7 +10,7 @@ public class HalfLife : Interactable
     public int mycant;
     public GenericBar genericbar;
 
-    public Light light;
+    new public Light light;
 
     void Start()
     {

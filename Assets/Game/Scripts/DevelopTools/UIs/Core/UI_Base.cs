@@ -18,7 +18,7 @@ public abstract class UI_Base : MonoBehaviour
         else anim.AddCallbacks(OnEndOpenAnimation, EndCloseAnimation);
         OnAwake();
     }
-    void Start() => OnStart();
+    void Start() { OnStart(); parent.SetActive(false); }
     void EndCloseAnimation() => OnEndCloseAnimation();
     void Update() { OnUpdate(); }
     protected abstract void OnAwake();
@@ -40,7 +40,7 @@ public abstract class UI_Base : MonoBehaviour
     public virtual void Close()
     {
         anim.Close();
-        /*isActive = false; */
+        parent.SetActive(false);
         Main.instance.GetMyEventSystem().DeselectGameObject();
     }
 }

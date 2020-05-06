@@ -6,14 +6,14 @@ public class Web_Skill : SkillBase
 {
     
     [Header("Skill Settings")]
-    [SerializeField] private Web _web_pf;
-    [SerializeField] private float _webLifeTime;
+    [SerializeField] private Web _web_pf = null;
+    [SerializeField] private float _webLifeTime = 8;
     [Range(0,1)]
-    [SerializeField] private float _percentSlowed;
+    [SerializeField] private float _percentSlowed = 0.5f;
     
     
-    [SerializeField] private int _totalWebsSimultaneas;
-    [SerializeField] private bool deleteFirstWeb;
+    [SerializeField] private int _totalWebsSimultaneas = 5;
+    [SerializeField] private bool deleteFirstWeb = true;
     
 
     private Queue<Web> _websDeployed;

@@ -10,10 +10,10 @@ public class SkillManager_Pasivas : MonoBehaviour
     GameObject selector;
 
     [Header("Data_base")]
-    [SerializeField] List<SkillBase> my_editor_data_base;
+    [SerializeField] List<SkillBase> my_editor_data_base = new List<SkillBase>();
     public Dictionary<SkillInfo, SkillBase> dict_info_base = new Dictionary<SkillInfo, SkillBase>();
 
-    [SerializeField] List<SkillLevelByBranch> alllevels;
+    [SerializeField] List<SkillLevelByBranch> alllevels = new List<SkillLevelByBranch>();
     public Dictionary<SkillType, List<SkillLevelByBranch>> database_levelbytype = new Dictionary<SkillType, List<SkillLevelByBranch>>();
 
     public List<SkillBase> equiped = new List<SkillBase>();
@@ -244,7 +244,7 @@ public class SkillManager_Pasivas : MonoBehaviour
         Main.instance.gameUiController.UI_Send_NameSkillType(CURRENT_TYPE.ToString());
         foreach (var deb in equiped)
         {
-            Debug.Log("Selected: " + deb.skillinfo.skill_name);
+            //Debug.Log("Selected: " + deb.skillinfo.skill_name);
         }
         Main.instance.gameUiController.RefreshPassiveSkills_UI(equiped.Select(x => x.skillinfo).ToList());
         Main.instance.gameUiController.UI_RefreshMenu();

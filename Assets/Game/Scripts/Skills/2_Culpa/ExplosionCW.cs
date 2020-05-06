@@ -4,17 +4,13 @@ using UnityEngine;
 
 public class ExplosionCW : SkillBase
 {
-    [SerializeField]
-    float cdToExplosion;
-    [SerializeField]
-    float radiousExp;
-    [SerializeField]
-    int damageExp;
+    [SerializeField] float cdToExplosion = 8;
+    [SerializeField] float radiousExp = 8;
+    [SerializeField] int damageExp = 7;
     float timer;
 
     CharacterHead head;
-    [SerializeField]
-    ParticleSystem explosionParticles;
+    [SerializeField] ParticleSystem explosionParticles = null;
 
     bool buffActived;
 

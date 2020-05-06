@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class BigWeapons_TEST : MonoBehaviour
 {
-    [SerializeField] private BigWeapon_Skill bg;
+    [SerializeField] private BigWeapon_Skill bg = null;
 
     // Update is called once per frame
     void Update()

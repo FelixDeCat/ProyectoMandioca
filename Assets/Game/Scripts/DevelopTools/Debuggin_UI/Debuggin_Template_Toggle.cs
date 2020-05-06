@@ -11,12 +11,12 @@ namespace DevelopTools.UI
         //func que le van a pasar
         Func<bool, string> funcion;
         //referencia al slider
-        [SerializeField] private Toggle toggle; 
+        [SerializeField] private Toggle toggle = null; 
  
 
         //refes a las partes de texto del template
-        [SerializeField] private Text title;
-        [SerializeField] private Text value_changed;
+        [SerializeField] private Text title = null;
+        [SerializeField] private Text value_changed = null;
 
         private void Start()
         {

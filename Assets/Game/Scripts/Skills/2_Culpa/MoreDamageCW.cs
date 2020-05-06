@@ -4,16 +4,13 @@ using UnityEngine;
 
 public class MoreDamageCW : SkillBase
 {
-    [SerializeField]
-    float buffDamage;
-    [SerializeField]
-    float timeToBuff;
+    [SerializeField] float buffDamage = 5;
+    [SerializeField] float timeToBuff = 3;
     float timer;
 
     CharacterHead head;
 
-    [SerializeField]
-    ParticleSystem feedbackParticle;
+    [SerializeField] ParticleSystem feedbackParticle = null;
 
     bool buffActived;
     protected override void OnBeginSkill()
@@ -52,9 +49,7 @@ public class MoreDamageCW : SkillBase
             timer += Time.deltaTime;
 
             if (timer >= timeToBuff)
-            {
                 LessDamage();
-            }
         }
     }
 

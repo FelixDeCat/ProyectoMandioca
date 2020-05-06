@@ -11,7 +11,7 @@ public class LevelSystem : MonoBehaviour
     public int CURRENT_LEVEL { get { return currentIndex + 1; } }
     int currentExpValue;
 
-    [SerializeField] ParticleSystem levelUp;
+    [SerializeField] ParticleSystem levelUp = null;
     //int point_to_spend;
 
     public Item experience;
@@ -33,7 +33,7 @@ public class LevelSystem : MonoBehaviour
     void EnemyDeath(params object[] param)
     {
 
-        Main.instance.SpawnItem(experience, (Vector3)param[0]);
+        Main.instance.SpawnListItems(experience, (Vector3)param[0], (int)param[2]);
     }
 
     public void AddExperiencie(int exp)

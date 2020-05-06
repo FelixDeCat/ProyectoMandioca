@@ -10,9 +10,9 @@ public class FocusOnEnemy_Test : MonoBehaviour
     int index = 0;
     public bool active;
     [SerializeField]
-    LayerMask layerMask;
+    LayerMask layerMask = 0;
     [SerializeField]
-    float radius;
+    float radius = 5;
     // Start is called before the first frame update
     void Start()
     {

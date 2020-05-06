@@ -59,7 +59,7 @@ namespace Tools.StateMachine
         }
         #endregion
 
-        protected override void Enter(CharacterHead.PlayerInputs input)
+        protected override void Enter(EState<CharacterHead.PlayerInputs> input)
         {
         }
 

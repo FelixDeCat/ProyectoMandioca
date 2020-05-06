@@ -10,5 +10,6 @@ public class FeedbackInteract_SetActive : FeedbackInteractBase
     private void Start() { to_active.SetActive( ! active_on_feedback); }
     protected override void OnShow() => to_active.SetActive(active_on_feedback);
     protected override void OnHide() => to_active.SetActive( ! active_on_feedback);
-    protected override void OnUpdate() { }
+    protected override void On_Condicional_Update() { }
+    protected override void On_Permanent_Update() { }
 }

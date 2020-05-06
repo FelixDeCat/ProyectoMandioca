@@ -6,7 +6,7 @@ public class Skill_Active_RandomKill : SkillActivas
 {
     List<EnemyBase> _myEnemys = new List<EnemyBase>();
     CharacterHead _player;
-    [SerializeField] int _playerDMGReceive;
+    [SerializeField] int _playerDMGReceive = 10;
     protected override void OnBeginSkill()
     {
         _player = Main.instance.GetChar();

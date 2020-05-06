@@ -5,11 +5,9 @@ using DevelopTools;
 
 public class PetrifyNearEnemies : SkillBase
 {
-    [SerializeField]
-    float buffRange;
+    [SerializeField] float buffRange = 20;
 
-    [SerializeField]
-    ParticleSystem feedbackParticle;
+    [SerializeField] ParticleSystem feedbackParticle = null;
     
     protected override void OnBeginSkill()
     {
@@ -41,12 +39,8 @@ public class PetrifyNearEnemies : SkillBase
             var overlap = Physics.OverlapSphere(pos, buffRange);
 
             foreach (var item in overlap)
-            {
                 if (item.GetComponent<EnemyBase>())
-                {
                     item.GetComponent<EnemyBase>().OnPetrified();
-                }
-            }
         }
     }
 }

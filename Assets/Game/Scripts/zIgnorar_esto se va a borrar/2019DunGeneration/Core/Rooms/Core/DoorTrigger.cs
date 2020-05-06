@@ -10,6 +10,6 @@ public class DoorTrigger : MonoBehaviour
     public Sensor sensor;
 
     public void AddEventListener(Action<GameObject> _callback) => callBack += _callback;
-    public void Initialize() { Debug.Log("Subscripcion"); sensor.AddCallback_OnTriggerEnter(OnTriggerEnterSensor); }
+    public void Initialize() { /*Debug.Log("Subscripcion");*/ sensor.AddCallback_OnTriggerEnter(OnTriggerEnterSensor); }
     void OnTriggerEnterSensor(GameObject go) => callBack(go);
 }

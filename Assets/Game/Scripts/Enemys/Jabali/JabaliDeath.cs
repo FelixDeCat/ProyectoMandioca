@@ -1,18 +1,14 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-
-public class JabaliDeath : MonoBehaviour
+﻿namespace Tools.StateMachine
 {
-    // Start is called before the first frame update
-    void Start()
+    public class JabaliDeath : JabaliStates
     {
-        
-    }
+        public JabaliDeath(EState<JabaliEnemy.JabaliInputs> myState, EventStateMachine<JabaliEnemy.JabaliInputs> _sm) : base(myState, _sm)
+        {
+        }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
+        protected override void Enter(EState<JabaliEnemy.JabaliInputs> input)
+        {
+            anim.SetBool("Dead", true);
+        }
     }
 }

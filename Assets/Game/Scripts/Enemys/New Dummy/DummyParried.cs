@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 namespace Tools.StateMachine
 {
@@ -18,11 +16,12 @@ namespace Tools.StateMachine
             enemy = _enemy;
         }
 
-        protected override void Enter(TrueDummyEnemy.DummyEnemyInputs input)
+        protected override void Enter(EState<TrueDummyEnemy.DummyEnemyInputs> input)
         {
             base.Enter(input);
 
             anim.SetBool("Stun", true);
+            anim.SetBool("Attack", false);
         }
 
         protected override void Exit(TrueDummyEnemy.DummyEnemyInputs input)

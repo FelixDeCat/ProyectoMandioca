@@ -39,8 +39,12 @@ public class Destructible_Normal : DestructibleBase
         //asi luego optimizamos
         Calculate();
 
+        Invoke("Calculate", 0.1f);
+
         Main.instance.AddEntity(this);
     }
+
+    
 
     void Calculate()
     {
@@ -74,16 +78,17 @@ public class Destructible_Normal : DestructibleBase
 
             var disp = 2;
 
-            var go = Instantiate(selected.model, new Vector3(
+            Vector3 aux = new Vector3(
                     Random.Range(destinity.x - disp, destinity.x + disp),
                     Random.Range(destinity.y - disp, destinity.y + disp),
-                    Random.Range(destinity.z - disp, destinity.z + disp)), transform.rotation);
+                    Random.Range(destinity.z - disp, destinity.z + disp));
 
-            objectsToDrop.Add(go);
+            objectsToDrop.Add(Main.instance.GetSpawner().SpawnItem(selected, aux));
         }
 
         //esto lo hacemos en el principio y no cuando le pegamos para no generar esos picos de Procesamiento
-        savedDestroyedVersion = Instantiate(model_destroyedVersion, transform.position, transform.rotation);
+
+        savedDestroyedVersion = Main.instance.GetSpawner().SpawnItem(model_destroyedVersion, transform);
 
         onerig = objectsToDrop[0].GetComponent<Rigidbody>();
         objectsToDrop.ForEach(x => x.SetActive(false)); 

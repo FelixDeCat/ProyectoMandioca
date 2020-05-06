@@ -11,7 +11,7 @@ namespace Tools.StateMachine
 		{
 			debug = _debug;
 			current = initial;
-			current.Enter(default(T));
+			current.Enter(null);
 		}
 		public void SendInput(T input)
 		{
@@ -19,9 +19,10 @@ namespace Tools.StateMachine
 			if (current.CheckInput(input, out newState))
 			{
 				current.Exit(input);
+				var oldState = current;
 				current = newState;
 				debug(current.Name);
-				current.Enter(input);
+				current.Enter(oldState);
 			}
 		}
 

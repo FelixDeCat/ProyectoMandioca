@@ -20,15 +20,15 @@ namespace DevelopTools.UI
         }
 
         //container donde van a ir todos los sliders
-        [SerializeField] private Transform container;
+        [SerializeField] private Transform container = null;
         
         //Contenedor de todo
-        [SerializeField] private Transform contenedorDeTODO;
+        [SerializeField] private Transform contenedorDeTODO = null;
 
         //prefab del slider
-        [SerializeField] private Debuggin_Template_Slider slider_pf;
-        [SerializeField] private Debuggin_Template_Toggle toggle_pf;
-        [SerializeField] private Debuggin_Template_Button button_pf;
+        [SerializeField] private Debuggin_Template_Slider slider_pf = null;
+        [SerializeField] private Debuggin_Template_Toggle toggle_pf = null;
+        [SerializeField] private Debuggin_Template_Button button_pf = null;
 
         //para tener una referencia a todos por cualquier cosa
         private List<GameObject> debug_UIs = new List<GameObject>();

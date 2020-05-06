@@ -11,14 +11,14 @@ namespace DevelopTools.UI
         //func que le van a pasar
         Func<float, string> funcion;
         //referencia al slider
-        [SerializeField] private Slider slider;
+        [SerializeField] private Slider slider = null;
         //valor a modificar actualmente
-        [SerializeField] Text currentValue;
+        [SerializeField] Text currentValue = null;
 
         //refes a las partes de texto del template
-        [SerializeField] private Text max;
-        [SerializeField] private Text min;
-        [SerializeField] private Text title;
+        [SerializeField] private Text max = null;
+        [SerializeField] private Text min = null;
+        [SerializeField] private Text title = null;
 
         private void Start()
         {

@@ -7,7 +7,7 @@ public class UI_Skill : UI_ItemBase
 {
     SkillInfo skillinfo;
     GenericBar genbar;
-    [SerializeField] Image backgroundImage;
+    [SerializeField] Image backgroundImage = null;
 
     protected override void Awake()
     {

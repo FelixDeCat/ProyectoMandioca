@@ -37,7 +37,7 @@ namespace Tools.StateMachine
         }
 
 
-        protected override void Enter(CharacterHead.PlayerInputs input) => charAnim.BeginSpin(ON_END_BeginSpin);
+        protected override void Enter(EState<CharacterHead.PlayerInputs> input) { Debug.Log("Begin spin"); charAnim.BeginSpin(ON_END_BeginSpin); }
         void ON_END_BeginSpin() { anim = true; go_feedback.SetActive(true); charMove.CancelRotation(); enemy_damage_sensor.On(); }
         void EndSpin() { charAnim.EndSpin(ON_END_EndSpin); go_feedback.SetActive(false); enemy_damage_sensor.Off(); }
         void ON_END_EndSpin() => sm.SendInput(CharacterHead.PlayerInputs.STUN);

@@ -9,7 +9,7 @@ public class PassiveSkill_template : Selectable, ISubmitHandler, ISelectHandler,
 {
     private SkillInfo _skill;
 
-    [SerializeField] private GameObject selector;
+    [SerializeField] private GameObject selector = null;
 
     private Action<SkillInfo> OnSelectedSkill;
     
@@ -25,24 +25,24 @@ public class PassiveSkill_template : Selectable, ISubmitHandler, ISelectHandler,
         OnSelectedSkill(_skill);
     }
     
-    public void OnPointerDown(PointerEventData eventData)
+    public override void OnPointerDown(PointerEventData eventData)
     {
         
     }
 
-    public void OnSelect(BaseEventData eventData)
+    public override void OnSelect(BaseEventData eventData)
     {
         selector.SetActive(true);
         OnSelectedSkill(_skill);
     }
 
-    public void OnPointerEnter(PointerEventData eventData)
+    public override void OnPointerEnter(PointerEventData eventData)
     {
         selector.SetActive(true);
         OnSelectedSkill(_skill);
     }
 
-    public void OnPointerExit(PointerEventData eventData)
+    public override void OnPointerExit(PointerEventData eventData)
     {
         selector.SetActive(false);
     }

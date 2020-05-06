@@ -116,7 +116,7 @@ public class CharacterMovement
         Vector3 auxNormalized = new Vector3(axisX, velY, axisY);
         auxNormalized.Normalize();
 
-        _rb.velocity = auxNormalized * speed;
+        _rb.velocity = new Vector3(auxNormalized.x * speed, velY, auxNormalized.z * speed );
 
         var prom = Mathf.Abs(axisY) + Mathf.Abs(axisX);
 

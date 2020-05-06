@@ -22,8 +22,13 @@ namespace Tools.StateMachine
             return this;
         }
 
-        protected override void Enter(CharacterHead.PlayerInputs input) 
+        protected override void Enter(EState<CharacterHead.PlayerInputs> input) 
         {
+            charMove.RotateHorizontal(0);
+            charMove.RotateVertical(0);
+            charMove.MovementHorizontal(0);
+            charMove.MovementVertical(0);
+
             go_feedback.SetActive(true);
             charAnim.Stun(true); 
             anim = true;

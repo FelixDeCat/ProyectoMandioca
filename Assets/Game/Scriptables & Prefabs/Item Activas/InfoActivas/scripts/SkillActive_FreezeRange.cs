@@ -6,13 +6,13 @@ using Tools.Extensions;
 
 public class SkillActive_FreezeRange : SkillActivas
 {
-    [SerializeField] private float range;
-    [SerializeField] private int freezeDuration;
+    [SerializeField] private float range = 10;
+    [SerializeField] private int freezeDuration = 5;
 
-    [SerializeField] private ParticleSystem freezeNova;
-    [SerializeField] private ParticleSystem freezeSmoke;
-    [SerializeField] private Transform particleContainer;
-    [SerializeField] private IceShard_particleObjectPool shardPool;
+    [SerializeField] private ParticleSystem freezeNova = null;
+    [SerializeField] private ParticleSystem freezeSmoke = null;
+    [SerializeField] private Transform particleContainer = null;
+    [SerializeField] private IceShard_particleObjectPool shardPool = null;
 
     private List<ParticleSystem> shards = new List<ParticleSystem>();
     List<ParticleSystem> ps = new List<ParticleSystem>();

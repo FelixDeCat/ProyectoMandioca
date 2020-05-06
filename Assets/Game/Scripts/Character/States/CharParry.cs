@@ -15,7 +15,7 @@ namespace Tools.StateMachine
             parryRecall = recall;
         }
 
-        protected override void Enter(CharacterHead.PlayerInputs input)
+        protected override void Enter(EState<CharacterHead.PlayerInputs> input)
         {
             charMove.MovementHorizontal(0);
             charMove.MovementVertical(0);

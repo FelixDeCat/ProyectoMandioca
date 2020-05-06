@@ -7,11 +7,11 @@ using UnityEngine;
 
 public class SkillActive_BoomeranShield : SkillActivas
 {
-    [SerializeField] private float throwRange;
-    [SerializeField] private float radius;
-    [SerializeField] private float spinDuration;
-    [SerializeField] private int damage;
-    [SerializeField] private float throwSpeed;
+    [SerializeField] private float throwRange = 4;
+    [SerializeField] private float radius = 5;
+    [SerializeField] private float spinDuration = 5;
+    [SerializeField] private int damage = 1;
+    [SerializeField] private float throwSpeed = 5;
 
     private CharacterHead _hero;
     private GameObject _shield;
@@ -22,10 +22,10 @@ public class SkillActive_BoomeranShield : SkillActivas
     private Vector3 startHeroPos;
     private Vector3 startHeroLookDirection;
 
-    [SerializeField] private ParticleSystem sparks;
-    [SerializeField] private ParticleSystem auraZone;
+    [SerializeField] private ParticleSystem sparks = null;
+    [SerializeField] private ParticleSystem auraZone = null;
 
-    [SerializeField] private GameObject auxShield;
+    [SerializeField] private GameObject auxShield = null;
 
     private bool isGoing;
     private bool isSpinning;

@@ -4,9 +4,13 @@ public abstract class SkillBase : MonoBehaviour
     bool canupdate = false;
     public SkillInfo skillinfo;
     protected UI_Skill ui_skill;
+    protected UI3D_Element ui3D_skill;
     public void SetUI(UI_Skill _ui) => ui_skill = _ui;
+    public void SetUI(UI3D_Element _ui) => ui3D_skill = _ui;
+    public void RemoveUI() => ui3D_skill = null;
     public UI_Skill GetUI() => ui_skill;
     bool alreadyActived;
+    public bool is3D; 
     public virtual void BeginSkill()
     {
         if (!alreadyActived)

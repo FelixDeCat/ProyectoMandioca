@@ -18,8 +18,13 @@ public class FeedbackInteract_Rotator : FeedbackInteractBase
     }
     protected override void OnShow() {  }
     protected override void OnHide() { torot.rotation = startrot; }
-    protected override void OnUpdate() 
+    protected override void On_Condicional_Update() 
     {
-        torot.Rotate(cant_to_rotate);
+        if(!loop) torot.Rotate(cant_to_rotate);
+    }
+
+    protected override void On_Permanent_Update()
+    {
+        if (loop) torot.Rotate(cant_to_rotate);
     }
 }

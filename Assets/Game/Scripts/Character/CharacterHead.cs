@@ -11,76 +11,73 @@ public class CharacterHead : CharacterControllable
     public enum PlayerInputs { IDLE, MOVE, BEGIN_BLOCK, BLOCK, END_BLOCK, PARRY, CHARGE_ATTACK, RELEASE_ATTACK, TAKE_DAMAGE, DEAD, ROLL, SPIN, STUN };
 
     Action ChildrensUpdates;
-    Func<bool> InDash;
-
-    CharacterBlock charBlock;
 
     [Header("Dash Options")]
-    [SerializeField] float dashTiming;
-    [SerializeField] float dashSpeed;
-    [SerializeField] float dashDeceleration;
-    [SerializeField] float dashCD;
-    [SerializeField] ParticleSystem evadeParticle;
-
-    
+    [SerializeField] float dashTiming = 2;
+    [SerializeField] float dashSpeed = 9;
+    [SerializeField] float dashDeceleration = 5;
+    [SerializeField] float dashCD = 2;
+    [SerializeField] ParticleSystem evadeParticle = null;
+    Func<bool> InDash;
 
     [Header("Movement Options")]
-    [SerializeField] float speed;
-    [SerializeField] Transform rot;
+    [SerializeField] float speed = 5;
+    
+    [SerializeField] Transform rot = null;
     CharacterMovement move;
 
     [Header("Parry & Block Options")]
-    [SerializeField] float _timerOfParry;
-    [SerializeField] float _timeOfBlock;
+    [SerializeField] float _timerOfParry = 1;
+    [SerializeField] float _timeOfBlock = 3;
     [SerializeField] int maxBlockCharges = 3;
     [SerializeField] float timeToRecuperateCharges = 5;
-    [SerializeField] GameObject chargesUI;
-    [SerializeField] ParticleSystem parryParticle;
-    [SerializeField] ParticleSystem blockParticle;
-    [SerializeField] ParticleSystem hitParticle;
-    [SerializeField, Range(-1, 1)] float blockAngle;
-    [SerializeField] float parryRecall;
-    [SerializeField] float takeDamageRecall;
+    [SerializeField] GameObject chargesUI = null;
+    [SerializeField] ParticleSystem parryParticle = null;
+    [SerializeField] ParticleSystem blockParticle = null;
+    [SerializeField] ParticleSystem hitParticle = null;
+    [SerializeField, Range(-1, 1)] float blockAngle = 0;
+    [SerializeField] float parryRecall = 0;
+    [SerializeField] float takeDamageRecall = 0;
+    CharacterBlock charBlock;
 
     //Perdon por esto, pero lo necesito pra la skill del boomeran hasta tener la animacion y el estado "sin escudo"
     bool canBlock = true;
     public GameObject escudo;
 
     [Header("SlowMotion")]
-    [SerializeField] float timeScale;
-    [SerializeField] float slowDuration;
-    [SerializeField] float speedAnim;
+    [SerializeField] float timeScale = 1;
+    [SerializeField] float slowDuration = 2;
+    [SerializeField] float speedAnim = 1;
 
     [Header("Feedbacks")]
-    [SerializeField] ParticleSystem feedbackCW;
-    [SerializeField] ParticleSystem feedbackScream;
-    [SerializeField] ParticleSystem inParryParticles;
-
+    [SerializeField] ParticleSystem feedbackCW = null;
+    [SerializeField] ParticleSystem feedbackScream = null;
+    [SerializeField] ParticleSystem inParryParticles = null;
 
     [Header("Animations")]
-    [SerializeField] Animator anim_base;
-    [SerializeField] AnimEvent charAnimEvent;
+    [SerializeField] Animator anim_base = null;
+    [SerializeField] AnimEvent charAnimEvent = null;
     CharacterAnimator charanim;
 
     [Header("Attack Options")]
-    [SerializeField] ParticleSystem feedbackHeavy;
+    [SerializeField] ParticleSystem feedbackHeavy = null;
     [SerializeField] float dmg_normal = 5;
     [SerializeField] float dmg_heavy = 20;
-    [SerializeField] float attackRange;
-    [SerializeField] float attackAngle;
-    [SerializeField] float timeToHeavyAttack;
-    [SerializeField] float rangeOfPetrified;
-    [SerializeField] float attackRecall;
-    [SerializeField] float onHitRecall;
-    [SerializeField] Sensor sensorSpin;
+    [SerializeField] float attackRange = 3;
+    [SerializeField] float attackAngle = 90;
+    [SerializeField] float timeToHeavyAttack = 1.5f;
+    [SerializeField] float rangeOfPetrified = 5;
+    [SerializeField] float attackRecall = 1;
+    [SerializeField] float onHitRecall = 2;
+    [SerializeField] Sensor sensorSpin = null;
     float dmg;
     CharacterAttack charAttack;
-    [SerializeField] ParticleSystem slash;
+    [SerializeField] ParticleSystem slash = null;
 
     CustomCamera customCam;
 
-    [SerializeField] GameObject go_StunFeedback;
-    [SerializeField] GameObject go_SpinFeedback;
+    [SerializeField] GameObject go_StunFeedback = null;
+    [SerializeField] GameObject go_SpinFeedback = null;
     float spinDuration;
     float spinSpeed;
     float stunDuration;
@@ -95,7 +92,7 @@ public class CharacterHead : CharacterControllable
 
     [Header("Life Options")]
     [SerializeField] int life = 100;
-    [SerializeField] CharLifeSystem lifesystem;
+    [SerializeField] CharLifeSystem lifesystem = null;
     public CharLifeSystem Life => lifesystem;
 
     Rigidbody rb;
@@ -132,7 +129,7 @@ public class CharacterHead : CharacterControllable
         ChildrensUpdates += charBlock.OnUpdate;
 
         dmg = dmg_normal;
-        charAttack = new CharacterAttack(attackRange, attackAngle, timeToHeavyAttack, charanim, rot, ReleaseInNormal, ReleaseInHeavy, feedbackHeavy, rangeOfPetrified, dmg, slash);
+        charAttack = new CharacterAttack(attackRange, attackAngle, timeToHeavyAttack, charanim, rot, ReleaseInNormal, ReleaseInHeavy, feedbackHeavy, dmg, slash);
         charAttack.FirstAttackReady(true);
 
         charAnimEvent.Add_Callback("CheckAttackType", CheckAttackType);
@@ -147,6 +144,18 @@ public class CharacterHead : CharacterControllable
         rb = GetComponent<Rigidbody>();
 
         StartDebug();
+        DevelopTools.UI.Debug_UI_Tools.instance.CreateToogle("Speed for testing", false, ToogleSpeed);
+
+    }
+    float auxSpeedDebug;
+    string ToogleSpeed(bool active)
+    {
+        if (active)
+        {
+            speed *= 2;
+        }
+
+        return active ? "speed x2" : "speed normal"; 
     }
 
     #region SET STATES
@@ -166,7 +175,7 @@ public class CharacterHead : CharacterControllable
         var takeDamage = new EState<PlayerInputs>("Take_Damage");
         var dead = new EState<PlayerInputs>("Dead");
         var spin = new EState<PlayerInputs>("Spin");
-        var stun = new EState<PlayerInputs>("Stun"); 
+        var stun = new EState<PlayerInputs>("Stun");
 
         ConfigureState.Create(idle)
             .SetTransition(PlayerInputs.MOVE, move)
@@ -261,7 +270,7 @@ public class CharacterHead : CharacterControllable
             .SetLeftAxis(GetLeftHorizontal, GetLeftVertical)
             .SetRightAxis(GetRightHorizontal, GetRightVertical)
             .SetMovement(this.move);
-       
+
         new CharMove(move, stateMachine)
             .SetLeftAxis(GetLeftHorizontal, GetLeftVertical)
             .SetRightAxis(GetRightHorizontal, GetRightVertical)
@@ -294,7 +303,7 @@ public class CharacterHead : CharacterControllable
             .SetMovement(this.move)
             .SetAttack(charAttack);
 
-        new CharReleaseAttack(attackRelease, stateMachine, attackRecall, HeavyAttackRealease)
+        new CharReleaseAttack(attackRelease, stateMachine, attackRecall, HeavyAttackRealease, ChangeHeavy)
             .SetMovement(this.move)
             .SetAttack(charAttack)
             .SetLeftAxis(GetLeftHorizontal, GetLeftVertical);
@@ -310,6 +319,7 @@ public class CharacterHead : CharacterControllable
 
         new CharStun(stun, stateMachine)
             .Configurate(GetStunDuration, go_StunFeedback)
+            .SetMovement(this.move)
             .SetAnimator(charanim);
 
         new CharDead(dead, stateMachine);
@@ -366,22 +376,41 @@ public class CharacterHead : CharacterControllable
     public void CheckAttackType() => charAttack.BeginCheckAttackType();//tengo la espada arriba
     public void DealAttack()
     {
-        charAttack.ConfigureDealsSuscessful(DealSucessfullNormal, DealSucessfullHeavy);
+        charAttack.ConfigureDealsSuscessful(DealSucessfullNormal, DealSucessfullHeavy, KillInNormal, KillInHeavy, BreakObject);
         charAttack.OnAttack(isHeavyRelease);
     }
+
+    #region Resultados de los ataques
     void DealSucessfullNormal()
     {
         //Main.instance.GetTimeManager().DoHitStop();
-        Main.instance.Vibrate(0.7f,0.1f);
+        Main.instance.Vibrate(0.7f, 0.1f);
         Main.instance.CameraShake();
     }
     void DealSucessfullHeavy()
     {
+        ChangeHeavy(false);
+        Main.instance.Vibrate(1f, 0.2f);
+        Main.instance.CameraShake();
+    }
+    void KillInNormal()
+    {
+        Main.instance.GetTimeManager().DoHitStop();
+        Main.instance.Vibrate(0.7f, 0.1f);
+        Main.instance.CameraShake();
+    }
+    void KillInHeavy()
+    {
         SlowMO();
-        isHeavyRelease = false;
+        ChangeHeavy(false);
         Main.instance.Vibrate(1f, 0.5f);
         Main.instance.CameraShake();
     }
+    void BreakObject()
+    {
+        Main.instance.CameraShake();
+    }
+    #endregion
     void ReleaseInNormal()
     {
         ChangeDamageAttack((int)dmg_normal);
@@ -392,17 +421,16 @@ public class CharacterHead : CharacterControllable
     bool isHeavyRelease;
     void ReleaseInHeavy()
     {
-        isHeavyRelease = true;
+        ChangeHeavy(true);
         ChangeDamageAttack((int)dmg_heavy);
         ChangeAngleAttack(attackAngle * 2);
         ChangeRangeAttack(attackRange + 1);
         charanim.HeavyAttack();
     }
+    void ChangeHeavy(bool y) { isHeavyRelease = y; }
 
-    public bool HeavyAttackRealease()
-    {
-        return isHeavyRelease;
-    }
+    bool HeavyAttackRealease() { return isHeavyRelease; }
+
     void EndAttack()
     {
         stateMachine.SendInput(PlayerInputs.IDLE);
@@ -560,21 +588,34 @@ public class CharacterHead : CharacterControllable
         if (InDash())
             return Attack_Result.inmune;
 
-        if (charBlock.IsParry(rot.position, attackDir, rot.forward))
+        if(dmgtype != Damagetype.inparry)
         {
-            Debug.LogWarning("PARRY perfect");
-            PerfectParry();
-            Main.instance.GetTimeManager().DoSlowMotion(timeScale, slowDuration);
-            customCam.DoFastZoom(10);
-            return Attack_Result.parried;
-        }
-        else if (charBlock.IsBlock(rot.position, attackDir, rot.forward))
-        {
-            blockParticle.Play();
-            charanim.BlockSomething();
-            charBlock.SetBlockCharges(-1);
-            lifesystem.Hit(dmg / 2);
-            return Attack_Result.blocked;
+            if (charBlock.IsParry(rot.position, attackDir, rot.forward))
+            {
+                Debug.LogWarning("PARRY perfect");
+                PerfectParry();
+                Main.instance.GetTimeManager().DoSlowMotion(timeScale, slowDuration);
+                customCam.DoFastZoom(10);
+                return Attack_Result.parried;
+            }
+            else if (charBlock.IsBlock(rot.position, attackDir, rot.forward))
+            {
+                blockParticle.Play();
+                charanim.BlockSomething();
+                charBlock.SetBlockCharges(-1);
+                lifesystem.Hit(dmg / 2);
+                return Attack_Result.blocked;
+            }
+            else
+            {
+                hitParticle.Play();
+                lifesystem.Hit(dmg);
+                Vector3 dir = (transform.position - attackDir).normalized;
+                rb.AddForce(new Vector3(dir.x, 0, dir.z) * dmg * onHitRecall, ForceMode.Force);
+                customCam.BeginShakeCamera();
+                Main.instance.Vibrate();
+                return Attack_Result.sucessful;
+            }
         }
         else
         {
@@ -644,7 +685,7 @@ public class CharacterHead : CharacterControllable
     int screams;
     public Action GuiltUltimateSkill = delegate { };
     public Action<int> AddScreamAction = delegate { };
-    public int screamsToSkill;
+    public int screamsToSkill = 50;
 
     public void AddScreams(int s)
     {
@@ -681,7 +722,7 @@ public class CharacterHead : CharacterControllable
 
 
     #region Debuggin
-    [SerializeField] UnityEngine.UI.Text txt_debug;
+    [SerializeField] UnityEngine.UI.Text txt_debug = null;
     void DebugState(string state) { if (txt_debug != null) txt_debug.text = state; }
     void StartDebug() { if (txt_debug != null) txt_debug.enabled = false; DevelopTools.UI.Debug_UI_Tools.instance.CreateToogle("Character State Machine Debug", false, ToogleDebug); }
     string ToogleDebug(bool active) { if (txt_debug != null) txt_debug.enabled = active; return active ? "debug activado" : "debug desactivado"; }

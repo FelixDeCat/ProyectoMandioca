@@ -14,16 +14,16 @@ public class CharStats_UI : MonoBehaviour
     private CharLifeSystem heroLife;
     private List<string> _currenSkillsName = new List<string>();
 
-    [SerializeField] private Image currentLife_Bar;
-    [SerializeField] private Image currentXp_Bar;
-    [SerializeField] private Text currentPath_txt;//tengo que ver de donde agarro esto
-    [SerializeField] private Text currentLvl_txt;
-    [SerializeField] private Text hp_txt;
-    [SerializeField] private Text xp_txt;
-    [SerializeField] private GameObject lvlUpSign; 
-    [SerializeField] private GameObject skills_container;
+    [SerializeField] private Image currentLife_Bar = null;
+    [SerializeField] private Image currentXp_Bar = null;
+    [SerializeField] private Text currentPath_txt = null;//tengo que ver de donde agarro esto
+    [SerializeField] private Text currentLvl_txt = null;
+    [SerializeField] private Text hp_txt = null;
+    [SerializeField] private Text xp_txt = null;
+    [SerializeField] private GameObject lvlUpSign = null; 
+    [SerializeField] private GameObject skills_container = null;
 
-    [SerializeField] private GameObject skillImage_template_pf;
+    [SerializeField] private GameObject skillImage_template_pf = null;
 
     private void Start()
     {

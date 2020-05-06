@@ -5,10 +5,10 @@ using System.Linq;
 
 public class SkillActive_DamageInRoom : SkillActivas
 {
-    [SerializeField] private int damagePower;
-    [SerializeField] private ParticleSystem feedback;
-    [SerializeField] private Damagetype dmgType;
-    [SerializeField] LayerMask layerenem;
+    [SerializeField] private int damagePower = 10;
+    [SerializeField] private ParticleSystem feedback = null;
+    [SerializeField] private Damagetype dmgType = Damagetype.normal;
+    [SerializeField] LayerMask layerenem = 0;
     [SerializeField] private float radius = 10;
 
     protected override void OnOneShotExecute()

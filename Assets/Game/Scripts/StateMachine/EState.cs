@@ -5,14 +5,14 @@ namespace Tools.StateMachine
 {
     public class EState<T>
     {
-        public Action<T> OnEnter = delegate { };
+        public Action<EState<T>> OnEnter = delegate { };
         public Action OnUpdate = delegate { };
         public Action OnLateUpdate = delegate { };
         public Action OnFixedUpdate = delegate { };
         public Action<T> OnExit = delegate { };
         Dictionary<T, TransitionState<T>> transitions;
 
-        public void Enter(T input) { OnEnter(input); }
+        public void Enter(EState<T> lastState) { OnEnter(lastState); }
         public void Update() { OnUpdate(); }
         public void LateUpdate() { OnLateUpdate(); }
         public void FixedUpdate() { OnFixedUpdate(); }

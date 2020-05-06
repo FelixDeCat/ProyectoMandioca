@@ -16,7 +16,7 @@ public class InteractSensor : MonoBehaviour
     public List<Interactable> filtered = new List<Interactable>();
 
     [Header("Walking Entity")]
-    [SerializeField] WalkingEntity collector;
+    [SerializeField] WalkingEntity collector = null;
 
     private void Awake()
     {

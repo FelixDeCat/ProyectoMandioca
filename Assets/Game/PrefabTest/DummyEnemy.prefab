@@ -1550,7 +1550,7 @@ GameObject:
   - component: {fileID: 3901963547881250311}
   - component: {fileID: 3901963547881250310}
   - component: {fileID: 3901963547881250307}
-  - component: {fileID: 3901963547881250309}
+  - component: {fileID: 1582673471552856206}
   - component: {fileID: 3901963547881250315}
   - component: {fileID: 8868906354174515107}
   - component: {fileID: 1748933892716105509}
@@ -1627,8 +1627,8 @@ MonoBehaviour:
   minionTarget: 0
   Invinsible: 0
   death: 0
+  expToDrop: 5
   combatDistance: 20
-  _target: {fileID: 0}
   distancePos: 2
   speedMovement: 4
   rotSpeed: 10
@@ -1641,12 +1641,11 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  combatComponent: {fileID: 3901963547881250309}
-  director: {fileID: 0}
+  combatComponent: {fileID: 1582673471552856206}
   damage: 2
   distanceToAttack: 1.5
   normalDistance: 7
-  cdToAttack: 2
+  cdToAttack: 0.5
   parriedTime: 2
   lifesystem: {fileID: 3901963547881250315}
   recallTime: 0.5
@@ -1661,7 +1660,7 @@ MonoBehaviour:
   animator: {fileID: 3901963547276534677}
   txt_debug: {fileID: 1025451142}
   freeze_shader: {fileID: 2100000, guid: 97dfdd29a86ad6b49a07c51ad1d51ca0, type: 2}
---- !u!114 &3901963547881250309
+--- !u!114 &1582673471552856206
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1670,7 +1669,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 3901963547881250308}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 56bb003c47650d54fb1a887c073e0a42, type: 3}
+  m_Script: {fileID: 11500000, guid: 99b735a486cb0a34e87127f4f4152149, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   _lm:
@@ -1693,7 +1692,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   lifeBar: {fileID: 4270395794385131123, guid: 3dd3f683a577a1549b2122ec3d47581f, type: 3}
   canvas: {fileID: 3901963546546872277}
-  uilife: {fileID: 0}
   life: 50
 --- !u!114 &8868906354174515107
 MonoBehaviour:

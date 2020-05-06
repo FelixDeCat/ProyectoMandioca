@@ -4,11 +4,11 @@ using UnityEngine;
 
 public class SkillActive_LightBounce : SkillActivas
 {
-    [SerializeField] private int damage;
-    [SerializeField] private Damagetype dmgType;
-    [SerializeField] private float range;
-    [SerializeField] private GameObject lightBeam;
-    [SerializeField] private ParticleSystem sparks_ps;
+    [SerializeField] private int damage = 5;
+    [SerializeField] private Damagetype dmgType = Damagetype.Fire;
+    [SerializeField] private float range = 6;
+    [SerializeField] private GameObject lightBeam = null;
+    [SerializeField] private ParticleSystem sparks_ps = null;
 
     public float laserWidth = 0.1f;
     public float laserMaxLength = 5f;
@@ -16,7 +16,7 @@ public class SkillActive_LightBounce : SkillActivas
     private CharacterHead _hero;
     private EntityBlock blocker;
 
-    [SerializeField] private LineRenderer _lineRenderer;
+    [SerializeField] private LineRenderer _lineRenderer = null;
 
     protected override void OnOneShotExecute()
     {

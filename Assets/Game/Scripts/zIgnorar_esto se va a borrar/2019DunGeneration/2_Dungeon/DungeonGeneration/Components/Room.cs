@@ -10,7 +10,7 @@ namespace DungeonGenerator.Components
     public class Room : MonoBehaviour
     {
 
-        [SerializeField] Wing[] wings;
+        [SerializeField] Wing[] wings =  null;
 
         List<Room> vecinos = new List<Room>();
         Room myParent;

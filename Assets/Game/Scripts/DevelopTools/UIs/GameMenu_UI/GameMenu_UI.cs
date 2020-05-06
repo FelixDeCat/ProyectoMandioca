@@ -12,11 +12,11 @@ public class GameMenu_UI : UI_Base
 
     Image imgexample;
 
-    [SerializeField] private RectTransform passiveSkills_container;
-    [SerializeField] private RectTransform passiveSkillsSelection_container;
-    [SerializeField] private PassiveSkill_template ps_template_pf;
-    [SerializeField] private LvlUpSkillSelection_UI psSelection_template_pf;
-    [SerializeField] private Text skillDescription_txt;
+    [SerializeField] private RectTransform passiveSkills_container = null;
+    [SerializeField] private RectTransform passiveSkillsSelection_container = null;
+    [SerializeField] private PassiveSkill_template ps_template_pf = null;
+    [SerializeField] private LvlUpSkillSelection_UI psSelection_template_pf = null;
+    [SerializeField] private Text skillDescription_txt = null;
     Dictionary<SkillInfo, PassiveSkill_template> templates = new Dictionary<SkillInfo, PassiveSkill_template>();
 
     private Action OnFinishLvlUpSkillSelection;

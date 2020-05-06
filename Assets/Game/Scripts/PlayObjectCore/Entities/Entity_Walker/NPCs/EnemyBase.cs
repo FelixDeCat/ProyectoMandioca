@@ -5,18 +5,19 @@ using System;
 
 public abstract class EnemyBase : NPCBase, ICombatDirector
 {
-    
-    public bool attacking;
-    public GameObject targetFeedBack;
+
+    [HideInInspector] public bool attacking;
+    [SerializeField] protected GameObject targetFeedBack = null;
     public Action OnParried;
-    public bool minionTarget;
-    public bool Invinsible;
-    public bool death;
+    [HideInInspector] public bool minionTarget;
+    [HideInInspector] public bool Invinsible;
+    [HideInInspector] public bool death;
+    [SerializeField] protected int expToDrop = 1;
 
     public virtual void Awake()
     {
         side_Type = side_type.enemy;
-    }
+    }    
 
     public virtual void IsTarget()
     {
@@ -29,7 +30,7 @@ public abstract class EnemyBase : NPCBase, ICombatDirector
         targetFeedBack.SetActive(false);
     }
 
-    [SerializeField] protected float combatDistance;
+    [SerializeField] protected float combatDistance = 20;
     protected bool combat;
 
     public void Mortal()
@@ -43,7 +44,7 @@ public abstract class EnemyBase : NPCBase, ICombatDirector
 
     protected EntityBase entityTarget;
 
-    public Transform _target;
+    protected Transform _target;
 
     [SerializeField, Range(0.5f, 15)] float distancePos = 1.5f;
 
@@ -55,6 +56,7 @@ public abstract class EnemyBase : NPCBase, ICombatDirector
     public void SetTargetPosDir(Transform pos)
     {
         _target = pos;
+
         _target.localPosition *= distancePos;
     }
 
@@ -99,12 +101,43 @@ public abstract class EnemyBase : NPCBase, ICombatDirector
 
     public virtual void GetFocusedOnParry()
     {
-        foreach (var item in Main.instance.GetEnemies())
+        foreach (var e in Main.instance.GetEnemies())
         {
-            if (item != this)
-                item.minionTarget = false;
+            if (e != this)
+                e.minionTarget = false;
             else
                 minionTarget = true;
         }
+    }
+
+    protected void AddEffectTick(Action Effect)
+    {
+        EffectUpdate += Effect;
+    }
+
+    Dictionary<int, float> effectsTimer =  new Dictionary<int, float>();
+    protected Action EffectUpdate = delegate {}; 
+
+    System.Random key = new System.Random(1);
+
+    protected void AddEffectTick(Action Effect, float duration, Action EndEffect)
+    {
+        int myNumber = key.Next();
+        effectsTimer.Add(myNumber, 0);
+
+        Action MyUpdate = Effect;
+        Action MyEnd = EndEffect;
+        MyEnd += () => effectsTimer.Remove(myNumber);
+        MyEnd += () => EffectUpdate -= MyUpdate;
+
+        MyUpdate += () =>
+        {
+            effectsTimer[myNumber] += Time.deltaTime;
+
+            if (effectsTimer[myNumber] >= duration)
+                MyEnd();
+        };
+
+        AddEffectTick(MyUpdate);
     }
 }

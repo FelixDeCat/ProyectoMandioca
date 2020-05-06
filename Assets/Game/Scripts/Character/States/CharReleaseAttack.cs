@@ -9,17 +9,21 @@ namespace Tools.StateMachine
     {
         float attackRecall;
         Func<bool> IsHeavy;
+        Action<bool> ChangeHeavy;
 
-        public CharReleaseAttack(EState<CharacterHead.PlayerInputs> myState, EventStateMachine<CharacterHead.PlayerInputs> _sm, float recall, Func<bool> _isHeavy) : base(myState, _sm)
+        public CharReleaseAttack(EState<CharacterHead.PlayerInputs> myState, EventStateMachine<CharacterHead.PlayerInputs> _sm, float recall,
+                                 Func<bool> _isHeavy, Action<bool> _ChangeHeavy) : base(myState, _sm)
         {
             attackRecall = recall;
             IsHeavy = _isHeavy;
+            ChangeHeavy = _ChangeHeavy;
         }
 
-        protected override void Enter(CharacterHead.PlayerInputs input)
+        protected override void Enter(EState<CharacterHead.PlayerInputs> input)
         {
             if (IsHeavy())
             {
+                Debug.Log("Hice un Heavy re loco");
                 charMove.MovementHorizontal(0);
                 charMove.MovementVertical(0);
             }
@@ -50,7 +54,7 @@ namespace Tools.StateMachine
 
         protected override void Exit(CharacterHead.PlayerInputs input)
         {
-            
+            ChangeHeavy(false);
         }
     }
 }

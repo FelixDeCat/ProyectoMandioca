@@ -6,7 +6,7 @@ using UnityEngine;
 public class TeleportDash_Skill : SkillBase
 {
     private CharacterHead _hero;
-    [SerializeField] private float teleportDistance;
+    [SerializeField] private float teleportDistance = 6;
     private CharacterMovement _movement;
 
     private bool teleportEnabled = false;

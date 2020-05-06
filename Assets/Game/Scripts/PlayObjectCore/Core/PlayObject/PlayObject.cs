@@ -7,7 +7,9 @@ using System;
 public abstract class PlayObject : MonoBehaviour, IZoneElement
 {
     protected bool canupdate;
-    public void Initialize() { OnInitialize(); }
+
+    bool alreadyInitialized = false;
+    public void Initialize() { if (!alreadyInitialized) { OnInitialize(); alreadyInitialized = true; } }
     public void On() { canupdate = true; OnTurnOn(); }
     public void Off() { canupdate = false; OnTurnOff(); }
     public void Pause() { canupdate = false; OnPause(); }

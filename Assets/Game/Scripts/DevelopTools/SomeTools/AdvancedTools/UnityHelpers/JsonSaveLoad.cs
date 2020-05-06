@@ -17,8 +17,8 @@ public class JsonSaveLoad<T> {
     //LISTS
     ListObjs2 objList;
     List<T> current;
-    class ListObjs { public T[] array_objects; }
-    class ListObjs2 { public List<T> array_objects; }
+    class ListObjs { public T[] array_objects = null; }
+    class ListObjs2 { public List<T> array_objects = null; }
 
     
 

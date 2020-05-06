@@ -6,12 +6,12 @@ using UnityEngine.UI;
 
 public class LvlUpSkillSelection_UI : MonoBehaviour
 {
-    [SerializeField] private Text skillDescription;
+    [SerializeField] private Text skillDescription = null;
     List<SkillInfo> _skills = new List<SkillInfo>();
-    [SerializeField] private RectTransform container;
+    [SerializeField] private RectTransform container = null;
 
-    [SerializeField] private Skill_Btt_template _skillBttTemplate_pf;
-    [SerializeField] private Button finishSelection_btt;
+    [SerializeField] private Skill_Btt_template _skillBttTemplate_pf = null;
+    [SerializeField] private Button finishSelection_btt = null;
 
     private SkillInfo currentSkillSelected;
 

@@ -11,10 +11,8 @@ public class ExampleWeaponThree : Weapon
 
     bool oneshotSucsesfull;
 
-    public override bool Attack(Transform pos, float damage)
+    public override void Attack(Transform pos, float damage, Damagetype dmg_type)
     {
-        EntityBase entity = null;
-
         var entities = Physics.OverlapSphere(pos.position, range)
             .Where(x => x.GetComponent<EntityBase>())
             .Where(x => x.GetComponent<EntityBase>() != Main.instance.GetChar())
@@ -43,7 +41,7 @@ public class ExampleWeaponThree : Weapon
                         Damagetype.parriable,
                         _head);
 
-                AttackResult?.Invoke(attackResult);
+                AttackResult?.Invoke(attackResult, dmg_type, current);
 
                 if (attackResult == Attack_Result.sucessful)
                 {
@@ -61,6 +59,5 @@ public class ExampleWeaponThree : Weapon
             Main.instance.Vibrate();
             Main.instance.CameraShake();
         }
-        return true;
     }
 }

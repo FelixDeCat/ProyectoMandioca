@@ -5,8 +5,8 @@ using UnityEngine;
 public class SkillActive_SomeHeal : SkillActivas
 {
 
-    [SerializeField] private int healAmount;
-    [SerializeField] private ParticleSystem healFeedback;
+    [SerializeField] private int healAmount = 20;
+    [SerializeField] private ParticleSystem healFeedback = null;
 
     protected override void OnOneShotExecute()
     {

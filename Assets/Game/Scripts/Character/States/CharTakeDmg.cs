@@ -14,7 +14,7 @@ namespace Tools.StateMachine
             takeDamageRecall = recall;
         }
 
-        protected override void Enter(CharacterHead.PlayerInputs input)
+        protected override void Enter(EState<CharacterHead.PlayerInputs> input)
         {
             //Tambien podría haber una rica animación, why not
         }

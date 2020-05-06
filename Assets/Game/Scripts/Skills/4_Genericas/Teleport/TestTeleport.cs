@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class TestTeleport : MonoBehaviour
 {
-    [SerializeField]private TeleportDash_Skill tp;
+    [SerializeField]private TeleportDash_Skill tp = null;
     
     // Start is called before the first frame update
     void Start()

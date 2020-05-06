@@ -6,19 +6,19 @@ using UnityEngine;
 public class BigWeapon_Skill : SkillBase
 {
     [Header("_-_Skill Settings_-_")]
-    [SerializeField] private int hitsToActivate;
-    [SerializeField] private float duration;
+    [SerializeField] private int hitsToActivate = 5;
+    [SerializeField] private float duration = 7;
     [Range(0,10)]
-    [SerializeField] private float percentRangeModifier;
-    [SerializeField] private float RangeMultiplier;
-    [SerializeField] private float AngleMultiplier;
+    [SerializeField] private float percentRangeModifier = 4;
+    [SerializeField] private float RangeMultiplier = 2;
+    [SerializeField] private float AngleMultiplier = 2;
 
 
     [Header("Feedback settings")]
-    [SerializeField] private Transform aura;
-    [SerializeField] Transform ghostSword;
-    [SerializeField] Transform atenaImage;
-    [SerializeField] AnimAtenea atenea;
+    [SerializeField] private Transform aura = null;
+    [SerializeField] Transform ghostSword =  null;
+    [SerializeField] Transform atenaImage = null;
+    [SerializeField] AnimAtenea atenea = null;
     
     
     private float _count;
@@ -36,7 +36,7 @@ public class BigWeapon_Skill : SkillBase
         _characterAttack.currentWeapon.AttackResult += OnSuccesAttack;
 
     }
-    private void OnSuccesAttack(Attack_Result result) // recibe el resultado del ataque y suma uno al contador. Si llega al ncesario, activa el skill
+    private void OnSuccesAttack(Attack_Result result, Damagetype dmg_type, EntityBase ent) // recibe el resultado del ataque y suma uno al contador. Si llega al ncesario, activa el skill
     {
         if (isActive) return;
         

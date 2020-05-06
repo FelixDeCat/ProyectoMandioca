@@ -19,7 +19,7 @@ namespace IA_Felix
         public Node initial;
         public Node final;
 
-        bool drawpath;
+        bool drawpath = false;
 
         private void OnDrawGizmos()
         {

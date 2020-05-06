@@ -4,23 +4,17 @@ using UnityEngine;
 
 public class BaseGuiltPassive : SkillBase
 {
-    [SerializeField]
-    int maxScreamsToSpawn = 5;
-    [SerializeField] 
-    int minScreamsToSpawn = 3;
-    [SerializeField]
-    float radiousSkill = 10;
+    [SerializeField] int maxScreamsToSpawn = 5;
+    [SerializeField] int minScreamsToSpawn = 3;
+    [SerializeField] float radiousSkill = 10;
 
     CharacterHead head;
 
-    [SerializeField]
-    ParticleSystem feedbackParticle;
+    [SerializeField] ParticleSystem feedbackParticle = null;
 
-    [SerializeField]
-    ScreamPool screamPool;
+    [SerializeField] ScreamPool screamPool = null;
 
-    [SerializeField]
-    FrontendStatBase myBar;
+    [SerializeField] FrontendStatBase myBar = null;
 
     protected override void OnBeginSkill()
     {
@@ -50,10 +44,7 @@ public class BaseGuiltPassive : SkillBase
         Main.instance.eventManager.UnsubscribeToEvent(GameEvents.ENEMY_DEAD, SpawnScream);
     }
 
-    protected override void OnUpdateSkill()
-    {
-
-    }
+    protected override void OnUpdateSkill() { }
 
     void UpdateHUD(int i)
     {
@@ -115,9 +106,7 @@ public class BaseGuiltPassive : SkillBase
         {
             EnemyBase myEnemy = item.GetComponent<EnemyBase>();
             if (myEnemy)
-            {
-                myEnemy.OnPetrified(); 
-            }
+                myEnemy.OnPetrified();
         }
     }
 }

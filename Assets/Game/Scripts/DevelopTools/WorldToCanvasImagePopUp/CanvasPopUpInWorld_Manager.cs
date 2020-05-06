@@ -10,7 +10,7 @@ public class CanvasPopUpInWorld_Manager : MonoBehaviour
 
     public static CanvasPopUpInWorld_Manager instance;//Instancia de manager
 
-    [SerializeField] private RectTransform canvasRect;//el canvas donde va a estar ubicado el popUp
+    [SerializeField] private RectTransform canvasRect = null;//el canvas donde va a estar ubicado el popUp
 
     private List<(Transform objeto, RectTransform ui,RectTransform indicator, bool keepOfScreen)> _activePopUps = new List<(Transform objeto, RectTransform ui, RectTransform indicator,bool keepOfScreen)>();
 
@@ -21,7 +21,7 @@ public class CanvasPopUpInWorld_Manager : MonoBehaviour
     public bool test;
     
     ///////////////Deprecated//////
-    [SerializeField] private WorldCanvasPopUp popUp_prefab;//prefab de la imagen
+    [SerializeField] private WorldCanvasPopUp popUp_prefab = null;//prefab de la imagen
     
     [SerializeField] private List<Icon_DATA> _iconos = new List<Icon_DATA>();//lista donde se agregan todas las imagenes y sus IDs
     

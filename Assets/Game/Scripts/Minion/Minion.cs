@@ -6,14 +6,7 @@ using System.Linq;
 public class Minion : Companion
 {
     [SerializeField] CombatComponent combatComponent;
-    [SerializeField] int damage;
-
-    public GameObject obj_feedbackStun;
-    public GameObject obj_feedbackShield;
-    public GameObject obj_feedbackattack;
-    PopSignalFeedback feedbackStun;
-    PopSignalFeedback feedbackHitShield;
-    PopSignalFeedback feedbackAttack;
+    [SerializeField] int damage = 5;
 
     [SerializeField] ParticleSystem greenblood;
 
@@ -22,66 +15,42 @@ public class Minion : Companion
     public AnimEvent anim;
     StatesMachine sm;
     public Animator animator;
-    [SerializeField]
-    private float _speedMovement;
-    [SerializeField]
-    private float _rotSpeed;
-    [SerializeField]
-    private float _petrifiedTime;
-    [SerializeField]
-    private float _distance;
+    [SerializeField] private float _speedMovement = 5;
+    [SerializeField] private float _rotSpeed = 3;
+    [SerializeField] private float _petrifiedTime = 4;
+    [SerializeField] private float _distance = 3;
     //public Follow follow;
 
     public Rigidbody _rb;
 
     [Header("Life Options")]
-    [SerializeField] GenericLifeSystem lifesystem;
+    [SerializeField] GenericLifeSystem lifesystem = null;
 
     StatesAttack attackState;
     StatesFollow followState;
 
     protected override void OnInitialize()
     {
+        Main.instance.eventManager.TriggerEvent(GameEvents.MINION_SPAWN, new object[] { this });
+
         _rb = GetComponent<Rigidbody>();
         combatComponent.Configure(AttackEntity);
         Main.instance.GetCombatDirector().AddNewTarget(this);
-        feedbackStun = new PopSignalFeedback(time_stun, obj_feedbackStun, EndStun);
-        feedbackHitShield = new PopSignalFeedback(0.2f, obj_feedbackShield);
-        feedbackAttack = new PopSignalFeedback(0.2f, obj_feedbackattack);
-
         lifesystem.AddEventOnDeath(OnDead);
-
         anim.Add_Callback("DealDamage", DealDamage);
+        
+    }
+
+    void SetStateMachine()
+    {
         sm = new StatesMachine();
         sm.Addstate(new StatesWander(sm));
-
         followState = new StatesFollow(sm, transform, _rb, FindObjectOfType<TrueDummyEnemy>().transform, animator, _rotSpeed, _distance, _speedMovement);
         sm.Addstate(followState);
-
         attackState = new StatesAttack(sm, animator, transform, FindObjectOfType<TrueDummyEnemy>().transform, _rotSpeed, _distance);
         sm.Addstate(attackState);
-
         sm.Addstate(new StatesPetrified(sm, _petrifiedTime));
-
-        sm.ChangeState<StatesAttack>();
-    }
-
-    protected override void OnResume()
-    {
-        
-
-    }
-
-    void OnDead()
-    {
-        Main.instance.GetCombatDirector().RemoveTarget(this);
-    }
-
-    protected override void OnUpdateEntity()
-    {
-        if(feedbackStun != null) feedbackStun.Refresh();
-        if (feedbackHitShield != null) feedbackHitShield.Refresh(); 
-        sm.Update();
+        sm.ChangeState<StatesWander>();
     }
 
     public void ChangeToAttackState(Transform parriedEnemy)
@@ -90,44 +59,18 @@ public class Minion : Companion
         followState.ChangeTarget(parriedEnemy);
         sm.ChangeState<StatesFollow>();
     }
-
-
-    public void DealDamage()
-    {
-        combatComponent.ManualTriggerAttack();
-    }
-
+    
+    protected override void OnUpdateEntity() => sm.Update();
+    public void DealDamage() => combatComponent.ManualTriggerAttack();
     public void EndStun() => combatComponent.Play();
+    public void Petrified() => sm.ChangeState<StatesPetrified>();
+    public void AttackEntity(EntityBase e) => e.TakeDamage(damage, transform.position, Damagetype.parriable, this);
 
-    public void AttackEntity(EntityBase e)
-    {
-        Debug.Log("0: dmg en minion: " + damage);
-
-        if (e.TakeDamage(damage, transform.position, Damagetype.parriable, this) == Attack_Result.parried)
-        {
-            combatComponent.Stop();
-            feedbackStun.Show();
-        }
-        else if (e.TakeDamage(damage, transform.position, Damagetype.parriable, this) == Attack_Result.blocked)
-        {
-            feedbackHitShield.Show();
-        }
-    }
-
-    /////////////////////////////////////////////////////////////////
-    //////  En desuso
-    /////////////////////////////////////////////////////////////////
     public override Attack_Result TakeDamage(int dmg, Vector3 dir, Damagetype dmgtype)
     {
-        lifesystem.Hit(dmg);
         greenblood.Play();
-
-        return Attack_Result.sucessful;
-    }
-
-    public void Petrified()
-    {
-        sm.ChangeState<StatesPetrified>();
+        bool death = lifesystem.Hit(dmg);
+        return death ? Attack_Result.death : Attack_Result.sucessful;
     }
 
     public float ChangeSpeed(float newSpeed)
@@ -147,12 +90,13 @@ public class Minion : Companion
         return _speedMovement;
     }
 
-
+    /////////////////////////////////////////////////////////////////
+    //////  En desuso
+    /////////////////////////////////////////////////////////////////
+    void OnDead() { }
+    protected override void OnResume() { }
     protected override void OnFixedUpdate() { }
     protected override void OnPause() { }
-
     protected override void OnTurnOff() { }
     protected override void OnTurnOn() { }
-
-    
 }

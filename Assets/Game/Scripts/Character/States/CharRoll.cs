@@ -15,7 +15,7 @@ namespace Tools.StateMachine
             evadepart = _evadepart;
         }
 
-        protected override void Enter(CharacterHead.PlayerInputs input)
+        protected override void Enter(EState<CharacterHead.PlayerInputs> input)
         {
             evadepart.Play();
 

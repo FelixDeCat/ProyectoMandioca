@@ -23,4 +23,5 @@ public class SkillInfo : ScriptableObject
     public Sprite img_blocked;
     public Sprite img_avaliable;
     public Sprite img_actived;
+    public GameObject model;
 }

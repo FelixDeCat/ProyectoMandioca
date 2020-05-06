@@ -2,30 +2,20 @@
 using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
+using System;
 
 public class GenericSword : Weapon
 {
-    public GenericSword(float dmg, float r, string n, float angle) : base(dmg, r, n, angle)
+    public GenericSword(float dmg, float r, string n, float angle) : base(dmg, r, n, angle) { }
+    public GenericSword ConfigureCallback(Action<Attack_Result, Damagetype, EntityBase> _callback_attack_Entity) { AttackResult = _callback_attack_Entity; return this; }
+
+    public override void Attack(Transform pos, float damage, Damagetype dmg_type)
     {
-        
-    }
-
-    bool oneshotSucsesfull;
-
-    public override bool Attack(Transform pos, float damage)
-    {
-        EntityBase entity = null;
-
         var entities = Physics.OverlapSphere(pos.position, range)
             .Where(x => x.GetComponent<EntityBase>())
             .Where(x => x.GetComponent<EntityBase>() != Main.instance.GetChar())
             .ToList();
 
-        
-        foreach (var v in entities)
-        {
-            Debug.Log("entity " + v.gameObject);
-        }
 
         for (int i = 0; i < entities.Count; i++)
         {
@@ -44,27 +34,8 @@ public class GenericSword : Weapon
                         Damagetype.parriable, 
                         _head);
 
-                AttackResult?.Invoke(attackResult);
-
-                if (attackResult == Attack_Result.sucessful)
-                {
-                    
-                    oneshotSucsesfull = true;
-                }
-
-                Debug.Log("Attack result: " + attackResult.ToString());
-
+                AttackResult?.Invoke(attackResult,dmg_type, current); 
             }
-        }
-
-        if (oneshotSucsesfull)
-        {
-            oneshotSucsesfull = false;
-            return true;
-        }
-        else
-        {
-            return false;
         }
     }
 }

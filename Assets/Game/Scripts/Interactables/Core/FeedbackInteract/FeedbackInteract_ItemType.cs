@@ -42,7 +42,7 @@ public class FeedbackItem : FeedbackInteractBase
         lr.enabled = false;
     }
 
-    protected override void OnUpdate()
+    protected override void On_Condicional_Update()
     {
         if (animate)
         {
@@ -60,4 +60,6 @@ public class FeedbackItem : FeedbackInteractBase
             }
         }
     }
+
+    protected override void On_Permanent_Update() { }
 }

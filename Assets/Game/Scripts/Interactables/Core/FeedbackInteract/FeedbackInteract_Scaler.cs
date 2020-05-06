@@ -20,5 +20,6 @@ public class FeedbackInteract_Scaler : FeedbackInteractBase
     }
     protected override void OnShow() => toscale.transform.localScale = finalscale;
     protected override void OnHide() => toscale.transform.localScale = startscale;
-    protected override void OnUpdate() { }
+    protected override void On_Condicional_Update() { }
+    protected override void On_Permanent_Update() { }
 }

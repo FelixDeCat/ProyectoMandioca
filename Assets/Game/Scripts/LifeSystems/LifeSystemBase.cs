@@ -45,7 +45,7 @@ public class LifeSystemBase
     public void SetCurrentLifeNoMax(int currentlife) => life.Val = currentlife;
     public int GetMax() => life.MaxVal;
     public void Hit() => life.Val--;
-    public void Hit(int val) => life.Val -= val;
+    public bool Hit(int val) { life.Val -= val;  return life.Val <= 0; }
     public void AddHealth() => life.Val++;
     public void AddHealth(int val) => life.Val += val;
     public bool CanHealth() => life.Val < life.MaxVal;

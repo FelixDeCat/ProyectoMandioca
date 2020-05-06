@@ -94,8 +94,8 @@ public class CombatDirector : MonoBehaviour, IZoneElement
     {
         Vector3 east = head.position + Vector3.right;
         Vector3 north = head.position + Vector3.forward;
-        Vector3 northEast = head.position + (Vector3.right + Vector3.forward);
-        Vector3 northWest = head.position + (Vector3.forward + Vector3.left);
+        Vector3 northEast = head.position + (Vector3.right/2 + Vector3.forward/2);
+        Vector3 northWest = head.position + (Vector3.forward/2 + Vector3.left/2);
 
         positionsToAttack.Add(CreateNewPos(east, head));
         positionsToAttack.Add(CreateNewPos(-east, head));
@@ -111,8 +111,8 @@ public class CombatDirector : MonoBehaviour, IZoneElement
     {
         Vector3 east = head.position + Vector3.right;
         Vector3 north = head.position + Vector3.forward;
-        Vector3 northEast = head.position + (Vector3.right + Vector3.forward);
-        Vector3 northWest = head.position + (Vector3.forward + Vector3.left);
+        Vector3 northEast = head.position + (Vector3.right / 2 + Vector3.forward / 2);
+        Vector3 northWest = head.position + (Vector3.forward / 2 + Vector3.left / 2);
 
         otherTargetPos[entity].Add(CreateNewPos(east, head));
         otherTargetPos[entity].Add(CreateNewPos(-east, head));

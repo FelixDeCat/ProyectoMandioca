@@ -6,6 +6,7 @@ using System;
 public abstract class SkillActivas : SkillBase
 {
     Action<SkillInfo, float> CallbackCooldown = delegate { };
+    Action<SkillInfo> CallbackEndCooldown = delegate { };
 
     [Header("Cooldown Settings")]
     public float cooldown;
@@ -20,10 +21,9 @@ public abstract class SkillActivas : SkillBase
     Func<bool> predicate;
     bool usePredicate;
 
-    public void SetCallbackCooldown(Action<SkillInfo, float> callback)
-    {
-        CallbackCooldown = callback;
-    }
+    public void SetCallbackCooldown(Action<SkillInfo, float> callback) => CallbackCooldown = callback;
+    public void SetCallbackEndCooldown(Action<SkillInfo> callback) => CallbackEndCooldown = callback;
+    public void RemoveCallbackCooldown() => CallbackCooldown = delegate { };
     protected void SetPredicate(Func<bool> pred)
     {
         predicate = pred;
@@ -33,8 +33,17 @@ public abstract class SkillActivas : SkillBase
     public override void BeginSkill()
     {
         begincooldown = true;
-        ui_skill.SetImages(skillinfo.img_avaliable, skillinfo.img_actived);
-        ui_skill.Cooldown_ConfigureTime(cooldown);
+
+        if (!is3D)
+        {
+            ui_skill.SetImages(skillinfo.img_avaliable, skillinfo.img_actived);
+            ui_skill.Cooldown_ConfigureTime(cooldown);
+        }
+        else
+        {
+            CallbackCooldown(skillinfo, cooldown);
+        }
+        
         base.BeginSkill();
     }
     public override void EndSkill()
@@ -58,6 +67,7 @@ public abstract class SkillActivas : SkillBase
             }
             else
             {
+                
                 timer_use = 0;
                 OnStartUse();
                 beginUse = true;
@@ -94,14 +104,19 @@ public abstract class SkillActivas : SkillBase
         base.cooldownUpdate();
         if (begincooldown)
         {
+            Debug.Log("asdasdasd");
             if (time_cooldown < cooldown)
             {
                 time_cooldown = time_cooldown + 1 * Time.deltaTime;
-                CallbackCooldown(skillinfo, time_cooldown);
+
+                var auxpercent = time_cooldown * 100 / cooldown;
+                auxpercent = auxpercent * 0.01f;
+                CallbackCooldown(skillinfo, auxpercent);
                 //ui_skill.Cooldown_SetValueTime(time_cooldown);
             }
             else
             {
+                CallbackEndCooldown.Invoke(skillinfo);
                 time_cooldown = 0;
                 begincooldown = false;
             }

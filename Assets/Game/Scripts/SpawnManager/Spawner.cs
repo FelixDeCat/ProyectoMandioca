@@ -2,25 +2,27 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Spawner
-{    
+public class Spawner : MonoBehaviour
+{
+    [SerializeField] Transform parent_items, parent_entities, parent_others, parent_desctructibles;
+
     public ItemWorld SpawnItem(ItemWorld item, Transform position)
     {
-        ItemWorld myItem = GameObject.Instantiate(item);
+        ItemWorld myItem = GameObject.Instantiate(item,parent_items);
         myItem.transform.position = position.position;
         return myItem;
 
     }
     public ItemWorld SpawnItem(ItemWorld item, Vector3 position)
     {
-        ItemWorld myItem = GameObject.Instantiate(item);
+        ItemWorld myItem = GameObject.Instantiate(item, parent_items);
         myItem.transform.position = position;
         return myItem;
 
     }
     public GameObject SpawnItem(GameObject gameObject, Transform position)
     {
-        GameObject myItem = GameObject.Instantiate(gameObject);
+        GameObject myItem = GameObject.Instantiate(gameObject, parent_items);
         myItem.transform.position = position.position;
         return myItem;
     }
@@ -53,15 +55,25 @@ public class Spawner
         return aux;
     }
 
+    public List<GameObject> spawnListItems(Item obj, Vector3 pos, int quantity)
+    {
+        List<GameObject> aux = new List<GameObject>();
+        for (int i = 0; i < quantity; i++)
+        {
+            aux.Add(SpawnItem(obj, pos));
+        }
+        return aux;
+    }
+
     public GameObject SpawnItem(Item item, Transform position)
     {
-        GameObject myItem = GameObject.Instantiate(item.model);
+        GameObject myItem = GameObject.Instantiate(item.model, parent_items);
         myItem.transform.position = position.position;
         return myItem;
     }
     public GameObject SpawnItem(Item item, Vector3 position)
     {
-        GameObject myItem = GameObject.Instantiate(item.model);
+        GameObject myItem = GameObject.Instantiate(item.model, parent_items);
         myItem.transform.position = position;
         return myItem;
     }
@@ -79,7 +91,7 @@ public class Spawner
       
         myGameObject = Tools.Extensions.Extensions.WheelSelection<GameObject>(tuples);
 
-        GameObject.Instantiate(myGameObject, pos.position , pos.rotation);
+        GameObject.Instantiate(myGameObject, pos.position , pos.rotation, parent_items);
         return myGameObject;
     }
    

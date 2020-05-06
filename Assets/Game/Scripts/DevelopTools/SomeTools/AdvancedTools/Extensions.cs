@@ -56,6 +56,16 @@ namespace Tools.Extensions
                 })
                 .ToList();
         }
+
+        public static string StringConcatCollection<T>(this IEnumerable<T> col) where T : Component
+        {
+            string aux = "Col>> " + col.ToString() + "";
+            foreach (var c in col)
+            {
+                aux += " [" + c.ToString() + "] ";
+            }
+            return aux;
+        }
         public static List<T> FindInRadius<T>(this T own, float radius, LayerMask layermask) where T : Component
         {
             var col = new List<T>();
@@ -128,6 +138,23 @@ namespace Tools.Extensions
                         {
                             col.Add(comp);
                         }
+                    }
+                }
+            }
+            return col.ToList();
+        }
+        public static List<T> FindInRadiusNoPhysics<T>(this Vector3 pos, float radius, List<T> objs) where T : Component
+        {
+            var col = new List<T>();
+
+            foreach (var o in objs)
+            {
+                if (Vector3.Distance(o.transform.position, pos) <= radius)
+                {
+                    var comp = o.GetComponent<T>();
+                    if (comp != null)
+                    {
+                        col.Add(comp);
                     }
                 }
             }

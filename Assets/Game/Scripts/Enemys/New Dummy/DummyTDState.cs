@@ -1,7 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-
+﻿using UnityEngine;
 
 namespace Tools.StateMachine
 {
@@ -16,12 +13,11 @@ namespace Tools.StateMachine
             recallTime = _recall;
         }
 
-        protected override void Enter(TrueDummyEnemy.DummyEnemyInputs input)
+        protected override void Enter(EState<TrueDummyEnemy.DummyEnemyInputs> input)
         {
             base.Enter(input);
 
             anim.SetBool("takeDamage", true);
-            //Acá ejecutaría mi animación de Take Damage... ¡¡Si tan solo tuviera una!!x2
         }
 
         protected override void Exit(TrueDummyEnemy.DummyEnemyInputs input)
@@ -29,16 +25,6 @@ namespace Tools.StateMachine
             base.Exit(input);
             anim.SetBool("takeDamage", false);
             timer = 0;
-        }
-
-        protected override void FixedUpdate()
-        {
-            base.FixedUpdate();
-        }
-
-        protected override void LateUpdate()
-        {
-            base.LateUpdate();
         }
 
         protected override void Update()

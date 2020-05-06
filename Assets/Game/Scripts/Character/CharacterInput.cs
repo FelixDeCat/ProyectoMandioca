@@ -32,11 +32,12 @@ public class CharacterInput : MonoBehaviour
     public UnityEvent OnInteractEnd;
     public UnityEvent Back;
 
-    [Header("Test pasives")]
+    [Header("Test actives")]
     public UnityEvent OnDpad_Up;
     public UnityEvent OnDpad_Down;
     public UnityEvent OnDpad_Left;
     public UnityEvent OnDpad_Right;
+    public UnityEvent OnUseActive;
 
     private void Awake() => ConfigureJoystickHelper();
 
@@ -68,6 +69,8 @@ public class CharacterInput : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Alpha4)) EV_DPAD_RIGHT();
 
         if (Input.GetButtonDown("Back")) Back.Invoke();
+
+        if (Input.GetButtonDown("Skill")) OnUseActive.Invoke();
 
         RefreshHelper();
 
