@@ -1,7 +1,10 @@
 ﻿using System;
+[System.Serializable]
 public class CharLifeSystem
 {
     LifeSystemBase lifesystem;
+
+    public int life = 100;
 
     public event Action<int, int> lifechange = delegate { };
 
@@ -9,16 +12,10 @@ public class CharLifeSystem
     public event Action gainlife = delegate { };
     public event Action death = delegate { };
 
-    public CharLifeSystem(int max, int current)
+    public CharLifeSystem()
     {
         lifesystem = new LifeSystemBase();
-        lifesystem.Config(max, EVENT_OnLoseLife, EVENT_OnGainLife, EVENT_OnDeath, current);
-        lifesystem.AddCallback_LifeChange(OnLifeChange);
-    }
-    public CharLifeSystem(int max, int current, FrontendStatBase ui)
-    {
-        lifesystem = new LifeSystemBase();
-        lifesystem.Config(max, EVENT_OnLoseLife, EVENT_OnGainLife, EVENT_OnDeath, ui, current);
+        lifesystem.Config(life, EVENT_OnLoseLife, EVENT_OnGainLife, EVENT_OnDeath, life);
         lifesystem.AddCallback_LifeChange(OnLifeChange);
     }
 

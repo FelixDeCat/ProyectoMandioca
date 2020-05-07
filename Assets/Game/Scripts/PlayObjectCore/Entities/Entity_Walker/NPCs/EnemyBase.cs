@@ -16,7 +16,7 @@ public abstract class EnemyBase : NPCBase, ICombatDirector
 
     public virtual void Awake()
     {
-        side_Type = side_type.enemy;
+        
     }    
 
     public virtual void IsTarget()

@@ -1,1 +1,4 @@
-﻿public abstract class NPCBase : WalkingEntity { }
+﻿public abstract class NPCBase : WalkingEntity 
+{
+    public bool target;
+}

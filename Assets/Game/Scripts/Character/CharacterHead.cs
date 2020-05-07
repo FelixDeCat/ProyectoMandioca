@@ -51,7 +51,7 @@ public class CharacterHead : CharacterControllable
 
     [Header("Feedbacks")]
     [SerializeField] ParticleSystem feedbackCW = null;
-    [SerializeField] ParticleSystem feedbackScream = null;
+    
     [SerializeField] ParticleSystem inParryParticles = null;
 
     [Header("Animations")]
@@ -91,7 +91,7 @@ public class CharacterHead : CharacterControllable
     public InteractSensor sensor;
 
     [Header("Life Options")]
-    [SerializeField] int life = 100;
+    
     [SerializeField] CharLifeSystem lifesystem = null;
     public CharLifeSystem Life => lifesystem;
 
@@ -104,7 +104,7 @@ public class CharacterHead : CharacterControllable
 
     private void Start()
     {
-        lifesystem = new CharLifeSystem(life, life)
+        lifesystem = new CharLifeSystem()
             .ADD_EVENT_OnGainLife(OnGainLife)
             .ADD_EVENT_OnLoseLife(OnLoseLife)
             .ADD_EVENT_Death(OnDeath)
@@ -143,7 +143,7 @@ public class CharacterHead : CharacterControllable
 
         rb = GetComponent<Rigidbody>();
 
-        StartDebug();
+        debug_options.StartDebug();
         DevelopTools.UI.Debug_UI_Tools.instance.CreateToogle("Speed for testing", false, ToogleSpeed);
 
     }
@@ -264,7 +264,7 @@ public class CharacterHead : CharacterControllable
         ConfigureState.Create(dead)
             .Done();
 
-        stateMachine = new EventStateMachine<PlayerInputs>(idle, DebugState);
+        stateMachine = new EventStateMachine<PlayerInputs>(idle, debug_options.DebugState);
 
         new CharIdle(idle, stateMachine)
             .SetLeftAxis(GetLeftHorizontal, GetLeftVertical)
@@ -686,7 +686,34 @@ public class CharacterHead : CharacterControllable
     }
     #endregion
 
+    
+
+    #region Fuera de uso
+
+    protected override void OnTurnOn() { }
+    protected override void OnTurnOff() { }
+    protected override void OnFixedUpdate() { }
+
+
+
+    #endregion
+
+
+    #region Debuggin
+    public DebugOptions debug_options = new DebugOptions();
+    [System.Serializable]
+    public class DebugOptions
+    {
+        [SerializeField] UnityEngine.UI.Text txt_debug = null;
+        public void DebugState(string state) { if (txt_debug != null) txt_debug.text = state; }
+        public void StartDebug() { if (txt_debug != null) txt_debug.enabled = false; DevelopTools.UI.Debug_UI_Tools.instance.CreateToogle("Character State Machine Debug", false, ToogleDebug); }
+        string ToogleDebug(bool active) { if (txt_debug != null) txt_debug.enabled = active; return active ? "debug activado" : "debug desactivado"; }
+    }
+    #endregion
+
     #region Guilt
+    [Header("Guilt Options")]
+    [SerializeField] ParticleSystem feedbackScream = null;
     int screams;
     public Action GuiltUltimateSkill = delegate { };
     public Action<int> AddScreamAction = delegate { };
@@ -713,24 +740,6 @@ public class CharacterHead : CharacterControllable
         feedbackScream.Play();
     }
 
-    #endregion
-
-    #region Fuera de uso
-
-    protected override void OnTurnOn() { }
-    protected override void OnTurnOff() { }
-    protected override void OnFixedUpdate() { }
-
-
-
-    #endregion
-
-
-    #region Debuggin
-    [SerializeField] UnityEngine.UI.Text txt_debug = null;
-    void DebugState(string state) { if (txt_debug != null) txt_debug.text = state; }
-    void StartDebug() { if (txt_debug != null) txt_debug.enabled = false; DevelopTools.UI.Debug_UI_Tools.instance.CreateToogle("Character State Machine Debug", false, ToogleDebug); }
-    string ToogleDebug(bool active) { if (txt_debug != null) txt_debug.enabled = active; return active ? "debug activado" : "debug desactivado"; }
     #endregion
 
 }
