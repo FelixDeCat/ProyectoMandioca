@@ -89,7 +89,7 @@ public class Spawner : MonoBehaviour
             tuples.Add(new System.Tuple<int, GameObject>(data.ListaItems[i].probability, data.ListaItems[i].item));
         }
       
-        myGameObject = ProyectTools.Extensions.Extensions.WheelSelection<GameObject>(tuples);
+        myGameObject = ToolsMandioca.Extensions.Extensions.WheelSelection<GameObject>(tuples);
 
         GameObject.Instantiate(myGameObject, pos.position , pos.rotation, parent_items);
         return myGameObject;

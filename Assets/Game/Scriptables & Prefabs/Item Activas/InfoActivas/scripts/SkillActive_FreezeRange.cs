@@ -2,7 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using ProyectTools.Extensions;
+using ToolsMandioca.Extensions;
 
 public class SkillActive_FreezeRange : SkillActivas
 {

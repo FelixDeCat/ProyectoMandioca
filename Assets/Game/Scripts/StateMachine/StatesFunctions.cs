@@ -1,10 +1,10 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using ProyectTools.StateMachine;
+using ToolsMandioca.StateMachine;
 using System;
 
-namespace ProyectTools.StateMachine
+namespace ToolsMandioca.StateMachine
 {
     public abstract class StatesFunctions<T>
     {

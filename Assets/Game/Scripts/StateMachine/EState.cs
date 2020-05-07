@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System;
 
-namespace ProyectTools.StateMachine
+namespace ToolsMandioca.StateMachine
 {
     public class EState<T>
     {

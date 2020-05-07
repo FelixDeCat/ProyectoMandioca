@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using System;
 
-namespace ProyectTools.StateMachine
+namespace ToolsMandioca.StateMachine
 {
     public class CharacterStates : StatesFunctions<CharacterHead.PlayerInputs>
     {

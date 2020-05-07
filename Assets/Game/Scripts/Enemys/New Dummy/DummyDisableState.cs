@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace ProyectTools.StateMachine
+namespace ToolsMandioca.StateMachine
 {
     public class DummyDisableState : DummyEnemyStates
     {

@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace ProyectTools.StateMachine
+namespace ToolsMandioca.StateMachine
 {
     using input = TrueDummyEnemy.DummyEnemyInputs;
     public class DummyStunState : DummyEnemyStates

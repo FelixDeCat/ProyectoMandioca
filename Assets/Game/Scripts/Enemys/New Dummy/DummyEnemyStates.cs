@@ -1,5 +1,5 @@
 ﻿using UnityEngine;
-namespace ProyectTools.StateMachine
+namespace ToolsMandioca.StateMachine
 {
     public class DummyEnemyStates : StatesFunctions<TrueDummyEnemy.DummyEnemyInputs>
     {

@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System;
 
-namespace ProyectTools.StateMachine
+namespace ToolsMandioca.StateMachine
 {
     public class JabaliPersuit : JabaliStates
     {

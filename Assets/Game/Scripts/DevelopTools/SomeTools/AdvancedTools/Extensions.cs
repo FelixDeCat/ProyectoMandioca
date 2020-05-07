@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System;
 
-namespace ProyectTools.Extensions
+namespace ToolsMandioca.Extensions
 {
-    using ProyectTools.Screen;
+    using ToolsMandioca.Screen;
     using UnityEngine;
     using RandomUnity = UnityEngine.Random;
     using RandomWin = System.Random;

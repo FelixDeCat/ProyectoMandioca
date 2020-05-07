@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using System;
-using ProyectTools.Extensions;
+using ToolsMandioca.Extensions;
 using System.Linq;
 
 public class NewRoomGenerator : MonoBehaviour
