@@ -10,26 +10,30 @@ public class RangeDummy : EnemyBase
     [System.Serializable]
     public class MoveOptions
     {
-        public float rotSpeed = 2;
+        [Header("transform parent de rotacion")]
+        [SerializeField] Transform rootTransform = null;
+        [Header("Rotacion")]
+        [SerializeField] float rotSpeed = 2;
+        [Header("Movimiento")]
+        [SerializeField] float speedMovement = 4;
+        [Header("Avoidance")]
+        [SerializeField] float avoidWeight = 2;
+        [SerializeField] float avoidRadious = 2;
+
+        private float currentSpeed = 0;
+
         public float GetRotationSpeed() => rotSpeed;
-        public float avoidWeight = 2;
-        public float avoidRadious = 2;
-        public Transform rootTransform = null;
         public Transform GetRootTransform() => rootTransform;
-
-        public float speedMovement = 4;
         public float GetOriginalSpeed() => speedMovement;
-
         public Vector3 GetMyPosition() => rootTransform.transform.position;
-
-        #region Current Speed
-        float currentSpeed;
-        public float GetCurrentSpeed() => currentSpeed; public void SetCurrentSpeed(float _value) => currentSpeed = _value;
+        
+        //current speed functions
+        public float GetCurrentSpeed() => currentSpeed; 
+        public void SetCurrentSpeed(float _value) => currentSpeed = _value;
         public void MultiplyCurrentSpeed(float _value) => currentSpeed *= _value;
         public void AddCurrentSpeed(float _value) => currentSpeed += _value;
         public void DivideCurrentSpeed(float _value) => currentSpeed /= _value;
         public float ResetSpeedToOriginal() => currentSpeed = speedMovement;
-        #endregion
     }
     public MoveOptions moveOptions = new MoveOptions();
 
@@ -89,7 +93,7 @@ public class RangeDummy : EnemyBase
         anim.Add_Callback("DealDamage", DealDamage);
         anim.Add_Callback("Death", DeathAnim);
         lifesystem.AddEventOnDeath(Die);
-        moveOptions.SetCurrentSpeed(moveOptions.speedMovement);
+        moveOptions.SetCurrentSpeed(moveOptions.GetOriginalSpeed());
         debug_options.StartDebug();
 
         Main.instance.AddEntity(this);
