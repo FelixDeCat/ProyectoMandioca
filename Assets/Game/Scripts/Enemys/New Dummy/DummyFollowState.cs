@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System;
 
-namespace Tools.StateMachine
+namespace ProyectTools.StateMachine
 {
     public class DummyFollowState : DummyEnemyStates
     {

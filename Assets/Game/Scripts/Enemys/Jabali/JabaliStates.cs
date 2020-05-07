@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using System;
 
-namespace Tools.StateMachine
+namespace ProyectTools.StateMachine
 {
     public class JabaliStates : StatesFunctions<JabaliEnemy.JabaliInputs>
     {

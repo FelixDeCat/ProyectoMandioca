@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 
-namespace Tools.StateMachine
+namespace ProyectTools.StateMachine
 {
     public class CharEndBlock : CharacterStates
     {

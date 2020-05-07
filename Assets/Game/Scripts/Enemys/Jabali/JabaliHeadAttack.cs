@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace Tools.StateMachine
+namespace ProyectTools.StateMachine
 {
     public class JabaliHeadAttack : JabaliStates
     {

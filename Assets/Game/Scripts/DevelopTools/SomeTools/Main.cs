@@ -2,8 +2,8 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using Tools;
-using Tools.Extensions;
+using ProyectTools;
+using ProyectTools.Extensions;
 using UnityEngine;
 //using XInputDotNetPure;
 

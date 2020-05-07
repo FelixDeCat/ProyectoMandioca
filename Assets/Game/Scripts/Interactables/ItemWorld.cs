@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
-using Tools.EventClasses;
+using ProyectTools.EventClasses;
 using System;
 //implementar items
 //implementar collector

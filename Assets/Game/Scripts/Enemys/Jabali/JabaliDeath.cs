@@ -1,4 +1,4 @@
-﻿namespace Tools.StateMachine
+﻿namespace ProyectTools.StateMachine
 {
     public class JabaliDeath : JabaliStates
     {

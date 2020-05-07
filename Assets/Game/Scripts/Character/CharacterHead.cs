@@ -4,11 +4,11 @@ using UnityEngine;
 using System;
 using UnityEngine.Events;
 using DevelopTools;
-using Tools.EventClasses;
-using Tools.StateMachine;
+using ProyectTools.EventClasses;
+using ProyectTools.StateMachine;
 public class CharacterHead : CharacterControllable
 {
-    public enum PlayerInputs { IDLE, MOVE, BEGIN_BLOCK, BLOCK, END_BLOCK, PARRY, CHARGE_ATTACK, RELEASE_ATTACK, TAKE_DAMAGE, DEAD, ROLL, SPIN, STUN };
+    public enum PlayerInputs { IDLE, MOVE, BEGIN_BLOCK, BLOCK, END_BLOCK, PARRY, CHARGE_ATTACK, RELEASE_ATTACK, TAKE_DAMAGE, DEAD, ROLL, SPIN, STUN, PLAYER_LOCK_ON };
 
     Action ChildrensUpdates;
 
@@ -344,13 +344,18 @@ public class CharacterHead : CharacterControllable
         stunDuration = _stunDuration;
         stateMachine.SendInput(PlayerInputs.SPIN);
     }
-
     protected override void OnUpdateEntity()
     {
 
         stateMachine.Update();
         ChildrensUpdates();
         charAttack.Refresh();
+    }
+
+    //caundo lo recibo desde el lock on
+    public void SetToInputStateMAchinLockON()
+    {
+        stateMachine.SendInput(PlayerInputs.PLAYER_LOCK_ON);
     }
 
     protected override void OnPause()

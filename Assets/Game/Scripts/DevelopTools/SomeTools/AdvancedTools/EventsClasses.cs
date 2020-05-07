@@ -1,4 +1,4 @@
-﻿namespace Tools.EventClasses
+﻿namespace ProyectTools.EventClasses
 {
     using UnityEngine;
     using UnityEngine.Events;

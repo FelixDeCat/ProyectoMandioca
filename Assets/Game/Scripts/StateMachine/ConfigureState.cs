@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace Tools.StateMachine
+namespace ProyectTools.StateMachine
 {
     public class ConfigureState<T>
     {

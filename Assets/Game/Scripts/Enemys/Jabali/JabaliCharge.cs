@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace Tools.StateMachine
+namespace ProyectTools.StateMachine
 {
     public class JabaliCharge : JabaliStates
     {

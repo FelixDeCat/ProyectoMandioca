@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
-using Tools.Extensions;
+using ProyectTools.Extensions;
 
 public class SkillFocusOnParry : SkillBase
 {

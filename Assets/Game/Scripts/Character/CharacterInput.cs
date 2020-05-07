@@ -39,6 +39,8 @@ public class CharacterInput : MonoBehaviour
     public UnityEvent OnDpad_Right;
     public UnityEvent OnUseActive;
 
+    public UnityEvent LockON;
+
     private void Awake() => ConfigureJoystickHelper();
 
     private void Start()
@@ -73,6 +75,8 @@ public class CharacterInput : MonoBehaviour
         if (Input.GetButtonDown("Skill")) OnUseActive.Invoke();
 
         RefreshHelper();
+
+        if (Input.GetButtonDown("LockOn")) LockON.Invoke();
 
     }
 

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace Tools.StateMachine
+namespace ProyectTools.StateMachine
 {
     public class CharBlock : CharacterStates
     {
@@ -13,12 +13,26 @@ namespace Tools.StateMachine
         protected override void Enter(EState<CharacterHead.PlayerInputs> input)
         {
             charBlock.SetOnBlock(true);
+
+            //if (charhead.ISLocoon())
+            //{
+            //    //nuestro funcioanmiento nuevo
+            //    charMove.MovementHorizontal(input / 2);
+            //    charMove.MovementVertical(input / 2);
+            //}
+            //else
+            //{
+            //    //charMove.MovementHorizontal(0);
+            //   // charMove.MovementVertical(0);
+            //}
             charMove.MovementHorizontal(0);
             charMove.MovementVertical(0);
         }
 
         protected override void Update()
         {
+
+
             charMove.RotateHorizontal(RightHorizontal());
             charMove.RotateVertical(RightVertical());
         }

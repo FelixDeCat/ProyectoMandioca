@@ -1,7 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using Tools.Extensions;
+using ProyectTools.Extensions;
 
 //este sistema de Node solo funciona con 4 conexiones
 //es mas fácil para zafar ahora

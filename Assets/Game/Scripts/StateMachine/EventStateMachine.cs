@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System;
 
-namespace Tools.StateMachine
+namespace ProyectTools.StateMachine
 {
 	public class EventStateMachine<T>
 	{

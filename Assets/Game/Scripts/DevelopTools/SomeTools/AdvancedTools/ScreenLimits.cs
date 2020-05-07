@@ -1,5 +1,5 @@
 ﻿
-namespace Tools.Screen
+namespace ProyectTools.Screen
 {
     using UnityEngine;
 

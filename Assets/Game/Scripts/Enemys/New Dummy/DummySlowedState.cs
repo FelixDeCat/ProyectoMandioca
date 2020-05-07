@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
-using Tools.StateMachine;
+using ProyectTools.StateMachine;
 using UnityEngine;
 
 public class DummySlowedState : DummyFollowState
