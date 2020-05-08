@@ -6,9 +6,12 @@ namespace ToolsMandioca.StateMachine
     {
         float anticipationTime;
         float timer = 0;
+        GenericEnemyMove move;
 
-        public JabaliAttackAnticipation(EState<JabaliEnemy.JabaliInputs> myState, EventStateMachine<JabaliEnemy.JabaliInputs> _sm, float antTime) : base(myState, _sm)
+        public JabaliAttackAnticipation(EState<JabaliEnemy.JabaliInputs> myState, EventStateMachine<JabaliEnemy.JabaliInputs> _sm,
+                                        GenericEnemyMove _move, float antTime) : base(myState, _sm)
         {
+            move = _move;
             anticipationTime = antTime;
         }
 
@@ -26,7 +29,7 @@ namespace ToolsMandioca.StateMachine
             Vector3 myForward = (enemy.CurrentTarget().transform.position - root.position).normalized;
             Vector3 forwardRotation = new Vector3(myForward.x, 0, myForward.z);
 
-            Root(forwardRotation);
+            move.Rotation(forwardRotation);
 
             timer += Time.deltaTime;
 

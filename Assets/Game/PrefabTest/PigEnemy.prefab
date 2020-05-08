@@ -1233,10 +1233,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   viewDistance: 90
-  viewAngle: 75
+  viewAngle: 45
   layermask:
     serializedVersion: 2
-    m_Bits: 33536
+    m_Bits: 256
   offset: {x: 0, y: 0, z: 0}
   DrawGizmos: 0
 --- !u!1 &3449262872881918318
@@ -1402,9 +1402,10 @@ GameObject:
   - component: {fileID: 3951395813138206300}
   - component: {fileID: 3951395813138206274}
   - component: {fileID: 3951395813138206273}
-  - component: {fileID: 3951395813138206272}
   - component: {fileID: 3951395813138206302}
+  - component: {fileID: 3951395813138206272}
   - component: {fileID: 3951395813138206301}
+  - component: {fileID: 6733651048786057550}
   m_Layer: 10
   m_Name: PigEnemy
   m_TagString: Untagged
@@ -1459,7 +1460,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b23b56a7e3b50d04ab5a9bed885dd321, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  side_Type: 2
   target: 0
   attacking: 0
   targetFeedBack: {fileID: 3504960959002909242}
@@ -1469,10 +1469,7 @@ MonoBehaviour:
   expToDrop: 15
   combatDistance: 20
   distancePos: 2.5
-  speedMovement: 4
-  rotSpeed: 2
-  avoidWeight: 1
-  avoidRadious: 1
+  movement: {fileID: 6733651048786057550}
   rootTransform: {fileID: 293843520634246214}
   avoidMask:
     serializedVersion: 2
@@ -1511,6 +1508,19 @@ MonoBehaviour:
   animator: {fileID: 8435530919061413704}
   txt_debug: {fileID: 3951395815097983855}
   freeze_shader: {fileID: 2100000, guid: 97dfdd29a86ad6b49a07c51ad1d51ca0, type: 2}
+--- !u!65 &3951395813138206302
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3951395813138206299}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 0.6145477, y: 0.9312279, z: 1.5414357}
+  m_Center: {x: 0.0019569397, y: 0.49115074, z: 0.27071786}
 --- !u!114 &3951395813138206272
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1529,19 +1539,6 @@ MonoBehaviour:
   distance: 2.5
   angleAttack: 45
   rot: {fileID: 293843520634246214}
---- !u!65 &3951395813138206302
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3951395813138206299}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 0.6145477, y: 0.9312279, z: 1.5414357}
-  m_Center: {x: 0.0019569397, y: 0.49115074, z: 0.27071786}
 --- !u!114 &3951395813138206301
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1557,6 +1554,25 @@ MonoBehaviour:
   lifeBar: {fileID: 4270395794385131123, guid: 3dd3f683a577a1549b2122ec3d47581f, type: 3}
   canvas: {fileID: 3951395814079631520}
   life: 25
+--- !u!114 &6733651048786057550
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3951395813138206299}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 99373cd774316fd49a2709769e1bc38f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  initialSpeed: 4
+  avoidWeight: 1.5
+  avoidanceRadious: 1
+  rootSpeed: 2
+  avoidMask:
+    serializedVersion: 2
+    m_Bits: 33280
 --- !u!1 &3951395813391430401
 GameObject:
   m_ObjectHideFlags: 0

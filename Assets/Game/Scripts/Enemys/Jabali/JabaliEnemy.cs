@@ -7,13 +7,9 @@ using ToolsMandioca.StateMachine;
 public class JabaliEnemy : EnemyBase
 {
     [Header("Move Options")]
-    [SerializeField] float speedMovement = 4;
-    [SerializeField] float rotSpeed = 2;
-    [SerializeField] float avoidWeight = 1;
-    [SerializeField] float avoidRadious = 1;
+    [SerializeField] GenericEnemyMove movement;
     [SerializeField] Transform rootTransform = null;
     [SerializeField] LayerMask avoidMask = 0;
-    private float currentSpeed;
     [SerializeField] LineOfSight lineOfSight = null;
 
     public AnimationCurve animEmisive;
@@ -78,13 +74,13 @@ public class JabaliEnemy : EnemyBase
     protected override void OnInitialize()
     {
         Debug.Log("OnInitialize");
+        movement.Configure(rootTransform, rb);
         headAttack.Configure(HeadAttack);
         pushAttack.Configure(PushRelease, StunAfterCharge);
         lineOfSight.Configurate(rootTransform);
         anim.Add_Callback("DealDamage", DealDamage);
         anim.Add_Callback("Death", DeathAnim);
         lifesystem.AddEventOnDeath(Die);
-        currentSpeed = speedMovement;
         StartDebug();
 
         Main.instance.AddEntity(this);
@@ -278,11 +274,11 @@ public class JabaliEnemy : EnemyBase
     public override float ChangeSpeed(float newSpeed)
     {
         if (newSpeed < 0)
-            return speedMovement;
+            return movement.GetCurrentSpeed();
 
-        currentSpeed = newSpeed;
+        movement.SetCurrentSpeed(newSpeed);
 
-        return speedMovement;
+        return movement.GetInitSpeed();
     }
 
     void StunAfterCharge()
@@ -295,9 +291,7 @@ public class JabaliEnemy : EnemyBase
             stunTimer += Time.deltaTime;
 
             if (stunTimer >= stunChargeTime)
-            {
                 sm.SendInput(JabaliInputs.IDLE);
-            }
         };
 
         ExitStun = (input) => {
@@ -322,9 +316,7 @@ public class JabaliEnemy : EnemyBase
             stunTimer += Time.deltaTime;
 
             if (stunTimer >= petrifiedTime)
-            {
                 sm.SendInput(JabaliInputs.IDLE);
-            }
         };
 
         ExitStun = (input) => {
@@ -355,7 +347,7 @@ public class JabaliEnemy : EnemyBase
     {
         base.OnFreeze();
 
-        currentSpeed *= freezeSpeedSlowed;
+        movement.MultiplySpeed(freezeSpeedSlowed);
         animator.speed *= freezeSpeedSlowed;
 
         var smr = GetComponentInChildren<SkinnedMeshRenderer>();
@@ -369,7 +361,7 @@ public class JabaliEnemy : EnemyBase
         }
 
         AddEffectTick(() => { }, freezeTime, () => {
-            currentSpeed /= freezeSpeedSlowed;
+            movement.DivideSpeed(freezeSpeedSlowed);
             animator.speed /= freezeSpeedSlowed;
             var smr2 = GetComponentInChildren<SkinnedMeshRenderer>();
             if (smr2 != null)
@@ -481,17 +473,17 @@ public class JabaliEnemy : EnemyBase
 
         sm = new EventStateMachine<JabaliInputs>(idle, DebugState);
 
-        new JabaliIdle(idle, sm, distanceToCharge, distanceToAttack, normalDistance, IsAttack, IsChargeOk).SetThis(this).SetRotation(rootTransform, rotSpeed)
-            .SetDirector(director);
+        new JabaliIdle(idle, sm, movement, distanceToCharge, distanceToAttack, normalDistance, IsAttack, IsChargeOk).SetThis(this).SetDirector(director)
+            .SetRoot(rootTransform);
 
-        new JabaliPersuit(persuit, sm, lineOfSight.OnSight, IsChargeOk, distanceToAttack, distanceToCharge - 1)
-            .SetMovement(rb, this, avoidRadious, avoidWeight, GetCurrentSpeed, avoidMask).SetRotation(rootTransform, rotSpeed).SetAnimator(animator);
+        new JabaliPersuit(persuit, sm, movement, lineOfSight.OnSight, IsChargeOk, distanceToAttack, distanceToCharge - 1).SetAnimator(animator)
+            .SetThis(this).SetRoot(rootTransform);
 
         new JabaliCharge(chargePush, sm, chargeTime).SetAnimator(animator).SetDirector(director).SetThis(this);
 
         new JabaliPushAttack(push, sm, chargeSpeed, PushAttack).SetAnimator(animator).SetRigidbody(rb).SetRoot(rootTransform);
 
-        new JabaliAttackAnticipation(headAnt, sm, normalAttAnticipation).SetAnimator(animator).SetRotation(rootTransform, rotSpeed).SetDirector(director).SetThis(this);
+        new JabaliAttackAnticipation(headAnt, sm, movement, normalAttAnticipation).SetAnimator(animator).SetDirector(director).SetThis(this).SetRoot(rootTransform);
 
         new JabaliHeadAttack(headAttack, sm, cdToHeadAttack).SetAnimator(animator).SetDirector(director).SetThis(this);
 
@@ -507,24 +499,22 @@ public class JabaliEnemy : EnemyBase
 
         disable.OnExit += (input) => EnableObject();
     }
-    bool IsChargeOk() { return chargeOk; }
+    bool IsChargeOk() => chargeOk;
 
-    void StartStun(EState<JabaliInputs> input) { EnterStun(input); }
+    void StartStun(EState<JabaliInputs> input) => EnterStun(input);
 
-    void TickStun(string name) { UpdateStun(name); }
+    void TickStun(string name) => UpdateStun(name);
 
-    void EndStun(JabaliInputs input) { ExitStun(input); }
-
-    float GetCurrentSpeed() { return currentSpeed; }
+    void EndStun(JabaliInputs input) => ExitStun(input);
 
     void DisableObject()
     {
         canupdate = false;
-        currentSpeed = speedMovement;
+        movement.SetDefaultSpeed();
         combat = false;
     }
 
-    void EnableObject() { Initialize(); }
+    void EnableObject() => Initialize();
 
     #endregion
 

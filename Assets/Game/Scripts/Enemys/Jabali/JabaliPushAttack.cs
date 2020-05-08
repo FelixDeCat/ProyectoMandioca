@@ -43,7 +43,7 @@ namespace ToolsMandioca.StateMachine
         protected override void Exit(JabaliEnemy.JabaliInputs input)
         {
             base.Exit(input);
-            StopMove();
+            rb.velocity = Vector3.zero;
         }
     }
 }

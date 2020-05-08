@@ -13,12 +13,16 @@ public class GenericEnemyMove : MonoBehaviour
     [SerializeField] float rootSpeed = 2;
     [SerializeField] LayerMask avoidMask = 0;
 
+    public void Configure(Transform _root, Rigidbody _rb) { rb = _rb; Configure(_root); }
+
+    public void Configure(Transform _root) { root = _root; currentSpeed = initialSpeed; }
+
     public float GetCurrentSpeed() => currentSpeed;
-
+    public float GetInitSpeed() => initialSpeed;
     public void SetCurrentSpeed(float _speed) => currentSpeed = _speed;
-
-    public float ModifySpeed(float _speed) => currentSpeed += _speed;
-
+    public float SumOrSubsSpeed(float _speed) => currentSpeed += _speed;
+    public float MultiplySpeed(float _speed) => currentSpeed *= _speed;
+    public float DivideSpeed(float _speed) => currentSpeed /= _speed;
     public void SetDefaultSpeed() => currentSpeed = initialSpeed;
 
 
@@ -37,6 +41,7 @@ public class GenericEnemyMove : MonoBehaviour
     ///</summary>
     public Vector3 MoveWRigidbodyV(Vector3 dir)
     {
+        Debug.Log(dir);
         float y = rb.velocity.y;
 
         rb.velocity = new Vector3(dir.x * currentSpeed, y, dir.z * currentSpeed);

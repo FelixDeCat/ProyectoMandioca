@@ -10,10 +10,12 @@ namespace ToolsMandioca.StateMachine
         float distanceToPush;
         float distanceToNormalAttack;
         float maxDistance;
+        GenericEnemyMove move;
 
-        public JabaliIdle(EState<JabaliEnemy.JabaliInputs> myState, EventStateMachine<JabaliEnemy.JabaliInputs> _sm, float _distanceToPush, float _distanceToNormal,
+        public JabaliIdle(EState<JabaliEnemy.JabaliInputs> myState, EventStateMachine<JabaliEnemy.JabaliInputs> _sm, GenericEnemyMove _move,float _distanceToPush, float _distanceToNormal,
                           float _maxDistance, Func<bool> _IsAttack, Func<bool> _IsChargeOk) : base(myState, _sm)
         {
+            move = _move;
             IsAttack = _IsAttack;
             IsChargeOk = _IsChargeOk;
             distanceToPush = _distanceToPush;
@@ -32,7 +34,7 @@ namespace ToolsMandioca.StateMachine
                 Vector3 myForward = (enemy.CurrentTarget().transform.position - root.position).normalized;
                 Vector3 forwardRotation = new Vector3(myForward.x, 0, myForward.z);
 
-                Root(forwardRotation);
+                move.Rotation(forwardRotation);
 
                 if (enemy.IsInPos())
                 {
