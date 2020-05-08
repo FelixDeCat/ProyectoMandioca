@@ -12,16 +12,19 @@ namespace DevelopTools
         /// <summary>
         /// Prefab que se quiere poolear
         /// </summary>
-        [SerializeField] private T prefab = null;
+        [Header("Si es un sonido, dejar vacio el prefab")]
+        [SerializeField] protected T prefab = null;
         /// <summary>
         /// Instancia del pool
         /// </summary>
+        ///
         public static SingleObjectPool<T> Instance { get; private set; }
         /// <summary>
         /// Cola donde se guardan los objetos pooleados
         /// </summary>
-        private Queue<T> objects = new Queue<T>();
+        protected Queue<T> objects = new Queue<T>();
 
+        [Header("-----8888888-------")]
         [SerializeField] private int prewarmAmount = 5;
 
         private void Awake()
@@ -75,7 +78,7 @@ namespace DevelopTools
         /// Creo un objeto del prefab y lo agrego al pool previo apagarlo
         /// </summary>
         /// <param name="amount"></param>
-        protected void AddObject(int amount)
+        protected virtual void AddObject(int amount)
         {
             var newObject = GameObject.Instantiate(prefab,transform);
             newObject.gameObject.SetActive(false);

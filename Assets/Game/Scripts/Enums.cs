@@ -42,5 +42,5 @@ public enum LabelStatesLinkType
 // UI stuff
 
 public enum UI_templates {skillSelection, charStats};
-//IDs de las diferentes imagens de popUp
-public enum Icon {parry};
+
+public enum soundTypes {golpeEspada, heroReceiveDamage}

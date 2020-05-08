@@ -22,11 +22,10 @@
                 <e p="Atenea" t="Include">
                   <e p="Ghost.shader" t="Include" />
                 </e>
-                <e p="Block" t="Include">
-                  <e p="BlockParticles.shader" t="Include" />
-                </e>
-                <e p="ChargeHeavyAttack" t="Include">
-                  <e p="HeavyAttack.shader" t="Include" />
+                <e p="Camera" t="Include">
+                  <e p="DistanceDisolve.shader" t="Include" />
+                  <e p="StencilMask.shader" t="Include" />
+                  <e p="Test.shader" t="Include" />
                 </e>
                 <e p="Freezing" t="Include">
                   <e p="Color.shader" t="Include" />
@@ -790,6 +789,11 @@
             </e>
           </e>
           <e p="Scripts" t="Include">
+            <e p="3DActivas" t="Include">
+              <e p="Horizontal3DLayoutGroup.cs" t="Include" />
+              <e p="Manager3DActivas.cs" t="Include" />
+              <e p="UI3D_Element.cs" t="Include" />
+            </e>
             <e p="Character" t="Include">
               <e p="AnimEvent.cs" t="Include" />
               <e p="BaseAnimator.cs" t="Include" />
@@ -819,7 +823,6 @@
             </e>
             <e p="CombatSystem" t="Include">
               <e p="CombatComponent.cs" t="Include" />
-              <e p="DummyCC_RaycastMetod.cs" t="Include" />
               <e p="EntityBlock.cs" t="Include" />
               <e p="Weapons" t="Include">
                 <e p="ExampleWeaponOne.cs" t="Include" />
@@ -843,6 +846,10 @@
             </e>
             <e p="CustomCamera.cs" t="Include" />
             <e p="DevelopTools" t="Include">
+              <e p="Audio" t="Include">
+                <e p="AudioTest.cs" t="Include" />
+                <e p="SoundPool.cs" t="Include" />
+              </e>
               <e p="Console" t="Include">
                 <e p="Console.cs" t="Include" />
               </e>
@@ -854,25 +861,25 @@
                 <e p="DevelopToolsCenter.cs" t="Include" />
               </e>
               <e p="EventManager.cs" t="Include" />
-              <e p="LeanTween" t="Include">
-                <e p="Editor" t="Include">
-                  <e p="LeanTweenDocumentationEditor.cs" t="Include" />
-                </e>
-                <e p="Framework" t="Include">
-                  <e p="LeanAudio.cs" t="Include" />
-                  <e p="LeanSmooth.cs" t="Include" />
-                  <e p="LeanTest.cs" t="Include" />
-                  <e p="LeanTween.cs" t="Include" />
-                  <e p="LeanTweenExt.cs" t="Include" />
-                  <e p="LTDescr.cs" t="Include" />
-                  <e p="LTDescrOptional.cs" t="Include" />
-                  <e p="LTSeq.cs" t="Include" />
-                </e>
-                <e p="License.txt" t="Include" />
-                <e p="README.txt" t="Include" />
-              </e>
               <e p="PoolObjects" t="Include">
                 <e p="IceShard_particleObjectPool.cs" t="Include" />
+                <e p="LeanTween" t="Include">
+                  <e p="Editor" t="Include">
+                    <e p="LeanTweenDocumentationEditor.cs" t="Include" />
+                  </e>
+                  <e p="Framework" t="Include">
+                    <e p="LeanAudio.cs" t="Include" />
+                    <e p="LeanSmooth.cs" t="Include" />
+                    <e p="LeanTest.cs" t="Include" />
+                    <e p="LeanTween.cs" t="Include" />
+                    <e p="LeanTweenExt.cs" t="Include" />
+                    <e p="LTDescr.cs" t="Include" />
+                    <e p="LTDescrOptional.cs" t="Include" />
+                    <e p="LTSeq.cs" t="Include" />
+                  </e>
+                  <e p="License.txt" t="Include" />
+                  <e p="README.txt" t="Include" />
+                </e>
                 <e p="SingleObjectPool.cs" t="Include" />
                 <e p="SinglePool_EXAMPLE.cs" t="Include" />
               </e>
@@ -915,6 +922,7 @@
                 <e p="SensorManagerForWeapons.cs" t="Include" />
                 <e p="SerializedObjectWorld.cs" t="Include" />
                 <e p="ThreadRequestObject.cs" t="Include" />
+                <e p="UI_Inputs.cs" t="Include" />
               </e>
               <e p="TimingFeedback" t="Include">
                 <e p="PopSignalFeedback.cs" t="Include" />
@@ -960,18 +968,41 @@
               <e p="WorldToCanvasImagePopUp" t="Include">
                 <e p="CanvasPopUpInWorld_Manager.cs" t="Include" />
                 <e p="Icon_DATA.cs" t="Include" />
-                <e p="TestPopUp.cs" t="Include" />
                 <e p="WorldCanvasPopUp.cs" t="Include" />
               </e>
             </e>
             <e p="Enemys" t="Include">
+              <e p="BasicEnemyAtack.cs" t="Include" />
               <e p="CombatDirector.cs" t="Include" />
+              <e p="DummyRange" t="Include">
+                <e p="Range_EnemyStates.cs" t="Include" />
+                <e p="Range_Follow.cs" t="Include" />
+                <e p="RangeAttackState.cs" t="Include" />
+                <e p="RangeDummy.cs" t="Include" />
+              </e>
               <e p="EnemyLifeSystem.cs" t="Include" />
+              <e p="GenericEnemyMove.cs" t="Include" />
               <e p="GenericLifeSystem.cs" t="Include" />
               <e p="ICombatDirector.cs" t="Include" />
+              <e p="Jabali" t="Include">
+                <e p="JabaliAttackAnticipation.cs" t="Include" />
+                <e p="JabaliCharge.cs" t="Include" />
+                <e p="JabaliDeath.cs" t="Include" />
+                <e p="JabaliEnemy.cs" t="Include" />
+                <e p="JabaliHeadAttack.cs" t="Include" />
+                <e p="JabaliIdle.cs" t="Include" />
+                <e p="JabaliParried.cs" t="Include" />
+                <e p="JabaliPersuit.cs" t="Include" />
+                <e p="JabaliPushAttack.cs" t="Include" />
+                <e p="JabaliPushComponent.cs" t="Include" />
+                <e p="JabaliStates.cs" t="Include" />
+                <e p="JabaliStun.cs" t="Include" />
+                <e p="JabaliTD.cs" t="Include" />
+              </e>
               <e p="MinionLifeSystem.cs" t="Include" />
               <e p="New Dummy" t="Include">
                 <e p="DummyAttackState.cs" t="Include" />
+                <e p="DummyAttAnt.cs" t="Include" />
                 <e p="DummyDieState.cs" t="Include" />
                 <e p="DummyDisableState.cs" t="Include" />
                 <e p="DummyEnemyStates.cs" t="Include" />
@@ -986,19 +1017,53 @@
               </e>
             </e>
             <e p="Enums.cs" t="Include" />
+            <e p="Equipables" t="Include">
+              <e p="Core" t="Include">
+                <e p="Equipable.cs" t="Include" />
+                <e p="ManagerEquipableBase.cs" t="Include" />
+                <e p="ManagerEquipableFinder.cs" t="Include" />
+                <e p="Spot.cs" t="Include" />
+                <e p="SpotType.cs" t="Include" />
+                <e p="UI_EquipableBase.cs" t="Include" />
+                <e p="Usable.cs" t="Include" />
+              </e>
+              <e p="Weapon.cs" t="Include" />
+              <e p="WeaponsManager.cs" t="Include" />
+            </e>
             <e p="FastChangeMesh.cs" t="Include" />
             <e p="FocusOnEnemy_Test.cs" t="Include" />
             <e p="GameEvents.cs" t="Include" />
+            <e p="GenericIA" t="Include">
+              <e p="Behaviours" t="Include">
+                <e p="AlertLevelByDistance" t="Include">
+                  <e p="AlertLevel.cs" t="Include" />
+                  <e p="DistanceTo.cs" t="Include" />
+                </e>
+                <e p="Investigator" t="Include">
+                  <e p="Investigator.cs" t="Include" />
+                </e>
+                <e p="LineOfSight.cs" t="Include" />
+                <e p="LineOfSightOfType.cs" t="Include" />
+                <e p="LookEnemy.cs" t="Include" />
+                <e p="RangeAttack.cs" t="Include" />
+              </e>
+            </e>
             <e p="Interactables" t="Include">
               <e p="Core" t="Include">
                 <e p="ActionRealize.cs" t="Include" />
                 <e p="FeedbackInteract" t="Include">
+                  <e p="Editor" t="Include">
+                    <e p="FeedbackInteractScalerEditor.cs" t="Include" />
+                  </e>
                   <e p="FeedbackInteract_ItemType.cs" t="Include" />
                   <e p="FeedbackInteract_Pulsating.cs" t="Include" />
                   <e p="FeedbackInteract_Rotator.cs" t="Include" />
                   <e p="FeedbackInteract_Scaler.cs" t="Include" />
                   <e p="FeedbackInteract_SetActive.cs" t="Include" />
                   <e p="FeedbackInteractBase.cs" t="Include" />
+                  <e p="FeedbackOneInteract_ScaleByCurve.cs" t="Include" />
+                  <e p="FeedbackOneInteractBase.cs" t="Include" />
+                  <e p="TestVertex.shader" t="Include" />
                 </e>
                 <e p="Interact_Emisor.cs" t="Include" />
                 <e p="Interact_Receptor.cs" t="Include" />
@@ -1236,6 +1301,25 @@
               <e p="StatesWander.cs" t="Include" />
             </e>
             <e p="TimeManager.cs" t="Include" />
+            <e p="Z_Bosses" t="Include">
+              <e p="BossExample" t="Include">
+                <e p="ABossGeneric.cs" t="Include" />
+                <e p="Boss_Attack.cs" t="Include" />
+                <e p="Boss_Follow.cs" t="Include" />
+                <e p="Boss_StatesBase.cs" t="Include" />
+                <e p="Generic_Idle.cs" t="Include" />
+                <e p="GenericFollowState.cs" t="Include" />
+                <e p="MonoStateBase.cs" t="Include" />
+                <e p="Sensor" t="Include">
+                  <e p="Sensor_CombatDistance.cs" t="Include" />
+                  <e p="SensorBase.cs" t="Include" />
+                  <e p="SensorDistanceTest.cs" t="Include" />
+                  <e p="SensorTraductor.cs" t="Include" />
+                </e>
+                <e p="StateLinkerBehaviour.cs" t="Include" />
+                <e p="StateMachineHandler.cs" t="Include" />
+              </e>
+            </e>
             <e p="zIgnorar_esto se va a borrar" t="Include">
               <e p="2019DunGeneration" t="Include">
                 <e p="2_Dungeon" t="Include">
@@ -1304,15 +1388,6 @@
                 <e p="AnimControllerHandler.cs" t="Include" />
                 <e p="AnimExpresions.cs" t="Include" />
                 <e p="AStar.cs" t="Include" />
-                <e p="Behaviours" t="Include">
-                  <e p="AlertLevel.cs" t="Include" />
-                  <e p="DistanceTo.cs" t="Include" />
-                  <e p="Investigator.cs" t="Include" />
-                  <e p="LineOfSight.cs" t="Include" />
-                  <e p="LineOfSightOfType.cs" t="Include" />
-                  <e p="LookEnemy.cs" t="Include" />
-                  <e p="RangeAttack.cs" t="Include" />
-                </e>
                 <e p="Enem.cs" t="Include" />
                 <e p="Enem_AnimController.cs" t="Include" />
                 <e p="Entity.cs" t="Include" />
@@ -1381,6 +1456,7 @@
             </e>
           </e>
         </e>
+        <e p="LockOn.cs" t="Include" />
       </e>
       <e p="obj" t="ExcludeRecursive" />
       <e p="Packages" t="ExcludeRecursive" />

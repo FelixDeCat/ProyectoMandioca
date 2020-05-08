@@ -19,28 +19,21 @@ public class CanvasPopUpInWorld_Manager : MonoBehaviour
     public Transform cosaEnELmundo;
 
     public bool test;
-    
-    ///////////////Deprecated//////
-    [SerializeField] private WorldCanvasPopUp popUp_prefab = null;//prefab de la imagen
-    
-    [SerializeField] private List<Icon_DATA> _iconos = new List<Icon_DATA>();//lista donde se agregan todas las imagenes y sus IDs
-    
-    private static Dictionary<Icon, Icon_DATA> imgRegistry = new Dictionary<Icon, Icon_DATA>();//registro de todas las imagenes y sus IDs
-    /////////////////////////////////
 
     private void Awake()
     {
         //Singleton
         instance = this;
-        
-        //Deprecated
-        //Registro las imagenes con su identificador
-//        for (int i = 0; i < _iconos.Count; i++)
-//        {
-//            imgRegistry.Add(_iconos[i].icon, _iconos[i]);
-//        }
     }
 
+    /// <summary>
+    /// Le das un objeto del mundo y crea una imagen que en la sigue en el canvas.
+    /// Si keepOffScreen == true lo mantiene en memoria y te tira una flechita mostrando para donde esta
+    /// </summary>
+    /// <param name="worldObj"></param>
+    /// <param name="object_UI"></param>
+    /// <param name="indicator"></param>
+    /// <param name="keepOnOffScreen"></param>
     public void SetPopUp(Transform worldObj, RectTransform object_UI, RectTransform indicator, bool keepOnOffScreen)
     {
         (Transform objeto, RectTransform ui, RectTransform indicator, bool keepOfScreen) newPopUp = (worldObj, object_UI, indicator,keepOnOffScreen);
@@ -49,17 +42,12 @@ public class CanvasPopUpInWorld_Manager : MonoBehaviour
 
     private void Update()
     {
-        //Para testear
-        if (Input.GetKeyDown(KeyCode.L))
-        {
-            var newPOp = Instantiate(pf, canvasRect);
-            var indicator = Instantiate(this.indicator, canvasRect);
-            indicator.gameObject.SetActive(false);
-            SetPopUp(cosaEnELmundo,newPOp, indicator,test);
-        }
-
-        
         //actualiza todos los popUp Abiertos
+        UpdateCurrentPopUps();
+    }
+
+    void UpdateCurrentPopUps()
+    {
         for (int i = _activePopUps.Count - 1; i >= 0; i--)
         {
             UpdatePosInCanvas(_activePopUps[i].ui, _activePopUps[i].objeto);
@@ -129,42 +117,5 @@ public class CanvasPopUpInWorld_Manager : MonoBehaviour
         
         object_UI.anchoredPosition = worldObject_ScreenPosition;
     }
-
-    
-    
-    #region Deprecated
-    /// <summary>
-    /// Crea y devuelve un PopUp que lo posiciona en la posicion que le mandes con un tipo de icono.
-    /// </summary>
-    /// <param name="worldObjectPos"></param>
-    /// <param name="icon"></param>
-    /// <returns></returns>
-    public WorldCanvasPopUp MakePopUp(Transform worldObjectPos, Icon icon)
-    {
-        //Instancia el prefab de la imagen y lo hace hijo del canvas
-        WorldCanvasPopUp newPopUp = Instantiate(popUp_prefab, canvasRect.transform);
-        //Setea el nuevo objeto. Se le pasa la posicion del objeto del mundo y la imagen dentro del Dic y el canvas donde ubicarla.
-        newPopUp.SetCanvasPopUp(worldObjectPos, imgRegistry[icon].image, canvasRect);
-        return newPopUp;
-    }
-    
-    public WorldCanvasPopUp MakePopUpWithPrefab(Transform worldObjectPos, WorldCanvasPopUp prefab)
-    {
-        //Instancia el prefab que recibe y lo hace hijo del canvas
-        WorldCanvasPopUp newPopUp = Instantiate(prefab, canvasRect.transform);
-        
-        newPopUp.SetCanvasPopUp(worldObjectPos, canvasRect);
-        return newPopUp;
-    }
-
-    public WorldCanvasPopUp MakePopUpAnimated(Transform worldObjectPos, WorldCanvasPopUp icon)
-    {
-        //Instancia el prefab de la imagen y lo hace hijo del canvas
-        WorldCanvasPopUp newPopUp = Instantiate(icon, canvasRect.transform);
-        //Setea el nuevo objeto. Se le pasa la posicion del objeto del mundo y la imagen dentro del Dic y el canvas donde ubicarla.
-        newPopUp.SetCanvasPopUp(worldObjectPos, canvasRect);
-        return newPopUp;
-    }
-    #endregion
 }
 

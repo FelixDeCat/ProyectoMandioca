@@ -8,6 +8,6 @@ using UnityEngine.UI;
 public class Icon_DATA : ScriptableObject 
 {
     public Sprite image;
-    public Icon icon;
+    //public Icon icon;
     
 }
