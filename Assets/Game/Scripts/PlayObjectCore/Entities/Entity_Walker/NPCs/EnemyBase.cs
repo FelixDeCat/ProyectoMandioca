@@ -6,99 +6,41 @@ using System;
 public abstract class EnemyBase : NPCBase, ICombatDirector
 {
 
+    //encapsular esto
     [HideInInspector] public bool attacking;
-    [SerializeField] protected GameObject targetFeedBack = null;
+
+    //tal vez seria genial un script para subscribirse a los eventos estos
+    //ahora mismo tiene como 15 referencias y es una paja navegarlas
+    //varias skills lo usan
+    //o tal vez usar el event manager.
+    //otra cosa, todos lo estan usando en el AttackEntity... de hecho todos tienen su combat component
+    //habria que replantear todo esto cuando nos adentremos mas en el weapon system
     public Action OnParried;
-    [HideInInspector] public bool minionTarget;
-    [HideInInspector] public bool Invinsible;
+
+    //obligacion? sacar esto de aca
+    
+    
+    
+    //por lo que veo... varios le estan diciendo death = true
+    //habria que llevarlo mas arriba en la jerarquia
     [HideInInspector] public bool death;
+
+    //esto lo veo bien aca por ahora... mas adelante cuando tengamos que
+    //hacer lo de los niveles con la curva tambien es probable que tambien tenga su sistemita
     [SerializeField] protected int expToDrop = 1;
 
-    public virtual void Awake()
-    {
-        
-    }    
+    //-------------- OBLIGACION
+    [Header("TEMP:/Obligacion")]
+    public bool target;
+    [SerializeField] protected GameObject targetFeedBack = null;
+    public bool Invinsible;
+    public virtual void IsTarget() { target = true; targetFeedBack.SetActive(true); }
+    public virtual void IsNormal() { target = false; targetFeedBack.SetActive(false); }
+    public void Mortal() => Invinsible = false;
 
-    public virtual void IsTarget()
-    {
-        target = true;
-        targetFeedBack.SetActive(true);
-    }
-    public virtual void IsNormal()
-    {
-        target = false;
-        targetFeedBack.SetActive(false);
-    }
-
-    [SerializeField] protected float combatDistance = 20;
-    protected bool combat;
-
-    public void Mortal()
-    {
-        Invinsible = false;
-    }
-
-    #region Combat Director Functions
-    protected bool withPos;
-
-
-    protected EntityBase entityTarget;
-
-    protected Transform _target;
-
-    [SerializeField, Range(0.5f, 15)] float distancePos = 1.5f;
-
-    public Transform CurrentTargetPos()
-    {
-        return _target;
-    }
-
-    public void SetTargetPosDir(Transform pos)
-    {
-        _target = pos;
-
-        _target.localPosition *= distancePos;
-    }
-
-    public Vector3 CurrentPos()
-    {
-        return transform.position;
-    }
-
-    public void SetTarget(EntityBase entity)
-    {
-        entityTarget = entity;
-    }
-
-    public bool IsInPos() { return withPos; }
-
-    public EntityBase CurrentTarget() { return entityTarget; }
-
-    public Transform CurrentTargetPosDir()
-    {
-        _target.localPosition /= distancePos;
-        return _target;
-    }
-
-    public float GetDistance()
-    {
-        return distancePos;
-    }
-
-    public void SetBool(bool isPos)
-    {
-        withPos = isPos;
-    }
-
-    public abstract void ToAttack();
-
-    public abstract void IAInitialize(CombatDirector _director);
-
-    public abstract float ChangeSpeed(float newSpeed);
-    #endregion
-
-    protected bool IsAttack() { return attacking; }
-
+    //-------------- CONTROL
+    [Header("TEMP:/Control")]
+    public bool minionTarget;
     public virtual void GetFocusedOnParry()
     {
         foreach (var e in Main.instance.GetEnemies())
@@ -110,16 +52,43 @@ public abstract class EnemyBase : NPCBase, ICombatDirector
         }
     }
 
+    //estas dos cosas tambien tendrian que tener un component... un sensor mas que nada
+    //son dos cosas que se estan usando para hacer checkeos, cuando
+    //los checkeos los tienen que hacer los components
+    [Header("TEMP:/sensor combat")]
+    [SerializeField] protected float combatDistance = 20;
+    public bool combat;
+
+    #region Combat Director Functions
+    [Header("TEMP:/Combat director")]
+    [SerializeField, Range(0.5f, 15)] float distancePos = 1.5f;
+    protected bool withPos;
+    protected EntityBase entityTarget;
+    protected Transform _target;
+    public Transform CurrentTargetPos() => _target;
+    public void SetTargetPosDir(Transform pos) { _target = pos; _target.localPosition *= distancePos; }
+    public Vector3 CurrentPos() => transform.position;
+    public void SetTarget(EntityBase entity) => entityTarget = entity;
+    public bool IsInPos() => withPos;
+    public EntityBase CurrentTarget() => entityTarget;
+    public Transform CurrentTargetPosDir() { _target.localPosition /= distancePos; return _target; }
+    public float GetDistance() => distancePos;
+    public void SetBool(bool isPos) => withPos = isPos;
+    public abstract void IAInitialize(CombatDirector _director);
+    public abstract float ChangeSpeed(float newSpeed);
+    public void ToAttack() { attacking = true; }
+    protected bool IsAttack() { return attacking; }
+    #endregion
+
+
+    //timer de efectos... me gusta esto (y) no se quien lo hizo, estaria bueno que tambien sea un component
+    Dictionary<int, float> effectsTimer = new Dictionary<int, float>();
+    protected Action EffectUpdate = delegate { };
+    System.Random key = new System.Random(1);
     protected void AddEffectTick(Action Effect)
     {
         EffectUpdate += Effect;
     }
-
-    Dictionary<int, float> effectsTimer =  new Dictionary<int, float>();
-    protected Action EffectUpdate = delegate {}; 
-
-    System.Random key = new System.Random(1);
-
     protected void AddEffectTick(Action Effect, float duration, Action EndEffect)
     {
         int myNumber = key.Next();

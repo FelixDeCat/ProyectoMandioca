@@ -365,8 +365,6 @@ public class ABossGeneric : EnemyBase
     protected override void OnTurnOff() { }
     protected override void OnTurnOn() { }
 
-    public override void ToAttack() { attacking = true; }
-
     #region STATE MACHINE THINGS
     public enum RangeDummyInput { IDLE, BEGIN_ATTACK,ATTACK, GO_TO_POS, DIE, DISABLE, TAKE_DAMAGE, PETRIFIED, PARRIED };
     void SetStates()

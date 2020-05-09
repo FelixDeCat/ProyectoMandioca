@@ -24,8 +24,11 @@ public class TrueDummyEnemy : EnemyBase
     [Header("Life Options")]
     [SerializeField] GenericLifeSystem lifesystem = null;
     [SerializeField] float recallTime = 1;
+
+    [Header("for knockback")]
     [SerializeField] float forceRecall = 4;
     [SerializeField] float explosionForce = 20;
+    [Header("for petrify")]
     [SerializeField] float petrifiedTime = 2;
     private float stunTimer;
     private Action<EState<DummyEnemyInputs>> EnterStun;
@@ -152,8 +155,6 @@ public class TrueDummyEnemy : EnemyBase
                 OnParried();
         }
     }
-
-    public override void ToAttack() => attacking = true;
     #endregion
 
     #region Effects
