@@ -37,7 +37,11 @@ namespace ToolsMandioca.StateMachine
                 Transform myTransform = charMove.GetTransformRotation();
                 EnemyBase myEnemy = _myLockOn.GetCurrentEnemy();
                 if (myEnemy)
-                    myTransform.LookAt(myEnemy.transform.position);
+                {
+                    Vector3 enemyPos = new Vector3(myEnemy.transform.position.x, 0f, myEnemy.transform.position.z);
+                    myTransform.LookAt(enemyPos);
+                }
+                    
             }
             else
             {
