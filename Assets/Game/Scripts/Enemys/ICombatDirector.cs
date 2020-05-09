@@ -23,4 +23,6 @@ public interface ICombatDirector
     bool IsInPos();
 
     void SetBool(bool isPos);
+
+    void ResetCombat();
 }

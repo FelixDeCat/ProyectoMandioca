@@ -78,6 +78,14 @@ public abstract class EnemyBase : NPCBase, ICombatDirector
     }
     public float GetDistance() => distancePos;
     public void SetBool(bool isPos) => withPos = isPos;
+
+    public virtual void ResetCombat()
+    {
+        entityTarget = null;
+        _target = null;
+        combat = false;
+        SetBool(false);
+    }
     #endregion
     #region Timer Effect (hacer component o Handler de efectos activos)
     //timer de efectos... me gusta esto (y) no se quien lo hizo, estaria bueno que tambien sea un component

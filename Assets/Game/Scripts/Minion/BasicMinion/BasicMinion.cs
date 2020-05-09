@@ -96,6 +96,7 @@ public class BasicMinion : Minion
                     if (enemy.GetComponent<EnemyBase>())
                     {
                         entityTarget = enemy.GetComponent<EnemyBase>();
+                        director.AddToAttack(this, enemy.GetComponent<EnemyBase>());
                         break;
                     }
                 }
@@ -191,7 +192,7 @@ public class BasicMinion : Minion
     {
         //vector3, boolean, int
         director.RemoveTarget(this);
-        Main.instance.eventManager.TriggerEvent(GameEvents.ENEMY_DEAD, new object[] { transform.position });
+        Main.instance.eventManager.TriggerEvent(GameEvents.MINION_DEAD, new object[] { transform.position });
         gameObject.SetActive(false);
     }
     #endregion

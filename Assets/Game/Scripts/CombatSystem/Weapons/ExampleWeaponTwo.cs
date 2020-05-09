@@ -16,6 +16,7 @@ public class ExampleWeaponTwo : Weapon
         var entities = Physics.OverlapSphere(pos.position, range)
             .Where(x => x.GetComponent<EntityBase>())
             .Where(x => x.GetComponent<EntityBase>() != Main.instance.GetChar())
+            .Where(x => !x.GetComponent<Minion>())
             .ToList();
 
 

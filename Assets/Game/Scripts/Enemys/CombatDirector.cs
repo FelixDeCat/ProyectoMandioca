@@ -92,10 +92,10 @@ public class CombatDirector : MonoBehaviour, IZoneElement
 
     void InitializeTarget(Transform head)
     {
-        Vector3 east = head.position + Vector3.right;
-        Vector3 north = head.position + Vector3.forward;
-        Vector3 northEast = head.position + (Vector3.right/2 + Vector3.forward/2);
-        Vector3 northWest = head.position + (Vector3.forward/2 + Vector3.left/2);
+        Vector3 east = Vector3.right;
+        Vector3 north = Vector3.forward;
+        Vector3 northEast = Vector3.right/2 + Vector3.forward/2;
+        Vector3 northWest = Vector3.forward/2 + Vector3.left/2;
 
         positionsToAttack.Add(CreateNewPos(east, head));
         positionsToAttack.Add(CreateNewPos(-east, head));
@@ -109,10 +109,10 @@ public class CombatDirector : MonoBehaviour, IZoneElement
 
     void InitializeTarget(Transform head, EntityBase entity)
     {
-        Vector3 east = head.position + Vector3.right;
-        Vector3 north = head.position + Vector3.forward;
-        Vector3 northEast = head.position + (Vector3.right / 2 + Vector3.forward / 2);
-        Vector3 northWest = head.position + (Vector3.forward / 2 + Vector3.left / 2);
+        Vector3 east = Vector3.right;
+        Vector3 north = Vector3.forward;
+        Vector3 northEast = Vector3.right / 2 + Vector3.forward / 2;
+        Vector3 northWest = Vector3.forward / 2 + Vector3.left / 2;
 
         otherTargetPos[entity].Add(CreateNewPos(east, head));
         otherTargetPos[entity].Add(CreateNewPos(-east, head));
@@ -127,8 +127,8 @@ public class CombatDirector : MonoBehaviour, IZoneElement
     Transform CreateNewPos(Vector3 pos, Transform parent)
     {
         var newEmpty = new GameObject("PosToAttack");
-        newEmpty.transform.position = pos;
         newEmpty.transform.SetParent(parent);
+        newEmpty.transform.localPosition = pos;
         return newEmpty.transform;
     }
 
@@ -256,8 +256,7 @@ public class CombatDirector : MonoBehaviour, IZoneElement
         {
             for (int i = 0; i < listAttackTarget[entity].Count; i++)
             {
-                listAttackTarget[entity][i].SetTarget(head);
-                AddOrRemoveToList(listAttackTarget[entity][i]);
+                listAttackTarget[entity][i].ResetCombat();
             }
 
             otherTargetPos.Remove(entity);
@@ -359,8 +358,11 @@ public class CombatDirector : MonoBehaviour, IZoneElement
             {
                 if (listAttackTarget[target].Count >= maxEnemies)
                 {
-                    e.SetTarget(head);
-                    AddOrRemoveToList(e);
+                    if (!target.GetComponent<EnemyBase>())
+                    {
+                        e.SetTarget(head);
+                        AddOrRemoveToList(e);
+                    }
                 }
                 else
                 {
@@ -372,6 +374,18 @@ public class CombatDirector : MonoBehaviour, IZoneElement
 
                     e.SetBool(true);
                 }
+            }
+
+            if (!listAttackTarget.ContainsKey(target))
+            {
+                AddNewTarget(target);
+                Transform toFollow = GetNearPos(e.CurrentPos(), target);
+
+                listAttackTarget[target].Add(e);
+
+                e.SetTargetPosDir(toFollow);
+
+                e.SetBool(true);
             }
         }
 

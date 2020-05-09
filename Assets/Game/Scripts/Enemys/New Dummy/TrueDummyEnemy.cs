@@ -143,7 +143,7 @@ public class TrueDummyEnemy : EnemyBase
 
     public void AttackEntity(EntityBase e)
     {
-        Attack_Result takeDmg = e.TakeDamage(damage, transform.position, Damagetype.parriable);
+        Attack_Result takeDmg = e.TakeDamage(damage, transform.position, Damagetype.parriable, this);
 
         if (takeDmg == Attack_Result.parried)
         {
@@ -327,6 +327,7 @@ public class TrueDummyEnemy : EnemyBase
             }
         }
         director.RemoveToAttack(this, entityTarget);
+        director.RemoveTarget(this);
         death = true;
         Main.instance.RemoveEntity(this);
     }

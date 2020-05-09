@@ -6,7 +6,7 @@ using System;
 public abstract class Minion : Companion, ICombatDirector
 {
     public EntityBase owner;
-    protected EntityBase entityTarget;
+    public EntityBase entityTarget;
     protected CombatDirector director;
 
     [SerializeField] protected float distanceToTarget = 3;
@@ -103,5 +103,12 @@ public abstract class Minion : Companion, ICombatDirector
     public bool IsInPos() => inPos;
 
     public void SetBool(bool isPos) => inPos = isPos;
+
+    public virtual void ResetCombat()
+    {
+        entityTarget = null;
+        currentTargetPos = null;
+        SetBool(false);
+    }
     #endregion
 }

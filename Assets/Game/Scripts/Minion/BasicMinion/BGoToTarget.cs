@@ -52,7 +52,7 @@ namespace ToolsMandioca.StateMachine
                     move.Rotation(fowardRotation);
                     move.MoveWRigidbodyV(fowardRotation);
 
-                    if (Vector3.Distance(minion.CurrentTarget().transform.position, root.position) <= distanceOwner)
+                    if (Vector3.Distance(owner.transform.position, root.position) <= distanceOwner)
                         sm.SendInput(BasicMinion.BasicMinionInput.IDLE);
                 }
             }

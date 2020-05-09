@@ -26,10 +26,12 @@ namespace ToolsMandioca.StateMachine
 
         protected override void Update()
         {
-            Vector3 myForward = (enemy.CurrentTarget().transform.position - root.position).normalized;
-            Vector3 forwardRotation = new Vector3(myForward.x, 0, myForward.z);
-
-            move.Rotation(forwardRotation);
+            if (enemy.CurrentTarget() != null)
+            {
+                Vector3 myForward = (enemy.CurrentTarget().transform.position - root.position).normalized;
+                Vector3 forwardRotation = new Vector3(myForward.x, 0, myForward.z);
+                move.Rotation(forwardRotation);
+            }
 
             timer += Time.deltaTime;
 

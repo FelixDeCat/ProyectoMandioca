@@ -165,7 +165,7 @@ public class JabaliEnemy : EnemyBase
     #region Attack Things
     public void HeadAttack(EntityBase e)
     {
-        Attack_Result takeDmg = e.TakeDamage(normalDamage, transform.position, Damagetype.parriable);
+        Attack_Result takeDmg = e.TakeDamage(normalDamage, transform.position, Damagetype.parriable, this);
 
         if (takeDmg == Attack_Result.parried)
         {
@@ -253,6 +253,7 @@ public class JabaliEnemy : EnemyBase
                 myEnemys[i].Invinsible = false;
         }
         director.RemoveToAttack(this, entityTarget);
+        director.RemoveTarget(this);
         sm.SendInput(JabaliInputs.DEAD);
         death = true;
         Main.instance.RemoveEntity(this);
