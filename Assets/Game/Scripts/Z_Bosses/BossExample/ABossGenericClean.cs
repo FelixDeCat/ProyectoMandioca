@@ -9,12 +9,18 @@ public class ABossGenericClean : EnemyBase
     [Header("Boss Options")]
     [SerializeField] GenericEnemyMove generic_move;
     [SerializeField] StateMachineHandler stateMachineHandler;
+    [SerializeField] Transform root;
+    [SerializeField] Rigidbody rigidBody;
 
-    protected override void OnInitialize() { }
+    protected override void OnInitialize()
+    {
+        stateMachineHandler.Initialize();
+        generic_move.Configure(root,rigidBody);
+    }
 
     public override void Zone_OnPlayerEnterInThisRoom(Transform who)
     {
-        base.Zone_OnPlayerEnterInThisRoom(who);
+        stateMachineHandler.BeginBoss();
     }
 
 
