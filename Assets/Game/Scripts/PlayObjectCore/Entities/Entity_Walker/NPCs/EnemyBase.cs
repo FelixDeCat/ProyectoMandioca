@@ -5,7 +5,7 @@ using System;
 
 public abstract class EnemyBase : NPCBase, ICombatDirector
 {
-
+    #region Variables
     //encapsular esto
     [HideInInspector] public bool attacking;
 
@@ -17,10 +17,6 @@ public abstract class EnemyBase : NPCBase, ICombatDirector
     //habria que replantear todo esto cuando nos adentremos mas en el weapon system
     public Action OnParried;
 
-    //obligacion? sacar esto de aca
-    
-    
-    
     //por lo que veo... varios le estan diciendo death = true
     //habria que llevarlo mas arriba en la jerarquia
     [HideInInspector] public bool death;
@@ -29,7 +25,11 @@ public abstract class EnemyBase : NPCBase, ICombatDirector
     //hacer lo de los niveles con la curva tambien es probable que tambien tenga su sistemita
     [SerializeField] protected int expToDrop = 1;
 
-    //-------------- OBLIGACION
+    #endregion
+
+    //sacar de aca
+    #region Obligacion (llevar la logica a donde corresponde)
+    //-------------- OBLIGACION 
     [Header("TEMP:/Obligacion")]
     public bool target;
     [SerializeField] protected GameObject targetFeedBack = null;
@@ -37,8 +37,9 @@ public abstract class EnemyBase : NPCBase, ICombatDirector
     public virtual void IsTarget() { target = true; targetFeedBack.SetActive(true); }
     public virtual void IsNormal() { target = false; targetFeedBack.SetActive(false); }
     public void Mortal() => Invinsible = false;
-
-    //-------------- CONTROL
+    #endregion
+    #region Control (llevar la logica a donde corresponde)
+    //-------------- CONTROL (llevar la logica a donde corresponde)
     [Header("TEMP:/Control")]
     public bool minionTarget;
     public virtual void GetFocusedOnParry()
@@ -51,15 +52,19 @@ public abstract class EnemyBase : NPCBase, ICombatDirector
                 minionTarget = true;
         }
     }
+    #endregion
 
+    //hacer components
+    #region Combat Sensor (hacer component)
     //estas dos cosas tambien tendrian que tener un component... un sensor mas que nada
     //son dos cosas que se estan usando para hacer checkeos, cuando
     //los checkeos los tienen que hacer los components
     [Header("TEMP:/sensor combat")]
     [SerializeField] protected float combatDistance = 20;
     public bool combat;
-
-    #region Combat Director Functions
+    #endregion
+    #region Combat Director Functions (hacer component)
+    //cuando haya tiempo hacer un combat director connector component
     [Header("TEMP:/Combat director")]
     [SerializeField, Range(0.5f, 15)] float distancePos = 1.5f;
     protected bool withPos;
@@ -79,8 +84,7 @@ public abstract class EnemyBase : NPCBase, ICombatDirector
     public void ToAttack() { attacking = true; }
     protected bool IsAttack() { return attacking; }
     #endregion
-
-
+    #region Timer Effect (hacer component o Handler de efectos activos)
     //timer de efectos... me gusta esto (y) no se quien lo hizo, estaria bueno que tambien sea un component
     Dictionary<int, float> effectsTimer = new Dictionary<int, float>();
     protected Action EffectUpdate = delegate { };
@@ -109,4 +113,5 @@ public abstract class EnemyBase : NPCBase, ICombatDirector
 
         AddEffectTick(MyUpdate);
     }
+    #endregion
 }
