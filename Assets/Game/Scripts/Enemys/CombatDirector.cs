@@ -45,7 +45,7 @@ public class CombatDirector : MonoBehaviour, IZoneElement
         awakeList = new List<ICombatDirector>();
     }
 
-    public void OnPlayerEnterInThisRoom(Transform who)
+    public void Zone_OnPlayerEnterInThisRoom(Transform who)
     {
         initialize = false;
 
@@ -72,7 +72,7 @@ public class CombatDirector : MonoBehaviour, IZoneElement
         listAttackTarget = new Dictionary<EntityBase, List<ICombatDirector>>();
     }
 
-    public void OnPlayerExitInThisRoom()
+    public void Zone_OnPlayerExitInThisRoom()
     {
         //Cuando esté bien definido lo de las rooms, Acá se puede poner el initialize con algunos cambios.
     }
@@ -517,8 +517,8 @@ public class CombatDirector : MonoBehaviour, IZoneElement
     void CalculateTimer() => timeToAttack = Random.Range(timerMin, timerMax);
 
     #region en desuso
-    public void OnDungeonGenerationFinallized() { }
-    public void OnUpdateInThisRoom() { }
-    public void OnPlayerDeath() { }
+    public void Zone_OnDungeonGenerationFinallized() { }
+    public void Zone_OnUpdateInThisRoom() { }
+    public void Zone_OnPlayerDeath() { }
     #endregion
 }

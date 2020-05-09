@@ -53,13 +53,13 @@ public class BasicMinion : Minion
         IAInitialize();
     }
 
-    public override void OnPlayerExitInThisRoom()
+    public override void Zone_OnPlayerExitInThisRoom()
     {
         //Debug.Log("Player enter the room");
         IAInitialize();
     }
 
-    public override void OnPlayerEnterInThisRoom(Transform who)
+    public override void Zone_OnPlayerEnterInThisRoom(Transform who)
     {
 
     }

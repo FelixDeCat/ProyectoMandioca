@@ -74,13 +74,13 @@ public class TrueDummyEnemy : EnemyBase
         IAInitialize(Main.instance.GetCombatDirector());
     }
 
-    public override void OnPlayerExitInThisRoom()
+    public override void Zone_OnPlayerExitInThisRoom()
     {
         //Debug.Log("Player enter the room");
         IAInitialize(Main.instance.GetCombatDirector());
     }
 
-    public override void OnPlayerEnterInThisRoom(Transform who)
+    public override void Zone_OnPlayerEnterInThisRoom(Transform who)
     {
         sm.SendInput(DummyEnemyInputs.DISABLE);
     }

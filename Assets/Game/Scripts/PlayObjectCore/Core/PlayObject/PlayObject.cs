@@ -27,9 +27,9 @@ public abstract class PlayObject : MonoBehaviour, IZoneElement
     protected abstract void OnFixedUpdate();
     protected abstract void OnPause();
     protected abstract void OnResume();
-    public virtual void OnPlayerExitInThisRoom() { }
-    public virtual void OnDungeonGenerationFinallized() { }
-    public virtual void OnPlayerEnterInThisRoom(Transform who) { }
-    public virtual void OnUpdateInThisRoom() { }
-    public virtual void OnPlayerDeath() { }
+    public virtual void Zone_OnPlayerExitInThisRoom() { }
+    public virtual void Zone_OnDungeonGenerationFinallized() { }
+    public virtual void Zone_OnPlayerEnterInThisRoom(Transform who) { }
+    public virtual void Zone_OnUpdateInThisRoom() { }
+    public virtual void Zone_OnPlayerDeath() { }
 }

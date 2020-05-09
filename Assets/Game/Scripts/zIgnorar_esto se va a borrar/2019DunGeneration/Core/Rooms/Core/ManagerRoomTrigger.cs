@@ -66,16 +66,16 @@ public class ManagerRoomTrigger : MonoBehaviour
     ///////////////////////////////////////////////////////////////////////
     /// USO GENERAL
     ///////////////////////////////////////////////////////////////////////
-    public void SetAll_DungeonGenerationFinallized() => dungeonElements.ForEach(x => x.OnDungeonGenerationFinallized());
-    public void Update() { if (current) foreach (var c in current.myDungeonElements) if (c != null) c.OnUpdateInThisRoom(); }
+    public void SetAll_DungeonGenerationFinallized() => dungeonElements.ForEach(x => x.Zone_OnDungeonGenerationFinallized());
+    public void Update() { if (current) foreach (var c in current.myDungeonElements) if (c != null) c.Zone_OnUpdateInThisRoom(); }
     public void PlayerEnterIn(LocalRoomTriggers roomselected, GameObject go)
     {
-        if (current != null) current.GetDungeonElements().ForEach(x => x.OnPlayerExitInThisRoom());
+        if (current != null) current.GetDungeonElements().ForEach(x => x.Zone_OnPlayerExitInThisRoom());
         current = roomselected;
         if (current != null) {
             var dunelems = current.GetDungeonElements();
             foreach (var e in dunelems)
-                e.OnPlayerEnterInThisRoom(go.transform);
+                e.Zone_OnPlayerEnterInThisRoom(go.transform);
         }
     }
 }

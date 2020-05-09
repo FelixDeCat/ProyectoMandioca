@@ -2,9 +2,9 @@
 
 public interface IZoneElement
 {
-    void OnDungeonGenerationFinallized();
-    void OnPlayerEnterInThisRoom(Transform who);
-    void OnPlayerExitInThisRoom();
-    void OnUpdateInThisRoom();
-    void OnPlayerDeath();
+    void Zone_OnDungeonGenerationFinallized();
+    void Zone_OnPlayerEnterInThisRoom(Transform who);
+    void Zone_OnPlayerExitInThisRoom();
+    void Zone_OnUpdateInThisRoom();
+    void Zone_OnPlayerDeath();
 }

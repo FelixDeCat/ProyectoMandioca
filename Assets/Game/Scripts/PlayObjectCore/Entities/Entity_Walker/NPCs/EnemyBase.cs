@@ -22,9 +22,10 @@ public abstract class EnemyBase : NPCBase, ICombatDirector
     [SerializeField] protected int expToDrop = 1;
 
     #endregion
-    public abstract float ChangeSpeed(float newSpeed);
 
+    public abstract float ChangeSpeed(float newSpeed);
     protected bool IsAttack() => attacking;
+
     //sacar de aca
     #region Obligacion (llevar la logica a donde corresponde)
     //-------------- OBLIGACION 

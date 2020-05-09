@@ -11,9 +11,9 @@ public class IZoneElemCallback : MonoBehaviour, IZoneElement
     public UnityEvent UpdateThisRoom;
     public UnityEvent PlayerDeath;
 
-    public void OnDungeonGenerationFinallized() { }
-    public void OnPlayerEnterInThisRoom(Transform who) => PlayerEnterInThisRoom.Invoke();
-    public void OnPlayerExitInThisRoom() => PlayerExitTheRoom.Invoke();
-    public void OnUpdateInThisRoom() => UpdateThisRoom.Invoke();
-    public void OnPlayerDeath() => PlayerDeath.Invoke();
+    public void Zone_OnDungeonGenerationFinallized() { }
+    public void Zone_OnPlayerEnterInThisRoom(Transform who) => PlayerEnterInThisRoom.Invoke();
+    public void Zone_OnPlayerExitInThisRoom() => PlayerExitTheRoom.Invoke();
+    public void Zone_OnUpdateInThisRoom() => UpdateThisRoom.Invoke();
+    public void Zone_OnPlayerDeath() => PlayerDeath.Invoke();
 }

@@ -30,7 +30,7 @@ public class LocalRoomTriggers : MonoBehaviour
     {
         foreach (var e in myDungeonElements)
         {
-            e.OnPlayerDeath();
+            e.Zone_OnPlayerDeath();
         }
     }
 
