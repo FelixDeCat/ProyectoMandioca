@@ -24,6 +24,11 @@ public class GameEvents
     /// </summary>
     public const string MINION_SPAWN = "MinionSpawn";
 
+    /// <summary>
+    /// [ vector3: posicion ]
+    /// </summary>
+    public const string MINION_DEAD = "MinionDead";
+
     public const string GAME_END_LOAD = "GameEndLoad";
     public const string GAME_INITIALIZE = "GameInitialize";
 }

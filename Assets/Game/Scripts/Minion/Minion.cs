@@ -1,102 +1,107 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using System.Linq;
+using System;
 
-public class Minion : Companion
+public abstract class Minion : Companion, ICombatDirector
 {
-    [SerializeField] CombatComponent combatComponent;
-    [SerializeField] int damage = 5;
+    public EntityBase owner;
+    protected EntityBase entityTarget;
+    protected CombatDirector director;
 
-    [SerializeField] ParticleSystem greenblood;
+    [SerializeField] protected float distanceToTarget = 3;
+    [SerializeField] protected float maxDistanceToTarget = 9;
+    [SerializeField] protected float distanceToOwner = 10;
+    [SerializeField] protected float distanceToCombat;
 
-    public float time_stun;
-
-    public AnimEvent anim;
-    StatesMachine sm;
-    public Animator animator;
-    [SerializeField] private float _speedMovement = 5;
-    [SerializeField] private float _rotSpeed = 3;
-    [SerializeField] private float _petrifiedTime = 4;
-    [SerializeField] private float _distance = 3;
-    //public Follow follow;
-
-    public Rigidbody _rb;
-
-    [Header("Life Options")]
-    [SerializeField] GenericLifeSystem lifesystem = null;
-
-    StatesAttack attackState;
-    StatesFollow followState;
+    protected bool death;
 
     protected override void OnInitialize()
     {
         Main.instance.eventManager.TriggerEvent(GameEvents.MINION_SPAWN, new object[] { this });
 
-        _rb = GetComponent<Rigidbody>();
-        combatComponent.Configure(AttackEntity);
         Main.instance.GetCombatDirector().AddNewTarget(this);
-        lifesystem.AddEventOnDeath(OnDead);
-        anim.Add_Callback("DealDamage", DealDamage);
-        
+
+        IAInitialize();
     }
 
-    void SetStateMachine()
-    {
-        sm = new StatesMachine();
-        sm.Addstate(new StatesWander(sm));
-        followState = new StatesFollow(sm, transform, _rb, FindObjectOfType<TrueDummyEnemy>().transform, animator, _rotSpeed, _distance, _speedMovement);
-        sm.Addstate(followState);
-        attackState = new StatesAttack(sm, animator, transform, FindObjectOfType<TrueDummyEnemy>().transform, _rotSpeed, _distance);
-        sm.Addstate(attackState);
-        sm.Addstate(new StatesPetrified(sm, _petrifiedTime));
-        sm.ChangeState<StatesWander>();
-    }
+    protected abstract void IAInitialize();
 
-    public void ChangeToAttackState(Transform parriedEnemy)
+    public void SetTarget(EntityBase _target)
     {
-        attackState.ChangeTarget(parriedEnemy);
-        followState.ChangeTarget(parriedEnemy);
-        sm.ChangeState<StatesFollow>();
-    }
-    
-    protected override void OnUpdateEntity() => sm.Update();
-    public void DealDamage() => combatComponent.ManualTriggerAttack();
-    public void EndStun() => combatComponent.Play();
-    public void Petrified() => sm.ChangeState<StatesPetrified>();
-    public void AttackEntity(EntityBase e) => e.TakeDamage(damage, transform.position, Damagetype.parriable, this);
-
-    public override Attack_Result TakeDamage(int dmg, Vector3 dir, Damagetype dmgtype)
-    {
-        greenblood.Play();
-        bool death = lifesystem.Hit(dmg);
-        return death ? Attack_Result.death : Attack_Result.sucessful;
-    }
-
-    public float ChangeSpeed(float newSpeed)
-    {
-        //Si le mando negativo me devuelve la original
-        //para guardarla en el componente WebSlowedComponent
-        if (newSpeed < 0)
-            return _speedMovement;
-
-        //Busco el estado follow para poder cambiarle la velocidad
-        StatesFollow statesFollow = sm.GetState<StatesFollow>();
-        if (statesFollow != null)
+        if (entityTarget != _target)
         {
-            statesFollow.ChangeSpeed(newSpeed);
+            if (!attacking)
+            {
+                director.RemoveToAttack(this, entityTarget);
+                entityTarget = _target;
+                director.AddToAttack(this, _target);
+            }
+            else
+                entityTarget = _target;
         }
-
-        return _speedMovement;
     }
 
-    /////////////////////////////////////////////////////////////////
-    //////  En desuso
-    /////////////////////////////////////////////////////////////////
-    void OnDead() { }
-    protected override void OnResume() { }
-    protected override void OnFixedUpdate() { }
-    protected override void OnPause() { }
-    protected override void OnTurnOff() { }
-    protected override void OnTurnOn() { }
+    protected void AddEffectTick(Action Effect)
+    {
+        EffectUpdate += Effect;
+    }
+
+    Dictionary<int, float> effectsTimer = new Dictionary<int, float>();
+    protected Action EffectUpdate = delegate { };
+
+    System.Random key = new System.Random(1);
+
+    protected void AddEffectTick(Action Effect, float duration, Action EndEffect)
+    {
+        int myNumber = key.Next();
+        effectsTimer.Add(myNumber, 0);
+
+        Action MyUpdate = Effect;
+        Action MyEnd = EndEffect;
+        MyEnd += () => effectsTimer.Remove(myNumber);
+        MyEnd += () => EffectUpdate -= MyUpdate;
+
+        MyUpdate += () =>
+        {
+            effectsTimer[myNumber] += Time.deltaTime;
+
+            if (effectsTimer[myNumber] >= duration)
+                MyEnd();
+        };
+
+        AddEffectTick(MyUpdate);
+    }
+
+    #region CombatDirector
+    bool inPos;
+    public bool attacking;
+    Transform currentTargetPos;
+
+    public Transform CurrentTargetPos() => currentTargetPos;
+
+    public Transform CurrentTargetPosDir()
+    {
+        currentTargetPos.localPosition /= distanceToTarget;
+        return currentTargetPos;
+    }
+
+    public void SetTargetPosDir(Transform pos)
+    {
+        currentTargetPos = pos;
+        currentTargetPos.localPosition *= distanceToTarget;
+    }
+
+    public float GetDistance() => distanceToTarget;
+
+    public EntityBase CurrentTarget() => entityTarget;
+
+    public Vector3 CurrentPos() => transform.position;
+
+    public void ToAttack() => attacking = true;
+
+    public bool IsInPos() => inPos;
+
+    public void SetBool(bool isPos) => inPos = isPos;
+    #endregion
 }

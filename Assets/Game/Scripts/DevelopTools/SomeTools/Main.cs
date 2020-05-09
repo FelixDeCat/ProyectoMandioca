@@ -149,7 +149,7 @@ public class Main : MonoBehaviour
 
     public LevelSystem GetLevelSystem() => levelSystem;
 
-    public List<Minion> GetMinions() => GetListOf<Minion>();
+    public List<Minion> GetMinions() => GetListOfComponent<Minion>();
 
     public CombatDirector GetCombatDirector() => GetComponent<CombatDirector>();
     public MyEventSystem GetMyEventSystem() => MyEventSystem.instance;

@@ -65,14 +65,11 @@ public abstract class EnemyBase : NPCBase, ICombatDirector
         return transform.position;
     }
 
-    public void SetTarget(EntityBase entity)
-    {
-        entityTarget = entity;
-    }
+    public void SetTarget(EntityBase entity) => entityTarget = entity;
 
-    public bool IsInPos() { return withPos; }
+    public bool IsInPos() => withPos;
 
-    public EntityBase CurrentTarget() { return entityTarget; }
+    public EntityBase CurrentTarget() => entityTarget;
 
     public Transform CurrentTargetPosDir()
     {
@@ -80,15 +77,9 @@ public abstract class EnemyBase : NPCBase, ICombatDirector
         return _target;
     }
 
-    public float GetDistance()
-    {
-        return distancePos;
-    }
+    public float GetDistance() => distancePos;
 
-    public void SetBool(bool isPos)
-    {
-        withPos = isPos;
-    }
+    public void SetBool(bool isPos) => withPos = isPos;
 
     public abstract void ToAttack();
 
@@ -97,7 +88,7 @@ public abstract class EnemyBase : NPCBase, ICombatDirector
     public abstract float ChangeSpeed(float newSpeed);
     #endregion
 
-    protected bool IsAttack() { return attacking; }
+    protected bool IsAttack() => attacking;
 
     public virtual void GetFocusedOnParry()
     {

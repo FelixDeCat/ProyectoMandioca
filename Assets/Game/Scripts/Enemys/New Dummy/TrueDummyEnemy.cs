@@ -378,6 +378,7 @@ public class TrueDummyEnemy : EnemyBase
             .SetTransition(DummyEnemyInputs.DIE, die)
             .SetTransition(DummyEnemyInputs.PETRIFIED, petrified)
             .SetTransition(DummyEnemyInputs.PARRIED, parried)
+            .SetTransition(DummyEnemyInputs.DISABLE, disable)
             .Done();
 
         ConfigureState.Create(attack)
@@ -385,12 +386,14 @@ public class TrueDummyEnemy : EnemyBase
             .SetTransition(DummyEnemyInputs.DIE, die)
             .SetTransition(DummyEnemyInputs.PETRIFIED, petrified)
             .SetTransition(DummyEnemyInputs.PARRIED, parried)
+            .SetTransition(DummyEnemyInputs.DISABLE, disable)
             .Done();
 
         ConfigureState.Create(parried)
             .SetTransition(DummyEnemyInputs.IDLE, idle)
             .SetTransition(DummyEnemyInputs.PETRIFIED, petrified)
             .SetTransition(DummyEnemyInputs.DIE, die)
+            .SetTransition(DummyEnemyInputs.DISABLE, disable)
             .Done();
 
         ConfigureState.Create(petrified)
