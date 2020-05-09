@@ -31,17 +31,24 @@ public abstract class EnemyBase : NPCBase, ICombatDirector
     #region Obligacion (llevar la logica a donde corresponde)
     //-------------- OBLIGACION 
     [Header("TEMP:/Obligacion")]
+    //esto no hace falta... con que tengas una referencia de esto en la clase base de obligacion alcanza
     public bool target;
+    //no hace falta tener un gameobject por cada target... con posicionar o emparentar uno solo alcanza
     [SerializeField] protected GameObject targetFeedBack = null;
+    //esto tal vez ya no sea asi... y si es asi... hacer un feedback porque es un affordance malisimo
     public bool Invinsible;
+    //todo esto no hace falta... con que tengas una referencia de esto en la clase base de obligacion alcanza
     public virtual void IsTarget() { target = true; targetFeedBack.SetActive(true); }
     public virtual void IsNormal() { target = false; targetFeedBack.SetActive(false); }
     public void Mortal() => Invinsible = false;
     #endregion
     #region Control (llevar la logica a donde corresponde)
-    //-------------- CONTROL (llevar la logica a donde corresponde)
+    //-------------- CONTROL
     [Header("TEMP:/Control")]
     public bool minionTarget;
+    //idea para remplazar... cuando se hace parry habria que avisarle a un script que se encarge de recibir los OnParried
+    //luego tu skill tiene que subscribirse a ese script para que le mande (position, enemyBase) por si queres hacer un overlap
+    //al rededor de este enemigo que acaba de ser parriado
     public virtual void GetFocusedOnParry()
     {
         foreach (var e in Main.instance.GetEnemies())
