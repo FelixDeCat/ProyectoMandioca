@@ -6,15 +6,15 @@ namespace ToolsMandioca.StateMachine
     {
         float cd;
         float timer;
-        float rotationSpeed;
+        GenericEnemyMove move;
         ICombatDirector enemy;
 
         public DummyAttAnt(EState<TrueDummyEnemy.DummyEnemyInputs> myState, EventStateMachine<TrueDummyEnemy.DummyEnemyInputs> _sm,
-                                float _rotSpeed, ICombatDirector _enemy) : base(myState, _sm)
+                           GenericEnemyMove _move, ICombatDirector _enemy) : base(myState, _sm)
         {
             cd = 5;
             enemy = _enemy;
-            rotationSpeed = _rotSpeed;
+            move = _move;
         }
 
         protected override void Enter(EState<TrueDummyEnemy.DummyEnemyInputs> input)
@@ -43,7 +43,7 @@ namespace ToolsMandioca.StateMachine
             Vector3 myForward = (enemy.CurrentTarget().transform.position - root.position).normalized;
             Vector3 forwardRotation = new Vector3(myForward.x, 0, myForward.z);
 
-            root.forward = Vector3.Lerp(root.forward, forwardRotation, rotationSpeed * Time.deltaTime);
+            move.Rotation(forwardRotation);
 
             timer += Time.deltaTime;
 

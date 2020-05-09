@@ -1550,6 +1550,7 @@ GameObject:
   - component: {fileID: 3901963547881250311}
   - component: {fileID: 3901963547881250310}
   - component: {fileID: 3901963547881250307}
+  - component: {fileID: 2394791246306970868}
   - component: {fileID: 1582673471552856206}
   - component: {fileID: 3901963547881250315}
   - component: {fileID: 8868906354174515107}
@@ -1620,7 +1621,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b8fb9dbbb2b90f54898884e1f1be660f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  side_Type: 2
   target: 0
   attacking: 0
   targetFeedBack: {fileID: 401104062535251551}
@@ -1630,10 +1630,7 @@ MonoBehaviour:
   expToDrop: 5
   combatDistance: 20
   distancePos: 2
-  speedMovement: 4
-  rotSpeed: 10
-  avoidWeight: 0.5
-  avoidRadious: 2
+  movement: {fileID: 2394791246306970868}
   rootTransform: {fileID: 3901963547267435579}
   animEmisive:
     serializedVersion: 2
@@ -1660,6 +1657,25 @@ MonoBehaviour:
   animator: {fileID: 3901963547276534677}
   txt_debug: {fileID: 1025451142}
   freeze_shader: {fileID: 2100000, guid: 97dfdd29a86ad6b49a07c51ad1d51ca0, type: 2}
+--- !u!114 &2394791246306970868
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3901963547881250308}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 99373cd774316fd49a2709769e1bc38f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  initialSpeed: 4
+  avoidWeight: 1
+  avoidanceRadious: 2
+  rootSpeed: 2
+  avoidMask:
+    serializedVersion: 2
+    m_Bits: 33280
 --- !u!114 &1582673471552856206
 MonoBehaviour:
   m_ObjectHideFlags: 0

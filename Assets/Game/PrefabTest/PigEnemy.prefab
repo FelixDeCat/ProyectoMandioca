@@ -1406,6 +1406,8 @@ GameObject:
   - component: {fileID: 3951395813138206272}
   - component: {fileID: 3951395813138206301}
   - component: {fileID: 6733651048786057550}
+  - component: {fileID: 8992901041569295077}
+  - component: {fileID: -4922751061462016662}
   m_Layer: 10
   m_Name: PigEnemy
   m_TagString: Untagged
@@ -1569,10 +1571,35 @@ MonoBehaviour:
   initialSpeed: 4
   avoidWeight: 1.5
   avoidanceRadious: 1
-  rootSpeed: 2
+  rootSpeed: 5
   avoidMask:
     serializedVersion: 2
     m_Bits: 33280
+--- !u!114 &8992901041569295077
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3951395813138206299}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 556c3f22bc348430a8a291a0653808fe, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &-4922751061462016662
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3951395813138206299}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ad610f29c31a1794e8002e41593dfb55, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  prefab: {fileID: 1596232104377501901, guid: 2db761ec42946624da4b987e0f39cf8e, type: 3}
 --- !u!1 &3951395813391430401
 GameObject:
   m_ObjectHideFlags: 0
@@ -13904,15 +13931,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 749215c6dcfb0cc42a45b42bfab4105c, type: 3}
---- !u!198 &5416915291697185566 stripped
-ParticleSystem:
-  m_CorrespondingSourceObject: {fileID: 9077728867216939630, guid: 749215c6dcfb0cc42a45b42bfab4105c,
-    type: 3}
-  m_PrefabInstance: {fileID: 3951395814902356336}
-  m_PrefabAsset: {fileID: 0}
 --- !u!4 &5416915291697185561 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 9077728867216939625, guid: 749215c6dcfb0cc42a45b42bfab4105c,
+    type: 3}
+  m_PrefabInstance: {fileID: 3951395814902356336}
+  m_PrefabAsset: {fileID: 0}
+--- !u!198 &5416915291697185566 stripped
+ParticleSystem:
+  m_CorrespondingSourceObject: {fileID: 9077728867216939630, guid: 749215c6dcfb0cc42a45b42bfab4105c,
     type: 3}
   m_PrefabInstance: {fileID: 3951395814902356336}
   m_PrefabAsset: {fileID: 0}

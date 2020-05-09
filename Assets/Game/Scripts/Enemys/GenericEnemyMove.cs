@@ -41,7 +41,6 @@ public class GenericEnemyMove : MonoBehaviour
     ///</summary>
     public Vector3 MoveWRigidbodyV(Vector3 dir)
     {
-        Debug.Log(dir);
         float y = rb.velocity.y;
 
         rb.velocity = new Vector3(dir.x * currentSpeed, y, dir.z * currentSpeed);

@@ -8,17 +8,17 @@ namespace ToolsMandioca.StateMachine
         Func<bool> IsAttack;
         float distanceMin;
         float distanceMax;
-        float rotationSpeed;
         ICombatDirector enemy;
+        GenericEnemyMove move;
 
-        public DummyIdleState(EState<TrueDummyEnemy.DummyEnemyInputs> myState, EventStateMachine<TrueDummyEnemy.DummyEnemyInputs> _sm,
-                              Func<bool> _isAttack, float _disInCom, float _disNormal, float _rotSpeed, ICombatDirector _enemy) : base(myState, _sm)
+        public DummyIdleState(EState<TrueDummyEnemy.DummyEnemyInputs> myState, EventStateMachine<TrueDummyEnemy.DummyEnemyInputs> _sm, GenericEnemyMove _move,
+                              Func<bool> _isAttack, float _disInCom, float _disNormal,  ICombatDirector _enemy) : base(myState, _sm)
         {
+            move = _move;
             IsAttack += _isAttack;
             distanceMax = _disNormal;
             distanceMin = _disInCom;
             enemy = _enemy;
-            rotationSpeed = _rotSpeed;
         }
 
         protected override void Enter(EState<TrueDummyEnemy.DummyEnemyInputs> last)
@@ -40,7 +40,7 @@ namespace ToolsMandioca.StateMachine
                 Vector3 myForward = (enemy.CurrentTarget().transform.position - root.position).normalized;
                 Vector3 forwardRotation = new Vector3(myForward.x, 0, myForward.z);
 
-                root.forward = Vector3.Lerp(root.forward, forwardRotation, rotationSpeed * Time.deltaTime);
+                move.Rotation(forwardRotation);
 
                 if (enemy.IsInPos())
                 {

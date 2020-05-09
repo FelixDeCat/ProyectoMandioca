@@ -274,7 +274,7 @@ public class JabaliEnemy : EnemyBase
     public override float ChangeSpeed(float newSpeed)
     {
         if (newSpeed < 0)
-            return movement.GetCurrentSpeed();
+            return movement.GetInitSpeed();
 
         movement.SetCurrentSpeed(newSpeed);
 
