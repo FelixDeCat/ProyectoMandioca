@@ -74,7 +74,6 @@ public class RangeDummy : EnemyBase
     public AnimEvent GetAnimEvent() => anim;
     [SerializeField] UnityEngine.UI.Text txt_debug = null;
     [SerializeField] Material freeze_shader = null;
-
     
     public bool isOnFire { get; private set; }
     
@@ -369,8 +368,6 @@ public class RangeDummy : EnemyBase
     protected override void OnFixedUpdate() { }
     protected override void OnTurnOff() { }
     protected override void OnTurnOn() { }
-
-    public override void ToAttack() { attacking = true; }
 
     #region STATE MACHINE THINGS
     public enum RangeDummyInput { IDLE, BEGIN_ATTACK,ATTACK, GO_TO_POS, DIE, DISABLE, TAKE_DAMAGE, PETRIFIED, PARRIED };

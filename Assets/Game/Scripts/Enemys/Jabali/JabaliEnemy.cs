@@ -189,8 +189,6 @@ public class JabaliEnemy : EnemyBase
 
     public void DealDamage() { headAttack.ManualTriggerAttack(); }
 
-    public override void ToAttack() { attacking = true; }
-
     #endregion
 
     #region TakeDamage Things
