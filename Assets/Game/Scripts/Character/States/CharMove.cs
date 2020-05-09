@@ -6,8 +6,10 @@ namespace ToolsMandioca.StateMachine
 {
     public class CharMove : CharacterStates
     {
-        public CharMove(EState<CharacterHead.PlayerInputs> myState, EventStateMachine<CharacterHead.PlayerInputs> _sm) : base(myState, _sm)
+        
+        public CharMove(EState<CharacterHead.PlayerInputs> myState, EventStateMachine<CharacterHead.PlayerInputs> _sm,LockOn lockon) : base(myState, _sm)
         {
+            _myLockOn = lockon;
         }
 
         protected override void Enter(EState<CharacterHead.PlayerInputs> input)
@@ -17,8 +19,21 @@ namespace ToolsMandioca.StateMachine
 
         protected override void Update()
         {
-            charMove.RotateHorizontal(RightHorizontal());
-            charMove.RotateVertical(RightVertical());
+            if (_myLockOn.isLockOn())
+            {
+                Transform _myTransform = charMove.GetTransformRotation();
+                EnemyBase _myEnemy = _myLockOn.GetCurrentEnemy();
+                if (_myEnemy)
+                    _myTransform.LookAt(_myEnemy.transform.position);
+               
+                Debug.Log("is locking");
+            }
+            else
+            {
+                charMove.RotateHorizontal(RightHorizontal());
+                charMove.RotateVertical(RightVertical());
+            }
+            
             charMove.MovementHorizontal(LeftHorizontal());
             charMove.MovementVertical(LeftVertical());
 

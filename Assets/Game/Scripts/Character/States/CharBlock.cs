@@ -6,15 +6,16 @@ namespace ToolsMandioca.StateMachine
 {
     public class CharBlock : CharacterStates
     {
-        public CharBlock(EState<CharacterHead.PlayerInputs> myState, EventStateMachine<CharacterHead.PlayerInputs> _sm) : base(myState, _sm)
+        public CharBlock(EState<CharacterHead.PlayerInputs> myState, EventStateMachine<CharacterHead.PlayerInputs> _sm,LockOn myLockOn) : base(myState, _sm)
         {
+            _myLockOn = myLockOn;
         }
 
         protected override void Enter(EState<CharacterHead.PlayerInputs> input)
         {
             charBlock.SetOnBlock(true);
 
-            //if (charhead.ISLocoon())
+            //if (_myLockOn.isLockOn())
             //{
             //    //nuestro funcioanmiento nuevo
             //    charMove.MovementHorizontal(input / 2);
@@ -22,8 +23,8 @@ namespace ToolsMandioca.StateMachine
             //}
             //else
             //{
-            //    //charMove.MovementHorizontal(0);
-            //   // charMove.MovementVertical(0);
+            //    charMove.MovementHorizontal(0);
+            //    charMove.MovementVertical(0);
             //}
             charMove.MovementHorizontal(0);
             charMove.MovementVertical(0);
@@ -31,10 +32,19 @@ namespace ToolsMandioca.StateMachine
 
         protected override void Update()
         {
-
-
-            charMove.RotateHorizontal(RightHorizontal());
-            charMove.RotateVertical(RightVertical());
+            if (_myLockOn.isLockOn())
+            {
+                Transform myTransform = charMove.GetTransformRotation();
+                EnemyBase myEnemy = _myLockOn.GetCurrentEnemy();
+                if (myEnemy)
+                    myTransform.LookAt(myEnemy.transform.position);
+            }
+            else
+            {
+                charMove.RotateHorizontal(RightHorizontal());
+                charMove.RotateVertical(RightVertical());
+            }
+            
         }
 
         protected override void FixedUpdate()

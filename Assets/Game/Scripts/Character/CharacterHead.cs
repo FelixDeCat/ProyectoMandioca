@@ -96,7 +96,8 @@ public class CharacterHead : CharacterControllable
     public CharLifeSystem Life => lifesystem;
 
     Rigidbody rb;
-
+    LockOn _lockOn;
+    public LayerMask enemyLayer;
     protected override void OnInitialize()
     {
 
@@ -104,6 +105,7 @@ public class CharacterHead : CharacterControllable
 
     private void Start()
     {
+        _lockOn = new LockOn(enemyLayer, 100, transform);
         lifesystem = new CharLifeSystem()
             .ADD_EVENT_OnGainLife(OnGainLife)
             .ADD_EVENT_OnLoseLife(OnLoseLife)
@@ -145,7 +147,7 @@ public class CharacterHead : CharacterControllable
 
         debug_options.StartDebug();
         DevelopTools.UI.Debug_UI_Tools.instance.CreateToogle("Speed for testing", false, ToogleSpeed);
-
+        
     }
     float auxSpeedDebug;
     string ToogleSpeed(bool active)
@@ -266,12 +268,12 @@ public class CharacterHead : CharacterControllable
 
         stateMachine = new EventStateMachine<PlayerInputs>(idle, debug_options.DebugState);
 
-        new CharIdle(idle, stateMachine)
+        new CharIdle(idle, stateMachine,_lockOn)
             .SetLeftAxis(GetLeftHorizontal, GetLeftVertical)
             .SetRightAxis(GetRightHorizontal, GetRightVertical)
             .SetMovement(this.move);
 
-        new CharMove(move, stateMachine)
+        new CharMove(move, stateMachine,_lockOn)
             .SetLeftAxis(GetLeftHorizontal, GetLeftVertical)
             .SetRightAxis(GetRightHorizontal, GetRightVertical)
             .SetMovement(this.move);
@@ -281,7 +283,7 @@ public class CharacterHead : CharacterControllable
             .SetRightAxis(GetRightHorizontal, GetRightVertical)
             .SetMovement(this.move).SetBlock(charBlock);
 
-        new CharBlock(block, stateMachine)
+        new CharBlock(block, stateMachine,_lockOn)
             .SetLeftAxis(GetLeftHorizontal, GetLeftVertical)
             .SetRightAxis(GetRightHorizontal, GetRightVertical)
             .SetMovement(this.move)
@@ -350,12 +352,30 @@ public class CharacterHead : CharacterControllable
         stateMachine.Update();
         ChildrensUpdates();
         charAttack.Refresh();
+        if (Input.GetKeyDown(KeyCode.T))
+        {
+            StartLockOn();
+        }
+        if (Input.GetKeyDown(KeyCode.E))
+        {
+            NextLockOn();
+        }
+        _lockOn.UpdateLockOnEnemys();
     }
 
     //caundo lo recibo desde el lock on
     public void SetToInputStateMAchinLockON()
     {
         stateMachine.SendInput(PlayerInputs.PLAYER_LOCK_ON);
+    }
+
+    public void StartLockOn()
+    {
+        _lockOn.EVENT_Joystick_LockOn();
+    }
+    public void NextLockOn()
+    {
+        _lockOn.EVENT_Joystick_nextLockOn();
     }
 
     protected override void OnPause()
