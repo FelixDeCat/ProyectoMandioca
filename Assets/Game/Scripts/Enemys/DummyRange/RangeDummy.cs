@@ -126,6 +126,8 @@ public class RangeDummy : EnemyBase
 
     public void DealDamage() { combatComponent.ManualTriggerAttack(); sm.SendInput(RangeDummyInput.ATTACK); }
 
+    public override void ToAttack() => attacking = true;
+
     public void AttackEntity(EntityBase e)
     {
         Attack_Result takeDmg = e.TakeDamage(damage, transform.position, Damagetype.parriable);
@@ -134,10 +136,6 @@ public class RangeDummy : EnemyBase
         {
             combatComponent.Stop();
             sm.SendInput(RangeDummyInput.PARRIED);
-
-            //Tira evento si es parrieado. Seguro haya que cambiarlo
-            if (OnParried != null)
-                OnParried();
         }
     }
 

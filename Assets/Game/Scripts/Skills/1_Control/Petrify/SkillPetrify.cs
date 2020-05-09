@@ -5,41 +5,27 @@ using System.Linq;
 
 public class SkillPetrify : SkillBase
 {
-    List<PetrifyComponent> petrifyComponents = new List<PetrifyComponent>();
-    public float petrifyRange = 10;
+    [SerializeField] float petrifyRange = 10;
 
     protected override void OnBeginSkill()
     {
-        petrifyComponents = new List<PetrifyComponent>();
-        petrifyComponents = FindObjectsOfType<PetrifyComponent>().ToList();
-
-        foreach (var item in petrifyComponents)
-        {
-            if (item != null)
-            {
-                item.Configure(ReceivePetrifyOnDeathMinion);
-                item.OnBegin();
-            }
-        }
+        Main.instance.eventManager.SubscribeToEvent(GameEvents.MINION_DEAD, ReceivePetrifyOnDeathMinion);
     }
 
     protected override void OnEndSkill()
     {
-        foreach (var item in petrifyComponents)
-        {
-            if(item!= null) item.OnEnd();
-        }
+        Main.instance.eventManager.UnsubscribeToEvent(GameEvents.MINION_DEAD, ReceivePetrifyOnDeathMinion);
     }
 
     protected override void OnUpdateSkill()
     {
     }
 
-    public void ReceivePetrifyOnDeathMinion(Vector3 pos, PetrifyComponent p)
+    public void ReceivePetrifyOnDeathMinion(params object[] p)
     {
-        var listOfEntities = Physics.OverlapSphere(pos, petrifyRange );
+        Vector3 pos = (Vector3)p[0];
 
-        petrifyComponents.Remove(p);
+        var listOfEntities = Physics.OverlapSphere(pos, petrifyRange );
 
         foreach (var item in listOfEntities)
         {

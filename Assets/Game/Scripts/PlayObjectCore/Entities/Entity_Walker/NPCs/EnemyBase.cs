@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using System;
+using UnityEditor.Compilation;
 
 public abstract class EnemyBase : NPCBase, ICombatDirector
 {
@@ -9,54 +10,9 @@ public abstract class EnemyBase : NPCBase, ICombatDirector
     //encapsular esto
     [HideInInspector] public bool attacking;
 
-    //tal vez seria genial un script para subscribirse a los eventos estos
-    //ahora mismo tiene como 15 referencias y es una paja navegarlas
-    //varias skills lo usan
-    //o tal vez usar el event manager.
-    //otra cosa, todos lo estan usando en el AttackEntity... de hecho todos tienen su combat component
-    //habria que replantear todo esto cuando nos adentremos mas en el weapon system
-    public Action OnParried;
-
-    protected EntityBase entityTarget;
-
-    protected Transform _target;
-
-    [SerializeField, Range(0.5f, 15)] float distancePos = 1.5f;
-
-    public Transform CurrentTargetPos()
-    {
-        return _target;
-    }
-
-    public void SetTargetPosDir(Transform pos)
-    {
-        _target = pos;
-
-        _target.localPosition *= distancePos;
-    }
-
-    public Vector3 CurrentPos()
-    {
-        return transform.position;
-    }
-
-    public void SetTarget(EntityBase entity) => entityTarget = entity;
-
-    public bool IsInPos() => withPos;
-
-    public EntityBase CurrentTarget() => entityTarget;
-
-    public Transform CurrentTargetPosDir()
-    {
-        _target.localPosition /= distancePos;
-        return _target;
-    }
-
-    public float GetDistance() => distancePos;
-
-    public void SetBool(bool isPos) => withPos = isPos;
-
     public abstract void ToAttack();
+    public abstract void IAInitialize(CombatDirector director);
+
     //por lo que veo... varios le estan diciendo death = true
     //habria que llevarlo mas arriba en la jerarquia
     [HideInInspector] public bool death;
@@ -66,6 +22,7 @@ public abstract class EnemyBase : NPCBase, ICombatDirector
     [SerializeField] protected int expToDrop = 1;
 
     #endregion
+    public abstract float ChangeSpeed(float newSpeed);
 
     protected bool IsAttack() => attacking;
     //sacar de aca
@@ -82,24 +39,6 @@ public abstract class EnemyBase : NPCBase, ICombatDirector
     public virtual void IsTarget() { target = true; targetFeedBack.SetActive(true); }
     public virtual void IsNormal() { target = false; targetFeedBack.SetActive(false); }
     public void Mortal() => Invinsible = false;
-    #endregion
-    #region Control (llevar la logica a donde corresponde)
-    //-------------- CONTROL
-    [Header("TEMP:/Control")]
-    public bool minionTarget;
-    //idea para remplazar... cuando se hace parry habria que avisarle a un script que se encarge de recibir los OnParried
-    //luego tu skill tiene que subscribirse a ese script para que le mande (position, enemyBase) por si queres hacer un overlap
-    //al rededor de este enemigo que acaba de ser parriado
-    public virtual void GetFocusedOnParry()
-    {
-        foreach (var e in Main.instance.GetEnemies())
-        {
-            if (e != this)
-                e.minionTarget = false;
-            else
-                minionTarget = true;
-        }
-    }
     #endregion
 
     //hacer components
@@ -118,19 +57,26 @@ public abstract class EnemyBase : NPCBase, ICombatDirector
     protected bool withPos;
     protected EntityBase entityTarget;
     protected Transform _target;
-    public Transform CurrentTargetPos() => _target;
-    public void SetTargetPosDir(Transform pos) { _target = pos; _target.localPosition *= distancePos; }
+    public Transform CurrentTargetPos()
+    {
+        return _target;
+    }
+    public void SetTargetPosDir(Transform pos)
+    {
+        _target = pos;
+        _target.localPosition *= distancePos;
+    }
     public Vector3 CurrentPos() => transform.position;
     public void SetTarget(EntityBase entity) => entityTarget = entity;
     public bool IsInPos() => withPos;
     public EntityBase CurrentTarget() => entityTarget;
-    public Transform CurrentTargetPosDir() { _target.localPosition /= distancePos; return _target; }
+    public Transform CurrentTargetPosDir()
+    {
+        _target.localPosition /= distancePos;
+        return _target;
+    }
     public float GetDistance() => distancePos;
     public void SetBool(bool isPos) => withPos = isPos;
-    public abstract void IAInitialize(CombatDirector _director);
-    public abstract float ChangeSpeed(float newSpeed);
-    public void ToAttack() { attacking = true; }
-    protected bool IsAttack() { return attacking; }
     #endregion
     #region Timer Effect (hacer component o Handler de efectos activos)
     //timer de efectos... me gusta esto (y) no se quien lo hizo, estaria bueno que tambien sea un component

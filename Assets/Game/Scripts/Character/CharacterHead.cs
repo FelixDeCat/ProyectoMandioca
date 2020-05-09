@@ -597,7 +597,6 @@ public class CharacterHead : CharacterControllable
         {
             if (charBlock.IsParry(rot.position, attackDir, rot.forward))
             {
-                Debug.LogWarning("PARRY perfect");
                 PerfectParry();
                 Main.instance.GetTimeManager().DoSlowMotion(timeScale, slowDuration);
                 customCam.DoFastZoom(10);
@@ -632,6 +631,22 @@ public class CharacterHead : CharacterControllable
             Main.instance.Vibrate();
             return Attack_Result.sucessful;
         }
+    }
+
+    public override Attack_Result TakeDamage(int dmg, Vector3 attackDir, Damagetype dmgtype, EntityBase entity)
+    {
+        if (InDash())
+            return Attack_Result.inmune;
+
+        if (dmgtype != Damagetype.inparry)
+        {
+            if (charBlock.IsParry(rot.position, attackDir, rot.forward))
+            {
+                Main.instance.eventManager.TriggerEvent(GameEvents.ON_PLAYER_PARRY, new object[]{ entity });
+            }
+        }
+
+        return TakeDamage(dmg, attackDir, dmgtype);
     }
     #endregion
 
@@ -712,32 +727,11 @@ public class CharacterHead : CharacterControllable
     #endregion
 
     #region Guilt
-    [Header("Guilt Options")]
-    [SerializeField] ParticleSystem feedbackScream = null;
-    int screams;
-    public Action GuiltUltimateSkill = delegate { };
     public Action<int> AddScreamAction = delegate { };
-    public int screamsToSkill = 50;
-
-    public void AddScreams(int s)
-    {
-        screams += s;
-
-        if (screams >= screamsToSkill)
-        {
-            screams = screamsToSkill;
-            GuiltUltimateSkill();
-            screams = 0;
-        }
-
-        AddScreamAction(screams);
-    }
 
     public void CollectScream()
     {
-        AddScreams(1);
-        feedbackScream.Stop();
-        feedbackScream.Play();
+        AddScreamAction(1);
     }
 
     #endregion

@@ -14,27 +14,20 @@ public class FireParry_skill : SkillBase
     
     protected override void OnBeginSkill()
     {
-        _enemies = new List<EnemyBase>();
-        _enemies = Main.instance.GetEnemies();
+        Main.instance.eventManager.SubscribeToEvent(GameEvents.ON_PLAYER_PARRY, Fire);
+    }
 
-        foreach (var item in _enemies)
-        {
-            if (item != null)
-            {
-                item.OnParried += item.OnFire;
-            }
-        }
+    void Fire(params object[] param)
+    {
+        var entity = (EntityBase)param[0];
+
+        if (entity.GetComponent<WalkingEntity>())
+            entity.GetComponent<WalkingEntity>().OnFire();
     }
 
     protected override void OnEndSkill()
     {
-        foreach (var item in _enemies)
-                {
-                    if (item != null)
-                    {
-                        item.OnParried -= item.OnFire;
-                    }
-                }
+        Main.instance.eventManager.UnsubscribeToEvent(GameEvents.ON_PLAYER_PARRY, Fire);
     }
 
     protected override void OnUpdateSkill()

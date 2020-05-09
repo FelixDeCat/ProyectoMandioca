@@ -170,10 +170,6 @@ public class JabaliEnemy : EnemyBase
         if (takeDmg == Attack_Result.parried)
         {
             sm.SendInput(JabaliInputs.PARRIED);
-
-            //Tira evento si es parrieado. Seguro haya que cambiarlo
-            if (OnParried != null)
-                OnParried();
         }
     }
 
@@ -188,6 +184,8 @@ public class JabaliEnemy : EnemyBase
     void PushAttack() { pushAttack.ManualTriggerAttack(); }
 
     public void DealDamage() { headAttack.ManualTriggerAttack(); }
+
+    public override void ToAttack() => attacking = true;
 
     #endregion
 

@@ -5,7 +5,6 @@ using System.Linq;
 
 public class Skill_FirstAttack : SkillBase_Obligacion
 {
-    List<PetrifyComponent> petrifyComponents = new List<PetrifyComponent>();
     public float petrifyRange = 100;
     private CharacterHead _hero;
 
@@ -26,10 +25,6 @@ public class Skill_FirstAttack : SkillBase_Obligacion
     protected override void OnEndSkill()
     {
         base.OnEndSkill();
-        foreach (var item in petrifyComponents)
-        {
-            if (item != null) item.OnEnd();
-        }
 
         //Main.instance.GetChar().Attack -= ReceivePetrifyOnDeathMinion;
         charattack.DeactiveFirstAttack();

@@ -123,6 +123,8 @@ public class ABossGeneric : EnemyBase
         canupdate = true;
     }
 
+    public override void ToAttack() => attacking = true;
+
     public void DealDamage() { combatComponent.ManualTriggerAttack(); sm.SendInput(RangeDummyInput.ATTACK); }
 
     public void AttackEntity(EntityBase e)
@@ -133,10 +135,6 @@ public class ABossGeneric : EnemyBase
         {
             combatComponent.Stop();
             sm.SendInput(RangeDummyInput.PARRIED);
-
-            //Tira evento si es parrieado. Seguro haya que cambiarlo
-            if (OnParried != null)
-                OnParried();
         }
     }
 

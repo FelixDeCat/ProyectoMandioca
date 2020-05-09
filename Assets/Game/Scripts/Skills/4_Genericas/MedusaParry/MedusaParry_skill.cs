@@ -7,24 +7,23 @@ public class MedusaParry_skill : SkillBase
 {
     //Para poder usar la duracion aca, se tiene que poder decidir cuanto tiempo el OnPetrified State va a durar
     [SerializeField] private float duracion;
-    
-    List<EnemyBase> _enemies = new List<EnemyBase>();
+
     protected override void OnBeginSkill()
     {
-        _enemies = Main.instance.GetEnemies();
+        Main.instance.eventManager.SubscribeToEvent(GameEvents.ON_PLAYER_PARRY, PetrifyEnemies);
+    }
 
-        foreach (var en in _enemies)
-        {
-            en.OnParried += en.OnPetrified;
-        }
+    void PetrifyEnemies(params object[] param)
+    {
+        var entity = (EntityBase)param[0];
+
+        if (entity.GetComponent<WalkingEntity>())
+            entity.GetComponent<WalkingEntity>().OnPetrified();
     }
 
     protected override void OnEndSkill()
     {
-        foreach (var en in _enemies)
-        {
-            en.OnParried -= en.OnPetrified;
-        }
+        Main.instance.eventManager.UnsubscribeToEvent(GameEvents.ON_PLAYER_PARRY, PetrifyEnemies);
     }
 
     protected override void OnUpdateSkill()

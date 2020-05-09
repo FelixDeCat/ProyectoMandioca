@@ -151,10 +151,10 @@ public class TrueDummyEnemy : EnemyBase
             sm.SendInput(DummyEnemyInputs.PARRIED);
 
             //Tira evento si es parrieado. Seguro haya que cambiarlo
-            if (OnParried != null)
-                OnParried();
         }
     }
+
+    public override void ToAttack() => attacking = true;
     #endregion
 
     #region Effects

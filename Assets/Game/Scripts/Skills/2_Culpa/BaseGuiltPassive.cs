@@ -11,10 +11,14 @@ public class BaseGuiltPassive : SkillBase
     CharacterHead head;
 
     [SerializeField] ParticleSystem feedbackParticle = null;
-
     [SerializeField] ScreamPool screamPool = null;
-
     [SerializeField] FrontendStatBase myBar = null;
+
+    [Header("Guilt Options")]
+    [SerializeField] ParticleSystem feedbackScream = null;
+
+    int screams;
+    [SerializeField] int screamsToSkill = 50;
 
     protected override void OnBeginSkill()
     {
@@ -23,12 +27,13 @@ public class BaseGuiltPassive : SkillBase
 
         myBar.gameObject.SetActive(true);
 
-        myBar.OnValueChange(0, head.screamsToSkill);
+        myBar.OnValueChange(0, screamsToSkill);
 
-        head.GuiltUltimateSkill += PetrifyAllEnemies;
         head.AddScreamAction += UpdateHUD;
 
         feedbackParticle.transform.position = head.transform.position;
+        feedbackScream.transform.SetParent(head.transform);
+        feedbackScream.transform.position = head.transform.position;
 
         Main.instance.eventManager.SubscribeToEvent(GameEvents.ENEMY_DEAD, SpawnScream);
 
@@ -38,7 +43,6 @@ public class BaseGuiltPassive : SkillBase
     protected override void OnEndSkill()
     {
         myBar.gameObject.SetActive(false);
-        head.GuiltUltimateSkill -= PetrifyAllEnemies;
         head.AddScreamAction -= UpdateHUD;
 
         Main.instance.eventManager.UnsubscribeToEvent(GameEvents.ENEMY_DEAD, SpawnScream);
@@ -48,7 +52,18 @@ public class BaseGuiltPassive : SkillBase
 
     void UpdateHUD(int i)
     {
-        myBar.OnValueChange(i, head.screamsToSkill);
+        feedbackScream.Stop();
+        feedbackScream.Play();
+        screams += i;
+
+        if (screams >= screamsToSkill)
+        {
+            screams = screamsToSkill;
+            PetrifyAllEnemies();
+            screams = 0;
+        }
+
+        myBar.OnValueChange(screams, screamsToSkill);
     }
 
     void SpawnScream(params object[] param)

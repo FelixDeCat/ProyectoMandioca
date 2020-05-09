@@ -29,6 +29,12 @@ public class GameEvents
     /// </summary>
     public const string MINION_DEAD = "MinionDead";
 
+
+    /// <summary>
+    /// [ EntityBase: target parreado ]
+    /// </summary>
+    public const string ON_PLAYER_PARRY = "OnPlayerParry";
+
     public const string GAME_END_LOAD = "GameEndLoad";
     public const string GAME_INITIALIZE = "GameInitialize";
 }

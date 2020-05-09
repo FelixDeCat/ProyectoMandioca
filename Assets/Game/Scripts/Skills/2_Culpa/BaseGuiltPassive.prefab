@@ -9447,6 +9447,7 @@ Transform:
   m_Children:
   - {fileID: 6109407440349381965}
   - {fileID: 6523348710719323831}
+  - {fileID: 4188838071080398012}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -9463,9 +9464,93 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   skillinfo: {fileID: 11400000, guid: a64b0cf1b584b794f9e63b93509e2c02, type: 2}
+  is3D: 0
   maxScreamsToSpawn: 7
   minScreamsToSpawn: 3
   radiousSkill: 15
   feedbackParticle: {fileID: 6109407440364584973}
   screamPool: {fileID: 4421413429440777585}
   myBar: {fileID: 6080125045554954862, guid: bf2a48529a9f76f4d9cabd3119662e3d, type: 3}
+  feedbackScream: {fileID: 4188838071095601662}
+  screamsToSkill: 50
+--- !u!1001 &5860828737367530163
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 8498596452485345724}
+    m_Modifications:
+    - target: {fileID: 7742926526874678799, guid: 5e4cb3a1e6e0f1f40a436677ff87be5e,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -0.1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7742926526874678799, guid: 5e4cb3a1e6e0f1f40a436677ff87be5e,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 1.87
+      objectReference: {fileID: 0}
+    - target: {fileID: 7742926526874678799, guid: 5e4cb3a1e6e0f1f40a436677ff87be5e,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0.32
+      objectReference: {fileID: 0}
+    - target: {fileID: 7742926526874678799, guid: 5e4cb3a1e6e0f1f40a436677ff87be5e,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0.7071068
+      objectReference: {fileID: 0}
+    - target: {fileID: 7742926526874678799, guid: 5e4cb3a1e6e0f1f40a436677ff87be5e,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7742926526874678799, guid: 5e4cb3a1e6e0f1f40a436677ff87be5e,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7742926526874678799, guid: 5e4cb3a1e6e0f1f40a436677ff87be5e,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0.7071068
+      objectReference: {fileID: 0}
+    - target: {fileID: 7742926526874678799, guid: 5e4cb3a1e6e0f1f40a436677ff87be5e,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 7742926526874678799, guid: 5e4cb3a1e6e0f1f40a436677ff87be5e,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: -90
+      objectReference: {fileID: 0}
+    - target: {fileID: 7742926526874678799, guid: 5e4cb3a1e6e0f1f40a436677ff87be5e,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7742926526874678799, guid: 5e4cb3a1e6e0f1f40a436677ff87be5e,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7742926526875167279, guid: 5e4cb3a1e6e0f1f40a436677ff87be5e,
+        type: 3}
+      propertyPath: m_Name
+      value: ScreamCollectFeedback
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 5e4cb3a1e6e0f1f40a436677ff87be5e, type: 3}
+--- !u!4 &4188838071080398012 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 7742926526874678799, guid: 5e4cb3a1e6e0f1f40a436677ff87be5e,
+    type: 3}
+  m_PrefabInstance: {fileID: 5860828737367530163}
+  m_PrefabAsset: {fileID: 0}
+--- !u!198 &4188838071095601662 stripped
+ParticleSystem:
+  m_CorrespondingSourceObject: {fileID: 7742926526894076749, guid: 5e4cb3a1e6e0f1f40a436677ff87be5e,
+    type: 3}
+  m_PrefabInstance: {fileID: 5860828737367530163}
+  m_PrefabAsset: {fileID: 0}
