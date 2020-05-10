@@ -32,9 +32,9 @@ namespace DevelopTools
             Instance = this;
         }
 
-        private void Start()
+        protected virtual void Start()
         {
-            PreWarm();
+            PreWarm(prewarmAmount);
         }
 
         /// <summary>
@@ -57,9 +57,9 @@ namespace DevelopTools
         /// <summary>
         /// Crea una cantidad de objetos antes de arrancar
         /// </summary>
-        public void PreWarm()
+        public virtual void PreWarm(int amount)
         {
-            for (int i = 0; i < prewarmAmount; i++)
+            for (int i = 0; i < amount; i++)
             {
                 AddObject(1);
             }

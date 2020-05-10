@@ -17,6 +17,13 @@
             <e p="MAterials" t="Include">
               <e p="Color.shader" t="Include" />
             </e>
+            <e p="Particulas" t="Include">
+              <e p="Fuego con shaders" t="Include">
+                <e p="FlameParticle.shader" t="Include" />
+                <e p="spriteshader.shader" t="Include" />
+                <e p="Stencil Mask.shader" t="Include" />
+              </e>
+            </e>
             <e p="Shaders" t="Include">
               <e p="Materials&amp;Shaders" t="Include">
                 <e p="Atenea" t="Include">
@@ -58,6 +65,13 @@
                   <e p="RangeSword" t="Include">
                     <e p="Sword.shader" t="Include" />
                   </e>
+                </e>
+              </e>
+            </e>
+            <e p="SkyBox" t="Include">
+              <e p="Core" t="Include">
+                <e p="Shaders" t="Include">
+                  <e p="Skybox Cubemap Extended.shader" t="Include" />
                 </e>
               </e>
             </e>
@@ -847,7 +861,7 @@
             <e p="CustomCamera.cs" t="Include" />
             <e p="DevelopTools" t="Include">
               <e p="Audio" t="Include">
-                <e p="AudioTest.cs" t="Include" />
+                <e p="AudioManager.cs" t="Include" />
                 <e p="SoundPool.cs" t="Include" />
               </e>
               <e p="Console" t="Include">
@@ -883,6 +897,7 @@
                 <e p="SingleObjectPool.cs" t="Include" />
                 <e p="SinglePool_EXAMPLE.cs" t="Include" />
               </e>
+              <e p="RoulletteWheel.cs" t="Include" />
               <e p="SomeTools" t="Include">
                 <e p="AdvancedTools" t="Include">
                   <e p="ASourceCreator.cs" t="Include" />
@@ -1009,10 +1024,8 @@
                 <e p="DummyFollowState.cs" t="Include" />
                 <e p="DummyIdleState.cs" t="Include" />
                 <e p="DummyParried.cs" t="Include" />
-                <e p="DummySlowedState.cs" t="Include" />
                 <e p="DummyStunState.cs" t="Include" />
                 <e p="DummyTDState.cs" t="Include" />
-                <e p="FreezeState.cs" t="Include" />
                 <e p="TrueDummyEnemy.cs" t="Include" />
               </e>
             </e>
@@ -1129,6 +1142,17 @@
               </e>
             </e>
             <e p="Minion" t="Include">
+              <e p="BasicMinion" t="Include">
+                <e p="BasicMinion.cs" t="Include" />
+                <e p="BAttack.cs" t="Include" />
+                <e p="BBeginAttack.cs" t="Include" />
+                <e p="BDie.cs" t="Include" />
+                <e p="BGoToTarget.cs" t="Include" />
+                <e p="BIdle.cs" t="Include" />
+                <e p="BMinionStates.cs" t="Include" />
+                <e p="BStun.cs" t="Include" />
+                <e p="BTakeDmg.cs" t="Include" />
+              </e>
               <e p="Minion.cs" t="Include" />
             </e>
             <e p="MyEventSystem.cs" t="Include" />
@@ -1215,12 +1239,10 @@
                 </e>
                 <e p="FocusOnParry" t="Include">
                   <e p="3_minions enfoquen al enemig.txt" t="Include" />
-                  <e p="FocusOnParryComponent.cs" t="Include" />
                   <e p="SkillFocusOnParry.cs" t="Include" />
                 </e>
                 <e p="Petrify" t="Include">
                   <e p="2_preifica.txt" t="Include" />
-                  <e p="PetrifyComponent.cs" t="Include" />
                   <e p="PetrifyTEST.cs" t="Include" />
                   <e p="SkillPetrify.cs" t="Include" />
                 </e>
@@ -1292,31 +1314,35 @@
               <e p="StatesFunctions.cs" t="Include" />
               <e p="TransitionState.cs" t="Include" />
             </e>
-            <e p="States" t="Include">
-              <e p="States.cs" t="Include" />
-              <e p="StatesAttack.cs" t="Include" />
-              <e p="StatesFollow.cs" t="Include" />
-              <e p="StatesMachine.cs" t="Include" />
-              <e p="StatesPetrified.cs" t="Include" />
-              <e p="StatesWander.cs" t="Include" />
-            </e>
             <e p="TimeManager.cs" t="Include" />
             <e p="Z_Bosses" t="Include">
               <e p="BossExample" t="Include">
-                <e p="ABossGeneric.cs" t="Include" />
-                <e p="Boss_Attack.cs" t="Include" />
-                <e p="Boss_Follow.cs" t="Include" />
-                <e p="Boss_StatesBase.cs" t="Include" />
-                <e p="Generic_Idle.cs" t="Include" />
-                <e p="GenericFollowState.cs" t="Include" />
-                <e p="MonoStateBase.cs" t="Include" />
-                <e p="Sensor" t="Include">
-                  <e p="Sensor_CombatDistance.cs" t="Include" />
-                  <e p="SensorBase.cs" t="Include" />
-                  <e p="SensorDistanceTest.cs" t="Include" />
-                  <e p="SensorTraductor.cs" t="Include" />
+                <e p="0_States" t="Include">
+                  <e p="Generic_Follow.cs" t="Include" />
+                  <e p="Generic_Idle.cs" t="Include" />
+                  <e p="MonoStateBase.cs" t="Include" />
+                  <e p="StateLinkerBehaviour.cs" t="Include" />
                 </e>
-                <e p="StateLinkerBehaviour.cs" t="Include" />
+                <e p="ABossGenericClean.cs" t="Include" />
+                <e p="OldStates" t="Include">
+                  <e p="ABossGeneric.cs" t="Include" />
+                  <e p="Boss_Attack.cs" t="Include" />
+                  <e p="Boss_Follow.cs" t="Include" />
+                  <e p="Boss_StatesBase.cs" t="Include" />
+                </e>
+                <e p="Sensors&amp;Behaviours" t="Include">
+                  <e p="1_Behaviours" t="Include">
+                    <e p="BehavioursManager.cs" t="Include" />
+                    <e p="FollowBehaviour.cs" t="Include" />
+                  </e>
+                  <e p="2_Sensor" t="Include">
+                    <e p="Sensor_CombatDistance.cs" t="Include" />
+                    <e p="SensorBase.cs" t="Include" />
+                    <e p="SensorDistance.cs" t="Include" />
+                    <e p="SensorManager.cs" t="Include" />
+                  </e>
+                  <e p="SensorsAndBehaviours.cs" t="Include" />
+                </e>
                 <e p="StateMachineHandler.cs" t="Include" />
               </e>
             </e>

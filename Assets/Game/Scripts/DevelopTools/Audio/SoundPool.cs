@@ -11,12 +11,14 @@ public class SoundPool : SingleObjectPool<AudioSource>
    [SerializeField] private AudioClip _audioClip;
    [SerializeField] private bool loop = false;
    [SerializeField] private bool playOnAwake = false;
+
+   public void Configure(AudioClip audioClip) {_audioClip = audioClip;}
+
    protected override void AddObject(int amount)
    {
       var newAudio = ASourceCreator.Create3DSource(_audioClip, _audioClip.name, transform, loop, playOnAwake);
       newAudio.gameObject.SetActive(false);
       objects.Enqueue(newAudio);
-      
-      
    }
+   
 }
