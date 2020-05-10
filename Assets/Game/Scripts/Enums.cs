@@ -35,6 +35,9 @@ public enum LabelStatesLinkType
     STATE_24_RANGE_STRONG,
     STATE_25_RANGE_COMBO,
 
+    STATE_TAUNT_1,
+    STATE_TAUNT_2,
+
     STATE_DEATH
 }
 
