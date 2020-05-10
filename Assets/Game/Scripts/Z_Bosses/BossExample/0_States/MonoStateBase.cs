@@ -8,6 +8,11 @@ public abstract class MonoStateBase : MonoBehaviour
     public class MonoStateBaseOptions { public LabelStatesLinkType linker; }
     public MonoStateBaseOptions _monoStateBaseOptions = new MonoStateBaseOptions();
 
+    SensorsAndBehaviours sensors_and_behaviours;
+    protected SensorManager Get_Sensors { get { return sensors_and_behaviours.Sensor; } }
+    protected BehavioursManager Get_Behaviours { get { return sensors_and_behaviours.Behaviours; } }
+    public void Configure(SensorsAndBehaviours _sensorsAndBehaviours) => sensors_and_behaviours = _sensorsAndBehaviours;
+
     private void Awake()
     {
         #region comprobacion para saber si otro estado esta usando el mismo linker que yo

@@ -11,6 +11,7 @@ public class BehavioursManager : MonoBehaviour
 
     [Header("Behaviours")]
     public FollowBehaviour followBehaviour;
+    public AnimationPositionCapture animationPostionCapture;
 
     public void InitializeBehaviours(Transform root, Rigidbody rb)
     {

@@ -4,16 +4,14 @@ using UnityEngine;
 
 public class Generic_Idle : MonoStateBase
 {
-    [SerializeField] SensorManager sensors;
-
     protected override void OnBegin()
     {
-        sensors.sensor_distance.StartSensor();
+        Get_Sensors.sensor_distance.StartSensor();
     }
 
     protected override void OnExit()
     {
-        sensors.sensor_distance.StopSensor();
+        Get_Sensors.sensor_distance.StopSensor();
     }
 
     protected override void OnUpdate()

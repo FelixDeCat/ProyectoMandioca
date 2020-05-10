@@ -15,6 +15,7 @@ public class FollowBehaviour : MonoBehaviour
     Rigidbody rb;
     Transform target;
     bool follow;
+    bool lookat;
 
     private void Awake()
     {
@@ -30,16 +31,26 @@ public class FollowBehaviour : MonoBehaviour
     }
 
     public void ChangeTarget(Transform target) => this.target = target;
-    public void StartFollow() => follow = true;
-    public void StopFollow() => follow = false;
+    public void StartFollow() { follow = true; }
+    public void StopFollow() { follow = false; }
+    public void StartLookAt() { lookat = true; }
+    public void StopLookAt() { lookat = false; }
 
     void Update()
     {
         if (follow)
         {
             Vector3 forwardFix = genericEnemyMove.ObstacleAvoidance(new Vector3(Direction.x, 0, Direction.z));
-            genericEnemyMove.Rotation(forwardFix);
             genericEnemyMove.MoveWRigidbodyV(forwardFix);
+            genericEnemyMove.Rotation(forwardFix);
         }
+        else
+        {
+            if (lookat)
+            {
+                genericEnemyMove.Rotation(Direction);
+            }
+        }
+        
     }
 }

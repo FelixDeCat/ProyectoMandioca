@@ -12,8 +12,8 @@ public class ABossGenericClean : EnemyBase
 
     protected override void OnInitialize()
     {
-        stateMachineHandler.Initialize();
         sensors_and_behaviours.Initialize();
+        stateMachineHandler.Initialize(sensors_and_behaviours);
     }
 
     public override void Zone_OnPlayerEnterInThisRoom(Transform who)

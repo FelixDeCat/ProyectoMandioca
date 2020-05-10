@@ -10,10 +10,14 @@ public class StateMachineHandler : MonoBehaviour
 
     StateLinkerBehaviour[] linkersCaptured = new StateLinkerBehaviour[0];
 
-    internal void Initialize()
+    internal void Initialize(SensorsAndBehaviours sens_and_beha)
     {
         linkersCaptured = current_animator.GetBehaviours<StateLinkerBehaviour>();
-        foreach (var s in parentStates.GetComponentsInChildren<MonoStateBase>()) LinkState(s);
+        foreach (var s in parentStates.GetComponentsInChildren<MonoStateBase>())
+        {
+            s.Configure(sens_and_beha);
+            LinkState(s);
+        }
     }
 
     public void LinkState(MonoStateBase stateBase)
@@ -22,6 +26,7 @@ public class StateMachineHandler : MonoBehaviour
         {
             if (linkersCaptured[i].linker == stateBase._monoStateBaseOptions.linker)
             {
+
                 linkersCaptured[i].Configure(stateBase.Begin, stateBase.Exit, stateBase.Refresh);
             }
         }
