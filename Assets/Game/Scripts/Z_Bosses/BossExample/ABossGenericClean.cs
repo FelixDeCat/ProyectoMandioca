@@ -7,15 +7,13 @@ using ToolsMandioca.StateMachine;
 public class ABossGenericClean : EnemyBase
 {
     [Header("Boss Options")]
-    [SerializeField] GenericEnemyMove generic_move;
     [SerializeField] StateMachineHandler stateMachineHandler;
-    [SerializeField] Transform root;
-    [SerializeField] Rigidbody rigidBody;
+    [SerializeField] SensorsAndBehaviours sensors_and_behaviours;
 
     protected override void OnInitialize()
     {
         stateMachineHandler.Initialize();
-        generic_move.Configure(root,rigidBody);
+        sensors_and_behaviours.Initialize();
     }
 
     public override void Zone_OnPlayerEnterInThisRoom(Transform who)
