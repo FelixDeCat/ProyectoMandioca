@@ -40,6 +40,7 @@ public class CharacterInput : MonoBehaviour
     public UnityEvent OnUseActive;
 
     public UnityEvent LockON;
+    public UnityEvent NextON;
 
     private void Awake() => ConfigureJoystickHelper();
 
@@ -75,8 +76,6 @@ public class CharacterInput : MonoBehaviour
         if (Input.GetButtonDown("Skill")) OnUseActive.Invoke();
 
         RefreshHelper();
-
-        if (Input.GetButtonDown("LockOn")) LockON.Invoke();
 
     }
 
@@ -117,13 +116,17 @@ public class CharacterInput : MonoBehaviour
             .SUBSCRIBE_DPAD_UP(EV_DPAD_UP)
             .SUBSCRIBE_DPAD_DOWN(EV_DPAD_DOWN)
             .SUBSCRIBE_DPAD_RIGHT(EV_DPAD_RIGHT)
-            .SUBSCRIBE_DPAD_LEFT(EV_DPAD_LEFT);
+            .SUBSCRIBE_DPAD_LEFT(EV_DPAD_LEFT)
+            .SUBSCRIBE_LTRIGGER(EV_DPAD_LTRIGGER)
+            .SUBSCRIBE_RTRIGGER(EV_DPAD_RTRIGGER);
     }
     void RefreshHelper() => joystickhelper.Refresh();
     void EV_DPAD_UP() { OnDpad_Up.Invoke(); Debug.Log("UP"); }
     void EV_DPAD_DOWN() { OnDpad_Down.Invoke(); Debug.Log("DOWN"); }
     void EV_DPAD_LEFT() { OnDpad_Left.Invoke(); Debug.Log("LEFT"); }
     void EV_DPAD_RIGHT() { OnDpad_Right.Invoke(); Debug.Log("RIGHT"); }
+    void EV_DPAD_LTRIGGER() { LockON.Invoke(); }
+    void EV_DPAD_RTRIGGER() { NextON.Invoke(); }
     #endregion
 
 
