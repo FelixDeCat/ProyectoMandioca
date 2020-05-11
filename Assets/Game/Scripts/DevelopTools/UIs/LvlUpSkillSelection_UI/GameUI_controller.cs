@@ -17,8 +17,12 @@ public class GameUI_controller : MonoBehaviour
     [SerializeField] public RectTransform shieldPLaces;
 
     private CharStats_UI _charStats_Ui;
+    [SerializeField] private GameObject stats3D_UI_pf;
+    private GameObject stats3D_UI;
     Dictionary<UI_templates, GameObject> UiTemplateRegistry = new Dictionary<UI_templates, GameObject>();
 
+    
+    
     [Header("--XX--Canvas containers--XX--")]
     [SerializeField] private RectTransform leftCanvas = null;
     [SerializeField] private RectTransform rightCanvas = null;
@@ -40,10 +44,16 @@ public class GameUI_controller : MonoBehaviour
         Main.instance.eventManager.SubscribeToEvent(GameEvents.GAME_INITIALIZE, Initialize);
     }
 
+    //Esto est amuy feo, tengo que ponerlo mas lindo
     void Initialize()
     {
         _charStats_Ui = Instantiate<GameObject>(UiTemplateRegistry[UI_templates.charStats], leftCanvas).GetComponent<CharStats_UI>();
         gameMenu_UI.Configure(_charStats_Ui.ToggleLvlUpSignOFF);
+        stats3D_UI = Instantiate(stats3D_UI_pf, transform);
+        
+        
+        Main.instance.GetChar().Life.frontendLife = stats3D_UI.GetComponent<Stats3D_UI_helper>().lifeBar;
+        
     }
 
     private void RegistrarUIPrefabs()
@@ -71,7 +81,9 @@ public class GameUI_controller : MonoBehaviour
     public void UI_Send_NameSkillType(string s) { }
     public void UI_SendLevelUpNotification() {/* CanvasPopUpInWorld_Manager.instance.MakePopUpAnimated(Main.instance.GetChar().transform, lvlUp_pf);*/ }
     public void UI_SendActivePlusNotification(bool val) { if (val) _charStats_Ui.ToggleLvlUpSignON(); }
-    public void UI_RefreshExpBar(int currentExp, int maxExp, int currentLevel) => _charStats_Ui.UpdateXP_UI(currentExp, maxExp, currentLevel);
+
+    public void UI_RefreshExpBar(int currentExp, int maxExp, int currentLevel) =>
+        stats3D_UI.GetComponent<Stats3D_UI_helper>().expBar.OnValueChange(currentExp, maxExp); //_charStats_Ui.UpdateXP_UI(currentExp, maxExp, currentLevel);
     public void UI_MaxExpBar(int currentLevel) => _charStats_Ui.MaxLevel(currentLevel);
     public void RefreshPassiveSkills_UI(List<SkillInfo> skillsNuevas) => _charStats_Ui.UpdatePasiveSkills(skillsNuevas);
     public void SetSelectedPath(string pathName) => _charStats_Ui.SetPathChoosen(pathName);
