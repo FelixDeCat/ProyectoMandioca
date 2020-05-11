@@ -22,6 +22,6 @@ public class GenericBar_Scaler : GenericBar
 
     private void Update()
     {
-        Debug.Log(pivotPointToScale.localScale);
+        //Debug.Log(pivotPointToScale.localScale);
     }
 }

@@ -20,7 +20,6 @@ public class GenericSword : Weapon
 
         for (int i = 0; i < entities.Count; i++)
         {
-            Debug.Log(entities[i].gameObject.name);
 
             Vector3 dir = entities[i].transform.position - pos.position;
             float angle = Vector3.Angle(pos.forward, dir);

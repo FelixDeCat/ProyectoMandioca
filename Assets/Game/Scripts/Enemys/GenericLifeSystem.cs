@@ -18,6 +18,9 @@ public class GenericLifeSystem : MonoBehaviour
 
     public event Action DeadCallback = delegate { };
 
+    public Action OnHitCallback = delegate { };
+
+    public void AddEventOnHit(Action listener) { OnHitCallback = listener; }
     public void AddEventOnDeath(Action listener) { DeadCallback += listener; }
     public void RemoveEventOnDeath(Action listener) { DeadCallback -= listener; DeadCallback = delegate { }; }
 
@@ -32,12 +35,8 @@ public class GenericLifeSystem : MonoBehaviour
         tempBar.SetCanvasPopUp(transform, canvas);
         uilife = tempBar.GetComponent<LifeBar>();
         lifeSystemEnemy = new LifeSystemBase();
-        lifeSystemEnemy.Config(life, EVENT_OnLoseLife, EVENT_OnGainLife, EVENT_OnDeath, uilife, life);
+        lifeSystemEnemy.Config(life, OnHitCallback, EVENT_OnGainLife, EVENT_OnDeath, uilife, life);
     }
-
-
-
-    void EVENT_OnLoseLife() { }
     void EVENT_OnGainLife() { }
     void EVENT_OnDeath()
     {
