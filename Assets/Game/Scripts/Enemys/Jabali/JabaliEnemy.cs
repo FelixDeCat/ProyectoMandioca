@@ -476,7 +476,7 @@ public class JabaliEnemy : EnemyBase
         new JabaliPersuit(persuit, sm, movement, lineOfSight.OnSight, IsChargeOk, distanceToAttack, distanceToCharge - 1).SetAnimator(animator)
             .SetThis(this).SetRoot(rootTransform);
 
-        new JabaliCharge(chargePush, sm, chargeTime).SetAnimator(animator).SetDirector(director).SetThis(this);
+        new JabaliCharge(chargePush, sm, chargeTime).SetAnimator(animator).SetDirector(director).SetThis(this).SetRigidbody(rb).SetRoot(rootTransform);
 
         new JabaliPushAttack(push, sm, chargeSpeed, PushAttack).SetAnimator(animator).SetRigidbody(rb).SetRoot(rootTransform);
 

@@ -8,6 +8,7 @@ namespace ToolsMandioca.StateMachine
     {
         float chargeTime;
         float timer = 0;
+        Vector3 finalPos;
 
         public JabaliCharge(EState<JabaliEnemy.JabaliInputs> myState, EventStateMachine<JabaliEnemy.JabaliInputs> _sm, float _chargeTime) : base(myState, _sm)
         {
@@ -21,11 +22,15 @@ namespace ToolsMandioca.StateMachine
                 anim.SetBool("ChargeAttack", true);
                 combatDirector.RemoveToAttack(enemy, enemy.CurrentTarget());
             }
+            finalPos = root.position - root.forward * 2;
+
         }
 
         protected override void Update()
         {
             timer += Time.deltaTime;
+
+            rb.transform.position = Vector3.Lerp(root.position, finalPos, Time.deltaTime);
 
             if (timer >= chargeTime)
                 sm.SendInput(JabaliEnemy.JabaliInputs.PUSH);
