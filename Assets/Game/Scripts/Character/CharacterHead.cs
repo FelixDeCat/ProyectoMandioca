@@ -106,7 +106,8 @@ public class CharacterHead : CharacterControllable
     private void Start()
     {
         _lockOn = new LockOn(enemyLayer, 100, transform);
-        lifesystem = new CharLifeSystem()
+        lifesystem
+            .Configure_CharLifeSystem()
             .ADD_EVENT_OnGainLife(OnGainLife)
             .ADD_EVENT_OnLoseLife(OnLoseLife)
             .ADD_EVENT_Death(OnDeath)

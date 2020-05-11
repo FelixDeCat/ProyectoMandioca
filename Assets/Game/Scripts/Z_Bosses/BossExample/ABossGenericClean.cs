@@ -9,11 +9,12 @@ public class ABossGenericClean : EnemyBase
     [Header("Boss Options")]
     [SerializeField] StateMachineHandler stateMachineHandler;
     [SerializeField] SensorsAndBehaviours sensors_and_behaviours;
+    [SerializeField] AnimEvent animEvent;
 
     protected override void OnInitialize()
     {
         sensors_and_behaviours.Initialize();
-        stateMachineHandler.Initialize(sensors_and_behaviours);
+        stateMachineHandler.Initialize(sensors_and_behaviours, animEvent);
     }
 
     public override void Zone_OnPlayerEnterInThisRoom(Transform who)

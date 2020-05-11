@@ -4,6 +4,8 @@ public class CharLifeSystem
 {
     LifeSystemBase lifesystem;
 
+    public FrontendStatBase frontendLife;
+
     public int life = 100;
 
     public event Action<int, int> lifechange = delegate { };
@@ -12,11 +14,12 @@ public class CharLifeSystem
     public event Action gainlife = delegate { };
     public event Action death = delegate { };
 
-    public CharLifeSystem()
+    public CharLifeSystem Configure_CharLifeSystem()
     {
         lifesystem = new LifeSystemBase();
         lifesystem.Config(life, EVENT_OnLoseLife, EVENT_OnGainLife, EVENT_OnDeath, life);
         lifesystem.AddCallback_LifeChange(OnLifeChange);
+        return this;
     }
 
     //////////////////////////////////////////////////////////////////////////////////
@@ -34,7 +37,12 @@ public class CharLifeSystem
     //////////////////////////////////////////////////////////////////////////////////
     /// CALLBACKS
     //////////////////////////////////////////////////////////////////////////////////
-    void OnLifeChange(int current, int max) => lifechange.Invoke(current, max);
+    void OnLifeChange(int current, int max) 
+    { 
+        lifechange.Invoke(current, max);
+
+        if(frontendLife) frontendLife.OnValueChange(current, max);
+    }
     void EVENT_OnLoseLife() { loselife.Invoke(); }
     void EVENT_OnGainLife() { gainlife.Invoke(); }
     void EVENT_OnDeath() { death.Invoke(); }
