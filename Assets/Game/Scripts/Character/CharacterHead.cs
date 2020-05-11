@@ -148,7 +148,9 @@ public class CharacterHead : CharacterControllable
 
         debug_options.StartDebug();
         DevelopTools.UI.Debug_UI_Tools.instance.CreateToogle("Speed for testing", false, ToogleSpeed);
-        
+
+        DevelopTools.UI.Debug_UI_Tools.instance.CreateToogle("Use LockOn", false, UseLockOn);
+
     }
     float auxSpeedDebug;
     string ToogleSpeed(bool active)
@@ -353,16 +355,16 @@ public class CharacterHead : CharacterControllable
         stateMachine.Update();
         ChildrensUpdates();
         charAttack.Refresh();
-        if (Input.GetKeyDown(KeyCode.T))
-        {
-            StartLockOn();
-        }
-        if (Input.GetKeyDown(KeyCode.E))
-        {
-            NextLockOn();
-        }
-        _lockOn.UpdateLockOnEnemys();
+        RefreshLockOn();
     }
+
+    #region Lockon
+    bool lockon;
+    string UseLockOn(bool useLockon) { lockon = useLockon; if (!useLockon) _lockOn.SetLockOn(false); return useLockon ? "ON" : "OFF"; }
+    void RefreshLockOn() { if(lockon) _lockOn.UpdateLockOnEnemys(); }
+    public void EVENT_StartLockOn() { if(lockon) _lockOn.EVENT_Joystick_LockOn(); }
+    public void EVENT_NextLockOn() { if(lockon) _lockOn.EVENT_Joystick_nextLockOn(); }
+    #endregion
 
     //caundo lo recibo desde el lock on
     public void SetToInputStateMAchinLockON()
@@ -370,14 +372,7 @@ public class CharacterHead : CharacterControllable
         stateMachine.SendInput(PlayerInputs.PLAYER_LOCK_ON);
     }
 
-    public void StartLockOn()
-    {
-        _lockOn.EVENT_Joystick_LockOn();
-    }
-    public void NextLockOn()
-    {
-        _lockOn.EVENT_Joystick_nextLockOn();
-    }
+    
 
     protected override void OnPause()
     {

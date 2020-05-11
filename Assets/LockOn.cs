@@ -32,7 +32,7 @@ public class LockOn
 
     public void EVENT_Joystick_LockOn()
     {
-        Debug.Log("Esto funciona");
+        Debug.Log("EVENT_Joystick_LockOn");
         ////aca busco al enemy por overlap
         //var emeies = Physics.OverlapSphere
         //    currentEnemy = neemigoencontrado
@@ -65,6 +65,8 @@ public class LockOn
 
     public void EVENT_Joystick_nextLockOn()
     {
+        Debug.Log("EVENT_Joystick_nextLockOn");
+
         if (currentEnemy)
         {
             if (index < _myEnemies.Count - 1)
@@ -76,7 +78,7 @@ public class LockOn
     }
     public void UpdateLockOnEnemys()
     {
-
+        Debug.Log("UpdateLockOnEnemys");
         for (int i = 0; i < _myEnemies.Count; i++)
         {
             if (_myEnemies[i].death)

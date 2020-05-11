@@ -28,7 +28,6 @@ namespace ToolsMandioca.StateMachine
                     Vector3 enemypos = new Vector3(_myEnemy.transform.position.x, 0, _myEnemy.transform.position.z);
                     _myTransform.LookAt(enemypos);
                 }
-                   
                
                 Debug.Log("is locking");
             }
