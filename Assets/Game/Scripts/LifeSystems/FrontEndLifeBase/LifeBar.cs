@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -6,7 +7,7 @@ using UnityEngine.UI;
 public class LifeBar : FrontendStatBase
 {
     public Text val;
-    public GenericBar genbar;
+    public GenericBar_Scaler genbar;
 
     public override void OnValueChange(int value, int max = 100, bool anim = false)
     {

@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 
 public class GenericBar_Scaler : GenericBar
 {
@@ -14,7 +15,13 @@ public class GenericBar_Scaler : GenericBar
         if (_axis == axis.x) scale.x = percent * scaler;
         if (_axis == axis.y) scale.y = percent * scaler;
         if (_axis == axis.z) scale.z = percent * scaler;
+        
         pivotPointToScale.localScale = scale;
+        
     }
 
+    private void Update()
+    {
+        Debug.Log(pivotPointToScale.localScale);
+    }
 }

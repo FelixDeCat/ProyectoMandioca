@@ -75,6 +75,8 @@ public class CharacterInput : MonoBehaviour
 
         if (Input.GetButtonDown("Skill")) OnUseActive.Invoke();
 
+        if (Input.GetButtonDown("LockOn")) LockON.Invoke();
+
         RefreshHelper();
 
     }
