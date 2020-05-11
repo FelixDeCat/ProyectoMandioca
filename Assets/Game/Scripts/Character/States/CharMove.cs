@@ -21,6 +21,9 @@ namespace ToolsMandioca.StateMachine
         {
             if (_myLockOn.isLockOn())
             {
+
+                Debug.Log("IS LOCKON ON");
+
                 Transform _myTransform = charMove.GetTransformRotation();
                 EnemyBase _myEnemy = _myLockOn.GetCurrentEnemy();
                 if (_myEnemy)
@@ -29,10 +32,11 @@ namespace ToolsMandioca.StateMachine
                     _myTransform.LookAt(enemypos);
                 }
                
-                Debug.Log("is locking");
+                
             }
             else
             {
+                Debug.Log("IS LOCKON OFF");
                 charMove.RotateHorizontal(RightHorizontal());
                 charMove.RotateVertical(RightVertical());
             }

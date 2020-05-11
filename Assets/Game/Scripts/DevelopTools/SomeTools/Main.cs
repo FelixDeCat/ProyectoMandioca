@@ -33,6 +33,8 @@ public class Main : MonoBehaviour
     [SerializeField] TimeManager timeManager = null;
     [SerializeField] Spawner spawner = null;
 
+    [SerializeField] Day_Night dayNight;
+
     public GameUI_controller gameUiController;
 
     BaseRoom _currentRoom;
@@ -198,8 +200,10 @@ public class Main : MonoBehaviour
     public List<GameObject> SpawnListItems(GameObject item, Transform pos, int quantity) => spawner.spawnListItems(item, pos, quantity);
 
     public GameObject SpawnWheel(SpawnData spawn, Transform pos) => spawner.SpawnByWheel(spawn, pos);
+
+    internal Day_Night GetDayNight() => dayNight;
     #endregion
 
-   
+
 
 }

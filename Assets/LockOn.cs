@@ -13,9 +13,9 @@ public class LockOn
     public EnemyBase _targetEnemy;
     int index = 0;
     public bool active;
-    
+
     LayerMask layerMask = 0;
-   
+
     float _radius = 100;
     //seteo de current enemy
     EnemyBase currentEnemy;
@@ -23,7 +23,7 @@ public class LockOn
     void SetCurrentEnemy(EnemyBase ebase) => currentEnemy = ebase;
     Transform _myTransform;
 
-    public LockOn(LayerMask ly,float radius,Transform myTransform)
+    public LockOn(LayerMask ly, float radius, Transform myTransform)
     {
         layerMask = ly;
         _radius = radius;
@@ -37,30 +37,34 @@ public class LockOn
         //var emeies = Physics.OverlapSphere
         //    currentEnemy = neemigoencontrado
         //char.SetToInputStateMAchinLockON();
-       
-        
-          if (currentEnemy == null)
-          {
-              index = 0;
-              var overlap = Physics.OverlapSphere(_myTransform.position, _radius, layerMask);
-              _myEnemies = new List<EnemyBase>();
-              foreach (var item in overlap)
-              {
-                  var currentEnemy = item.GetComponent<EnemyBase>();
-                  _myEnemies.Add(currentEnemy);
-              }
-              if (_myEnemies.Count != 0)
-              {
-                  currentEnemy = _myEnemies[index];
-              }
-            SetLockOn(true);
-          }
-          else
-          {
-              currentEnemy = null;
-              SetLockOn(false);
-          }
-        
+
+
+        if (currentEnemy == null)
+        {
+            index = 0;
+            var overlap = Physics.OverlapSphere(_myTransform.position, _radius, layerMask);
+            _myEnemies = new List<EnemyBase>();
+            foreach (var item in overlap)
+            {
+                var currentEnemy = item.GetComponent<EnemyBase>();
+                _myEnemies.Add(currentEnemy);
+            }
+            if (_myEnemies.Count != 0)
+            {
+                currentEnemy = _myEnemies[index];
+                SetLockOn(true);
+            }
+            else
+            {
+                SetLockOn(false);
+            }
+        }
+        else
+        {
+            currentEnemy = null;
+            SetLockOn(false);
+        }
+
     }
 
     public void EVENT_Joystick_nextLockOn()

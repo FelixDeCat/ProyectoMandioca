@@ -142,14 +142,14 @@ public class CharacterHead : CharacterControllable
         charAnimEvent.Add_Callback("BeginBlock", charBlock.OnBlockSuccessful);
         charAnimEvent.Add_Callback("Dash", move.RollForAnim);
 
-        SetStates();
-
         rb = GetComponent<Rigidbody>();
 
         debug_options.StartDebug();
         DevelopTools.UI.Debug_UI_Tools.instance.CreateToogle("Speed for testing", false, ToogleSpeed);
 
         DevelopTools.UI.Debug_UI_Tools.instance.CreateToogle("Use LockOn", false, UseLockOn);
+
+        SetStates();
 
     }
     float auxSpeedDebug;
