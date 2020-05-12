@@ -74,7 +74,9 @@ public class RangeDummy : EnemyBase
     public AnimEvent GetAnimEvent() => anim;
     [SerializeField] UnityEngine.UI.Text txt_debug = null;
     [SerializeField] Material freeze_shader = null;
-    
+    [SerializeField] Color onHitColor;
+    [SerializeField] float onHitFlashTime;
+
     public bool isOnFire { get; private set; }
     
 
@@ -233,6 +235,8 @@ public class RangeDummy : EnemyBase
         {
             rb.AddForce(aux * forceRecall, ForceMode.Impulse);
         }
+
+        StartCoroutine(OnHitted(myMat, onHitFlashTime, onHitColor));
 
         sm.SendInput(RangeDummyInput.TAKE_DAMAGE);
 
