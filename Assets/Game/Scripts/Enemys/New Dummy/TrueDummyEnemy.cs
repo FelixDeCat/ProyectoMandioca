@@ -48,7 +48,6 @@ public class TrueDummyEnemy : EnemyBase
     [SerializeField] Animator animator = null;
     [SerializeField] UnityEngine.UI.Text txt_debug = null;
     [SerializeField] Material freeze_shader = null;
-    [SerializeField] Material emission = null;
     [SerializeField] Color onHitColor;
     [SerializeField] float onHitFlashTime;
 
@@ -250,30 +249,7 @@ public class TrueDummyEnemy : EnemyBase
             }
         });
     }
-    public IEnumerator OnHit()
-    {
-        var smr = GetComponentInChildren<SkinnedMeshRenderer>();
-        if (smr != null)
-        {
-            myMat = smr.materials;
-
-            Material[] mats = smr.materials;
-            smr.materials = mats;
-            for (int i = 0; i < onHitFlashTime; i++)
-            {
-                if (i < (onHitFlashTime/2f))
-                {
-                    mats[1].SetColor("_EmissionColor", Color.Lerp(Color.black, onHitColor, i/ (onHitFlashTime/2f)));
-                }
-                else
-                {
-                    mats[1].SetColor("_EmissionColor", Color.Lerp(onHitColor, Color.black, (i - (onHitFlashTime/2f)) / (onHitFlashTime/2f)));
-                }
-                yield return new WaitForSeconds(0.01f);
-            }
-        }
-    }
-
+    
 
     #endregion
 
@@ -298,7 +274,7 @@ public class TrueDummyEnemy : EnemyBase
         {
             rb.AddForce(aux * forceRecall, ForceMode.Impulse);
         }
-        StartCoroutine(OnHit());
+        StartCoroutine(OnHitted(myMat, onHitFlashTime, onHitColor));
 
         sm.SendInput(DummyEnemyInputs.TAKE_DAMAGE);
 

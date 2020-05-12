@@ -65,6 +65,8 @@ public class JabaliEnemy : EnemyBase
     [SerializeField] UnityEngine.UI.Text txt_debug = null;
     [SerializeField] Material freeze_shader = null;
     [SerializeField] RagdollComponent ragdoll;
+    [SerializeField] Color onHitColor;
+    [SerializeField] float onHitFlashTime;
 
     public bool isOnFire { get; private set; }
 
@@ -209,6 +211,8 @@ public class JabaliEnemy : EnemyBase
 
         greenblood.Play();
         cooldown = true;
+
+        StartCoroutine(OnHitted(myMat, onHitFlashTime, onHitColor));
 
         bool death = lifesystem.Hit(dmg);
         return death ? Attack_Result.death : Attack_Result.sucessful;
