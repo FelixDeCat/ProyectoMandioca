@@ -23,6 +23,7 @@ namespace ToolsMandioca.StateMachine
         {
             base.Enter(input);
             feedbackCharge.SetActive(true);
+            feedbackCharge.GetComponent<ParticleSystem>().Play();
             anim.SetTrigger("ChargeOk");
         }
 
@@ -45,6 +46,7 @@ namespace ToolsMandioca.StateMachine
         protected override void Exit(JabaliEnemy.JabaliInputs input)
         {
             feedbackCharge.SetActive(false);
+            feedbackCharge.GetComponent<ParticleSystem>().Stop();
             base.Exit(input);
             rb.velocity = Vector3.zero;
         }
