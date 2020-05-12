@@ -8,6 +8,7 @@ public class RagdollComponent : MonoBehaviour
     [SerializeField] Collider[] myCollider = new Collider[1];
     [SerializeField] Rigidbody myRigidbody = null;
     [SerializeField] Animator anim = null;
+    [SerializeField] float explosionForce;
 
     Bone[] myBones;
 
@@ -35,6 +36,6 @@ public class RagdollComponent : MonoBehaviour
             myBones[i].GetComponent<Collider>().enabled = active;
         }
 
-        myBones[0].GetComponent<Rigidbody>().AddForce((-anim.transform.forward + anim.transform.up) * 40, ForceMode.Impulse);
+        myBones[0].GetComponent<Rigidbody>().AddForce((-anim.transform.forward + anim.transform.up) * explosionForce, ForceMode.Impulse);
     }
 }

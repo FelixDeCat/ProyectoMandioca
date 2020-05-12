@@ -43,7 +43,7 @@ namespace ToolsMandioca.StateMachine
                     {
                         if (Vector3.Distance(pos1, pos2) >= distanceToPush)
                         {
-                            combatDirector.GetNewNearPos(enemy);
+                            combatDirector.GetNewNearPos(enemy, enemy.CurrentTarget());
                             sm.SendInput(JabaliEnemy.JabaliInputs.PERSUIT);
                         }
                     }
@@ -53,7 +53,7 @@ namespace ToolsMandioca.StateMachine
 
                         if (Vector3.Distance(pos1, pos2) >= distanceToNormalAttack && Vector3.Distance(pos1, pos3) >= 1)
                         {
-                            combatDirector.GetNewNearPos(enemy);
+                            combatDirector.GetNewNearPos(enemy, enemy.CurrentTarget());
                             sm.SendInput(JabaliEnemy.JabaliInputs.PERSUIT);
                         }
                     }
