@@ -29,7 +29,7 @@ namespace ToolsMandioca.StateMachine
 
         protected override void Update()
         {
-            if (enemy.CurrentTargetPos() == null)
+            if (enemy.CurrentTargetPosDir() == null)
             {
                 if (enemy.CurrentTarget() != null)
                 {
@@ -41,6 +41,8 @@ namespace ToolsMandioca.StateMachine
                     if (Vector3.Distance(enemy.CurrentTarget().transform.position, root.position) <= distanceNoCombat)
                         sm.SendInput(JabaliEnemy.JabaliInputs.IDLE);
                 }
+                else
+                    sm.SendInput(JabaliEnemy.JabaliInputs.IDLE);
             }
             else
             {

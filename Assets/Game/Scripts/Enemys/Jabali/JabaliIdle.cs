@@ -39,7 +39,7 @@ namespace ToolsMandioca.StateMachine
                 if (enemy.IsInPos())
                 {
 
-                    if (IsChargeOk())
+                    if (enemy.CurrentTargetPosDir())
                     {
                         if (Vector3.Distance(pos1, pos2) >= distanceToPush)
                         {

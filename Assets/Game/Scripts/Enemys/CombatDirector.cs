@@ -90,7 +90,7 @@ public class CombatDirector : MonoBehaviour, IZoneElement
 
     void AssignPos(EntityBase target)
     {
-        ICombatDirector randomEnemy = waitToAttack[target][UnityEngine.Random.Range(0, waitToAttack.Count)];
+        ICombatDirector randomEnemy = waitToAttack[target][UnityEngine.Random.Range(0, waitToAttack[target].Count)];
 
         waitToAttack[target].Remove(randomEnemy);
         listAttackTarget[target].Add(randomEnemy);
@@ -110,7 +110,6 @@ public class CombatDirector : MonoBehaviour, IZoneElement
     Transform GetNearPos(Vector3 p, float distance, EntityBase target)
     {
         Transform current = null;
-
         for (int i = 0; i < otherTargetPos[target].Count; i++)
         {
             if (current == null)
@@ -118,6 +117,9 @@ public class CombatDirector : MonoBehaviour, IZoneElement
             else
             {
                 Vector3 curr = current.position + current.localPosition * distance;
+
+                if (!otherTargetPos[target][i])
+                    Debug.Log("wat");
                 Vector3 niu = otherTargetPos[target][i].position + otherTargetPos[target][i].localPosition * distance;
                 if (Vector3.Distance(curr, p) > Vector3.Distance(niu, p))
                     current = otherTargetPos[target][i];
@@ -143,7 +145,7 @@ public class CombatDirector : MonoBehaviour, IZoneElement
         if (waitToAttack[target].Contains(e))
             waitToAttack[target].Remove(e);
 
-        if (e.CurrentTargetPosDir())
+        if (e.CurrentTargetPosDir() != null)
         {
             otherTargetPos[target].Add(e.CurrentTargetPosDir());
             if (waitToAttack[target].Count > 0)
@@ -233,8 +235,8 @@ public class CombatDirector : MonoBehaviour, IZoneElement
 
         Transform pos = e.CurrentTargetPosDir();
 
-        otherTargetPos[target].Add(pos);
-        Debug.Log(otherTargetPos[target][otherTargetPos[target].Count - 1].localPosition);
+        if(pos != null)
+            otherTargetPos[target].Add(pos);
 
         e.SetTargetPosDir(GetNearPos(e.CurrentPos(), e.GetDistance(), target));
     }
@@ -317,7 +319,9 @@ public class CombatDirector : MonoBehaviour, IZoneElement
             return;
 
         attackingTarget[target].Remove(e);
-        otherTargetPos[target].Add(e.CurrentTargetPosDir());
+        if (e.CurrentTargetPosDir())
+            otherTargetPos[target].Add(e.CurrentTargetPosDir());
+
         if (waitToAttack[target].Count > 0)
             AssignPos(target);
 
