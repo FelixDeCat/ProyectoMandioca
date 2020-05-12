@@ -50,7 +50,7 @@ namespace ToolsMandioca.StateMachine
 
                     if (Vector3.Distance(pos1, pos2) >= distanceMin && Vector3.Distance(pos1, pos3) >= 1)
                     {
-                        combatDirector.GetNewNearPos(enemy);
+                        combatDirector.GetNewNearPos(enemy, enemy.CurrentTarget());
                         sm.SendInput(TrueDummyEnemy.DummyEnemyInputs.GO_TO_POS);
                     }
                 }

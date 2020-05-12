@@ -354,15 +354,15 @@ public class TrueDummyEnemy : EnemyBase
                 myEnemys[i].Invinsible = false;
             }
         }
-        director.RemoveToAttack(this, entityTarget);
-        director.RemoveTarget(this);
         death = true;
+        director.RemoveToAttack(this, entityTarget);
         Main.instance.RemoveEntity(this);
     }
 
     void DeathAnim()
     {
         //vector3, boolean, int
+        director.RemoveTarget(this);
         gameObject.SetActive(false);
         Main.instance.eventManager.TriggerEvent(GameEvents.ENEMY_DEAD, new object[] { transform.position, petrified, expToDrop });
     }

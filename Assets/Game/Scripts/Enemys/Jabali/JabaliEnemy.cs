@@ -80,7 +80,6 @@ public class JabaliEnemy : EnemyBase
         pushAttack.Configure(PushRelease, StunAfterCharge);
         lineOfSight.Configurate(rootTransform);
         anim.Add_Callback("DealDamage", DealDamage);
-        anim.Add_Callback("Death", DeathAnim);
         lifesystem.AddEventOnDeath(Die);
         StartDebug();
 
@@ -257,13 +256,8 @@ public class JabaliEnemy : EnemyBase
         director.RemoveTarget(this);
         sm.SendInput(JabaliInputs.DEAD);
         death = true;
-        Main.instance.RemoveEntity(this);
-    }
-
-    void DeathAnim()
-    {
         Main.instance.eventManager.TriggerEvent(GameEvents.ENEMY_DEAD, new object[] { transform.position, petrified, expToDrop });
-        gameObject.SetActive(false);
+        Main.instance.RemoveEntity(this);
     }
 
     #endregion

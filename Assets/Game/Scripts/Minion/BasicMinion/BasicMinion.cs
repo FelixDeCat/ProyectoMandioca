@@ -95,9 +95,12 @@ public class BasicMinion : Minion
                 {
                     if (enemy.GetComponent<EnemyBase>())
                     {
-                        entityTarget = enemy.GetComponent<EnemyBase>();
-                        director.AddToAttack(this, enemy.GetComponent<EnemyBase>());
-                        break;
+                        if (!enemy.GetComponent<EnemyBase>().death)
+                        {
+                            entityTarget = enemy.GetComponent<EnemyBase>();
+                            director.AddToAttack(this, enemy.GetComponent<EnemyBase>());
+                            break;
+                        }
                     }
                 }
             }
@@ -182,9 +185,8 @@ public class BasicMinion : Minion
     public void Die()
     {
         sm.SendInput(BasicMinionInput.DIE);
-
-        director.RemoveToAttack(this, entityTarget);
         death = true;
+        director.RemoveToAttack(this, entityTarget);
         Main.instance.RemoveEntity(this);
     }
 

@@ -49,7 +49,7 @@ namespace ToolsMandioca.StateMachine
 
                     if (Vector3.Distance(pos1, pos2) >= distanceMin && Vector3.Distance(pos1, pos3) >= 1)
                     {
-                        combatDirector.GetNewNearPos(minion);
+                        combatDirector.GetNewNearPos(minion, minion.CurrentTarget());
                         sm.SendInput(BasicMinion.BasicMinionInput.GO_TO_POS);
                     }
                 }

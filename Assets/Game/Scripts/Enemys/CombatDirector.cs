@@ -132,13 +132,24 @@ public class CombatDirector : MonoBehaviour, IZoneElement
         return newEmpty.transform;
     }
 
-    public void GetNewNearPos(ICombatDirector e)
+    public void GetNewNearPos(ICombatDirector e, EntityBase target)
     {
-        Transform pos = e.CurrentTargetPosDir();
+        if(target == head)
+        {
+            Transform pos = e.CurrentTargetPosDir();
 
-        positionsToAttack.Add(pos);
+            positionsToAttack.Add(pos);
 
-        e.SetTargetPosDir(GetNearPos(e.CurrentPos(), e.GetDistance()));
+            e.SetTargetPosDir(GetNearPos(e.CurrentPos(), e.GetDistance()));
+        }
+        else
+        {
+            Transform pos = e.CurrentTargetPosDir();
+
+            otherTargetPos[target].Add(pos);
+
+            e.SetTargetPosDir(GetNearPos(e.CurrentPos(), e.GetDistance(), target));
+        }
     }
 
     void AssignPos()
@@ -194,26 +205,68 @@ public class CombatDirector : MonoBehaviour, IZoneElement
         return current;
     }
 
-    Transform GetNearPos(Vector3 p, float distance, ICombatDirector enemy)
+    Transform GetNearPos(Vector3 p, float distance, EntityBase target)
     {
         Transform current = null;
 
-        for (int i = 0; i < positionsToAttack.Count; i++)
+        if(target == head)
         {
-            if (current == null)
+            for (int i = 0; i < positionsToAttack.Count; i++)
             {
-                current = positionsToAttack[i];
-            }
-            else
-            {
-                if (Vector3.Distance(current.position * distance, p) > Vector3.Distance(positionsToAttack[i].position * distance, p))
+                if (current == null)
+                {
                     current = positionsToAttack[i];
+                }
+                else
+                {
+                    current.localPosition *= distance;
+                    positionsToAttack[i].localPosition *= distance;
+                    if (Vector3.Distance(current.position, p) > Vector3.Distance(positionsToAttack[i].position, p))
+                    {
+                        current.localPosition /= distance;
+                        current = positionsToAttack[i];
+                    }
+                    else
+                    {
+                        current.localPosition /= distance;
+                    }
+                    positionsToAttack[i].localPosition /= distance;
+                }
             }
+
+            positionsToAttack.Remove(current);
+
+            return current;
         }
+        else
+        {
+            for (int i = 0; i < otherTargetPos[target].Count; i++)
+            {
+                if (current == null)
+                {
+                    current = otherTargetPos[target][i];
+                }
+                else
+                {
+                    current.localPosition *= distance;
+                    otherTargetPos[target][i].localPosition *= distance;
+                    if (Vector3.Distance(current.position, p) > Vector3.Distance(otherTargetPos[target][i].position, p))
+                    {
+                        current.localPosition /= distance;
+                        current = otherTargetPos[target][i];
+                    }
+                    else
+                    {
+                        current.localPosition /= distance;
+                    }
+                    otherTargetPos[target][i].localPosition /= distance;
+                }
+            }
 
-        positionsToAttack.Remove(current);
+            otherTargetPos[target].Remove(current);
 
-        return current;
+            return current;
+        }
     }
 
     Transform GetNearPos(Vector3 p, EntityBase entity)
@@ -252,8 +305,10 @@ public class CombatDirector : MonoBehaviour, IZoneElement
 
     public void RemoveTarget(EntityBase entity)
     {
-        if (otherTargetPos.ContainsKey(entity))
+        Debug.Log(listAttackTarget.Count);
+        if (listAttackTarget.ContainsKey(entity))
         {
+            Debug.Log(listAttackTarget[entity].Count);
             for (int i = 0; i < listAttackTarget[entity].Count; i++)
             {
                 listAttackTarget[entity][i].ResetCombat();

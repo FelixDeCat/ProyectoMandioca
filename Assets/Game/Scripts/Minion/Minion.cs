@@ -76,7 +76,7 @@ public abstract class Minion : Companion, ICombatDirector
     #region CombatDirector
     bool inPos;
     public bool attacking;
-    Transform currentTargetPos;
+    public Transform currentTargetPos;
 
     public Transform CurrentTargetPos() => currentTargetPos;
 
@@ -106,6 +106,7 @@ public abstract class Minion : Companion, ICombatDirector
 
     public virtual void ResetCombat()
     {
+        Debug.Log("Resetea");
         entityTarget = null;
         currentTargetPos = null;
         SetBool(false);
