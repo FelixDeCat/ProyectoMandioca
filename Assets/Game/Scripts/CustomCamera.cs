@@ -20,6 +20,8 @@ public class CustomCamera : MonoBehaviour
 
     PingPongLerp pingpongZoom;
 
+    public LayerMask _layermask_raycast_mask;
+
     Camera mycam;
 
     private void Start()
@@ -43,7 +45,28 @@ public class CustomCamera : MonoBehaviour
     }
 
     void Zoom(float valtozoom) => mycam.fieldOfView = Mathf.Lerp(FIELD_OF_VIEW_ORIGINAL, fieldOfView_toZoom, valtozoom);
-    private void Update() => pingpongZoom.Updatear();
+    private void Update()
+    {
+        pingpongZoom.Updatear();
+
+
+        RaycastHit hit;
+
+        var dir = target.position - this.transform.transform.position;
+
+        if (Physics.Raycast(this.transform.transform.position, dir, out hit, 1000, _layermask_raycast_mask))
+        {
+            if (!hit.transform.GetComponent<CharacterHead>())
+            {
+                Main.instance.GetChar().Mask(true);
+            }
+            else
+            {
+                Main.instance.GetChar().Mask(false);
+            }
+        }
+
+    }
 
     private void FixedUpdate()
     {

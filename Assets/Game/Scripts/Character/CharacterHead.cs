@@ -39,6 +39,9 @@ public class CharacterHead : CharacterControllable
     [SerializeField] float parryRecall = 0;
     [SerializeField] float takeDamageRecall = 0;
     CharacterBlock charBlock;
+    [SerializeField] GameObject sphereMask;
+
+    internal void Mask(bool v) => sphereMask.SetActive(v);
 
     //Perdon por esto, pero lo necesito pra la skill del boomeran hasta tener la animacion y el estado "sin escudo"
     bool canBlock = true;

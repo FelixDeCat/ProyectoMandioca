@@ -4,11 +4,21 @@ using UnityEngine;
 
 public class Interact_DayNight : Interactable
 {
-   
+    public GameObject[] onDay;
+    public GameObject[] onNight;
 
     public override void OnExecute(WalkingEntity entity)
     {
-        Main.instance.GetDayNight().Change();
+        if (Main.instance.GetDayNight().Change())
+        {
+            foreach (var f in onDay) f.SetActive(true);
+            foreach (var f in onNight) f.SetActive(false);
+        }
+        else
+        {
+            foreach (var f in onDay) f.SetActive(false);
+            foreach (var f in onNight) f.SetActive(true);
+        }
     }
 
     public override void OnExit()
@@ -18,7 +28,7 @@ public class Interact_DayNight : Interactable
 
     public override void OnEnter(WalkingEntity entity)
     {
-        WorldItemInfo.instance.Show(pointToMessage.position, "Change", "Cambia dia y noche", "cambiar", true);
+        WorldItemInfo.instance.Show(pointToMessage.position, "Change", "[LIGHTINGS DEBUG]", "cambiar", true);
     }
 
 }
