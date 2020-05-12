@@ -9,6 +9,7 @@ namespace ToolsMandioca.StateMachine
         float chargeTime;
         float timer = 0;
         Vector3 finalPos;
+        
 
         public JabaliCharge(EState<JabaliEnemy.JabaliInputs> myState, EventStateMachine<JabaliEnemy.JabaliInputs> _sm, float _chargeTime) : base(myState, _sm)
         {
@@ -42,6 +43,8 @@ namespace ToolsMandioca.StateMachine
             {
                 anim.SetBool("ChargeAttack", false);
                 timer = 0;
+
+                
             }
         }
     }

@@ -8,19 +8,21 @@ namespace ToolsMandioca.StateMachine
         float pushSpeed;
         Action DealDamage;
         float maxSpeed;
+        GameObject feedbackCharge;
 
         public JabaliPushAttack(EState<JabaliEnemy.JabaliInputs> myState, EventStateMachine<JabaliEnemy.JabaliInputs> _sm, float _speed,
-                                Action _DealDamage) : base(myState, _sm)
+                                Action _DealDamage, GameObject _feedbackCharge) : base(myState, _sm)
         {
             maxSpeed = _speed;
             pushSpeed = maxSpeed / 1.5f;
             DealDamage = _DealDamage;
+            feedbackCharge = _feedbackCharge;
         }
 
         protected override void Enter(EState<JabaliEnemy.JabaliInputs> input)
         {
             base.Enter(input);
-
+            feedbackCharge.SetActive(true);
             anim.SetTrigger("ChargeOk");
         }
 
@@ -42,6 +44,7 @@ namespace ToolsMandioca.StateMachine
 
         protected override void Exit(JabaliEnemy.JabaliInputs input)
         {
+            feedbackCharge.SetActive(false);
             base.Exit(input);
             rb.velocity = Vector3.zero;
         }

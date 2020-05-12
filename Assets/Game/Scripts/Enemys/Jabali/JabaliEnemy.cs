@@ -67,6 +67,7 @@ public class JabaliEnemy : EnemyBase
     [SerializeField] RagdollComponent ragdoll;
     [SerializeField] Color onHitColor;
     [SerializeField] float onHitFlashTime;
+    [SerializeField] GameObject feedbackCharge;
 
     public bool isOnFire { get; private set; }
 
@@ -483,7 +484,7 @@ public class JabaliEnemy : EnemyBase
 
         new JabaliCharge(chargePush, sm, chargeTime).SetAnimator(animator).SetDirector(director).SetThis(this).SetRigidbody(rb).SetRoot(rootTransform);
 
-        new JabaliPushAttack(push, sm, chargeSpeed, PushAttack).SetAnimator(animator).SetRigidbody(rb).SetRoot(rootTransform);
+        new JabaliPushAttack(push, sm, chargeSpeed, PushAttack, feedbackCharge).SetAnimator(animator).SetRigidbody(rb).SetRoot(rootTransform);
 
         new JabaliAttackAnticipation(headAnt, sm, movement, normalAttAnticipation).SetAnimator(animator).SetDirector(director).SetThis(this).SetRoot(rootTransform);
 
