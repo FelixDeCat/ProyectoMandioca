@@ -64,6 +64,7 @@ public class JabaliEnemy : EnemyBase
     [SerializeField] Animator animator = null;
     [SerializeField] UnityEngine.UI.Text txt_debug = null;
     [SerializeField] Material freeze_shader = null;
+    [SerializeField] RagdollComponent ragdoll;
 
     public bool isOnFire { get; private set; }
 
@@ -490,7 +491,7 @@ public class JabaliEnemy : EnemyBase
 
         new JabaliStun(petrified, sm, StartStun, TickStun, EndStun);
 
-        new JabaliDeath(dead, sm).SetAnimator(animator);
+        new JabaliDeath(dead, sm, ragdoll);
 
         disable.OnEnter += (input) => DisableObject();
 

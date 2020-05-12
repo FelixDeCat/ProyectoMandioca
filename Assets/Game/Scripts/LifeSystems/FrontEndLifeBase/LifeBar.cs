@@ -7,7 +7,7 @@ using UnityEngine.UI;
 public class LifeBar : FrontendStatBase
 {
     public Text val;
-    public GenericBar_Scaler genbar;
+    public GenericBar genbar;
 
     public override void OnValueChange(int value, int max = 100, bool anim = false)
     {

@@ -2,13 +2,15 @@
 {
     public class JabaliDeath : JabaliStates
     {
-        public JabaliDeath(EState<JabaliEnemy.JabaliInputs> myState, EventStateMachine<JabaliEnemy.JabaliInputs> _sm) : base(myState, _sm)
+        RagdollComponent ragdoll;
+        public JabaliDeath(EState<JabaliEnemy.JabaliInputs> myState, EventStateMachine<JabaliEnemy.JabaliInputs> _sm, RagdollComponent _ragdoll) : base(myState, _sm)
         {
+            ragdoll = _ragdoll;
         }
 
         protected override void Enter(EState<JabaliEnemy.JabaliInputs> input)
         {
-            anim.SetBool("Dead", true);
+            ragdoll.Ragdoll(true);
         }
     }
 }
