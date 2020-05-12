@@ -22,7 +22,6 @@ namespace ToolsMandioca.StateMachine
             if (lastState.Name != "Stun")
             {
                 anim.SetBool("Attack", true);
-                combatDirector.RemoveToAttack(minion, minion.CurrentTarget());
             }
         }
 

@@ -21,7 +21,6 @@ namespace ToolsMandioca.StateMachine
             if (input.Name != "Petrified")
             {
                 anim.SetBool("ChargeAttack", true);
-                combatDirector.RemoveToAttack(enemy, enemy.CurrentTarget());
             }
             finalPos = root.position - root.forward * 2;
 

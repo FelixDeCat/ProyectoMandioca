@@ -33,7 +33,7 @@ namespace ToolsMandioca.StateMachine
                 timer = 0;
                 var myEnemy = (EnemyBase)enemy;
                 myEnemy.attacking = false;
-                combatDirector.AddToAttack(enemy, enemy.CurrentTarget());
+                combatDirector.AttackRelease(enemy, enemy.CurrentTarget());
             }
         }
     }

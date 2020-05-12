@@ -54,7 +54,7 @@ namespace ToolsMandioca.StateMachine
             if (timer >= cd)
             {
                 sm.SendInput(TrueDummyEnemy.DummyEnemyInputs.IDLE);
-                combatDirector.AddToAttack(enemy, enemy.CurrentTarget());
+                combatDirector.AttackRelease(enemy, enemy.CurrentTarget());
             }
         }
     }

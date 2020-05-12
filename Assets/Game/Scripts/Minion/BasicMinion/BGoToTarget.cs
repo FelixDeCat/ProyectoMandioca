@@ -31,7 +31,7 @@ namespace ToolsMandioca.StateMachine
         protected override void Update()
         {
             base.Update();
-            if (minion.CurrentTargetPos() == null)
+            if (minion.CurrentTargetPosDir() == null)
             {
                 if (minion.CurrentTarget() != null)
                 {
@@ -58,7 +58,7 @@ namespace ToolsMandioca.StateMachine
             }
             else
             {
-                Vector3 dir = minion.CurrentTargetPos().position - root.position;
+                Vector3 dir = minion.CurrentTargetPos() - root.position;
                 dir.Normalize();
 
                 Vector3 dirFix = move.ObstacleAvoidance(new Vector3(dir.x, 0, dir.z));
@@ -66,8 +66,8 @@ namespace ToolsMandioca.StateMachine
                 move.Rotation(dirFix);
                 move.MoveWRigidbodyV(dirFix);
 
-                float distanceX = Mathf.Abs(minion.CurrentTargetPos().transform.position.x - root.position.x);
-                float distanceZ = Mathf.Abs(minion.CurrentTargetPos().transform.position.z - root.position.z);
+                float distanceX = Mathf.Abs(minion.CurrentTargetPos().x - root.position.x);
+                float distanceZ = Mathf.Abs(minion.CurrentTargetPos().z - root.position.z);
 
                 if (distanceX < 0.7f && distanceZ < 0.7f)
                     sm.SendInput(BasicMinion.BasicMinionInput.IDLE);

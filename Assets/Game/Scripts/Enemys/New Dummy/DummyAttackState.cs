@@ -22,7 +22,7 @@ namespace ToolsMandioca.StateMachine
                 anim.SetBool("Attack", false);
                 var myEnemy = (EnemyBase)enemy;
                 myEnemy.attacking = false;
-                combatDirector.AddToAttack(enemy, enemy.CurrentTarget());
+                combatDirector.AttackRelease(enemy, enemy.CurrentTarget());
             }
         }
 

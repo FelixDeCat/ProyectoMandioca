@@ -36,16 +36,22 @@ namespace ToolsMandioca.StateMachine
 
             if (minion.CurrentTarget() != null)
             {
+                if (!minion.CurrentTarget().gameObject.activeSelf)
+                {
+                    minion.ResetCombat();
+                    return;
+                }
+
                 Vector3 myForward = (minion.CurrentTarget().transform.position - root.position).normalized;
                 Vector3 forwardRotation = new Vector3(myForward.x, 0, myForward.z);
 
                 move.Rotation(forwardRotation);
 
-                if (minion.IsInPos())
+                if (minion.CurrentTargetPosDir())
                 {
                     Vector3 pos1 = new Vector3(root.position.x, 0, root.position.z);
                     Vector3 pos2 = new Vector3(minion.CurrentTarget().transform.position.x, 0, minion.CurrentTarget().transform.position.z);
-                    Vector3 pos3 = new Vector3(minion.CurrentTargetPos().position.x, 0, minion.CurrentTargetPos().position.z);
+                    Vector3 pos3 = new Vector3(minion.CurrentTargetPos().x, 0, minion.CurrentTargetPos().z);
 
                     if (Vector3.Distance(pos1, pos2) >= distanceMin && Vector3.Distance(pos1, pos3) >= 1)
                     {

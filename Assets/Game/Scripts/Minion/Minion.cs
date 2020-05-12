@@ -29,17 +29,7 @@ public abstract class Minion : Companion, ICombatDirector
 
     public void SetTarget(EntityBase _target)
     {
-        if (entityTarget != _target)
-        {
-            if (!attacking)
-            {
-                director.RemoveToAttack(this, entityTarget);
-                entityTarget = _target;
-                director.AddToAttack(this, _target);
-            }
-            else
-                entityTarget = _target;
-        }
+        entityTarget = _target;
     }
 
     protected void AddEffectTick(Action Effect)
@@ -78,18 +68,20 @@ public abstract class Minion : Companion, ICombatDirector
     public bool attacking;
     public Transform currentTargetPos;
 
-    public Transform CurrentTargetPos() => currentTargetPos;
+    public Vector3 CurrentTargetPos()
+    {
+        Vector3 result = currentTargetPos.position - currentTargetPos.localPosition + currentTargetPos.localPosition * distanceToTarget;
+        return result;
+    }
 
     public Transform CurrentTargetPosDir()
     {
-        currentTargetPos.localPosition /= distanceToTarget;
         return currentTargetPos;
     }
 
     public void SetTargetPosDir(Transform pos)
     {
         currentTargetPos = pos;
-        currentTargetPos.localPosition *= distanceToTarget;
     }
 
     public float GetDistance() => distanceToTarget;
@@ -106,9 +98,8 @@ public abstract class Minion : Companion, ICombatDirector
 
     public virtual void ResetCombat()
     {
-        Debug.Log("Resetea");
         entityTarget = null;
-        currentTargetPos = null;
+        SetTargetPosDir(null);
         SetBool(false);
     }
     #endregion

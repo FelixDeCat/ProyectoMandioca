@@ -42,11 +42,11 @@ namespace ToolsMandioca.StateMachine
 
                 move.Rotation(forwardRotation);
 
-                if (enemy.IsInPos())
+                if (enemy.CurrentTargetPosDir())
                 {
                     Vector3 pos1 = new Vector3(root.position.x, 0, root.position.z);
                     Vector3 pos2 = new Vector3(enemy.CurrentTarget().transform.position.x, 0, enemy.CurrentTarget().transform.position.z);
-                    Vector3 pos3 = new Vector3(enemy.CurrentTargetPos().position.x, 0, enemy.CurrentTargetPos().position.z);
+                    Vector3 pos3 = new Vector3(enemy.CurrentTargetPos().x, 0, enemy.CurrentTargetPos().z);
 
                     if (Vector3.Distance(pos1, pos2) >= distanceMin && Vector3.Distance(pos1, pos3) >= 1)
                     {

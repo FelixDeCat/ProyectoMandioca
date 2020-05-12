@@ -58,22 +58,22 @@ public abstract class EnemyBase : NPCBase, ICombatDirector
     protected bool withPos;
     protected EntityBase entityTarget;
     protected Transform _target;
-    public Transform CurrentTargetPos()
+    public Vector3 CurrentTargetPos()
     {
-        return _target;
+        Vector3 result = _target.position - _target.localPosition + _target.localPosition * distancePos;
+        return result;
     }
     public void SetTargetPosDir(Transform pos)
     {
         _target = pos;
-        _target.localPosition *= distancePos;
     }
+
     public Vector3 CurrentPos() => transform.position;
     public void SetTarget(EntityBase entity) => entityTarget = entity;
     public bool IsInPos() => withPos;
     public EntityBase CurrentTarget() => entityTarget;
     public Transform CurrentTargetPosDir()
     {
-        _target.localPosition /= distancePos;
         return _target;
     }
     public float GetDistance() => distancePos;

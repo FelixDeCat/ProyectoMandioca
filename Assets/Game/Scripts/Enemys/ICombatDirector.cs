@@ -4,7 +4,7 @@ using UnityEngine;
 
 public interface ICombatDirector 
 {
-    Transform CurrentTargetPos();
+    Vector3 CurrentTargetPos();
 
     Transform CurrentTargetPosDir();
 

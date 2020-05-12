@@ -57,7 +57,7 @@ namespace ToolsMandioca.StateMachine
                 }
                 else
                 {
-                    Vector3 dir = enemy.CurrentTargetPos().position - root.position;
+                    Vector3 dir = enemy.CurrentTargetPos() - root.position;
                     dir.Normalize();
 
                     Vector3 forwardFix = move.ObstacleAvoidance(new Vector3(dir.x, 0, dir.z));
@@ -65,8 +65,8 @@ namespace ToolsMandioca.StateMachine
                     move.Rotation(forwardFix);
                     move.MoveWRigidbodyV(forwardFix);
 
-                    float distanceX = Mathf.Abs(enemy.CurrentTargetPos().transform.position.x - root.position.x);
-                    float distanceZ = Mathf.Abs(enemy.CurrentTargetPos().transform.position.z - root.position.z);
+                    float distanceX = Mathf.Abs(enemy.CurrentTargetPos().x - root.position.x);
+                    float distanceZ = Mathf.Abs(enemy.CurrentTargetPos().z - root.position.z);
 
                     if (distanceX < 0.7f && distanceZ < 0.7f)
                         sm.SendInput(JabaliEnemy.JabaliInputs.IDLE);

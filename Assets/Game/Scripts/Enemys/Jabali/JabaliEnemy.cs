@@ -99,6 +99,8 @@ public class JabaliEnemy : EnemyBase
         else
             sm.SendInput(JabaliInputs.IDLE);
 
+        director.AddNewTarget(this);
+
         canupdate = true;
     }
 
@@ -123,7 +125,8 @@ public class JabaliEnemy : EnemyBase
             {
                 if (Vector3.Distance(Main.instance.GetChar().transform.position, transform.position) > combatDistance + 2)
                 {
-                    director.RemoveToAttack(this, entityTarget);
+                    director.DeadEntity(this, entityTarget);
+                    entityTarget = null;
                     combat = false;
                 }
             }
@@ -227,14 +230,9 @@ public class JabaliEnemy : EnemyBase
         {
             if (sm.Current.Name == "Idle" || sm.Current.Name == "Persuit")
             {
-                if (!entityTarget)
-                    SetTarget(owner_entity);
-
                 attacking = false;
                 //if (entityTarget == null) throw new System.Exception("entity target es null");//esto rompe cuando vengo desde el Damage in Room
-                director.RemoveToAttack(this, entityTarget);
-                SetTarget(owner_entity);
-                director.AddToAttack(this, entityTarget);
+                director.ChangeTarget(this, owner_entity, entityTarget);
             }
         }
 
@@ -257,8 +255,7 @@ public class JabaliEnemy : EnemyBase
             for (int i = 0; i < myEnemys.Count; i++)
                 myEnemys[i].Invinsible = false;
         }
-        director.RemoveToAttack(this, entityTarget);
-        director.RemoveTarget(this);
+        director.DeadEntity(this, entityTarget, this);
         sm.SendInput(JabaliInputs.DEAD);
         death = true;
         Main.instance.eventManager.TriggerEvent(GameEvents.ENEMY_DEAD, new object[] { transform.position, petrified, expToDrop });

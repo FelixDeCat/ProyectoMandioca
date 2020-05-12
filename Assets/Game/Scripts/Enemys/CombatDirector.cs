@@ -1,28 +1,32 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Threading;
 using UnityEngine;
 
 public class CombatDirector : MonoBehaviour, IZoneElement
 {
-    List<ICombatDirector> toAttack = new List<ICombatDirector>();
-    List<ICombatDirector> inAttack = new List<ICombatDirector>();
-    List<ICombatDirector> waitToAttack = new List<ICombatDirector>();
-
     List<ICombatDirector> awakeList = new List<ICombatDirector>();
-    List<Transform> positionsToAttack = new List<Transform>();
     [SerializeField, Range(1, 8)] int maxEnemies = 1;
 
     Dictionary<EntityBase, List<Transform>> otherTargetPos = new Dictionary<EntityBase, List<Transform>>();
     Dictionary<EntityBase, List<ICombatDirector>> listAttackTarget = new Dictionary<EntityBase, List<ICombatDirector>>();
+    Dictionary<EntityBase, List<ICombatDirector>> attackingTarget = new Dictionary<EntityBase, List<ICombatDirector>>();
+    Dictionary<EntityBase, List<ICombatDirector>> waitToAttack = new Dictionary<EntityBase, List<ICombatDirector>>();
+    Dictionary<EntityBase, float> timers = new Dictionary<EntityBase, float>();
+    Dictionary<EntityBase, float> timeToAttacks = new Dictionary<EntityBase, float>();
+    Dictionary<EntityBase, bool> isAttack = new Dictionary<EntityBase, bool>();
+    Dictionary<EntityBase, Action> updateDict = new Dictionary<EntityBase, Action>();
+
 
     EntityBase head;
 
     bool run;
     bool initialize;
-    float timer;
-    float timeToAttack;
     [SerializeField] float timerMin = 1;
     [SerializeField] float timerMax = 5;
+
+    Action AllUpdates = delegate { };
 
     private void Start()
     {
@@ -32,14 +36,12 @@ public class CombatDirector : MonoBehaviour, IZoneElement
     public void Initialize()
     {
         head = Main.instance.GetChar();
-
-        InitializeTarget(head.transform);
-
+        AddNewTarget(head);
         initialize = true;
 
         for (int i = 0; i < awakeList.Count; i++)
         {
-            AddOrRemoveToList(awakeList[i]);
+            AddToList(awakeList[i], head);
         }
 
         awakeList = new List<ICombatDirector>();
@@ -47,65 +49,19 @@ public class CombatDirector : MonoBehaviour, IZoneElement
 
     public void Zone_OnPlayerEnterInThisRoom(Transform who)
     {
-        initialize = false;
-
-        for (int i = 0; i < toAttack.Count; i++)
-        {
-            RemoveToAttack(toAttack[i], toAttack[i].CurrentTarget());
-        }
-        for (int i = 0; i < waitToAttack.Count; i++)
-        {
-            RemoveToAttack(waitToAttack[i], waitToAttack[i].CurrentTarget());
-        }
-        for (int i = 0; i < inAttack.Count; i++)
-        {
-            RemoveToAttack(inAttack[i], inAttack[i].CurrentTarget());
-        }
-
-        toAttack = new List<ICombatDirector>();
-        inAttack = new List<ICombatDirector>();
-        waitToAttack = new List<ICombatDirector>();
-
-        awakeList = new List<ICombatDirector>();
-
-        otherTargetPos = new Dictionary<EntityBase, List<Transform>>();
-        listAttackTarget = new Dictionary<EntityBase, List<ICombatDirector>>();
+        ResetDirector();
     }
 
     public void Zone_OnPlayerExitInThisRoom()
     {
+        //Initialize();
         //Cuando esté bien definido lo de las rooms, Acá se puede poner el initialize con algunos cambios.
     }
-
-    public void AddAwake(ICombatDirector enemy)
-    {
-        if (!initialize)
-            awakeList.Add(enemy);
-        else
-        {
-            AddOrRemoveToList(enemy);
-            enemy.SetTarget(head);
-        }
-    }
-
     #region Funciones Internas
 
-    void InitializeTarget(Transform head)
-    {
-        Vector3 east = Vector3.right;
-        Vector3 north = Vector3.forward;
-        Vector3 northEast = Vector3.right/2 + Vector3.forward/2;
-        Vector3 northWest = Vector3.forward/2 + Vector3.left/2;
+    void RunDirector() => run = true;
 
-        positionsToAttack.Add(CreateNewPos(east, head));
-        positionsToAttack.Add(CreateNewPos(-east, head));
-        positionsToAttack.Add(CreateNewPos(north, head));
-        positionsToAttack.Add(CreateNewPos(-north, head));
-        positionsToAttack.Add(CreateNewPos(northEast, head));
-        positionsToAttack.Add(CreateNewPos(-northEast, head));
-        positionsToAttack.Add(CreateNewPos(northWest, head));
-        positionsToAttack.Add(CreateNewPos(-northWest, head));
-    }
+    void StopDirector() => run = false;
 
     void InitializeTarget(Transform head, EntityBase entity)
     {
@@ -132,166 +88,156 @@ public class CombatDirector : MonoBehaviour, IZoneElement
         return newEmpty.transform;
     }
 
-    public void GetNewNearPos(ICombatDirector e, EntityBase target)
+    void AssignPos(EntityBase target)
     {
-        if(target == head)
-        {
-            Transform pos = e.CurrentTargetPosDir();
+        ICombatDirector randomEnemy = waitToAttack[target][UnityEngine.Random.Range(0, waitToAttack.Count)];
 
-            positionsToAttack.Add(pos);
-
-            e.SetTargetPosDir(GetNearPos(e.CurrentPos(), e.GetDistance()));
-        }
-        else
-        {
-            Transform pos = e.CurrentTargetPosDir();
-
-            otherTargetPos[target].Add(pos);
-
-            e.SetTargetPosDir(GetNearPos(e.CurrentPos(), e.GetDistance(), target));
-        }
-    }
-
-    void AssignPos()
-    {
-        ICombatDirector randomEnemy = waitToAttack[Random.Range(0, waitToAttack.Count)];
-
-        waitToAttack.Remove(randomEnemy);
-        toAttack.Add(randomEnemy);
+        waitToAttack[target].Remove(randomEnemy);
+        listAttackTarget[target].Add(randomEnemy);
 
         AssignPos(randomEnemy);
-
-        randomEnemy.SetBool(true);
     }
 
     void AssignPos(ICombatDirector e)
     {
-        Transform toFollow = GetNearPos(e.CurrentPos(), e.GetDistance());
+        Transform toFollow = GetNearPos(e.CurrentPos(), e.GetDistance(), e.CurrentTarget());
 
         e.SetTargetPosDir(toFollow);
 
         e.SetBool(true);
     }
 
-    Transform GetNearPos(Vector3 p, float distance)
-    {
-        Transform current = null;
-
-        for (int i = 0; i < positionsToAttack.Count; i++)
-        {
-            if (current == null)
-            {
-                current = positionsToAttack[i];
-            }
-            else
-            {
-                current.localPosition *= distance;
-                positionsToAttack[i].localPosition *= distance;
-                if (Vector3.Distance(current.position, p) > Vector3.Distance(positionsToAttack[i].position, p))
-                {
-                    current.localPosition /= distance;
-                    current = positionsToAttack[i];
-                }
-                else
-                {
-                    current.localPosition /= distance;
-                }
-                positionsToAttack[i].localPosition /= distance;
-            }
-        }
-
-        positionsToAttack.Remove(current);
-
-        return current;
-    }
-
     Transform GetNearPos(Vector3 p, float distance, EntityBase target)
     {
         Transform current = null;
 
-        if(target == head)
-        {
-            for (int i = 0; i < positionsToAttack.Count; i++)
-            {
-                if (current == null)
-                {
-                    current = positionsToAttack[i];
-                }
-                else
-                {
-                    current.localPosition *= distance;
-                    positionsToAttack[i].localPosition *= distance;
-                    if (Vector3.Distance(current.position, p) > Vector3.Distance(positionsToAttack[i].position, p))
-                    {
-                        current.localPosition /= distance;
-                        current = positionsToAttack[i];
-                    }
-                    else
-                    {
-                        current.localPosition /= distance;
-                    }
-                    positionsToAttack[i].localPosition /= distance;
-                }
-            }
-
-            positionsToAttack.Remove(current);
-
-            return current;
-        }
-        else
-        {
-            for (int i = 0; i < otherTargetPos[target].Count; i++)
-            {
-                if (current == null)
-                {
-                    current = otherTargetPos[target][i];
-                }
-                else
-                {
-                    current.localPosition *= distance;
-                    otherTargetPos[target][i].localPosition *= distance;
-                    if (Vector3.Distance(current.position, p) > Vector3.Distance(otherTargetPos[target][i].position, p))
-                    {
-                        current.localPosition /= distance;
-                        current = otherTargetPos[target][i];
-                    }
-                    else
-                    {
-                        current.localPosition /= distance;
-                    }
-                    otherTargetPos[target][i].localPosition /= distance;
-                }
-            }
-
-            otherTargetPos[target].Remove(current);
-
-            return current;
-        }
-    }
-
-    Transform GetNearPos(Vector3 p, EntityBase entity)
-    {
-        Transform current = null;
-
-        for (int i = 0; i < otherTargetPos[entity].Count; i++)
+        for (int i = 0; i < otherTargetPos[target].Count; i++)
         {
             if (current == null)
-            {
-                current = otherTargetPos[entity][i];
-            }
+                current = otherTargetPos[target][i];
             else
             {
-                if (Vector3.Distance(current.position, p) > Vector3.Distance(otherTargetPos[entity][i].position, p))
-                    current = otherTargetPos[entity][i];
+                Vector3 curr = current.position + current.localPosition * distance;
+                Vector3 niu = otherTargetPos[target][i].position + otherTargetPos[target][i].localPosition * distance;
+                if (Vector3.Distance(curr, p) > Vector3.Distance(niu, p))
+                    current = otherTargetPos[target][i];
             }
         }
 
-        otherTargetPos[entity].Remove(current);
+        otherTargetPos[target].Remove(current);
 
         return current;
     }
 
+    void RemoveToList(ICombatDirector e, EntityBase target)
+    {
+        if (!target || !otherTargetPos.ContainsKey(target))
+            return;
+
+        if (attackingTarget[target].Contains(e))
+            attackingTarget[target].Remove(e);
+
+        if (listAttackTarget[target].Contains(e))
+            listAttackTarget[target].Remove(e);
+
+        if (waitToAttack[target].Contains(e))
+            waitToAttack[target].Remove(e);
+
+        if (e.CurrentTargetPosDir())
+        {
+            otherTargetPos[target].Add(e.CurrentTargetPosDir());
+            if (waitToAttack[target].Count > 0)
+                AssignPos(target);
+
+            e.SetTargetPosDir(null);
+        }
+
+        if (listAttackTarget[target].Count <= 0)
+            StopEntity(target);
+
+        RunCheck();
+    }
+
+    void StopEntity(EntityBase target)
+    {
+        timers[target] = 0;
+        isAttack[target] = false;
+    }
+
+    void RunCheck()
+    {
+        if (run)
+        {
+            foreach (var item in isAttack)
+            {
+                if (item.Value)
+                    return;
+            }
+
+            StopDirector();
+        }
+        else
+        {
+            foreach (var item in isAttack)
+            {
+                if (item.Value)
+                {
+                    RunDirector();
+                    return;
+                }
+            }
+        }
+    }
+
+    void Attack(ICombatDirector e, EntityBase target)
+    {
+        listAttackTarget[target].Remove(e);
+        attackingTarget[target].Add(e);
+
+        if (listAttackTarget[target].Count <= 0)
+            StopEntity(target);
+
+        RunCheck();
+    }
+
     #endregion
+
+    public void AddAwake(ICombatDirector enemy)
+    {
+        if (!initialize)
+            awakeList.Add(enemy);
+        else
+        {
+            enemy.SetTarget(head);
+            AddToList(enemy, head);
+        }
+    }
+
+    void ResetDirector()
+    {
+        initialize = false;
+
+        otherTargetPos = new Dictionary<EntityBase, List<Transform>>();
+        listAttackTarget = new Dictionary<EntityBase, List<ICombatDirector>>();
+        attackingTarget = new Dictionary<EntityBase, List<ICombatDirector>>();
+        waitToAttack = new Dictionary<EntityBase, List<ICombatDirector>>();
+        timers = new Dictionary<EntityBase, float>();
+        timeToAttacks = new Dictionary<EntityBase, float>();
+        isAttack = new Dictionary<EntityBase, bool>();
+    }
+
+    public void GetNewNearPos(ICombatDirector e, EntityBase target)
+    {
+        if (!target || !otherTargetPos.ContainsKey(target))
+            return;
+
+        Transform pos = e.CurrentTargetPosDir();
+
+        otherTargetPos[target].Add(pos);
+        Debug.Log(otherTargetPos[target][otherTargetPos[target].Count - 1].localPosition);
+
+        e.SetTargetPosDir(GetNearPos(e.CurrentPos(), e.GetDistance(), target));
+    }
 
     public void AddNewTarget(EntityBase entity)
     {
@@ -300,290 +246,123 @@ public class CombatDirector : MonoBehaviour, IZoneElement
             otherTargetPos.Add(entity, new List<Transform>());
             InitializeTarget(entity.transform, entity);
             listAttackTarget.Add(entity, new List<ICombatDirector>());
+            attackingTarget.Add(entity, new List<ICombatDirector>());
+            waitToAttack.Add(entity, new List<ICombatDirector>());
+            timers.Add(entity, 0);
+            timeToAttacks.Add(entity, 0);
+            isAttack.Add(entity, false);
+
+            updateDict.Add(entity, () =>
+            {
+                if (isAttack[entity])
+                {
+                    timers[entity] += Time.deltaTime;
+
+                    if (timers[entity] >= timeToAttacks[entity])
+                    {
+                        timers[entity] = 0;
+                        CalculateTimer(entity);
+
+                        ICombatDirector e = listAttackTarget[entity][UnityEngine.Random.Range(0, listAttackTarget[entity].Count)];
+                        e.ToAttack();
+                        Attack(e, entity);
+                    }
+                }
+            });
+
+            AllUpdates += updateDict[entity];
         }
     }
 
     public void RemoveTarget(EntityBase entity)
     {
-        Debug.Log(listAttackTarget.Count);
         if (listAttackTarget.ContainsKey(entity))
         {
-            Debug.Log(listAttackTarget[entity].Count);
             for (int i = 0; i < listAttackTarget[entity].Count; i++)
-            {
                 listAttackTarget[entity][i].ResetCombat();
-            }
+
+            for (int i = 0; i < attackingTarget[entity].Count; i++)
+                attackingTarget[entity][i].ResetCombat();
+
+            for (int i = 0; i < waitToAttack[entity].Count; i++)
+                waitToAttack[entity][i].ResetCombat();
 
             otherTargetPos.Remove(entity);
             listAttackTarget.Remove(entity);
+            attackingTarget.Remove(entity);
+            listAttackTarget.Remove(entity);
+            waitToAttack.Remove(entity);
+            timers.Remove(entity);
+            timeToAttacks.Remove(entity);
+            isAttack.Remove(entity);
+
+            AllUpdates -= updateDict[entity];
         }
     }
 
-    public void RunDirector()
+    public void DeadEntity(ICombatDirector e, EntityBase target)
     {
-        run = true; timer = 0;
-        CalculateTimer();
+        RemoveToList(e, target);
     }
 
-    public void StopDirector()
+    public void DeadEntity(ICombatDirector e, EntityBase target, EntityBase me)
     {
-        run = false;
-        timer = 0;
+        RemoveTarget(me);
+        RemoveToList(e, target);
     }
 
-    public void RemoveToAttack(ICombatDirector e, EntityBase target)
+    public void AttackRelease(ICombatDirector e, EntityBase target)
     {
-        if (toAttack.Contains(e))
-        {
-            positionsToAttack.Add(e.CurrentTargetPosDir());
-            e.SetBool(false);
-            toAttack.Remove(e);
-            if (waitToAttack.Count > 0)
-                AssignPos();
-        }
-        else if (waitToAttack.Contains(e))
-        {
-            waitToAttack.Remove(e);
-        }
-        else if (inAttack.Contains(e))
-        {
-            positionsToAttack.Add(e.CurrentTargetPosDir());
-            e.SetBool(false);
-            inAttack.Remove(e);
-            if (waitToAttack.Count > 0)
-                AssignPos();
-        }
+        if (!target || !otherTargetPos.ContainsKey(target))
+            return;
 
-        if (listAttackTarget.ContainsKey(target))
-        {
-            otherTargetPos[target].Add(e.CurrentTargetPosDir());
-            listAttackTarget[target].Remove(e);
-        }
+        attackingTarget[target].Remove(e);
+        otherTargetPos[target].Add(e.CurrentTargetPosDir());
+        if (waitToAttack[target].Count > 0)
+            AssignPos(target);
 
-        if (!run)
+        AddToList(e, target);
+    }
+
+    public void AddToList(ICombatDirector e, EntityBase target)
+    {
+        if (!target || !otherTargetPos.ContainsKey(target))
+            return;
+
+        if (attackingTarget[target].Count + listAttackTarget[target].Count < maxEnemies)
         {
-            if(toAttack.Count > 0)
+            listAttackTarget[target].Add(e);
+            AssignPos(e);
+
+            if (!isAttack[target])
             {
-                RunDirector();
-                return;
-            }
-
-            else if (listAttackTarget.Count > 0)
-            {
-                foreach (var item in listAttackTarget)
-                {
-                    if (item.Value.Count >= 0)
-                    {
-                        RunDirector();
-                        return;
-                    }
-                }
+                isAttack[target] = true;
+                CalculateTimer(target);
             }
         }
         else
-        {
+            waitToAttack[target].Add(e);
 
-            if (listAttackTarget.Count > 0)
-            {
-                foreach (var item in listAttackTarget)
-                {
-                    if (item.Value.Count >= 0)
-                    {
-                        return;
-                    }
-                }
-            }
-
-            if (toAttack.Count == 0)
-            {
-                StopDirector();
-            }
-        }
+        RunCheck();
     }
 
-    public void AddToAttack(ICombatDirector e, EntityBase target)
+    public void ChangeTarget(ICombatDirector e, EntityBase newTarget, EntityBase oldTarget)
     {
-        if (target == head)
-        {
-            AddOrRemoveToList(e);
-        }
-        else
-        {
-            if (listAttackTarget.ContainsKey(target))
-            {
-                if (listAttackTarget[target].Count >= maxEnemies)
-                {
-                    if (!target.GetComponent<EnemyBase>())
-                    {
-                        e.SetTarget(head);
-                        AddOrRemoveToList(e);
-                    }
-                }
-                else
-                {
-                    Transform toFollow = GetNearPos(e.CurrentPos(), target);
-
-                    listAttackTarget[target].Add(e);
-
-                    e.SetTargetPosDir(toFollow);
-
-                    e.SetBool(true);
-                }
-            }
-
-            if (!listAttackTarget.ContainsKey(target))
-            {
-                AddNewTarget(target);
-                Transform toFollow = GetNearPos(e.CurrentPos(), target);
-
-                listAttackTarget[target].Add(e);
-
-                e.SetTargetPosDir(toFollow);
-
-                e.SetBool(true);
-            }
-        }
-
-        if (!run && listAttackTarget.Count > 0)
-        {
-            foreach (var item in listAttackTarget)
-            {
-                if (item.Value.Count >= 0)
-                {
-                    RunDirector();
-                    return;
-                }
-            }
-        }
-
-    }
-
-    public void AttackRelease(ICombatDirector e)
-    {
-        if (inAttack.Contains(e))
-        {
-            positionsToAttack.Add(e.CurrentTargetPosDir());
-            e.SetBool(false);
-            inAttack.Remove(e);
-            if (waitToAttack.Count > 0)
-                AssignPos();
-        }
-    }
-
-    void AddOrRemoveToList(ICombatDirector e)
-    {
-        if(!toAttack.Contains(e) && !waitToAttack.Contains(e))
-        {
-            if (toAttack.Count + inAttack.Count < maxEnemies)
-            {
-                toAttack.Add(e);
-                AssignPos(e);
-            }
-            else
-            {
-                waitToAttack.Add(e);
-            }
-
-        }
-        else
-        {
-            if (toAttack.Contains(e))
-            {
-                toAttack.Remove(e);
-                inAttack.Add(e);
-            }
-            else if (waitToAttack.Contains(e))
-            {
-                waitToAttack.Remove(e);
-            }
-            else if (inAttack.Contains(e))
-            {
-                positionsToAttack.Add(e.CurrentTargetPosDir());
-                e.SetBool(false);
-                inAttack.Remove(e);
-                if (waitToAttack.Count > 0)
-                    AssignPos();
-            }
-        }
-
-        if (!run)
-        {
-            if (toAttack.Count > 0)
-            {
-                RunDirector();
-                return;
-            }
-
-            else if (listAttackTarget.Count > 0)
-            {
-                foreach (var item in listAttackTarget)
-                {
-                    if (item.Value.Count >= 0)
-                    {
-                        RunDirector();
-                        return;
-                    }
-                }
-            }
-        }
-        else
-        {
-
-            if (listAttackTarget.Count > 0)
-            {
-                foreach (var item in listAttackTarget)
-                {
-                    if (item.Value.Count >= 0)
-                    {
-                        return;
-                    }
-                }
-            }
-
-            if (toAttack.Count == 0)
-            {
-                StopDirector();
-            }
-        }
+        if(oldTarget!=null)
+            RemoveToList(e, oldTarget);
+        e.SetTarget(newTarget);
+        AddToList(e, newTarget);
     }
 
     private void Update()
     {
         if (run)
         {
-            timer += Time.deltaTime;
-
-            if (timer >= timeToAttack)
-            {
-                timer = 0;
-                CalculateTimer();
-
-                if (toAttack.Count > 0)
-                {
-                    ICombatDirector enemy = toAttack[Random.Range(0, toAttack.Count)];
-                    enemy.ToAttack();
-
-                    AddOrRemoveToList(enemy);
-                }
-
-                if (listAttackTarget.Count > 0)
-                {
-                    foreach (var item in listAttackTarget)
-                    {
-                        if (item.Value.Count > 0)
-                        {
-                            ICombatDirector enemy = item.Value[Random.Range(0, item.Value.Count)];
-                            enemy.ToAttack();
-
-                            RemoveToAttack(enemy, item.Key);
-                        }
-                    }
-                }
-            }
+            AllUpdates();
         }
     }
 
-    void CalculateTimer() => timeToAttack = Random.Range(timerMin, timerMax);
+    void CalculateTimer(EntityBase target) => timeToAttacks[target] = UnityEngine.Random.Range(timerMin, timerMax);
 
     #region en desuso
     public void Zone_OnDungeonGenerationFinallized() { }

@@ -20,7 +20,6 @@ namespace ToolsMandioca.StateMachine
             if (input.Name != "Petrified")
             {
                 anim.SetBool("HeadAttack", true);
-                combatDirector.RemoveToAttack(enemy, enemy.CurrentTarget());
             }
         }
 

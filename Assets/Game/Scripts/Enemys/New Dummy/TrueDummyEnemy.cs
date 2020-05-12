@@ -97,6 +97,8 @@ public class TrueDummyEnemy : EnemyBase
             sm.SendInput(DummyEnemyInputs.IDLE);
         }
 
+        director.AddNewTarget(this);
+
         canupdate = true;
     }
 
@@ -110,7 +112,8 @@ public class TrueDummyEnemy : EnemyBase
             {
                 if (Vector3.Distance(Main.instance.GetChar().transform.position, transform.position) > combatDistance + 2)
                 {
-                    director.RemoveToAttack(this,entityTarget);
+                    director.DeadEntity(this, entityTarget);
+                    entityTarget = null;
                     combat = false;
                 }
             }
@@ -292,17 +295,9 @@ public class TrueDummyEnemy : EnemyBase
 
         if (sm.Current.Name != "Attack" && entityTarget != owner_entity)
         {
-
-            if (!entityTarget)
-            {
-                SetTarget(owner_entity);
-            }
-
             attacking = false;
             //if (entityTarget == null) throw new System.Exception("entity target es null");//esto rompe cuando vengo desde el Damage in Room
-            director.RemoveToAttack(this, entityTarget);
-            SetTarget(owner_entity);
-            director.AddToAttack(this, entityTarget);
+            director.ChangeTarget(this, owner_entity, entityTarget);
         }
 
         return TakeDamage(dmg, attack_pos, damagetype);
@@ -331,7 +326,7 @@ public class TrueDummyEnemy : EnemyBase
             }
         }
         death = true;
-        director.RemoveToAttack(this, entityTarget);
+        director.DeadEntity(this, entityTarget, this);
         Main.instance.RemoveEntity(this);
     }
 
@@ -431,7 +426,7 @@ public class TrueDummyEnemy : EnemyBase
         //Asignando las funciones de cada estado
         new DummyIdleState(idle, sm, movement, IsAttack, distanceToAttack, normalDistance, this).SetAnimator(animator).SetRoot(rootTransform).SetDirector(director);
 
-        new DummyFollowState(goToPos, sm, movement, CurrentTargetPos, normalDistance, this).SetAnimator(animator).SetRoot(rootTransform);
+        new DummyFollowState(goToPos, sm, movement, normalDistance, this).SetAnimator(animator).SetRoot(rootTransform);
 
         new DummyAttAnt(beginAttack, sm, movement, this).SetAnimator(animator).SetDirector(director).SetRoot(rootTransform);
 

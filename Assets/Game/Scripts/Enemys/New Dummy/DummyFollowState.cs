@@ -7,17 +7,15 @@ namespace ToolsMandioca.StateMachine
     public class DummyFollowState : DummyEnemyStates
     {
         GenericEnemyMove move;
-        Func<Transform> GetMyPos;
 
         TrueDummyEnemy noObs;
 
         float normalDistance;
 
         public DummyFollowState(EState<TrueDummyEnemy.DummyEnemyInputs> myState, EventStateMachine<TrueDummyEnemy.DummyEnemyInputs> _sm, GenericEnemyMove _move,
-                                Func<Transform> myPos, float distance, TrueDummyEnemy me) : base(myState, _sm)
+                                float distance, TrueDummyEnemy me) : base(myState, _sm)
         {
             move = _move;
-            GetMyPos += myPos;
             normalDistance = distance;
             noObs = me;
         }
@@ -40,7 +38,7 @@ namespace ToolsMandioca.StateMachine
         {
             base.Update();
 
-            if (GetMyPos() == null)
+            if (noObs.CurrentTargetPosDir() == null)
             {
                 if (noObs.CurrentTarget() != null)
                 {
@@ -56,7 +54,7 @@ namespace ToolsMandioca.StateMachine
             }
             else
             {
-                Vector3 dir = GetMyPos().position - root.position;
+                Vector3 dir = noObs.CurrentTargetPos() - root.position;
                 dir.Normalize();
 
                 Vector3 dirFix = move.ObstacleAvoidance(new Vector3(dir.x, 0, dir.z));
@@ -64,8 +62,8 @@ namespace ToolsMandioca.StateMachine
                 move.Rotation(dirFix);
                 move.MoveWRigidbodyV(dirFix);
 
-                float distanceX = Mathf.Abs(GetMyPos().transform.position.x - root.position.x);
-                float distanceZ = Mathf.Abs(GetMyPos().transform.position.z - root.position.z);
+                float distanceX = Mathf.Abs(noObs.CurrentTargetPos().x - root.position.x);
+                float distanceZ = Mathf.Abs(noObs.CurrentTargetPos().z - root.position.z);
 
                 if (distanceX < 0.7f && distanceZ < 0.7f)
                     sm.SendInput(TrueDummyEnemy.DummyEnemyInputs.IDLE);

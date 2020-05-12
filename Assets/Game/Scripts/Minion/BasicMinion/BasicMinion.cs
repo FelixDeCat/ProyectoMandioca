@@ -76,7 +76,7 @@ public class BasicMinion : Minion
         canupdate = true;
         if (entityTarget != null)
         {
-            director.RemoveToAttack(this, entityTarget);
+            director.DeadEntity(this, entityTarget);
             entityTarget = null;
         }
     }
@@ -98,7 +98,7 @@ public class BasicMinion : Minion
                         if (!enemy.GetComponent<EnemyBase>().death)
                         {
                             entityTarget = enemy.GetComponent<EnemyBase>();
-                            director.AddToAttack(this, enemy.GetComponent<EnemyBase>());
+                            director.AddToList(this, enemy.GetComponent<EnemyBase>());
                             break;
                         }
                     }
@@ -141,8 +141,6 @@ public class BasicMinion : Minion
     #region Life Things
     public override Attack_Result TakeDamage(int dmg, Vector3 attack_pos, Damagetype dmgtype)
     {
-        SetTarget(entityTarget);
-
         if (cooldown || sm.Current.Name == "Die") return Attack_Result.inmune;
 
         Vector3 aux = (transform.position - attack_pos).normalized;
@@ -169,14 +167,9 @@ public class BasicMinion : Minion
 
         if (sm.Current.Name != "Attack" && entityTarget != owner_entity)
         {
-            if (!entityTarget)
-                SetTarget(owner_entity);
-
             attacking = false;
-
-            director.RemoveToAttack(this, entityTarget);
-            SetTarget(owner_entity);
-            director.AddToAttack(this, entityTarget);
+            //if (entityTarget == null) throw new System.Exception("entity target es null");//esto rompe cuando vengo desde el Damage in Room
+            director.ChangeTarget(this, owner_entity, entityTarget);
         }
 
         return TakeDamage(dmg, attack_pos, damagetype);
@@ -185,8 +178,8 @@ public class BasicMinion : Minion
     public void Die()
     {
         sm.SendInput(BasicMinionInput.DIE);
-        death = true;
-        director.RemoveToAttack(this, entityTarget);
+                death = true;
+        director.DeadEntity(this, entityTarget,this);
         Main.instance.RemoveEntity(this);
     }
 

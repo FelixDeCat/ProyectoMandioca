@@ -123,6 +123,7 @@ public class RangeDummy : EnemyBase
             sm.SendInput(RangeDummyInput.IDLE);
         }
 
+        director.AddNewTarget(this);
         canupdate = true;
     }
 
@@ -149,9 +150,10 @@ public class RangeDummy : EnemyBase
 
             if (combat)
             {
-                if (Vector3.Distance(Main.instance.GetChar().transform.position, transform.position) > combatDistance + 2)
+                if (Vector3.Distance(entityTarget.transform.position, transform.position) > combatDistance + 2)
                 {
-                    director.RemoveToAttack(this,entityTarget);
+                    director.DeadEntity(this, entityTarget);
+                    entityTarget = null;
                     combat = false;
                 }
             }
@@ -255,17 +257,9 @@ public class RangeDummy : EnemyBase
 
         if (sm.Current.Name != "Attack" && entityTarget != owner_entity)
         {
-
-            if (!entityTarget)
-            {
-                SetTarget(owner_entity); 
-            }
-
             attacking = false;
             //if (entityTarget == null) throw new System.Exception("entity target es null");//esto rompe cuando vengo desde el Damage in Room
-            director.RemoveToAttack(this, entityTarget);
-            SetTarget(owner_entity);
-            director.AddToAttack(this, entityTarget);
+            director.ChangeTarget(this, owner_entity, entityTarget);
         }
 
         return TakeDamage(dmg, attack_pos, damagetype);
@@ -355,7 +349,7 @@ public class RangeDummy : EnemyBase
                 myEnemys[i].Invinsible = false;
             }
         }
-        director.RemoveToAttack(this, entityTarget);
+        director.DeadEntity(this, entityTarget, this);
         death = true;
         Main.instance.RemoveEntity(this);
     }

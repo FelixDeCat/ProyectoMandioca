@@ -35,9 +35,8 @@ namespace ToolsMandioca.StateMachine
             {
                 timer = 0;
                 anim.SetBool("Attack", false);
-                var myEnemy = minion;
-                myEnemy.attacking = false;
-                combatDirector.AddToAttack(minion, minion.CurrentTarget());
+                minion.attacking = false;
+                combatDirector.AttackRelease(minion, minion.CurrentTarget());
             }
         }
     }

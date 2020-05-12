@@ -49,7 +49,7 @@ namespace ToolsMandioca.StateMachine
                     }
                     else
                     {
-                        Vector3 pos3 = new Vector3(enemy.CurrentTargetPos().position.x, 0, enemy.CurrentTargetPos().position.z);
+                        Vector3 pos3 = new Vector3(enemy.CurrentTargetPos().x, 0, enemy.CurrentTargetPos().z);
 
                         if (Vector3.Distance(pos1, pos2) >= distanceToNormalAttack && Vector3.Distance(pos1, pos3) >= 1)
                         {
