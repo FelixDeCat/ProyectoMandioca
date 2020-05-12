@@ -23,7 +23,6 @@ namespace ToolsMandioca.StateMachine
         {
             if (IsHeavy())
             {
-                Debug.Log("Hice un Heavy re loco");
                 charMove.MovementHorizontal(0);
                 charMove.MovementVertical(0);
             }

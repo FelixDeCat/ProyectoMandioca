@@ -50,6 +50,7 @@ public class TrueDummyEnemy : EnemyBase
     [SerializeField] Material freeze_shader = null;
     [SerializeField] Color onHitColor;
     [SerializeField] float onHitFlashTime;
+    [SerializeField] RagdollComponent ragdoll = null;
 
 
     public bool isOnFire { get; private set; }
@@ -66,7 +67,6 @@ public class TrueDummyEnemy : EnemyBase
         rb = GetComponent<Rigidbody>();
         combatComponent.Configure(AttackEntity);
         anim.Add_Callback("DealDamage", DealDamage);
-        anim.Add_Callback("Death", DeathAnim);
         lifesystem.AddEventOnDeath(Die);
         movement.Configure(rootTransform, rb);
         StartDebug();
@@ -328,13 +328,7 @@ public class TrueDummyEnemy : EnemyBase
         death = true;
         director.DeadEntity(this, entityTarget, this);
         Main.instance.RemoveEntity(this);
-    }
 
-    void DeathAnim()
-    {
-        //vector3, boolean, int
-        director.RemoveTarget(this);
-        gameObject.SetActive(false);
         Main.instance.eventManager.TriggerEvent(GameEvents.ENEMY_DEAD, new object[] { transform.position, petrified, expToDrop });
     }
     #endregion
@@ -438,7 +432,7 @@ public class TrueDummyEnemy : EnemyBase
 
         new DummyStunState(petrified, sm, StartStun, TickStun, EndStun);
 
-        new DummyDieState(die, sm).SetAnimator(animator).SetDirector(director).SetRigidbody(rb);
+        new DummyDieState(die, sm, ragdoll).SetAnimator(animator).SetDirector(director).SetRigidbody(rb);
 
         new DummyDisableState(disable, sm, EnableObject, DisableObject);
     }
