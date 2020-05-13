@@ -23,7 +23,7 @@ public class Interact_DayNight : Interactable
 
     public override void OnExit()
     { 
-        WorldItemInfo.instance.Hide(); 
+       WorldItemInfo.instance.Hide(); 
     }
 
     public override void OnEnter(WalkingEntity entity)
