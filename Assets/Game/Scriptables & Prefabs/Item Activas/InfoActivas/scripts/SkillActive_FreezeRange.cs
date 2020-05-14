@@ -23,7 +23,7 @@ public class SkillActive_FreezeRange : SkillActivas
     {
         particleContainer.position = _hero.transform.position;
         var auraMain = freezeNova.main;
-        auraMain.duration = freezeDuration;
+        auraMain.duration = freezeDuration;//no se puede setear la duracion en play
         auraMain.startSize = range;
         freezeSmoke.Play();
         freezeNova.Play();

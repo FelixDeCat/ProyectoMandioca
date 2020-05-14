@@ -160,33 +160,20 @@ public class CompleteCameraController : MonoBehaviour
                                                     camconfig[posCamindex].poscamara.position,
                                                     ref velocity,
                                                     smoothTime);
-
-            if (camtransition)
-            {
-                if (timerrot < smoothTime)
-                {
+            if (camtransition) {
+                if (timerrot < smoothTime) {
                     timerrot = timerrot + 1 * Time.deltaTime;
                     transform.rotation = Quaternion.Lerp(transform.rotation,
                                                          camconfig[posCamindex].poscamara.rotation,
                                                          timerrot);
                 }
-                else
-                {
+                else {
                     timerrot = 0;
                     camtransition = false;
                     callback_endAnimation.Invoke();
                 }
-
-                if (Vector3.SqrMagnitude(velocity) <= 0.1f)
-                {
-                    // timerrot = 0;
-
-                }
             }
-            else
-            {
-                transform.rotation = camconfig[posCamindex].poscamara.rotation;
-            }
+            else transform.rotation = camconfig[posCamindex].poscamara.rotation;
         }
     }
 }

@@ -65,18 +65,20 @@ public class GameUI_controller : MonoBehaviour
     #endregion
 
     #region Public methods
-    /// <summary>
-    /// DEPRECATED
-    /// </summary>
-    /// <param name="uiTemplates"></param>
-    /// <returns></returns>
-    public LvlUpSkillSelection_UI CreateNewSkillSelectionPopUp(List<SkillInfo> skillsParaElegir, Action<SkillInfo> callback)
-    {
 
-        GameObject go = new GameObject();
-        LvlUpSkillSelection_UI newPopUp = Instantiate(UiTemplateRegistry[UI_templates.skillSelection]).GetComponent<LvlUpSkillSelection_UI>();
-        newPopUp.Configure(skillsParaElegir, callback, () => Debug.Log("esto se esta usando?"), out go);
-        return newPopUp;
+    /// <summary>
+    /// Para que esto funcione aca hay que cambiar el shader. El que tenemos ahora no me permite hacer la transparencia
+    /// </summary>
+    public void FadeOutPlayerStats()
+    {
+        //Harcodeada la velocidad. Hay que unificar todos los configs de la UI
+        stats3D_UI.GetComponent<Stats3D_UI_helper>().FadeOut(15);
+    }
+    
+    public void FadeInPlayerStats()
+    {
+        //Harcodeada la velocidad. Hay que unificar todos los configs de la UI
+        stats3D_UI.GetComponent<Stats3D_UI_helper>().FadeIn(15);
     }
     public void UI_Send_NameSkillType(string s) { }
     public void UI_SendLevelUpNotification() {/* CanvasPopUpInWorld_Manager.instance.MakePopUpAnimated(Main.instance.GetChar().transform, lvlUp_pf);*/ }

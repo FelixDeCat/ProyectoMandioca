@@ -1,6 +1,8 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class UI3D_CursorActiva : MonoBehaviour
 {
@@ -11,6 +13,8 @@ public class UI3D_CursorActiva : MonoBehaviour
     Vector3 currentPos;
     Vector3 destinity;
 
+    public FeedbackOneInteract_ScaleByCurve feedbackClick;
+
     public void GoToPosition(Vector3 pos)
     {
         Debug.Log("Entro un vex");
@@ -18,6 +22,11 @@ public class UI3D_CursorActiva : MonoBehaviour
         timer = 0;
         currentPos = this.transform.position;
         destinity = pos;
+    }
+
+    public void ExecuteUse()
+    {
+        feedbackClick.Execute();
     }
 
     private void Update()
@@ -36,4 +45,56 @@ public class UI3D_CursorActiva : MonoBehaviour
             }
         }
     }
+
+
+    #region Fades
+
+    public void FadeOut(float fadeSpeed)
+    {
+        var images = GetComponentsInChildren<Image>();
+        
+        StartCoroutine(StartFadeOut(images ,fadeSpeed));
+
+    }
+
+    public void FadeIn(float fadeSpeed)
+    {
+        var images = GetComponentsInChildren<Image>();
+        
+        StartCoroutine(StartFadeIn(images ,fadeSpeed));
+    }
+    
+    IEnumerator StartFadeOut(Image[] images,float fadeSpeed)
+    {
+        foreach (var img in images)
+        {
+            while (img.color.a > 0)
+            {
+                Color newColor = img.color;
+                newColor.a -= Time.deltaTime * fadeSpeed;
+                img.color = newColor;
+                
+                yield return new WaitForEndOfFrame();
+            }
+        }
+    }
+    
+    IEnumerator StartFadeIn(Image[] images,float fadeSpeed)
+    {
+        foreach (var img in images)
+        {
+            while (img.color.a < 1)
+            {
+                Color newColor = img.color;
+                newColor.a += Time.deltaTime * fadeSpeed;
+                img.color = newColor;
+                
+                yield return new WaitForEndOfFrame();
+            }
+        }
+    }
+
+    #endregion
+    
+
 }

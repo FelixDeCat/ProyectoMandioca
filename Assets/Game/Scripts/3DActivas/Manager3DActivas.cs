@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class Manager3DActivas : MonoBehaviour
 {
@@ -10,6 +11,40 @@ public class Manager3DActivas : MonoBehaviour
 
     [SerializeField] GameObject blockedModel = null;
     [SerializeField] GameObject emptyModel = null;
+
+    [SerializeField] private float fadeSpeed;
+    
+    //FadeIn/Out de las skills activas
+
+    
+    private void Update()
+    {
+        if(Input.GetKeyDown(KeyCode.J))
+            FadeOutSkills_UI();
+        
+        if(Input.GetKeyDown(KeyCode.K))
+            FadeInSkills_UI();
+    }
+    public void FadeOutSkills_UI()
+    {
+        foreach (var skillUI in sides)
+        {
+            skillUI.FadeOut(fadeSpeed);
+        }
+
+        cursor.FadeOut(fadeSpeed);
+    }
+    
+    public void FadeInSkills_UI()
+    {
+        foreach (var skillUI in sides)
+        {
+            skillUI.FadeIn(fadeSpeed);
+        }
+        
+        cursor.FadeIn(fadeSpeed);
+    }
+    
 
     //luego implementar un dictionary<key, queue<gameobject>> onda pool con los modelos ya instanciados
     public void ChangeModel(int i, GameObject model)
@@ -26,6 +61,13 @@ public class Manager3DActivas : MonoBehaviour
 
     public void RefreshCooldownAuxiliar(int _index, float _time) => sides[_index].SetCooldow(_time);
     public void CooldownEndReadyAuxiliar(int _index) => sides[_index].SkillLoaded();
+
+    public void ExecuteSubmit(int _index) 
+    {
+        cursor.ExecuteUse();
+        var basevenetdata = new UnityEngine.EventSystems.BaseEventData(Main.instance.GetMyEventSystem().GetMyEventSystem());
+        sides[_index].OnSubmit(basevenetdata); 
+    }
 
     public void ReAssignUIInfo(SkillActivas[] col)
     {
