@@ -81,28 +81,19 @@ public class SkillManager_Activas : MonoBehaviour
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     public void EV_Next() 
     {
-
+        int sum = 0;
+        for (int i = 0; i < slots.Length; i++) if (slots[i] == true) sum++;
+        current_index_centered = current_index_centered.NextIndex(sum);
+        frontend3D.Select(current_index_centered);
     }
     public void EV_Back()
     {
-
+        int sum = 0;
+        for (int i = 0; i < slots.Length; i++) if (slots[i] == true) sum++;
+        current_index_centered = current_index_centered.BackIndex(sum);
+        frontend3D.Select(current_index_centered);
     }
     public void EV_UseSkill() => TryToUseSelected();
-    bool normaluse = true;
-
-    
-    public void Press(int index)
-    {
-        if (normaluse)
-        {
-            frontend3D.Select(index);
-            current_index_centered = index;
-        }
-        else
-        {
-            //aca remplazo
-        }
-    }
 
     const int MAX_PERCENT = 100;
     readonly int[] percentedvalues = new int[] { 0, 25, 50, 75 };

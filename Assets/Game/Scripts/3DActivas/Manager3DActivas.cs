@@ -6,6 +6,8 @@ public class Manager3DActivas : MonoBehaviour
 {
     public UI3D_Element_SkillsActivas[] sides;
 
+    public UI3D_CursorActiva cursor;
+
     [SerializeField] GameObject blockedModel = null;
     [SerializeField] GameObject emptyModel = null;
 
@@ -83,6 +85,7 @@ public class Manager3DActivas : MonoBehaviour
         var basevenetdata = new UnityEngine.EventSystems.BaseEventData(Main.instance.GetMyEventSystem().GetMyEventSystem());
         foreach (var e in sides) e.OnDeselect(basevenetdata);
         sides[i].OnSelect(basevenetdata);
+        cursor.GoToPosition(sides[i].transform.position);
     }
     public void DeSelect(int i)
     {

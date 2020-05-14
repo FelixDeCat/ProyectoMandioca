@@ -4,15 +4,36 @@ using UnityEngine;
 
 public class UI3D_CursorActiva : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
+    public float transition_speed_multiply = 3f;
+    float timer = 0;
+    bool animate;
+
+    Vector3 currentPos;
+    Vector3 destinity;
+
+    public void GoToPosition(Vector3 pos)
     {
-        
+        Debug.Log("Entro un vex");
+        animate = true;
+        timer = 0;
+        currentPos = this.transform.position;
+        destinity = pos;
     }
 
-    // Update is called once per frame
-    void Update()
+    private void Update()
     {
-        
+        if (animate)
+        {
+            if (timer < 1)
+            {
+                timer = timer + transition_speed_multiply * Time.deltaTime;
+                transform.position = Vector3.Lerp(currentPos, destinity, timer);
+            }
+            else
+            {
+                animate = false;
+                timer = 0;
+            }
+        }
     }
 }
