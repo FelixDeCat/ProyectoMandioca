@@ -8,6 +8,8 @@ public abstract class SkillActivas : SkillBase
     Action<SkillInfo, float> CallbackCooldown = delegate { };
     Action<SkillInfo> CallbackEndCooldown = delegate { };
 
+    Action<SkillInfo> CallbackSuscessfullUsed = delegate { };
+
     [Header("Cooldown Settings")]
     public float cooldown;
     float time_cooldown;
@@ -20,6 +22,8 @@ public abstract class SkillActivas : SkillBase
     bool beginUse;
     Func<bool> predicate;
     bool usePredicate;
+
+    public void SetCallbackSuscessfulUsed(Action<SkillInfo> callback) { CallbackSuscessfullUsed = callback; }
 
     public void SetCallbackCooldown(Action<SkillInfo, float> callback) => CallbackCooldown = callback;
     public void SetCallbackEndCooldown(Action<SkillInfo> callback) => CallbackEndCooldown = callback;
@@ -60,6 +64,8 @@ public abstract class SkillActivas : SkillBase
         {
             begincooldown = true;
             time_cooldown = 0;
+
+            CallbackSuscessfullUsed(this.skillinfo);
 
             if (one_time_use)
             {

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.UI;
+using ToolsMandioca.EventClasses;
 
 public class CharacterInput : MonoBehaviour
 {
@@ -38,6 +39,8 @@ public class CharacterInput : MonoBehaviour
     public UnityEvent OnDpad_Left;
     public UnityEvent OnDpad_Right;
     public UnityEvent OnUseActive;
+
+    public EventInt SendIndexAlphanumeric;
 
     public UnityEvent LockON;
     public UnityEvent NextON;
@@ -76,6 +79,11 @@ public class CharacterInput : MonoBehaviour
         if (Input.GetButtonDown("Skill")) OnUseActive.Invoke();
 
         if (Input.GetButtonDown("LockOn")) LockON.Invoke();
+
+        if (Input.GetKeyDown(KeyCode.Alpha1)) SendIndexAlphanumeric.Invoke(0);
+        if (Input.GetKeyDown(KeyCode.Alpha2)) SendIndexAlphanumeric.Invoke(1);
+        if (Input.GetKeyDown(KeyCode.Alpha3)) SendIndexAlphanumeric.Invoke(2);
+        if (Input.GetKeyDown(KeyCode.Alpha4)) SendIndexAlphanumeric.Invoke(3);
 
         RefreshHelper();
 
