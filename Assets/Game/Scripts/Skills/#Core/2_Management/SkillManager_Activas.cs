@@ -79,19 +79,24 @@ public class SkillManager_Activas : MonoBehaviour
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     ///// INPUT
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    public void EV_Left_DPad() => Press(0);
-    public void EV_Up_DPad() => Press(1);
-    public void EV_Down_DPad() => Press(2);
-    public void EV_Right_DPad() => Press(3);
+    public void EV_Next() 
+    {
+
+    }
+    public void EV_Back()
+    {
+
+    }
     public void EV_UseSkill() => TryToUseSelected();
     bool normaluse = true;
+
+    
     public void Press(int index)
     {
         if (normaluse)
         {
             frontend3D.Select(index);
             current_index_centered = index;
-            
         }
         else
         {
@@ -242,11 +247,6 @@ public class SkillManager_Activas : MonoBehaviour
                 if (myActiveSkills[i].skillinfo == _skill)
                 {
                     frontend3D.CooldownEndReadyAuxiliar(i);
-
-                    if (current_index_centered == i)
-                    {
-                        frontend3D.CooldownEndReadyGeneral();
-                    }
                 }
             }
         }
@@ -260,11 +260,6 @@ public class SkillManager_Activas : MonoBehaviour
                 if (myActiveSkills[i].skillinfo == _skill)
                 {
                     frontend3D.RefreshCooldownAuxiliar(i, _time);
-
-                    if (current_index_centered == i)
-                    {
-                        frontend3D.RefreshCooldownGeneral(_time);
-                    }
                 }
             }
         }

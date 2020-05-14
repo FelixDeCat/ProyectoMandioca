@@ -17,7 +17,7 @@ public class FeedbackInteract_Rotator : FeedbackInteractBase
         if (loop) canupdate = true;
     }
     protected override void OnShow() {  }
-    protected override void OnHide() { torot.rotation = startrot; }
+    protected override void OnHide() { if(torot) torot.rotation = startrot; }
     protected override void On_Condicional_Update() 
     {
         if(!loop) torot.Rotate(cant_to_rotate);

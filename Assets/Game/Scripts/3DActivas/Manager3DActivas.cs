@@ -4,22 +4,15 @@ using UnityEngine;
 
 public class Manager3DActivas : MonoBehaviour
 {
-    public UI3D_Element center;
-    public UI3D_Element[] sides;
+    public UI3D_Element_SkillsActivas[] sides;
 
     [SerializeField] GameObject blockedModel = null;
     [SerializeField] GameObject emptyModel = null;
-
-    private void Awake()
-    {
-        
-    }
 
     //luego implementar un dictionary<key, queue<gameobject>> onda pool con los modelos ya instanciados
     public void ChangeModel(int i, GameObject model)
     {
         sides[i].SetModel(Instantiate(model));
-        center.SetModel(Instantiate(model));
     }
     public void InitializeAllBlocked()
     {
@@ -27,14 +20,10 @@ public class Manager3DActivas : MonoBehaviour
         {
             sides[i].SetModel(Instantiate(blockedModel));
         }
-        center.SetModel(Instantiate(blockedModel));
     }
 
     public void RefreshCooldownAuxiliar(int _index, float _time) => sides[_index].SetCooldow(_time);
-    public void RefreshCooldownGeneral(float _time) => center.SetCooldow(_time);
-
     public void CooldownEndReadyAuxiliar(int _index) => sides[_index].SkillLoaded();
-    public void CooldownEndReadyGeneral() => center.SkillLoaded();
 
     public void ReAssignUIInfo(SkillActivas[] col)
     {
@@ -53,7 +42,7 @@ public class Manager3DActivas : MonoBehaviour
                 sides[i].Vacate();
                 SetEmpty(i);
             }
-            
+
         }
     }
     public void RefreshButtons(bool[] actives)
@@ -62,11 +51,17 @@ public class Manager3DActivas : MonoBehaviour
         {
             if (actives[i])
             {
+                sides[i].SetIsUsable();
+
                 //esta disponible
-                if (!sides[i].IsOcupied()) 
+                if (!sides[i].IsOcupied())
+                {
                     SetEmpty(i);
+                }
                 else
+                {
                     sides[i].SetUnlocked();
+                }
             }
             else
             {
@@ -74,6 +69,8 @@ public class Manager3DActivas : MonoBehaviour
                 //esta bloqueado
                 sides[i].Vacate();
                 sides[i].SetBlocked();
+                sides[i].SetIsNotUsable();
+                DeSelect(i);
                 SetBlock(i);
             }
         }
@@ -82,8 +79,14 @@ public class Manager3DActivas : MonoBehaviour
     public void SetBlock(int i) => sides[i].SetModel(Instantiate(blockedModel));
     public void SetEmpty(int i) => sides[i].SetModel(Instantiate(emptyModel));
     public void Select(int i)
-    { 
-        sides[i].OnSubmit(new UnityEngine.EventSystems.BaseEventData(Main.instance.GetMyEventSystem().GetMyEventSystem()));
-        center.SetModel(Instantiate(sides[i].GetModel()));
+    {
+        var basevenetdata = new UnityEngine.EventSystems.BaseEventData(Main.instance.GetMyEventSystem().GetMyEventSystem());
+        foreach (var e in sides) e.OnDeselect(basevenetdata);
+        sides[i].OnSelect(basevenetdata);
+    }
+    public void DeSelect(int i)
+    {
+        var basevenetdata = new UnityEngine.EventSystems.BaseEventData(Main.instance.GetMyEventSystem().GetMyEventSystem());
+        sides[i].OnDeselect(basevenetdata);
     }
 }
