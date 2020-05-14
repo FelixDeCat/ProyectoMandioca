@@ -11,6 +11,8 @@ public class UI3D_CursorActiva : MonoBehaviour
     Vector3 currentPos;
     Vector3 destinity;
 
+    public FeedbackOneInteract_ScaleByCurve feedbackClick;
+
     public void GoToPosition(Vector3 pos)
     {
         Debug.Log("Entro un vex");
@@ -18,6 +20,11 @@ public class UI3D_CursorActiva : MonoBehaviour
         timer = 0;
         currentPos = this.transform.position;
         destinity = pos;
+    }
+
+    public void ExecuteUse()
+    {
+        feedbackClick.Execute();
     }
 
     private void Update()

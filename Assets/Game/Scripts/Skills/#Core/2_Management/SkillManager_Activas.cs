@@ -79,6 +79,27 @@ public class SkillManager_Activas : MonoBehaviour
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     ///// INPUT
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    public void EV_SelectByKeyboard(int _index)//[0,1,2,3]
+    {
+        Debug.Log("_index: " + _index);
+        int maxLenght = 0;
+        for (int i = 0; i < slots.Length; i++) if (slots[i] == true) maxLenght++;
+        if (_index == 0) current_index_centered = 0;
+        if (_index > 0)
+        {
+            if (_index >= maxLenght) current_index_centered = GetMaxIndex();
+            else current_index_centered = _index;
+        }
+        frontend3D.Select(current_index_centered);
+    }
+
+    int GetMaxIndex()
+    {
+        int maxLenght = 0;
+        for (int i = 0; i < slots.Length; i++) if (slots[i] == true) maxLenght++;
+        return maxLenght -1;
+    }
+
     public void EV_Next() 
     {
         int sum = 0;
@@ -218,6 +239,7 @@ public class SkillManager_Activas : MonoBehaviour
 
         frontend3D.ReAssignUIInfo(myActiveSkills);
         frontend3D.RefreshButtons(slots);
+        myActiveSkills[cleanindex].SetCallbackSuscessfulUsed(OnCallbackSussesfullUsed);
         myActiveSkills[cleanindex].SetCallbackCooldown(Callback_RefreshCooldown);
         myActiveSkills[cleanindex].SetCallbackEndCooldown(Callback_EndCooldown);
         myActiveSkills[cleanindex].BeginSkill();
@@ -228,6 +250,19 @@ public class SkillManager_Activas : MonoBehaviour
         //spawnear el viejo
     }
 
+    void OnCallbackSussesfullUsed(SkillInfo _skill)
+    {
+        for (int i = 0; i < myActiveSkills.Length; i++)
+        {
+            if (myActiveSkills[i] != null)
+            {
+                if (myActiveSkills[i].skillinfo == _skill)
+                {
+                    frontend3D.ExecuteSubmit(i);
+                }
+            }
+        }
+    }
 
     void Callback_EndCooldown(SkillInfo _skill)
     {

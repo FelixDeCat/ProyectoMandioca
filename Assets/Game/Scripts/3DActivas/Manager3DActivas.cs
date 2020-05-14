@@ -27,6 +27,13 @@ public class Manager3DActivas : MonoBehaviour
     public void RefreshCooldownAuxiliar(int _index, float _time) => sides[_index].SetCooldow(_time);
     public void CooldownEndReadyAuxiliar(int _index) => sides[_index].SkillLoaded();
 
+    public void ExecuteSubmit(int _index) 
+    {
+        cursor.ExecuteUse();
+        var basevenetdata = new UnityEngine.EventSystems.BaseEventData(Main.instance.GetMyEventSystem().GetMyEventSystem());
+        sides[_index].OnSubmit(basevenetdata); 
+    }
+
     public void ReAssignUIInfo(SkillActivas[] col)
     {
         for (int i = 0; i < col.Length; i++)
