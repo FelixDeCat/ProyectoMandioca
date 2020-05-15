@@ -21,20 +21,23 @@ public class CustomCamera : MonoBehaviour
     PingPongLerp pingpongZoom = new PingPongLerp();
 
     public LayerMask _layermask_raycast_mask;
-
+    public float speedRot;
     Camera mycam;
-
+    public List<CamConfiguration> myCameras = new List<CamConfiguration>();
+    int index;
     private void Start()
     {
         shakeDurationCurrent = shakeDuration;
         mycam = GetComponent<Camera>();
         pingpongZoom.Configure(Zoom, false);
+        changeCameraconf(0);
     }
     
     private void Update()
     {
         pingpongZoom.Updatear();
         ShaderMask();
+        nextIndex();
     }
     private void FixedUpdate()
     {
@@ -62,7 +65,10 @@ public class CustomCamera : MonoBehaviour
         RaycastHit hit;
         var dir = target.position - this.transform.transform.position;
         if (Physics.Raycast(this.transform.transform.position, dir, out hit, 1000, _layermask_raycast_mask))
+        { 
+            
             Main.instance.GetChar().Mask(!hit.transform.GetComponent<CharacterHead>());
+        }
     }
     public void BeginShakeCamera()
     {
@@ -83,4 +89,31 @@ public class CustomCamera : MonoBehaviour
         }
     }
     void SmoothDump() => transform.position = Vector3.SmoothDamp(transform.position, target.position, ref velocity, smooth);
+
+    private void nextIndex()
+    {
+        //cambiar lo de poner el input. es solo para probar
+        if (Input.GetKeyDown(KeyCode.C))
+        {
+            if (index < myCameras.Count-1)
+                index++;
+            else
+                index = 0;
+            changeCameraconf(index);
+        }
+        transform.forward = Vector3.Lerp(transform.forward, myCameras[index].transform.forward, speedRot*Time.deltaTime);
+
+    }
+
+    void changeCameraconf(int i)
+    {
+        target = myCameras[i].transform;
+        shakeAmmount = myCameras[i].shakeAmmount;
+        shakeDuration = myCameras[i].shakeDuration;
+        smooth = myCameras[i].smoothTime;
+       
+        Camera camera = GetComponent<Camera>();
+        camera.cullingMask = myCameras[i].CullingMask;
+        camera.fieldOfView = myCameras[i].fieldOfView;
+    }
 }
