@@ -65,7 +65,10 @@ public class CustomCamera : MonoBehaviour
         RaycastHit hit;
         var dir = target.position - this.transform.transform.position;
         if (Physics.Raycast(this.transform.transform.position, dir, out hit, 1000, _layermask_raycast_mask))
+        { 
+            
             Main.instance.GetChar().Mask(!hit.transform.GetComponent<CharacterHead>());
+        }
     }
     public void BeginShakeCamera()
     {

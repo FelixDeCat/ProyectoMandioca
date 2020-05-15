@@ -4,31 +4,19 @@ using System.Linq;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
-
-//se le puede poner cualquier collider... le pongo esto para recordarle al que lo usa que le ponga un collider
 [RequireComponent(typeof(Collider))]
-public class UI3D_Element : MonoBehaviour, 
-    ISelectHandler,
-    IDeselectHandler,
-    ISubmitHandler,
-    IUpdateSelectedHandler,
-    IPointerClickHandler,
-    IPointerDownHandler,
-    IPointerUpHandler,
-    IPointerEnterHandler, 
-    IPointerExitHandler
+public class UI3D_Element : MonoBehaviour, ISelectHandler,IDeselectHandler,ISubmitHandler,IUpdateSelectedHandler,IPointerClickHandler,IPointerDownHandler,IPointerUpHandler,IPointerEnterHandler, IPointerExitHandler
 {
+    #region Variables
     [Header("UI3D_Element_Settings")]
     [SerializeField] Transform parentmodel;
     GameObject mycurrentModel;
-
     [SerializeField] bool interactable = true;
-    public bool Get_Interactable { get => interactable; }
-    public bool Set_Interactable { set => interactable = value; }
-
     //Para guardar los colores originales
-    private Tuple<Color, Material>[] originalColors; 
-    
+    private Tuple<Color, Material>[] originalColors;
+    #endregion
+    #region model
+    public GameObject GetModel() => mycurrentModel;
     public void SetModel(GameObject go)
     {
         if (mycurrentModel) Destroy(mycurrentModel);
@@ -37,20 +25,26 @@ public class UI3D_Element : MonoBehaviour,
         go.transform.localScale = new Vector3(1, 1, 1);
         mycurrentModel = go;
     }
-    
-
+    #endregion
+    #region Interactable
+    public bool Get_Interactable { get => interactable; }
+    public bool Set_Interactable { set => interactable = value; }
+    #endregion
+    #region Fade
+    public void FadeIn(float fadeSpeed)
+    {
+        var _images = GetComponentsInChildren<Image>();
+        StartCoroutine(StartFadeIn(originalColors, _images, fadeSpeed));
+    }
     public void FadeOut(float fadeSpeed)
     {
         var _materials = GetComponentsInChildren<MeshRenderer>().SelectMany(m => m.materials).ToArray();//agarro los mats del objeto
         var _images = GetComponentsInChildren<Image>();//agarro las imagenes del objeto
-        
         if(originalColors == null)
             originalColors = _materials.Select(c => Tuple.Create(c.color, c)).ToArray(); //me guardo los colores originales de cadea mat
-        
         StartCoroutine(StartFadeOut(_materials, _images ,fadeSpeed)); //arranco la corrutina para hacerles fade.
 
     }
-
     IEnumerator StartFadeOut(Material[] materiales, Image[] images,float fadeSpeed)
     {
         //Alpha de materiales
@@ -78,7 +72,6 @@ public class UI3D_Element : MonoBehaviour,
             }
         }
     }
-    
     IEnumerator StartFadeIn(Tuple<Color, Material>[] materiales, Image[] images,float fadeSpeed)
     {
         //Igual que el fadeOut pero al reves. La diferencia es que aca uso como limite el valor original que me guarde
@@ -106,14 +99,8 @@ public class UI3D_Element : MonoBehaviour,
             }
         }
     }
-    public void FadeIn(float fadeSpeed)
-    {
-        var _images = GetComponentsInChildren<Image>();
-        
-        StartCoroutine(StartFadeIn(originalColors,_images ,fadeSpeed));
-    }
-    public GameObject GetModel() => mycurrentModel;
-
+    #endregion
+    #region Event System Functions
     public void OnSelect(BaseEventData eventData) { if(interactable) Custom_UI_Event_OnSelect(); }
     public void OnDeselect(BaseEventData eventData) { Custom_UI_Event_OnDeselect(); }
     public void OnSubmit(BaseEventData eventData) { if (interactable) Custom_UI_Event_OnSubmit(); }
@@ -123,6 +110,8 @@ public class UI3D_Element : MonoBehaviour,
     public void OnPointerExit(PointerEventData eventData) { Custom_UI_Click_OnHoverExit(); }
     public void OnPointerDown(PointerEventData eventData) { if (interactable) Custom_UI_Click_OnClickDown(); }
     public void OnPointerUp(PointerEventData eventData) { Custom_UI_Click_OnClickUp(); }
+    #endregion
+    #region Custom UI Functions
     protected virtual void Custom_UI_Event_OnSelect() { }
     protected virtual void Custom_UI_Event_OnDeselect() { }
     protected virtual void Custom_UI_Event_OnSubmit() { }
@@ -132,5 +121,5 @@ public class UI3D_Element : MonoBehaviour,
     protected virtual void Custom_UI_Click_OnHoverExit() { }
     protected virtual void Custom_UI_Click_OnClickDown() { }
     protected virtual void Custom_UI_Click_OnClickUp() { }
-    
+    #endregion
 }
