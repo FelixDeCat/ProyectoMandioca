@@ -52,9 +52,11 @@ public class CharacterBlock : EntityBlock
         maxBlockCharges = maxCharges;
         CurrentBlockCharges = maxCharges;
         timeToRecuperate = timeRecuperate;
-        var newUi = MonoBehaviour.Instantiate(_ui, Main.instance.gameUiController.MyCanvas.transform);
-        ui = newUi.GetComponentInChildren<UI_GraphicContainer>();
-        ui.OnValueChange(CurrentBlockCharges, maxBlockCharges);
+        
+        //Saque esto para poner los escudos 3d
+        //var newUi = MonoBehaviour.Instantiate(_ui, Main.instance.gameUiController.MyCanvas.transform);
+        //ui = newUi.GetComponentInChildren<UI_GraphicContainer>();
+        //ui.OnValueChange(CurrentBlockCharges, maxBlockCharges);
     }
 
     public override void OnBlockDown() { if(!onBlock) anim.Block(true); }
@@ -108,7 +110,8 @@ public class CharacterBlock : EntityBlock
             timerCharges = 0;
         }
 
-        ui.OnValueChange(CurrentBlockCharges, maxBlockCharges, true);
+        Main.instance.gameUiController.RefreshShields_UI(CurrentBlockCharges, maxBlockCharges);
+        //ui.OnValueChange(CurrentBlockCharges, maxBlockCharges, true); //reemplazado por escudos 3d
     }
 
     public bool CanUseCharge() => CurrentBlockCharges > maxBlockCharges-1;

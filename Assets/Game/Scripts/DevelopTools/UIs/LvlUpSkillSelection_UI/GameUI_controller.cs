@@ -11,23 +11,30 @@ public class GameUI_controller : MonoBehaviour
 
     [SerializeField] private GameObject skillSelection_template_pf = null;
     [SerializeField] private GameObject charStats_template_pf = null;
+    [SerializeField] private GameObject stats3D_UI_pf;
+    [SerializeField] private UI3D_Shields_controller _shieldsController_pf;
+    
     
     [SerializeField] private GameMenu_UI gameMenu_UI = null;
-
-    [SerializeField] public RectTransform shieldPLaces;
-
-    private CharStats_UI _charStats_Ui;
-    [SerializeField] private GameObject stats3D_UI_pf;
     private GameObject stats3D_UI;
-    Dictionary<UI_templates, GameObject> UiTemplateRegistry = new Dictionary<UI_templates, GameObject>();
-
-    
+    private CharStats_UI _charStats_Ui;
+    private UI3D_Shields_controller _shieldsController;
     
     [Header("--XX--Canvas containers--XX--")]
     [SerializeField] private RectTransform leftCanvas = null;
     [SerializeField] private RectTransform rightCanvas = null;
 
     private SkillManager_Pasivas _skillManagerPasivas;
+    
+    
+    //Seguroi esto se deje de usar
+    Dictionary<UI_templates, GameObject> UiTemplateRegistry = new Dictionary<UI_templates, GameObject>();
+
+
+    
+    
+    
+    
 
     public bool openUI { get; private set; }
 
@@ -42,6 +49,7 @@ public class GameUI_controller : MonoBehaviour
     private void Start()
     {
         Main.instance.eventManager.SubscribeToEvent(GameEvents.GAME_INITIALIZE, Initialize);
+        
     }
 
     //Esto est amuy feo, tengo que ponerlo mas lindo
@@ -49,8 +57,11 @@ public class GameUI_controller : MonoBehaviour
     {
         _charStats_Ui = Instantiate<GameObject>(UiTemplateRegistry[UI_templates.charStats], leftCanvas).GetComponent<CharStats_UI>();
         gameMenu_UI.Configure(_charStats_Ui.ToggleLvlUpSignOFF);
-        stats3D_UI = Instantiate(stats3D_UI_pf, transform);
         
+        stats3D_UI = Instantiate(stats3D_UI_pf, transform);
+
+        _shieldsController = Instantiate(_shieldsController_pf, transform);
+        _shieldsController.Init(3,3);
         
         Main.instance.GetChar().Life.frontendLife = stats3D_UI.GetComponent<Stats3D_UI_helper>().lifeBar;
         
@@ -65,21 +76,19 @@ public class GameUI_controller : MonoBehaviour
     #endregion
 
     #region Public methods
-
+    
+    public void HideShields() => _shieldsController.HideShields();
+    public void ShowShields() => _shieldsController.ShowShields();
+    public void RefreshShields_UI(int currentShields, int maxShields) =>  _shieldsController.RefreshUI(currentShields, maxShields);
+    
+    
     /// <summary>
     /// Para que esto funcione aca hay que cambiar el shader. El que tenemos ahora no me permite hacer la transparencia
     /// </summary>
-    public void FadeOutPlayerStats()
-    {
-        //Harcodeada la velocidad. Hay que unificar todos los configs de la UI
-        stats3D_UI.GetComponent<Stats3D_UI_helper>().FadeOut(15);
-    }
-    
-    public void FadeInPlayerStats()
-    {
-        //Harcodeada la velocidad. Hay que unificar todos los configs de la UI
-        stats3D_UI.GetComponent<Stats3D_UI_helper>().FadeIn(15);
-    }
+    /// //Harcodeada la velocidad. Hay que unificar todos los configs de la UI
+    public void FadeOutPlayerStats(){stats3D_UI.GetComponent<Stats3D_UI_helper>().FadeOut(15);}
+    //Harcodeada la velocidad. Hay que unificar todos los configs de la UI
+    public void FadeInPlayerStats(){stats3D_UI.GetComponent<Stats3D_UI_helper>().FadeIn(15);}
     public void UI_Send_NameSkillType(string s) { }
     public void UI_SendLevelUpNotification() {/* CanvasPopUpInWorld_Manager.instance.MakePopUpAnimated(Main.instance.GetChar().transform, lvlUp_pf);*/ }
     public void UI_SendActivePlusNotification(bool val) { if (val) _charStats_Ui.ToggleLvlUpSignON(); }
