@@ -62,11 +62,15 @@ public class CustomCamera : MonoBehaviour
     }
     void ShaderMask()
     {
+        
         RaycastHit hit;
-        var dir = target.position - this.transform.transform.position;
+        var dir = Main.instance.GetChar().transform.position - this.transform.transform.position;
+        dir.Normalize();
         if (Physics.Raycast(this.transform.transform.position, dir, out hit, 1000, _layermask_raycast_mask))
-        { 
-            
+        {
+            Debug.Log("asdadsasdas");
+
+            DebugCustom.Log("CameraThings", "Raycast Hit Element", hit.transform.gameObject.name);
             Main.instance.GetChar().Mask(!hit.transform.GetComponent<CharacterHead>());
         }
     }
