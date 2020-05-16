@@ -9,15 +9,17 @@ namespace ToolsMandioca.StateMachine
     public class BGoToTarget : BMinionStates
     {
         GenericEnemyMove move;
-        float distance;
+        float maxDistance;
+        float minDistance;
         float distanceOwner;
         EntityBase owner;
 
         public BGoToTarget(EState<BasicMinion.BasicMinionInput> myState, EventStateMachine<BasicMinion.BasicMinionInput> _sm, GenericEnemyMove _move,
-                           float _distance, float _distanceOwner, EntityBase _owner) : base(myState, _sm)
+                           float _distance, float _minDistance,float _distanceOwner, EntityBase _owner) : base(myState, _sm)
         {
             move = _move;
-            distance = _distance;
+            maxDistance = _distance;
+            minDistance = _minDistance;
             distanceOwner = _distanceOwner;
             owner = _owner;
         }
@@ -31,7 +33,7 @@ namespace ToolsMandioca.StateMachine
         protected override void Update()
         {
             base.Update();
-            if (minion.CurrentTargetPosDir() == null)
+            if (!minion.IsInPos())
             {
                 if (minion.CurrentTarget() != null)
                 {
@@ -41,7 +43,7 @@ namespace ToolsMandioca.StateMachine
                     move.Rotation(fowardRotation);
                     move.MoveWRigidbodyV(fowardRotation);
 
-                    if (Vector3.Distance(minion.CurrentTarget().transform.position, root.position) <= distance)
+                    if (Vector3.Distance(minion.CurrentTarget().transform.position, root.position) <= maxDistance)
                         sm.SendInput(BasicMinion.BasicMinionInput.IDLE);
                 }
                 else
@@ -58,19 +60,17 @@ namespace ToolsMandioca.StateMachine
             }
             else
             {
-                Vector3 dir = minion.CurrentTargetPos() - root.position;
-                dir.Normalize();
+                Vector3 dirForward = (minion.CurrentTarget().transform.position - root.position).normalized;
+                Vector3 fowardRotation = move.ObstacleAvoidance(new Vector3(dirForward.x, 0, dirForward.z));
 
-                Vector3 dirFix = move.ObstacleAvoidance(new Vector3(dir.x, 0, dir.z));
+                move.Rotation(fowardRotation);
+                move.MoveWRigidbodyV(fowardRotation);
 
-                move.Rotation(dirFix);
-                move.MoveWRigidbodyV(dirFix);
+                Vector3 targetPos = minion.CurrentTarget().transform.position;
+                Vector3 myPos = root.position;
 
-                float distanceX = Mathf.Abs(minion.CurrentTargetPos().x - root.position.x);
-                float distanceZ = Mathf.Abs(minion.CurrentTargetPos().z - root.position.z);
-
-                if (distanceX < 0.7f && distanceZ < 0.7f)
-                    sm.SendInput(BasicMinion.BasicMinionInput.IDLE);
+                if (Vector3.Distance(new Vector3(targetPos.x,0,targetPos.z), new Vector3(myPos.x, 0, myPos.z)) <= minDistance)
+                    sm.SendInput(BasicMinion.BasicMinionInput.CHASING);
             }
 
         }

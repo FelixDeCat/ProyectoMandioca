@@ -66,23 +66,6 @@ public abstract class Minion : Companion, ICombatDirector
     #region CombatDirector
     bool inPos;
     public bool attacking;
-    public Transform currentTargetPos;
-
-    public Vector3 CurrentTargetPos()
-    {
-        Vector3 result = currentTargetPos.position - currentTargetPos.localPosition + currentTargetPos.localPosition * distanceToTarget;
-        return result;
-    }
-
-    public Transform CurrentTargetPosDir()
-    {
-        return currentTargetPos;
-    }
-
-    public void SetTargetPosDir(Transform pos)
-    {
-        currentTargetPos = pos;
-    }
 
     public float GetDistance() => distanceToTarget;
 
@@ -99,7 +82,6 @@ public abstract class Minion : Companion, ICombatDirector
     public virtual void ResetCombat()
     {
         entityTarget = null;
-        SetTargetPosDir(null);
         SetBool(false);
     }
     #endregion

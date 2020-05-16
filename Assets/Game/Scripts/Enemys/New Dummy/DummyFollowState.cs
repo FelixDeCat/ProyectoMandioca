@@ -8,15 +8,17 @@ namespace ToolsMandioca.StateMachine
     {
         GenericEnemyMove move;
 
-        TrueDummyEnemy noObs;
+        EnemyBase noObs;
 
         float normalDistance;
+        float minDistance;
 
         public DummyFollowState(EState<TrueDummyEnemy.DummyEnemyInputs> myState, EventStateMachine<TrueDummyEnemy.DummyEnemyInputs> _sm, GenericEnemyMove _move,
-                                float distance, TrueDummyEnemy me) : base(myState, _sm)
+                                float distance, float _minDistance, EnemyBase me) : base(myState, _sm)
         {
             move = _move;
             normalDistance = distance;
+            minDistance = _minDistance;
             noObs = me;
         }
 
@@ -38,7 +40,7 @@ namespace ToolsMandioca.StateMachine
         {
             base.Update();
 
-            if (noObs.CurrentTargetPosDir() == null)
+            if (!noObs.IsInPos())
             {
                 if (noObs.CurrentTarget() != null)
                 {
@@ -51,22 +53,22 @@ namespace ToolsMandioca.StateMachine
                     if (Vector3.Distance(noObs.CurrentTarget().transform.position, root.position) <= normalDistance)
                         sm.SendInput(TrueDummyEnemy.DummyEnemyInputs.IDLE);
                 }
+                else
+                    sm.SendInput(TrueDummyEnemy.DummyEnemyInputs.IDLE);
             }
             else
             {
-                Vector3 dir = noObs.CurrentTargetPos() - root.position;
-                dir.Normalize();
+                Vector3 dirForward = (noObs.CurrentTarget().transform.position - root.position).normalized;
+                Vector3 fowardRotation = move.ObstacleAvoidance(new Vector3(dirForward.x, 0, dirForward.z));
 
-                Vector3 dirFix = move.ObstacleAvoidance(new Vector3(dir.x, 0, dir.z));
+                move.Rotation(fowardRotation);
+                move.MoveWRigidbodyV(fowardRotation);
 
-                move.Rotation(dirFix);
-                move.MoveWRigidbodyV(dirFix);
+                Vector3 targetPos = noObs.CurrentTarget().transform.position;
+                Vector3 myPos = root.position;
 
-                float distanceX = Mathf.Abs(noObs.CurrentTargetPos().x - root.position.x);
-                float distanceZ = Mathf.Abs(noObs.CurrentTargetPos().z - root.position.z);
-
-                if (distanceX < 0.7f && distanceZ < 0.7f)
-                    sm.SendInput(TrueDummyEnemy.DummyEnemyInputs.IDLE);
+                if (Vector3.Distance(new Vector3(targetPos.x, 0, targetPos.z), new Vector3(myPos.x, 0, myPos.z)) <= minDistance)
+                    sm.SendInput(TrueDummyEnemy.DummyEnemyInputs.CHASING);
             }
 
         }

@@ -9,10 +9,10 @@ public class CombatDirector : MonoBehaviour, IZoneElement
     List<ICombatDirector> awakeList = new List<ICombatDirector>();
     [SerializeField, Range(1, 8)] int maxEnemies = 1;
 
-    Dictionary<EntityBase, List<Transform>> otherTargetPos = new Dictionary<EntityBase, List<Transform>>();
+    Dictionary<EntityBase, List<ICombatDirector>> waitToAttack = new Dictionary<EntityBase, List<ICombatDirector>>();
     Dictionary<EntityBase, List<ICombatDirector>> listAttackTarget = new Dictionary<EntityBase, List<ICombatDirector>>();
     Dictionary<EntityBase, List<ICombatDirector>> attackingTarget = new Dictionary<EntityBase, List<ICombatDirector>>();
-    Dictionary<EntityBase, List<ICombatDirector>> waitToAttack = new Dictionary<EntityBase, List<ICombatDirector>>();
+    Dictionary<EntityBase, List<ICombatDirector>> prepareToAttack = new Dictionary<EntityBase, List<ICombatDirector>>();
     Dictionary<EntityBase, float> timers = new Dictionary<EntityBase, float>();
     Dictionary<EntityBase, float> timeToAttacks = new Dictionary<EntityBase, float>();
     Dictionary<EntityBase, bool> isAttack = new Dictionary<EntityBase, bool>();
@@ -28,21 +28,17 @@ public class CombatDirector : MonoBehaviour, IZoneElement
 
     Action AllUpdates = delegate { };
 
-    private void Start()
-    {
-        Main.instance.eventManager.SubscribeToEvent(GameEvents.GAME_END_LOAD, Initialize);
-    }
+    private void Start() => Main.instance.eventManager.SubscribeToEvent(GameEvents.GAME_END_LOAD, Initialize);
 
     public void Initialize()
     {
         head = Main.instance.GetChar();
         AddNewTarget(head);
         initialize = true;
+        run = true;
 
         for (int i = 0; i < awakeList.Count; i++)
-        {
             AddToList(awakeList[i], head);
-        }
 
         awakeList = new List<ICombatDirector>();
     }
@@ -63,31 +59,6 @@ public class CombatDirector : MonoBehaviour, IZoneElement
 
     void StopDirector() => run = false;
 
-    void InitializeTarget(Transform head, EntityBase entity)
-    {
-        Vector3 east = Vector3.right;
-        Vector3 north = Vector3.forward;
-        Vector3 northEast = Vector3.right / 2 + Vector3.forward / 2;
-        Vector3 northWest = Vector3.forward / 2 + Vector3.left / 2;
-
-        otherTargetPos[entity].Add(CreateNewPos(east, head));
-        otherTargetPos[entity].Add(CreateNewPos(-east, head));
-        otherTargetPos[entity].Add(CreateNewPos(north, head));
-        otherTargetPos[entity].Add(CreateNewPos(-north, head));
-        otherTargetPos[entity].Add(CreateNewPos(northEast, head));
-        otherTargetPos[entity].Add(CreateNewPos(-northEast, head));
-        otherTargetPos[entity].Add(CreateNewPos(northWest, head));
-        otherTargetPos[entity].Add(CreateNewPos(-northWest, head));
-    }
-
-    Transform CreateNewPos(Vector3 pos, Transform parent)
-    {
-        var newEmpty = new GameObject("PosToAttack");
-        newEmpty.transform.SetParent(parent);
-        newEmpty.transform.localPosition = pos;
-        return newEmpty.transform;
-    }
-
     void AssignPos(EntityBase target)
     {
         ICombatDirector randomEnemy = waitToAttack[target][UnityEngine.Random.Range(0, waitToAttack[target].Count)];
@@ -98,42 +69,11 @@ public class CombatDirector : MonoBehaviour, IZoneElement
         AssignPos(randomEnemy);
     }
 
-    void AssignPos(ICombatDirector e)
-    {
-        Transform toFollow = GetNearPos(e.CurrentPos(), e.GetDistance(), e.CurrentTarget());
-
-        e.SetTargetPosDir(toFollow);
-
-        e.SetBool(true);
-    }
-
-    Transform GetNearPos(Vector3 p, float distance, EntityBase target)
-    {
-        Transform current = null;
-        for (int i = 0; i < otherTargetPos[target].Count; i++)
-        {
-            if (current == null)
-                current = otherTargetPos[target][i];
-            else
-            {
-                Vector3 curr = current.position + current.localPosition * distance;
-
-                if (!otherTargetPos[target][i])
-                    Debug.Log("wat");
-                Vector3 niu = otherTargetPos[target][i].position + otherTargetPos[target][i].localPosition * distance;
-                if (Vector3.Distance(curr, p) > Vector3.Distance(niu, p))
-                    current = otherTargetPos[target][i];
-            }
-        }
-
-        otherTargetPos[target].Remove(current);
-
-        return current;
-    }
+    void AssignPos(ICombatDirector e) => e.SetBool(true);
 
     void RemoveToList(ICombatDirector e, EntityBase target)
     {
-        if (!target || !otherTargetPos.ContainsKey(target))
+        if (!target || !listAttackTarget.ContainsKey(target))
             return;
 
         if (attackingTarget[target].Contains(e))
@@ -145,25 +85,15 @@ public class CombatDirector : MonoBehaviour, IZoneElement
         if (waitToAttack[target].Contains(e))
             waitToAttack[target].Remove(e);
 
-        if (e.CurrentTargetPosDir() != null)
+        if (e.IsInPos())
         {
-            otherTargetPos[target].Add(e.CurrentTargetPosDir());
             if (waitToAttack[target].Count > 0)
                 AssignPos(target);
 
-            e.SetTargetPosDir(null);
+            e.SetBool(false);
         }
 
-        if (listAttackTarget[target].Count <= 0)
-            StopEntity(target);
-
-        RunCheck();
-    }
-
-    void StopEntity(EntityBase target)
-    {
-        timers[target] = 0;
-        isAttack[target] = false;
+        //RunCheck();
     }
 
     void RunCheck()
@@ -196,14 +126,13 @@ public class CombatDirector : MonoBehaviour, IZoneElement
         listAttackTarget[target].Remove(e);
         attackingTarget[target].Add(e);
 
-        if (listAttackTarget[target].Count <= 0)
-            StopEntity(target);
-
-        RunCheck();
+        //RunCheck();
     }
 
     #endregion
 
+    ///<summary> Función para que no bugee al arrancar el juego. Si el player está inicializado, lo agrega a su lista, sino, espera hasta inicializar.
+    ///</summary>
     public void AddAwake(ICombatDirector enemy)
     {
         if (!initialize)
@@ -215,48 +144,41 @@ public class CombatDirector : MonoBehaviour, IZoneElement
         }
     }
 
+    ///<summary> Resetea el Director volviendo todo a 0 (cuando se cambia de room o nivel se puede usar esta función).
+    ///</summary>
     void ResetDirector()
     {
         initialize = false;
 
-        otherTargetPos = new Dictionary<EntityBase, List<Transform>>();
+
         listAttackTarget = new Dictionary<EntityBase, List<ICombatDirector>>();
         attackingTarget = new Dictionary<EntityBase, List<ICombatDirector>>();
         waitToAttack = new Dictionary<EntityBase, List<ICombatDirector>>();
+        prepareToAttack = new Dictionary<EntityBase, List<ICombatDirector>>();
         timers = new Dictionary<EntityBase, float>();
         timeToAttacks = new Dictionary<EntityBase, float>();
         isAttack = new Dictionary<EntityBase, bool>();
+        updateDict = new Dictionary<EntityBase, Action>();
+        AllUpdates = delegate { };
     }
 
-    public void GetNewNearPos(ICombatDirector e, EntityBase target)
-    {
-        if (!target || !otherTargetPos.ContainsKey(target))
-            return;
-
-        Transform pos = e.CurrentTargetPosDir();
-
-        if(pos != null)
-            otherTargetPos[target].Add(pos);
-
-        e.SetTargetPosDir(GetNearPos(e.CurrentPos(), e.GetDistance(), target));
-    }
-
+    ///<summary> Esta función hace que un entity base pueda ser atacado en base al combat director (Puede ser un minion, enemy o lo que sea entity)
+    ///</summary>
     public void AddNewTarget(EntityBase entity)
     {
-        if (!otherTargetPos.ContainsKey(entity))
+        if (!listAttackTarget.ContainsKey(entity))
         {
-            otherTargetPos.Add(entity, new List<Transform>());
-            InitializeTarget(entity.transform, entity);
             listAttackTarget.Add(entity, new List<ICombatDirector>());
             attackingTarget.Add(entity, new List<ICombatDirector>());
             waitToAttack.Add(entity, new List<ICombatDirector>());
+            prepareToAttack.Add(entity, new List<ICombatDirector>());
             timers.Add(entity, 0);
             timeToAttacks.Add(entity, 0);
             isAttack.Add(entity, false);
 
             updateDict.Add(entity, () =>
             {
-                if (isAttack[entity])
+                if (!isAttack[entity])
                 {
                     timers[entity] += Time.deltaTime;
 
@@ -265,9 +187,16 @@ public class CombatDirector : MonoBehaviour, IZoneElement
                         timers[entity] = 0;
                         CalculateTimer(entity);
 
-                        ICombatDirector e = listAttackTarget[entity][UnityEngine.Random.Range(0, listAttackTarget[entity].Count)];
-                        e.ToAttack();
-                        Attack(e, entity);
+                        if (prepareToAttack[entity].Count <= 0)
+                        {
+                            isAttack[entity] = true;
+                        }
+                        else
+                        {
+                            var e = prepareToAttack[entity][UnityEngine.Random.Range(0, prepareToAttack[entity].Count)];
+                            e.ToAttack();
+                            Attack(e, entity);
+                        }
                     }
                 }
             });
@@ -276,6 +205,8 @@ public class CombatDirector : MonoBehaviour, IZoneElement
         }
     }
 
+    ///<summary> Remueve un target, ya no va a poder ser atacado (recomendado cuando muere un entity que era target).
+    ///</summary>
     public void RemoveTarget(EntityBase entity)
     {
         if (listAttackTarget.ContainsKey(entity))
@@ -289,10 +220,9 @@ public class CombatDirector : MonoBehaviour, IZoneElement
             for (int i = 0; i < waitToAttack[entity].Count; i++)
                 waitToAttack[entity][i].ResetCombat();
 
-            otherTargetPos.Remove(entity);
             listAttackTarget.Remove(entity);
             attackingTarget.Remove(entity);
-            listAttackTarget.Remove(entity);
+            prepareToAttack.Remove(entity);
             waitToAttack.Remove(entity);
             timers.Remove(entity);
             timeToAttacks.Remove(entity);
@@ -302,25 +232,53 @@ public class CombatDirector : MonoBehaviour, IZoneElement
         }
     }
 
+    ///<summary> Con esta función se le dice al combat que estoy listo para atacar para que te tenga en consideración cuando da la orden.
+    ///</summary>
+    public void PrepareToAttack(ICombatDirector e, EntityBase target)
+    {
+        if (isAttack[target])
+        {
+            e.ToAttack();
+            Attack(e, target);
+            isAttack[target] = false;
+        }
+        else
+        {
+            prepareToAttack[target].Add(e);
+        }
+    }
+
+    ///<summary> Esta función elemina de la consideración para la orden de ataque, ya fuese si stunean al enemigo, no está en posición de ataque o incluso, si se le 
+    ///acaba de dar la orden de atacar.
+    ///</summary>
+    public void DeleteToPrepare(ICombatDirector e, EntityBase target)
+    {
+        prepareToAttack[target].Remove(e);
+    }
+
+    ///<summary> Cuando muere un enemy que usa el combat, para sacarlo de las listas de ataque.
+    ///</summary>
     public void DeadEntity(ICombatDirector e, EntityBase target)
     {
         RemoveToList(e, target);
     }
 
+    ///<summary> Sobrecarga que además lo saca de los posibles target, por si el entity además podía ser atacado.
+    ///</summary>
     public void DeadEntity(ICombatDirector e, EntityBase target, EntityBase me)
     {
         RemoveTarget(me);
         RemoveToList(e, target);
     }
 
+    ///<summary> Esto es cuando un entity termina de usar un ataque, para volver a agregarlo y sacarlo de la lista de ataque.
+    ///</summary>
     public void AttackRelease(ICombatDirector e, EntityBase target)
     {
-        if (!target || !otherTargetPos.ContainsKey(target))
+        if (!target || !listAttackTarget.ContainsKey(target))
             return;
 
         attackingTarget[target].Remove(e);
-        if (e.CurrentTargetPosDir())
-            otherTargetPos[target].Add(e.CurrentTargetPosDir());
 
         if (waitToAttack[target].Count > 0)
             AssignPos(target);
@@ -328,21 +286,17 @@ public class CombatDirector : MonoBehaviour, IZoneElement
         AddToList(e, target);
     }
 
+    ///<summary> Agrega a la lista de ataque de un target específico.
+    ///</summary>
     public void AddToList(ICombatDirector e, EntityBase target)
     {
-        if (!target || !otherTargetPos.ContainsKey(target))
+        if (!target || !listAttackTarget.ContainsKey(target))
             return;
 
         if (attackingTarget[target].Count + listAttackTarget[target].Count < maxEnemies)
         {
             listAttackTarget[target].Add(e);
             AssignPos(e);
-
-            if (!isAttack[target])
-            {
-                isAttack[target] = true;
-                CalculateTimer(target);
-            }
         }
         else
             waitToAttack[target].Add(e);
@@ -350,9 +304,11 @@ public class CombatDirector : MonoBehaviour, IZoneElement
         RunCheck();
     }
 
+    ///<summary> Esta función facilita el cambio entre targets. Elimina del ataque hacia el anterior target y lo agrega al nuevo.
+    ///</summary>
     public void ChangeTarget(ICombatDirector e, EntityBase newTarget, EntityBase oldTarget)
     {
-        if(oldTarget!=null)
+        if(oldTarget != null)
             RemoveToList(e, oldTarget);
         e.SetTarget(newTarget);
         AddToList(e, newTarget);

@@ -4,13 +4,13 @@ using UnityEngine;
 
 public interface ICombatDirector 
 {
-    Vector3 CurrentTargetPos();
+    //Vector3 CurrentTargetPos();
 
-    Transform CurrentTargetPosDir();
+    //Transform CurrentTargetPosDir();
 
-    void SetTargetPosDir(Transform pos);
+    //void SetTargetPosDir(Transform pos);
 
-    float GetDistance();
+    //float GetDistance();
 
     void SetTarget(EntityBase entity);
 

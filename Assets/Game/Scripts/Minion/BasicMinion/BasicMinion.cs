@@ -197,11 +197,12 @@ public class BasicMinion : Minion
     protected override void OnTurnOn() { }
 
     #region STATE MACHINE THINGS
-    public enum BasicMinionInput { IDLE, BEGIN_ATTACK, ATTACK, GO_TO_POS, DIE, TAKE_DAMAGE, STUN };
+    public enum BasicMinionInput { IDLE, BEGIN_ATTACK, ATTACK, GO_TO_POS, DIE, TAKE_DAMAGE, STUN, CHASING };
     void SetStates()
     {
         var idle = new EState<BasicMinionInput>("Idle");
         var goToPos = new EState<BasicMinionInput>("Follow");
+        var chasing = new EState<BasicMinionInput>("Chasing");
         var beginAttack = new EState<BasicMinionInput>("Begin_Attack");
         var attack = new EState<BasicMinionInput>("Attack");
         var takeDamage = new EState<BasicMinionInput>("Take_Damage");
@@ -210,14 +211,24 @@ public class BasicMinion : Minion
 
         ConfigureState.Create(idle)
             .SetTransition(BasicMinionInput.GO_TO_POS, goToPos)
+            .SetTransition(BasicMinionInput.CHASING, chasing)
             .SetTransition(BasicMinionInput.TAKE_DAMAGE, takeDamage)
-            .SetTransition(BasicMinionInput.BEGIN_ATTACK, beginAttack)
             .SetTransition(BasicMinionInput.DIE, die)
             .SetTransition(BasicMinionInput.STUN, stun)
             .Done();
 
         ConfigureState.Create(goToPos)
             .SetTransition(BasicMinionInput.IDLE, idle)
+            .SetTransition(BasicMinionInput.CHASING, chasing)
+            .SetTransition(BasicMinionInput.TAKE_DAMAGE, takeDamage)
+            .SetTransition(BasicMinionInput.DIE, die)
+            .SetTransition(BasicMinionInput.STUN, stun)
+            .Done();
+
+        ConfigureState.Create(chasing)
+            .SetTransition(BasicMinionInput.IDLE, idle)
+            .SetTransition(BasicMinionInput.GO_TO_POS, goToPos)
+            .SetTransition(BasicMinionInput.BEGIN_ATTACK, beginAttack)
             .SetTransition(BasicMinionInput.TAKE_DAMAGE, takeDamage)
             .SetTransition(BasicMinionInput.DIE, die)
             .SetTransition(BasicMinionInput.STUN, stun)
@@ -256,10 +267,12 @@ public class BasicMinion : Minion
         var head = Main.instance.GetChar();
 
         //Asignando las funciones de cada estado
-        new BIdle(idle, sm, movement, IsAttack, distanceToTarget, maxDistanceToTarget, owner, distanceToOwner).SetAnimator(animator).SetRoot(rootTransform)
+        new BIdle(idle, sm, movement, distanceToTarget, maxDistanceToTarget, owner, distanceToOwner).SetAnimator(animator).SetRoot(rootTransform)
             .SetDirector(director).SetThis(this);
 
-        new BGoToTarget(goToPos, sm, movement, maxDistanceToTarget, distanceToOwner, owner).SetAnimator(animator).SetRoot(rootTransform).SetThis(this);
+        new BGoToTarget(goToPos, sm, movement, maxDistanceToTarget, distanceToTarget,distanceToOwner, owner).SetAnimator(animator).SetRoot(rootTransform).SetThis(this);
+
+        new BChasing(chasing, sm, IsAttack, distanceToTarget, movement).SetRoot(rootTransform).SetDirector(director).SetThis(this);
 
         new BBeginAttack(beginAttack, sm, movement).SetAnimator(animator).SetDirector(director).SetRoot(rootTransform).SetThis(this);
 
