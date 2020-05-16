@@ -1602,8 +1602,8 @@ BoxCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 1, y: 1, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
+  m_Size: {x: 1, y: 2.1873207, z: 1}
+  m_Center: {x: -0, y: 0.5936605, z: -0}
 --- !u!114 &6636265859991071303
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1623,7 +1623,6 @@ MonoBehaviour:
   distanceToOwner: 10
   distanceToCombat: 15
   attacking: 0
-  currentTargetPos: {fileID: 0}
   movement: {fileID: 5692074044017207568}
   rootTransform: {fileID: 1596232103914429170}
   combatComponent: {fileID: 1007096182951033182}
@@ -1651,11 +1650,15 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   initialSpeed: 5
   avoidWeight: 1
-  avoidanceRadious: 1.5
+  avoidanceRadious: 1
   rootSpeed: 10
   avoidMask:
     serializedVersion: 2
-    m_Bits: 33536
+    m_Bits: 33280
+  mySensorPos: {x: 0, y: 0.2, z: 0.5}
+  drawLines: 1
+  mySideSensorPos: 0.3
+  mySideSensorAngle: 30
 --- !u!114 &1007096182951033182
 MonoBehaviour:
   m_ObjectHideFlags: 0

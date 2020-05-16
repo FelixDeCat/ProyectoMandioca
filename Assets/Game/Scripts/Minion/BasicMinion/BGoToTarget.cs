@@ -40,7 +40,7 @@ namespace ToolsMandioca.StateMachine
                     Vector3 dirForward = (minion.CurrentTarget().transform.position - root.position).normalized;
                     Vector3 fowardRotation = move.ObstacleAvoidance(new Vector3(dirForward.x, 0, dirForward.z));
 
-                    move.Rotation(fowardRotation);
+                    move.Rotation(fowardRotation.normalized);
                     move.MoveWRigidbodyV(fowardRotation);
 
                     if (Vector3.Distance(minion.CurrentTarget().transform.position, root.position) <= maxDistance)
@@ -51,7 +51,7 @@ namespace ToolsMandioca.StateMachine
                     Vector3 dirForward = (owner.transform.position - root.position).normalized;
                     Vector3 fowardRotation = move.ObstacleAvoidance(new Vector3(dirForward.x, 0, dirForward.z));
 
-                    move.Rotation(fowardRotation);
+                    move.Rotation(fowardRotation.normalized);
                     move.MoveWRigidbodyV(fowardRotation);
 
                     if (Vector3.Distance(owner.transform.position, root.position) <= distanceOwner)
@@ -63,7 +63,7 @@ namespace ToolsMandioca.StateMachine
                 Vector3 dirForward = (minion.CurrentTarget().transform.position - root.position).normalized;
                 Vector3 fowardRotation = move.ObstacleAvoidance(new Vector3(dirForward.x, 0, dirForward.z));
 
-                move.Rotation(fowardRotation);
+                move.Rotation(fowardRotation.normalized);
                 move.MoveWRigidbodyV(fowardRotation);
 
                 Vector3 targetPos = minion.CurrentTarget().transform.position;

@@ -39,7 +39,7 @@ namespace ToolsMandioca.StateMachine
                 if (ChargeOk())
                     sm.SendInput(JabaliEnemy.JabaliInputs.CHARGE_PUSH);
                 else
-                    sm.SendInput(JabaliEnemy.JabaliInputs.HEAD_ATTACK);
+                    sm.SendInput(JabaliEnemy.JabaliInputs.HEAD_ANTICIP);
             }
             else
             {

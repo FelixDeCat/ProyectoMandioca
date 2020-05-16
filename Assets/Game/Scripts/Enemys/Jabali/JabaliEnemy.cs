@@ -478,17 +478,17 @@ public class JabaliEnemy : EnemyBase
 
         sm = new EventStateMachine<JabaliInputs>(idle, DebugState);
 
-        new JabaliIdle(idle, sm, movement, distanceToCharge, distanceToAttack, normalDistance, IsChargeOk).SetThis(this).SetDirector(director)
+        new JabaliIdle(idle, sm, movement, distanceToCharge, distancePos, normalDistance, IsChargeOk).SetThis(this).SetDirector(director)
             .SetRoot(rootTransform);
 
         new JabaliPersuit(persuit, sm, movement, lineOfSight.OnSight, IsChargeOk, distanceToAttack, distancePos, distanceToCharge - 1).SetAnimator(animator)
             .SetThis(this).SetRoot(rootTransform);
 
-        new JabaliChasing(chasing, sm, IsAttack, IsChargeOk, distanceToCharge, distanceToAttack, movement).SetDirector(director).SetThis(this).SetRoot(rootTransform);
+        new JabaliChasing(chasing, sm, IsAttack, IsChargeOk, distanceToCharge, distancePos, movement).SetDirector(director).SetThis(this).SetRoot(rootTransform);
 
         new JabaliCharge(chargePush, sm, chargeTime).SetAnimator(animator).SetDirector(director).SetThis(this).SetRigidbody(rb).SetRoot(rootTransform);
 
-        new JabaliPushAttack(push, sm, chargeSpeed, PushAttack, feedbackCharge).SetAnimator(animator).SetRigidbody(rb).SetRoot(rootTransform);
+        new JabaliPushAttack(push, sm, chargeSpeed, PushAttack, feedbackCharge, pushAttack.Play).SetAnimator(animator).SetRigidbody(rb).SetRoot(rootTransform);
 
         new JabaliAttackAnticipation(headAnt, sm, movement, normalAttAnticipation).SetAnimator(animator).SetDirector(director).SetThis(this).SetRoot(rootTransform);
 

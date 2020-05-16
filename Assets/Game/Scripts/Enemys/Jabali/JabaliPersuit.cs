@@ -38,7 +38,7 @@ namespace ToolsMandioca.StateMachine
                     Vector3 dirForward = (enemy.CurrentTarget().transform.position - root.position).normalized;
                     Vector3 forwardFix = move.ObstacleAvoidance(new Vector3(dirForward.x, 0, dirForward.z));
 
-                    move.Rotation(forwardFix);
+                    move.Rotation(forwardFix.normalized);
                     move.MoveWRigidbodyV(forwardFix);
                     if (Vector3.Distance(enemy.CurrentTarget().transform.position, root.position) <= distanceNoCombat)
                         sm.SendInput(JabaliEnemy.JabaliInputs.IDLE);
@@ -54,17 +54,17 @@ namespace ToolsMandioca.StateMachine
                     Vector3 dirForward = (enemy.CurrentTarget().transform.position - root.position).normalized;
                     Vector3 forwardFix = move.ObstacleAvoidance(new Vector3(dirForward.x, 0, dirForward.z));
 
-                    move.Rotation(forwardFix);
+                    move.Rotation(forwardFix.normalized);
                     move.MoveWRigidbodyV(forwardFix);
                     if (Vector3.Distance(enemy.CurrentTarget().transform.position, root.position) <= distanceAprox && OnSight(enemy.CurrentTarget().transform))
-                        sm.SendInput(JabaliEnemy.JabaliInputs.IDLE);
+                        sm.SendInput(JabaliEnemy.JabaliInputs.CHASING);
                 }
                 else
                 {
                     Vector3 dirForward = (enemy.CurrentTarget().transform.position - root.position).normalized;
                     Vector3 fowardRotation = move.ObstacleAvoidance(new Vector3(dirForward.x, 0, dirForward.z));
 
-                    move.Rotation(fowardRotation);
+                    move.Rotation(fowardRotation.normalized);
                     move.MoveWRigidbodyV(fowardRotation);
 
                     Vector3 targetPos = enemy.CurrentTarget().transform.position;

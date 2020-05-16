@@ -12,7 +12,7 @@ public class JabaliPushComponent : CombatComponent
     [SerializeField] float angleAttack = 180;
     [SerializeField] Transform rot = null;
 
-    Action StopCallback;
+    Action StopCallback = delegate { };
 
     public void Configure(Action<EntityBase> _callback, Action _Stop)
     {
@@ -29,18 +29,22 @@ public class JabaliPushComponent : CombatComponent
 
     }
 
+    bool play;
     public override void Play()
     {
-
+        play = true;
     }
 
     public override void Stop()
     {
+        play = false;
         StopCallback();
     }
 
     void Calculate()
     {
+        if (!play) return;
+
         EntityBase entity = null;
         var enemies = Physics.OverlapSphere(rot.position, distance, _lm);
         for (int i = 0; i < enemies.Length; i++)
@@ -60,6 +64,7 @@ public class JabaliPushComponent : CombatComponent
     }
     private void OnTriggerEnter(Collider other)
     {
+        if (!play) return;  
         if ((1 << other.gameObject.layer & obstacleLayer) != 0)
             Stop();
     }

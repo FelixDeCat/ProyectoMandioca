@@ -12,6 +12,10 @@ public class GenericEnemyMove : MonoBehaviour
     [SerializeField] float avoidanceRadious = 2;
     [SerializeField] float rootSpeed = 2;
     [SerializeField] LayerMask avoidMask = 0;
+    [SerializeField] Vector3 mySensorPos = new Vector3(0, 0.2f, 0.5f);
+    [SerializeField] bool drawLines = true;
+    [SerializeField] float mySideSensorPos = 0.3f;
+    [SerializeField] float mySideSensorAngle = 30;
 
     public void Configure(Transform _root, Rigidbody _rb) { rb = _rb; Configure(_root); }
 
@@ -81,9 +85,80 @@ public class GenericEnemyMove : MonoBehaviour
     }
 
 
-    Transform obs;
     ///<summary> Basic Obstacle Avoidance. Returns a new vector result.
     ///</summary>
+    //bool obs = false;
+    //public Vector3 ObstacleAvoidance(Vector3 dir)
+    //{
+    //    //Avoidance con Raycast
+    //    Vector3 myDir = dir;
+    //    RaycastHit hit;
+    //    Vector3 startSensorPos = root.position;
+    //    startSensorPos += root.forward * mySensorPos.z;
+    //    startSensorPos += root.up * mySensorPos.y;
+    //    float totalWeight = 0;
+    //    obs = false;
+
+
+    //    startSensorPos += root.right * mySideSensorPos;
+    //    if (Physics.Raycast(startSensorPos, root.forward, out hit, avoidanceRadious, avoidMask))
+    //    {
+    //        if (drawLines)
+    //            Debug.DrawLine(startSensorPos, hit.point);
+
+    //        obs = true;
+    //        totalWeight -= avoidWeight;
+    //    }
+    //    else if (Physics.Raycast(startSensorPos,Quaternion.AngleAxis(mySideSensorAngle, root.up) * root.forward, out hit, avoidanceRadious, avoidMask))
+    //    {
+    //        if (drawLines)
+    //            Debug.DrawLine(startSensorPos, hit.point);
+
+    //        obs = true;
+    //        totalWeight -= avoidWeight / 2;
+    //    }
+
+    //    startSensorPos -= root.right * mySideSensorPos * 2;
+    //    if (Physics.Raycast(startSensorPos, root.forward, out hit, avoidanceRadious, avoidMask))
+    //    {
+    //        if (drawLines)
+    //            Debug.DrawLine(startSensorPos, hit.point);
+
+    //        obs = true;
+    //        totalWeight += avoidWeight;
+    //    }
+    //    else if (Physics.Raycast(startSensorPos, Quaternion.AngleAxis(mySideSensorAngle, root.up) * root.forward, out hit, avoidanceRadious, avoidMask))
+    //    {
+    //        if (drawLines)
+    //            Debug.DrawLine(startSensorPos, hit.point);
+
+    //        obs = true;
+    //        totalWeight += avoidWeight / 2;
+    //    }
+
+    //    if(totalWeight == 0)
+    //    {
+    //        startSensorPos += root.right * mySideSensorPos;
+    //        if (Physics.Raycast(startSensorPos, root.forward, out hit, avoidanceRadious, avoidMask))
+    //        {
+    //            if (drawLines)
+    //                Debug.DrawLine(startSensorPos, hit.point);
+
+    //            obs = true;
+    //            if(hit.normal.x<0)
+    //                totalWeight -= avoidWeight;
+    //            else
+    //                totalWeight += avoidWeight;
+    //        }
+    //    }
+
+    //    if (obs)
+    //        myDir *= totalWeight;
+
+    //    return myDir;
+    //}
+
+    Transform obs = null;
     public Vector3 ObstacleAvoidance(Vector3 dir)
     {
         obs = null;
@@ -92,7 +167,7 @@ public class GenericEnemyMove : MonoBehaviour
         {
             foreach (var item in friends)
             {
-                if (item != this)
+                if (item.gameObject != this.gameObject)
                 {
                     if (!obs)
                         obs = item.transform;
@@ -104,6 +179,7 @@ public class GenericEnemyMove : MonoBehaviour
 
         if (obs)
         {
+            Debug.Log(obs.name);
             Vector3 diraux = (root.position - obs.position).normalized;
 
             diraux = new Vector3(diraux.x, 0, diraux.z);
