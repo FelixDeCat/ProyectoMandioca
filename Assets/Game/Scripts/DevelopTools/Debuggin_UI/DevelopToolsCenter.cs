@@ -9,7 +9,8 @@ public class DevelopToolsCenter : MonoBehaviour
 {
     public static DevelopToolsCenter instance; private void Awake() => instance = this;
 
-    bool open = false;
+    bool open_wrench = false;
+    bool open_debugView = false;
     
     private void Start()
     {
@@ -21,9 +22,16 @@ public class DevelopToolsCenter : MonoBehaviour
     public void UIBUTTON_WrenchDebug()
     {
         Debug.Log("se abreeeeee");
-        open = !open;
-        Debug_UI_Tools.instance.Toggle(open);
-    }    
+        open_wrench = !open_wrench;
+        Debug_UI_Tools.instance.Toggle(open_wrench);
+    }
+    public void UIBUTTON_DebugViewer()
+    {
+        open_debugView = !open_debugView;
+        if(open_debugView) DebugVisual.instance.BUTTON_Show();
+        else DebugVisual.instance.BUTTON_Hide();
+
+    }
 
     void Configurations()
     {
