@@ -131,10 +131,10 @@ public class CharacterInput : MonoBehaviour
             .SUBSCRIBE_RTRIGGER(EV_DPAD_RTRIGGER);
     }
     void RefreshHelper() => joystickhelper.Refresh();
-    void EV_DPAD_UP() { OnDpad_Up.Invoke(); Debug.Log("UP"); }
-    void EV_DPAD_DOWN() { OnDpad_Down.Invoke(); Debug.Log("DOWN"); }
-    void EV_DPAD_LEFT() { OnDpad_Left.Invoke(); Debug.Log("LEFT"); }
-    void EV_DPAD_RIGHT() { OnDpad_Right.Invoke(); Debug.Log("RIGHT"); }
+    void EV_DPAD_UP() { SendIndexAlphanumeric.Invoke(0); Debug.Log("UP"); }
+    void EV_DPAD_DOWN() { SendIndexAlphanumeric.Invoke(3); Debug.Log("DOWN"); }
+    void EV_DPAD_LEFT() { SendIndexAlphanumeric.Invoke(1); Debug.Log("LEFT"); }
+    void EV_DPAD_RIGHT() { SendIndexAlphanumeric.Invoke(2); Debug.Log("RIGHT"); }
     void EV_DPAD_LTRIGGER() { LockON.Invoke(); }
     void EV_DPAD_RTRIGGER() { NextON.Invoke(); }
     #endregion

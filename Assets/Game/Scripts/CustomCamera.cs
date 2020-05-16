@@ -71,6 +71,9 @@ public class CustomCamera : MonoBehaviour
             Debug.Log("asdadsasdas");
 
             DebugCustom.Log("CameraThings", "Raycast Hit Element", hit.transform.gameObject.name);
+
+            DebugCustom.Log("categoria de pepito", "elemento 1", 23);
+            DebugCustom.Log("categoria de pepito", "elemento 12", 26);
             Main.instance.GetChar().Mask(!hit.transform.GetComponent<CharacterHead>());
         }
     }
