@@ -338,11 +338,12 @@ public class TrueDummyEnemy : EnemyBase
     protected override void OnTurnOn() { }
 
     #region STATE MACHINE THINGS
-    public enum DummyEnemyInputs { IDLE, BEGIN_ATTACK,ATTACK, GO_TO_POS, DIE, DISABLE, TAKE_DAMAGE, PETRIFIED, PARRIED };
+    public enum DummyEnemyInputs { IDLE, BEGIN_ATTACK,ATTACK, GO_TO_POS, DIE, DISABLE, TAKE_DAMAGE, PETRIFIED, PARRIED, CHASING };
     void SetStates()
     {
         var idle = new EState<DummyEnemyInputs>("Idle");
         var goToPos = new EState<DummyEnemyInputs>("Follow");
+        var chasing = new EState<DummyEnemyInputs>("Chasing");
         var beginAttack = new EState<DummyEnemyInputs>("Begin_Attack");
         var attack = new EState<DummyEnemyInputs>("Attack");
         var parried = new EState<DummyEnemyInputs>("Parried");
@@ -354,14 +355,25 @@ public class TrueDummyEnemy : EnemyBase
         ConfigureState.Create(idle)
             .SetTransition(DummyEnemyInputs.GO_TO_POS, goToPos)
             .SetTransition(DummyEnemyInputs.TAKE_DAMAGE, takeDamage)
-            .SetTransition(DummyEnemyInputs.BEGIN_ATTACK, beginAttack)
             .SetTransition(DummyEnemyInputs.DIE, die)
             .SetTransition(DummyEnemyInputs.PETRIFIED, petrified)
             .SetTransition(DummyEnemyInputs.DISABLE, disable)
+            .SetTransition(DummyEnemyInputs.CHASING, chasing)
             .Done();
 
         ConfigureState.Create(goToPos)
             .SetTransition(DummyEnemyInputs.IDLE, idle)
+            .SetTransition(DummyEnemyInputs.TAKE_DAMAGE, takeDamage)
+            .SetTransition(DummyEnemyInputs.DIE, die)
+            .SetTransition(DummyEnemyInputs.PETRIFIED, petrified)
+            .SetTransition(DummyEnemyInputs.DISABLE, disable)
+            .SetTransition(DummyEnemyInputs.CHASING, chasing)
+            .Done();
+
+        ConfigureState.Create(chasing)
+            .SetTransition(DummyEnemyInputs.IDLE, idle)
+            .SetTransition(DummyEnemyInputs.GO_TO_POS, goToPos)
+            .SetTransition(DummyEnemyInputs.BEGIN_ATTACK, beginAttack)
             .SetTransition(DummyEnemyInputs.TAKE_DAMAGE, takeDamage)
             .SetTransition(DummyEnemyInputs.DIE, die)
             .SetTransition(DummyEnemyInputs.PETRIFIED, petrified)
@@ -418,9 +430,11 @@ public class TrueDummyEnemy : EnemyBase
         var head = Main.instance.GetChar();
 
         //Asignando las funciones de cada estado
-        new DummyIdleState(idle, sm, movement, IsAttack, distanceToAttack, normalDistance, this).SetAnimator(animator).SetRoot(rootTransform).SetDirector(director);
+        new DummyIdleState(idle, sm, movement, distanceToAttack, normalDistance, this).SetAnimator(animator).SetRoot(rootTransform).SetDirector(director);
 
-        new DummyFollowState(goToPos, sm, movement, normalDistance, this).SetAnimator(animator).SetRoot(rootTransform);
+        new DummyFollowState(goToPos, sm, movement, normalDistance, distancePos, this).SetAnimator(animator).SetRoot(rootTransform);
+
+        new DummyChasing(chasing, sm, IsAttack, distancePos, movement, this).SetDirector(director).SetRoot(rootTransform);
 
         new DummyAttAnt(beginAttack, sm, movement, this).SetAnimator(animator).SetDirector(director).SetRoot(rootTransform);
 

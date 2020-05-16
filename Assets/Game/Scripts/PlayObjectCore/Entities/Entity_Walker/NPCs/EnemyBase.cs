@@ -53,35 +53,20 @@ public abstract class EnemyBase : NPCBase, ICombatDirector
     #region Combat Director Functions (hacer component)
     //cuando haya tiempo hacer un combat director connector component
     [Header("TEMP:/Combat director")]
-    [SerializeField, Range(0.5f, 15)] float distancePos = 1.5f;
+    [SerializeField, Range(0.5f, 15)] protected float distancePos = 1.5f;
     protected bool withPos;
     protected EntityBase entityTarget;
-    protected Transform _target;
-    public Vector3 CurrentTargetPos()
-    {
-        Vector3 result = _target.position - _target.localPosition + _target.localPosition * distancePos;
-        return result;
-    }
-    public void SetTargetPosDir(Transform pos)
-    {
-        _target = pos;
-    }
 
     public Vector3 CurrentPos() => transform.position;
     public void SetTarget(EntityBase entity) => entityTarget = entity;
     public bool IsInPos() => withPos;
     public EntityBase CurrentTarget() => entityTarget;
-    public Transform CurrentTargetPosDir()
-    {
-        return _target;
-    }
     public float GetDistance() => distancePos;
     public void SetBool(bool isPos) => withPos = isPos;
 
     public virtual void ResetCombat()
     {
         entityTarget = null;
-        _target = null;
         combat = false;
         SetBool(false);
     }

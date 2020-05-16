@@ -9,7 +9,6 @@ public class JabaliEnemy : EnemyBase
     [Header("Move Options")]
     [SerializeField] GenericEnemyMove movement;
     [SerializeField] Transform rootTransform = null;
-    [SerializeField] LayerMask avoidMask = 0;
     [SerializeField] LineOfSight lineOfSight = null;
 
     public AnimationCurve animEmisive;
@@ -371,11 +370,12 @@ public class JabaliEnemy : EnemyBase
 
     #region SET STATES
 
-    public enum JabaliInputs { IDLE, PERSUIT, CHARGE_PUSH, PUSH, HEAD_ANTICIP, HEAD_ATTACK, TAKE_DMG, PARRIED, PETRIFIED, DEAD, DISABLE }
+    public enum JabaliInputs { IDLE, PERSUIT, CHARGE_PUSH, PUSH, HEAD_ANTICIP, HEAD_ATTACK, TAKE_DMG, PARRIED, PETRIFIED, DEAD, DISABLE, CHASING }
 
     void SetStates()
     {
         var idle = new EState<JabaliInputs>("Idle");
+        var chasing = new EState<JabaliInputs>("Chasing");
         var persuit = new EState<JabaliInputs>("Persuit");
         var chargePush = new EState<JabaliInputs>("Charge_Push");
         var push = new EState<JabaliInputs>("Push");
@@ -389,17 +389,28 @@ public class JabaliEnemy : EnemyBase
 
         ConfigureState.Create(idle)
             .SetTransition(JabaliInputs.PERSUIT, persuit)
-            .SetTransition(JabaliInputs.CHARGE_PUSH, chargePush)
-            .SetTransition(JabaliInputs.HEAD_ANTICIP, headAnt)
             .SetTransition(JabaliInputs.TAKE_DMG, takeDamage)
             .SetTransition(JabaliInputs.PETRIFIED, petrified)
             .SetTransition(JabaliInputs.DEAD, dead)
             .SetTransition(JabaliInputs.DISABLE, disable)
+            .SetTransition(JabaliInputs.CHASING, chasing)
             .Done();
 
         ConfigureState.Create(persuit)
             .SetTransition(JabaliInputs.IDLE, idle)
             .SetTransition(JabaliInputs.TAKE_DMG, takeDamage)
+            .SetTransition(JabaliInputs.PETRIFIED, petrified)
+            .SetTransition(JabaliInputs.DEAD, dead)
+            .SetTransition(JabaliInputs.DISABLE, disable)
+            .SetTransition(JabaliInputs.CHASING, chasing)
+            .Done();
+
+        ConfigureState.Create(chasing)
+            .SetTransition(JabaliInputs.IDLE, idle)
+            .SetTransition(JabaliInputs.PERSUIT, persuit)
+            .SetTransition(JabaliInputs.TAKE_DMG, takeDamage)
+            .SetTransition(JabaliInputs.CHARGE_PUSH, chargePush)
+            .SetTransition(JabaliInputs.HEAD_ANTICIP, headAnt)
             .SetTransition(JabaliInputs.PETRIFIED, petrified)
             .SetTransition(JabaliInputs.DEAD, dead)
             .SetTransition(JabaliInputs.DISABLE, disable)
@@ -467,15 +478,17 @@ public class JabaliEnemy : EnemyBase
 
         sm = new EventStateMachine<JabaliInputs>(idle, DebugState);
 
-        new JabaliIdle(idle, sm, movement, distanceToCharge, distanceToAttack, normalDistance, IsAttack, IsChargeOk).SetThis(this).SetDirector(director)
+        new JabaliIdle(idle, sm, movement, distanceToCharge, distancePos, normalDistance, IsChargeOk).SetThis(this).SetDirector(director)
             .SetRoot(rootTransform);
 
-        new JabaliPersuit(persuit, sm, movement, lineOfSight.OnSight, IsChargeOk, distanceToAttack, distanceToCharge - 1).SetAnimator(animator)
+        new JabaliPersuit(persuit, sm, movement, lineOfSight.OnSight, IsChargeOk, distanceToAttack, distancePos, distanceToCharge - 1).SetAnimator(animator)
             .SetThis(this).SetRoot(rootTransform);
+
+        new JabaliChasing(chasing, sm, IsAttack, IsChargeOk, distanceToCharge, distancePos, movement).SetDirector(director).SetThis(this).SetRoot(rootTransform);
 
         new JabaliCharge(chargePush, sm, chargeTime).SetAnimator(animator).SetDirector(director).SetThis(this).SetRigidbody(rb).SetRoot(rootTransform);
 
-        new JabaliPushAttack(push, sm, chargeSpeed, PushAttack, feedbackCharge).SetAnimator(animator).SetRigidbody(rb).SetRoot(rootTransform);
+        new JabaliPushAttack(push, sm, chargeSpeed, PushAttack, feedbackCharge, pushAttack.Play).SetAnimator(animator).SetRigidbody(rb).SetRoot(rootTransform);
 
         new JabaliAttackAnticipation(headAnt, sm, movement, normalAttAnticipation).SetAnimator(animator).SetDirector(director).SetThis(this).SetRoot(rootTransform);
 
@@ -493,6 +506,7 @@ public class JabaliEnemy : EnemyBase
 
         disable.OnExit += (input) => EnableObject();
     }
+
     bool IsChargeOk() => chargeOk;
 
     void StartStun(EState<JabaliInputs> input) => EnterStun(input);

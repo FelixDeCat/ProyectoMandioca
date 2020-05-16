@@ -9,14 +9,16 @@ namespace ToolsMandioca.StateMachine
         Func<bool> IsChargeOk;
         float distanceNoCombat;
         float distanceAprox;
+        float minDistance;
         GenericEnemyMove move;
 
         public JabaliPersuit(EState<JabaliEnemy.JabaliInputs> myState, EventStateMachine<JabaliEnemy.JabaliInputs> _sm, GenericEnemyMove _move, 
-                             Func<Transform, bool> _OnSight, Func<bool> _IsChargeOk, float _distanceNormal, float _distanceToPush) : base(myState, _sm)
+                             Func<Transform, bool> _OnSight, Func<bool> _IsChargeOk, float _distanceNormal, float _minDistance,float _distanceToPush) : base(myState, _sm)
         {
             move = _move;
             OnSight = _OnSight;
             IsChargeOk = _IsChargeOk;
+            minDistance = _minDistance;
             distanceNoCombat = _distanceNormal;
             distanceAprox = _distanceToPush;
         }
@@ -29,14 +31,14 @@ namespace ToolsMandioca.StateMachine
 
         protected override void Update()
         {
-            if (enemy.CurrentTargetPosDir() == null)
+            if (!enemy.IsInPos())
             {
                 if (enemy.CurrentTarget() != null)
                 {
                     Vector3 dirForward = (enemy.CurrentTarget().transform.position - root.position).normalized;
                     Vector3 forwardFix = move.ObstacleAvoidance(new Vector3(dirForward.x, 0, dirForward.z));
 
-                    move.Rotation(forwardFix);
+                    move.Rotation(forwardFix.normalized);
                     move.MoveWRigidbodyV(forwardFix);
                     if (Vector3.Distance(enemy.CurrentTarget().transform.position, root.position) <= distanceNoCombat)
                         sm.SendInput(JabaliEnemy.JabaliInputs.IDLE);
@@ -52,26 +54,24 @@ namespace ToolsMandioca.StateMachine
                     Vector3 dirForward = (enemy.CurrentTarget().transform.position - root.position).normalized;
                     Vector3 forwardFix = move.ObstacleAvoidance(new Vector3(dirForward.x, 0, dirForward.z));
 
-                    move.Rotation(forwardFix);
+                    move.Rotation(forwardFix.normalized);
                     move.MoveWRigidbodyV(forwardFix);
                     if (Vector3.Distance(enemy.CurrentTarget().transform.position, root.position) <= distanceAprox && OnSight(enemy.CurrentTarget().transform))
-                        sm.SendInput(JabaliEnemy.JabaliInputs.IDLE);
+                        sm.SendInput(JabaliEnemy.JabaliInputs.CHASING);
                 }
                 else
                 {
-                    Vector3 dir = enemy.CurrentTargetPos() - root.position;
-                    dir.Normalize();
+                    Vector3 dirForward = (enemy.CurrentTarget().transform.position - root.position).normalized;
+                    Vector3 fowardRotation = move.ObstacleAvoidance(new Vector3(dirForward.x, 0, dirForward.z));
 
-                    Vector3 forwardFix = move.ObstacleAvoidance(new Vector3(dir.x, 0, dir.z));
+                    move.Rotation(fowardRotation.normalized);
+                    move.MoveWRigidbodyV(fowardRotation);
 
-                    move.Rotation(forwardFix);
-                    move.MoveWRigidbodyV(forwardFix);
+                    Vector3 targetPos = enemy.CurrentTarget().transform.position;
+                    Vector3 myPos = root.position;
 
-                    float distanceX = Mathf.Abs(enemy.CurrentTargetPos().x - root.position.x);
-                    float distanceZ = Mathf.Abs(enemy.CurrentTargetPos().z - root.position.z);
-
-                    if (distanceX < 0.7f && distanceZ < 0.7f)
-                        sm.SendInput(JabaliEnemy.JabaliInputs.IDLE);
+                    if (Vector3.Distance(new Vector3(targetPos.x, 0, targetPos.z), new Vector3(myPos.x, 0, myPos.z)) <= minDistance)
+                        sm.SendInput(JabaliEnemy.JabaliInputs.CHASING);
                 }
             }
         }
