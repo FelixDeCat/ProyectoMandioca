@@ -10,13 +10,17 @@ namespace ToolsMandioca.StateMachine
         float attackRecall;
         Func<bool> IsHeavy;
         Action<bool> ChangeHeavy;
+        Animator anim;
+        Func<bool> WaitAttack;
 
         public CharReleaseAttack(EState<CharacterHead.PlayerInputs> myState, EventStateMachine<CharacterHead.PlayerInputs> _sm, float recall,
-                                 Func<bool> _isHeavy, Action<bool> _ChangeHeavy) : base(myState, _sm)
+                                 Func<bool> _isHeavy, Action<bool> _ChangeHeavy, Animator _anim, Func<bool> _WaitAttack) : base(myState, _sm)
         {
             attackRecall = recall;
             IsHeavy = _isHeavy;
             ChangeHeavy = _ChangeHeavy;
+            anim = _anim;
+            WaitAttack = _WaitAttack;
         }
 
         protected override void Enter(EState<CharacterHead.PlayerInputs> input)
@@ -34,6 +38,26 @@ namespace ToolsMandioca.StateMachine
             {
                 charMove.MovementHorizontal(LeftHorizontal());
                 charMove.MovementVertical(LeftVertical());
+            }
+
+            var info = anim.GetCurrentAnimatorStateInfo(2);
+            if (info.IsName("New State"))
+            {
+                if (WaitAttack())
+                {
+                    sm.SendInput(CharacterHead.PlayerInputs.CHARGE_ATTACK);
+                }
+                else
+                {
+                    if (LeftHorizontal() == 0 && LeftVertical() == 0)
+                    {
+                        sm.SendInput(CharacterHead.PlayerInputs.IDLE);
+                    }
+                    else
+                    {
+                        sm.SendInput(CharacterHead.PlayerInputs.MOVE);
+                    }
+                }
             }
             //timer += Time.deltaTime;
 
