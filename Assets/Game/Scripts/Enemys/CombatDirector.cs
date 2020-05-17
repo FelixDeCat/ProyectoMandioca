@@ -238,14 +238,12 @@ public class CombatDirector : MonoBehaviour, IZoneElement
     {
         if (isAttack[target])
         {
-            Debug.Log("atacá wacho");
             e.ToAttack();
             Attack(e, target);
             isAttack[target] = false;
         }
         else
         {
-            Debug.Log("No ataques una chota");
             prepareToAttack[target].Add(e);
         }
     }
@@ -303,7 +301,7 @@ public class CombatDirector : MonoBehaviour, IZoneElement
         else
             waitToAttack[target].Add(e);
 
-        RunCheck();
+        //RunCheck();
     }
 
     ///<summary> Esta función facilita el cambio entre targets. Elimina del ataque hacia el anterior target y lo agrega al nuevo.

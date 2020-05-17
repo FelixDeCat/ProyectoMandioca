@@ -15,7 +15,6 @@ public class TrueDummyEnemy : EnemyBase
     [Header("Combat Options")]
     [SerializeField] CombatComponent combatComponent = null;
     [SerializeField] int damage = 2;
-    [SerializeField] float distanceToAttack = 3;
     [SerializeField] float normalDistance = 8;
     [SerializeField] float cdToAttack = 1;
     [SerializeField] float parriedTime = 2;
@@ -436,7 +435,7 @@ public class TrueDummyEnemy : EnemyBase
         var head = Main.instance.GetChar();
 
         //Asignando las funciones de cada estado
-        new DummyIdleState(idle, sm, movement, distanceToAttack, normalDistance, this).SetAnimator(animator).SetRoot(rootTransform).SetDirector(director);
+        new DummyIdleState(idle, sm, movement, distancePos, normalDistance, this).SetAnimator(animator).SetRoot(rootTransform).SetDirector(director);
 
         new DummyFollowState(goToPos, sm, movement, normalDistance, distancePos, this).SetAnimator(animator).SetRoot(rootTransform);
 

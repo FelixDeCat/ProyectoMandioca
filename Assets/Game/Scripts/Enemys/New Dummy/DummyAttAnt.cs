@@ -24,6 +24,7 @@ namespace ToolsMandioca.StateMachine
             if (input.Name != "Petrified")
             {
                 anim.SetBool("Attack", true);
+                anim.SetTrigger("AttackTrigger");
             }
         }
 
