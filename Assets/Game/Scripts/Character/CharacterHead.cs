@@ -101,6 +101,8 @@ public class CharacterHead : CharacterControllable
     Rigidbody rb;
     LockOn _lockOn;
     public LayerMask enemyLayer;
+
+    public bool Combat { private set; get; }
     protected override void OnInitialize()
     {
 
@@ -442,6 +444,8 @@ public class CharacterHead : CharacterControllable
         ChangeRangeAttack(attackRange);
         charanim.NormalAttack();
     }
+    public void SetCombat(bool b) => Combat = b;
+
     bool isHeavyRelease;
     void ReleaseInHeavy()
     {

@@ -50,6 +50,7 @@ public class TrueDummyEnemy : EnemyBase
     [SerializeField] Color onHitColor;
     [SerializeField] float onHitFlashTime;
     [SerializeField] RagdollComponent ragdoll = null;
+    [SerializeField] ParticleSystem myGroundParticle = null;
 
 
     public bool isOnFire { get; private set; }
@@ -451,7 +452,7 @@ public class TrueDummyEnemy : EnemyBase
 
         new DummyStunState(petrified, sm, StartStun, TickStun, EndStun);
 
-        new DummyDieState(die, sm, ragdoll).SetAnimator(animator).SetDirector(director).SetRigidbody(rb);
+        new DummyDieState(die, sm, ragdoll, myGroundParticle).SetAnimator(animator).SetDirector(director).SetRigidbody(rb);
 
         new DummyDisableState(disable, sm, EnableObject, DisableObject);
     }
