@@ -238,12 +238,14 @@ public class CombatDirector : MonoBehaviour, IZoneElement
     {
         if (isAttack[target])
         {
+            Debug.Log("atacá wacho");
             e.ToAttack();
             Attack(e, target);
             isAttack[target] = false;
         }
         else
         {
+            Debug.Log("No ataques una chota");
             prepareToAttack[target].Add(e);
         }
     }
