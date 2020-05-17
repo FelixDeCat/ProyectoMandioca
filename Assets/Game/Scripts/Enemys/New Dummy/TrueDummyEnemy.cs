@@ -63,8 +63,14 @@ public class TrueDummyEnemy : EnemyBase
     {
         Main.instance.eventManager.TriggerEvent(GameEvents.ENEMY_SPAWN, new object[] { this });
 
-        //Debug.Log("OnInitialize");
-        rb = GetComponent<Rigidbody>();
+        var smr = GetComponentInChildren<SkinnedMeshRenderer>();
+        if (smr != null)
+        {
+            myMat = smr.materials;
+        }
+
+            //Debug.Log("OnInitialize");
+            rb = GetComponent<Rigidbody>();
         combatComponent.Configure(AttackEntity);
         anim.Add_Callback("DealDamage", DealDamage);
         lifesystem.AddEventOnDeath(Die);

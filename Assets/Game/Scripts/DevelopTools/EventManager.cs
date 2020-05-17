@@ -8,11 +8,10 @@ namespace DevelopTools
     public class EventManager
     {
         public delegate void EventReceiverParam(params object[] parameterContainer);
-        public delegate void EventReceiver();
 
         private Dictionary<string, EventReceiverParam> eventsParam= new Dictionary<string, EventReceiverParam>();
 
-        private Dictionary<string, EventReceiver> events= new Dictionary<string, EventReceiver>();
+        private Dictionary<string, Action> events= new Dictionary<string, Action>();
 
 
         public void SubscribeToEvent(string eventType, EventReceiverParam listener)
@@ -26,10 +25,10 @@ namespace DevelopTools
             eventsParam[eventType] += listener;
         }
 
-        public void SubscribeToEvent(string eventType, EventReceiver listener)
+        public void SubscribeToEvent(string eventType, Action listener)
         {
             if (events == null)
-                events = new Dictionary<string, EventReceiver>();
+                events = new Dictionary<string, Action>();
 
             if (!events.ContainsKey(eventType))
                 events.Add(eventType, null);
@@ -46,7 +45,7 @@ namespace DevelopTools
             }
         }
 
-        public void UnsubscribeToEvent(string eventType, EventReceiver listener)
+        public void UnsubscribeToEvent(string eventType, Action listener)
         {
             if (events != null)
             {

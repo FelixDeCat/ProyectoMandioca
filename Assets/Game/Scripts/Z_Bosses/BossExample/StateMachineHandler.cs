@@ -10,12 +10,12 @@ public class StateMachineHandler : MonoBehaviour
 
     StateLinkerBehaviour[] linkersCaptured = new StateLinkerBehaviour[0];
 
-    internal void Initialize(SensorsAndBehaviours sens_and_beha, AnimEvent animEvent)
+    internal void Initialize(SensorsAndBehaviours sens_and_beha, FastSubscriberPerState fastSubscriber)
     {
         linkersCaptured = current_animator.GetBehaviours<StateLinkerBehaviour>();
         foreach (var s in parentStates.GetComponentsInChildren<MonoStateBase>())
         {
-            s.Configure(sens_and_beha, animEvent);
+            s.Configure(sens_and_beha, fastSubscriber);
             LinkState(s);
         }
     }

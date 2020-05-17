@@ -9,14 +9,14 @@ public abstract class MonoStateBase : MonoBehaviour
     public MonoStateBaseOptions _monoStateBaseOptions = new MonoStateBaseOptions();
 
     SensorsAndBehaviours sensors_and_behaviours;
-    AnimEvent myAnimEvent;
+    FastSubscriberPerState myfastSubscriber;
     protected SensorManager Get_Sensors { get { return sensors_and_behaviours.Sensor; } }
     protected BehavioursManager Get_Behaviours { get { return sensors_and_behaviours.Behaviours; } }
-    protected AnimEvent Get_Anim_Event { get { return myAnimEvent; } }
-    public void Configure(SensorsAndBehaviours _sensorsAndBehaviours, AnimEvent anim_event)
+    protected FastSubscriberPerState Get_Anim_Event_Subscriber { get { return myfastSubscriber; } }
+    public void Configure(SensorsAndBehaviours _sensorsAndBehaviours, FastSubscriberPerState fastSubscriber)
     {
         sensors_and_behaviours = _sensorsAndBehaviours;
-        myAnimEvent = anim_event;
+        myfastSubscriber = fastSubscriber;
     }
 
     private void Awake()
