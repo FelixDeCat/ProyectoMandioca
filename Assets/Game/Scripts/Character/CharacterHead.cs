@@ -142,7 +142,6 @@ public class CharacterHead : CharacterControllable
 
         charAnimEvent.Add_Callback("CheckAttackType", CheckAttackType);
         charAnimEvent.Add_Callback("DealAttack", DealAttack);
-        charAnimEvent.Add_Callback("EndAttack", EndAttack);
         charAnimEvent.Add_Callback("RompeCoco", RompeCoco);
         charAnimEvent.Add_Callback("BeginBlock", charBlock.OnBlockSuccessful);
         charAnimEvent.Add_Callback("Dash", move.RollForAnim);
@@ -253,7 +252,7 @@ public class CharacterHead : CharacterControllable
 
         ConfigureState.Create(attackRelease)
             .SetTransition(PlayerInputs.IDLE, idle)
-            .SetTransition(PlayerInputs.CHARGE_ATTACK, idle)
+            .SetTransition(PlayerInputs.CHARGE_ATTACK, attackCharge)
             .SetTransition(PlayerInputs.DEAD, dead)
             .Done();
 
@@ -313,7 +312,7 @@ public class CharacterHead : CharacterControllable
             .SetMovement(this.move)
             .SetAttack(charAttack);
 
-        new CharReleaseAttack(attackRelease, stateMachine, attackRecall, HeavyAttackRealease, ChangeHeavy)
+        new CharReleaseAttack(attackRelease, stateMachine, attackRecall, HeavyAttackRealease, ChangeHeavy, anim_base, IsAttackWait)
             .SetMovement(this.move)
             .SetAttack(charAttack)
             .SetLeftAxis(GetLeftHorizontal, GetLeftVertical);
@@ -397,8 +396,17 @@ public class CharacterHead : CharacterControllable
 
     #region Attack
     /////////////////////////////////////////////////////////////////
-    public void EVENT_OnAttackBegin() { stateMachine.SendInput(PlayerInputs.CHARGE_ATTACK); }
-    public void EVENT_OnAttackEnd() { stateMachine.SendInput(PlayerInputs.RELEASE_ATTACK); }
+
+    bool attackWait;
+    public void EVENT_OnAttackBegin()
+    {
+        if(stateMachine.Current.Name != "Release_Attack")
+            stateMachine.SendInput(PlayerInputs.CHARGE_ATTACK);
+        attackWait = true;
+    }
+    public void EVENT_OnAttackEnd() { stateMachine.SendInput(PlayerInputs.RELEASE_ATTACK); attackWait = false; }
+
+    bool IsAttackWait() => attackWait;
     public void CheckAttackType() => charAttack.BeginCheckAttackType();//tengo la espada arriba
     public void DealAttack()
     {
@@ -458,11 +466,6 @@ public class CharacterHead : CharacterControllable
     void ChangeHeavy(bool y) { isHeavyRelease = y; }
 
     bool HeavyAttackRealease() { return isHeavyRelease; }
-
-    void EndAttack()
-    {
-        stateMachine.SendInput(PlayerInputs.IDLE);
-    }
 
     ///////////BigWeaponSkill
 
