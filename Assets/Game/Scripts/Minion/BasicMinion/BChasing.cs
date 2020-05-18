@@ -30,28 +30,32 @@ namespace ToolsMandioca.StateMachine
             base.Update();
             if (!minion.CurrentTarget())
                 sm.SendInput(BasicMinion.BasicMinionInput.IDLE);
-
-            if (IsAttack())
-                sm.SendInput(BasicMinion.BasicMinionInput.BEGIN_ATTACK);
             else
             {
-                Vector3 pos1 = new Vector3(root.position.x, 0, root.position.z);
-                Vector3 pos2 = new Vector3(minion.CurrentTarget().transform.position.x, 0, minion.CurrentTarget().transform.position.z);
+                if (IsAttack())
+                    sm.SendInput(BasicMinion.BasicMinionInput.BEGIN_ATTACK);
+                else
+                {
+                    Vector3 pos1 = new Vector3(root.position.x, 0, root.position.z);
+                    Vector3 pos2 = new Vector3(minion.CurrentTarget().transform.position.x, 0, minion.CurrentTarget().transform.position.z);
 
-                Vector3 myForward = (minion.CurrentTarget().transform.position - root.position).normalized;
-                Vector3 forwardRotation = new Vector3(myForward.x, 0, myForward.z);
+                    Vector3 myForward = (minion.CurrentTarget().transform.position - root.position).normalized;
+                    Vector3 forwardRotation = new Vector3(myForward.x, 0, myForward.z);
 
-                move.Rotation(forwardRotation);
+                    move.Rotation(forwardRotation);
 
-                if (Vector3.Distance(pos1, pos2) >= distanceToNormalAttack)
-                    sm.SendInput(BasicMinion.BasicMinionInput.GO_TO_POS);
+                    if (Vector3.Distance(pos1, pos2) >= distanceToNormalAttack)
+                        sm.SendInput(BasicMinion.BasicMinionInput.GO_TO_POS);
+                }
             }
         }
 
         protected override void Exit(BasicMinion.BasicMinionInput input)
         {
             base.Exit(input);
-            combatDirector.DeleteToPrepare(minion, minion.CurrentTarget());
+
+            if(minion.CurrentTarget() != null)
+                combatDirector.DeleteToPrepare(minion, minion.CurrentTarget());
         }
 
     }

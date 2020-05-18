@@ -41,6 +41,10 @@ public class CombatDirector : MonoBehaviour, IZoneElement
             AddToList(awakeList[i], head);
 
         awakeList = new List<ICombatDirector>();
+
+        Main.instance.eventManager.SubscribeToEvent(GameEvents.COMBAT_ENTER, RunCheck);
+
+        Main.instance.eventManager.SubscribeToEvent(GameEvents.COMBAT_EXIT, RunCheck);
     }
 
     public void Zone_OnPlayerEnterInThisRoom(Transform who)
@@ -94,35 +98,18 @@ public class CombatDirector : MonoBehaviour, IZoneElement
         }
 
         if(target==head)
-            if (attackingTarget[target].Count + listAttackTarget[target].Count + waitToAttack[target].Count <= 0 && head.Combat) head.SetCombat(false);
+            if (attackingTarget[target].Count + listAttackTarget[target].Count + waitToAttack[target].Count <= 0 && head.Combat)
+                Main.instance.eventManager.TriggerEvent(GameEvents.COMBAT_EXIT);
 
         //RunCheck();
     }
 
     void RunCheck()
     {
-        if (run)
-        {
-            foreach (var item in isAttack)
-            {
-                if (item.Value)
-                    return;
-            }
-
-            StopDirector();
-        }
-        else
-        {
-            foreach (var item in isAttack)
-            {
-                if (item.Value)
-                {
-                    RunDirector();
-                    return;
-                }
-            }
-        }
+        Debug.Log("entré en combate/salí de combate");
     }
+
+
 
     void Attack(ICombatDirector e, EntityBase target)
     {
@@ -298,16 +285,25 @@ public class CombatDirector : MonoBehaviour, IZoneElement
 
         if (attackingTarget[target].Count + listAttackTarget[target].Count < maxEnemies)
         {
-            listAttackTarget[target].Add(e);
-            AssignPos(e);
+            if (!listAttackTarget[target].Contains(e))
+            {
+                listAttackTarget[target].Add(e);
+                AssignPos(e);
+            }
         }
         else
-            waitToAttack[target].Add(e);
+        {
+            if (!waitToAttack[target].Contains(e))
+            {
+                waitToAttack[target].Add(e);
+            }
+        }
 
 
         if (target == head)
         {
-            if (attackingTarget[target].Count + listAttackTarget[target].Count + waitToAttack[target].Count > 0 && !head.Combat) head.SetCombat(true);
+            if (attackingTarget[target].Count + listAttackTarget[target].Count + waitToAttack[target].Count > 0 && !head.Combat)
+                Main.instance.eventManager.TriggerEvent(GameEvents.COMBAT_ENTER);
         }
         //RunCheck();
     }

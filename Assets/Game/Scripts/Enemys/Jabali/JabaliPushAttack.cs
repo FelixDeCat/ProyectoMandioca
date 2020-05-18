@@ -53,6 +53,7 @@ namespace ToolsMandioca.StateMachine
             feedbackCharge.GetComponent<ParticleSystem>().Stop();
             base.Exit(input);
             rb.velocity = Vector3.zero;
+            combatDirector.AttackRelease(enemy, enemy.CurrentTarget());
         }
     }
 }

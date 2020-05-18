@@ -42,8 +42,6 @@ namespace ToolsMandioca.StateMachine
             {
                 anim.SetBool("ChargeAttack", false);
                 timer = 0;
-
-                
             }
         }
     }

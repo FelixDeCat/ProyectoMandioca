@@ -114,22 +114,25 @@ public class TrueDummyEnemy : EnemyBase
         {
             EffectUpdate();
 
-            if (combat)
+            if (!death)
             {
-                if (Vector3.Distance(Main.instance.GetChar().transform.position, transform.position) > combatDistance + 2)
+                if (combat)
                 {
-                    director.DeadEntity(this, entityTarget);
-                    entityTarget = null;
-                    combat = false;
+                    if (Vector3.Distance(Main.instance.GetChar().transform.position, transform.position) > combatDistance + 2)
+                    {
+                        director.DeadEntity(this, entityTarget);
+                        entityTarget = null;
+                        combat = false;
+                    }
                 }
-            }
 
-            if(!combat && entityTarget == null)
-            {
-                if (Vector3.Distance(Main.instance.GetChar().transform.position, transform.position) <= combatDistance)
+                if (!combat && entityTarget == null)
                 {
-                    director.AddAwake(this);
-                    combat = true;
+                    if (Vector3.Distance(Main.instance.GetChar().transform.position, transform.position) <= combatDistance)
+                    {
+                        director.AddAwake(this);
+                        combat = true;
+                    }
                 }
             }
 
@@ -332,7 +335,7 @@ public class TrueDummyEnemy : EnemyBase
             }
         }
         death = true;
-        director.DeadEntity(this, entityTarget, this);
+        director.RemoveTarget(this);
         Main.instance.RemoveEntity(this);
 
         Main.instance.eventManager.TriggerEvent(GameEvents.ENEMY_DEAD, new object[] { transform.position, petrified, expToDrop });

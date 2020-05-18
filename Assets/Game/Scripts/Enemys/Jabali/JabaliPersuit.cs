@@ -56,8 +56,15 @@ namespace ToolsMandioca.StateMachine
 
                     move.Rotation(forwardFix.normalized);
                     move.MoveWRigidbodyV(forwardFix);
-                    if (Vector3.Distance(enemy.CurrentTarget().transform.position, root.position) <= distanceAprox && OnSight(enemy.CurrentTarget().transform))
-                        sm.SendInput(JabaliEnemy.JabaliInputs.CHASING);
+
+                    Vector3 targetPos = enemy.CurrentTarget().transform.position;
+                    Vector3 myPos = root.position;
+
+                    if (Vector3.Distance(new Vector3(targetPos.x, 0, targetPos.z), new Vector3(myPos.x, 0, myPos.z)) <= distanceAprox)
+                    {
+                        if(OnSight(enemy.CurrentTarget().transform))
+                            sm.SendInput(JabaliEnemy.JabaliInputs.CHASING);
+                    }
                 }
                 else
                 {

@@ -21,7 +21,6 @@ public class JabaliEnemy : EnemyBase
 
     [Header("NormalAttack")]
     [SerializeField] int normalDamage = 4;
-    [SerializeField] float distanceToAttack = 2;
     [SerializeField] float normalAttAnticipation = 0.5f;
     [SerializeField] float cdToHeadAttack = 1;
 
@@ -120,22 +119,25 @@ public class JabaliEnemy : EnemyBase
         {
             EffectUpdate();
 
-            if (combat)
+            if (!death)
             {
-                if (Vector3.Distance(Main.instance.GetChar().transform.position, transform.position) > combatDistance + 2)
+                if (combat)
                 {
-                    director.DeadEntity(this, entityTarget);
-                    entityTarget = null;
-                    combat = false;
+                    if (Vector3.Distance(Main.instance.GetChar().transform.position, transform.position) > combatDistance + 2)
+                    {
+                        director.DeadEntity(this, entityTarget);
+                        entityTarget = null;
+                        combat = false;
+                    }
                 }
-            }
 
-            if (!combat && entityTarget == null)
-            {
-                if (Vector3.Distance(Main.instance.GetChar().transform.position, transform.position) <= combatDistance)
+                if (!combat && entityTarget == null)
                 {
-                    director.AddAwake(this);
-                    combat = true;
+                    if (Vector3.Distance(Main.instance.GetChar().transform.position, transform.position) <= combatDistance)
+                    {
+                        director.AddAwake(this);
+                        combat = true;
+                    }
                 }
             }
 
@@ -254,9 +256,9 @@ public class JabaliEnemy : EnemyBase
             for (int i = 0; i < myEnemys.Count; i++)
                 myEnemys[i].Invinsible = false;
         }
-        director.DeadEntity(this, entityTarget, this);
-        sm.SendInput(JabaliInputs.DEAD);
         death = true;
+        director.RemoveTarget(this);
+        sm.SendInput(JabaliInputs.DEAD);
         Main.instance.eventManager.TriggerEvent(GameEvents.ENEMY_DEAD, new object[] { transform.position, petrified, expToDrop });
         Main.instance.RemoveEntity(this);
     }
@@ -481,14 +483,15 @@ public class JabaliEnemy : EnemyBase
         new JabaliIdle(idle, sm, movement, distanceToCharge, distancePos, normalDistance, IsChargeOk).SetThis(this).SetDirector(director)
             .SetRoot(rootTransform);
 
-        new JabaliPersuit(persuit, sm, movement, lineOfSight.OnSight, IsChargeOk, distanceToAttack, distancePos, distanceToCharge - 1).SetAnimator(animator)
+        new JabaliPersuit(persuit, sm, movement, lineOfSight.OnSight, IsChargeOk, normalDistance, distancePos, distanceToCharge).SetAnimator(animator)
             .SetThis(this).SetRoot(rootTransform);
 
         new JabaliChasing(chasing, sm, IsAttack, IsChargeOk, distanceToCharge, distancePos, movement).SetDirector(director).SetThis(this).SetRoot(rootTransform);
 
         new JabaliCharge(chargePush, sm, chargeTime).SetAnimator(animator).SetDirector(director).SetThis(this).SetRigidbody(rb).SetRoot(rootTransform);
 
-        new JabaliPushAttack(push, sm, chargeSpeed, PushAttack, feedbackCharge, pushAttack.Play).SetAnimator(animator).SetRigidbody(rb).SetRoot(rootTransform);
+        new JabaliPushAttack(push, sm, chargeSpeed, PushAttack, feedbackCharge, pushAttack.Play).SetAnimator(animator).SetRigidbody(rb).SetRoot(rootTransform)
+            .SetThis(this).SetDirector(director);
 
         new JabaliAttackAnticipation(headAnt, sm, movement, normalAttAnticipation).SetAnimator(animator).SetDirector(director).SetThis(this).SetRoot(rootTransform);
 
@@ -500,7 +503,7 @@ public class JabaliEnemy : EnemyBase
 
         new JabaliStun(petrified, sm, StartStun, TickStun, EndStun);
 
-        new JabaliDeath(dead, sm, ragdoll);
+        new JabaliDeath(dead, sm, ragdoll).SetThis(this).SetDirector(director);
 
         disable.OnEnter += (input) => DisableObject();
 
