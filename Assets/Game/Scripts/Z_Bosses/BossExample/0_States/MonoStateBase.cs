@@ -17,6 +17,8 @@ public abstract class MonoStateBase : MonoBehaviour
     {
         sensors_and_behaviours = _sensorsAndBehaviours;
         myfastSubscriber = fastSubscriber;
+
+        OnOneAwake();
     }
 
     private void Awake()
@@ -30,7 +32,6 @@ public abstract class MonoStateBase : MonoBehaviour
             if (state._monoStateBaseOptions.linker == _monoStateBaseOptions.linker) throw new System.Exception("ERROR::: Hay un linker que se esta repitiendo, corregir de inmediato:::");
         }
         #endregion
-        OnOneAwake();
     }
 
     public void Begin()

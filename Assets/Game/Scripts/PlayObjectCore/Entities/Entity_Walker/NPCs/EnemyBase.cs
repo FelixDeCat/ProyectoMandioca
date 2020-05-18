@@ -111,7 +111,7 @@ public abstract class EnemyBase : NPCBase, ICombatDirector
             myMat = smr.materials;
 
             Material[] mats = smr.materials;
-            smr.materials = mats;
+            smr.materials = mats; // ??
             for (int i = 0; i < onHitFlashTime; i++)
             {
                 if (i < (onHitFlashTime / 2f))

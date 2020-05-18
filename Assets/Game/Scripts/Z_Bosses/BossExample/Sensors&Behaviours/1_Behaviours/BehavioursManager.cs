@@ -14,6 +14,9 @@ public class BehavioursManager : MonoBehaviour
     public AnimationPositionCapture animationPostionCapture;
     public ActivateDamage activateDamage;
     public ActivateDamage activateDamageHitTheFloor;
+    public CooldownDamage cooldown_Damage;
+    public GenericLifeSystem LifeSystemBase;
+    public TakeDamageComponent takeDamageComponent;
 
     public void InitializeBehaviours(Transform root, Rigidbody rb)
     {

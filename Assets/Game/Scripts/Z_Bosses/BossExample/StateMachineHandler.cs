@@ -35,4 +35,6 @@ public class StateMachineHandler : MonoBehaviour
 
     public void BeginBoss() => current_animator.SetTrigger("start");
     public void Distance(float dist) => current_animator.SetFloat("distance", dist);
+    public void OnHit() => current_animator.SetTrigger("onhit");
+    public void OnDeath() => current_animator.SetTrigger("death");
 }

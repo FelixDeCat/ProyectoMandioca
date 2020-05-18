@@ -7,7 +7,6 @@ public class GenericLifeSystem : MonoBehaviour
 {
     LifeSystemBase lifeSystemEnemy;
 
-
     [SerializeField] protected WorldCanvasPopUp lifeBar;
     [SerializeField] protected RectTransform canvas;
     FrontendStatBase uilife;
