@@ -19,6 +19,7 @@ namespace ToolsMandioca.StateMachine
         {
             ragdoll.Ragdoll(true);
             particle.gameObject.SetActive(false);
+            combatDirector.DeadEntity(ragdoll.GetComponent<EnemyBase>(), ragdoll.GetComponent<EnemyBase>().CurrentTarget());
         }
 
         protected override void Update()

@@ -66,7 +66,8 @@ namespace ToolsMandioca.StateMachine
         protected override void Exit(JabaliEnemy.JabaliInputs input)
         {
             base.Exit(input);
-            combatDirector.DeleteToPrepare(enemy, enemy.CurrentTarget());
+            if(enemy.CurrentTarget()!=null)
+                combatDirector.DeleteToPrepare(enemy, enemy.CurrentTarget());
         }
     }
 }

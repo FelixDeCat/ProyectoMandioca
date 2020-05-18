@@ -53,7 +53,8 @@ namespace ToolsMandioca.StateMachine
         protected override void Exit(TrueDummyEnemy.DummyEnemyInputs input)
         {
             base.Exit(input);
-            combatDirector.DeleteToPrepare(enemy, enemy.CurrentTarget());
+            if(enemy.CurrentTarget() != null)
+                combatDirector.DeleteToPrepare(enemy, enemy.CurrentTarget());
         }
 
     }

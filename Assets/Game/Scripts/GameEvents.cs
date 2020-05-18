@@ -36,5 +36,7 @@ public class GameEvents
     public const string ON_PLAYER_PARRY = "OnPlayerParry";
 
     public const string GAME_END_LOAD = "GameEndLoad";
+    public const string COMBAT_ENTER = "CombatEnter";
+    public const string COMBAT_EXIT = "CombatExit";
     public const string GAME_INITIALIZE = "GameInitialize";
 }
