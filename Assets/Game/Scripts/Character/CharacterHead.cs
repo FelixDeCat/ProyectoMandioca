@@ -252,6 +252,7 @@ public class CharacterHead : CharacterControllable
 
         ConfigureState.Create(attackRelease)
             .SetTransition(PlayerInputs.IDLE, idle)
+            .SetTransition(PlayerInputs.MOVE, move)
             .SetTransition(PlayerInputs.CHARGE_ATTACK, attackCharge)
             .SetTransition(PlayerInputs.DEAD, dead)
             .Done();
