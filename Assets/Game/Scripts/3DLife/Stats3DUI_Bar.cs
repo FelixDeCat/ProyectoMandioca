@@ -15,8 +15,14 @@ public class Stats3DUI_Bar : FrontendStatBase
 
     public override void OnValueChange(int value, int max = 100, bool anim = false)
     {
-        Debug.Log("asdadas");
-        mat.SetFloat("Value", value);
+        Debug.Log("Entra");
+       // Debug.Log(mat);
+        //Debug.Log(value);
+        //Debug.Log(mat.GetFloat("value")); 
+        //mat.GetFloat("Value");
+        //mat.GetTag();
+        
+        mat.SetFloat("_Value", value);
     }
 
     private void Update()
