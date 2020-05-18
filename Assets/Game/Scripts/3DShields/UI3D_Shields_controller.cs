@@ -11,7 +11,14 @@ public class UI3D_Shields_controller : MonoBehaviour
     [SerializeField] private float spacingHorizontal;
     [SerializeField] private GameObject shield_pf;
 
-    [SerializeField] private List<GameObject> currentShields = new List<GameObject>();
+    [Header("Rotate settings")] 
+    public float rotSpeed;
+    public Vector3 v3;
+    public bool pingPong = false;
+    private float _count;
+    [SerializeField] private float timeToPong; 
+
+        [SerializeField] private List<GameObject> currentShields = new List<GameObject>();
 
     [SerializeField] private ParticleSystem shieldOn_ps;
     private int prevShieldCount;
@@ -31,7 +38,6 @@ public class UI3D_Shields_controller : MonoBehaviour
                     prevShieldCount = current;
                     break;
                 }
-                
             }
         }
         else
@@ -81,4 +87,30 @@ public class UI3D_Shields_controller : MonoBehaviour
         RefreshUI(prevShieldCount, 3);
     }
 
+    private void Update()
+    {
+        Vector3 aux = new Vector3(v3.x * rotSpeed, v3.y * rotSpeed, v3.z * rotSpeed);
+        
+        foreach (GameObject t in currentShields)
+        {
+            t.transform.Rotate(aux);
+        }
+        
+        PingPong();
+        
+    }
+    
+    void PingPong()
+    {
+        if (pingPong)
+        {
+            _count += Time.deltaTime;
+
+            if (_count >= timeToPong)
+            {
+                _count = 0;
+                v3 = v3 * -1;
+            }
+        }
+    }
 }

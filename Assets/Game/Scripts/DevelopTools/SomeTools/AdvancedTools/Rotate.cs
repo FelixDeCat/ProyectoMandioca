@@ -6,6 +6,12 @@ public class Rotate : MonoBehaviour {
 
     public float speed = 1;
     public Vector3 v3;
+
+    [Header("Ping pong")]
+    public bool pingPong;
+    public float timeToPong;
+    private float _count;
+    
     [Header("For Random")]
     public bool random;
     public int random_range;
@@ -21,6 +27,8 @@ public class Rotate : MonoBehaviour {
 
     void Update ()
     {
+        PingPong();
+        
         if (random) {
             if (!constant_movement)
             {
@@ -44,5 +52,19 @@ public class Rotate : MonoBehaviour {
             }
         }
         transform.Rotate(v3.x * speed, v3.y * speed, v3.z * speed);
+    }
+
+    void PingPong()
+    {
+        if (pingPong)
+        {
+            _count += Time.deltaTime;
+
+            if (_count >= timeToPong)
+            {
+                _count = 0;
+                v3 = v3 * -1;
+            }
+        }
     }
 }
