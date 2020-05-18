@@ -5,14 +5,21 @@ namespace ToolsMandioca.StateMachine
     public class DummyDieState : DummyEnemyStates
     {
         RagdollComponent ragdoll;
+        ParticleSystem particle;
         float timer;
         bool desactive;
 
-        public DummyDieState(EState<TrueDummyEnemy.DummyEnemyInputs> myState, EventStateMachine<TrueDummyEnemy.DummyEnemyInputs> _sm, RagdollComponent _ragdoll) : base(myState, _sm)
+        public DummyDieState(EState<TrueDummyEnemy.DummyEnemyInputs> myState, EventStateMachine<TrueDummyEnemy.DummyEnemyInputs> _sm, RagdollComponent _ragdoll,
+                             ParticleSystem _particle) : base(myState, _sm)
         {
+            particle = _particle;
             ragdoll = _ragdoll;
         }
-        protected override void Enter(EState<TrueDummyEnemy.DummyEnemyInputs> input) => ragdoll.Ragdoll(true);
+        protected override void Enter(EState<TrueDummyEnemy.DummyEnemyInputs> input)
+        {
+            ragdoll.Ragdoll(true);
+            particle.gameObject.SetActive(false);
+        }
 
         protected override void Update()
         {

@@ -68,7 +68,6 @@ public class CustomCamera : MonoBehaviour
         dir.Normalize();
         if (Physics.Raycast(this.transform.transform.position, dir, out hit, 1000, _layermask_raycast_mask))
         {
-            Debug.Log("asdadsasdas");
 
             DebugCustom.Log("CameraThings", "Raycast Hit Element", hit.transform.gameObject.name);
 

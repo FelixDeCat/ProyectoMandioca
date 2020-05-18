@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class Generic_Taunt : MonoStateBase
 {
+    protected override void OnOneAwake() { }
     protected override void OnBegin() 
     {
 

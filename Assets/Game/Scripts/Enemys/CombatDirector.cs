@@ -19,7 +19,7 @@ public class CombatDirector : MonoBehaviour, IZoneElement
     Dictionary<EntityBase, Action> updateDict = new Dictionary<EntityBase, Action>();
 
 
-    EntityBase head;
+    CharacterHead head;
 
     bool run;
     bool initialize;
@@ -92,6 +92,9 @@ public class CombatDirector : MonoBehaviour, IZoneElement
 
             e.SetBool(false);
         }
+
+        if(target==head)
+            if (attackingTarget[target].Count + listAttackTarget[target].Count + waitToAttack[target].Count <= 0 && head.Combat) head.SetCombat(false);
 
         //RunCheck();
     }
@@ -301,6 +304,11 @@ public class CombatDirector : MonoBehaviour, IZoneElement
         else
             waitToAttack[target].Add(e);
 
+
+        if (target == head)
+        {
+            if (attackingTarget[target].Count + listAttackTarget[target].Count + waitToAttack[target].Count > 0 && !head.Combat) head.SetCombat(true);
+        }
         //RunCheck();
     }
 
