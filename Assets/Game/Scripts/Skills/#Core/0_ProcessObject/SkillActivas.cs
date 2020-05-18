@@ -110,7 +110,6 @@ public abstract class SkillActivas : SkillBase
         base.cooldownUpdate();
         if (begincooldown)
         {
-            Debug.Log("asdasdasd");
             if (time_cooldown < cooldown)
             {
                 time_cooldown = time_cooldown + 1 * Time.deltaTime;

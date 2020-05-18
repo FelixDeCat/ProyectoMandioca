@@ -5,8 +5,6 @@ using UnityEngine;
 
 public class UI3D_Shields_controller : MonoBehaviour
 {
-
-    [SerializeField] private Transform startPlace;
     [SerializeField] private Transform container;
     [SerializeField] private float spacingHorizontal;
     [SerializeField] private GameObject shield_pf;
@@ -89,15 +87,20 @@ public class UI3D_Shields_controller : MonoBehaviour
 
     private void Update()
     {
+        RotateShields();
+        
+        PingPong();
+        
+    }
+
+    void RotateShields()
+    {
         Vector3 aux = new Vector3(v3.x * rotSpeed, v3.y * rotSpeed, v3.z * rotSpeed);
         
         foreach (GameObject t in currentShields)
         {
             t.transform.Rotate(aux);
         }
-        
-        PingPong();
-        
     }
     
     void PingPong()

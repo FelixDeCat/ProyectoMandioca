@@ -24,6 +24,8 @@ public class CharacterAttack
     public Action OnAttackBegin;
     public Action OnAttackEnd;
 
+    private string _swingSword_SoundName;
+    
     ParticleSystem feedbackHeavy;
     bool oneshot;
 
@@ -49,7 +51,7 @@ public class CharacterAttack
     Action BreakObject;
 
 
-    public CharacterAttack(float _range, float _angle, float _heavyAttackTime, CharacterAnimator _anim, Transform _forward, Action _normalAttack, Action _heavyAttack, ParticleSystem ps, float damage, ParticleSystem _attackslash)
+    public CharacterAttack(float _range, float _angle, float _heavyAttackTime, CharacterAnimator _anim, Transform _forward, Action _normalAttack, Action _heavyAttack, ParticleSystem ps, float damage, ParticleSystem _attackslash, string swingSword_SoundName)
     {
         myWeapons = new List<Weapon>();
         myWeapons.Add(new GenericSword(damage, _range, "Generic Sword", _angle).ConfigureCallback(CALLBACK_DealDamage));
@@ -72,6 +74,8 @@ public class CharacterAttack
         OnAttackEnd += AttackEnd;
 
         attackslash = _attackslash;
+
+        _swingSword_SoundName = swingSword_SoundName;
     }
 
     public string ChangeName()
@@ -183,8 +187,10 @@ public class CharacterAttack
     void Attack(bool isHeavy)//esto es attack nada mas... todavia no se sabe si le pegué a algo
     {
         attackslash.Play();
-
+        
         currentWeapon.Attack(forwardPos, currentDamage, isHeavy ? Damagetype.heavy : Damagetype.normal);
+        
+        AudioManager.instance.PlaySound(_swingSword_SoundName);
     }
 
     void CALLBACK_DealDamage(Attack_Result attack_result, Damagetype damage_type, EntityBase entityToDamage)

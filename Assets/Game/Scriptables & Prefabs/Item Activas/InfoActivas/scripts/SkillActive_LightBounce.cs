@@ -18,6 +18,11 @@ public class SkillActive_LightBounce : SkillActivas
 
     [SerializeField] private LineRenderer _lineRenderer = null;
 
+    [SerializeField] private AudioClip fireClip;
+    [SerializeField] private AudioClip celestialChorus;
+    private const string _fireSound = "fireSound";
+    private const string _celestialChorus = "celestialChorus";
+
     protected override void OnOneShotExecute()
     {
         Debug.Log("OnOneSHot");
@@ -27,6 +32,8 @@ public class SkillActive_LightBounce : SkillActivas
     {
         _hero = Main.instance.GetChar();
         blocker = _hero.GetCharBlock();
+        AudioManager.instance.GetSoundPool(_fireSound, fireClip, true);
+        AudioManager.instance.GetSoundPool(_celestialChorus, celestialChorus);
     }
     protected override void OnEndSkill() { }
 
@@ -68,6 +75,8 @@ public class SkillActive_LightBounce : SkillActivas
     protected override void OnStartUse()
     {
         lightBeam.SetActive(true);
+        AudioManager.instance.PlaySound(_celestialChorus);
+
     }
 
     protected override void OnStopUse()
@@ -75,20 +84,29 @@ public class SkillActive_LightBounce : SkillActivas
         _lineRenderer.enabled = false;
         sparks_ps.Stop();
         lightBeam.SetActive(false);
+        AudioManager.instance.StopAllSounds(_fireSound);
     }
 
     protected override void OnUpdateUse()
     {
         lightBeam.transform.position = _hero.transform.position;
-        Debug.Log(blocker.onBlock);
         if (blocker.onBlock)
         {
+            if (!AudioManager.instance.GetSoundPool(_fireSound).soundPoolPlaying)
+            {
+                AudioManager.instance.PlaySound(_fireSound);
+            }
+            
             ShootLaserFromTargetPosition(_hero.transform.position + Vector3.up * 1, _hero.GetCharMove().GetRotatorDirection(), range);
             
             _lineRenderer.enabled = true;    
         }
         else
         {
+            if (AudioManager.instance.GetSoundPool(_fireSound).soundPoolPlaying)
+            {
+                AudioManager.instance.StopAllSounds(_fireSound);
+            }
             _lineRenderer.enabled = false;
         }
         

@@ -13,17 +13,20 @@ public class SkillActive_FreezeRange : SkillActivas
     [SerializeField] private ParticleSystem freezeSmoke = null;
     [SerializeField] private Transform particleContainer = null;
     [SerializeField] private IceShard_particleObjectPool shardPool = null;
+    [SerializeField] private AudioClip freeze_Sound;
 
     private List<ParticleSystem> shards = new List<ParticleSystem>();
     List<ParticleSystem> ps = new List<ParticleSystem>();
 
     private CharacterHead _hero;
+    private const string freezeSound = "freeze";
 
     protected override void OnOneShotExecute()
     {
+        AudioManager.instance.PlaySound(freezeSound);
         particleContainer.position = _hero.transform.position;
         var auraMain = freezeNova.main;
-        auraMain.duration = freezeDuration;//no se puede setear la duracion en play
+        //auraMain.duration = freezeDuration;//no se puede setear la duracion en play
         auraMain.startSize = range;
         freezeSmoke.Play();
         freezeNova.Play();
@@ -56,6 +59,7 @@ public class SkillActive_FreezeRange : SkillActivas
     protected override void OnBeginSkill()
     {
         _hero = Main.instance.GetChar();
+        AudioManager.instance.GetSoundPool(freezeSound, freeze_Sound);
     }
     protected override void OnEndSkill() { }
     protected override void OnUpdateSkill() { }

@@ -26,6 +26,17 @@ public class SkillActive_BoomeranShield : SkillActivas
     [SerializeField] private ParticleSystem auraZone = null;
 
     [SerializeField] private GameObject auxShield = null;
+    
+    //rotation
+    [SerializeField] private Vector3 v3;
+    [SerializeField] private float rotSpeed;
+    
+    //Sonidos
+    [SerializeField] private AudioClip _flingShield_Sound;
+    private const string _flingShield_SoundName = "flingShield";
+    [SerializeField] private AudioClip _rotatingShield_Sound;
+    private const string _rotatingShield_SoundName = "rotatingShield";
+    
 
     private bool isGoing;
     private bool isSpinning;
@@ -36,6 +47,9 @@ public class SkillActive_BoomeranShield : SkillActivas
     {
         _hero = Main.instance.GetChar();
         _shield = _hero.escudo;
+
+        AudioManager.instance.GetSoundPool(_flingShield_SoundName, _flingShield_Sound);
+        AudioManager.instance.GetSoundPool(_rotatingShield_SoundName, _rotatingShield_Sound, true);
     }
 
     protected override void OnEndSkill()
@@ -50,12 +64,15 @@ public class SkillActive_BoomeranShield : SkillActivas
 
     protected override void OnStartUse()
     {
+        AudioManager.instance.PlaySound(_flingShield_SoundName);
+        AudioManager.instance.PlaySound(_rotatingShield_SoundName);
+        
         _hero.ToggleBlock(false);
         auxShield.SetActive(true);
         auxShield.transform.position = _shield.transform.position;
         _shield.SetActive(false);
         sparks.Play();
-        auraZone.Play();
+        
         var auraMain = auraZone.main;
         auraMain.startSize = radius * 2;
         
@@ -78,12 +95,14 @@ public class SkillActive_BoomeranShield : SkillActivas
         timeCount = 0;
         sparks.Stop();
         auraZone.Stop();
+        
+        AudioManager.instance.StopAllSounds(_rotatingShield_SoundName);
     }
 
     protected override void OnUpdateUse()
     {
 
-
+        auxShield.transform.Rotate(v3 * rotSpeed);
        
         //Feedback
         sparks.transform.position = auxShield.transform.position;
@@ -100,10 +119,15 @@ public class SkillActive_BoomeranShield : SkillActivas
         if (isGoing)
         {
             //viajar hasta la posicion
-        
+
+            var dir = spinPosition - auxShield.transform.position;
+            dir = dir.normalized;
+            
             if (Vector3.Distance(  auxShield.transform.position, spinPosition) > .5f)
             {
-                MoveWithLerp(startHeroPos, spinPosition);
+                auxShield.transform.position += Time.deltaTime * throwSpeed * dir;
+
+                //MoveWithLerp(startHeroPos, spinPosition);
             }
             else
             {
@@ -114,6 +138,9 @@ public class SkillActive_BoomeranShield : SkillActivas
 
         if (isSpinning)
         {
+            if(!auraZone.isPlaying)
+                auraZone.Play();
+            
             timeCount += Time.deltaTime;
             
             //volver
