@@ -29,11 +29,6 @@ public class GameUI_controller : MonoBehaviour
     
     //Seguroi esto se deje de usar
     Dictionary<UI_templates, GameObject> UiTemplateRegistry = new Dictionary<UI_templates, GameObject>();
-
-
-    
-    
-    
     
 
     public bool openUI { get; private set; }
