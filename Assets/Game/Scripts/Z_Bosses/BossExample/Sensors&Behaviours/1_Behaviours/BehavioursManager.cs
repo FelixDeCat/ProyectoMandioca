@@ -12,12 +12,16 @@ public class BehavioursManager : MonoBehaviour
     [Header("Behaviours")]
     public FollowBehaviour followBehaviour;
     public AnimationPositionCapture animationPostionCapture;
+    public ActivateDamage activateDamage;
+    public ActivateDamage activateDamageHitTheFloor;
 
     public void InitializeBehaviours(Transform root, Rigidbody rb)
     {
         this.root = root;
         this.rb = rb;
         target = Main.instance.GetChar().transform;
+        activateDamage.Configure(root);
+        activateDamageHitTheFloor.Configure(root);
         followBehaviour.ConfigureFollowBehaviour(root,rb,target);
     }
 

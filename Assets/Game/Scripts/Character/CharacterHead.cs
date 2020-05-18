@@ -213,7 +213,7 @@ public class CharacterHead : CharacterControllable
         ConfigureState.Create(beginBlock)
              .SetTransition(PlayerInputs.BLOCK, block)
              .SetTransition(PlayerInputs.END_BLOCK, endBlock)
-             .SetTransition(PlayerInputs.CHARGE_ATTACK, attackCharge)
+             //.SetTransition(PlayerInputs.CHARGE_ATTACK, attackCharge)
              .SetTransition(PlayerInputs.TAKE_DAMAGE, takeDamage)
              .SetTransition(PlayerInputs.DEAD, dead)
              .Done();

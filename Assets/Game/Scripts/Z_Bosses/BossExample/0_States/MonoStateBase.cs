@@ -30,6 +30,7 @@ public abstract class MonoStateBase : MonoBehaviour
             if (state._monoStateBaseOptions.linker == _monoStateBaseOptions.linker) throw new System.Exception("ERROR::: Hay un linker que se esta repitiendo, corregir de inmediato:::");
         }
         #endregion
+        OnOneAwake();
     }
 
     public void Begin()
@@ -49,6 +50,7 @@ public abstract class MonoStateBase : MonoBehaviour
         OnUpdate();
     }
 
+    protected abstract void OnOneAwake();
     protected abstract void OnUpdate();
     protected abstract void OnBegin();
     protected abstract void OnExit();

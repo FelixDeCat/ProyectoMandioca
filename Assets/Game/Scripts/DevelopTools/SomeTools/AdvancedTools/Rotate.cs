@@ -12,6 +12,8 @@ public class Rotate : MonoBehaviour {
     float timer;
     public float timetochangerandom = 1;
 
+    public bool constant_movement;
+
     private void Awake()
     {
         timer = timetochangerandom + 1;
@@ -20,16 +22,27 @@ public class Rotate : MonoBehaviour {
     void Update ()
     {
         if (random) {
-            if (timer < timetochangerandom) timer = timer + 1 * Time.deltaTime;
-            else {
+            if (!constant_movement)
+            {
+                if (timer < timetochangerandom) timer = timer + 1 * Time.deltaTime;
+                else
+                {
+                    v3 = new Vector3(
+                        Random.Range(-random_range, random_range),
+                        Random.Range(-random_range, random_range),
+                        Random.Range(-random_range, random_range));
+                    timer = 0;
+                }
+            }
+            else
+            {
                 v3 = new Vector3(
-                    Random.Range(-random_range, random_range), 
-                    Random.Range(-random_range, random_range), 
-                    Random.Range(-random_range, random_range));
-                timer = 0;
+                           Random.Range(-random_range, random_range),
+                           Random.Range(-random_range, random_range),
+                           Random.Range(-random_range, random_range));
+
             }
         }
-
         transform.Rotate(v3.x * speed, v3.y * speed, v3.z * speed);
     }
 }

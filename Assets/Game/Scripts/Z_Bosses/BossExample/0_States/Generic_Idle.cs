@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class Generic_Idle : MonoStateBase
 {
+    protected override void OnOneAwake() { }
     protected override void OnBegin()
     {
         Get_Sensors.sensor_distance.StartSensor();
