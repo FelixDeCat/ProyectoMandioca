@@ -16,14 +16,19 @@ public class SkillActive_RainArrows : SkillActivas
     [SerializeField] private ParticleSystem arrowRain_ps = null;
     private Vector3 anchorPos;
 
+    [SerializeField] private AudioClip _arrowSound;
+    private const string _arrowsSoundName = "arrows";
+
     private CharacterHead _hero;
 
     protected override void OnBeginSkill()
     {
         _hero = Main.instance.GetChar();
+        AudioManager.instance.GetSoundPool(_arrowsSoundName, _arrowSound, true);
     }
     protected override void OnStartUse() 
     {
+        AudioManager.instance.PlaySound(_arrowsSoundName);
         dmgPerTick = dmgTotal / (duration / ticksAmount);
         SetPositionOfRainEffect();
         SetRainFeedBackParticlesPosition();
@@ -33,6 +38,7 @@ public class SkillActive_RainArrows : SkillActivas
     protected override void OnStopUse()
     {
         arrowRain_ps.Stop();
+        AudioManager.instance.StopAllSounds(_arrowsSoundName);
     }
 
     protected override void OnUpdateUse() 

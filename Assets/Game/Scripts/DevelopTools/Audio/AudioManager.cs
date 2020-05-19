@@ -5,28 +5,18 @@ using System.Linq;
 using UnityEngine;
 
 
-public class AudioManager : MonoBehaviour 
+public class AudioManager : MonoBehaviour
 {
     private Dictionary<string, SoundPool> _soundRegistry = new Dictionary<string, SoundPool>();
     //[SerializeField] private AudioClip testClip;
 
-    private static AudioManager instance;
+    public static AudioManager instance;
 
 
     private void Awake()
     {
         if (instance == null) instance = this;
     }
-    //public string soundNameTest = "";
-    
-//    private void Update()
-//    {
-//        //test
-//        if(Input.GetKeyDown(KeyCode.J)) GetSoundPool(soundNameTest, testClip);
-//        if(Input.GetKeyDown(KeyCode.H)) PlaySound(soundNameTest);
-//    }
-
-
     /// <summary>
     /// Si el soundpool existe, va a reproducir el sonido que llamaron, sino va a tirar un warning
     /// </summary>
@@ -35,9 +25,24 @@ public class AudioManager : MonoBehaviour
     {
         if (_soundRegistry.ContainsKey(soundPoolName))
         {
+            _soundRegistry[soundPoolName].soundPoolPlaying = true;
             AudioSource aS = _soundRegistry[soundPoolName].Get();
             aS.Play();
-            StartCoroutine(ReturnSoundToPool(aS, soundPoolName));
+            
+            if(!aS.loop)
+                StartCoroutine(ReturnSoundToPool(aS, soundPoolName));
+        }
+        else
+        {
+            Debug.LogWarning("No tenes ese sonido en en pool");
+        }
+    }
+    
+    public void StopAllSounds(string soundPoolName)
+    {
+        if (_soundRegistry.ContainsKey(soundPoolName))
+        {
+            _soundRegistry[soundPoolName].StopAllSounds();
         }
         else
         {
@@ -51,10 +56,11 @@ public class AudioManager : MonoBehaviour
     /// <param name="soundPoolName"></param>
     /// <param name="audioClip"></param>
     /// <returns></returns>
-    public SoundPool GetSoundPool(string soundPoolName, AudioClip audioClip = null)
+    public SoundPool GetSoundPool(string soundPoolName, AudioClip audioClip = null, bool loop = false, int prewarmAmount = 2)
     {
         if (_soundRegistry.ContainsKey(soundPoolName)) return _soundRegistry[soundPoolName];
-        return CreateNewSoundPool(audioClip, soundPoolName);
+        else if (audioClip != null) return CreateNewSoundPool(audioClip, soundPoolName, loop, prewarmAmount);
+        else return null;
     }
 
     /// <summary>
@@ -63,12 +69,12 @@ public class AudioManager : MonoBehaviour
     /// <param name="audioClip"></param>
     /// <param name="soundPoolName"></param>
     /// <returns></returns>
-    private SoundPool CreateNewSoundPool(AudioClip audioClip, string soundPoolName)
+    private SoundPool CreateNewSoundPool(AudioClip audioClip, string soundPoolName, bool loop = false, int prewarmAmount = 2)
     {
-        var soundPool = new GameObject($"{soundPoolName} soundPool").AddComponent<SoundPool>().GetComponent<SoundPool>();
+        var soundPool = new GameObject($"{soundPoolName} soundPool").AddComponent<SoundPool>();
         soundPool.transform.SetParent(transform);
-        soundPool.Configure(audioClip);
-        soundPool.PreWarm(4);
+        soundPool.Configure(audioClip, loop);
+        soundPool.PreWarm(prewarmAmount);
         _soundRegistry.Add(soundPoolName, soundPool);
         return soundPool;
     }

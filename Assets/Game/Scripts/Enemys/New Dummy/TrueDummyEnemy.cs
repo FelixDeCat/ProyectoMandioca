@@ -51,6 +51,8 @@ public class TrueDummyEnemy : EnemyBase
     [SerializeField] float onHitFlashTime;
     [SerializeField] RagdollComponent ragdoll = null;
     [SerializeField] ParticleSystem myGroundParticle = null;
+    [SerializeField] private AudioClip _takeHit_AC;
+    private const string takeHit_audioName = "woodChop"; 
 
 
     public bool isOnFire { get; private set; }
@@ -69,6 +71,8 @@ public class TrueDummyEnemy : EnemyBase
             myMat = smr.materials;
         }
 
+        AudioManager.instance.GetSoundPool(takeHit_audioName, _takeHit_AC);
+        
             //Debug.Log("OnInitialize");
             rb = GetComponent<Rigidbody>();
         combatComponent.Configure(AttackEntity);
@@ -292,6 +296,8 @@ public class TrueDummyEnemy : EnemyBase
 
         greenblood.Play();
 
+        AudioManager.instance.PlaySound(takeHit_audioName);
+        
         cooldown = true;
         bool death = lifesystem.Hit(dmg);
         return death ? Attack_Result.death : Attack_Result.sucessful;

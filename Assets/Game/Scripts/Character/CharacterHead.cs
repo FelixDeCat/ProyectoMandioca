@@ -54,6 +54,10 @@ public class CharacterHead : CharacterControllable
 
     [Header("Feedbacks")]
     [SerializeField] ParticleSystem feedbackCW = null;
+
+    [SerializeField] private AudioClip swingSword_AC;
+    private const string swing_SoundName = "swingSword";
+    
     
     [SerializeField] ParticleSystem inParryParticles = null;
 
@@ -137,7 +141,7 @@ public class CharacterHead : CharacterControllable
         ChildrensUpdates += charBlock.OnUpdate;
 
         dmg = dmg_normal;
-        charAttack = new CharacterAttack(attackRange, attackAngle, timeToHeavyAttack, charanim, rot, ReleaseInNormal, ReleaseInHeavy, feedbackHeavy, dmg, slash);
+        charAttack = new CharacterAttack(attackRange, attackAngle, timeToHeavyAttack, charanim, rot, ReleaseInNormal, ReleaseInHeavy, feedbackHeavy, dmg, slash, swing_SoundName);
         charAttack.FirstAttackReady(true);
 
         charAnimEvent.Add_Callback("CheckAttackType", CheckAttackType);
@@ -154,6 +158,9 @@ public class CharacterHead : CharacterControllable
         DevelopTools.UI.Debug_UI_Tools.instance.CreateToogle("Use LockOn", false, UseLockOn);
 
         SetStates();
+        
+        //Sound
+        AudioManager.instance.GetSoundPool(swing_SoundName, swingSword_AC);
 
     }
     float auxSpeedDebug;

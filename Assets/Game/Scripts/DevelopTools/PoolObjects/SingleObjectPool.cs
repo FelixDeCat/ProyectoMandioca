@@ -24,6 +24,8 @@ namespace DevelopTools
         /// </summary>
         protected Queue<T> objects = new Queue<T>();
 
+        protected List<T> currentlyUsingObj = new List<T>();
+
         [Header("-----8888888-------")]
         [SerializeField] private int prewarmAmount = 5;
 
@@ -51,6 +53,7 @@ namespace DevelopTools
 
             var obj = objects.Dequeue();
             obj.gameObject.SetActive(true);
+            currentlyUsingObj.Add(obj);
             return obj;
         }
 
@@ -72,6 +75,7 @@ namespace DevelopTools
         public void ReturnToPool(T objectToReturn)
         {
             objectToReturn.gameObject.SetActive(false);
+            currentlyUsingObj.Remove(objectToReturn);
             objects.Enqueue(objectToReturn);
         }
         /// <summary>
