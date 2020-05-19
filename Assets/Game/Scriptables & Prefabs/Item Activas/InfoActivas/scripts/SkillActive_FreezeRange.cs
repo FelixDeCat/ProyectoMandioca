@@ -21,6 +21,13 @@ public class SkillActive_FreezeRange : SkillActivas
     private CharacterHead _hero;
     private const string freezeSound = "freeze";
 
+    [SerializeField] Atenea atenea;
+    protected override void OnBeginSkill()
+    {
+        _hero = Main.instance.GetChar();
+        AudioManager.instance.GetSoundPool(freezeSound, freeze_Sound);
+    }
+
     protected override void OnOneShotExecute()
     {
         AudioManager.instance.PlaySound(freezeSound);
@@ -30,6 +37,11 @@ public class SkillActive_FreezeRange : SkillActivas
         auraMain.startSize = range;
         freezeSmoke.Play();
         freezeNova.Play();
+
+        atenea.gameObject.SetActive(true);
+        atenea.GoToHero();
+        atenea.Anim_Freeze();
+        
         
         List<EnemyBase> enemies = Extensions.FindInRadius<EnemyBase>(_hero.transform, range);
 
@@ -56,11 +68,7 @@ public class SkillActive_FreezeRange : SkillActivas
         }
     }
 
-    protected override void OnBeginSkill()
-    {
-        _hero = Main.instance.GetChar();
-        AudioManager.instance.GetSoundPool(freezeSound, freeze_Sound);
-    }
+   
     protected override void OnEndSkill() { }
     protected override void OnUpdateSkill() { }
     protected override void OnStartUse() { }

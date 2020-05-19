@@ -11,23 +11,34 @@ public class SkillActive_DamageInRoom : SkillActivas
     [SerializeField] LayerMask layerenem = 0;
     [SerializeField] private float radius = 10;
 
-    protected override void OnOneShotExecute()
+    [SerializeField] Atenea atenea;
+
+    protected override void OnBeginSkill() 
     {
-        //List<EnemyBase> enemies = Main.instance.GetEnemies();
+        atenea.GetComponent<AnimEvent>().Add_Callback("HitTheFloor", HitTheFloor);
+    }
+    void HitTheFloor()
+    {
+        Vector3 pos_collision = new Vector3(atenea.transform.position.x, Main.instance.GetChar().transform.position.y, atenea.transform.position.z);
 
-        feedback.transform.position = Main.instance.GetChar().transform.position;
+        feedback.transform.position = pos_collision;
         feedback.Play();
+        var enems = Physics.OverlapSphere(pos_collision, radius, layerenem).Select(x => x.GetComponent<EnemyBase>());
 
-
-        var enems = Physics.OverlapSphere(Main.instance.GetChar().transform.position, radius, layerenem).Select( x => x.GetComponent<EnemyBase>());
-        
         foreach (EnemyBase enemy in enems)
         {
-            enemy.TakeDamage(damagePower, Vector3.up, dmgType, Main.instance.GetChar());
+            enemy.TakeDamage(damagePower, pos_collision, dmgType, Main.instance.GetChar());
         }
     }
 
-    protected override void OnBeginSkill() { }
+    protected override void OnOneShotExecute()
+    {
+        atenea.gameObject.SetActive(true);
+        atenea.GoToHero();
+        atenea.Anim_DamageRoom();
+    }
+
+    
     protected override void OnEndSkill() { }
     protected override void OnUpdateSkill() { }
     protected override void OnStartUse() { }

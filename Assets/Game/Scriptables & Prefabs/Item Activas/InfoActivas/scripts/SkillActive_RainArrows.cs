@@ -21,12 +21,18 @@ public class SkillActive_RainArrows : SkillActivas
 
     private CharacterHead _hero;
 
+    [SerializeField] Atenea atenea;
+
     protected override void OnBeginSkill()
     {
         _hero = Main.instance.GetChar();
         AudioManager.instance.GetSoundPool(_arrowsSoundName, _arrowSound, true);
+
+
+        atenea.GetComponent<AnimEvent>().Add_Callback("TiraFlecha", ThrowArrows);
     }
-    protected override void OnStartUse() 
+
+    void ThrowArrows()
     {
         AudioManager.instance.PlaySound(_arrowsSoundName);
         dmgPerTick = dmgTotal / (duration / ticksAmount);
@@ -34,6 +40,12 @@ public class SkillActive_RainArrows : SkillActivas
         SetRainFeedBackParticlesPosition();
         arrowRain_ps.Play();
         FindAndDamage();
+    }
+    protected override void OnStartUse() 
+    {
+        atenea.gameObject.SetActive(true);
+        atenea.GoToHero();
+        atenea.Anim_Arrows();
     }
     protected override void OnStopUse()
     {

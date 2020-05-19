@@ -57,6 +57,7 @@ public class CharacterHead : CharacterControllable
 
     [SerializeField] private AudioClip swingSword_AC;
     private const string swing_SoundName = "swingSword";
+    [SerializeField] private AudioClip footstep;
     
     
     [SerializeField] ParticleSystem inParryParticles = null;
@@ -148,6 +149,7 @@ public class CharacterHead : CharacterControllable
         charAnimEvent.Add_Callback("CheckAttackType", CheckAttackType);
         charAnimEvent.Add_Callback("DealAttack", DealAttack);
         charAnimEvent.Add_Callback("Dash", move.RollForAnim);
+        charAnimEvent.Add_Callback("Pasos", Pasos );
 
         rb = GetComponent<Rigidbody>();
 
@@ -160,8 +162,14 @@ public class CharacterHead : CharacterControllable
         
         //Sound
         AudioManager.instance.GetSoundPool(swing_SoundName, swingSword_AC);
+        AudioManager.instance.GetSoundPool("FootStep", footstep);
 
     }
+    void Pasos()
+    {
+        AudioManager.instance.PlaySound("FootStep");
+    }
+
     float auxSpeedDebug;
     string ToogleSpeed(bool active)
     {
