@@ -17,8 +17,8 @@ public class BasicThrowable : MonoBehaviour
         damage = _damage;
         sensor.AddCallback_OnTriggerEnter(ReceiveEntityToDamage);
         myrig = GetComponent<Rigidbody>();
-        this.transform.forward = vectorDirection.normalized;
         this.transform.position = postion;
+        this.transform.eulerAngles = new Vector3(Random.Range(0,360), Random.Range(0, 360), Random.Range(0, 360));
         myrig.AddForce(vectorDirection * local_force_multiplier * forceMultiplerAux, ForceMode.VelocityChange);
         canDisapear = true;
     }
