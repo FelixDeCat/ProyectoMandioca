@@ -21,19 +21,24 @@ public class CombatDirectorElement : MonoBehaviour, ICombatDirector
         //como el del habitacion
     }
 
-    public void Ev_OutOfDistance()
-    {
-        director.DeadEntity(this, target);
-        target = null;
-        combat = false;
-    }
-
     public void Initialize(CombatDirector _director, EntityBase entityBase)
     {
         director = _director;
         director.AddNewTarget(entityBase);
     }
 
+    public void Ev_OutOfCombatDistance()
+    {
+        director.DeadEntity(this, target);
+        target = null;
+        combat = false;
+    }
+    public void Ev_InCombatDistace()
+    {
+        director.AddAwake(this);
+        combat = true;
+    }
+    
     public Vector3 CurrentPos() => owner.transform.position;
     public void SetTarget(EntityBase entity) { target = entity; }
     public bool IsInPos() => withPos;
