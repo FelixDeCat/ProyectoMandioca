@@ -65,7 +65,6 @@ public class CharacterBlock : EntityBlock
     //por animacion
     public override void OnBlockSuccessful()
     {
-        sm().SendInput(CharacterHead.PlayerInputs.BLOCK);
         BeginParry();
     }
 

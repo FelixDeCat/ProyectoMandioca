@@ -6,8 +6,10 @@ namespace ToolsMandioca.StateMachine
 {
     public class CharBeginBlock : CharacterStates
     {
-        public CharBeginBlock(EState<CharacterHead.PlayerInputs> myState, EventStateMachine<CharacterHead.PlayerInputs> _sm) : base(myState, _sm)
+        Animator anim;
+        public CharBeginBlock(EState<CharacterHead.PlayerInputs> myState, EventStateMachine<CharacterHead.PlayerInputs> _sm, Animator _anim) : base(myState, _sm)
         {
+            anim = _anim;
         }
 
         protected override void Enter(EState<CharacterHead.PlayerInputs> input)
@@ -21,6 +23,13 @@ namespace ToolsMandioca.StateMachine
             charMove.RotateVertical(RightVertical());
             charMove.MovementHorizontal(LeftHorizontal());
             charMove.MovementVertical(LeftVertical());
+
+            var info = anim.GetCurrentAnimatorStateInfo(1);
+            if (info.IsName("BlockStay"))
+            {
+                Debug.Log("blockeo");
+                sm.SendInput(CharacterHead.PlayerInputs.BLOCK);
+            }
         }
 
         protected override void FixedUpdate()
@@ -35,10 +44,12 @@ namespace ToolsMandioca.StateMachine
 
         protected override void Exit(CharacterHead.PlayerInputs input)
         {
-            if(input != CharacterHead.PlayerInputs.BLOCK)
+            if (input != CharacterHead.PlayerInputs.BLOCK)
             {
                 charBlock.UpBlock();
             }
+            else
+                charBlock.OnBlockSuccessful();
         }
     }
 }

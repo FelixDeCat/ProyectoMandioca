@@ -141,13 +141,12 @@ public class CharacterHead : CharacterControllable
         ChildrensUpdates += charBlock.OnUpdate;
 
         dmg = dmg_normal;
-        charAttack = new CharacterAttack(attackRange, attackAngle, timeToHeavyAttack, charanim, rot, ReleaseInNormal, ReleaseInHeavy, feedbackHeavy, dmg, slash, swing_SoundName);
+        charAttack = new CharacterAttack(attackRange, attackAngle, timeToHeavyAttack, charanim, rot, ReleaseInNormal, ReleaseInHeavy,
+            feedbackHeavy, dmg, slash, swing_SoundName);
         charAttack.FirstAttackReady(true);
 
         charAnimEvent.Add_Callback("CheckAttackType", CheckAttackType);
         charAnimEvent.Add_Callback("DealAttack", DealAttack);
-        charAnimEvent.Add_Callback("RompeCoco", RompeCoco);
-        charAnimEvent.Add_Callback("BeginBlock", charBlock.OnBlockSuccessful);
         charAnimEvent.Add_Callback("Dash", move.RollForAnim);
 
         rb = GetComponent<Rigidbody>();
@@ -293,7 +292,7 @@ public class CharacterHead : CharacterControllable
             .SetRightAxis(GetRightHorizontal, GetRightVertical)
             .SetMovement(this.move);
 
-        new CharBeginBlock(beginBlock, stateMachine)
+        new CharBeginBlock(beginBlock, stateMachine, anim_base)
             .SetLeftAxis(GetLeftHorizontal, GetLeftVertical)
             .SetRightAxis(GetRightHorizontal, GetRightVertical)
             .SetMovement(this.move).SetBlock(charBlock);
@@ -582,10 +581,6 @@ public class CharacterHead : CharacterControllable
     {
         return move;
     }
-    void RompeCoco()
-    {
-        if (customCam != null) customCam.BeginShakeCamera();
-    }
 
     #endregion
 
@@ -649,6 +644,7 @@ public class CharacterHead : CharacterControllable
                 hitParticle.Play();
                 lifesystem.Hit(dmg);
                 Vector3 dir = (transform.position - attackDir).normalized;
+                //stateMachine.SendInput(PlayerInputs.TAKE_DAMAGE);
                 rb.AddForce(new Vector3(dir.x, 0, dir.z) * dmg * onHitRecall, ForceMode.Force);
                 customCam.BeginShakeCamera();
                 Main.instance.Vibrate();
