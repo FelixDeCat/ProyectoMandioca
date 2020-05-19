@@ -1351,6 +1351,7 @@ MonoBehaviour:
   slowDuration: 0.75
   speedAnim: 5
   feedbackCW: {fileID: 2956881037866283769}
+  swingSword_AC: {fileID: 8300000, guid: e6d746357768f45c3ab2203fc31916e2, type: 3}
   inParryParticles: {fileID: 5705068960293636697}
   anim_base: {fileID: 4345765789594124658}
   charAnimEvent: {fileID: 4345765789586748159}
@@ -1604,7 +1605,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 0}
-        m_MethodName: EV_Back
+        m_MethodName: 
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -1618,7 +1619,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 0}
-        m_MethodName: EV_Next
+        m_MethodName: 
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -1762,9 +1763,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: 1
   v3: {x: 0, y: 0, z: 2}
+  pingPong: 0
+  timeToPong: 0
   random: 0
   random_range: 0
   timetochangerandom: 1
+  constant_movement: 0
 --- !u!33 &4345765788434296178
 MeshFilter:
   m_ObjectHideFlags: 0
