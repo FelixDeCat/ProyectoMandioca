@@ -25,7 +25,6 @@ public class MessageHere : Interact_Receptor
         {
             Main.instance.SpawnItem(i, getPosRandom(2, trans));
         }
-
         for (int i = 0; i < cant; i++)
         {
             GameObject go = Instantiate(model);
