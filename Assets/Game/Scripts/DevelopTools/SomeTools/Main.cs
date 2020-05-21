@@ -47,7 +47,6 @@ public class Main : MonoBehaviour
     {
         instance = this;
         eventManager = new EventManager();
-
         rumble = new Rumble();
 
         myCamera = Camera.main.GetComponent<CustomCamera>();
@@ -76,7 +75,7 @@ public class Main : MonoBehaviour
         rumble.OnUpdate();
     }
 
-    public void LoadLevelPlayObjects()
+    public void LoadLevelPlayObjects()//esto ya no va a ir
     {
         toload.Add(AddToMainCollection);
         req = new ThreadRequestObject<PlayObject>(
@@ -85,13 +84,17 @@ public class Main : MonoBehaviour
             toload.ToArray()
             );
     }
-    void AddToMainCollection(IEnumerable<PlayObject> col) { allentities = col.ToList(); OnLoadEnded(); }
+    void AddToMainCollection(IEnumerable<PlayObject> col) { allentities = col.ToList(); OnLoadEnded(); }//esto tampoco
 
     void OnLoadEnded()
     {
         gameisbegin = true;
-        InitializePlayObjects();
-        Play();
+        InitializePlayObjects();//esto no va a ir aca
+        Play();//estp no va a ir aca
+
+        //aca va a haber mas cosas de managers y esas cosas
+
+
         eventManager.TriggerEvent(GameEvents.GAME_END_LOAD);
         if(duntest) duntest.OnInitialize();
     }

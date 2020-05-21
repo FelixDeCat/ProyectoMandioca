@@ -7,9 +7,6 @@ namespace Weapons
 {
     public abstract class Weapon : Usable
     {
-        [Header("[no tocar] Tipo de Sensor")]
-        public SensorType SensorType;
-
         [Header("Configuraciones del arma\n asd")]
         [Space(20)]
         public int damage = 50;
