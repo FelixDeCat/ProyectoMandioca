@@ -1,0 +1,22 @@
+Explicacion de como usar el pool manager.
+ 
+
+	*SingleObjectPool
+		Este se encarga de administrar solo un tipo de objeto. La idea es que nosotros le demos un prefab y el va a almacenar una cantidad X que le digamos de ese prefab.
+
+		Mientras que sea un <Component> pueden guardar aca cualquier cosa.
+
+		Para hacer un pool nuevo:
+
+		1_Crear una clase que herede de SingleObjectPool. Al heredar decir que es lo que va a ser <T>.
+		2_Crear un objeto vacio en escena y hacerlo hijo del contenedor de pools (no hay funcionalidad, solo por orden)
+		3_Agregarle el componente recien creado. Especificar cuantos objetos queremos que se creen al iniciar la aplicacion y el prefab del objeto deseado.
+
+		Modo de uso:
+
+			Usando el ejemplo que deje colgado, para tener un objeto que pooleamos, hacemos 
+
+			SinglePool_EXAMPLE.Instance.Get();
+
+			Esto devuelve uno de los objetos. Cuando se quiera devolver, se usa SinglePool_EXAMPLE.Instance.ReturnToPool(T objetoQueDevuelven);
+
