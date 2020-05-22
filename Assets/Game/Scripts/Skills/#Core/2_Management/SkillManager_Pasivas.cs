@@ -46,7 +46,7 @@ public class SkillManager_Pasivas : MonoBehaviour
         CURRENT_TYPE = _skillType;
         var first = pool_info_by_type[_skillType][0];
         EquipSkill(first);
-        Main.instance.LoadLevelPlayObjects();
+        Main.instance.SkillAnreadySelected();
         selector.gameObject.SetActive(false);
     }
     void RefillFastDiccionaries()//no es necesario, pero lo tenemos para acceder mas rapido

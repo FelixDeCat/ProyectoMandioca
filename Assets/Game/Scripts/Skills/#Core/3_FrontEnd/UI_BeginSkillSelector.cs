@@ -15,11 +15,6 @@ public class UI_BeginSkillSelector : MonoBehaviour
 
     Action<SkillType> callback_selection;
 
-    private void Awake()
-    {
-        
-    }
-
     public void Initialize(Action<SkillType> _cbk_selection)
     {
         callback_selection = _cbk_selection;

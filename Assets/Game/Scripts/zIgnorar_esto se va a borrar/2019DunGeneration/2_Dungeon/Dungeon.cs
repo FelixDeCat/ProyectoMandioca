@@ -59,17 +59,17 @@ public class Dungeon : SceneMainBase
 
     
 
-    protected override void OnFadeBackEnded()
-    {
-       // FindObjectsOfType<MapComponent>().ToList().ForEach(x => x.Activate());
+    //protected override void OnFadeBackEnded()
+    //{
+    //   // FindObjectsOfType<MapComponent>().ToList().ForEach(x => x.Activate());
         
-    }
+    //}
 
-    protected override void OnFadeGoEnded()
-    {
-      //  FindObjectsOfType<MapComponent>().ToList().ForEach(x => x.Deactivate());
-      //  CompleteCameraController.instancia.ChangeToNormal();
-    }
+    //protected override void OnFadeGoEnded()
+    //{
+    //  //  FindObjectsOfType<MapComponent>().ToList().ForEach(x => x.Deactivate());
+    //  //  CompleteCameraController.instancia.ChangeToNormal();
+    //}
 
     protected override void OnUpdate()
     {
@@ -104,5 +104,20 @@ public class Dungeon : SceneMainBase
     public override void OnPlayerDeath()
     {
         newManagerRooms.listrooms.ForEach(x => x.PlayerIsDeath());
+    }
+
+    protected override void OnResume()
+    {
+        
+    }
+
+    protected override void OnFade_GoBlack()
+    {
+       
+    }
+
+    protected override void OnFade_GoTransparent()
+    {
+        
     }
 }

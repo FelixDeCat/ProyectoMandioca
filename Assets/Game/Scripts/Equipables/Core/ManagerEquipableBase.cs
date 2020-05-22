@@ -39,9 +39,4 @@ public abstract class ManagerEquipableBase : MonoBehaviour
     }
 
     protected abstract void OnItemEquiped(Equipable equipable);
-
-    public void Refresh()
-    {
-
-    }
 }

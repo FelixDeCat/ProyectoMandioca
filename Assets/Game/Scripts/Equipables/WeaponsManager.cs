@@ -27,7 +27,7 @@ public class WeaponsManager : ManagerEquipableBase
     {
         current_weapon = (w.Weapon)equipable;
        // charfeedback.SetCurrentTrail(current_weapon.mytrail);
-        sensorManager.EquipSensor(current_weapon.SensorType);
+       // sensorManager.EquipSensor(current_weapon.SensorType);
         sensorManager.Off();
     }
 

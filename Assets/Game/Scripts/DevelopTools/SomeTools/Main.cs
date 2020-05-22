@@ -15,11 +15,9 @@ public class Main : MonoBehaviour
 
     [Header("Main Options")]
     public GenericBar bar;
-    List<Action<IEnumerable<PlayObject>>> toload = new List<Action<IEnumerable<PlayObject>>>();
-    ThreadRequestObject<PlayObject> req;
     public bool use_selector = true;
     bool gameisbegin;
-    Rumble rumble;
+    public Rumble rumble;
     CustomCamera myCamera;
 
 
@@ -47,9 +45,6 @@ public class Main : MonoBehaviour
     {
         instance = this;
         eventManager = new EventManager();
-
-        rumble = new Rumble();
-
         myCamera = Camera.main.GetComponent<CustomCamera>();
     }
 
@@ -67,7 +62,8 @@ public class Main : MonoBehaviour
         }
         else
         {
-            LoadLevelPlayObjects();
+           // LoadLevelPlayObjects();
+           // OnLoadEnded();
         }
     }
 
@@ -76,24 +72,21 @@ public class Main : MonoBehaviour
         rumble.OnUpdate();
     }
 
-    public void LoadLevelPlayObjects()
-    {
-        toload.Add(AddToMainCollection);
-        req = new ThreadRequestObject<PlayObject>(
-            this,
-            bar,
-            toload.ToArray()
-            );
-    }
-    void AddToMainCollection(IEnumerable<PlayObject> col) { allentities = col.ToList(); OnLoadEnded(); }
-
-    void OnLoadEnded()
+    public void SkillAnreadySelected()
     {
         gameisbegin = true;
-        InitializePlayObjects();
-        Play();
+        InitializePlayObjects();//esto no va a ir aca
+        Play();//estp no va a ir aca
+
+        //aca va a haber mas cosas de managers y esas cosas
+
         eventManager.TriggerEvent(GameEvents.GAME_END_LOAD);
-        if(duntest) duntest.OnInitialize();
+        if (duntest) duntest.OnInitialize();
+
+        Invoke("AllReady", 0.1f);
+
+        character.Initialize();
+        character.Resume();
     }
 
     public void EVENT_OpenMenu() { if (gameisbegin) gameUiController.BTN_Back_OpenMenu(); }
