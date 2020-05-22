@@ -6,6 +6,7 @@
       <e p="Assembly-CSharp.csproj" t="IncludeRecursive" />
       <e p="Assets" t="Include">
         <e p="AnimAtenea.cs" t="Include" />
+        <e p="ChangeValue.cs" t="Include" />
         <e p="DestroyedVersion.cs" t="Include" />
         <e p="FindAndShutDownMeshes.cs" t="Include" />
         <e p="Game" t="Include">
@@ -913,52 +914,35 @@
             </e>
           </e>
           <e p="Scripts" t="Include">
-            <e p="3DActivas" t="Include">
-              <e p="Horizontal3DLayoutGroup.cs" t="Include" />
-              <e p="Manager3DActivas.cs" t="Include" />
-              <e p="UI3D_CursorActiva.cs" t="Include" />
-              <e p="UI3D_Element.cs" t="Include" />
-              <e p="UI3D_Element_SkillsActivas.cs" t="Include" />
-              <e p="UI3D_Element_WithFeedbacks.cs" t="Include" />
+            <e p="#_MonoScripts" t="Include">
+              <e p="Core" t="Include">
+                <e p="DamageData.cs" t="Include" />
+                <e p="IDamageable.cs" t="Include" />
+                <e p="IInitializable.cs" t="Include" />
+                <e p="IPausable.cs" t="Include" />
+                <e p="IResumeable.cs" t="Include" />
+                <e p="IStopable.cs" t="Include" />
+              </e>
+              <e p="MonoScriptBase.cs" t="Include" />
             </e>
-            <e p="3DLife" t="Include">
-              <e p="Stats3D_UI_helper.cs" t="Include" />
-              <e p="Stats3DUI_Bar.cs" t="Include" />
-            </e>
-            <e p="3DShields" t="Include">
-              <e p="UI3D_Shields_controller.cs" t="Include" />
-            </e>
-            <e p="Atenea" t="Include">
-              <e p="Atenea.cs" t="Include" />
-            </e>
-            <e p="CamConfiguration.cs" t="Include" />
-            <e p="Character" t="Include">
-              <e p="AnimEvent.cs" t="Include" />
-              <e p="BaseAnimator.cs" t="Include" />
-              <e p="CharacterAnimator.cs" t="Include" />
-              <e p="CharacterAttack.cs" t="Include" />
-              <e p="CharacterBlock.cs" t="Include" />
-              <e p="CharacterHead.cs" t="Include" />
-              <e p="CharacterInput.cs" t="Include" />
-              <e p="CharacterMovement.cs" t="Include" />
-              <e p="CharLifeSystem.cs" t="Include" />
-              <e p="States" t="Include">
-                <e p="CharacterStates.cs" t="Include" />
-                <e p="CharBeginBlock.cs" t="Include" />
-                <e p="CharBlock.cs" t="Include" />
-                <e p="CharChargeAttack.cs" t="Include" />
-                <e p="CharDead.cs" t="Include" />
-                <e p="CharEndBlock.cs" t="Include" />
-                <e p="CharIdle.cs" t="Include" />
-                <e p="CharMove.cs" t="Include" />
-                <e p="CharParry.cs" t="Include" />
-                <e p="CharReleaseAttack.cs" t="Include" />
-                <e p="CharRoll.cs" t="Include" />
-                <e p="CharSpin.cs" t="Include" />
-                <e p="CharStun.cs" t="Include" />
-                <e p="CharTakeDmg.cs" t="Include" />
+            <e p="3DUI" t="Include">
+              <e p="3DActivas" t="Include">
+                <e p="Horizontal3DLayoutGroup.cs" t="Include" />
+                <e p="Manager3DActivas.cs" t="Include" />
+                <e p="UI3D_CursorActiva.cs" t="Include" />
+                <e p="UI3D_Element.cs" t="Include" />
+                <e p="UI3D_Element_SkillsActivas.cs" t="Include" />
+                <e p="UI3D_Element_WithFeedbacks.cs" t="Include" />
+              </e>
+              <e p="3DLife" t="Include">
+                <e p="Stats3D_UI_helper.cs" t="Include" />
+                <e p="Stats3DUI_Bar.cs" t="Include" />
+              </e>
+              <e p="3DShields" t="Include">
+                <e p="UI3D_Shields_controller.cs" t="Include" />
               </e>
             </e>
+            <e p="CamConfiguration.cs" t="Include" />
             <e p="CombatThings" t="Include">
               <e p="CombatSystem" t="Include">
                 <e p="CombatComponent.cs" t="Include" />
@@ -1079,6 +1063,7 @@
                 <e p="SensorManagerForWeapons.cs" t="Include" />
                 <e p="SerializedObjectWorld.cs" t="Include" />
                 <e p="ThreadRequestObject.cs" t="Include" />
+                <e p="TimeToExecute.cs" t="Include" />
               </e>
               <e p="TimingFeedback" t="Include">
                 <e p="PopSignalFeedback.cs" t="Include" />
@@ -1127,52 +1112,114 @@
                 <e p="WorldCanvasPopUp.cs" t="Include" />
               </e>
             </e>
-            <e p="Enemys" t="Include">
-              <e p="BasicEnemyAtack.cs" t="Include" />
-              <e p="Bone.cs" t="Include" />
-              <e p="CombatDirector.cs" t="Include" />
-              <e p="DummyRange" t="Include">
-                <e p="Range_EnemyStates.cs" t="Include" />
-                <e p="Range_Follow.cs" t="Include" />
-                <e p="RangeAttackState.cs" t="Include" />
-                <e p="RangeDummy.cs" t="Include" />
+            <e p="Entities" t="Include">
+              <e p="Atenea" t="Include">
+                <e p="Atenea.cs" t="Include" />
               </e>
-              <e p="EnemyLifeSystem.cs" t="Include" />
-              <e p="GenericEnemyMove.cs" t="Include" />
-              <e p="GenericLifeSystem.cs" t="Include" />
-              <e p="ICombatDirector.cs" t="Include" />
-              <e p="Jabali" t="Include">
-                <e p="JabaliAttackAnticipation.cs" t="Include" />
-                <e p="JabaliCharge.cs" t="Include" />
-                <e p="JabaliChasing.cs" t="Include" />
-                <e p="JabaliDeath.cs" t="Include" />
-                <e p="JabaliEnemy.cs" t="Include" />
-                <e p="JabaliHeadAttack.cs" t="Include" />
-                <e p="JabaliIdle.cs" t="Include" />
-                <e p="JabaliParried.cs" t="Include" />
-                <e p="JabaliPersuit.cs" t="Include" />
-                <e p="JabaliPushAttack.cs" t="Include" />
-                <e p="JabaliPushComponent.cs" t="Include" />
-                <e p="JabaliStates.cs" t="Include" />
-                <e p="JabaliStun.cs" t="Include" />
-                <e p="JabaliTD.cs" t="Include" />
+              <e p="Character" t="Include">
+                <e p="AnimEvent.cs" t="Include" />
+                <e p="BaseAnimator.cs" t="Include" />
+                <e p="CharacterAnimator.cs" t="Include" />
+                <e p="CharacterAttack.cs" t="Include" />
+                <e p="CharacterBlock.cs" t="Include" />
+                <e p="CharacterHead.cs" t="Include" />
+                <e p="CharacterInput.cs" t="Include" />
+                <e p="CharacterMovement.cs" t="Include" />
+                <e p="CharLifeSystem.cs" t="Include" />
+                <e p="States" t="Include">
+                  <e p="CharacterStates.cs" t="Include" />
+                  <e p="CharBeginBlock.cs" t="Include" />
+                  <e p="CharBlock.cs" t="Include" />
+                  <e p="CharChargeAttack.cs" t="Include" />
+                  <e p="CharDead.cs" t="Include" />
+                  <e p="CharEndBlock.cs" t="Include" />
+                  <e p="CharIdle.cs" t="Include" />
+                  <e p="CharMove.cs" t="Include" />
+                  <e p="CharParry.cs" t="Include" />
+                  <e p="CharReleaseAttack.cs" t="Include" />
+                  <e p="CharRoll.cs" t="Include" />
+                  <e p="CharSpin.cs" t="Include" />
+                  <e p="CharStun.cs" t="Include" />
+                  <e p="CharTakeDmg.cs" t="Include" />
+                </e>
               </e>
-              <e p="MinionLifeSystem.cs" t="Include" />
-              <e p="New Dummy" t="Include">
-                <e p="DummyAttackState.cs" t="Include" />
-                <e p="DummyAttAnt.cs" t="Include" />
-                <e p="DummyChasing.cs" t="Include" />
-                <e p="DummyDieState.cs" t="Include" />
-                <e p="DummyDisableState.cs" t="Include" />
-                <e p="DummyEnemyStates.cs" t="Include" />
-                <e p="DummyFollowState.cs" t="Include" />
-                <e p="DummyIdleState.cs" t="Include" />
-                <e p="DummyParried.cs" t="Include" />
-                <e p="DummyStunState.cs" t="Include" />
-                <e p="DummyTDState.cs" t="Include" />
-                <e p="TrueDummyEnemy.cs" t="Include" />
+              <e p="Enemys" t="Include">
+                <e p="BasicEnemyAtack.cs" t="Include" />
+                <e p="Bone.cs" t="Include" />
+                <e p="CombatDirector.cs" t="Include" />
+                <e p="DummyRange" t="Include">
+                  <e p="Range_EnemyStates.cs" t="Include" />
+                  <e p="Range_Follow.cs" t="Include" />
+                  <e p="RangeAttackState.cs" t="Include" />
+                  <e p="RangeDummy.cs" t="Include" />
+                </e>
+                <e p="EnemyLifeSystem.cs" t="Include" />
+                <e p="GenericEnemyMove.cs" t="Include" />
+                <e p="GenericLifeSystem.cs" t="Include" />
+                <e p="ICombatDirector.cs" t="Include" />
+                <e p="Jabali" t="Include">
+                  <e p="JabaliAttackAnticipation.cs" t="Include" />
+                  <e p="JabaliCharge.cs" t="Include" />
+                  <e p="JabaliChasing.cs" t="Include" />
+                  <e p="JabaliDeath.cs" t="Include" />
+                  <e p="JabaliEnemy.cs" t="Include" />
+                  <e p="JabaliHeadAttack.cs" t="Include" />
+                  <e p="JabaliIdle.cs" t="Include" />
+                  <e p="JabaliParried.cs" t="Include" />
+                  <e p="JabaliPersuit.cs" t="Include" />
+                  <e p="JabaliPushAttack.cs" t="Include" />
+                  <e p="JabaliPushComponent.cs" t="Include" />
+                  <e p="JabaliStates.cs" t="Include" />
+                  <e p="JabaliStun.cs" t="Include" />
+                  <e p="JabaliTD.cs" t="Include" />
+                </e>
+                <e p="MinionLifeSystem.cs" t="Include" />
+                <e p="New Dummy" t="Include">
+                  <e p="DummyAttackState.cs" t="Include" />
+                  <e p="DummyAttAnt.cs" t="Include" />
+                  <e p="DummyChasing.cs" t="Include" />
+                  <e p="DummyDieState.cs" t="Include" />
+                  <e p="DummyDisableState.cs" t="Include" />
+                  <e p="DummyEnemyStates.cs" t="Include" />
+                  <e p="DummyFollowState.cs" t="Include" />
+                  <e p="DummyIdleState.cs" t="Include" />
+                  <e p="DummyParried.cs" t="Include" />
+                  <e p="DummyStunState.cs" t="Include" />
+                  <e p="DummyTDState.cs" t="Include" />
+                  <e p="TrueDummyEnemy.cs" t="Include" />
+                </e>
+                <e p="RagdollComponent.cs" t="Include" />
               </e>
-              <e p="RagdollComponent.cs" t="Include" />
+              <e p="GenericIA" t="Include">
+                <e p="Behaviours" t="Include">
+                  <e p="AlertLevelByDistance" t="Include">
+                    <e p="AlertLevel.cs" t="Include" />
+                    <e p="DistanceTo.cs" t="Include" />
+                  </e>
+                  <e p="Investigator" t="Include">
+                    <e p="Investigator.cs" t="Include" />
+                  </e>
+                  <e p="LineOfSight.cs" t="Include" />
+                  <e p="LineOfSightOfType.cs" t="Include" />
+                  <e p="LookEnemy.cs" t="Include" />
+                  <e p="RangeAttack.cs" t="Include" />
+                </e>
+              </e>
+              <e p="Minion" t="Include">
+                <e p="BasicMinion" t="Include">
+                  <e p="BasicMinion.cs" t="Include" />
+                  <e p="BAttack.cs" t="Include" />
+                  <e p="BBeginAttack.cs" t="Include" />
+                  <e p="BChasing.cs" t="Include" />
+                  <e p="BDie.cs" t="Include" />
+                  <e p="BGoToTarget.cs" t="Include" />
+                  <e p="BIdle.cs" t="Include" />
+                  <e p="BMinionStates.cs" t="Include" />
+                  <e p="BStun.cs" t="Include" />
+                  <e p="BTakeDmg.cs" t="Include" />
+                </e>
+                <e p="Minion.cs" t="Include" />
+              </e>
             </e>
             <e p="Enums.cs" t="Include" />
             <e p="Equipables" t="Include">
@@ -1194,21 +1241,6 @@
             <e p="GameLoop" t="Include">
               <e p="Checkpoint_manager.cs" t="Include" />
               <e p="Checkpoint_Spot.cs" t="Include" />
-            </e>
-            <e p="GenericIA" t="Include">
-              <e p="Behaviours" t="Include">
-                <e p="AlertLevelByDistance" t="Include">
-                  <e p="AlertLevel.cs" t="Include" />
-                  <e p="DistanceTo.cs" t="Include" />
-                </e>
-                <e p="Investigator" t="Include">
-                  <e p="Investigator.cs" t="Include" />
-                </e>
-                <e p="LineOfSight.cs" t="Include" />
-                <e p="LineOfSightOfType.cs" t="Include" />
-                <e p="LookEnemy.cs" t="Include" />
-                <e p="RangeAttack.cs" t="Include" />
-              </e>
             </e>
             <e p="Interactables" t="Include">
               <e p="Core" t="Include">
@@ -1292,21 +1324,6 @@
               <e p="LoseLife" t="Include">
                 <e p="ScreenFeedback.cs" t="Include" />
               </e>
-            </e>
-            <e p="Minion" t="Include">
-              <e p="BasicMinion" t="Include">
-                <e p="BasicMinion.cs" t="Include" />
-                <e p="BAttack.cs" t="Include" />
-                <e p="BBeginAttack.cs" t="Include" />
-                <e p="BChasing.cs" t="Include" />
-                <e p="BDie.cs" t="Include" />
-                <e p="BGoToTarget.cs" t="Include" />
-                <e p="BIdle.cs" t="Include" />
-                <e p="BMinionStates.cs" t="Include" />
-                <e p="BStun.cs" t="Include" />
-                <e p="BTakeDmg.cs" t="Include" />
-              </e>
-              <e p="Minion.cs" t="Include" />
             </e>
             <e p="MyEventSystem.cs" t="Include" />
             <e p="Others" t="Include">
@@ -1460,6 +1477,7 @@
               <e p="ActiveSpawner.cs" t="Include" />
               <e p="DropItems.cs" t="Include" />
               <e p="EnemySpawner.cs" t="Include" />
+              <e p="SpawnContainers_LocalScene.cs" t="Include" />
               <e p="SpawnData.cs" t="Include" />
               <e p="Spawner.cs" t="Include" />
             </e>
@@ -1644,7 +1662,6 @@
                   <e p="ISurpriseable.cs" t="Include" />
                 </e>
               </e>
-              <e p="IDamageable.cs" t="Include" />
               <e p="Inspectables" t="Include">
                 <e p="Inspectable.cs" t="Include" />
                 <e p="RigInspectable.cs" t="Include" />

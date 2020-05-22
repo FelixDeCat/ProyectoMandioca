@@ -20,7 +20,7 @@ public abstract class StatBase
 
             if (value > 0)
             {
-                if (value >= maxVal) 
+                if (value >= maxVal)
                 {
                     if (val >= maxVal)
                     {
@@ -40,7 +40,7 @@ public abstract class StatBase
                     {
                         OnAdd();
                     }
-                    
+
                     val = value;
                     OnValueChange(val, maxVal, "el valor esta entre el rango");
                 }
@@ -50,7 +50,7 @@ public abstract class StatBase
                 if (val <= 0)
                 {
                     CanNotRemoveMore();
-                    
+
                 }
                 else
                 {

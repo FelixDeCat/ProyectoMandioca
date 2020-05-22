@@ -1,4 +1,5 @@
 ﻿using System;
+using DevelopTools.UI;
 using UnityEngine;
 
 [System.Serializable]
@@ -10,6 +11,8 @@ public class CharLifeSystem
 
     public int life = 100;
 
+    private bool godMode = false;
+
     public event Action<int, int> lifechange = delegate { };
 
     public event Action loselife = delegate { };
@@ -20,10 +23,15 @@ public class CharLifeSystem
     {
         lifesystem = new LifeSystemBase();
         lifesystem.Config(life, EVENT_OnLoseLife, EVENT_OnGainLife, EVENT_OnDeath, life);
-        
+
         lifesystem.AddCallback_LifeChange(OnLifeChange);
+        Debug_UI_Tools.instance.CreateToogle("GODMODE", false, ToogleDebug);
         return this;
+
+
     }
+
+    string ToogleDebug(bool active) { godMode = active; ; return active ? "debug activado" : "debug desactivado"; }
 
     //////////////////////////////////////////////////////////////////////////////////
     /// EVENTS Subscribers
@@ -40,7 +48,7 @@ public class CharLifeSystem
     //////////////////////////////////////////////////////////////////////////////////
     /// CALLBACKS
     //////////////////////////////////////////////////////////////////////////////////
-    void OnLifeChange(int current, int max) 
+    void OnLifeChange(int current, int max)
     {
         Debug.Log(current + " " + max);
         lifechange.Invoke(current, max);
@@ -49,7 +57,12 @@ public class CharLifeSystem
     }
     void EVENT_OnLoseLife() { loselife.Invoke(); }
     void EVENT_OnGainLife() { gainlife.Invoke(); }
-    void EVENT_OnDeath() { death.Invoke(); }
+
+    void EVENT_OnDeath()
+    {
+        if(!godMode)
+            death.Invoke();
+    }
 
     //////////////////////////////////////////////////////////////////////////////////
     /// PUBLIC METHODS
@@ -61,7 +74,7 @@ public class CharLifeSystem
     {
         Debug.Log("reset");
         lifesystem.ResetLife();
-        
+
     }
 
     public void AddHealth(int _val) => lifesystem.IncreaseLife(_val);
