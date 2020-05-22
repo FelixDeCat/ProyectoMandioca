@@ -22,7 +22,6 @@ public class CharLifeSystem
         lifesystem.Config(life, EVENT_OnLoseLife, EVENT_OnGainLife, EVENT_OnDeath, life);
         
         lifesystem.AddCallback_LifeChange(OnLifeChange);
-        ADD_EVENT_Death(Heal_AllHealth);
         return this;
     }
 

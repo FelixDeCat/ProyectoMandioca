@@ -407,7 +407,10 @@ public class CharacterHead : CharacterControllable
     #region Life
     void OnLoseLife() { }
     void OnGainLife() => customCam.BeginShakeCamera();
-    void OnDeath() { }
+    void OnDeath() 
+    {
+        Main.instance.eventManager.TriggerEvent(GameEvents.ON_PLAYER_DEATH);
+    }
     void OnChangeLife(int current, int max) { Main.instance.GetActivesManager().ReceiveLife(current, max); }
     #endregion
 

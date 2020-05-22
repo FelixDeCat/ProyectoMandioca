@@ -16,6 +16,8 @@ public abstract class StatBase
         get { return val; }
         set
         {
+            Debug.Log("Entro con el valor::" + value);
+
             if (value > 0)
             {
                 if (value >= maxVal) 
@@ -26,6 +28,7 @@ public abstract class StatBase
                     }
 
                     val = maxVal;
+                    OnValueChange(val, maxVal, "el valor es mayor al maximo");
                 }
                 else
                 {
@@ -39,6 +42,7 @@ public abstract class StatBase
                     }
                     
                     val = value;
+                    OnValueChange(val, maxVal, "el valor esta entre el rango");
                 }
             }
             else
@@ -46,17 +50,16 @@ public abstract class StatBase
                 if (val <= 0)
                 {
                     CanNotRemoveMore();
+                    
                 }
                 else
                 {
                     OnLoseAll();
-                    
                 }
 
                 val = 0;
+                OnValueChange(val, maxVal, "el valor es menor a 0");
             }
-
-            OnValueChange(val, maxVal);
         }
     }
 
@@ -65,7 +68,7 @@ public abstract class StatBase
     public abstract void OnRemove();
     public abstract void OnLoseAll();
     public abstract void CanNotRemoveMore();
-    public abstract void OnValueChange(int value, int max);
+    public abstract void OnValueChange(int value, int max, string message);
 
     /////////////////////////////
 
@@ -74,15 +77,13 @@ public abstract class StatBase
     {
         this.maxVal = maxHealth;
         val = initial_Life == -1 ? this.maxVal : initial_Life;
-        OnValueChange(val, maxHealth);
+        OnValueChange(val, maxHealth, "Inicializando valor");
     }
 
     /////////////////////////////
     public void ResetValueToMax()
     {
         Val = maxVal;
-        OnValueChange(Val, MaxVal);
-        Debug.Log("estoy entrando aca?" + Val + " " + maxVal );
     }
 
     public void IncreaseValue(int val)

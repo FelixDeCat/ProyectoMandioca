@@ -35,7 +35,7 @@ public class LifeBase : StatBase
     public override void CanNotAddMore() { cannotAddMore.Invoke(); }
     public override void CanNotRemoveMore() { cannotRemoveMore.Invoke(); }
 
-    public override void OnValueChange(int value, int max)
+    public override void OnValueChange(int value, int max, string message)
     {
         lifechange.Invoke(value, max);
         if (uilife != null) uilife.OnValueChange(value, max);
