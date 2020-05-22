@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -10,6 +11,8 @@ public class Spawner : MonoBehaviour
     public Spawner SetLocal_Others_Transform(Transform _t) { parent_others = _t; return this; }
     public Spawner SetLocal_Destructibles_Transform(Transform _t) { parent_desctructibles = _t; return this; }
 
+
+    public TrueDummyEnemy enemyTest;
     public void OnEnterScene()
     {
 

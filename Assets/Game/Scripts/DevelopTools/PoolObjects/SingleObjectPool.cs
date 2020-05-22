@@ -27,7 +27,7 @@ namespace DevelopTools
         protected List<T> currentlyUsingObj = new List<T>();
 
         [Header("-----8888888-------")]
-        [SerializeField] private int prewarmAmount = 5;
+        protected int prewarmAmount = 5;
 
         private void Awake()
         {
