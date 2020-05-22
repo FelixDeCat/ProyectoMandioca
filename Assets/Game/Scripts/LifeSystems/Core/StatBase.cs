@@ -81,7 +81,7 @@ public abstract class StatBase
     public void ResetValueToMax()
     {
         Val = maxVal;
-        OnValueChange(Val, MaxVal);
+        //OnValueChange(Val, MaxVal);
         Debug.Log("estoy entrando aca?" + Val + " " + maxVal );
     }
 

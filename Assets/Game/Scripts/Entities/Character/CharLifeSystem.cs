@@ -1,4 +1,5 @@
 ﻿using System;
+using DevelopTools.UI;
 using UnityEngine;
 
 [System.Serializable]
@@ -9,6 +10,8 @@ public class CharLifeSystem
     public FrontendStatBase frontendLife;
 
     public int life = 100;
+
+    private bool godMode = false;
 
     public event Action<int, int> lifechange = delegate { };
 
@@ -23,9 +26,16 @@ public class CharLifeSystem
         
         lifesystem.AddCallback_LifeChange(OnLifeChange);
         ADD_EVENT_Death(Heal_AllHealth);
+        
+        
+        Debug_UI_Tools.instance.CreateToogle("GODMODE", false, ToogleDebug);
         return this;
+        
+        
     }
 
+    string ToogleDebug(bool active) { godMode = active; ; return active ? "debug activado" : "debug desactivado"; }
+    
     //////////////////////////////////////////////////////////////////////////////////
     /// EVENTS Subscribers
     //////////////////////////////////////////////////////////////////////////////////
@@ -50,7 +60,12 @@ public class CharLifeSystem
     }
     void EVENT_OnLoseLife() { loselife.Invoke(); }
     void EVENT_OnGainLife() { gainlife.Invoke(); }
-    void EVENT_OnDeath() { death.Invoke(); }
+
+    void EVENT_OnDeath()
+    {
+        if(!godMode)
+            death.Invoke();
+    }
 
     //////////////////////////////////////////////////////////////////////////////////
     /// PUBLIC METHODS

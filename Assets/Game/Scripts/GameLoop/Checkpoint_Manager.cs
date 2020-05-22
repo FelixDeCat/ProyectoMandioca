@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
+using DevelopTools.UI;
 
 public class Checkpoint_Manager : MonoBehaviour
 {
@@ -15,7 +16,11 @@ public class Checkpoint_Manager : MonoBehaviour
         _hero = Main.instance.GetChar();
         _hero.Life.ADD_EVENT_Death(SpawnChar);
         RegisterAllCheckPoints();
+
+        _activeCheckPoint = allCheckpoints[0];
     }
+    
+    
 
     void RegisterAllCheckPoints()
     {
