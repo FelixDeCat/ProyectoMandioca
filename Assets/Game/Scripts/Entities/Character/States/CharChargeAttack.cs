@@ -12,7 +12,7 @@ namespace ToolsMandioca.StateMachine
 
         protected override void Enter(EState<CharacterHead.PlayerInputs> input)
         {
-            charAttack.OnAttackBegin(); 
+            charAttack.AttackBegin(); 
         }
 
         protected override void Update()
@@ -38,7 +38,7 @@ namespace ToolsMandioca.StateMachine
             if (input != CharacterHead.PlayerInputs.RELEASE_ATTACK)
                 charAttack.AttackFail();
             else
-                charAttack.OnAttackEnd();
+                charAttack.AttackEnd();
         }
     }
 }

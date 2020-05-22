@@ -5,8 +5,6 @@ using System;
 
 public class CharacterAttack
 {
-
-
     public Transform forwardPos { get; private set; }
     float heavyAttackTime = 1f;
     float buttonPressedTime;
@@ -19,10 +17,6 @@ public class CharacterAttack
 
     Action NormalAttack;
     Action HeavyAttack;
-
-    public Action<bool> OnAttack;
-    public Action OnAttackBegin;
-    public Action OnAttackEnd;
 
     private string _swingSword_SoundName;
     
@@ -50,9 +44,12 @@ public class CharacterAttack
     Action KillSuccesfullHeavy;
     Action BreakObject;
 
+    HitStore hitstore;
 
     public CharacterAttack(float _range, float _angle, float _heavyAttackTime, CharacterAnimator _anim, Transform _forward, Action _normalAttack, Action _heavyAttack, ParticleSystem ps, float damage, ParticleSystem _attackslash, string swingSword_SoundName)
     {
+        hitstore = new HitStore();
+
         myWeapons = new List<Weapon>();
         myWeapons.Add(new GenericSword(damage, _range, "Generic Sword", _angle).ConfigureCallback(CALLBACK_DealDamage));
         myWeapons.Add(new ExampleWeaponOne(damage, _range, "Other Weapon", 45));
@@ -69,28 +66,15 @@ public class CharacterAttack
         HeavyAttack = _heavyAttack;
         feedbackHeavy = ps;
 
-        OnAttack += Attack;
-        OnAttackBegin += AttackBegin;
-        OnAttackEnd += AttackEnd;
-
         attackslash = _attackslash;
 
         _swingSword_SoundName = swingSword_SoundName;
     }
-
-    public string ChangeName()
-    {
-        return currentWeapon.weaponName;
-    }
-
+    public string ChangeName() => currentWeapon.weaponName;
+    public void ChangeDamageBase(int dmg) => currentDamage = dmg;
     public void BeginFeedbackSlash() => attackslash.Play();
     public void EndFeedbackSlash() => attackslash.Stop();
-
-    public void BuffOrNerfDamage(float f)
-    {
-        currentDamage += f;
-    }
-
+    public void BuffOrNerfDamage(float f) => currentDamage += f;
     public void ChangeWeapon(int index)
     {
         currentIndexWeapon += index;
@@ -108,7 +92,6 @@ public class CharacterAttack
         currentWeapon = myWeapons[currentIndexWeapon];
         currentDamage += currentWeapon.baseDamage;
     }
-
     public void Refresh()
     {
         if (inCheck)
@@ -127,13 +110,46 @@ public class CharacterAttack
         }
     }
 
-    void AttackBegin()
+
+    #region PRE-ATTACK
+    public void ANIM_EVENT_OpenComboWindow() 
     {
+        DebugCustom.Log("Attack", "Combo Window", "close");
+        hitstore.OpenWindow(); 
+    }
+    public void ANIM_EVENT_CloseComboWindow()
+    {
+        DebugCustom.Log("Attack", "Combo Window", "open");
+        anim.Combo(hitstore.Use());
+        hitstore.CloseWindow();
+    }
+    int c;
+    public void UnfilteredAttack()
+    {
+        c++;
+        DebugCustom.Log("Attack", "AttackPress", c);
+        hitstore.TryStore();
+    }
+
+    // Aca es cuando hundo la tecla desde el estado Charge Attack
+    // OnPressDOWN
+    
+    public void AttackBegin()
+    {
+        
         inCheck = true;
         buttonPressedTime = 0f;
         anim.OnAttackBegin(true);
     }
 
+    // Aca es cuando suelto la tecla desde el estado Charge Attack
+    // OnPressUp
+    public void AttackEnd()
+    {
+        Check();
+    }
+
+    // Aca es cuando salgo del press a la fuerza, por ejemplo en DeathState
     public void AttackFail()
     {
         inCheck = false;
@@ -143,6 +159,11 @@ public class CharacterAttack
         oneshot = false;
     }
 
+    //ANIM_EVENT Begin Check Attack Type
+    public void BeginCheckAttackType()
+    {
+        Main.instance.Vibrate();
+    }
     void Check()
     {
         inCheck = false;
@@ -160,22 +181,11 @@ public class CharacterAttack
         buttonPressedTime = 0f;
         anim.OnAttackBegin(false);
     }
+    
 
-    //input
-    void AttackEnd()
-    {
-        Check();
-   
-    }
+    #endregion
 
-    //anim espada arriba
-    public void BeginCheckAttackType()
-    {
-        Main.instance.Vibrate();
-    }
-
-    public void ChangeDamageBase(int dmg) => currentDamage = dmg;
-
+    #region POST-ATTACK
     public void ConfigureDealsSuscessful(Action deal_inNormal, Action deal_inHeavy, Action _kill_inNormal, Action _kill_inHeavy, Action _break_Object)
     {
         DealSuccesfullNormal = deal_inNormal;
@@ -184,7 +194,7 @@ public class CharacterAttack
         KillSuccesfullHeavy = _kill_inHeavy;
         BreakObject = _break_Object;
     }
-    void Attack(bool isHeavy)//esto es attack nada mas... todavia no se sabe si le pegué a algo
+    public void Attack(bool isHeavy)//esto es attack nada mas... todavia no se sabe si le pegué a algo
     {
         attackslash.Play();
         
@@ -204,32 +214,23 @@ public class CharacterAttack
             return;
         }
 
-        switch (attack_result)
+        switch (attack_result) 
         {
             case Attack_Result.sucessful:
-
                 if (damage_type == Damagetype.heavy) DealSuccesfullHeavy();
-                else DealSuccesfullNormal();
-
-                break;
-            case Attack_Result.blocked:
-                break;
-            case Attack_Result.parried:
-                break;
-            case Attack_Result.reflexed:
-                break;
-            case Attack_Result.inmune:
-                break;
+                else DealSuccesfullNormal(); break;
+            case Attack_Result.blocked: break;
+            case Attack_Result.parried: break;
+            case Attack_Result.reflexed: break;
+            case Attack_Result.inmune: break;
             case Attack_Result.death:
-
                 if (damage_type == Damagetype.heavy) KillSuccesfullHeavy();
-                else KillSuccesfullNormal();
-
-                break;
+                else KillSuccesfullNormal(); break; 
         }
-
-        
     }
+    #endregion
+
+    
 
     //estos callbacks creo que estan solo funcionando para lo de obligacion...
     //hay que unificar las cosas
@@ -240,10 +241,51 @@ public class CharacterAttack
         callback_ReceiveEntity = delegate { };
     }
 
+    #region cosas de Obligacion
     //toodo esto tampoco deberia estar aca
     public void ActiveFirstAttack() => firstAttack = true;
     public void DeactiveFirstAttack() => firstAttack = false;
     public bool IsFirstAttack() => firstAttack;
     public void FirstAttackReady(bool ready) => firstAttack = ready;
+    #endregion
+}
+
+public class HitStore
+{
+    bool openWindow = false;
+    bool stored = false;
+    public bool Use()
+    {
+        if (!stored) return false;
+        else 
+        {
+            stored = false;
+            return true;
+        }
+    }
+
+    public bool TryStore()
+    {
+        if (openWindow)
+        {
+            DebugCustom.Log("Attack", "STORED", "ALAMACENO");
+
+            if (stored) return false;
+            else 
+            {
+                
+
+                stored = true;
+                return true;
+            }
+        }
+        else
+        {
+            return false;
+        }
+        
+    }
+    public void OpenWindow() => openWindow = true;
+    public void CloseWindow() => openWindow = false;
 }
 

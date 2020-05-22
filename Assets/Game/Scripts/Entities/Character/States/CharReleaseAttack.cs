@@ -41,7 +41,8 @@ namespace ToolsMandioca.StateMachine
             }
 
             var info = anim.GetCurrentAnimatorStateInfo(2);
-            if (info.IsName("New State"))
+
+            if (info.IsName("CentralState"))
             {
                 if (WaitAttack())
                 {

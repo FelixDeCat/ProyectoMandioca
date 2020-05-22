@@ -150,6 +150,8 @@ public class CharacterHead : CharacterControllable
         charAnimEvent.Add_Callback("DealAttack", DealAttack);
         charAnimEvent.Add_Callback("Dash", move.RollForAnim);
         charAnimEvent.Add_Callback("Pasos", Pasos );
+        charAnimEvent.Add_Callback("OpenComboWindow", charAttack.ANIM_EVENT_OpenComboWindow);
+        charAnimEvent.Add_Callback("CloseComboWindow", charAttack.ANIM_EVENT_CloseComboWindow);
 
         rb = GetComponent<Rigidbody>();
 
@@ -418,6 +420,7 @@ public class CharacterHead : CharacterControllable
         if(stateMachine.Current.Name != "Release_Attack")
             stateMachine.SendInput(PlayerInputs.CHARGE_ATTACK);
         attackWait = true;
+        charAttack.UnfilteredAttack();
     }
     public void EVENT_OnAttackEnd() { stateMachine.SendInput(PlayerInputs.RELEASE_ATTACK); attackWait = false; }
 
@@ -426,7 +429,7 @@ public class CharacterHead : CharacterControllable
     public void DealAttack()
     {
         charAttack.ConfigureDealsSuscessful(DealSucessfullNormal, DealSucessfullHeavy, KillInNormal, KillInHeavy, BreakObject);
-        charAttack.OnAttack(isHeavyRelease);
+        charAttack.Attack(isHeavyRelease);
     }
 
     #region Resultados de los ataques

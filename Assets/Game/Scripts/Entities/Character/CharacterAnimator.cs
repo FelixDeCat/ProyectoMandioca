@@ -20,6 +20,10 @@ public class CharacterAnimator : BaseAnimator
     public void NormalAttack() => myAnim.SetTrigger("NormalAttack");
     public void HeavyAttack() => myAnim.SetBool("HeavyAttack", true);
     public void AttackAntiBug(){ myAnim.ResetTrigger("HeavyAttack"); myAnim.ResetTrigger("NormalAttack"); }
+    public void Combo(bool val)
+    {
+        myAnim.SetBool("IsCombo", val);
+    }
 
     public void BeginSpin(Action callbackEndAnimation) { myAnim.SetTrigger("BeginSpin"); myAnim.GetBehaviour<ANIM_SCRIPT_BeginSpin>().ConfigureCallback(callbackEndAnimation); }
     public void EndSpin(Action callbackEndAnimation) { myAnim.SetTrigger("EndSpin"); myAnim.GetBehaviour<ANIM_SCRIPT_EndSpin>().ConfigureCallback(callbackEndAnimation); }
