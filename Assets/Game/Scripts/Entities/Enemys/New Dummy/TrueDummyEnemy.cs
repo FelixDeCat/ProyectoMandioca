@@ -167,8 +167,7 @@ public class TrueDummyEnemy : EnemyBase
         {
             combatComponent.Stop();
             sm.SendInput(DummyEnemyInputs.PARRIED);
-
-            //Tira evento si es parrieado. Seguro haya que cambiarlo
+            
         }
     }
 

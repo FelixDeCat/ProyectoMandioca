@@ -5,6 +5,21 @@ using UnityEngine;
 using System.Linq;
 using DevelopTools.UI;
 
+
+/// <summary>
+/// MODO DE USO
+/// 
+/// Tienen que tener en escena el CheckPoint manager.
+/// Tiren por donde quieran los checkpoint_spots(los prefabs)
+/// Cuando el personaje toque uno de esos checkpoints, se actualiza como el "current"
+/// Al morir, aparece en ese lugar
+///
+///
+/// TODO: agregarle un feedback de muerte (seguro sea una animacion de muerte o algo asi)
+/// </summary>
+
+
+
 public class Checkpoint_Manager : MonoBehaviour
 {
     public Checkpoint_Spot _activeCheckPoint;
