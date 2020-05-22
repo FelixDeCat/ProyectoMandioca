@@ -349,7 +349,7 @@ public class CharacterHead : CharacterControllable
         new CharDead(dead, stateMachine);
     }
 
-    float GetLeftHorizontal() => moveX;
+    float GetLeftHorizontal() => moveX;  
     float GetLeftVertical() => moveY;
     float GetRightHorizontal() => rotateX;
     float GetRightVertical() => rotateY;
@@ -759,7 +759,7 @@ public class CharacterHead : CharacterControllable
     {
         [SerializeField] UnityEngine.UI.Text txt_debug = null;
         public void DebugState(string state) { if (txt_debug != null) txt_debug.text = state; }
-        public void StartDebug() { if (txt_debug != null) txt_debug.enabled = false; DevelopTools.UI.Debug_UI_Tools.instance.CreateToogle("Character State Machine Debug", false, ToogleDebug); }
+        public void StartDebug() { if (txt_debug != null) txt_debug.enabled = true; DevelopTools.UI.Debug_UI_Tools.instance.CreateToogle("Character State Machine Debug", true, ToogleDebug); }
         string ToogleDebug(bool active) { if (txt_debug != null) txt_debug.enabled = active; return active ? "debug activado" : "debug desactivado"; }
     }
     #endregion

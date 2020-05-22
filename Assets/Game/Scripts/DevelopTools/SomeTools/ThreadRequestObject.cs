@@ -4,6 +4,16 @@ using UnityEngine;
 using System;
 using System.Linq;
 using UnityEngineInternal;
+using SceneManager = UnityEngine.SceneManagement;
+
+
+
+///////////////////////////////////////////////////////////
+//// TOOOOOOOOOOOOOOOOOOOOOOOOODO esto no funciona si tengo
+///  un dont destroy on load... xq donddestroy crea una escena
+///  nueva y se caga en la busqueda de objetos de la escena actual
+///////////////////////////////////////////////////////////
+///
 
 public class ThreadRequestObject<T> where T : MonoBehaviour
 {
@@ -36,11 +46,8 @@ public class ThreadRequestObject<T> where T : MonoBehaviour
 
     IEnumerator Find<T>(Action<IEnumerable<T>> callbackCollection) where T : MonoBehaviour
     {
-        var gos = UnityEngine
-            .SceneManagement
-            .SceneManager
-            .GetActiveScene()
-            .GetRootGameObjects();
+        var gos = SceneManager.SceneManager.GetActiveScene().GetRootGameObjects();
+        var SceneCount = SceneManager.SceneManager.sceneCount;
 
         bar.Configure(gos.Length-1, 0.01f);
 

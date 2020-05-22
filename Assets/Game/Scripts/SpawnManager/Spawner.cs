@@ -5,6 +5,19 @@ using UnityEngine;
 public class Spawner : MonoBehaviour
 {
     [SerializeField] Transform parent_items, parent_entities, parent_others, parent_desctructibles;
+    public Spawner SetLocal_items_Transform(Transform _t) { parent_items = _t;  return this; }
+    public Spawner SetLocal_Entities_Transform(Transform _t) { parent_entities = _t; return this; }
+    public Spawner SetLocal_Others_Transform(Transform _t) { parent_others = _t; return this; }
+    public Spawner SetLocal_Destructibles_Transform(Transform _t) { parent_desctructibles = _t; return this; }
+
+    public void OnEnterScene()
+    {
+
+    }
+    public void OnExitScene()
+    {
+
+    }
 
     public ItemWorld SpawnItem(ItemWorld item, Transform position)
     {
