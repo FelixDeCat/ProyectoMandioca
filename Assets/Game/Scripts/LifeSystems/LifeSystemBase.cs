@@ -10,16 +10,16 @@ public class LifeSystemBase
     {
         uilife = _uilife;
         life = new LifeBase(life_count_Max, uilife, initial_life);
-        life.AddEventListener_Death(OnDeath);
         life.AddEventListener_GainLife(OnGainLife);
         life.AddEventListener_LoseLife(OnLoseLife);
+        life.AddEventListener_Death(OnDeath);
     }
     public void Config(int life_count_Max, Action OnLoseLife, Action OnGainLife, Action OnDeath, int initial_life = -1)
     {
         life = new LifeBase(life_count_Max, initial_life);
-        life.AddEventListener_Death(OnDeath);
         life.AddEventListener_GainLife(OnGainLife);
         life.AddEventListener_LoseLife(OnLoseLife);
+        life.AddEventListener_Death(OnDeath);
     }
 
     public void AddCallback_LifeChange(Action<int, int> callback)

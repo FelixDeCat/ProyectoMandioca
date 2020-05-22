@@ -110,7 +110,7 @@ public class CharacterHead : CharacterControllable
     public bool Combat { private set; get; }
     protected override void OnInitialize()
     {
-
+        
     }
 
     private void Start()

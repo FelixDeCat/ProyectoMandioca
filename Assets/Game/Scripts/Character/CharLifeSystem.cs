@@ -1,4 +1,6 @@
 ﻿using System;
+using UnityEngine;
+
 [System.Serializable]
 public class CharLifeSystem
 {
@@ -18,7 +20,9 @@ public class CharLifeSystem
     {
         lifesystem = new LifeSystemBase();
         lifesystem.Config(life, EVENT_OnLoseLife, EVENT_OnGainLife, EVENT_OnDeath, life);
+        
         lifesystem.AddCallback_LifeChange(OnLifeChange);
+        ADD_EVENT_Death(Heal_AllHealth);
         return this;
     }
 
@@ -38,7 +42,8 @@ public class CharLifeSystem
     /// CALLBACKS
     //////////////////////////////////////////////////////////////////////////////////
     void OnLifeChange(int current, int max) 
-    { 
+    {
+        Debug.Log(current + " " + max);
         lifechange.Invoke(current, max);
 
         if(frontendLife) frontendLife.OnValueChange(current, max);
@@ -52,7 +57,14 @@ public class CharLifeSystem
     //////////////////////////////////////////////////////////////////////////////////
     public void Hit(int _val) => lifesystem.Hit(_val);
     public void Heal(int _val) => lifesystem.AddHealth(_val);
-    public void Heal_AllHealth() => lifesystem.ResetLife();
+
+    public void Heal_AllHealth()
+    {
+        Debug.Log("reset");
+        lifesystem.ResetLife();
+        
+    }
+
     public void AddHealth(int _val) => lifesystem.IncreaseLife(_val);
     public int GetLife() => (int)lifesystem.Life;
     public int GetMax() => lifesystem.GetMax();
