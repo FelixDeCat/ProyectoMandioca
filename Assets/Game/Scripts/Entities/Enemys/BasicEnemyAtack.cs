@@ -44,12 +44,12 @@ public class BasicEnemyAtack : CombatComponent
             if (enemies[i].GetComponent<EntityBase>() && dir.magnitude <= distance && angle < angleAttack)
             {
                 if (entity == null)
+                {
                     entity = enemies[i].GetComponent<EntityBase>();
+                    callback.Invoke(entity);
+                }
             }
         }
-
-        if (entity != null)
-            callback.Invoke(entity);
     }
 
 }

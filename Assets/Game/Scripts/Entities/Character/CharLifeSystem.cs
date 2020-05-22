@@ -23,19 +23,16 @@ public class CharLifeSystem
     {
         lifesystem = new LifeSystemBase();
         lifesystem.Config(life, EVENT_OnLoseLife, EVENT_OnGainLife, EVENT_OnDeath, life);
-        
+
         lifesystem.AddCallback_LifeChange(OnLifeChange);
-        ADD_EVENT_Death(Heal_AllHealth);
-        
-        
         Debug_UI_Tools.instance.CreateToogle("GODMODE", false, ToogleDebug);
         return this;
-        
-        
+
+
     }
 
     string ToogleDebug(bool active) { godMode = active; ; return active ? "debug activado" : "debug desactivado"; }
-    
+
     //////////////////////////////////////////////////////////////////////////////////
     /// EVENTS Subscribers
     //////////////////////////////////////////////////////////////////////////////////
@@ -51,7 +48,7 @@ public class CharLifeSystem
     //////////////////////////////////////////////////////////////////////////////////
     /// CALLBACKS
     //////////////////////////////////////////////////////////////////////////////////
-    void OnLifeChange(int current, int max) 
+    void OnLifeChange(int current, int max)
     {
         Debug.Log(current + " " + max);
         lifechange.Invoke(current, max);
@@ -77,7 +74,7 @@ public class CharLifeSystem
     {
         Debug.Log("reset");
         lifesystem.ResetLife();
-        
+
     }
 
     public void AddHealth(int _val) => lifesystem.IncreaseLife(_val);

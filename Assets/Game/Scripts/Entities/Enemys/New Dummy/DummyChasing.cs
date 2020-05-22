@@ -37,16 +37,24 @@ namespace ToolsMandioca.StateMachine
                 sm.SendInput(TrueDummyEnemy.DummyEnemyInputs.BEGIN_ATTACK);
             else
             {
-                Vector3 pos1 = new Vector3(root.position.x, 0, root.position.z);
-                Vector3 pos2 = new Vector3(enemy.CurrentTarget().transform.position.x, 0, enemy.CurrentTarget().transform.position.z);
+                if (enemy == null)
+                {
+                    Vector3 pos1 = new Vector3(root.position.x, 0, root.position.z);
+                    Vector3 pos2 = new Vector3(enemy.CurrentTarget().transform.position.x, 0, enemy.CurrentTarget().transform.position.z);
 
-                Vector3 myForward = (enemy.CurrentTarget().transform.position - root.position).normalized;
-                Vector3 forwardRotation = new Vector3(myForward.x, 0, myForward.z);
+                    Vector3 myForward = (enemy.CurrentTarget().transform.position - root.position).normalized;
+                    Vector3 forwardRotation = new Vector3(myForward.x, 0, myForward.z);
 
-                move.Rotation(forwardRotation);
+                    move.Rotation(forwardRotation);
 
-                if (Vector3.Distance(pos1, pos2) >= distanceToNormalAttack)
+                    if (Vector3.Distance(pos1, pos2) >= distanceToNormalAttack)
+                        sm.SendInput(TrueDummyEnemy.DummyEnemyInputs.GO_TO_POS);
+                }
+                else
+                {
                     sm.SendInput(TrueDummyEnemy.DummyEnemyInputs.GO_TO_POS);
+                }
+                
             }
         }
 

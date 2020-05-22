@@ -34,7 +34,7 @@ public class GameEvents
     /// [ EntityBase: target parreado ]
     /// </summary>
     public const string ON_PLAYER_PARRY = "OnPlayerParry";
-
+    public const string ON_PLAYER_DEATH = "CharacterIsDeath";
     public const string GAME_END_LOAD = "GameEndLoad";
     public const string COMBAT_ENTER = "CombatEnter";
     public const string COMBAT_EXIT = "CombatExit";
