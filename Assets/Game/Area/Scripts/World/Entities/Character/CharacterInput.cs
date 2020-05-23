@@ -104,7 +104,7 @@ public class CharacterInput : MonoBehaviour
         RightVertical.Invoke(Input.GetAxis("RightVertical"));
     }
 
-    string ChangeRotation(bool value)
+    public string ChangeRotation(bool value)
     {
         if (value)
         {
