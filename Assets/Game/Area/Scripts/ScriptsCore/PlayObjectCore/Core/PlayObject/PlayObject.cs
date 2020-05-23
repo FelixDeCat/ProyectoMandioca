@@ -8,6 +8,8 @@ public abstract class PlayObject : MonoBehaviour, IZoneElement
 {
     protected bool canupdate;
 
+    public string poolname;
+
     bool alreadyInitialized = false;
     public void Initialize() { if (!alreadyInitialized) { OnInitialize(); alreadyInitialized = true; } }
     public void On() { canupdate = true; OnTurnOn(); }

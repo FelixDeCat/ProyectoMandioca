@@ -166,6 +166,8 @@ public class CharacterHead : CharacterControllable
         AudioManager.instance.GetSoundPool(swing_SoundName, swingSword_AC);
         AudioManager.instance.GetSoundPool("FootStep", footstep);
 
+        
+
     }
     void Pasos()
     {

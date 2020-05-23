@@ -23,13 +23,20 @@ public class PoolManager : MonoBehaviour
         if (_itemRegistry.ContainsKey(poolName)) return _itemRegistry[poolName];
         else if (obj != null) return CreateNewPlayObjectPool(poolName, obj, prewarm);
         else return null;
-        
+    }
+    public void ReturnObject(PlayObject obj)
+    {
+        if (_itemRegistry.ContainsKey(obj.poolname))
+        {
+            _itemRegistry[obj.poolname].ReturnToPool(obj);
+        }
     }
 
     ObjectPool_PlayObject CreateNewPlayObjectPool(string poolName, PlayObject obj, int prewarm)
     {
         var playObjPool = new GameObject($"{poolName} objPool").AddComponent<ObjectPool_PlayObject>();
         playObjPool.transform.SetParent(transform);
+        obj.poolname = poolName;
         playObjPool.Configure(obj);
         playObjPool.PreWarm(prewarm);
         _itemRegistry.Add(poolName, playObjPool);

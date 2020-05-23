@@ -5,10 +5,7 @@ using UnityEngine;
 public class WorldSpawner : Interact_Receptor
 {
     public Item[] items;
-
     public int cant;
-    public GameObject model;
-
     public int radio = 10;
     public int maxHeight = 10;
 
@@ -19,30 +16,41 @@ public class WorldSpawner : Interact_Receptor
         return new Vector3(Random.Range(min.x, max.x), Random.Range(min.y, max.y), Random.Range(min.z, max.z));
     }
 
+    public PlayObject model;
+    public string poolname;
     public override void Execute()
     {
         for (int i = 0; i < cant; i++)
-        {
-            foreach (var item in items)
-            {
-                Main.instance.SpawnItem(item, getPosRandom(2, transform));
-            }
-        }
+            foreach (var item in items) Main.instance.SpawnItem(item, getPosRandom(2, transform));
 
-        if (model != null)
-        {
-            for (int i = 0; i < cant; i++)
-            {
-                GameObject go = Instantiate(model);
-                go.transform.position = getPosRandom(radio, this.transform);
-
-                if (go.GetComponent<EntityBase>())
+        if (model != null) {
+            for (int i = 0; i < cant; i++) {
+                var poolobject = PoolManager.instance.GetObjectPool(poolname, model);
+                var obj = poolobject.Get();
+                obj.transform.position = getPosRandom(radio, this.transform);
+                if (obj.GetComponent<EntityBase>())
                 {
-
-                    var enem = go.GetComponent<EntityBase>();
+                    var enem = obj.GetComponent<EntityBase>();
                     enem.Initialize();
                 }
             }
         }
+
+
+        //if (model != null)
+        //{
+        //    for (int i = 0; i < cant; i++)
+        //    {
+        //        GameObject go = Instantiate(model);
+        //        go.transform.position = getPosRandom(radio, this.transform);
+
+        //        if (go.GetComponent<EntityBase>())
+        //        {
+
+        //            var enem = go.GetComponent<EntityBase>();
+        //            enem.Initialize();
+        //        }
+        //    }
+        //}
     }
 }
