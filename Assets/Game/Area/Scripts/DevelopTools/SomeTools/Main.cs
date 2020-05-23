@@ -20,6 +20,8 @@ public class Main : MonoBehaviour
     public Rumble rumble;
     CustomCamera myCamera;
 
+    public bool useMouse;
+
 
     [Header("Inspector References")]
     public EventManager eventManager;
