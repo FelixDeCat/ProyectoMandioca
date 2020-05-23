@@ -79,6 +79,11 @@ public class CharacterMovement
         dashDecreaseSpeed = n;
         return this;
     }
+    public CharacterMovement SetPushAttack(float n)
+    {
+        pushForce = n;
+        return this;
+    }
 
     #endregion
 
@@ -106,6 +111,14 @@ public class CharacterMovement
         Move(velX, axis * speed);
 
         movY = axis;
+    }
+
+    float pushForce; 
+    Vector3 attackPushDir;
+    Vector3 PushForward { get => rotTransform.transform.forward * pushForce; }
+    public void FrontPushAttack()
+    {
+
     }
 
     void Move(float axisX, float axisY)
@@ -226,6 +239,7 @@ public class CharacterMovement
 
     public void Roll()
     {
+
         if (movX != 0 || movY != 0)
             dashDir = new Vector3(movX, 0, movY).normalized;
         else

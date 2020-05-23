@@ -15,6 +15,7 @@ public class WorldSpawner : Interact_Receptor
         Vector3 max = new Vector3(t.position.x + radio, t.position.y + maxHeight, t.position.z + radio);
         return new Vector3(Random.Range(min.x, max.x), Random.Range(min.y, max.y), Random.Range(min.z, max.z));
     }
+   
 
     public PlayObject model;
     public string poolname;

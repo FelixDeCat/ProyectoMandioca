@@ -34,7 +34,7 @@ namespace ToolsMandioca.Extensions
 
             return list;
         }
-
+        
 
         public static List<T> FindInRadius<T>(this T own, float radius) where T : Component
         {
@@ -373,6 +373,13 @@ namespace ToolsMandioca.Extensions
                 RandomUnity.Range(ScreenLimits.Left_Inferior.x, ScreenLimits.Right_Superior.x),
                 RandomUnity.Range(ScreenLimits.Left_Inferior.y, ScreenLimits.Right_Superior.y));
         }
+        public static Vector3 RandomPositionByPoint(this Vector3 t, int radio, int _maxHeight)
+        {
+            Vector3 min = new Vector3(t.x - radio, 0, t.z - radio);
+            Vector3 max = new Vector3(t.x + radio, t.y + _maxHeight, t.z + radio);
+            return new Vector3(Random.Range(min.x, max.x), Random.Range(min.y, max.y), Random.Range(min.z, max.z));
+        }
+
 
         /// <summary>
         /// Dale una lista de tuplas con <peso, objetoRandom> y te va a devolver uno elegido al azar

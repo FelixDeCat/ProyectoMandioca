@@ -11,7 +11,7 @@ public class CharacterHead : CharacterControllable
     public enum PlayerInputs { IDLE, MOVE, BEGIN_BLOCK, BLOCK, END_BLOCK, PARRY, CHARGE_ATTACK, RELEASE_ATTACK, TAKE_DAMAGE, DEAD, ROLL, SPIN, STUN, PLAYER_LOCK_ON };
 
     Action ChildrensUpdates;
-
+    [SerializeField] CharacterInput _charInput;
     [Header("Dash Options")]
     [SerializeField] float dashTiming = 2;
     [SerializeField] float dashSpeed = 9;
@@ -154,6 +154,8 @@ public class CharacterHead : CharacterControllable
         charAnimEvent.Add_Callback("CloseComboWindow", charAttack.ANIM_EVENT_CloseComboWindow);
 
         rb = GetComponent<Rigidbody>();
+
+        charAttack.SetRigidBody(rb);
 
         debug_options.StartDebug();
         DevelopTools.UI.Debug_UI_Tools.instance.CreateToogle("Speed for testing", false, ToogleSpeed);
@@ -781,5 +783,5 @@ public class CharacterHead : CharacterControllable
     }
 
     #endregion
-
+    public CharacterInput getInput => _charInput;
 }
