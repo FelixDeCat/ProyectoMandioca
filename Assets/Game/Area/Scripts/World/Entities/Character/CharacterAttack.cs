@@ -46,6 +46,8 @@ public class CharacterAttack
 
     HitStore hitstore;
 
+    Rigidbody myRig;
+
     public CharacterAttack(float _range, float _angle, float _heavyAttackTime, CharacterAnimator _anim, Transform _forward, Action _normalAttack, Action _heavyAttack, ParticleSystem ps, float damage, ParticleSystem _attackslash, string swingSword_SoundName)
     {
         hitstore = new HitStore();
@@ -70,6 +72,7 @@ public class CharacterAttack
 
         _swingSword_SoundName = swingSword_SoundName;
     }
+    public void SetRigidBody(Rigidbody _rb) => myRig = _rb;
     public string ChangeName() => currentWeapon.weaponName;
     public void ChangeDamageBase(int dmg) => currentDamage = dmg;
     public void BeginFeedbackSlash() => attackslash.Play();
@@ -142,10 +145,13 @@ public class CharacterAttack
         anim.OnAttackBegin(true);
     }
 
+
+
     // Aca es cuando suelto la tecla desde el estado Charge Attack
     // OnPressUp
     public void AttackEnd()
     {
+        
         Check();
     }
 
@@ -167,6 +173,8 @@ public class CharacterAttack
     void Check()
     {
         inCheck = false;
+
+        myRig.AddForce(forwardPos.transform.forward * 10, ForceMode.VelocityChange);
 
         if (buttonPressedTime < heavyAttackTime)
         {

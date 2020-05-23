@@ -155,6 +155,8 @@ public class CharacterHead : CharacterControllable
 
         rb = GetComponent<Rigidbody>();
 
+        charAttack.SetRigidBody(rb);
+
         debug_options.StartDebug();
         DevelopTools.UI.Debug_UI_Tools.instance.CreateToogle("Speed for testing", false, ToogleSpeed);
 
