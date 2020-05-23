@@ -12,6 +12,7 @@ public class Mouse_Or_Keyboard : MonoBehaviour
     [SerializeField]
     GameObject _PlayButton;
     public bool active;
+    bool _activeRotation;
 
     private void Start()
     {
@@ -24,16 +25,24 @@ public class Mouse_Or_Keyboard : MonoBehaviour
         _joyStickImage.SetActive(true);
         _KeyBoard.SetActive(false);
         _PlayButton.SetActive(true);
+        _activeRotation = false;
     }
     public void KeyBoardButon()
     {
         _joyStickImage.SetActive(false);
         _KeyBoard.SetActive(true);
         _PlayButton.SetActive(true);
+        _activeRotation = true;
     }
     public void goToLevel()
     {
         if (active)
+        {
+            CharacterInput inputs = Main.instance.GetChar().getInput;
+            inputs.ChangeRotation(_activeRotation);
             SceneManager.LoadScene(0);
+
+        }
+           
     }
 }
