@@ -40,7 +40,7 @@ public class Mouse_Or_Keyboard : MonoBehaviour
         {
             CharacterInput inputs = Main.instance.GetChar().getInput;
             inputs.ChangeRotation(_activeRotation);
-            SceneManager.LoadScene(0);
+            Scenes.Load_Gym();
 
         }
            
