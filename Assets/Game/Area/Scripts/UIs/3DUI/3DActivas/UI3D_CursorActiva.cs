@@ -17,7 +17,6 @@ public class UI3D_CursorActiva : MonoBehaviour
 
     public void GoToPosition(Vector3 pos)
     {
-        Debug.Log("Entro un vex");
         animate = true;
         timer = 0;
         currentPos = this.transform.position;

@@ -10,7 +10,6 @@ public class PopUpCrown : MonoBehaviour
     void Start()
     {
         _MyMesh = GetComponent<MeshRenderer>();
-        Main.instance.SetCrown(this);
         //_MyMesh.enabled = false;
     }
 

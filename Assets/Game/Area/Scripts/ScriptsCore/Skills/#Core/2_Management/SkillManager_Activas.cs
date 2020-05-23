@@ -81,7 +81,6 @@ public class SkillManager_Activas : MonoBehaviour
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     public void EV_SelectByKeyboard(int _index)//[0,1,2,3]
     {
-        Debug.Log("_index: " + _index);
         int maxLenght = 0;
         for (int i = 0; i < slots.Length; i++) if (slots[i] == true) maxLenght++;
         if (_index == 0) current_index_centered = 0;

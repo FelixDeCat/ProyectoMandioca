@@ -8,8 +8,7 @@ public class SimpleCube : EntityBase
     private void Awake() => myRig = GetComponent<Rigidbody>();
     public override Attack_Result TakeDamage(int dmg, Vector3 attack_pos, Damagetype damagetype)  
     {
-        Invoke("Destroy", 1f);
-        Debug.Log("AAAAAAAAAA");
+        Invoke("Destroy", 0f);
         var dir = (this.transform.position - attack_pos).normalized; 
         myRig.AddForce(dir * 10, ForceMode.VelocityChange); 
         return Attack_Result.inmune; 

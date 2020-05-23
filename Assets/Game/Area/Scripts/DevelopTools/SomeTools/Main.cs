@@ -24,6 +24,7 @@ public class Main : MonoBehaviour
     [Header("Inspector References")]
     public EventManager eventManager;
     [SerializeField] CharacterHead character = null;
+    [SerializeField] LoadSceneHandler loader = null;
     [SerializeField] List<PlayObject> allentities = new List<PlayObject>();
     [SerializeField] SkillManager_Pasivas pasives = null;
     [SerializeField] SkillManager_Activas actives = null;
@@ -36,10 +37,7 @@ public class Main : MonoBehaviour
     BaseRoom _currentRoom;
 
     //estas dos cosas no deberian estar acá
-    private SensorForEnemysInRoom mySensorRoom;
     PopUpCrown _theCrown;
-
-    public Dungeon duntest;
 
     private void Awake()
     {
@@ -51,6 +49,13 @@ public class Main : MonoBehaviour
     void Start()
     {
         StartCoroutine(InitCorroutine());
+
+        loader.StartLoad(EndLoad);
+    }
+
+    void EndLoad()
+    {
+
     }
 
     System.Collections.IEnumerator InitCorroutine()
@@ -81,7 +86,6 @@ public class Main : MonoBehaviour
         //aca va a haber mas cosas de managers y esas cosas
 
         eventManager.TriggerEvent(GameEvents.GAME_END_LOAD);
-        if (duntest) duntest.OnInitialize();
 
         Invoke("AllReady", 0.1f);
 
@@ -149,9 +153,6 @@ public class Main : MonoBehaviour
     public bool Ui_Is_Open() => gameUiController.openUI;
     public void SetRoom(BaseRoom newRoom) => _currentRoom = newRoom;
     public BaseRoom GetRoom() => _currentRoom;
-    public void SetCrown(PopUpCrown newCrown) => _theCrown = newCrown;
-    public PopUpCrown GetCrown() => _theCrown;
-
     public void CameraShake() => myCamera.BeginShakeCamera();
     public void Vibrate() => rumble.OneShootRumble();
     public void Vibrate(float _strengh = 1, float _time_to_rumble = 0.2f) => rumble.OneShootRumble(_strengh, _time_to_rumble);

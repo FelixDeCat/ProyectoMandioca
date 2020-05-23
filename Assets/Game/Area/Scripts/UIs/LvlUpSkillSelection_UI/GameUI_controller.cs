@@ -23,6 +23,7 @@ public class GameUI_controller : MonoBehaviour
     [Header("--XX--Canvas containers--XX--")]
     [SerializeField] private RectTransform leftCanvas = null;
     [SerializeField] private RectTransform rightCanvas = null;
+    [SerializeField] private RectTransform completeCanvas = null;
 
     private SkillManager_Pasivas _skillManagerPasivas;
     
@@ -75,7 +76,7 @@ public class GameUI_controller : MonoBehaviour
     public void HideShields() => _shieldsController.HideShields();
     public void ShowShields() => _shieldsController.ShowShields();
     public void RefreshShields_UI(int currentShields, int maxShields) =>  _shieldsController.RefreshUI(currentShields, maxShields);
-    
+    public RectTransform GetRectCanvas() => completeCanvas;
     
     /// <summary>
     /// Para que esto funcione aca hay que cambiar el shader. El que tenemos ahora no me permite hacer la transparencia

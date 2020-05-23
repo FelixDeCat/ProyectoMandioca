@@ -25,8 +25,6 @@ public class FeedbackOneInteract_ScaleByCurve : FeedbackOneInteractBase
         lastkey = curve[curve.length - 1];
         anim = true;
         timer = 0;
-
-        Debug.Log("on execute");
     }
 
     protected override void OnUpdate()
