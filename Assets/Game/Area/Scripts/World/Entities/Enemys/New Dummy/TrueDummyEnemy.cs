@@ -269,6 +269,8 @@ public class TrueDummyEnemy : EnemyBase
     #endregion
 
     #region Life Things
+
+    public GenericLifeSystem Life() => lifesystem;
     public override Attack_Result TakeDamage(int dmg, Vector3 attack_pos, Damagetype dmgtype)
     {
         SetTarget(entityTarget);
