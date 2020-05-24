@@ -70,7 +70,7 @@ public class SkillActive_BoomeranShield : SkillActivas
         _hero.ToggleBlock(false);
         auxShield.SetActive(true);
         auxShield.transform.position = _shield.transform.position;
-        _shield.SetActive(false);
+        //_shield.SetActive(false);
         sparks.Play();
         
         var auraMain = auraZone.main;
@@ -90,7 +90,7 @@ public class SkillActive_BoomeranShield : SkillActivas
     protected override void OnStopUse()
     {
         _hero.ToggleBlock(true);
-        _shield.SetActive(true);
+        //_shield.SetActive(true);
         auxShield.SetActive(false);
         timeCount = 0;
         sparks.Stop();
