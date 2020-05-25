@@ -19,5 +19,6 @@ public class FastFix : MonoBehaviour
     void Initialize()
     {
         Main.instance.GetNoOptimizedListEnemies().ForEach(x => x.Initialize());
+        Main.instance.GetChar().transform.position = Vector3.zero;
     }
 }
