@@ -18,10 +18,17 @@ public abstract class SkillActivas : SkillBase
     [Header("Use in Time Settings")]
     public bool one_time_use = true;
     public float useTime = 5f;
+    
     float timer_use = 0;
     bool beginUse;
     Func<bool> predicate;
     bool usePredicate;
+
+    [Header("Update By Coroutine")]
+    public bool use_coroutine = false;
+    public int fps = 30;
+    bool stop;
+
 
     public void SetCallbackSuscessfulUsed(Action<SkillInfo> callback) { CallbackSuscessfullUsed = callback; }
 
@@ -73,10 +80,18 @@ public abstract class SkillActivas : SkillBase
             }
             else
             {
-                
-                timer_use = 0;
                 OnStartUse();
-                beginUse = true;
+
+                if (!use_coroutine)
+                {
+                    timer_use = 0;
+                    beginUse = true;
+                }
+                else
+                {
+                    StartCoroutine(UseTime());
+                    StartCoroutine(CustomUpdate());
+                }
             }
         }
     }
@@ -102,7 +117,31 @@ public abstract class SkillActivas : SkillBase
                 OnStopUse();
             }
         }
-        
+    }
+
+    IEnumerator UseTime()
+    {
+        stop = false;
+        yield return new WaitForSecondsRealtime(useTime);
+        stop = true;
+        OnStopUse();
+
+        yield return null;
+    }
+    IEnumerator CustomUpdate()
+    {
+        while (!stop)
+        {
+            for (int i = 0; i < fps; i++)
+            {
+                CoroutineUpdate();
+            }
+            yield return new WaitForEndOfFrame();
+        }
+    }
+    protected virtual void CoroutineUpdate()
+    {
+
     }
 
     internal override void cooldownUpdate()

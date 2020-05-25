@@ -23,4 +23,9 @@ public class SkillActive_NewSkill : SkillActivas
     protected override void OnStartUse() { Debug.Log("StartUse nueva Skill"); }
     protected override void OnStopUse() { Debug.Log("StopUse nueva Skill"); }
     protected override void OnUpdateUse() { Debug.Log("UpdateUse nueva Skill"); }
+
+    protected override void CoroutineUpdate()
+    {
+        Debug.Log("custom update");
+    }
 }
