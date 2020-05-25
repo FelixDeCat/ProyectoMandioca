@@ -27,7 +27,8 @@ public class SkillActive_DamageInRoom : SkillActivas
 
         foreach (EnemyBase enemy in enems)
         {
-            enemy.TakeDamage(damagePower, pos_collision, dmgType, Main.instance.GetChar());
+            //enemy.TakeDamage(damagePower, pos_collision, dmgType, Main.instance.GetChar());
+            enemy.OnStun();
         }
     }
 
