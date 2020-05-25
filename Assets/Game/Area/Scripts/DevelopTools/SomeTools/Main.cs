@@ -58,7 +58,7 @@ public class Main : MonoBehaviour
 
     void EndLoad()
     {
-
+        Debug.Log("ENdLoad");
     }
 
     System.Collections.IEnumerator InitCorroutine()

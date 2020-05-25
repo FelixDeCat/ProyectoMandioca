@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using System;
+using UnityEngine.SceneManagement;
 
 public class LoadSceneHandler : MonoBehaviour
 {
@@ -10,6 +11,8 @@ public class LoadSceneHandler : MonoBehaviour
     [SerializeField] GameObject model_slave_loadBar;
     GenericBar master_genbar;
     GenericBar slave_genbar;
+
+    public string firstScene;
 
     public List<LoadComponent> loadCOmponents;
 
@@ -22,41 +25,61 @@ public class LoadSceneHandler : MonoBehaviour
     {
         OnEndLoad = callback_endLoad;
         master_genbar = Instantiate(model_master_loadBar, Main.instance.gameUiController.GetRectCanvas()).GetComponent<GenericBar>();
-        slave_genbar = Instantiate(model_slave_loadBar, Main.instance.gameUiController.GetRectCanvas()).GetComponent<GenericBar>();
-        BeginLoad();
+        // slave_genbar = Instantiate(model_slave_loadBar, Main.instance.gameUiController.GetRectCanvas()).GetComponent<GenericBar>();
+        Invoke("timeload", 3f);
     }
 
-    void BeginLoad()
+    void timeload()
     {
-        Invoke("EndLoad", 3f);
-
+        StartCoroutine(Load().GetEnumerator());
     }
 
-    void EndLoad()
+    IEnumerable Load()
     {
-        Destroy(master_genbar.gameObject);
-        master_genbar = null;
-        OnEndLoad.Invoke();
-
-        StartCoroutine(ComponentsToLoad().GetEnumerator());
+        Debug.Log("StartComponents");
+        yield return ComponentsToLoad().GetEnumerator();
+        Debug.Log("StartScene");
+        yield return LoadYourAsyncScene();
+        //Destroy(master_genbar.gameObject);
+        
     }
 
     public IEnumerable ComponentsToLoad()
     {
         foreach (var c in loadCOmponents)
         {
-            Debug.Log("Name Object: " + c.gameObject.name);
             yield return c.Load();
         }
     }
-
-    public void MasterBar(int value, int max)
+    IEnumerator LoadYourAsyncScene()
     {
+        AsyncOperation asyncLoad = SceneManager.LoadSceneAsync(firstScene);
+        //asyncLoad.allowSceneActivation = false;
+
+        while (!asyncLoad.isDone)
+        {
+            yield return new WaitForEndOfFrame();
+
+            MasterBar(asyncLoad.progress, 1);
+            yield return null;
+        }
+        Debug.Log("SEEJECUTAAAAAAA");
+       // master_genbar = null;
+        //asyncLoad.allowSceneActivation = true;
+        OnEndLoad.Invoke();
+        
+    }
+
+    public void MasterBar(float value, int max)
+    {
+        Debug.Log("VALS: " + value + " - " + max);
+
         master_genbar.Configure(max, 0.01f);
         master_genbar.SetValue(value);
     }
-    public void SlaveBar(int value, int max)
+    public void SlaveBar(float value, int max)
     {
-
+        slave_genbar.Configure(max, 0.01f);
+        slave_genbar.SetValue(value);
     }
 }

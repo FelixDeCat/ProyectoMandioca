@@ -4,11 +4,13 @@ using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.SceneManagement;
 
-public class TimeToExecute : MonoBehaviour
+public class ChangeScene : MonoBehaviour
 {
     public float timer = 1;
     public string scene = "level_to_change";
     public bool stayHere;
+
+    public string GetScene() => scene;
     void Start()
     {
         Invoke("Execute", timer);
