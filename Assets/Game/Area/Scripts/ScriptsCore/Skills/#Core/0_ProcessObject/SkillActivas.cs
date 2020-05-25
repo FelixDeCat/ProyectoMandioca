@@ -26,7 +26,6 @@ public abstract class SkillActivas : SkillBase
 
     [Header("Update By Coroutine")]
     public bool use_coroutine = false;
-    public int fps = 30;
     bool stop;
 
 
@@ -132,11 +131,8 @@ public abstract class SkillActivas : SkillBase
     {
         while (!stop)
         {
-            for (int i = 0; i < fps; i++)
-            {
-                CoroutineUpdate();
-            }
-            yield return new WaitForEndOfFrame();
+            CoroutineUpdate();
+            yield return new WaitForFixedUpdate();
         }
     }
     protected virtual void CoroutineUpdate()
