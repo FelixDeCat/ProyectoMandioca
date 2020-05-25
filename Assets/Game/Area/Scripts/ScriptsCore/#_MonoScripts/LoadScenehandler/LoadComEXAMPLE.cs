@@ -11,7 +11,7 @@ public class LoadComEXAMPLE : LoadComponent
     int radio = 5;
     int height = 5;
 
-    protected override IEnumerator OnLoad()
+    protected override IEnumerator LoadMe()
     {
         for (int i = 0; i < cant; i++)
         {

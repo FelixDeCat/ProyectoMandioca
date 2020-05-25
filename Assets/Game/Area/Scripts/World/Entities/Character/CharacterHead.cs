@@ -156,6 +156,7 @@ public class CharacterHead : CharacterControllable
         rb = GetComponent<Rigidbody>();
 
         charAttack.SetRigidBody(rb);
+        charAttack.SetRigidBody(rb);
 
         debug_options.StartDebug();
         DevelopTools.UI.Debug_UI_Tools.instance.CreateToogle("Speed for testing", false, ToogleSpeed);
@@ -413,6 +414,7 @@ public class CharacterHead : CharacterControllable
     void OnGainLife() => customCam.BeginShakeCamera();
     void OnDeath() 
     {
+        Debug.Log("DEATH");
         Main.instance.eventManager.TriggerEvent(GameEvents.ON_PLAYER_DEATH);
     }
     void OnChangeLife(int current, int max) { Main.instance.GetActivesManager().ReceiveLife(current, max); }

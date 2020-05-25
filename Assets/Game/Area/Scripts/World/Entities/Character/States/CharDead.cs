@@ -12,7 +12,7 @@ namespace ToolsMandioca.StateMachine
 
         protected override void Enter(EState<CharacterHead.PlayerInputs> input)
         {
-            //Inserte animacion :´(
+            charAnim.Dead();
         }
 
         protected override void Update()
