@@ -27,6 +27,7 @@ public class CharacterAnimator : BaseAnimator
         myAnim.SetBool("IsCombo", val);
     }
 
+    public void StartThrow() { myAnim.SetTrigger("ThrowShield"); }
     public void BeginSpin(Action callbackEndAnimation) { myAnim.SetTrigger("BeginSpin"); myAnim.GetBehaviour<ANIM_SCRIPT_BeginSpin>().ConfigureCallback(callbackEndAnimation); }
     public void EndSpin(Action callbackEndAnimation) { myAnim.SetTrigger("EndSpin"); myAnim.GetBehaviour<ANIM_SCRIPT_EndSpin>().ConfigureCallback(callbackEndAnimation); }
     public void Stun(bool stunvalue) { myAnim.SetBool("Stun", stunvalue); }

@@ -23,12 +23,13 @@ public class SkillActive_DamageInRoom : SkillActivas
 
         feedback.transform.position = pos_collision;
         feedback.Play();
-        var enems = Physics.OverlapSphere(pos_collision, radius, layerenem).Select(x => x.GetComponent<EnemyBase>());
+        var enems = Physics.OverlapSphere(pos_collision, radius, layerenem).Select(x => x.GetComponent<EnemyBase>()).ToList();
 
         foreach (EnemyBase enemy in enems)
         {
+            Debug.Log(enemy.gameObject.name);
             //enemy.TakeDamage(damagePower, pos_collision, dmgType, Main.instance.GetChar());
-            enemy.OnStun();
+            enemy.OnPetrified();
         }
     }
 

@@ -64,8 +64,8 @@ public class CharacterHead : CharacterControllable
 
     [Header("Animations")]
     [SerializeField] Animator anim_base = null;
-    [SerializeField] AnimEvent charAnimEvent = null;
-    CharacterAnimator charanim;
+    public AnimEvent charAnimEvent = null;
+    public CharacterAnimator charanim;
 
     [Header("Attack Options")]
     [SerializeField] ParticleSystem feedbackHeavy = null;
@@ -112,6 +112,20 @@ public class CharacterHead : CharacterControllable
     {
         
     }
+
+    #region Throw Something
+    Action<Vector3> throwCallback;
+    public void ThrowSomething(Action<Vector3> throwInPosition)
+    {
+        Main.instance.GetChar().charanim.StartThrow();
+        Main.instance.GetChar().charAnimEvent.Add_Callback("ThrowEvent", ThrowCallback);
+        throwCallback = throwInPosition;
+    }
+    void ThrowCallback()
+    {
+        throwCallback.Invoke(escudo.transform.position);
+    }
+    #endregion
 
     private void Start()
     {

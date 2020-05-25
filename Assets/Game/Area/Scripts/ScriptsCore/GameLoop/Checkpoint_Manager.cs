@@ -21,6 +21,8 @@ using System.Linq;
 
 public class Checkpoint_Manager : MonoBehaviour
 {
+    public static Checkpoint_Manager instance; private void Awake() => instance = this;
+
     public Checkpoint_Spot _activeCheckPoint;
     public List<Checkpoint_Spot> allCheckpoints = new List<Checkpoint_Spot>();
 

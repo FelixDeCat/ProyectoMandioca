@@ -64,8 +64,9 @@ public class LoadSceneHandler : MonoBehaviour
             yield return null;
         }
         Debug.Log("SEEJECUTAAAAAAA");
-       // master_genbar = null;
+        Destroy(master_genbar.gameObject);
         //asyncLoad.allowSceneActivation = true;
+
         OnEndLoad.Invoke();
         
     }

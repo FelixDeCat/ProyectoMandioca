@@ -10,7 +10,6 @@ public class FastFix : MonoBehaviour
     /// que estoy armando
     /// </summary>
 
-
     private void Start()
     {
         Invoke("Initialize", 0.5f);
@@ -20,5 +19,12 @@ public class FastFix : MonoBehaviour
     {
         Main.instance.GetNoOptimizedListEnemies().ForEach(x => x.Initialize());
         Main.instance.GetChar().transform.position = Vector3.zero;
+    }
+    private void Update()
+    {
+        if (Main.instance.GetChar().transform.position.y < -5)
+        {
+            Checkpoint_Manager.instance.SpawnChar();
+        }
     }
 }
