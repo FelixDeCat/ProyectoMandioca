@@ -74,7 +74,6 @@ public class JabaliEnemy : EnemyBase
 
     protected override void OnInitialize()
     {
-        Debug.Log("OnInitialize");
         rb = GetComponent<Rigidbody>();
         movement.Configure(rootTransform, rb);
         headAttack.Configure(HeadAttack);

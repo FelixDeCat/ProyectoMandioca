@@ -50,7 +50,6 @@ public class CharLifeSystem
     //////////////////////////////////////////////////////////////////////////////////
     void OnLifeChange(int current, int max)
     {
-        Debug.Log(current + " " + max);
         lifechange.Invoke(current, max);
 
         if(frontendLife) frontendLife.OnValueChange(current, max);
@@ -72,7 +71,7 @@ public class CharLifeSystem
 
     public void Heal_AllHealth()
     {
-        Debug.Log("reset");
+
         lifesystem.ResetLife();
 
     }

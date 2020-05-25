@@ -38,7 +38,6 @@ public class TimeManager : MonoBehaviour
 
     IEnumerator HitStop()
     {
-        Debug.Log("SlowMo");
         if (isInSlowMo)
             yield break;
 

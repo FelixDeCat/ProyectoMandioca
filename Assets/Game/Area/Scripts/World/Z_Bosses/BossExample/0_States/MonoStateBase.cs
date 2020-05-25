@@ -36,13 +36,11 @@ public abstract class MonoStateBase : MonoBehaviour
 
     public void Begin()
     {
-        Debug.Log("Begin");
         OnBegin();
     }
 
     public void Exit()
     {
-        Debug.Log("Exit");
         OnExit();
     }
 

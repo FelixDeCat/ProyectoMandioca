@@ -90,7 +90,7 @@ public class Main : MonoBehaviour
 
         eventManager.TriggerEvent(GameEvents.GAME_END_LOAD);
 
-        Invoke("AllReady", 0.1f);
+        //Invoke("AllReady", 0.1f);
 
         character.Initialize();
         character.Resume();

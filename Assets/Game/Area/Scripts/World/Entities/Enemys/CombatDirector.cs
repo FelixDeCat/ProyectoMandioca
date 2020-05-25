@@ -106,7 +106,7 @@ public class CombatDirector : MonoBehaviour, IZoneElement
 
     void RunCheck()
     {
-        Debug.Log("entré en combate/salí de combate");
+
     }
 
 

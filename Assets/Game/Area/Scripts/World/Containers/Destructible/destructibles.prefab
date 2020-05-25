@@ -11,7 +11,8 @@ GameObject:
   - component: {fileID: 971761135495715051}
   - component: {fileID: 971761135495715054}
   - component: {fileID: 971761135495715053}
-  m_Layer: 0
+  - component: {fileID: 790370659890279110}
+  m_Layer: 10
   m_Name: destructibleTest
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -62,6 +63,24 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 0.5, y: 0.75, z: 0.5}
   m_Center: {x: 0, y: 0.38, z: 0}
+--- !u!114 &790370659890279110
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 971761135495715050}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 69bfb6acd0c964f48a9589355f6a5340, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  poolname: 
+  data: {fileID: 11400000, guid: b3b9a8d612909f6498d4c93eba910ada, type: 2}
+  model_destroyedVersion: {fileID: 3504725395465579949, guid: 799138831732d8a44bb2e56cb31c3b73,
+    type: 3}
+  destroy: 1
+  dest_part: {fileID: 3771877822808720732}
 --- !u!1 &971761135974616031
 GameObject:
   m_ObjectHideFlags: 0
@@ -72,7 +91,7 @@ GameObject:
   m_Component:
   - component: {fileID: 971761135974616016}
   - component: {fileID: 971761135974616017}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: GENERALPARENTCONTAINER
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -114,8 +133,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 971761136072754288}
-  - component: {fileID: 2532933244373776510}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: destructibles
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -139,24 +157,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &2532933244373776510
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 971761136072754303}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 69bfb6acd0c964f48a9589355f6a5340, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  poolname: 
-  data: {fileID: 11400000, guid: b3b9a8d612909f6498d4c93eba910ada, type: 2}
-  model_destroyedVersion: {fileID: 3504725395465579949, guid: 799138831732d8a44bb2e56cb31c3b73,
-    type: 3}
-  destroy: 1
-  dest_part: {fileID: 3771877822808720732}
 --- !u!1 &971761136603584451
 GameObject:
   m_ObjectHideFlags: 0
@@ -166,7 +166,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 971761136603584452}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: model
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -265,6 +265,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Vase (1)
       objectReference: {fileID: 0}
+    - target: {fileID: 7551568319541652238, guid: 21d5a0e461c2a5e46a5308395d898a2a,
+        type: 3}
+      propertyPath: m_Layer
+      value: 10
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 21d5a0e461c2a5e46a5308395d898a2a, type: 3}
 --- !u!4 &6047126082453619708 stripped
@@ -280,6 +285,21 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 971761136072754288}
     m_Modifications:
+    - target: {fileID: 3026968506811959824, guid: 1fc681c9b138ade42b397022c24c3e2d,
+        type: 3}
+      propertyPath: m_Layer
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 5373640234598261958, guid: 1fc681c9b138ade42b397022c24c3e2d,
+        type: 3}
+      propertyPath: m_Layer
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 5373640235306185247, guid: 1fc681c9b138ade42b397022c24c3e2d,
+        type: 3}
+      propertyPath: m_Layer
+      value: 10
+      objectReference: {fileID: 0}
     - target: {fileID: 5373640236334205385, guid: 1fc681c9b138ade42b397022c24c3e2d,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -349,6 +369,21 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Broken
+      objectReference: {fileID: 0}
+    - target: {fileID: 5373640236334205390, guid: 1fc681c9b138ade42b397022c24c3e2d,
+        type: 3}
+      propertyPath: m_Layer
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 7799079250332757623, guid: 1fc681c9b138ade42b397022c24c3e2d,
+        type: 3}
+      propertyPath: m_Layer
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 9202194104280086637, guid: 1fc681c9b138ade42b397022c24c3e2d,
+        type: 3}
+      propertyPath: m_Layer
+      value: 10
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 1fc681c9b138ade42b397022c24c3e2d, type: 3}

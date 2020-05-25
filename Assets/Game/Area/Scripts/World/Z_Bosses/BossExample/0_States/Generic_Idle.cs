@@ -17,6 +17,6 @@ public class Generic_Idle : MonoStateBase
 
     protected override void OnUpdate()
     {
-        Debug.Log("IDLE: OnUpdate");
+
     }
 }

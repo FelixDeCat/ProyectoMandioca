@@ -16,7 +16,6 @@ public abstract class StatBase
         get { return val; }
         set
         {
-            Debug.Log("Entro con el valor::" + value);
 
             if (value > 0)
             {

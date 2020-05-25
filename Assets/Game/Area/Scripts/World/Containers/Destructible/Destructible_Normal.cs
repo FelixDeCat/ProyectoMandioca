@@ -135,7 +135,7 @@ public class Destructible_Normal : DestructibleBase
     }
     void OthersFeedbacks() { /*CompleteCameraController.instancia.Shake();*/ }
 
-    public override Attack_Result TakeDamage(int dmg, Vector3 attack_pos, Damagetype damagetype) 
+    public override Attack_Result TakeDamage(int dmg, Vector3 attack_pos, Damagetype damagetype, EntityBase ent) 
     {
         DestroyDestructible();
         return Attack_Result.sucessful;
@@ -159,5 +159,10 @@ public class Destructible_Normal : DestructibleBase
     protected override void OnFixedUpdate() { }
     protected override void OnPause() { }
     protected override void OnResume() { }
+
+    public override Attack_Result TakeDamage(int dmg, Vector3 attack_pos, Damagetype damagetype)
+    {
+        throw new System.NotImplementedException();
+    }
 }
 
