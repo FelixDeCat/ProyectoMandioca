@@ -72,10 +72,10 @@ public class JabaliEnemy : EnemyBase
     Rigidbody rb;
     EventStateMachine<JabaliInputs> sm;
 
-    private void Start() { rb = GetComponent<Rigidbody>(); }
     protected override void OnInitialize()
     {
         Debug.Log("OnInitialize");
+        rb = GetComponent<Rigidbody>();
         movement.Configure(rootTransform, rb);
         headAttack.Configure(HeadAttack);
         pushAttack.Configure(PushRelease, StunAfterCharge);

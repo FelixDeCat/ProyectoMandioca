@@ -40,7 +40,7 @@ namespace ToolsMandioca.StateMachine
                     pushSpeed = maxSpeed;
             }
 
-            rb.velocity = root.forward * pushSpeed;
+            rb.velocity = new Vector3(root.forward.x * pushSpeed, rb.velocity.y, root.forward.z * pushSpeed);
             DealDamage();
 
 
