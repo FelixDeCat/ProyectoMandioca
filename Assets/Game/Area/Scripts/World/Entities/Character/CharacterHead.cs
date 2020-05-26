@@ -172,7 +172,12 @@ public class CharacterHead : CharacterControllable
         charAttack.FirstAttackReady(true);
 
         charAnimEvent.Add_Callback("CheckAttackType", CheckAttackType);
-        charAnimEvent.Add_Callback("DealAttack", DealAttack);
+
+        charAnimEvent.Add_Callback("DealAttackRight", DealRight);
+        charAnimEvent.Add_Callback("DealAttackLeft", DealLeft);
+        charAnimEvent.Add_Callback("DealAttackRight", DealAttack);
+        charAnimEvent.Add_Callback("DealAttackLeft", DealAttack);
+
         charAnimEvent.Add_Callback("Dash", move.RollForAnim);
         charAnimEvent.Add_Callback("Pasos", Pasos );
         charAnimEvent.Add_Callback("OpenComboWindow", charAttack.ANIM_EVENT_OpenComboWindow);
@@ -201,6 +206,10 @@ public class CharacterHead : CharacterControllable
     {
         AudioManager.instance.PlaySound("FootStep");
     }
+
+    void DealLeft() { Debug.Log("DealLeft"); }
+    void DealRight() { Debug.Log("DealRight"); }
+
 
     float auxSpeedDebug;
     string ToogleSpeed(bool active)
