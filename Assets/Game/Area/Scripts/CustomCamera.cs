@@ -14,6 +14,8 @@ public class CustomCamera : MonoBehaviour
     public float shakeDuration;
     private bool activeShake;
 
+    [SerializeField] private SkillCloseUp_Camera skillCloseUp_Camera;
+
     public float zoomDuration;
     const int FIELD_OF_VIEW_ORIGINAL = 60;
     float fieldOfView_toZoom = 60;
@@ -122,4 +124,6 @@ public class CustomCamera : MonoBehaviour
         camera.cullingMask = myCameras[i].CullingMask;
         camera.fieldOfView = myCameras[i].fieldOfView;
     }
+    
+    
 }
