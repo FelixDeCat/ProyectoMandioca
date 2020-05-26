@@ -46,6 +46,8 @@ public class SkillActive_DamageInRoom : SkillActivas
         Main.instance.GetChar().charAnimEvent.Add_Callback("Skill_EndDrink", OnEnd);
         Main.instance.GetChar().charAnimEvent.Add_Callback("Skill_Cachin", Cachin);
 
+        Main.instance.GetMyCamera().DoCloseCamera();
+
         glasses_face.SetActive(false);
         glasses_hand.SetActive(true);
         //atenea.gameObject.SetActive(true);
@@ -54,6 +56,7 @@ public class SkillActive_DamageInRoom : SkillActivas
     }
     void OnEnd()
     {
+        Main.instance.GetMyCamera().DoExitCamera();
         glasses_face.SetActive(false);
         glasses_hand.SetActive(false);
         GetBackControl.Invoke();

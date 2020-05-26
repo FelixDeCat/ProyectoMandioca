@@ -33,8 +33,18 @@ public class CustomCamera : MonoBehaviour
         mycam = GetComponent<Camera>();
         pingpongZoom.Configure(Zoom, false);
         changeCameraconf(0);
+
+        //skillCloseUp_Camera.SubscribeOnTurnOnCamera(CloseToCharacter);
+        //skillCloseUp_Camera.SubscribeOnTurnOnCamera(ExitToCharacte);
     }
-    
+
+    #region Close Camera
+    public void DoCloseCamera() => skillCloseUp_Camera.TurnOnSkillCamera();
+    public void DoExitCamera() => skillCloseUp_Camera.TurnOffSkillCamera();
+    void CloseToCharacter() { }
+    void ExitToCharacte() { }
+    #endregion
+
     private void Update()
     {
         pingpongZoom.Updatear();
