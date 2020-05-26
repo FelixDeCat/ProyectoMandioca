@@ -114,6 +114,10 @@ public class CharacterHead : CharacterControllable
     LockOn _lockOn;
     public LayerMask enemyLayer;
 
+    [HideInInspector]
+    public bool isBuffed = false;
+    float dmgReceived = 1f;
+
     public bool Combat { private set; get; }
     protected override void OnInitialize()
     {
@@ -699,6 +703,8 @@ public class CharacterHead : CharacterControllable
     #region Take Damage
     public override Attack_Result TakeDamage(int dmg, Vector3 attackDir, Damagetype dmgtype)
     {
+        if (isBuffed) dmg = (int)(dmg * dmgReceived);
+
         if (InDash())
             return Attack_Result.inmune;
 
@@ -846,4 +852,26 @@ public class CharacterHead : CharacterControllable
 
     #endregion
     public CharacterInput getInput => _charInput;
+
+    #region BuffedState
+    public void ActivateBuffState(float damageBuff, float damageReceived, float speedAcceleration, float scale, float duration)
+    {
+        charanim.SetUpdateMode(AnimatorUpdateMode.UnscaledTime);
+        isBuffed = true;
+        dmg_normal += damageBuff;
+        dmg_heavy += damageBuff;
+        move.SetSpeed(speed + speedAcceleration);
+        dmgReceived = damageReceived;
+        Main.instance.GetTimeManager().DoSlowMotion(scale, duration);
+    }
+    public void DesactivateBuffState(float damageBuff)
+    {
+        charanim.SetUpdateMode(AnimatorUpdateMode.Normal);
+        isBuffed = false;
+        dmg_normal -= damageBuff;
+        dmg_heavy -= damageBuff;
+        move.SetSpeed(speed);
+        dmgReceived = 1;
+    }
+    #endregion
 }

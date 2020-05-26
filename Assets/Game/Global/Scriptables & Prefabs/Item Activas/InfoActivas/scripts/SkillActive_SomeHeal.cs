@@ -5,27 +5,26 @@ using UnityEngine;
 public class SkillActive_SomeHeal : SkillActivas
 {
 
-    [SerializeField] private int healAmount = 20;
+    [SerializeField] float damageBuff = 5;
+    [SerializeField] float  damageResistance = 5;
+    [SerializeField] float speedAcceleration = 3;
+    [SerializeField] float timeScale = 0.5f;
+    [SerializeField] float timeDuration = 5f;
+
     [SerializeField] private ParticleSystem healFeedback = null;
 
-    [SerializeField] Atenea atenea;
+    CharacterHead mychar;
+    Animator anim;
 
-    protected override void OnBeginSkill() 
+
+    protected override void OnBeginSkill()
     {
-        atenea.GetComponent<AnimEvent>().Add_Callback("Heal", AteneaHeal);
+        if (mychar == null) mychar = Main.instance.GetChar();
     }
 
-    void AteneaHeal()
-    {
-        Main.instance.GetChar().Life.Heal(healAmount);
-        healFeedback.Play();
-    }
 
     protected override void OnOneShotExecute()
     {
-        atenea.gameObject.SetActive(true);
-        atenea.GoToHero();
-        atenea.Anim_Heal();
     }
     protected override void OnUpdateSkill()
     {
@@ -34,7 +33,13 @@ public class SkillActive_SomeHeal : SkillActivas
     }
     
     protected override void OnEndSkill() { }
-    protected override void OnStartUse() { }
-    protected override void OnStopUse() { }
+    protected override void OnStartUse()
+    {
+        mychar.ActivateBuffState(damageBuff, damageResistance, speedAcceleration, timeScale, timeDuration);
+    }
+    protected override void OnStopUse()
+    {
+        mychar.DesactivateBuffState(damageBuff);
+    }
     protected override void OnUpdateUse() { }
 }

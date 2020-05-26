@@ -33,4 +33,6 @@ public class CharacterAnimator : BaseAnimator
     public void EndSpin(Action callbackEndAnimation) { myAnim.SetTrigger("EndSpin"); myAnim.GetBehaviour<ANIM_SCRIPT_EndSpin>().ConfigureCallback(callbackEndAnimation); }
     public void Stun(bool stunvalue) { myAnim.SetBool("Stun", stunvalue); }
 
+    public void SetUpdateMode(AnimatorUpdateMode updateMode) { myAnim.updateMode = updateMode; }
+
 }
