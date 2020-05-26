@@ -54,9 +54,9 @@ public class CharacterAttack
 
         myWeapons = new List<Weapon>();
         myWeapons.Add(new GenericSword(damage, _range, "Generic Sword", _angle).ConfigureCallback(CALLBACK_DealDamage));
-        myWeapons.Add(new ExampleWeaponOne(damage, _range, "Other Weapon", 45));
-        myWeapons.Add(new ExampleWeaponTwo(damage, _range, "Sarasa Weapon", 45));
-        myWeapons.Add(new ExampleWeaponThree(damage, _range, "Ultimate Blessed Weapon", 45));
+        //myWeapons.Add(new ExampleWeaponOne(damage, _range, "Other Weapon", 45));
+        //myWeapons.Add(new ExampleWeaponTwo(damage, _range, "Sarasa Weapon", 45));
+        //myWeapons.Add(new ExampleWeaponThree(damage, _range, "Ultimate Blessed Weapon", 45));
         currentWeapon = myWeapons[0];
         currentDamage = currentWeapon.baseDamage;
 

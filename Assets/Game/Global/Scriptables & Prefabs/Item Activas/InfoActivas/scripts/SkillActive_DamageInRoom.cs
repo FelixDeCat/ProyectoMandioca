@@ -12,27 +12,21 @@ public class SkillActive_DamageInRoom : SkillActivas
     [SerializeField] LayerMask layerenem = 0;
     [SerializeField] private float radius = 10;
 
-    [SerializeField] Atenea atenea;
+     private GameObject glasses_face;
+     private GameObject glasses_hand;
+     private ParticleSystem cachin_particle;
+
+   // [SerializeField] Atenea atenea;
 
     protected override void OnBeginSkill() 
     {
-        atenea.GetComponent<AnimEvent>().Add_Callback("HitTheFloor", HitTheFloor);
+        // atenea.GetComponent<AnimEvent>().Add_Callback("HitTheFloor", HitTheFloor);
         //SetPredicate(UsePredicate);
-    }
-    void HitTheFloor()
-    {
-        Vector3 pos_collision = new Vector3(atenea.transform.position.x, Main.instance.GetChar().transform.position.y, atenea.transform.position.z);
-
-        feedback.transform.position = pos_collision;
-        feedback.Play();
-        var enems = Physics.OverlapSphere(pos_collision, radius, layerenem).Select(x => x.GetComponent<EnemyBase>()).ToList();
-
-        foreach (EnemyBase enemy in enems)
-        {
-            Debug.Log(enemy.gameObject.name);
-            //enemy.TakeDamage(damagePower, pos_collision, dmgType, Main.instance.GetChar());
-            enemy.OnPetrified();
-        }
+        glasses_face = Main.instance.GetChar().glasses_face;
+        glasses_hand = Main.instance.GetChar().glasses_hand;
+        cachin_particle = Main.instance.GetChar().cachin;
+        glasses_face.SetActive(false);
+        glasses_hand.SetActive(false);
     }
 
     Action GetBackControl = delegate { };
@@ -48,9 +42,42 @@ public class SkillActive_DamageInRoom : SkillActivas
 
     protected override void OnOneShotExecute()
     {
-        atenea.gameObject.SetActive(true);
-        atenea.GoToHero();
-        atenea.Anim_DamageRoom();
+        Main.instance.GetChar().charanim.ForceAnimation("Drink");
+        Main.instance.GetChar().charAnimEvent.Add_Callback("Skill_EndDrink", OnEnd);
+        Main.instance.GetChar().charAnimEvent.Add_Callback("Skill_Cachin", Cachin);
+
+        glasses_face.SetActive(false);
+        glasses_hand.SetActive(true);
+        //atenea.gameObject.SetActive(true);
+        //atenea.GoToHero();
+        //atenea.Anim_DamageRoom();
+    }
+    void OnEnd()
+    {
+        glasses_face.SetActive(false);
+        glasses_hand.SetActive(false);
+        GetBackControl.Invoke();
+    }
+
+    void Cachin()
+    {
+        Vector3 pos_collision = Main.instance.GetChar().transform.position;
+
+        feedback.transform.position = pos_collision;
+        feedback.Play();
+        var enems = Physics.OverlapSphere(pos_collision, radius, layerenem).Select(x => x.GetComponent<EnemyBase>()).ToList();
+
+        foreach (EnemyBase enemy in enems)
+        {
+            Debug.Log(enemy.gameObject.name);
+            //enemy.TakeDamage(damagePower, pos_collision, dmgType, Main.instance.GetChar());
+            enemy.OnPetrified();
+        }
+
+
+        cachin_particle.Play();
+        glasses_face.SetActive(true);
+        glasses_hand.SetActive(false);
     }
 
     

@@ -238,7 +238,7 @@ public class TrueDummyEnemy : EnemyBase
     {
         base.OnFreeze();
 
-        Debug.Log("entré al freeze");
+        //Debug.Log("entré al freeze");
 
         movement.MultiplySpeed(freezeSpeedSlowed);
         animator.speed *= freezeSpeedSlowed;

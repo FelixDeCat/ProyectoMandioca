@@ -11,6 +11,8 @@ public class Mouse_Or_Keyboard : MonoBehaviour
     GameObject _KeyBoard;
     [SerializeField]
     GameObject _PlayButton;
+    [SerializeField]
+    GameObject _gymButton;
     public bool active;
     bool _activeRotation;
 
@@ -19,12 +21,14 @@ public class Mouse_Or_Keyboard : MonoBehaviour
         _joyStickImage.SetActive(false);
         _KeyBoard.SetActive(false);
         _PlayButton.SetActive(false);
+        _gymButton.SetActive(false);
     }
     public void JoystickButon()
     {
         _joyStickImage.SetActive(true);
         _KeyBoard.SetActive(false);
         _PlayButton.SetActive(true);
+        _gymButton.SetActive(true);
         _activeRotation = false;
     }
     public void KeyBoardButon()
@@ -32,6 +36,7 @@ public class Mouse_Or_Keyboard : MonoBehaviour
         _joyStickImage.SetActive(false);
         _KeyBoard.SetActive(true);
         _PlayButton.SetActive(true);
+        _gymButton.SetActive(true);
         _activeRotation = true;
     }
     public void goToLevel()
@@ -43,6 +48,15 @@ public class Mouse_Or_Keyboard : MonoBehaviour
             LoadSceneHandler.instance.LoadAScene("MAIN Completa");
 
         }
-           
+    }
+    public void goToGym()
+    {
+        if (active)
+        {
+            CharacterInput inputs = Main.instance.GetChar().getInput;
+            inputs.ChangeRotation(_activeRotation);
+            LoadSceneHandler.instance.LoadAScene("Gym");
+
+        }
     }
 }

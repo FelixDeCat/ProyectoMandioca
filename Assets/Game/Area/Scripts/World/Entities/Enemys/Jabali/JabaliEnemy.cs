@@ -202,7 +202,7 @@ public class JabaliEnemy : EnemyBase
 
         if (cooldown || Invinsible || sm.Current.Name == "Dead") return Attack_Result.inmune;
 
-        Debug.Log("damagetype" + dmgtype.ToString());
+        //Debug.Log("damagetype" + dmgtype.ToString());
 
         Vector3 aux = (this.transform.position - attack_pos).normalized;
 

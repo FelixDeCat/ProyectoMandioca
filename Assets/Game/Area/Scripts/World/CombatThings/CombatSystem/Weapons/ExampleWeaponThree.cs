@@ -20,15 +20,8 @@ public class ExampleWeaponThree : Weapon
             .ToList();
 
 
-        foreach (var v in entities)
-        {
-            Debug.Log("entity " + v.gameObject);
-        }
-
         for (int i = 0; i < entities.Count; i++)
         {
-            Debug.Log(entities[i].gameObject.name);
-
             Vector3 dir = entities[i].transform.position - pos.position;
             float angle = Vector3.Angle(pos.forward, dir);
 
@@ -48,9 +41,6 @@ public class ExampleWeaponThree : Weapon
                 {
                     oneshotSucsesfull = true;
                 }
-
-                Debug.Log("Attack result: " + attackResult.ToString());
-
             }
         }
 

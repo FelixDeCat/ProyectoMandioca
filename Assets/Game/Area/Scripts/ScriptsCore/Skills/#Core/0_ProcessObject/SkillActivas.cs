@@ -73,8 +73,14 @@ public abstract class SkillActivas : SkillBase
 
     public void Execute()
     {
-        if (useRequest) ConfigureRequest(TrueExecute);
-        else TrueExecute();
+        if (usePredicate)
+            if (!predicate()) return;
+
+        if (!begincooldown)
+        {
+            if (useRequest) ConfigureRequest(TrueExecute);
+            else TrueExecute();
+        }
     }
 
     //si usa request... no le pongan que ejecute el base... esto se hereda si o si y nunca usa el Base
@@ -82,35 +88,14 @@ public abstract class SkillActivas : SkillBase
 
     void TrueExecute()
     {
-        if (usePredicate)
-            if (!predicate()) return;
-
-        if (!begincooldown)
-        {
-            begincooldown = true;
-            time_cooldown = 0;
-
-            CallbackSuscessfullUsed(this.skillinfo);
-
-            if (one_time_use)
-            {
-                OnOneShotExecute();
-            }
-            else
-            {
-                OnStartUse();
-
-                if (!use_coroutine)
-                {
-                    timer_use = 0;
-                    beginUse = true;
-                }
-                else
-                {
-                    StartCoroutine(UseTime());
-                    StartCoroutine(CustomUpdate());
-                }
-            }
+        begincooldown = true;
+        time_cooldown = 0;
+        CallbackSuscessfullUsed(this.skillinfo);
+        if (one_time_use) OnOneShotExecute();
+        else {
+            OnStartUse();
+            if (!use_coroutine) { timer_use = 0; beginUse = true; }
+            else { StartCoroutine(UseTime()); StartCoroutine(CustomUpdate()); }
         }
     }
 

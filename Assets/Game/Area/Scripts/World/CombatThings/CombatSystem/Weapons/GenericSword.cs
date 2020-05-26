@@ -17,7 +17,6 @@ public class GenericSword : Weapon
             .Where(x => !x.GetComponent<Minion>())
             .ToList();
 
-
         for (int i = 0; i < entities.Count; i++)
         {
 

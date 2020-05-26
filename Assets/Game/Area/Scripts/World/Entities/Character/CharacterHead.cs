@@ -67,6 +67,13 @@ public class CharacterHead : CharacterControllable
     public AnimEvent charAnimEvent = null;
     public CharacterAnimator charanim;
 
+    //apenas podamos hay que hacer un script de database para guardarnos tooodas las referncias del character
+    //que sean gameobjects, particulas y sonidos para feedback... un "CharactedFeedbackDatabase" onda que si 
+    //hacemos la cochinada, por lo menos hagamoslo en otro script
+    public GameObject glasses_hand;
+    public GameObject glasses_face;
+    public ParticleSystem cachin;
+
     [Header("Attack Options")]
     [SerializeField] ParticleSystem feedbackHeavy = null;
     [SerializeField] float dmg_normal = 5;
@@ -412,6 +419,7 @@ public class CharacterHead : CharacterControllable
     Action CanExecute = delegate { };
     void CanExecuteSkill()
     {
+        Debug.Log("canExecuteSkill");
         CanExecute.Invoke();
         CanExecute = delegate { };
     }

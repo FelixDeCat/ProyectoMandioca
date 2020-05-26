@@ -41,7 +41,7 @@ public class Atenea : MonoBehaviour
     void empty() { }
     void OnEnterIdle()
     {
-        Debug.Log("asdsadsad");
+       // Debug.Log("asdsadsad");
         this.gameObject.SetActive(false);
         //apago mesh o render o lo que sea... o fade
     }

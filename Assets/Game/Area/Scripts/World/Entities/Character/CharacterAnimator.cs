@@ -20,6 +20,7 @@ public class CharacterAnimator : BaseAnimator
     public void NormalAttack() => myAnim.SetTrigger("NormalAttack");
     public void HeavyAttack() => myAnim.SetBool("HeavyAttack", true);
     public void AttackAntiBug(){ myAnim.ResetTrigger("HeavyAttack"); myAnim.ResetTrigger("NormalAttack"); }
+    public void ForceAnimation(string s) { myAnim.Play(s); }
     public void Dead() => myAnim.SetTrigger("Death");
 
     public void Combo(bool val)

@@ -9,9 +9,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 971761135495715051}
-  - component: {fileID: 971761135495715054}
-  - component: {fileID: 971761135495715053}
-  - component: {fileID: 790370659890279110}
   m_Layer: 10
   m_Name: destructibleTest
   m_TagString: Untagged
@@ -34,53 +31,6 @@ Transform:
   m_Father: {fileID: 971761136072754288}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!54 &971761135495715054
-Rigidbody:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 971761135495715050}
-  serializedVersion: 2
-  m_Mass: 1
-  m_Drag: 0
-  m_AngularDrag: 0.05
-  m_UseGravity: 1
-  m_IsKinematic: 0
-  m_Interpolate: 0
-  m_Constraints: 0
-  m_CollisionDetection: 0
---- !u!65 &971761135495715053
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 971761135495715050}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 0.5, y: 0.75, z: 0.5}
-  m_Center: {x: 0, y: 0.38, z: 0}
---- !u!114 &790370659890279110
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 971761135495715050}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 69bfb6acd0c964f48a9589355f6a5340, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  poolname: 
-  data: {fileID: 11400000, guid: b3b9a8d612909f6498d4c93eba910ada, type: 2}
-  model_destroyedVersion: {fileID: 3504725395465579949, guid: 799138831732d8a44bb2e56cb31c3b73,
-    type: 3}
-  destroy: 1
-  dest_part: {fileID: 3771877822808720732}
 --- !u!1 &971761135974616031
 GameObject:
   m_ObjectHideFlags: 0
@@ -133,6 +83,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 971761136072754288}
+  - component: {fileID: 6380366582629391767}
+  - component: {fileID: 6851582623676240501}
+  - component: {fileID: 6130862046047950044}
   m_Layer: 10
   m_Name: destructibles
   m_TagString: Untagged
@@ -157,6 +110,53 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!54 &6380366582629391767
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 971761136072754303}
+  serializedVersion: 2
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_UseGravity: 1
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
+--- !u!65 &6851582623676240501
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 971761136072754303}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 0.5, y: 0.75, z: 0.5}
+  m_Center: {x: 0, y: 0.38, z: 0}
+--- !u!114 &6130862046047950044
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 971761136072754303}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 69bfb6acd0c964f48a9589355f6a5340, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  poolname: 
+  data: {fileID: 11400000, guid: b3b9a8d612909f6498d4c93eba910ada, type: 2}
+  model_destroyedVersion: {fileID: 3504725395465579949, guid: 799138831732d8a44bb2e56cb31c3b73,
+    type: 3}
+  destroy: 1
+  dest_part: {fileID: 3771877822808720732}
 --- !u!1 &971761136603584451
 GameObject:
   m_ObjectHideFlags: 0
