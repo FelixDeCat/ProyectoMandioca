@@ -8,6 +8,7 @@
         <e p="AnimAtenea.cs" t="Include" />
         <e p="ChangeValue.cs" t="Include" />
         <e p="DestroyedVersion.cs" t="Include" />
+        <e p="FastFix.cs" t="Include" />
         <e p="FindAndShutDownMeshes.cs" t="Include" />
         <e p="Game" t="Include">
           <e p="Area" t="Include">
@@ -38,6 +39,10 @@
                     <e p="DistanceDisolve.shader" t="Include" />
                     <e p="StencilMask.shader" t="Include" />
                     <e p="Test.shader" t="Include" />
+                  </e>
+                  <e p="Decals" t="Include">
+                    <e p="DecalFire.shader" t="Include" />
+                    <e p="Opacity.shader" t="Include" />
                   </e>
                   <e p="Freezing" t="Include">
                     <e p="Color.shader" t="Include" />
@@ -72,8 +77,7 @@
                     </e>
                   </e>
                   <e p="Terrain" t="Include">
-                    <e p="First-PassTerrain.shader" t="Include" />
-                    <e p="New Amplify Shader.shader" t="Include" />
+                    <e p="StandarVertexPainting.shader" t="Include" />
                   </e>
                   <e p="Water" t="Include">
                     <e p="Water.shader" t="Include" />
@@ -953,6 +957,7 @@
                       <e p="Scenes.cs" t="Include" />
                     </e>
                   </e>
+                  <e p="ChangeScene.cs" t="Include" />
                   <e p="DontDestroy.cs" t="Include" />
                   <e p="HideOnPlay.cs" t="Include" />
                   <e p="JoystickBasicInput.cs" t="Include" />
@@ -965,7 +970,6 @@
                   <e p="SensorManagerForWeapons.cs" t="Include" />
                   <e p="SerializedObjectWorld.cs" t="Include" />
                   <e p="ThreadRequestObject.cs" t="Include" />
-                  <e p="TimeToExecute.cs" t="Include" />
                 </e>
                 <e p="StateMachine" t="Include">
                   <e p="ConfigureState.cs" t="Include" />
@@ -986,14 +990,27 @@
               <e p="ScriptsCore" t="Include">
                 <e p="#_MonoScripts" t="Include">
                   <e p="Core" t="Include">
-                    <e p="DamageData.cs" t="Include" />
-                    <e p="IDamageable.cs" t="Include" />
+                    <e p="ApplicationLoop" t="Include">
+                      <e p="ISceneExitable.cs" t="Include" />
+                      <e p="ISceneLoadable.cs" t="Include" />
+                    </e>
+                    <e p="Damage" t="Include">
+                      <e p="DamageData.cs" t="Include" />
+                      <e p="IDamageable.cs" t="Include" />
+                    </e>
+                    <e p="GameLoop" t="Include">
+                      <e p="ICheckpointReseteable.cs" t="Include" />
+                      <e p="IPausable.cs" t="Include" />
+                      <e p="IResumeable.cs" t="Include" />
+                    </e>
                     <e p="IInitializable.cs" t="Include" />
-                    <e p="IPausable.cs" t="Include" />
-                    <e p="IResumeable.cs" t="Include" />
-                    <e p="IStopable.cs" t="Include" />
                   </e>
-                  <e p="LocalLoader.cs" t="Include" />
+                  <e p="LoadScenehandler" t="Include">
+                    <e p="LoadComEXAMPLE.cs" t="Include" />
+                    <e p="LoadComponent.cs" t="Include" />
+                    <e p="LoadSceneHandler.cs" t="Include" />
+                    <e p="LocalLoader.cs" t="Include" />
+                  </e>
                   <e p="MonoScriptBase.cs" t="Include" />
                 </e>
                 <e p="GameLoop" t="Include">
@@ -1025,11 +1042,6 @@
                   <e p="LoseLife" t="Include">
                     <e p="ScreenFeedback.cs" t="Include" />
                   </e>
-                </e>
-                <e p="LoadScenehandler" t="Include">
-                  <e p="LoadComEXAMPLE.cs" t="Include" />
-                  <e p="LoadComponent.cs" t="Include" />
-                  <e p="LoadSceneHandler.cs" t="Include" />
                 </e>
                 <e p="PlayObjectCore" t="Include">
                   <e p="Core" t="Include">
@@ -1202,6 +1214,7 @@
                   <e p="Spawner.cs" t="Include" />
                 </e>
               </e>
+              <e p="SkillCloseUp_Camera.cs" t="Include" />
               <e p="TimeManager.cs" t="Include" />
               <e p="UIs" t="Include">
                 <e p="3DUI" t="Include">
@@ -1276,9 +1289,6 @@
                 <e p="WorldToUI.cs" t="Include" />
               </e>
               <e p="World" t="Include">
-                <e p="Ambient" t="Include">
-                  <e p="Day_Night.cs" t="Include" />
-                </e>
                 <e p="CombatThings" t="Include">
                   <e p="CombatSystem" t="Include">
                     <e p="CombatComponent.cs" t="Include" />
@@ -1330,6 +1340,7 @@
                       <e p="CharEndBlock.cs" t="Include" />
                       <e p="CharIdle.cs" t="Include" />
                       <e p="CharMove.cs" t="Include" />
+                      <e p="CharOnSkill.cs" t="Include" />
                       <e p="CharParry.cs" t="Include" />
                       <e p="CharReleaseAttack.cs" t="Include" />
                       <e p="CharRoll.cs" t="Include" />
@@ -1446,7 +1457,6 @@
                       <e p="FeedbackOneInteractBase.cs" t="Include" />
                       <e p="TestVertex.shader" t="Include" />
                     </e>
-                    <e p="Interact_DayNight.cs" t="Include" />
                     <e p="Interact_Emisor.cs" t="Include" />
                     <e p="Interact_Receptor.cs" t="Include" />
                     <e p="Interactable.cs" t="Include" />
@@ -1682,6 +1692,7 @@
                     <e p="SkillActive_FreezeRange.cs" t="Include" />
                     <e p="SkillActive_Invisible.cs" t="Include" />
                     <e p="SkillActive_LightBounce.cs" t="Include" />
+                    <e p="SkillActive_NewSkill.cs" t="Include" />
                     <e p="SkillActive_RainArrows.cs" t="Include" />
                     <e p="SkillActive_SomeHeal.cs" t="Include" />
                     <e p="SkillActive_SpinAndStun.cs" t="Include" />
@@ -1690,8 +1701,10 @@
               </e>
             </e>
             <e p="Sounds" t="Include">
-              <e p="Como usar el Pool.txt" t="Include" />
-              <e p="Link de descarga, otros sonidos.txt" t="Include" />
+              <e p="Cosas sin ordenar" t="Include">
+                <e p="Como usar el Pool.txt" t="Include" />
+                <e p="Link de descarga, otros sonidos.txt" t="Include" />
+              </e>
             </e>
           </e>
         </e>
