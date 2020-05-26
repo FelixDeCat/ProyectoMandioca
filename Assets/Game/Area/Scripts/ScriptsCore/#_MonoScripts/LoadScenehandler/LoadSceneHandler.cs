@@ -6,13 +6,17 @@ using UnityEngine.SceneManagement;
 
 public class LoadSceneHandler : MonoBehaviour
 {
+    public static LoadSceneHandler instance;
+    private void Awake() => instance = this;
     Action OnEndLoad = delegate { };
-    [SerializeField] GameObject model_master_loadBar;
-    [SerializeField] GameObject model_slave_loadBar;
-    GenericBar master_genbar;
-    GenericBar slave_genbar;
+    //[SerializeField] GameObject model_master_loadBar;
+    //[SerializeField] GameObject model_slave_loadBar;
+    [SerializeField] GenericBar master_genbar;
+    //GenericBar slave_genbar;
 
-    public string firstScene;
+    public GameObject loadscreen;
+
+    string SceneToLoad;
 
     public List<LoadComponent> loadCOmponents;
 
@@ -21,16 +25,29 @@ public class LoadSceneHandler : MonoBehaviour
 
     }
 
-    public void StartLoad(Action callback_endLoad)
+    public void LoadAScene(string scene)
     {
-        OnEndLoad = callback_endLoad;
-        master_genbar = Instantiate(model_master_loadBar, Main.instance.gameUiController.GetRectCanvas()).GetComponent<GenericBar>();
-        // slave_genbar = Instantiate(model_slave_loadBar, Main.instance.gameUiController.GetRectCanvas()).GetComponent<GenericBar>();
-        Invoke("timeload", 3f);
+        SceneToLoad = scene;
+        loadscreen.SetActive(true);
+        Invoke("LoadTime", 1f);
     }
 
-    void timeload()
+    public void StartLoad(Action callback_endLoad)
     {
+       // OnEndLoad = callback_endLoad;
+       //// master_genbar = Instantiate(model_master_loadBar, Main.instance.gameUiController.GetRectCanvas()).GetComponent<GenericBar>();
+       // // slave_genbar = Instantiate(model_slave_loadBar, Main.instance.gameUiController.GetRectCanvas()).GetComponent<GenericBar>();
+       // loadscreen.SetActive(true);
+
+       // Invoke("LoadTime", 1f);
+    }
+
+    void LoadTime()
+    {
+        master_genbar.gameObject.SetActive(true);
+        master_genbar.Configure(1f,0.01f);
+        master_genbar.SetValue(0);
+
         StartCoroutine(Load().GetEnumerator());
     }
 
@@ -39,9 +56,10 @@ public class LoadSceneHandler : MonoBehaviour
         Debug.Log("StartComponents");
         yield return ComponentsToLoad().GetEnumerator();
         Debug.Log("StartScene");
-        yield return LoadYourAsyncScene();
+        yield return LoadAsyncScene();
         //Destroy(master_genbar.gameObject);
-        
+
+        loadscreen.SetActive(false);
     }
 
     public IEnumerable ComponentsToLoad()
@@ -51,36 +69,36 @@ public class LoadSceneHandler : MonoBehaviour
             yield return c.Load();
         }
     }
-    IEnumerator LoadYourAsyncScene()
+    IEnumerator LoadAsyncScene()
     {
-        AsyncOperation asyncLoad = SceneManager.LoadSceneAsync(firstScene);
-        //asyncLoad.allowSceneActivation = false;
+        AsyncOperation asyncLoad = SceneManager.LoadSceneAsync(SceneToLoad);
+        asyncLoad.completed += Completed;
 
         while (!asyncLoad.isDone)
         {
             yield return new WaitForEndOfFrame();
-
             MasterBar(asyncLoad.progress, 1);
             yield return null;
         }
-        Debug.Log("SEEJECUTAAAAAAA");
-        Destroy(master_genbar.gameObject);
-        //asyncLoad.allowSceneActivation = true;
-
+        //Destroy(master_genbar.gameObject);
+        
         OnEndLoad.Invoke();
         
     }
 
+    void Completed(AsyncOperation async)
+    {
+        MasterBar(1, 1);
+    }
+
     public void MasterBar(float value, int max)
     {
-        Debug.Log("VALS: " + value + " - " + max);
-
         master_genbar.Configure(max, 0.01f);
         master_genbar.SetValue(value);
     }
     public void SlaveBar(float value, int max)
     {
-        slave_genbar.Configure(max, 0.01f);
-        slave_genbar.SetValue(value);
+        //slave_genbar.Configure(max, 0.01f);
+        //slave_genbar.SetValue(value);
     }
 }

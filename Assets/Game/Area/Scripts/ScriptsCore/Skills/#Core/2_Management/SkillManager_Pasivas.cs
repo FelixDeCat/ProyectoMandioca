@@ -35,7 +35,7 @@ public class SkillManager_Pasivas : MonoBehaviour
     {
         my_editor_data_base = GetComponentsInChildren<SkillBase>().ToList();
         RefillFastDiccionaries();
-        selector = Instantiate(model_skill_selector, Main.instance.gameUiController.MyCanvas.transform);
+        selector = Instantiate(model_skill_selector, Main.instance.gameUiController.CompleteParentInstancer.transform);
         selector.GetComponent<UI_BeginSkillSelector>().Initialize(SkillSelected);
         // Build_menu_for_testing();
     }

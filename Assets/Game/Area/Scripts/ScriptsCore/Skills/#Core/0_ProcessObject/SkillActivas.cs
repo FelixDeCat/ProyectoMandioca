@@ -15,6 +15,9 @@ public abstract class SkillActivas : SkillBase
     float time_cooldown;
     bool begincooldown;
 
+    [Header("UseByRequest")]
+    public bool useRequest;
+
     [Header("Use in Time Settings")]
     public bool one_time_use = true;
     public float useTime = 5f;
@@ -28,6 +31,8 @@ public abstract class SkillActivas : SkillBase
     public bool use_coroutine = false;
     bool stop;
 
+    
+
 
     public void SetCallbackSuscessfulUsed(Action<SkillInfo> callback) { CallbackSuscessfullUsed = callback; }
 
@@ -38,6 +43,11 @@ public abstract class SkillActivas : SkillBase
     {
         predicate = pred;
         usePredicate = true;
+    }
+    protected void RemovePredicate()
+    {
+        predicate = delegate { return true; };
+        usePredicate = false;
     }
 
     public override void BeginSkill()
@@ -62,6 +72,15 @@ public abstract class SkillActivas : SkillBase
     }
 
     public void Execute()
+    {
+        if (useRequest) ConfigureRequest(TrueExecute);
+        else TrueExecute();
+    }
+
+    //si usa request... no le pongan que ejecute el base... esto se hereda si o si y nunca usa el Base
+    public virtual void ConfigureRequest(Action request) { throw new Exception("Si entró acá es porque algo estas haciendo mal"); }
+
+    void TrueExecute()
     {
         if (usePredicate)
             if (!predicate()) return;

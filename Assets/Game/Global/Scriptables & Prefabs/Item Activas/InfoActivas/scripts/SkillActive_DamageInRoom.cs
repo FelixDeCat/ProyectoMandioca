@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
+using System;
 
 public class SkillActive_DamageInRoom : SkillActivas
 {
@@ -16,6 +17,7 @@ public class SkillActive_DamageInRoom : SkillActivas
     protected override void OnBeginSkill() 
     {
         atenea.GetComponent<AnimEvent>().Add_Callback("HitTheFloor", HitTheFloor);
+        //SetPredicate(UsePredicate);
     }
     void HitTheFloor()
     {
@@ -33,6 +35,17 @@ public class SkillActive_DamageInRoom : SkillActivas
         }
     }
 
+    Action GetBackControl = delegate { };
+
+    public override void ConfigureRequest(Action request)
+    {
+        //base.ConfigureRequest(request); <--- esto nunca deberia estar descomentado
+
+        GetBackControl = Main.instance.GetChar().RequestExecuteASkill(request);
+        // si el character me da luz verde de... che, podes usar la skill
+        //ejecuta el OnOneShotExecute o el OnStartUse
+    }
+
     protected override void OnOneShotExecute()
     {
         atenea.gameObject.SetActive(true);
@@ -41,7 +54,10 @@ public class SkillActive_DamageInRoom : SkillActivas
     }
 
     
-    protected override void OnEndSkill() { }
+    protected override void OnEndSkill() 
+    {
+        
+    }
     protected override void OnUpdateSkill() { }
     protected override void OnStartUse() { }
     protected override void OnStopUse() { }

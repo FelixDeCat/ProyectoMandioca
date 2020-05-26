@@ -10,14 +10,13 @@ public class ChangeScene : MonoBehaviour
     public string scene = "level_to_change";
     public bool stayHere;
 
-    public string GetScene() => scene;
     void Start()
     {
         Invoke("Execute", timer);
     }
     void Execute()
     {
-        if(!stayHere)
-         SceneManager.LoadScene(scene);
+        if (!stayHere)
+            LoadSceneHandler.instance.LoadAScene(scene);
     }
 }

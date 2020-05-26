@@ -38,6 +38,8 @@ namespace ToolsMandioca.StateMachine
             {
                 charMove.MovementHorizontal(LeftHorizontal());
                 charMove.MovementVertical(LeftVertical());
+                charMove.RotateHorizontal(RightHorizontal());
+                charMove.RotateVertical(RightVertical());
             }
 
             var info = anim.GetCurrentAnimatorStateInfo(2);

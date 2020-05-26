@@ -54,6 +54,10 @@ public class SkillActive_BoomeranShield : SkillActivas
 
         AudioManager.instance.GetSoundPool(_flingShield_SoundName, _flingShield_Sound);
         AudioManager.instance.GetSoundPool(_rotatingShield_SoundName, _rotatingShield_Sound, true);
+
+        canuse = true;
+
+        //acaa subscribirse a la animacion
     }
 
     protected override void OnEndSkill()
@@ -71,7 +75,6 @@ public class SkillActive_BoomeranShield : SkillActivas
         if (canuse)
         {
             Main.instance.GetChar().ThrowSomething(TrowShield);
-            
         }
     }
 

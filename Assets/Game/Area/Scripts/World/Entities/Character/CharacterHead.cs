@@ -8,7 +8,7 @@ using ToolsMandioca.EventClasses;
 using ToolsMandioca.StateMachine;
 public class CharacterHead : CharacterControllable
 {
-    public enum PlayerInputs { IDLE, MOVE, BEGIN_BLOCK, BLOCK, END_BLOCK, PARRY, CHARGE_ATTACK, RELEASE_ATTACK, TAKE_DAMAGE, DEAD, ROLL, SPIN, STUN, PLAYER_LOCK_ON };
+    public enum PlayerInputs { IDLE, MOVE, BEGIN_BLOCK, BLOCK, END_BLOCK, PARRY, CHARGE_ATTACK, RELEASE_ATTACK, TAKE_DAMAGE, DEAD, ROLL, SPIN, STUN, PLAYER_LOCK_ON, ON_SKILL };
 
     Action ChildrensUpdates;
     [SerializeField] CharacterInput _charInput;
@@ -118,7 +118,7 @@ public class CharacterHead : CharacterControllable
     public void ThrowSomething(Action<Vector3> throwInPosition)
     {
         Main.instance.GetChar().charanim.StartThrow();
-        Main.instance.GetChar().charAnimEvent.Add_Callback("ThrowEvent", ThrowCallback);
+        Main.instance.GetChar().charAnimEvent.Add_Callback("OnThrow", ThrowCallback);
         throwCallback = throwInPosition;
     }
     void ThrowCallback()
@@ -220,6 +220,7 @@ public class CharacterHead : CharacterControllable
         var dead = new EState<PlayerInputs>("Dead");
         var spin = new EState<PlayerInputs>("Spin");
         var stun = new EState<PlayerInputs>("Stun");
+        var onSkill = new EState<PlayerInputs>("OnSkill");
 
         ConfigureState.Create(idle)
             .SetTransition(PlayerInputs.MOVE, move)
@@ -231,9 +232,23 @@ public class CharacterHead : CharacterControllable
             .SetTransition(PlayerInputs.DEAD, dead)
             .SetTransition(PlayerInputs.SPIN, spin)
             .SetTransition(PlayerInputs.STUN, stun)
+            .SetTransition(PlayerInputs.ON_SKILL, onSkill)
             .Done();
 
         ConfigureState.Create(move)
+            .SetTransition(PlayerInputs.IDLE, idle)
+            .SetTransition(PlayerInputs.BEGIN_BLOCK, beginBlock)
+            //.SetTransition(PlayerInputs.PARRY, parry)
+            .SetTransition(PlayerInputs.ROLL, roll)
+            .SetTransition(PlayerInputs.CHARGE_ATTACK, attackCharge)
+            .SetTransition(PlayerInputs.TAKE_DAMAGE, takeDamage)
+            .SetTransition(PlayerInputs.DEAD, dead)
+            .SetTransition(PlayerInputs.SPIN, spin)
+            .SetTransition(PlayerInputs.ON_SKILL, onSkill)
+            .SetTransition(PlayerInputs.STUN, stun)
+            .Done();
+
+        ConfigureState.Create(onSkill)
             .SetTransition(PlayerInputs.IDLE, idle)
             .SetTransition(PlayerInputs.BEGIN_BLOCK, beginBlock)
             //.SetTransition(PlayerInputs.PARRY, parry)
@@ -254,7 +269,7 @@ public class CharacterHead : CharacterControllable
              .Done();
 
         ConfigureState.Create(block)
-             .SetTransition(PlayerInputs.END_BLOCK, endBlock)
+            .SetTransition(PlayerInputs.END_BLOCK, endBlock)
             // .SetTransition(PlayerInputs.ROLL, roll)
             //.SetTransition(PlayerInputs.CHARGE_ATTACK, attackCharge)
             .SetTransition(PlayerInputs.TAKE_DAMAGE, takeDamage)
@@ -350,6 +365,8 @@ public class CharacterHead : CharacterControllable
 
         new CharReleaseAttack(attackRelease, stateMachine, attackRecall, HeavyAttackRealease, ChangeHeavy, anim_base, IsAttackWait)
             .SetMovement(this.move)
+            .SetLeftAxis(GetLeftHorizontal, GetLeftVertical)
+            .SetRightAxis(GetRightHorizontal, GetRightVertical)
             .SetAttack(charAttack)
             .SetLeftAxis(GetLeftHorizontal, GetLeftVertical);
 
@@ -367,6 +384,9 @@ public class CharacterHead : CharacterControllable
             .SetMovement(this.move)
             .SetAnimator(charanim);
 
+        new CharOnSkill(onSkill, stateMachine, CanExecuteSkill)
+            .SetMovement(this.move);
+
         new CharDead(dead, stateMachine);
     }
 
@@ -382,6 +402,25 @@ public class CharacterHead : CharacterControllable
 
     #endregion
 
+    #region SkillRequest
+    public Action RequestExecuteASkill(Action request)
+    {
+        stateMachine.SendInput(PlayerInputs.ON_SKILL);
+        CanExecute = request;
+        return GetBackControl;
+    }
+    Action CanExecute = delegate { };
+    void CanExecuteSkill()
+    {
+        CanExecute.Invoke();
+        CanExecute = delegate { };
+    }
+    void GetBackControl()
+    {
+        stateMachine.SendInput(PlayerInputs.IDLE);
+    }
+    #endregion
+
     public void StartSpin(float _spinDuration, float _spinSpeed, float _stunDuration)
     {
         spinDuration = _spinDuration;
@@ -391,7 +430,6 @@ public class CharacterHead : CharacterControllable
     }
     protected override void OnUpdateEntity()
     {
-
         stateMachine.Update();
         ChildrensUpdates();
         charAttack.Refresh();

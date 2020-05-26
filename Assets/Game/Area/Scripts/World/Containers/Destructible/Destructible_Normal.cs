@@ -137,6 +137,10 @@ public class Destructible_Normal : DestructibleBase
 
     public override Attack_Result TakeDamage(int dmg, Vector3 attack_pos, Damagetype damagetype, EntityBase ent) 
     {
+        return TakeDamage(dmg, attack_pos, damagetype);
+    }
+    public override Attack_Result TakeDamage(int dmg, Vector3 attack_pos, Damagetype damagetype)
+    {
         DestroyDestructible();
         return Attack_Result.sucessful;
     }
@@ -160,9 +164,6 @@ public class Destructible_Normal : DestructibleBase
     protected override void OnPause() { }
     protected override void OnResume() { }
 
-    public override Attack_Result TakeDamage(int dmg, Vector3 attack_pos, Damagetype damagetype)
-    {
-        throw new System.NotImplementedException();
-    }
+    
 }
 

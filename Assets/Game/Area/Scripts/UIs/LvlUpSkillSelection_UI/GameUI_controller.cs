@@ -13,6 +13,8 @@ public class GameUI_controller : MonoBehaviour
     [SerializeField] private GameObject charStats_template_pf = null;
     [SerializeField] private GameObject stats3D_UI_pf;
     [SerializeField] private UI3D_Shields_controller _shieldsController_pf;
+
+    public RectTransform CompleteParentInstancer { get => completeCanvas; }
     
     
     [SerializeField] private GameMenu_UI gameMenu_UI = null;
