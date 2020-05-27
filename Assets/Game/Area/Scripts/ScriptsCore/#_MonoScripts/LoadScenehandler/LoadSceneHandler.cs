@@ -10,8 +10,8 @@ public class LoadSceneHandler : MonoBehaviour
     private void Awake() => instance = this;
     Action OnEndLoad = delegate { };
     //[SerializeField] GameObject model_master_loadBar;
-    //[SerializeField] GameObject model_slave_loadBar;
-    [SerializeField] GenericBar master_genbar;
+    [SerializeField] GenericBar master_genbar_localLoader;
+    [SerializeField] GenericBar master_genbar_Scene;
     //GenericBar slave_genbar;
 
     public GameObject loadscreen;
@@ -20,71 +20,65 @@ public class LoadSceneHandler : MonoBehaviour
 
     public List<LoadComponent> loadCOmponents;
 
-    public void LoadALoader(LocalLoader manager)
+    public void LoadALoader(LocalLoader localloader)
     {
-
+        foreach (var loader in localloader.GetLoaders())
+            loadCOmponents.Add(loader);
     }
 
     public void LoadAScene(string scene)
     {
         SceneToLoad = scene;
         loadscreen.SetActive(true);
-        Invoke("LoadTime", 1f);
+        Invoke("LoadTime", 0.1f);
     }
 
     void LoadTime()
     {
-        master_genbar.gameObject.SetActive(true);
-        master_genbar.Configure(1f,0.01f);
-        master_genbar.SetValue(0);
-
+        master_genbar_Scene.gameObject.SetActive(true);
+        master_genbar_Scene.Configure(1f,0.01f);
+        master_genbar_Scene.SetValue(0);
+        loadscreen.SetActive(false);
         StartCoroutine(Load().GetEnumerator());
     }
 
     IEnumerable Load()
     {
-        yield return ComponentsToLoad().GetEnumerator();
         yield return LoadAsyncScene();
-        loadscreen.SetActive(false);
+        yield return ComponentsToLoad().GetEnumerator();
     }
 
+    #region LocalLoaders
     public IEnumerable ComponentsToLoad()
     {
-        foreach (var c in loadCOmponents)
-        {
+        foreach (var c in loadCOmponents) 
             yield return c.Load();
-        }
+        loadCOmponents.Clear();
     }
+    #endregion
+
+    #region Scene
     IEnumerator LoadAsyncScene()
     {
         AsyncOperation asyncLoad = SceneManager.LoadSceneAsync(SceneToLoad);
         asyncLoad.completed += Completed;
-
         while (!asyncLoad.isDone)
         {
             yield return new WaitForEndOfFrame();
             MasterBar(asyncLoad.progress, 1);
             yield return null;
         }
-        //Destroy(master_genbar.gameObject);
-        
         OnEndLoad.Invoke();
-        
     }
+    void Completed(AsyncOperation async) { MasterBar(1, 1); }
+    #endregion
 
-    void Completed(AsyncOperation async)
-    {
-        MasterBar(1, 1);
-    }
-
+    #region Bar
     public void MasterBar(float value, int max)
     {
-        master_genbar.Configure(max, 0.01f);
-        master_genbar.SetValue(value);
+        master_genbar_Scene.Configure(max, 0.01f);
+        master_genbar_Scene.SetValue(value);
     }
-    public void SlaveBar(float value, int max)
-    {
-        //slave_genbar.Configure(max, 0.01f);
-        //slave_genbar.SetValue(value);
-    }
+    #endregion
+
 }

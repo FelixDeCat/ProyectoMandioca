@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
-public class SkillManager_PasivasNoBranches : MonoBehaviour
+public class SkillManager_PasivasNoBranches : LoadComponent
 {
 
     [Header("Data_base")]
@@ -11,15 +11,12 @@ public class SkillManager_PasivasNoBranches : MonoBehaviour
     
     public UI_FastSkillSelector frontEnd;
 
-    /////////////////////////////////////////////////////////////////////////////////////////////////////////
-    ////// ON LOAD BEGIN
-    /////////////////////////////////////////////////////////////////////////////////////////////////////////
-    private void Start() => Main.instance.eventManager.SubscribeToEvent(GameEvents.GAME_INITIALIZE, Initialize);
-
-    void Initialize()
+    protected override IEnumerator LoadMe()
     {
+        Debug.Log("LOADME");
         skills = GetComponentsInChildren<SkillBase>().ToList();
         frontEnd.Build(skills, Equip);
+        yield return null;
     }
 
     bool open; public void Open() { open = !open; if (open) frontEnd.Open(); else frontEnd.Close(); }
@@ -46,4 +43,6 @@ public class SkillManager_PasivasNoBranches : MonoBehaviour
 
         Main.instance.gameUiController.RefreshPassiveSkills_UI(coll_for_Feedback);
     }
+
+    
 }

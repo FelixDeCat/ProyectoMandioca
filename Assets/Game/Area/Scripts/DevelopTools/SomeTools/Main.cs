@@ -28,7 +28,7 @@ public class Main : MonoBehaviour
     [SerializeField] LoadSceneHandler loader = null;
     [SerializeField] List<PlayObject> allentities = new List<PlayObject>();
     //[SerializeField] SkillManager_Pasivas pasives = null; 
-    [SerializeField] SkillManager_PasivasNoBranches pasives_nobranches = null;
+    //[SerializeField] SkillManager_PasivasNoBranches pasives_nobranches = null;
     [SerializeField] SkillManager_Activas actives = null;
     [SerializeField] LevelSystem levelSystem = null;
     [SerializeField] TimeManager timeManager = null;
