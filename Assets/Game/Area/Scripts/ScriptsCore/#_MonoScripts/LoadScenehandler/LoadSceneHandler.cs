@@ -53,12 +53,8 @@ public class LoadSceneHandler : MonoBehaviour
 
     IEnumerable Load()
     {
-        Debug.Log("StartComponents");
         yield return ComponentsToLoad().GetEnumerator();
-        Debug.Log("StartScene");
         yield return LoadAsyncScene();
-        //Destroy(master_genbar.gameObject);
-
         loadscreen.SetActive(false);
     }
 

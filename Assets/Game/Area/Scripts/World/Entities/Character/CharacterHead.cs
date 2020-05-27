@@ -207,8 +207,8 @@ public class CharacterHead : CharacterControllable
         AudioManager.instance.PlaySound("FootStep");
     }
 
-    void DealLeft() { Debug.Log("DealLeft"); }
-    void DealRight() { Debug.Log("DealRight"); }
+    void DealLeft() { }
+    void DealRight() { }
 
 
     float auxSpeedDebug;
