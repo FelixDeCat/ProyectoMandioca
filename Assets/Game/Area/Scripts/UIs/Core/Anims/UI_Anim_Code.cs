@@ -50,13 +50,13 @@ public class UI_Anim_Code : UI_AnimBase
 
     public void OnGo(float time_value) 
     { 
-        //transform.localPosition = Vector3.Lerp(hidepos, currentpos, time_value);
-        myCanvasGroup.alpha = time_value;
+        transform.localPosition = Vector3.Lerp(hidepos, currentpos, time_value);
+        if(myCanvasGroup) myCanvasGroup.alpha = time_value;
     }
     public void OnBack(float time_value) 
     {
-        //transform.localPosition = Vector3.Lerp(currentpos, hidepos, time_value);
-        myCanvasGroup.alpha = Mathf.Lerp(1,0,time_value);
+        transform.localPosition = Vector3.Lerp(currentpos, hidepos, time_value);
+        if (myCanvasGroup) myCanvasGroup.alpha = Mathf.Lerp(1,0,time_value);
     }
 
     private void Update()

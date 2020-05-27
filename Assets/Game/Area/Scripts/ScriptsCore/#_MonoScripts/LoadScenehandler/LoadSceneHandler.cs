@@ -32,16 +32,6 @@ public class LoadSceneHandler : MonoBehaviour
         Invoke("LoadTime", 1f);
     }
 
-    public void StartLoad(Action callback_endLoad)
-    {
-       // OnEndLoad = callback_endLoad;
-       //// master_genbar = Instantiate(model_master_loadBar, Main.instance.gameUiController.GetRectCanvas()).GetComponent<GenericBar>();
-       // // slave_genbar = Instantiate(model_slave_loadBar, Main.instance.gameUiController.GetRectCanvas()).GetComponent<GenericBar>();
-       // loadscreen.SetActive(true);
-
-       // Invoke("LoadTime", 1f);
-    }
-
     void LoadTime()
     {
         master_genbar.gameObject.SetActive(true);

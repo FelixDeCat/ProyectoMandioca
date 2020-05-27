@@ -6,12 +6,12 @@ using UnityEngine;
 public class UI_Menu : UI_Base
 {
     
-    public Button btn_newSkill;
+    //public Button btn_newSkill;
 
     public override void Open()
     {
         base.Open();
-        btn_newSkill.interactable = Main.instance.GetPasivesManager().I_Have_An_Active_Request();
+        //btn_newSkill.interactable = Main.instance.GetPasivesManager().I_Have_An_Active_Request();
     }
 
     public void BTN_Spend_SkillPoint()

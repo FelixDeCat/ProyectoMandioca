@@ -15,7 +15,6 @@ public class Main : MonoBehaviour
 
     [Header("Main Options")]
     public GenericBar bar;
-    public bool use_selector = true;
     bool gameisbegin;
     public Rumble rumble;
     CustomCamera myCamera;
@@ -28,7 +27,8 @@ public class Main : MonoBehaviour
     [SerializeField] CharacterHead character = null;
     [SerializeField] LoadSceneHandler loader = null;
     [SerializeField] List<PlayObject> allentities = new List<PlayObject>();
-    [SerializeField] SkillManager_Pasivas pasives = null;
+    //[SerializeField] SkillManager_Pasivas pasives = null; 
+    [SerializeField] SkillManager_PasivasNoBranches pasives_nobranches = null;
     [SerializeField] SkillManager_Activas actives = null;
     [SerializeField] LevelSystem levelSystem = null;
     [SerializeField] TimeManager timeManager = null;
@@ -52,35 +52,10 @@ public class Main : MonoBehaviour
     void Start()
     {
         StartCoroutine(InitCorroutine());
-
-        loader.StartLoad(EndLoad);
+        Invoke("EndLoad", 0.1f);
     }
 
     void EndLoad()
-    {
-        Debug.Log("ENdLoad");
-    }
-
-    System.Collections.IEnumerator InitCorroutine()
-    {
-        yield return new WaitForSeconds(0.00000001f);
-        if (use_selector)
-        {
-            eventManager.TriggerEvent(GameEvents.GAME_INITIALIZE);
-        }
-        else
-        {
-           // LoadLevelPlayObjects();
-           // OnLoadEnded();
-        }
-    }
-
-    private void Update()
-    {
-        rumble.OnUpdate();
-    }
-
-    public void SkillAnreadySelected()
     {
         gameisbegin = true;
         InitializePlayObjects();//esto no va a ir aca
@@ -94,6 +69,17 @@ public class Main : MonoBehaviour
 
         character.Initialize();
         character.Resume();
+    }
+
+    System.Collections.IEnumerator InitCorroutine()
+    {
+        yield return new WaitForSeconds(0.00000001f);
+        eventManager.TriggerEvent(GameEvents.GAME_INITIALIZE);
+    }
+
+    private void Update()
+    {
+        rumble.OnUpdate();
     }
 
     public void EVENT_OpenMenu() { if (gameisbegin) gameUiController.BTN_Back_OpenMenu(); }
@@ -143,7 +129,7 @@ public class Main : MonoBehaviour
     public List<EnemyBase> GetEnemiesByPointInRadius(Vector3 point, float radius) => GetListOfComponentInRadius(point,radius).Select(x => x.GetComponent<EnemyBase>()).ToList();
     public List<EnemyBase> GetNoOptimizedListEnemies() => FindObjectsOfType<EnemyBase>().ToList();
 
-    public SkillManager_Pasivas GetPasivesManager() => pasives;
+    //public SkillManager_Pasivas GetPasivesManager() => pasives;
 
     public SkillManager_Activas GetActivesManager() => actives;
 

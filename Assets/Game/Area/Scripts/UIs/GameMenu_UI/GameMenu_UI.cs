@@ -32,40 +32,40 @@ public class GameMenu_UI : UI_Base
     
     public override void Refresh()
     {
-        GameObject myselected = new GameObject();
+       // GameObject myselected = new GameObject();
 
-        bool first = false;
+       // bool first = false;
         
-        var infos = Main.instance.GetPasivesManager().equiped.Select(x => x.skillinfo);
+       //// var infos = Main.instance.GetPasivesManager().equiped.Select(x => x.skillinfo);
 
-        foreach (var info in infos)
-        {
-            if (!templates.ContainsKey(info))
-            {
-                PassiveSkill_template newSkill = Instantiate(ps_template_pf, passiveSkills_container);
-                newSkill.Configure(info, UpdateSkillDescription);
-                templates.Add(info, newSkill);
-            }
-            if (!first)
-            {
-                first = true;
+       // foreach (var info in infos)
+       // {
+       //     if (!templates.ContainsKey(info))
+       //     {
+       //         PassiveSkill_template newSkill = Instantiate(ps_template_pf, passiveSkills_container);
+       //         newSkill.Configure(info, UpdateSkillDescription);
+       //         templates.Add(info, newSkill);
+       //     }
+       //     if (!first)
+       //     {
+       //         first = true;
 
-                myselected = templates[info].gameObject;
+       //         myselected = templates[info].gameObject;
                 
-            }
-        }
+       //     }
+       // }
 
-        skill_manager = Main.instance.GetPasivesManager();
+        //skill_manager = Main.instance.GetPasivesManager();
 
-        if (skill_manager.I_Have_An_Active_Request())
-        {
-            Debug.LogWarning("TENGO UNA REQUEST ACTIVA");
-           Instantiate(psSelection_template_pf, passiveSkillsSelection_container).
-                        Configure(skill_manager.GetPeekedRequest(), skill_manager.EquipSkill, OnFinishLvlUpSkillSelection, out myselected);
-        }
+        //if (skill_manager.I_Have_An_Active_Request())
+        //{
+        //    Debug.LogWarning("TENGO UNA REQUEST ACTIVA");
+        //   Instantiate(psSelection_template_pf, passiveSkillsSelection_container).
+        //                Configure(skill_manager.GetPeekedRequest(), skill_manager.EquipSkill, OnFinishLvlUpSkillSelection, out myselected);
+        //}
 
 
-        ConfigurateFirst(myselected);
+       // ConfigurateFirst(myselected);
     }
 
     #region UI_base Methods

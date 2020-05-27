@@ -20,7 +20,7 @@ public class LevelSystem : MonoBehaviour
 
     void Initialize()
     {
-        I_have_an_active_request = Main.instance.GetPasivesManager().I_Have_An_Active_Request;
+        //I_have_an_active_request = Main.instance.GetPasivesManager().I_Have_An_Active_Request;
 
         Main.instance.eventManager.SubscribeToEvent(GameEvents.ENEMY_DEAD, EnemyDeath);
     }
@@ -38,6 +38,7 @@ public class LevelSystem : MonoBehaviour
 
     public void AddExperiencie(int exp)
     {
+        /*
         if (currentIndex < levels.Length)
         {
             currentExpValue += exp;
@@ -56,7 +57,7 @@ public class LevelSystem : MonoBehaviour
             }
         }
 
-        RefreshUI();
+        RefreshUI();*/
     }
 
     public void RefreshUI()

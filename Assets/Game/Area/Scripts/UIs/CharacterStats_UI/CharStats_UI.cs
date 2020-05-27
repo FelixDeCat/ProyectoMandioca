@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Experimental.PlayerLoop;
 using UnityEngine.UI;
+using System.Linq;
 
 public class CharStats_UI : MonoBehaviour
 {
@@ -70,14 +71,14 @@ public class CharStats_UI : MonoBehaviour
 
     public void UpdatePasiveSkills(List<SkillInfo> skillsNuevas)
     {
+        //esto no es optimo... lo puse de apurado. XD
+        var childs = skills_container.transform.GetComponentsInChildren<Transform>().Where(x => x != skills_container.transform).ToArray();
+        for (int i =0; i < childs.Length; i++) Destroy(childs[i].gameObject);
+
         foreach (SkillInfo si in skillsNuevas)
         {
-            if (!_currenSkillsName.Contains(si.skill_name))
-            {
-                GameObject newSkill = Instantiate(skillImage_template_pf, skills_container.transform);
-                newSkill.GetComponent<Image>().sprite = si.img_actived;
-                _currenSkillsName.Add(si.skill_name);
-            }
+            GameObject newSkill = Instantiate(skillImage_template_pf, skills_container.transform);
+            newSkill.GetComponent<Image>().sprite = si.img_actived;
 
         }
     }
