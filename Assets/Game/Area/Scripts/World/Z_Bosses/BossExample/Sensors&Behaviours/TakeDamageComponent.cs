@@ -13,7 +13,10 @@ public class TakeDamageComponent : EntityBase
     public void SubscribeMeTo(Func<int, Vector3, Damagetype, EntityBase, Attack_Result> _funcentity) => funcentity += _funcentity;
     public void SubscribeMeTo(Func<int, Vector3, Damagetype, EntityBase, Attack_Result> _funcentity, Func<bool> pred) { funcentity += _funcentity; predicate = pred; }
     public override Attack_Result TakeDamage(int dmg, Vector3 attack_pos, Damagetype damagetype) => predicate() ? funcsimple(dmg, attack_pos, damagetype) : Attack_Result.inmune;
-    public override Attack_Result TakeDamage(int dmg, Vector3 attack_pos, Damagetype damagetype, EntityBase owner_entity) => predicate() ? funcentity(dmg, attack_pos, damagetype, owner_entity) : Attack_Result.inmune;
+    public override Attack_Result TakeDamage(int dmg, Vector3 attack_pos, Damagetype damagetype, EntityBase owner_entity)
+    {
+        return funcentity(dmg, attack_pos, damagetype, owner_entity);
+    }
 
     #region Unused
     protected override void OnFixedUpdate() { }
