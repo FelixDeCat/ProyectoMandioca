@@ -16,6 +16,9 @@ public class Mouse_Or_Keyboard : MonoBehaviour
     public bool active;
     bool _activeRotation;
 
+    public string sceneGame = "MAIN Completa";
+    public string sceneGym = "Gym";
+
     private void Start()
     {
         _joyStickImage.SetActive(false);
@@ -45,7 +48,7 @@ public class Mouse_Or_Keyboard : MonoBehaviour
         {
             CharacterInput inputs = Main.instance.GetChar().getInput;
             inputs.ChangeRotation(_activeRotation);
-            LoadSceneHandler.instance.LoadAScene("MAIN Completa");
+            LoadSceneHandler.instance.LoadAScene(sceneGame);
 
         }
     }
@@ -55,7 +58,7 @@ public class Mouse_Or_Keyboard : MonoBehaviour
         {
             CharacterInput inputs = Main.instance.GetChar().getInput;
             inputs.ChangeRotation(_activeRotation);
-            LoadSceneHandler.instance.LoadAScene("Gym");
+            LoadSceneHandler.instance.LoadAScene(sceneGym);
 
         }
     }

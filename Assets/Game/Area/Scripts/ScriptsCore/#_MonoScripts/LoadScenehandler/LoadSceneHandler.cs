@@ -20,6 +20,15 @@ public class LoadSceneHandler : MonoBehaviour
 
     public List<LoadComponent> loadCOmponents;
 
+    public bool stayHere;
+    public void Start()
+    {
+        if (stayHere)
+        {
+            LoadAScene("blablabla");
+        }
+    }
+
     public void LoadALoader(LocalLoader localloader)
     {
         foreach (var loader in localloader.GetLoaders())
@@ -48,7 +57,7 @@ public class LoadSceneHandler : MonoBehaviour
     IEnumerable Load()
     {
         yield return ComponentsToLoad().GetEnumerator();
-        yield return LoadAsyncScene();
+        if (!stayHere) yield return LoadAsyncScene();
         loadscreen.SetActive(false);
     }
 
