@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class FastFix : MonoBehaviour
+public class FastFix_ParaEscenasSinLoad : MonoBehaviour
 {
     /// <summary>
     /// esto es un fast fix rapido para que los enemigos anden para la clase
