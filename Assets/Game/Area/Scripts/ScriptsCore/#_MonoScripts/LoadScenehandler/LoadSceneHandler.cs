@@ -38,7 +38,7 @@ public class LoadSceneHandler : MonoBehaviour
         master_genbar_Scene.gameObject.SetActive(true);
         master_genbar_Scene.Configure(1f,0.01f);
         master_genbar_Scene.SetValue(0);
-        loadscreen.SetActive(false);
+        
         StartCoroutine(Load().GetEnumerator());
     }
 
@@ -46,6 +46,7 @@ public class LoadSceneHandler : MonoBehaviour
     {
         yield return LoadAsyncScene();
         yield return ComponentsToLoad().GetEnumerator();
+        loadscreen.SetActive(false);
     }
 
     #region LocalLoaders

@@ -22,7 +22,7 @@ public class LevelSystem : MonoBehaviour
     {
         //I_have_an_active_request = Main.instance.GetPasivesManager().I_Have_An_Active_Request;
 
-        Main.instance.eventManager.SubscribeToEvent(GameEvents.ENEMY_DEAD, EnemyDeath);
+        //Main.instance.eventManager.SubscribeToEvent(GameEvents.ENEMY_DEAD, EnemyDeath);
     }
 
     private void Start()
@@ -32,7 +32,6 @@ public class LevelSystem : MonoBehaviour
 
     void EnemyDeath(params object[] param)
     {
-
         Main.instance.SpawnListItems(experience, (Vector3)param[0], (int)param[2]);
     }
 
@@ -57,7 +56,8 @@ public class LevelSystem : MonoBehaviour
             }
         }
 
-        RefreshUI();*/
+        RefreshUI();
+        */
     }
 
     public void RefreshUI()

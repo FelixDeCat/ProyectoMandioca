@@ -276,7 +276,7 @@ public class CharacterHead : CharacterControllable
             .SetTransition(PlayerInputs.CHARGE_ATTACK, attackCharge)
             .SetTransition(PlayerInputs.TAKE_DAMAGE, takeDamage)
             .SetTransition(PlayerInputs.DEAD, dead)
-            .SetTransition(PlayerInputs.SPIN, spin)
+           // .SetTransition(PlayerInputs.SPIN, spin)
             .SetTransition(PlayerInputs.STUN, stun)
             .Done();
 
@@ -332,9 +332,9 @@ public class CharacterHead : CharacterControllable
             .SetTransition(PlayerInputs.DEAD, dead)
             .Done();
 
-        ConfigureState.Create(spin)
-            .SetTransition(PlayerInputs.STUN, stun)
-            .Done();
+        //ConfigureState.Create(spin)
+        //    .SetTransition(PlayerInputs.STUN, stun)
+        //    .Done();
 
         ConfigureState.Create(stun)
             .SetTransition(PlayerInputs.IDLE, idle)
@@ -392,12 +392,12 @@ public class CharacterHead : CharacterControllable
 
         new CharTakeDmg(takeDamage, stateMachine, takeDamageRecall);
 
-        new CharSpin(spin, stateMachine)
-            .Configurate(GetSpinDuration, GetSpinSpeed, go_SpinFeedback, sensorSpin)
-            .SetLeftAxis(GetLeftHorizontal, GetLeftVertical)
-            //.SetRightAxis(GetRightHorizontal, GetRightVertical)
-            .SetMovement(this.move)
-            .SetAnimator(charanim);
+        //new CharSpin(spin, stateMachine)
+        //    .Configurate(GetSpinDuration, GetSpinSpeed, go_SpinFeedback, sensorSpin)
+        //    .SetLeftAxis(GetLeftHorizontal, GetLeftVertical)
+        //    //.SetRightAxis(GetRightHorizontal, GetRightVertical)
+        //    .SetMovement(this.move)
+        //    .SetAnimator(charanim);
 
         new CharStun(stun, stateMachine)
             .Configurate(GetStunDuration, go_StunFeedback)
@@ -846,7 +846,7 @@ public class CharacterHead : CharacterControllable
     {
         [SerializeField] UnityEngine.UI.Text txt_debug = null;
         public void DebugState(string state) { if (txt_debug != null) txt_debug.text = state; }
-        public void StartDebug() { if (txt_debug != null) txt_debug.enabled = true; DevelopTools.UI.Debug_UI_Tools.instance.CreateToogle("Character State Machine Debug", true, ToogleDebug); }
+        public void StartDebug() { if (txt_debug != null) txt_debug.enabled = false; DevelopTools.UI.Debug_UI_Tools.instance.CreateToogle("Character State Machine Debug", true, ToogleDebug); }
         string ToogleDebug(bool active) { if (txt_debug != null) txt_debug.enabled = active; return active ? "debug activado" : "debug desactivado"; }
     }
     #endregion
