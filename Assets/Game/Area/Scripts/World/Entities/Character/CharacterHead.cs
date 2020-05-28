@@ -654,19 +654,28 @@ public class CharacterHead : CharacterControllable
     {
         if (!move.InCD())
         {
+            //Chequeo si tengo el teleport activado. Sino, sigo normalmente con el roll
+            if (move.TeleportActive)
+            {
+                if(move.CheckIfCanTeleport()) stateMachine.SendInput(PlayerInputs.ROLL);
+                
+                return;
+            }
+            
             stateMachine.SendInput(PlayerInputs.ROLL);
         }
     }
-
     public void AddListenerToDash(Action listener) => move.Dash += listener;
     public void RemoveListenerToDash(Action listener) => move.Dash -= listener;
     public void ChangeDashForTeleport()
     {
+        move.TeleportActive = true;   
         move.Dash -= move.Roll;
         move.Dash += move.Teleport;
     }
     public void ChangeTeleportForDash()
     {
+        move.TeleportActive = false;   
         move.Dash -= move.Teleport;
         move.Dash += move.Roll;
     }

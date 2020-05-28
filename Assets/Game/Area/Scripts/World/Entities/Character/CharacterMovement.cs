@@ -27,6 +27,7 @@ public class CharacterMovement
     float dashDecreaseSpeed;
     float dashMaxSpeed;
     bool dashCdOk;
+    
 
     CharacterAnimator anim;
 
@@ -40,6 +41,13 @@ public class CharacterMovement
     public Action<float> RotateVertical;
 
     private float _teleportDistance;
+    private bool teleportActive;
+
+    public bool TeleportActive
+    {
+        get => teleportActive;
+        set { teleportActive = value; }
+    }
 
     public CharacterMovement(Rigidbody rb, Transform rot, CharacterAnimator a)
     {
@@ -298,16 +306,6 @@ public class CharacterMovement
 
     public void Teleport()
     {
-        RaycastHit hit;
-        if (Physics.Raycast(_rb.position, dashDir, out hit, _teleportDistance, 1 << 20))
-        {
-            Debug.Log("Le pego a la pared invisible");
-            return;
-        }
-        
-        Debug.Log("Puedo hacer teleport");
-        Debug.Log($"{_rb.position} es la pos y {dashDir} es para donde va");
-        
         inDash = true;
         dashCdOk = true;
         if (movX != 0 || movY != 0)
@@ -317,6 +315,21 @@ public class CharacterMovement
 
 
         _rb.position = _rb .position + (dashDir * _teleportDistance);
+    }
+    
+    public bool CheckIfCanTeleport()
+    {
+        RaycastHit hit;
+        if (Physics.Raycast(_rb.position, dashDir, out hit, _teleportDistance, 1 << 20))
+        {
+            Debug.Log("Le pego a la pared invisible");
+            return false;
+        }
+        else
+        {
+            Debug.Log("Puedo hacer teleport");
+            return true;
+        }
     }
 
     public Vector3 GetRotatorDirection()
@@ -347,4 +360,6 @@ public class CharacterMovement
     #endregion
 
     #endregion
+
+
 }
