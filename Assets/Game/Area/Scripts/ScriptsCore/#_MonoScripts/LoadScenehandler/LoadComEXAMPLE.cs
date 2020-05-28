@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using ToolsMandioca.Extensions;
+using System;
 
 public class LoadComEXAMPLE : LoadComponent
 {

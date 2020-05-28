@@ -30,7 +30,7 @@ public class LoadSceneHandler : MonoBehaviour
     {
         SceneToLoad = scene;
         loadscreen.SetActive(true);
-        Invoke("LoadTime", 0.1f);
+        Invoke("LoadTime", 1f);
     }
 
     void LoadTime()
@@ -38,22 +38,28 @@ public class LoadSceneHandler : MonoBehaviour
         master_genbar_Scene.gameObject.SetActive(true);
         master_genbar_Scene.Configure(1f,0.01f);
         master_genbar_Scene.SetValue(0);
-        
+        master_genbar_localLoader.gameObject.SetActive(true);
+        master_genbar_localLoader.Configure(1f, 0.01f);
+        master_genbar_localLoader.SetValue(0);
+
         StartCoroutine(Load().GetEnumerator());
     }
 
     IEnumerable Load()
     {
-        yield return LoadAsyncScene();
         yield return ComponentsToLoad().GetEnumerator();
+        yield return LoadAsyncScene();
         loadscreen.SetActive(false);
     }
 
     #region LocalLoaders
     public IEnumerable ComponentsToLoad()
     {
-        foreach (var c in loadCOmponents) 
-            yield return c.Load();
+        for (int i = 0; i < loadCOmponents.Count; i++)
+        {
+            MasterBarScripts(i, loadCOmponents.Count);
+            yield return loadCOmponents[i].Load();
+        }
         loadCOmponents.Clear();
     }
     #endregion
@@ -66,19 +72,24 @@ public class LoadSceneHandler : MonoBehaviour
         while (!asyncLoad.isDone)
         {
             yield return new WaitForEndOfFrame();
-            MasterBar(asyncLoad.progress, 1);
+            MasterBarScene(asyncLoad.progress, 1);
             yield return null;
         }
         OnEndLoad.Invoke();
     }
-    void Completed(AsyncOperation async) { MasterBar(1, 1); }
+    void Completed(AsyncOperation async) { MasterBarScene(1, 1); }
     #endregion
 
     #region Bar
-    public void MasterBar(float value, int max)
+    public void MasterBarScene(float value, int max)
     {
         master_genbar_Scene.Configure(max, 0.01f);
         master_genbar_Scene.SetValue(value);
+    }
+    public void MasterBarScripts(float value, int max)
+    {
+        master_genbar_localLoader.Configure(max, 0.01f);
+        master_genbar_localLoader.SetValue(value);
     }
     #endregion
 

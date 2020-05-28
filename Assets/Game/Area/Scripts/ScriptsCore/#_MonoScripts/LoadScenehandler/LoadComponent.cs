@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using MonoScripts.Core;
+using System;
 
 public abstract class LoadComponent : MonoBehaviour, IPausable, IResumeable, ICheckpointReseteable, ISceneLoadable
 {

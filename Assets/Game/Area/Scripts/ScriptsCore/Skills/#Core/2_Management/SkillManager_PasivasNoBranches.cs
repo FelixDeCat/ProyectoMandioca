@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using System;
 
 public class SkillManager_PasivasNoBranches : LoadComponent
 {
@@ -11,9 +12,9 @@ public class SkillManager_PasivasNoBranches : LoadComponent
     
     public UI_FastSkillSelector frontEnd;
 
+    float prog;
     protected override IEnumerator LoadMe()
     {
-        Debug.Log("LOADME");
         skills = GetComponentsInChildren<SkillBase>().ToList();
         frontEnd.Build(skills, Equip);
         yield return null;
