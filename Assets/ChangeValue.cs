@@ -26,6 +26,8 @@ public class ChangeValue : StateMachineBehaviour
             animator.SetBool(parameterName, boolean_value);
         }
 
+
+
     }
 
     // OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks
