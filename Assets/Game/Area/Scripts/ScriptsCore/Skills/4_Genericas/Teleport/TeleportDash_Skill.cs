@@ -9,6 +9,9 @@ public class TeleportDash_Skill : SkillBase
     [SerializeField] private float teleportDistance = 6;
     private CharacterMovement _movement;
 
+    public ParticleSystem intro;
+    public ParticleSystem outro;
+
     private bool teleportEnabled = false;
     protected override void OnBeginSkill()
     {
@@ -20,7 +23,7 @@ public class TeleportDash_Skill : SkillBase
         
         _hero.ChangeDashForTeleport();
         
-        _movement.ConfigureTeleport(teleportDistance);
+        _movement.ConfigureTeleport(teleportDistance, intro, outro);
 
         teleportEnabled = true;
     }

@@ -40,6 +40,8 @@ public class CharacterMovement
     public Action<float> RotateHorizontal;
     public Action<float> RotateVertical;
 
+    private ParticleSystem introTeleport_ps;
+    private ParticleSystem outroTeleport_ps;
     private float _teleportDistance;
     private bool teleportActive;
 
@@ -306,6 +308,9 @@ public class CharacterMovement
 
     public void Teleport()
     {
+        introTeleport_ps.transform.position = _rb.position;
+        introTeleport_ps.Play();
+        
         inDash = true;
         dashCdOk = true;
         if (movX != 0 || movY != 0)
@@ -315,6 +320,8 @@ public class CharacterMovement
 
 
         _rb.position = _rb .position + (dashDir * _teleportDistance);
+        outroTeleport_ps.transform.position = _rb.position;
+        outroTeleport_ps.Play();
     }
     
     public bool CheckIfCanTeleport()
@@ -347,8 +354,10 @@ public class CharacterMovement
         return dashDir;
     }
 
-    public void ConfigureTeleport(float teleportDistance)
+    public void ConfigureTeleport(float teleportDistance, ParticleSystem intro, ParticleSystem outro)
     {
+        introTeleport_ps = intro;
+        outroTeleport_ps = outro;
         _teleportDistance = teleportDistance;
     }
 
