@@ -298,6 +298,16 @@ public class CharacterMovement
 
     public void Teleport()
     {
+        RaycastHit hit;
+        if (Physics.Raycast(_rb.position, dashDir, out hit, _teleportDistance, 1 << 20))
+        {
+            Debug.Log("Le pego a la pared invisible");
+            return;
+        }
+        
+        Debug.Log("Puedo hacer teleport");
+        Debug.Log($"{_rb.position} es la pos y {dashDir} es para donde va");
+        
         inDash = true;
         dashCdOk = true;
         if (movX != 0 || movY != 0)

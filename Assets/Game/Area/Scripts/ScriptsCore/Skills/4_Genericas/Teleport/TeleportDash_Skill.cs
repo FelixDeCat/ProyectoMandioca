@@ -32,10 +32,7 @@ public class TeleportDash_Skill : SkillBase
         teleportEnabled = false;
     }
 
-    protected override void OnUpdateSkill()
-    {
-        
-    }
+    protected override void OnUpdateSkill(){}
 
     private void OnDrawGizmos()
     {
