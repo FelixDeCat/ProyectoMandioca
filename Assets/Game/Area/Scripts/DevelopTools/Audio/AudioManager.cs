@@ -72,8 +72,9 @@ public class AudioManager : MonoBehaviour
     private SoundPool CreateNewSoundPool(AudioClip audioClip, string soundPoolName, bool loop = false, int prewarmAmount = 2)
     {
         var soundPool = new GameObject($"{soundPoolName} soundPool").AddComponent<SoundPool>();
-        soundPool.transform.SetParent(Camera.main.transform);
-        soundPool.transform.position = Camera.main.transform.position;
+//        soundPool.transform.SetParent(Camera.main.transform);
+//        soundPool.transform.position = Camera.main.transform.position;
+        soundPool.transform.SetParent(transform);
         soundPool.Configure(audioClip, loop);
         soundPool.PreWarm(prewarmAmount);
         _soundRegistry.Add(soundPoolName, soundPool);

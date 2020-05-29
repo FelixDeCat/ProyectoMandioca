@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using DevelopTools.UI;
 using ToolsMandioca.Extensions;
 using UnityEditor;
 using UnityEngine;
@@ -52,8 +53,7 @@ public class SkillActive_BoomeranShield : SkillActivas
         _hero = Main.instance.GetChar();
         _shield = _hero.escudo;
 
-        AudioManager.instance.GetSoundPool(_flingShield_SoundName, _flingShield_Sound);
-        AudioManager.instance.GetSoundPool(_rotatingShield_SoundName, _rotatingShield_Sound, true);
+
 
         canuse = true;
 
@@ -81,7 +81,7 @@ public class SkillActive_BoomeranShield : SkillActivas
     public void TrowShield(Vector3 position)
     {
         canuse = false;
-
+        
         AudioManager.instance.PlaySound(_flingShield_SoundName);
         AudioManager.instance.PlaySound(_rotatingShield_SoundName);
 

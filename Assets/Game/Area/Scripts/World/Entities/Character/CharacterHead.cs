@@ -135,6 +135,7 @@ public class CharacterHead : CharacterControllable
     }
     void ThrowCallback()
     {
+        Debug.Log("entro aca");
         throwCallback.Invoke(escudo.transform.position);
     }
     #endregion
