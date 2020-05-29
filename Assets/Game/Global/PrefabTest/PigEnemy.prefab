@@ -6428,6 +6428,8 @@ GameObject:
   - component: {fileID: 3951395813138206274}
   - component: {fileID: 3951395813138206273}
   - component: {fileID: 3951395813138206302}
+  - component: {fileID: 2220049257524496936}
+  - component: {fileID: 4369836194751585076}
   - component: {fileID: 3951395813138206272}
   - component: {fileID: 6885159979840151130}
   - component: {fileID: 3951395813138206301}
@@ -6525,6 +6527,8 @@ MonoBehaviour:
   tdRecall: 0.5
   forceRecall: 10
   explosionForce: 20
+  dmgData: {fileID: 4369836194751585076}
+  dmgReceiver: {fileID: 2220049257524496936}
   freezeSpeedSlowed: 0.5
   freezeTime: 4
   petrifiedTime: 3
@@ -6551,6 +6555,46 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 0.6145477, y: 0.9312279, z: 1.5414357}
   m_Center: {x: 0.0019569397, y: 0.49115074, z: 0.27071786}
+--- !u!114 &2220049257524496936
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3951395813138206299}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 34a4aff0c0e65c4488cc465c038877b2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  invulnerability: 
+  resistances: 
+  debilities: 
+  debilityAddDmg: 5
+  resistanceRestDmg: 5
+--- !u!114 &4369836194751585076
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3951395813138206299}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 76ec5563f4c97ae4dabf294f011c2d67, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  damage: 0
+  initDamage: 0
+  tickDamage: 0
+  finalDamage: 0
+  damageType: 0
+  owner_position: {x: 0, y: 0, z: 0}
+  knockbackForce: 0
+  hasDamageTick: 0
+  damageTime: 0
+  attackDir: {x: 0, y: 0, z: 0}
+  owner: {fileID: 0}
 --- !u!114 &3951395813138206272
 MonoBehaviour:
   m_ObjectHideFlags: 0

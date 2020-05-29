@@ -41,6 +41,8 @@ public class JabaliEnemy : EnemyBase
     [SerializeField] float tdRecall = 0.5f;
     [SerializeField] float forceRecall = 5;
     [SerializeField] float explosionForce = 20;
+    [SerializeField] DamageData dmgData;
+    [SerializeField] DamageReceiver dmgReceiver;
 
     [Header("Stuns/Effects")]
     [SerializeField, Range(0, 1)] float freezeSpeedSlowed = 0.5f;
@@ -79,8 +81,16 @@ public class JabaliEnemy : EnemyBase
         headAttack.Configure(HeadAttack);
         pushAttack.Configure(PushRelease, StunAfterCharge);
         lineOfSight.Configurate(rootTransform);
+
+        dmgData.Initialize(this);
+        dmgReceiver.Initialize(rootTransform, () =>
+        {
+            if (cooldown || Invinsible || sm.Current.Name == "Dead") return true;
+            else return false;
+        }, Die, TakeDamageFeedback, rb, lifesystem.Hit);
+
+
         anim.Add_Callback("DealDamage", DealDamage);
-        lifesystem.AddEventOnDeath(Die);
         StartDebug();
 
         Main.instance.AddEntity(this);
@@ -169,9 +179,11 @@ public class JabaliEnemy : EnemyBase
     protected override void OnTurnOn() { }
 
     #region Attack Things
-    public void HeadAttack(EntityBase e)
+    public void HeadAttack(DamageReceiver e)
     {
-        Attack_Result takeDmg = e.TakeDamage(normalDamage, transform.position, Damagetype.parriable, this);
+        dmgData.SetDamage(normalDamage).SetDamageTick(false).SetDamageType(Damagetype.parriable).SetKnockback(30)
+            .SetPositionAndDirection(transform.position);
+        Attack_Result takeDmg = e.TakeDamage(dmgData);
 
         if (takeDmg == Attack_Result.parried)
         {
@@ -179,9 +191,11 @@ public class JabaliEnemy : EnemyBase
         }
     }
 
-    void PushRelease(EntityBase e)
+    void PushRelease(DamageReceiver e)
     {
-        Attack_Result takeDmg = e.TakeDamage(normalDamage, transform.position, Damagetype.inparry);
+        dmgData.SetDamage(pushDamage).SetDamageTick(false).SetDamageType(Damagetype.inparry).SetKnockback(80)
+            .SetPositionAndDirection(transform.position);
+        Attack_Result takeDmg = e.TakeDamage(dmgData);
 
         if(e == entityTarget || e.GetComponent<CharacterHead>())
             pushAttack.Stop();
@@ -222,6 +236,22 @@ public class JabaliEnemy : EnemyBase
         return death ? Attack_Result.death : Attack_Result.sucessful;
     }
 
+    void TakeDamageFeedback(DamageData data)
+    {
+        if (sm.Current.Name == "Idle" || sm.Current.Name == "Persuit")
+        {
+            attacking = false;
+            director.ChangeTarget(this, data.owner, entityTarget);
+        }
+
+        sm.SendInput(JabaliInputs.TAKE_DMG);
+
+        greenblood.Play();
+        cooldown = true;
+
+        StartCoroutine(OnHitted(myMat, onHitFlashTime, onHitColor));
+    }
+
     public override Attack_Result TakeDamage(int dmg, Vector3 attack_pos, Damagetype damagetype, EntityBase owner_entity)
     {
         if (sm.Current.Name == "Dead") return Attack_Result.inmune;
@@ -239,25 +269,12 @@ public class JabaliEnemy : EnemyBase
         return TakeDamage(dmg, attack_pos, damagetype);
     }
 
-    public override void HalfLife()
+    public void Die(Vector3 dir)
     {
-        base.HalfLife();
-        TakeDamage(lifesystem.life / 2, Main.instance.GetChar().transform.position, Damagetype.normal);
-        if (!base.target)
-            Invinsible = true;
-    }
-
-    public void Die()
-    {
-        if (target)
-        {
-            List<EnemyBase> myEnemys = Main.instance.GetNoOptimizedListEnemies();
-            for (int i = 0; i < myEnemys.Count; i++)
-                myEnemys[i].Invinsible = false;
-        }
         death = true;
         director.RemoveTarget(this);
         sm.SendInput(JabaliInputs.DEAD);
+        ragdoll.Ragdoll(true, dir);
         Main.instance.eventManager.TriggerEvent(GameEvents.ENEMY_DEAD, new object[] { transform.position, petrified, expToDrop });
         Main.instance.RemoveEntity(this);
     }

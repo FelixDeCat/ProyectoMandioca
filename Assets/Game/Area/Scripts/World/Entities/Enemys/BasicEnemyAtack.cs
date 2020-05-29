@@ -10,8 +10,6 @@ public class BasicEnemyAtack : CombatComponent
     [SerializeField] float angleAttack = 45;
     [SerializeField] Transform rot = null;
 
-    bool showray;
-
     public override void ManualTriggerAttack()
     {
         Calculate();
@@ -28,12 +26,11 @@ public class BasicEnemyAtack : CombatComponent
 
     public override void Stop()
     {
-        showray = false;
     }
 
     void Calculate()
     {
-        EntityBase entity = null;
+        DamageReceiver entity = null;
 
         var enemies = Physics.OverlapSphere(rot.position, distance, _lm);
         for (int i = 0; i < enemies.Length; i++)
@@ -41,12 +38,12 @@ public class BasicEnemyAtack : CombatComponent
             Vector3 dir = enemies[i].transform.position - rot.position;
             float angle = Vector3.Angle(rot.forward, dir);
 
-            if (enemies[i].GetComponent<EntityBase>() && dir.magnitude <= distance && angle < angleAttack)
+            if (enemies[i].GetComponent<DamageReceiver>() && dir.magnitude <= distance && angle < angleAttack)
             {
                 if (entity == null)
                 {
-                    entity = enemies[i].GetComponent<EntityBase>();
-                    callback.Invoke(entity);
+                    entity = enemies[i].GetComponent<DamageReceiver>();
+                    giveDmgCallback.Invoke(entity);
                 }
             }
         }

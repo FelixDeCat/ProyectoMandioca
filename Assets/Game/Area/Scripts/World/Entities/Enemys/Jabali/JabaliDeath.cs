@@ -15,7 +15,6 @@ namespace ToolsMandioca.StateMachine
 
         protected override void Enter(EState<JabaliEnemy.JabaliInputs> input)
         {
-            ragdoll.Ragdoll(true);
             combatDirector.DeadEntity(enemy, enemy.CurrentTarget());
         }
 

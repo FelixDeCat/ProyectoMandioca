@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using System;
 using ToolsMandioca.StateMachine;
+using UnityEngine.Serialization;
 
 public class TrueDummyEnemy : EnemyBase
 {
@@ -33,6 +34,9 @@ public class TrueDummyEnemy : EnemyBase
     private Action<EState<DummyEnemyInputs>> EnterStun;
     private Action<string> UpdateStun;
     private Action<DummyEnemyInputs> ExitStun;
+
+    [SerializeField] DamageData dmgData;
+    [SerializeField] DamageReceiver dmgReceiver;
 
     [Range(0,1)]
     [SerializeField] float freezeSpeedSlowed = 0.5f;
@@ -77,8 +81,14 @@ public class TrueDummyEnemy : EnemyBase
             rb = GetComponent<Rigidbody>();
         combatComponent.Configure(AttackEntity);
         anim.Add_Callback("DealDamage", DealDamage);
-        lifesystem.AddEventOnDeath(Die);
         movement.Configure(rootTransform, rb);
+        dmgData.Initialize(this);
+        dmgReceiver.Initialize(rootTransform, () =>
+        {
+            if (cooldown || Invinsible || sm.Current.Name == "Die") return true;
+            else return false;
+        }, Die, TakeDamageFeedback, rb, lifesystem.Hit);
+
         StartDebug();
 
         Main.instance.AddEntity(this);
@@ -159,9 +169,11 @@ public class TrueDummyEnemy : EnemyBase
     #region Attack
     public void DealDamage() { combatComponent.ManualTriggerAttack(); sm.SendInput(DummyEnemyInputs.ATTACK); }
 
-    public void AttackEntity(EntityBase e)
+    public void AttackEntity(DamageReceiver e)
     {
-        Attack_Result takeDmg = e.TakeDamage(damage, transform.position, Damagetype.parriable, this);
+        dmgData.SetDamage(damage).SetDamageTick(false).SetDamageType(Damagetype.parriable).SetKnockback(20)
+    .SetPositionAndDirection(transform.position);
+        Attack_Result takeDmg = e.TakeDamage(dmgData);
 
         if (takeDmg == Attack_Result.parried)
         {
@@ -304,6 +316,22 @@ public class TrueDummyEnemy : EnemyBase
         return death ? Attack_Result.death : Attack_Result.sucessful;
     }
 
+    void TakeDamageFeedback(DamageData data)
+    {
+        if (sm.Current.Name == "Idle" || sm.Current.Name == "Persuit")
+        {
+            attacking = false;
+            director.ChangeTarget(this, data.owner, entityTarget);
+        }
+
+        sm.SendInput(DummyEnemyInputs.TAKE_DAMAGE);
+
+        greenblood.Play();
+        cooldown = true;
+
+        StartCoroutine(OnHitted(myMat, onHitFlashTime, onHitColor));
+    }
+
     public override Attack_Result TakeDamage(int dmg, Vector3 attack_pos, Damagetype damagetype, EntityBase owner_entity)
     {
 
@@ -319,28 +347,10 @@ public class TrueDummyEnemy : EnemyBase
         return TakeDamage(dmg, attack_pos, damagetype);
     }
 
-    public override void HalfLife()
-    {
-        base.HalfLife();
-        TakeDamage(lifesystem.life / 2, Main.instance.GetChar().transform.position, Damagetype.normal);
-        if (!base.target)
-            Invinsible = true;
-    }
-
-    public override void InstaKill() { base.InstaKill(); }
-
-    public void Die()
+    public void Die(Vector3 dir)
     {
         sm.SendInput(DummyEnemyInputs.DIE);
-
-        if (target)
-        {
-            List<EnemyBase> myEnemys = Main.instance.GetNoOptimizedListEnemies();
-            for (int i = 0; i < myEnemys.Count; i++)
-            {
-                myEnemys[i].Invinsible = false;
-            }
-        }
+        ragdoll.Ragdoll(true, dir);
         death = true;
         director.RemoveTarget(this);
         Main.instance.RemoveEntity(this);

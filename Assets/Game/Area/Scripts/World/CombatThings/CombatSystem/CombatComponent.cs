@@ -6,9 +6,12 @@ using System;
 public abstract class CombatComponent : MonoBehaviour
 {
     protected Action<EntityBase> callback;
+    protected Action<DamageReceiver> giveDmgCallback;
 
     //todos los que implementan CombatComponent tienen que configurar primero
     public void Configure(Action<EntityBase> _callback) => callback = _callback;
+
+    public void Configure(Action<DamageReceiver> _callback) => giveDmgCallback = _callback;
     public abstract void ManualTriggerAttack();
     public abstract void BeginAutomaticAttack();
     public abstract void Play();
