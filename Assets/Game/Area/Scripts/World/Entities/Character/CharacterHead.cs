@@ -199,8 +199,8 @@ public class CharacterHead : CharacterControllable
         SetStates();
         
         //Sound
-        AudioManager.instance.GetSoundPool(swing_SoundName, swingSword_AC);
-        AudioManager.instance.GetSoundPool("FootStep", footstep);
+        AudioManager.instance.GetSoundPool(swing_SoundName, AudioGroups.GAME_FX ,swingSword_AC);
+        AudioManager.instance.GetSoundPool("FootStep", AudioGroups.GAME_FX, footstep);
 
         
 

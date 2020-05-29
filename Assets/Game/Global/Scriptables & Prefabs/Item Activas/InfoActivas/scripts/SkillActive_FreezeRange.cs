@@ -25,7 +25,7 @@ public class SkillActive_FreezeRange : SkillActivas
     protected override void OnBeginSkill()
     {
         _hero = Main.instance.GetChar();
-        AudioManager.instance.GetSoundPool(freezeSound, freeze_Sound);
+        AudioManager.instance.GetSoundPool(freezeSound, AudioGroups.GAME_FX,freeze_Sound);
     }
 
     protected override void OnOneShotExecute()

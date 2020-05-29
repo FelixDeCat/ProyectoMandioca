@@ -27,7 +27,7 @@ public class TeleportDash_Skill : SkillBase
         _hero.ChangeDashForTeleport();
         _movement.ConfigureTeleport(teleportDistance, intro, outro);
 
-        AudioManager.instance.GetSoundPool("TeleportAudio", teleportAudio);
+        AudioManager.instance.GetSoundPool("TeleportAudio", AudioGroups.GAME_FX, teleportAudio);
     }
 
     protected override void OnEndSkill(){_hero.ChangeTeleportForDash();teleportEnabled = false;}

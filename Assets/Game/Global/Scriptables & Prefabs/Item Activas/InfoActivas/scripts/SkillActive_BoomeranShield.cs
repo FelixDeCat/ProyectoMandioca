@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
-using DevelopTools.UI;
 using ToolsMandioca.Extensions;
 using UnityEditor;
 using UnityEngine;
@@ -53,7 +52,8 @@ public class SkillActive_BoomeranShield : SkillActivas
         _hero = Main.instance.GetChar();
         _shield = _hero.escudo;
 
-
+        AudioManager.instance.GetSoundPool(_flingShield_SoundName, AudioGroups.GAME_FX,_flingShield_Sound);
+        AudioManager.instance.GetSoundPool(_rotatingShield_SoundName, AudioGroups.GAME_FX,_rotatingShield_Sound, true);
 
         canuse = true;
 
@@ -62,7 +62,8 @@ public class SkillActive_BoomeranShield : SkillActivas
 
     protected override void OnEndSkill()
     {
-        
+        AudioManager.instance.DeleteSoundPool(_flingShield_SoundName);
+        AudioManager.instance.DeleteSoundPool(_rotatingShield_SoundName);
     }
 
     protected override void OnUpdateSkill()

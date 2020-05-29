@@ -1,11 +1,13 @@
-﻿namespace ToolsMandioca.Sound
+﻿using UnityEngine.Audio;
+
+namespace ToolsMandioca.Sound
 {
     using UnityEngine;
     using ToolsMandioca.Extensions;
 
     public static class ASourceCreator
     {
-        public static AudioSource Create2DSource(AudioClip ac, string name, bool loop = false, bool playOnAwake = false)
+        public static AudioSource Create2DSource(AudioClip ac, string name, AudioMixerGroup mixerGroup, bool loop = false, bool playOnAwake = false)
         {
             Transform cam = Camera.main.transform;
 
@@ -13,6 +15,7 @@
                 .gameObject
                 .CreateDefaultSubObject<AudioSource>("SOURCE-> " + name);
 
+            source.outputAudioMixerGroup = mixerGroup;
             source.clip = ac;
             source.loop = loop;
             source.spatialBlend = 0;

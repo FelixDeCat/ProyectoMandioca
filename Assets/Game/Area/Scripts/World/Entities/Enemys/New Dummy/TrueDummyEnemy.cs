@@ -71,7 +71,7 @@ public class TrueDummyEnemy : EnemyBase
             myMat = smr.materials;
         }
 
-        AudioManager.instance.GetSoundPool(takeHit_audioName, _takeHit_AC);
+        AudioManager.instance.GetSoundPool(takeHit_audioName, AudioGroups.GAME_FX, _takeHit_AC);
         
             //Debug.Log("OnInitialize");
             rb = GetComponent<Rigidbody>();

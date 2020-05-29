@@ -3,20 +3,35 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.Audio;
 
 
 public class AudioManager : MonoBehaviour
 {
+    [SerializeField] private AudioMixerGroup _fx;
+    [SerializeField] private AudioMixerGroup _music;
+    [SerializeField] private AudioMixerGroup _misc;
+    
     private Dictionary<string, SoundPool> _soundRegistry = new Dictionary<string, SoundPool>();
-    //[SerializeField] private AudioClip testClip;
+    private Dictionary<AudioGroups, AudioMixerGroup> _audioMixers = new Dictionary<AudioGroups, AudioMixerGroup>();
+    
 
     public static AudioManager instance;
-
 
     private void Awake()
     {
         if (instance == null) instance = this;
+
+        RegisterAudioMixer();
     }
+
+    private void RegisterAudioMixer()
+    {
+        _audioMixers.Add(AudioGroups.GAME_FX, _fx);
+        _audioMixers.Add(AudioGroups.MUSIC, _music);
+        _audioMixers.Add(AudioGroups.MISC, _misc);
+    }
+
     /// <summary>
     /// Si el soundpool existe, va a reproducir el sonido que llamaron, sino va a tirar un warning
     /// </summary>
@@ -56,10 +71,10 @@ public class AudioManager : MonoBehaviour
     /// <param name="soundPoolName"></param>
     /// <param name="audioClip"></param>
     /// <returns></returns>
-    public SoundPool GetSoundPool(string soundPoolName, AudioClip audioClip = null, bool loop = false, int prewarmAmount = 2)
+    public SoundPool GetSoundPool(string soundPoolName, AudioGroups audioGroups = AudioGroups.MISC , AudioClip audioClip = null, bool loop = false, int prewarmAmount = 2)
     {
         if (_soundRegistry.ContainsKey(soundPoolName)) return _soundRegistry[soundPoolName];
-        else if (audioClip != null) return CreateNewSoundPool(audioClip, soundPoolName, loop, prewarmAmount);
+        else if (audioClip != null) return CreateNewSoundPool(audioClip, soundPoolName,  audioGroups ,loop, prewarmAmount);
         else return null;
     }
 
@@ -69,16 +84,23 @@ public class AudioManager : MonoBehaviour
     /// <param name="audioClip"></param>
     /// <param name="soundPoolName"></param>
     /// <returns></returns>
-    private SoundPool CreateNewSoundPool(AudioClip audioClip, string soundPoolName, bool loop = false, int prewarmAmount = 2)
+    private SoundPool CreateNewSoundPool(AudioClip audioClip, string soundPoolName, AudioGroups audioGroups = AudioGroups.MISC, bool loop = false, int prewarmAmount = 2)
     {
         var soundPool = new GameObject($"{soundPoolName} soundPool").AddComponent<SoundPool>();
-//        soundPool.transform.SetParent(Camera.main.transform);
-//        soundPool.transform.position = Camera.main.transform.position;
         soundPool.transform.SetParent(transform);
-        soundPool.Configure(audioClip, loop);
+        soundPool.Configure(audioClip, _audioMixers[audioGroups],loop);
         soundPool.PreWarm(prewarmAmount);
         _soundRegistry.Add(soundPoolName, soundPool);
         return soundPool;
+    }
+    /// <summary>
+    /// Borra un soundpool
+    /// </summary>
+    /// <param name="soundPoolName"></param>
+    public void DeleteSoundPool(string soundPoolName)
+    {
+        Destroy(_soundRegistry[soundPoolName].gameObject);
+        _soundRegistry.Remove(soundPoolName);
     }
 
     /// <summary>

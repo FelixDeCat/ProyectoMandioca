@@ -32,8 +32,8 @@ public class SkillActive_LightBounce : SkillActivas
     {
         _hero = Main.instance.GetChar();
         blocker = _hero.GetCharBlock();
-        AudioManager.instance.GetSoundPool(_fireSound, fireClip, true);
-        AudioManager.instance.GetSoundPool(_celestialChorus, celestialChorus);
+        AudioManager.instance.GetSoundPool(_fireSound, AudioGroups.GAME_FX,fireClip, true);
+        AudioManager.instance.GetSoundPool(_celestialChorus, AudioGroups.GAME_FX,celestialChorus);
     }
     protected override void OnEndSkill() { }
 

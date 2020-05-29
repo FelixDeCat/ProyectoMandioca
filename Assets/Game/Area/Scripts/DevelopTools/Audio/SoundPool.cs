@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using DevelopTools;
 using ToolsMandioca.Sound;
 using UnityEngine;
+using UnityEngine.Audio;
 
 public class SoundPool : SingleObjectPool<AudioSource>
 {
@@ -12,21 +13,26 @@ public class SoundPool : SingleObjectPool<AudioSource>
    [SerializeField] private bool _loop = false;
    [SerializeField] private bool playOnAwake = false;
    public bool soundPoolPlaying = false;
+   private AudioMixerGroup _audioMixer;
    
    protected override void Start()
    {
       
    }
 
-   public void Configure(AudioClip audioClip, bool loop = false) {_audioClip = audioClip;
+   public void Configure(AudioClip audioClip, AudioMixerGroup audioMixerGroup,  bool loop = false) 
+   {
+      _audioClip = audioClip;
       _loop = loop;
-      
+      _audioMixer = audioMixerGroup;
+
    }
 
    protected override void AddObject(int amount)
    {
-      var newAudio = ASourceCreator.Create2DSource(_audioClip, _audioClip.name, _loop, playOnAwake);
+      var newAudio = ASourceCreator.Create2DSource(_audioClip, _audioClip.name, _audioMixer, _loop, playOnAwake);
       newAudio.gameObject.SetActive(false);
+      newAudio.transform.SetParent(transform);
       objects.Enqueue(newAudio);
    }
 
