@@ -23,13 +23,15 @@ public class SkillActive_RainArrows : SkillActivas
 
     [SerializeField] Atenea atenea;
 
+    protected override void OnStart()
+    {
+        atenea.GetComponent<AnimEvent>().Add_Callback("TiraFlecha", ThrowArrows);
+    }
+
     protected override void OnBeginSkill()
     {
         _hero = Main.instance.GetChar();
         AudioManager.instance.GetSoundPool(_arrowsSoundName, _arrowSound, true);
-
-
-        atenea.GetComponent<AnimEvent>().Add_Callback("TiraFlecha", ThrowArrows);
     }
 
     void ThrowArrows()

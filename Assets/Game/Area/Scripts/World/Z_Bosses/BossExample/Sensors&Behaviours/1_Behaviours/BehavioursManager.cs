@@ -17,6 +17,7 @@ public class BehavioursManager : MonoBehaviour
     public CooldownDamage cooldown_Damage;
     public GenericLifeSystem LifeSystemBase;
     public TakeDamageComponent takeDamageComponent;
+    public CombatDirectorElement combatDirectorComponent;
 
     public void InitializeBehaviours(Transform root, Rigidbody rb)
     {

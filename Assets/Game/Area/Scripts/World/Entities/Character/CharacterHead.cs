@@ -130,7 +130,6 @@ public class CharacterHead : CharacterControllable
     public void ThrowSomething(Action<Vector3> throwInPosition)
     {
         Main.instance.GetChar().charanim.StartThrow();
-        Main.instance.GetChar().charAnimEvent.Add_Callback("OnThrow", ThrowCallback);
         throwCallback = throwInPosition;
     }
     void ThrowCallback()
@@ -184,6 +183,8 @@ public class CharacterHead : CharacterControllable
         charAnimEvent.Add_Callback("Pasos", Pasos );
         charAnimEvent.Add_Callback("OpenComboWindow", charAttack.ANIM_EVENT_OpenComboWindow);
         charAnimEvent.Add_Callback("CloseComboWindow", charAttack.ANIM_EVENT_CloseComboWindow);
+
+        charAnimEvent.Add_Callback("OnThrow", ThrowCallback);
 
         rb = GetComponent<Rigidbody>();
 

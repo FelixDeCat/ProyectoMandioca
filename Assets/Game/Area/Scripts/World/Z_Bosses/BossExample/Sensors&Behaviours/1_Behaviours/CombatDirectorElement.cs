@@ -16,7 +16,6 @@ public class CombatDirectorElement : MonoBehaviour, ICombatDirector
     void SubscribeMeToInitializer()
     {
         //aca me subscribo a los sensores de inicializacion
-
         //tanto para el del proximidad
         //como el del habitacion
     }

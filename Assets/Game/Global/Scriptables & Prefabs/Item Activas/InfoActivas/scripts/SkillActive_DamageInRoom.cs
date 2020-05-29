@@ -16,7 +16,13 @@ public class SkillActive_DamageInRoom : SkillActivas
      private GameObject glasses_hand;
      private ParticleSystem cachin_particle;
 
-   // [SerializeField] Atenea atenea;
+    // [SerializeField] Atenea atenea;
+
+    protected override void OnStart()
+    {
+        Main.instance.GetChar().charAnimEvent.Add_Callback("Skill_EndDrink", OnEnd);
+        Main.instance.GetChar().charAnimEvent.Add_Callback("Skill_Cachin", Cachin);
+    }
 
     protected override void OnBeginSkill() 
     {
@@ -35,21 +41,20 @@ public class SkillActive_DamageInRoom : SkillActivas
     {
         //base.ConfigureRequest(request); <--- esto nunca deberia estar descomentado
 
-        GetBackControl = Main.instance.GetChar().RequestExecuteASkill(request);
+        //GetBackControl = Main.instance.GetChar().RequestExecuteASkill(request);
         // si el character me da luz verde de... che, podes usar la skill
         //ejecuta el OnOneShotExecute o el OnStartUse
     }
 
     protected override void OnOneShotExecute()
     {
-        Main.instance.GetChar().charanim.ForceAnimation("Drink");
-        Main.instance.GetChar().charAnimEvent.Add_Callback("Skill_EndDrink", OnEnd);
-        Main.instance.GetChar().charAnimEvent.Add_Callback("Skill_Cachin", Cachin);
+        //Main.instance.GetChar().charanim.ForceAnimation("Drink");
+        
 
-        Main.instance.GetMyCamera().DoCloseCamera();
+        //Main.instance.GetMyCamera().DoCloseCamera();
 
-        glasses_face.SetActive(false);
-        glasses_hand.SetActive(true);
+        //glasses_face.SetActive(false);
+        //glasses_hand.SetActive(true);
         //atenea.gameObject.SetActive(true);
         //atenea.GoToHero();
         //atenea.Anim_DamageRoom();
