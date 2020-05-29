@@ -14,7 +14,7 @@ public class JabaliPushComponent : CombatComponent
 
     Action StopCallback = delegate { };
 
-    public void Configure(Action<EntityBase> _callback, Action _Stop)
+    public void Configure(Action<DamageReceiver> _callback, Action _Stop)
     {
         StopCallback = _Stop;
         Configure(_callback);
@@ -45,22 +45,22 @@ public class JabaliPushComponent : CombatComponent
     {
         if (!play) return;
 
-        EntityBase entity = null;
+        DamageReceiver entity = null;
         var enemies = Physics.OverlapSphere(rot.position, distance, _lm);
         for (int i = 0; i < enemies.Length; i++)
         {
             Vector3 dir = enemies[i].transform.position - rot.position;
             float angle = Vector3.Angle(rot.forward, dir);
 
-            if (enemies[i].GetComponent<EntityBase>() && dir.magnitude <= distance && angle < angleAttack)
+            if (enemies[i].GetComponent<DamageReceiver>() && dir.magnitude <= distance && angle < angleAttack)
             {
                 if (entity == null)
-                    entity = enemies[i].GetComponent<EntityBase>();
+                    entity = enemies[i].GetComponent<DamageReceiver>();
             }
         }
 
         if (entity != null)
-            callback.Invoke(entity);
+            giveDmgCallback.Invoke(entity);
     }
     private void OnTriggerEnter(Collider other)
     {

@@ -16,10 +16,10 @@ public class RagdollComponent : MonoBehaviour
     private void Awake()
     {
         myBones = GetComponentsInChildren<Bone>();
-        Ragdoll(false);
+        Ragdoll(false, Vector3.zero);
     }
 
-    public void Ragdoll(bool active)
+    public void Ragdoll(bool active, Vector3 dir)
     {
         for (int i = 0; i < myCollider.Length; i++)
         {
@@ -38,7 +38,7 @@ public class RagdollComponent : MonoBehaviour
         }
 
         if(active)
-            principalBone.GetComponent<Rigidbody>().AddForce((-anim.transform.forward + anim.transform.up) * explosionForce, ForceMode.Impulse);
+            principalBone.GetComponent<Rigidbody>().AddForce(dir.normalized * explosionForce, ForceMode.Impulse);
     }
 
     public void DesactiveBones()

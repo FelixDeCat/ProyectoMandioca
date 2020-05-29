@@ -19,7 +19,7 @@ public class DamageReceiver : MonoBehaviour
 
     Func<int, bool> OnHit;
     Action<DamageData> takeDmg;
-    Action OnDead;
+    Action<Vector3> OnDead;
     Action InmuneFeedback;
     Func<bool> IsDmg;
     Transform ownerRoot;
@@ -31,7 +31,7 @@ public class DamageReceiver : MonoBehaviour
 
     Rigidbody rb;
 
-    public void Initialize(Transform _ownerRoot, Func<bool> _IsDmg, Action _OnDead, Action<DamageData> _takeDmg,
+    public void Initialize(Transform _ownerRoot, Func<bool> _IsDmg, Action<Vector3> _OnDead, Action<DamageData> _takeDmg,
         Rigidbody _rb, Func<int, bool> _OnHit, Action _InmuneFeedback = default)
     {
         ownerRoot = _ownerRoot;
@@ -92,9 +92,13 @@ public class DamageReceiver : MonoBehaviour
         else if (debilities.Contains(data.damageType)) dmg += debilityAddDmg;
 
         Vector3 aux = (ownerRoot.position - data.owner_position).normalized;
-        rb.AddForce(aux * data.knockbackForce + data.attackDir, ForceMode.Impulse);
+
+        Vector3 knockbackForce = aux * data.knockbackForce + data.attackDir;
+        rb.AddForce(knockbackForce, ForceMode.Impulse);
 
         bool death = OnHit(dmg);
+        if (death) OnDead(knockbackForce);
+
         takeDmg(data);
 
         return death ? Attack_Result.death : Attack_Result.sucessful;
