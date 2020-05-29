@@ -12,17 +12,15 @@ namespace ToolsMandioca.StateMachine
         Action<bool> ChangeHeavy;
         Animator anim;
         Func<bool> WaitAttack;
-        ParticleSystem dashParticle;
 
         public CharReleaseAttack(EState<CharacterHead.PlayerInputs> myState, EventStateMachine<CharacterHead.PlayerInputs> _sm, float recall,
-                                 Func<bool> _isHeavy, Action<bool> _ChangeHeavy, Animator _anim, Func<bool> _WaitAttack, ParticleSystem dashParticles) : base(myState, _sm)
+                                 Func<bool> _isHeavy, Action<bool> _ChangeHeavy, Animator _anim, Func<bool> _WaitAttack) : base(myState, _sm)
         {
             attackRecall = recall;
             IsHeavy = _isHeavy;
             ChangeHeavy = _ChangeHeavy;
             anim = _anim;
             WaitAttack = _WaitAttack;
-            dashParticle = dashParticles;
         }
 
         protected override void Enter(EState<CharacterHead.PlayerInputs> input)
@@ -31,7 +29,6 @@ namespace ToolsMandioca.StateMachine
             {
                 charMove.MovementHorizontal(0);
                 charMove.MovementVertical(0);
-                dashParticle.Play();
             }
         }
 
@@ -84,7 +81,6 @@ namespace ToolsMandioca.StateMachine
         protected override void Exit(CharacterHead.PlayerInputs input)
         {
             ChangeHeavy(false);
-            dashParticle.Stop();
         }
     }
 }
