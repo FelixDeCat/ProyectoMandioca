@@ -77,6 +77,7 @@ public class CharacterHead : CharacterControllable
 
     [Header("Attack Options")]
     [SerializeField] ParticleSystem feedbackHeavy = null;
+    [SerializeField] ParticleSystem feedbackDashHeavy = null;
     [SerializeField] float dmg_normal = 5;
     [SerializeField] float dmg_heavy = 20;
     [SerializeField] float attackRange = 3;
@@ -386,8 +387,8 @@ public class CharacterHead : CharacterControllable
             .SetMovement(this.move)
             .SetAttack(charAttack);
 
-        new CharReleaseAttack(attackRelease, stateMachine, attackRecall, HeavyAttackRealease, ChangeHeavy, anim_base, IsAttackWait)
-            .SetMovement(this.move)
+        new CharReleaseAttack(attackRelease, stateMachine, attackRecall, HeavyAttackRealease, ChangeHeavy, anim_base, IsAttackWait, feedbackDashHeavy)
+                    .SetMovement(this.move)
             .SetLeftAxis(GetLeftHorizontal, GetLeftVertical)
             .SetRightAxis(GetRightHorizontal, GetRightVertical)
             .SetAttack(charAttack)
