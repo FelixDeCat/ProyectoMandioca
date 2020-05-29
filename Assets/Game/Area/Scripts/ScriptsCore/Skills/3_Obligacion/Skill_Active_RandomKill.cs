@@ -11,14 +11,17 @@ public class Skill_Active_RandomKill : SkillActivas
 
     [SerializeField] Atenea atenea;
 
+    protected override void OnStart()
+    {
+        var aux = atenea.GetComponent<AnimEvent>();
+        aux.Add_Callback("SelectEnemy", SelectEnemy);
+        aux.Add_Callback("TiraRayo", KillEnemy);
+    }
+
     protected override void OnBeginSkill()
     {
         _player = Main.instance.GetChar();
         SetPredicate(CanUseChange);
-
-        var aux = atenea.GetComponent<AnimEvent>();
-        aux.Add_Callback("SelectEnemy", SelectEnemy);
-        aux.Add_Callback("TiraRayo", KillEnemy);
     }
 
     EnemyBase enemSelected;

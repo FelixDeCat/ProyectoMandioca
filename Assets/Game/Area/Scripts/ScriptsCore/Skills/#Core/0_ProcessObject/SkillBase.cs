@@ -10,7 +10,11 @@ public abstract class SkillBase : MonoBehaviour
     public void RemoveUI() => ui3D_skill = null;
     public UI_Skill GetUI() => ui_skill;
     bool alreadyActived;
-    public bool is3D; 
+    public bool is3D;
+    public void Start()//LoadMe
+    {
+        OnStart();
+    }
     public virtual void BeginSkill()
     {
         if (!alreadyActived)
@@ -31,6 +35,7 @@ public abstract class SkillBase : MonoBehaviour
     private void Update() { absUpdate(); cooldownUpdate(); }
     internal virtual void absUpdate() { if (canupdate) OnUpdateSkill(); }
     internal virtual void cooldownUpdate() { }
+    protected virtual void OnStart() { }
     protected abstract void OnBeginSkill();
     protected abstract void OnEndSkill();
     protected abstract void OnUpdateSkill();
