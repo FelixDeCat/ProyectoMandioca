@@ -7,6 +7,7 @@ public class TeleportDash_Skill : SkillBase
 {
     private CharacterHead _hero;
     [SerializeField] private float teleportDistance = 6;
+    [SerializeField] private float cd = 6;
     private CharacterMovement _movement;
 
     public ParticleSystem intro;

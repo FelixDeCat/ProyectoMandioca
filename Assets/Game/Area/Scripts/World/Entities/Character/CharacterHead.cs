@@ -17,6 +17,7 @@ public class CharacterHead : CharacterControllable
     [SerializeField] float dashSpeed = 9;
     [SerializeField] float dashDeceleration = 5;
     [SerializeField] float dashCD = 2;
+    [SerializeField] float teleportCD = 2;
     [SerializeField] ParticleSystem evadeParticle = null;
     Func<bool> InDash;
 
@@ -669,16 +670,19 @@ public class CharacterHead : CharacterControllable
     public void RemoveListenerToDash(Action listener) => move.Dash -= listener;
     public void ChangeDashForTeleport()
     {
+        move.SetDashCD(teleportCD);
         move.TeleportActive = true;   
         move.Dash -= move.Roll;
         move.Dash += move.Teleport;
     }
     public void ChangeTeleportForDash()
     {
+        move.SetDashCD(dashCD);
         move.TeleportActive = false;   
         move.Dash -= move.Teleport;
         move.Dash += move.Roll;
     }
+    
     public CharacterMovement GetCharMove()
     {
         return move;

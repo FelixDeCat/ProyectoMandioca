@@ -308,6 +308,8 @@ public class CharacterMovement
 
     public void Teleport()
     {
+        RollForAnim();
+        
         introTeleport_ps.transform.position = _rb.position;
         introTeleport_ps.Play();
         
