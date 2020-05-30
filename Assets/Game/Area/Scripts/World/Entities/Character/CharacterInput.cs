@@ -82,8 +82,8 @@ public class CharacterInput : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.Alpha1)) SendIndexAlphanumeric.Invoke(0);
         if (Input.GetKeyDown(KeyCode.Alpha2)) SendIndexAlphanumeric.Invoke(1);
-        if (Input.GetKeyDown(KeyCode.Alpha3)) SendIndexAlphanumeric.Invoke(2);
-        if (Input.GetKeyDown(KeyCode.Alpha4)) SendIndexAlphanumeric.Invoke(3);
+        //if (Input.GetKeyDown(KeyCode.Alpha3)) SendIndexAlphanumeric.Invoke(2);
+        //if (Input.GetKeyDown(KeyCode.Alpha4)) SendIndexAlphanumeric.Invoke(3);
 
         RefreshHelper();
 

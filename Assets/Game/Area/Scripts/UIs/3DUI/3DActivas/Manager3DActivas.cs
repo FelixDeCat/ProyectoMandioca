@@ -14,17 +14,7 @@ public class Manager3DActivas : MonoBehaviour
 
     [SerializeField] private float fadeSpeed;
     
-    //FadeIn/Out de las skills activas
 
-    
-    private void Update()
-    {
-        if(Input.GetKeyDown(KeyCode.J))
-            FadeOutSkills_UI();
-        
-        if(Input.GetKeyDown(KeyCode.K))
-            FadeInSkills_UI();
-    }
     public void FadeOutSkills_UI()
     {
         foreach (var skillUI in sides)

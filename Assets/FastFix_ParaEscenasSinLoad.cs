@@ -12,7 +12,7 @@ public class FastFix_ParaEscenasSinLoad : MonoBehaviour
 
     private void Start()
     {
-        Invoke("Initialize", 0.5f);
+        Invoke("Initialize", 2f);
     }
 
     void Initialize()
