@@ -118,12 +118,12 @@ public class CharacterAttack
     #region PRE-ATTACK
     public void ANIM_EVENT_OpenComboWindow() 
     {
-        DebugCustom.Log("Attack", "Combo Window", "close");
+        DebugCustom.Log("Attack", "Combo Window", "open");
         hitstore.OpenWindow(); 
     }
     public void ANIM_EVENT_CloseComboWindow()
     {
-        DebugCustom.Log("Attack", "Combo Window", "open");
+        DebugCustom.Log("Attack", "Combo Window", "close");
         anim.Combo(hitstore.Use());
         hitstore.CloseWindow();
     }
@@ -277,13 +277,12 @@ public class HitStore
     {
         if (openWindow)
         {
-            DebugCustom.Log("Attack", "STORED", "ALAMACENO");
+           // DebugCustom.Log("Attack", "STORED", "ALAMACENO");
 
             if (stored) return false;
             else 
             {
-                
-
+                DebugCustom.Log("Attack", "STORED", "ALAMACENO");
                 stored = true;
                 return true;
             }
