@@ -48,12 +48,13 @@ public class CharacterAttack
 
     Rigidbody myRig;
 
-    public CharacterAttack(float _range, float _angle, float _heavyAttackTime, CharacterAnimator _anim, Transform _forward, Action _normalAttack, Action _heavyAttack, ParticleSystem ps, float damage, ParticleSystem _attackslash, string swingSword_SoundName)
+    public CharacterAttack(float _range, float _angle, float _heavyAttackTime, CharacterAnimator _anim, Transform _forward,
+        Action _normalAttack, Action _heavyAttack, ParticleSystem ps, float damage, ParticleSystem _attackslash, string swingSword_SoundName, DamageData data)
     {
         hitstore = new HitStore();
 
         myWeapons = new List<Weapon>();
-        myWeapons.Add(new GenericSword(damage, _range, "Generic Sword", _angle).ConfigureCallback(CALLBACK_DealDamage));
+        myWeapons.Add(new GenericSword(damage, _range, "Generic Sword", _angle, data).ConfigureCallback(CALLBACK_DealDamage));
         //myWeapons.Add(new ExampleWeaponOne(damage, _range, "Other Weapon", 45));
         //myWeapons.Add(new ExampleWeaponTwo(damage, _range, "Sarasa Weapon", 45));
         //myWeapons.Add(new ExampleWeaponThree(damage, _range, "Ultimate Blessed Weapon", 45));
@@ -211,7 +212,7 @@ public class CharacterAttack
         AudioManager.instance.PlaySound(_swingSword_SoundName);
     }
 
-    void CALLBACK_DealDamage(Attack_Result attack_result, Damagetype damage_type, EntityBase entityToDamage)
+    void CALLBACK_DealDamage(Attack_Result attack_result, Damagetype damage_type, DamageReceiver entityToDamage)
     {
         callback_ReceiveEntity();
         FirstAttackReady(false);//esto tambien es de obligacion... tampoco debería estar aca

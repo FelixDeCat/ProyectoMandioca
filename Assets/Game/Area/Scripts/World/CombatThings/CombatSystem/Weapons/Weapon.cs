@@ -19,12 +19,13 @@ public abstract class Weapon
     }
     protected float angle;
     protected float originalAngle;
+    protected DamageData data;
 
     protected CharacterHead _head;
 
-    public Action<Attack_Result, Damagetype, EntityBase> AttackResult;
+    public Action<Attack_Result, Damagetype, DamageReceiver> AttackResult;
 
-    public Weapon(float dmg, float r, string n, float angle)
+    public Weapon(float dmg, float r, string n, float angle, DamageData _data)
     {
         baseDamage = dmg;
         range = r;
@@ -32,6 +33,7 @@ public abstract class Weapon
         this.angle = angle;
         originalAngle = angle;
         originalRange = range;
+        data = _data;
         _head = Main.instance.GetChar();
     }
 

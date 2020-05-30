@@ -38,7 +38,7 @@ public class RagdollComponent : MonoBehaviour
         }
 
         if(active)
-            principalBone.GetComponent<Rigidbody>().AddForce(dir.normalized * explosionForce, ForceMode.Impulse);
+            principalBone.GetComponent<Rigidbody>().AddForce((dir.normalized + transform.up) * explosionForce, ForceMode.Impulse);
     }
 
     public void DesactiveBones()

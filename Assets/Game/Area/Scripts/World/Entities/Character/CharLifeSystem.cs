@@ -66,7 +66,7 @@ public class CharLifeSystem
     //////////////////////////////////////////////////////////////////////////////////
     /// PUBLIC METHODS
     //////////////////////////////////////////////////////////////////////////////////
-    public void Hit(int _val) => lifesystem.Hit(_val);
+    public bool Hit(int _val) => lifesystem.Hit(_val);
     public void Heal(int _val) => lifesystem.AddHealth(_val);
 
     public void Heal_AllHealth()

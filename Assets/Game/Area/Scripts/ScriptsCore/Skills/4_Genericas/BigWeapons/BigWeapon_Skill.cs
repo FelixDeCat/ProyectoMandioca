@@ -39,7 +39,7 @@ public class BigWeapon_Skill : SkillBase
         _characterAttack.currentWeapon.BeginOverrideAngle(NO_OVERRIDE_VALUE, AngleMultiplier);
 
     }
-    private void OnSuccesAttack(Attack_Result result, Damagetype dmg_type, EntityBase ent) // recibe el resultado del ataque y suma uno al contador. Si llega al ncesario, activa el skill
+    private void OnSuccesAttack(Attack_Result result, Damagetype dmg_type, DamageReceiver ent) // recibe el resultado del ataque y suma uno al contador. Si llega al ncesario, activa el skill
     {
         //if (isActive) return;
         

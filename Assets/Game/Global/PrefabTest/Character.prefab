@@ -1352,6 +1352,8 @@ GameObject:
   - component: {fileID: 4345765788270981630}
   - component: {fileID: 4345765788270981629}
   - component: {fileID: 4345765788270981628}
+  - component: {fileID: 7710885695996929662}
+  - component: {fileID: 2269586020060554981}
   m_Layer: 8
   m_Name: Character
   m_TagString: Untagged
@@ -1448,7 +1450,7 @@ MonoBehaviour:
   slowDuration: 0.75
   speedAnim: 5
   feedbackCW: {fileID: 2956881037866283769}
-  swingSword_AC: {fileID: 8300000, guid: e6d746357768f45c3ab2203fc31916e2, type: 3}
+  swingSword_AC: {fileID: 8300000, guid: 4543ba45af0a370428193e41fb5e698f, type: 3}
   footstep: {fileID: 0}
   inParryParticles: {fileID: 5705068960293636697}
   anim_base: {fileID: 4345765789594124658}
@@ -1468,6 +1470,8 @@ MonoBehaviour:
   onHitRecall: 3
   sensorSpin: {fileID: 4345765787653041151}
   slash: {fileID: 8943403783955748918}
+  dmgData: {fileID: 2269586020060554981}
+  dmgReceiver: {fileID: 7710885695996929662}
   go_StunFeedback: {fileID: 4345765788434296189}
   go_SpinFeedback: {fileID: 0}
   currentWeapon: {fileID: 0}
@@ -1789,6 +1793,46 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+--- !u!114 &7710885695996929662
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4345765788270981624}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 34a4aff0c0e65c4488cc465c038877b2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  invulnerability: 
+  resistances: 
+  debilities: 
+  debilityAddDmg: 0
+  resistanceRestDmg: 0
+--- !u!114 &2269586020060554981
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4345765788270981624}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 76ec5563f4c97ae4dabf294f011c2d67, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  damage: 0
+  initDamage: 0
+  tickDamage: 0
+  finalDamage: 0
+  damageType: 0
+  owner_position: {x: 0, y: 0, z: 0}
+  knockbackForce: 0
+  hasDamageTick: 0
+  damageTime: 0
+  attackDir: {x: 0, y: 0, z: 0}
+  owner: {fileID: 0}
 --- !u!1 &4345765788357185500
 GameObject:
   m_ObjectHideFlags: 0
@@ -13882,15 +13926,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 84befb2d7338f164f80b5198cdfcc307, type: 3}
---- !u!1 &2693895229065965298 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 958868011383707551, guid: 84befb2d7338f164f80b5198cdfcc307,
-    type: 3}
-  m_PrefabInstance: {fileID: 2894748104376613229}
-  m_PrefabAsset: {fileID: 0}
 --- !u!4 &7890977842324689113 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 5021043656269212084, guid: 84befb2d7338f164f80b5198cdfcc307,
+    type: 3}
+  m_PrefabInstance: {fileID: 2894748104376613229}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &2693895229065965298 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 958868011383707551, guid: 84befb2d7338f164f80b5198cdfcc307,
     type: 3}
   m_PrefabInstance: {fileID: 2894748104376613229}
   m_PrefabAsset: {fileID: 0}
@@ -13993,15 +14037,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 10120aedbfd3f6b4cac0dd1fb398e749, type: 3}
---- !u!198 &5055160945762808278 stripped
-ParticleSystem:
-  m_CorrespondingSourceObject: {fileID: 8820520791516950862, guid: 10120aedbfd3f6b4cac0dd1fb398e749,
-    type: 3}
-  m_PrefabInstance: {fileID: 4345765787731886232}
-  m_PrefabAsset: {fileID: 0}
 --- !u!4 &5055160945762808273 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 8820520791516950857, guid: 10120aedbfd3f6b4cac0dd1fb398e749,
+    type: 3}
+  m_PrefabInstance: {fileID: 4345765787731886232}
+  m_PrefabAsset: {fileID: 0}
+--- !u!198 &5055160945762808278 stripped
+ParticleSystem:
+  m_CorrespondingSourceObject: {fileID: 8820520791516950862, guid: 10120aedbfd3f6b4cac0dd1fb398e749,
     type: 3}
   m_PrefabInstance: {fileID: 4345765787731886232}
   m_PrefabAsset: {fileID: 0}
@@ -15203,15 +15247,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a77a7f41fd7c59b4da861f4f1e0f46da, type: 3}
---- !u!4 &61071303179010322 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 4366163916847891403, guid: a77a7f41fd7c59b4da861f4f1e0f46da,
-    type: 3}
-  m_PrefabInstance: {fileID: 4345765789180904153}
-  m_PrefabAsset: {fileID: 0}
 --- !u!198 &61071303179010332 stripped
 ParticleSystem:
   m_CorrespondingSourceObject: {fileID: 4366163916847891397, guid: a77a7f41fd7c59b4da861f4f1e0f46da,
+    type: 3}
+  m_PrefabInstance: {fileID: 4345765789180904153}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &61071303179010322 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 4366163916847891403, guid: a77a7f41fd7c59b4da861f4f1e0f46da,
     type: 3}
   m_PrefabInstance: {fileID: 4345765789180904153}
   m_PrefabAsset: {fileID: 0}
@@ -15284,15 +15328,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 493aaa004ce0c7341ad22e5fa2dbb882, type: 3}
---- !u!4 &2956881037866283775 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 1533389183693609779, guid: 493aaa004ce0c7341ad22e5fa2dbb882,
-    type: 3}
-  m_PrefabInstance: {fileID: 4345765789184321996}
-  m_PrefabAsset: {fileID: 0}
 --- !u!198 &2956881037866283769 stripped
 ParticleSystem:
   m_CorrespondingSourceObject: {fileID: 1533389183693609781, guid: 493aaa004ce0c7341ad22e5fa2dbb882,
+    type: 3}
+  m_PrefabInstance: {fileID: 4345765789184321996}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &2956881037866283775 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 1533389183693609779, guid: 493aaa004ce0c7341ad22e5fa2dbb882,
     type: 3}
   m_PrefabInstance: {fileID: 4345765789184321996}
   m_PrefabAsset: {fileID: 0}

@@ -50,20 +50,13 @@ namespace ToolsMandioca.StateMachine
 
             if (info.IsName("CentralState"))
             {
-                if (WaitAttack())
+                if (LeftHorizontal() == 0 && LeftVertical() == 0)
                 {
-                    sm.SendInput(CharacterHead.PlayerInputs.CHARGE_ATTACK);
+                    sm.SendInput(CharacterHead.PlayerInputs.IDLE);
                 }
                 else
                 {
-                    if (LeftHorizontal() == 0 && LeftVertical() == 0)
-                    {
-                        sm.SendInput(CharacterHead.PlayerInputs.IDLE);
-                    }
-                    else
-                    {
-                        sm.SendInput(CharacterHead.PlayerInputs.MOVE);
-                    }
+                    sm.SendInput(CharacterHead.PlayerInputs.MOVE);
                 }
             }
             //timer += Time.deltaTime;

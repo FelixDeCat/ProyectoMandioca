@@ -90,6 +90,8 @@ public class CharacterHead : CharacterControllable
     float dmg;
     CharacterAttack charAttack;
     [SerializeField] ParticleSystem slash = null;
+    [SerializeField] DamageData dmgData;
+    [SerializeField] DamageReceiver dmgReceiver;
 
     CustomCamera customCam;
 
@@ -142,6 +144,7 @@ public class CharacterHead : CharacterControllable
 
     private void Start()
     {
+        rb = GetComponent<Rigidbody>();
         _lockOn = new LockOn(enemyLayer, 100, transform);
         lifesystem
             .Configure_CharLifeSystem()
@@ -169,8 +172,12 @@ public class CharacterHead : CharacterControllable
         ChildrensUpdates += charBlock.OnUpdate;
 
         dmg = dmg_normal;
+        dmgData.Initialize(this);
+        dmgReceiver.SetBlock(charBlock.IsBlock, BlockFeedback).SetParry(charBlock.IsParry, ParryFeedback)
+            .Initialize(rot, () => InDash(), Dead, TakeDamageFeedback, rb, lifesystem.Hit);
+
         charAttack = new CharacterAttack(attackRange, attackAngle, timeToHeavyAttack, charanim, rot, ReleaseInNormal, ReleaseInHeavy,
-            feedbackHeavy, dmg, slash, swing_SoundName);
+            feedbackHeavy, dmg, slash, swing_SoundName, dmgData);
         charAttack.FirstAttackReady(true);
 
         charAnimEvent.Add_Callback("CheckAttackType", CheckAttackType);
@@ -187,9 +194,6 @@ public class CharacterHead : CharacterControllable
 
         charAnimEvent.Add_Callback("OnThrow", ThrowCallback);
 
-        rb = GetComponent<Rigidbody>();
-
-        charAttack.SetRigidBody(rb);
         charAttack.SetRigidBody(rb);
 
         debug_options.StartDebug();
@@ -211,8 +215,10 @@ public class CharacterHead : CharacterControllable
         AudioManager.instance.PlaySound("FootStep");
     }
 
-    void DealLeft() { }
-    void DealRight() { }
+    public Vector3 DirAttack { get; private set; }
+
+    void DealLeft() { DirAttack = transform.right; }
+    void DealRight() { DirAttack = -transform.right; }
 
 
     float auxSpeedDebug;
@@ -505,10 +511,10 @@ public class CharacterHead : CharacterControllable
     {
         if(stateMachine.Current.Name != "Release_Attack")
             stateMachine.SendInput(PlayerInputs.CHARGE_ATTACK);
-        attackWait = true;
+        //attackWait = true;
         charAttack.UnfilteredAttack();
     }
-    public void EVENT_OnAttackEnd() { stateMachine.SendInput(PlayerInputs.RELEASE_ATTACK); attackWait = false; }
+    public void EVENT_OnAttackEnd() { stateMachine.SendInput(PlayerInputs.RELEASE_ATTACK); /*attackWait = false;*/ }
 
     bool IsAttackWait() => attackWait;
     public void CheckAttackType() => charAttack.BeginCheckAttackType();//tengo la espada arriba
@@ -789,6 +795,32 @@ public class CharacterHead : CharacterControllable
 
         return TakeDamage(dmg, attackDir, dmgtype);
     }
+
+    void ParryFeedback(EntityBase entity)
+    {
+        Main.instance.eventManager.TriggerEvent(GameEvents.ON_PLAYER_PARRY, new object[] { entity });
+        PerfectParry();
+        Main.instance.GetTimeManager().DoSlowMotion(timeScale, slowDuration);
+        customCam.DoFastZoom(10);
+    }
+
+    void BlockFeedback(EntityBase entity)
+    {
+        blockParticle.Play();
+        charanim.BlockSomething();
+        charBlock.SetBlockCharges(-1);
+        lifesystem.Hit(1);
+    }
+
+    void TakeDamageFeedback(DamageData data)
+    {
+        hitParticle.Play();
+        customCam.BeginShakeCamera();
+        Main.instance.Vibrate();
+    }
+
+    void Dead(Vector3 dir) { }
+
     #endregion
 
     #region Change Weapon

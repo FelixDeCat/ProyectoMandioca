@@ -26,8 +26,8 @@ public class DamageReceiver : MonoBehaviour
 
     Func<Vector3, Vector3, Vector3, bool> IsBlock;
     Func<Vector3, Vector3, Vector3, bool> IsParry;
-    Action Block;
-    Action Parry;
+    Action<EntityBase> Block;
+    Action<EntityBase> Parry;
 
     Rigidbody rb;
 
@@ -42,7 +42,7 @@ public class DamageReceiver : MonoBehaviour
         OnHit = _OnHit;
         rb = _rb;
     }
-    public DamageReceiver SetBlock(Func<Vector3, Vector3, Vector3, bool> _IsBlock, Action _Block)
+    public DamageReceiver SetBlock(Func<Vector3, Vector3, Vector3, bool> _IsBlock, Action<EntityBase> _Block)
     {
         blockEntity = true;
         IsBlock = _IsBlock;
@@ -50,7 +50,7 @@ public class DamageReceiver : MonoBehaviour
         return this;
     }
 
-    public DamageReceiver SetParry(Func<Vector3, Vector3, Vector3, bool> _IsParry, Action _Parry)
+    public DamageReceiver SetParry(Func<Vector3, Vector3, Vector3, bool> _IsParry, Action<EntityBase> _Parry)
     {
         parryEntity = true;
         IsParry = _IsParry;
@@ -69,20 +69,23 @@ public class DamageReceiver : MonoBehaviour
             return Attack_Result.inmune;
         }
 
-        if (parryEntity)
+        if(data.damageType != Damagetype.inparry)
         {
-            if (IsParry(ownerRoot.position, data.owner_position, ownerRoot.forward))
+            if (parryEntity)
             {
-                Parry();
-                return Attack_Result.blocked;
+                if (IsParry(ownerRoot.position, data.owner_position, ownerRoot.forward))
+                {
+                    Parry(data.owner);
+                    return Attack_Result.blocked;
+                }
             }
-        }
-        if (blockEntity)
-        {
-            if (IsBlock(ownerRoot.position, data.owner_position, ownerRoot.forward))
+            if (blockEntity)
             {
-                Block();
-                return Attack_Result.blocked;
+                if (IsBlock(ownerRoot.position, data.owner_position, ownerRoot.forward))
+                {
+                    Block(data.owner);
+                    return Attack_Result.blocked;
+                }
             }
         }
 
