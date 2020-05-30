@@ -6,297 +6,298 @@ using ToolsMandioca.Extensions;
 
 public class SkillManager_Activas : MonoBehaviour
 {
-    public UI_SkillHandler_Activas frontend;
+    //public UI_SkillHandler_Activas frontend;
 
-    [Header("All skills data base")]
-    [SerializeField] List<SkillActivas> my_editor_data_base;
-    Dictionary<SkillInfo, SkillActivas> fastreference_actives;
-    Dictionary<SkillInfo, Item> fastreference_item = new Dictionary<SkillInfo, Item>();
+    //[Header("All skills data base")]
+    //[SerializeField] List<SkillActivas> my_editor_data_base;
+    //Dictionary<SkillInfo, SkillActivas> fastreference_actives;
+    //Dictionary<SkillInfo, Item> fastreference_item = new Dictionary<SkillInfo, Item>();
 
-    public SkillActivas[] myActiveSkills = new SkillActivas[4];
+    //public SkillActivas[] myActiveSkills = new SkillActivas[4];
 
-    public Item[] items_to_spawn;
+    //public Item[] items_to_spawn;
 
-    bool percenslot = true;
 
-    int current_index_centered = 0;
+    //bool percenslot = true;
 
-    public Manager3DActivas frontend3D;
+    //int current_index_centered = 0;
 
-    private void Start()
-    {
-        Main.instance.eventManager.SubscribeToEvent(GameEvents.GAME_INITIALIZE, Initialize);
-    }
+    //public Manager3DActivas frontend3D;
 
-    void Initialize()
-    {
-        //obtengo la data base de mis childrens
-        my_editor_data_base = GetComponentsInChildren<SkillActivas>().ToList();
+    //private void Start()
+    //{
+    //    Main.instance.eventManager.SubscribeToEvent(GameEvents.GAME_INITIALIZE, Initialize);
+    //}
 
-        //las relleno con el item vacio
-        //si tenemos carga de datos esto es malisimo xq los borraria
-        //watch out bro!
-        myActiveSkills = new SkillActivas[4];
-        for (int i = 0; i < myActiveSkills.Length; i++) myActiveSkills[i] = null;
+    //void Initialize()
+    //{
+    //    //obtengo la data base de mis childrens
+    //    my_editor_data_base = GetComponentsInChildren<SkillActivas>().ToList();
 
-        //relleno el diccionario de acceso rapido
-        fastreference_actives = new Dictionary<SkillInfo, SkillActivas>();
-        foreach (var s in my_editor_data_base)
-            if (!fastreference_actives.ContainsKey(s.skillinfo))
-                fastreference_actives.Add(s.skillinfo, s);
+    //    //las relleno con el item vacio
+    //    //si tenemos carga de datos esto es malisimo xq los borraria
+    //    //watch out bro!
+    //    myActiveSkills = new SkillActivas[4];
+    //    for (int i = 0; i < myActiveSkills.Length; i++) myActiveSkills[i] = null;
 
-        //refresco la ui con mis skills vacios
-        //frontend.Refresh(myActiveSkills, OnUISelected);
-        frontend3D.InitializeAllBlocked();
+    //    //relleno el diccionario de acceso rapido
+    //    fastreference_actives = new Dictionary<SkillInfo, SkillActivas>();
+    //    foreach (var s in my_editor_data_base)
+    //        if (!fastreference_actives.ContainsKey(s.skillinfo))
+    //            fastreference_actives.Add(s.skillinfo, s);
 
-        //esto ahora como esta diseñado no entraría nunca porque todos son nulos
-        //pero el dia de mañana tal vez entre primero por una carga de datos
-        //y aca van a haber valores
-        for (int i = 0; i < myActiveSkills.Length; i++)
-        {
-            if (myActiveSkills[i] != null)
-                myActiveSkills[i].BeginSkill();
-        }
+    //    //refresco la ui con mis skills vacios
+    //    //frontend.Refresh(myActiveSkills, OnUISelected);
+    //    frontend3D.InitializeAllBlocked();
 
-        //otras cosas
-        //(spawn de enemigos) esto lo hago aca porque quiero tener el control de spawn acá... 
-        //para tener un roullete que no me tire siempre los mismos items que ya tengo equipado
-        Main.instance.eventManager.SubscribeToEvent(GameEvents.ENEMY_DEAD, EnemyDeath);
+    //    //esto ahora como esta diseñado no entraría nunca porque todos son nulos
+    //    //pero el dia de mañana tal vez entre primero por una carga de datos
+    //    //y aca van a haber valores
+    //    for (int i = 0; i < myActiveSkills.Length; i++)
+    //    {
+    //        if (myActiveSkills[i] != null)
+    //            myActiveSkills[i].BeginSkill();
+    //    }
 
-        //refresco el sistema de slots x vida
-        ReceiveLife((int)Main.instance.GetChar().Life.GetLife(), (int)Main.instance.GetChar().Life.GetMax());
+    //    //otras cosas
+    //    //(spawn de enemigos) esto lo hago aca porque quiero tener el control de spawn acá... 
+    //    //para tener un roullete que no me tire siempre los mismos items que ya tengo equipado
+    //    Main.instance.eventManager.SubscribeToEvent(GameEvents.ENEMY_DEAD, EnemyDeath);
 
-        DevelopTools.UI.Debug_UI_Tools.instance.CreateToogle("Sistema de Slots por porcentaje de vida", true, UseMode_Slots);
-    }
+    //    //refresco el sistema de slots x vida
+    //    ReceiveLife((int)Main.instance.GetChar().Life.GetLife(), (int)Main.instance.GetChar().Life.GetMax());
 
-    string UseMode_Slots(bool b)
-    {
-        percenslot = b;
-        ReceiveLife((int)Main.instance.GetChar().Life.GetLife(), (int)Main.instance.GetChar().Life.GetMax());
-        return "PercentMode: " + (b ? "activated" : "deactivated");
-    }
+    //    DevelopTools.UI.Debug_UI_Tools.instance.CreateToogle("Sistema de Slots por porcentaje de vida", true, UseMode_Slots);
+    //}
 
-    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    ///// INPUT
-    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    public void EV_SelectByKeyboard(int _index)//[0,1,2,3]
-    {
-        int maxLenght = 0;
-        for (int i = 0; i < slots.Length; i++) if (slots[i] == true) maxLenght++;
-        if (_index == 0) current_index_centered = 0;
-        if (_index > 0)
-        {
-            if (_index >= maxLenght) current_index_centered = GetMaxIndex();
-            else current_index_centered = _index;
-        }
-        frontend3D.Select(current_index_centered);
-    }
+    //string UseMode_Slots(bool b)
+    //{
+    //    percenslot = b;
+    //    ReceiveLife((int)Main.instance.GetChar().Life.GetLife(), (int)Main.instance.GetChar().Life.GetMax());
+    //    return "PercentMode: " + (b ? "activated" : "deactivated");
+    //}
 
-    int GetMaxIndex()
-    {
-        int maxLenght = 0;
-        for (int i = 0; i < slots.Length; i++) if (slots[i] == true) maxLenght++;
-        return maxLenght -1;
-    }
+    //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    /////// INPUT
+    //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    //public void EV_SelectByKeyboard(int _index)//[0,1,2,3]
+    //{
+    //    int maxLenght = 0;
+    //    for (int i = 0; i < slots.Length; i++) if (slots[i] == true) maxLenght++;
+    //    if (_index == 0) current_index_centered = 0;
+    //    if (_index > 0)
+    //    {
+    //        if (_index >= maxLenght) current_index_centered = GetMaxIndex();
+    //        else current_index_centered = _index;
+    //    }
+    //    frontend3D.Select(current_index_centered);
+    //}
 
-    public void EV_Next() 
-    {
-        int sum = 0;
-        for (int i = 0; i < slots.Length; i++) if (slots[i] == true) sum++;
-        current_index_centered = current_index_centered.NextIndex(sum);
-        frontend3D.Select(current_index_centered);
-    }
-    public void EV_Back()
-    {
-        int sum = 0;
-        for (int i = 0; i < slots.Length; i++) if (slots[i] == true) sum++;
-        current_index_centered = current_index_centered.BackIndex(sum);
-        frontend3D.Select(current_index_centered);
-    }
-    public void EV_UseSkill() => TryToUseSelected();
+    //int GetMaxIndex()
+    //{
+    //    int maxLenght = 0;
+    //    for (int i = 0; i < slots.Length; i++) if (slots[i] == true) maxLenght++;
+    //    return maxLenght -1;
+    //}
 
-    const int MAX_PERCENT = 100;
-    readonly int[] percentedvalues = new int[] { 0, 25, 50, 75 };
-    public bool[] slots = new bool[4];
-    public void ReceiveLife(int _life, int max)
-    {
-       // Debug.Log("Life: " + _life + " Max: " + max);
-        float percent = _life * 100 / max;
+    //public void EV_Next() 
+    //{
+    //    int sum = 0;
+    //    for (int i = 0; i < slots.Length; i++) if (slots[i] == true) sum++;
+    //    current_index_centered = current_index_centered.NextIndex(sum);
+    //    frontend3D.Select(current_index_centered);
+    //}
+    //public void EV_Back()
+    //{
+    //    int sum = 0;
+    //    for (int i = 0; i < slots.Length; i++) if (slots[i] == true) sum++;
+    //    current_index_centered = current_index_centered.BackIndex(sum);
+    //    frontend3D.Select(current_index_centered);
+    //}
+    //public void EV_UseSkill() => TryToUseSelected();
 
-        var aux_value = MAX_PERCENT - percent;
-        if (aux_value == 0) aux_value = 1;
-        for (int i = 0; i < slots.Length; i++)
-        {
-            slots[i] = aux_value > percentedvalues[i];
-        }
-        if (!percenslot)
-        {
-            string todebug = "BOOLS: ";
-            for (int i = 0; i < slots.Length; i++)
-            {
-                todebug += " [" + slots[i] + "] ";
-                slots[i] = true;
-            }
+    //const int MAX_PERCENT = 100;
+    //readonly int[] percentedvalues = new int[] { 0, 25, 50, 75 };
+    //public bool[] slots = new bool[4];
+    //public void ReceiveLife(int _life, int max)
+    //{
+    //   // Debug.Log("Life: " + _life + " Max: " + max);
+    //    float percent = _life * 100 / max;
 
-           // Debug.Log(todebug);
-        }
+    //    var aux_value = MAX_PERCENT - percent;
+    //    if (aux_value == 0) aux_value = 1;
+    //    for (int i = 0; i < slots.Length; i++)
+    //    {
+    //        slots[i] = aux_value > percentedvalues[i];
+    //    }
+    //    if (!percenslot)
+    //    {
+    //        string todebug = "BOOLS: ";
+    //        for (int i = 0; i < slots.Length; i++)
+    //        {
+    //            todebug += " [" + slots[i] + "] ";
+    //            slots[i] = true;
+    //        }
 
-        for (int i = 0; i < slots.Length; i++)
-        {
-            if (!slots[i])
-            {
-                Clear(i);
-            }
-        }
+    //       // Debug.Log(todebug);
+    //    }
 
-        frontend3D.ReAssignUIInfo(myActiveSkills);
-        frontend3D.RefreshButtons(slots);
-    }
+    //    for (int i = 0; i < slots.Length; i++)
+    //    {
+    //        if (!slots[i])
+    //        {
+    //            Clear(i);
+    //        }
+    //    }
 
-    void EnemyDeath(params object[] param)
-    {
-        Main.instance.SpawnItem(items_to_spawn[Random.Range(0, items_to_spawn.Length)], (Vector3)param[0]);
-    }
+    //    frontend3D.ReAssignUIInfo(myActiveSkills);
+    //    frontend3D.RefreshButtons(slots);
+    //}
 
-    public void TryToUseSelected(int selected)
-    {
-        if (myActiveSkills[selected] != null)
-            myActiveSkills[selected].Execute();
-    }
-    public void TryToUseSelected()
-    {
-        if (myActiveSkills[current_index_centered] != null)
-            myActiveSkills[current_index_centered].Execute();
-    }
+    //void EnemyDeath(params object[] param)
+    //{
+    //    Main.instance.SpawnItem(items_to_spawn[Random.Range(0, items_to_spawn.Length)], (Vector3)param[0]);
+    //}
 
-    public SkillInfo Look(int index) => my_editor_data_base[index].skillinfo;
-    int current_index;
-    public void Clear(int index)
-    {
-        //if (myActiveSkills[index] == null) return;
+    //public void TryToUseSelected(int selected)
+    //{
+    //    if (myActiveSkills[selected] != null)
+    //        myActiveSkills[selected].Execute();
+    //}
+    //public void TryToUseSelected()
+    //{
+    //    if (myActiveSkills[current_index_centered] != null)
+    //        myActiveSkills[current_index_centered].Execute();
+    //}
 
-        //if (fastreference_item.ContainsKey(myActiveSkills[index].skillinfo))
-        //{
-        //    myActiveSkills[index].EndSkill();
-        //    var _item = fastreference_item[myActiveSkills[index].skillinfo];
-        //    Main.instance.SpawnItem(_item, Main.instance.GetChar().transform.position + Main.instance.GetChar().GetCharMove().GetRotatorDirection());
-        //    myActiveSkills[index] = null;
-        //}
+    //public SkillInfo Look(int index) => my_editor_data_base[index].skillinfo;
+    //int current_index;
+    //public void Clear(int index)
+    //{
+    //    //if (myActiveSkills[index] == null) return;
 
-        //spawnear el viejo
-    }
-    bool oneshot;
-    public bool ReplaceFor(SkillInfo _skillinfo, int index, Item item)
-    {
-        //si ya la tengo repetida ni la agarro
-        foreach (var i in myActiveSkills)
-        {
-            if (i != null)
-            {
-                if (_skillinfo == i.skillinfo) return false;
-                else continue;
-            }
-        }
+    //    //if (fastreference_item.ContainsKey(myActiveSkills[index].skillinfo))
+    //    //{
+    //    //    myActiveSkills[index].EndSkill();
+    //    //    var _item = fastreference_item[myActiveSkills[index].skillinfo];
+    //    //    Main.instance.SpawnItem(_item, Main.instance.GetChar().transform.position + Main.instance.GetChar().GetCharMove().GetRotatorDirection());
+    //    //    myActiveSkills[index] = null;
+    //    //}
 
-        //ahora si no la tengo repetida
+    //    //spawnear el viejo
+    //}
+    //bool oneshot;
+    //public bool ReplaceFor(SkillInfo _skillinfo, int index, Item item)
+    //{
+    //    //si ya la tengo repetida ni la agarro
+    //    foreach (var i in myActiveSkills)
+    //    {
+    //        if (i != null)
+    //        {
+    //            if (_skillinfo == i.skillinfo) return false;
+    //            else continue;
+    //        }
+    //    }
 
-        if (!fastreference_item.ContainsKey(_skillinfo))
-        {
-            fastreference_item.Add(_skillinfo, item);
-        }
+    //    //ahora si no la tengo repetida
 
-        //esto es una negrada... pero hasta que no se confirme si se va a hacer lo de magno
-        //lo que hace es que si usa el sistema de magno no se buguee al entrar
-        if (slots[0] == false)
-        {
-            for (int i = 0; i < slots.Length; i++) slots[i] = true;
-        }
+    //    if (!fastreference_item.ContainsKey(_skillinfo))
+    //    {
+    //        fastreference_item.Add(_skillinfo, item);
+    //    }
 
-        int cleanindex = FindNextCleanIndex(current_index);
-        if (!oneshot) { oneshot = true; cleanindex = 0; }
+    //    //esto es una negrada... pero hasta que no se confirme si se va a hacer lo de magno
+    //    //lo que hace es que si usa el sistema de magno no se buguee al entrar
+    //    if (slots[0] == false)
+    //    {
+    //        for (int i = 0; i < slots.Length; i++) slots[i] = true;
+    //    }
 
-        //endskill del anterior
-        if (myActiveSkills[cleanindex] != null) //si teniamos algo lo finalizo y lo dropeo
-        {
-            myActiveSkills[cleanindex].EndSkill();
-            myActiveSkills[cleanindex].RemoveCallbackCooldown();
+    //    int cleanindex = FindNextCleanIndex(current_index);
+    //    if (!oneshot) { oneshot = true; cleanindex = 0; }
 
-            //si mi diccionario biblioteca de items contiene el info del anterior
-            //spawneo el item
-            //si entro aca es porque quiere decir que alguna vez un item que puede ser dropeado entró aca, por lo tanto no va a estar vacio
-            if (fastreference_item.ContainsKey(myActiveSkills[cleanindex].skillinfo))
-            {
-                //obtengo el item del anterior
-                var _item = fastreference_item[myActiveSkills[cleanindex].skillinfo];
-                //spawneo el item anterior
-                Main.instance.SpawnItem(_item, Main.instance.GetChar().transform.position + Main.instance.GetChar().GetCharMove().GetRotatorDirection());
-            }
-        }
+    //    //endskill del anterior
+    //    if (myActiveSkills[cleanindex] != null) //si teniamos algo lo finalizo y lo dropeo
+    //    {
+    //        myActiveSkills[cleanindex].EndSkill();
+    //        myActiveSkills[cleanindex].RemoveCallbackCooldown();
 
-        //asigno a este index el nuevo skill
-        myActiveSkills[cleanindex] = fastreference_actives[_skillinfo];
+    //        //si mi diccionario biblioteca de items contiene el info del anterior
+    //        //spawneo el item
+    //        //si entro aca es porque quiere decir que alguna vez un item que puede ser dropeado entró aca, por lo tanto no va a estar vacio
+    //        if (fastreference_item.ContainsKey(myActiveSkills[cleanindex].skillinfo))
+    //        {
+    //            //obtengo el item del anterior
+    //            var _item = fastreference_item[myActiveSkills[cleanindex].skillinfo];
+    //            //spawneo el item anterior
+    //            Main.instance.SpawnItem(_item, Main.instance.GetChar().transform.position + Main.instance.GetChar().GetCharMove().GetRotatorDirection());
+    //        }
+    //    }
 
-        frontend3D.ReAssignUIInfo(myActiveSkills);
-        frontend3D.RefreshButtons(slots);
-        myActiveSkills[cleanindex].SetCallbackSuscessfulUsed(OnCallbackSussesfullUsed);
-        myActiveSkills[cleanindex].SetCallbackCooldown(Callback_RefreshCooldown);
-        myActiveSkills[cleanindex].SetCallbackEndCooldown(Callback_EndCooldown);
-        myActiveSkills[cleanindex].BeginSkill();
+    //    //asigno a este index el nuevo skill
+    //    myActiveSkills[cleanindex] = fastreference_actives[_skillinfo];
 
-        current_index = cleanindex;
+    //    frontend3D.ReAssignUIInfo(myActiveSkills);
+    //    frontend3D.RefreshButtons(slots);
+    //    myActiveSkills[cleanindex].SetCallbackSuscessfulUsed(OnCallbackSussesfullUsed);
+    //    myActiveSkills[cleanindex].SetCallbackCooldown(Callback_RefreshCooldown);
+    //    myActiveSkills[cleanindex].SetCallbackEndCooldown(Callback_EndCooldown);
+    //    myActiveSkills[cleanindex].BeginSkill();
 
-        return true;
-        //spawnear el viejo
-    }
+    //    current_index = cleanindex;
 
-    void OnCallbackSussesfullUsed(SkillInfo _skill)
-    {
-        for (int i = 0; i < myActiveSkills.Length; i++)
-        {
-            if (myActiveSkills[i] != null)
-            {
-                if (myActiveSkills[i].skillinfo == _skill)
-                {
-                    frontend3D.ExecuteSubmit(i);
-                }
-            }
-        }
-    }
+    //    return true;
+    //    //spawnear el viejo
+    //}
 
-    void Callback_EndCooldown(SkillInfo _skill)
-    {
-        for (int i = 0; i < myActiveSkills.Length; i++)
-        {
-            if (myActiveSkills[i] != null)
-            {
-                if (myActiveSkills[i].skillinfo == _skill)
-                {
-                    frontend3D.CooldownEndReadyAuxiliar(i);
-                }
-            }
-        }
-    }
-    public void Callback_RefreshCooldown(SkillInfo _skill, float _time)
-    {
-        for (int i = 0; i < myActiveSkills.Length; i++)
-        {
-            if (myActiveSkills[i] != null)
-            {
-                if (myActiveSkills[i].skillinfo == _skill)
-                {
-                    frontend3D.RefreshCooldownAuxiliar(i, _time);
-                }
-            }
-        }
-    }
+    //void OnCallbackSussesfullUsed(SkillInfo _skill)
+    //{
+    //    for (int i = 0; i < myActiveSkills.Length; i++)
+    //    {
+    //        if (myActiveSkills[i] != null)
+    //        {
+    //            if (myActiveSkills[i].skillinfo == _skill)
+    //            {
+    //                frontend3D.ExecuteSubmit(i);
+    //            }
+    //        }
+    //    }
+    //}
 
-    int FindNextCleanIndex(int current)
-    {
-        int next_clean_index = current;
-        next_clean_index = next_clean_index.NextIndex(myActiveSkills.Length);
-        while (!slots[next_clean_index]) next_clean_index = next_clean_index.NextIndex(myActiveSkills.Length);
-        return next_clean_index;
-    }
+    //void Callback_EndCooldown(SkillInfo _skill)
+    //{
+    //    for (int i = 0; i < myActiveSkills.Length; i++)
+    //    {
+    //        if (myActiveSkills[i] != null)
+    //        {
+    //            if (myActiveSkills[i].skillinfo == _skill)
+    //            {
+    //                frontend3D.CooldownEndReadyAuxiliar(i);
+    //            }
+    //        }
+    //    }
+    //}
+    //public void Callback_RefreshCooldown(SkillInfo _skill, float _time)
+    //{
+    //    for (int i = 0; i < myActiveSkills.Length; i++)
+    //    {
+    //        if (myActiveSkills[i] != null)
+    //        {
+    //            if (myActiveSkills[i].skillinfo == _skill)
+    //            {
+    //                frontend3D.RefreshCooldownAuxiliar(i, _time);
+    //            }
+    //        }
+    //    }
+    //}
+
+    //int FindNextCleanIndex(int current)
+    //{
+    //    int next_clean_index = current;
+    //    next_clean_index = next_clean_index.NextIndex(myActiveSkills.Length);
+    //    while (!slots[next_clean_index]) next_clean_index = next_clean_index.NextIndex(myActiveSkills.Length);
+    //    return next_clean_index;
+    //}
 
 
 }

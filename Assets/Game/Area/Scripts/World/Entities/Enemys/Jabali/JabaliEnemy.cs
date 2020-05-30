@@ -68,6 +68,7 @@ public class JabaliEnemy : EnemyBase
     [SerializeField] Color onHitColor;
     [SerializeField] float onHitFlashTime;
     [SerializeField] GameObject feedbackCharge;
+    [SerializeField] Material _petrifiedMat; 
 
     public bool isOnFire { get; private set; }
 
@@ -322,6 +323,18 @@ public class JabaliEnemy : EnemyBase
         base.OnPetrified();
 
         EnterStun = (input) => {
+            var smr = GetComponentInChildren<SkinnedMeshRenderer>();
+            if (smr != null)
+            {
+                myMat = smr.materials;
+
+                Material[] mats = smr.materials;
+                mats[0] = _petrifiedMat;
+                smr.materials = mats;
+                Invinsible = true;
+              //  rb.AddForce
+            }
+
             currentAnimSpeed = animator.speed;
             animator.speed = 0;
         };
@@ -334,8 +347,15 @@ public class JabaliEnemy : EnemyBase
         };
 
         ExitStun = (input) => {
+            var smr2 = GetComponentInChildren<SkinnedMeshRenderer>();
+            if (smr2 != null)
+            {
+                Material[] mats = smr2.materials;
+                smr2.materials = myMat;
+            }
             animator.speed = currentAnimSpeed;
             stunTimer = 0;
+            Invinsible = false;
         };
 
         sm.SendInput(JabaliInputs.PETRIFIED);

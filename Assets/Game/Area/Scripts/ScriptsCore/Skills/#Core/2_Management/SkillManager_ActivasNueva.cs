@@ -6,12 +6,11 @@ using ToolsMandioca.Extensions;
 
 public class SkillManager_ActivasNueva : LoadComponent
 {
-    public UI_SkillHandler_Activas frontend;
 
     [Header("All skills data base")]
-    [SerializeField] List<SkillActivas> my_editor_data_base;
-    public SkillActivas master;
-    public SkillActivas slave;
+    [SerializeField] List<SkillActivas> my_data_base;
+    SkillActivas master;
+    SkillActivas slave;
 
     Dictionary<SkillInfo, SkillActivas> fastreference_actives;
     Dictionary<SkillInfo, Item> fastreference_item = new Dictionary<SkillInfo, Item>();
@@ -25,14 +24,14 @@ public class SkillManager_ActivasNueva : LoadComponent
     protected override IEnumerator LoadMe()
     {
         //obtengo la data base de mis childrens
-        my_editor_data_base = GetComponentsInChildren<SkillActivas>().ToList();
+        my_data_base = GetComponentsInChildren<SkillActivas>().ToList();
 
         master = null;
         slave = null;
 
         //relleno el diccionario de acceso rapido
         fastreference_actives = new Dictionary<SkillInfo, SkillActivas>();
-        foreach (var s in my_editor_data_base)
+        foreach (var s in my_data_base)
             if (!fastreference_actives.ContainsKey(s.skillinfo))
                 fastreference_actives.Add(s.skillinfo, s);
 
@@ -68,7 +67,7 @@ public class SkillManager_ActivasNueva : LoadComponent
     }
 
 
-    public SkillInfo Look(int index) => my_editor_data_base[index].skillinfo;
+    public SkillInfo Look(int index) => my_data_base[index].skillinfo;
     int current_index;
     public void Clear(int index)
     {

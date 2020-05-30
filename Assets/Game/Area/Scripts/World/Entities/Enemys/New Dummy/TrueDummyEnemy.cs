@@ -56,8 +56,8 @@ public class TrueDummyEnemy : EnemyBase
     [SerializeField] RagdollComponent ragdoll = null;
     [SerializeField] ParticleSystem myGroundParticle = null;
     [SerializeField] private AudioClip _takeHit_AC;
-    private const string takeHit_audioName = "woodChop"; 
-
+    private const string takeHit_audioName = "woodChop";
+    [SerializeField] Material _petrifiedTex;
 
     public bool isOnFire { get; private set; }
     
@@ -191,15 +191,28 @@ public class TrueDummyEnemy : EnemyBase
     public override void OnPetrified()
     {
         base.OnPetrified();
-
+       
         EnterStun = (input) => {
             currentAnimSpeed = animator.speed;
             animator.speed = 0;
+
+            var smr = GetComponentInChildren<SkinnedMeshRenderer>();
+            if (smr != null)
+            {
+                
+                myMat = smr.materials;
+
+                Material[] mats = smr.materials;
+                mats[0] = _petrifiedTex;
+                smr.materials = mats;
+                Invinsible = true;
+                //cambiar las particulas de sangre a las de piedra
+            }
         };
 
         UpdateStun = (name) => {
             stunTimer += Time.deltaTime;
-
+            Debug.Log("petrified");
             if (stunTimer >= petrifiedTime)
             {
                 if (name == "Begin_Attack")
@@ -214,8 +227,17 @@ public class TrueDummyEnemy : EnemyBase
         ExitStun = (input) => {
             animator.speed = currentAnimSpeed;
             stunTimer = 0;
+            var smr2 = GetComponentInChildren<SkinnedMeshRenderer>();
+            if (smr2 != null)
+            {
+                Material[] mats = smr2.materials;
+                smr2.materials = myMat;
+                Invinsible = false;
+                //poner las particulas de sangre de vuelta
+            }
         };
 
+        Debug.Log("entra a enviar el petrify");
         sm.SendInput(DummyEnemyInputs.PETRIFIED);
     }
 
@@ -434,7 +456,7 @@ public class TrueDummyEnemy : EnemyBase
 
         ConfigureState.Create(petrified)
             .SetTransition(DummyEnemyInputs.IDLE, idle)
-            .SetTransition(DummyEnemyInputs.ATTACK, attack)
+            //.SetTransition(DummyEnemyInputs.ATTACK, attack)
             .SetTransition(DummyEnemyInputs.BEGIN_ATTACK, beginAttack)
             .SetTransition(DummyEnemyInputs.DIE, die)
             .SetTransition(DummyEnemyInputs.DISABLE, disable)
