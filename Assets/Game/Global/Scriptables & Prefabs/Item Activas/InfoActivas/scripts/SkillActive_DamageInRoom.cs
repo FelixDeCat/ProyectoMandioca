@@ -28,11 +28,11 @@ public class SkillActive_DamageInRoom : SkillActivas
     {
         // atenea.GetComponent<AnimEvent>().Add_Callback("HitTheFloor", HitTheFloor);
         //SetPredicate(UsePredicate);
-        glasses_face = Main.instance.GetChar().glasses_face;
-        glasses_hand = Main.instance.GetChar().glasses_hand;
-        cachin_particle = Main.instance.GetChar().cachin;
-        glasses_face.SetActive(false);
-        glasses_hand.SetActive(false);
+        //glasses_face = Main.instance.GetChar().glasses_face;
+        //glasses_hand = Main.instance.GetChar().glasses_hand;
+        //cachin_particle = Main.instance.GetChar().cachin;
+        //glasses_face.SetActive(false);
+        //glasses_hand.SetActive(false);
     }
 
     Action GetBackControl = delegate { };

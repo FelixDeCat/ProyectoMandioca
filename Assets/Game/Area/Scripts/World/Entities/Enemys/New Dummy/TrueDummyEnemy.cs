@@ -237,6 +237,7 @@ public class TrueDummyEnemy : EnemyBase
             }
         };
 
+        Debug.Log("entra a enviar el petrify");
         sm.SendInput(DummyEnemyInputs.PETRIFIED);
     }
 

@@ -9,8 +9,8 @@ public class SkillManager_ActivasNueva : LoadComponent
 
     [Header("All skills data base")]
     [SerializeField] List<SkillActivas> my_data_base;
-    public SkillActivas master;
-    public SkillActivas slave;
+    SkillActivas master;
+    SkillActivas slave;
 
     Dictionary<SkillInfo, SkillActivas> fastreference_actives;
     Dictionary<SkillInfo, Item> fastreference_item = new Dictionary<SkillInfo, Item>();
