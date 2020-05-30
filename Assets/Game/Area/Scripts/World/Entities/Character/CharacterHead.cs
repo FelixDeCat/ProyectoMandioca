@@ -23,6 +23,8 @@ public class CharacterHead : CharacterControllable
 
     [Header("Movement Options")]
     [SerializeField] float speed = 5;
+
+    public Transform rayPivot;
     
     [SerializeField] Transform rot = null;
     CharacterMovement move;

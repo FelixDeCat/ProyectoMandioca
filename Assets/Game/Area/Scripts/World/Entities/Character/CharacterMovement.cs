@@ -328,8 +328,14 @@ public class CharacterMovement
     
     public bool CheckIfCanTeleport()
     {
+        if (movX != 0 || movY != 0)
+            dashDir = new Vector3(movX, 0, movY);
+        else
+            dashDir = rotTransform.forward;
+        
+        var player = Main.instance.GetChar();
         RaycastHit hit;
-        if (Physics.Raycast(_rb.position, dashDir, out hit, _teleportDistance, 1 << 20))
+        if (Physics.Raycast(player.rayPivot.position, dashDir, out hit, _teleportDistance, 1 << 20))
         {
             Debug.Log("Le pego a la pared invisible");
             return false;
