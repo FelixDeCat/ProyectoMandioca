@@ -61,53 +61,53 @@ public class Manager3DActivas : MonoBehaviour
 
     public void ReAssignUIInfo(SkillActivas[] col)
     {
-        for (int i = 0; i < col.Length; i++)
-        {
-            if (col[i] != null)
-            {
-                sides[i].SetSkillInfo(col[i].skillinfo);
-                sides[i].Ocupy();
-                ChangeModel(i, (col[i].skillinfo.model));
-                col[i].SetUI(sides[i]);
-            }
-            else
-            {
-                sides[i].RemoveSkillInfo();
-                sides[i].Vacate();
-                SetEmpty(i);
-            }
+        //for (int i = 0; i < col.Length; i++)
+        //{
+        //    if (col[i] != null)
+        //    {
+        //        sides[i].SetSkillInfo(col[i].skillinfo);
+        //        sides[i].Ocupy();
+        //        ChangeModel(i, (col[i].skillinfo.model));
+        //        col[i].SetUI(sides[i]);
+        //    }
+        //    else
+        //    {
+        //        sides[i].RemoveSkillInfo();
+        //        sides[i].Vacate();
+        //        SetEmpty(i);
+        //    }
 
-        }
+        //}
     }
     public void RefreshButtons(bool[] actives)
     {
-        for (int i = 0; i < actives.Length; i++)
-        {
-            if (actives[i])
-            {
-                sides[i].SetIsUsable();
+        //for (int i = 0; i < actives.Length; i++)
+        //{
+        //    if (actives[i])
+        //    {
+        //        sides[i].SetIsUsable();
 
-                //esta disponible
-                if (!sides[i].IsOcupied())
-                {
-                    SetEmpty(i);
-                }
-                else
-                {
-                    sides[i].SetUnlocked();
-                }
-            }
-            else
-            {
-                //Debug.Log("INDEX: " + i +" BLOQUEADO");
-                //esta bloqueado
-                sides[i].Vacate();
-                sides[i].SetBlocked();
-                sides[i].SetIsNotUsable();
-                DeSelect(i);
-                SetBlock(i);
-            }
-        }
+        //        //esta disponible
+        //        if (!sides[i].IsOcupied())
+        //        {
+        //            SetEmpty(i);
+        //        }
+        //        else
+        //        {
+        //            sides[i].SetUnlocked();
+        //        }
+        //    }
+        //    else
+        //    {
+        //        //Debug.Log("INDEX: " + i +" BLOQUEADO");
+        //        //esta bloqueado
+        //        sides[i].Vacate();
+        //        sides[i].SetBlocked();
+        //        sides[i].SetIsNotUsable();
+        //        DeSelect(i);
+        //        SetBlock(i);
+        //    }
+        //}
     }
 
     public void SetBlock(int i) => sides[i].SetModel(Instantiate(blockedModel));

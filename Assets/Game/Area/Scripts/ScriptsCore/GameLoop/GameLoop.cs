@@ -16,13 +16,7 @@ public class GameLoop : MonoBehaviour
 
     public void StartGame()
     {
-        /*
-         
-        aca le tengo que quitar las funciones al Main
-        y ponerselas aca... luego desde el main llamar acá
-         
-         */
-
+       
     }
     /*
     play()
@@ -32,6 +26,7 @@ public class GameLoop : MonoBehaviour
     */
     public void CharacterIsDeath()
     {
+        //Main.instance.GetCombatDirector().RemoveTarget(Main.instance.GetChar());
         //character can´t receive damage
         //character deactivate
         //anim death
@@ -48,6 +43,7 @@ public class GameLoop : MonoBehaviour
 
     public void CharacterResurrect()
     {
+        //Main.instance.GetCombatDirector().AddNewTarget(Main.instance.GetChar());
         Main.instance.GetChar().Life.Heal_AllHealth();
         checkpointmanager.SpawnChar();
     }

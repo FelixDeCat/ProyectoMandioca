@@ -173,15 +173,15 @@ public class SkillManager_Activas : MonoBehaviour
     int current_index;
     public void Clear(int index)
     {
-        if (myActiveSkills[index] == null) return;
+        //if (myActiveSkills[index] == null) return;
 
-        if (fastreference_item.ContainsKey(myActiveSkills[index].skillinfo))
-        {
-            myActiveSkills[index].EndSkill();
-            var _item = fastreference_item[myActiveSkills[index].skillinfo];
-            Main.instance.SpawnItem(_item, Main.instance.GetChar().transform.position + Main.instance.GetChar().GetCharMove().GetRotatorDirection());
-            myActiveSkills[index] = null;
-        }
+        //if (fastreference_item.ContainsKey(myActiveSkills[index].skillinfo))
+        //{
+        //    myActiveSkills[index].EndSkill();
+        //    var _item = fastreference_item[myActiveSkills[index].skillinfo];
+        //    Main.instance.SpawnItem(_item, Main.instance.GetChar().transform.position + Main.instance.GetChar().GetCharMove().GetRotatorDirection());
+        //    myActiveSkills[index] = null;
+        //}
 
         //spawnear el viejo
     }
