@@ -7,8 +7,6 @@ public class Manager3DActivas : MonoBehaviour
 {
     public UI3D_Element_SkillsActivas[] sides;
 
-    public UI3D_CursorActiva cursor;
-
     [SerializeField] GameObject blockedModel = null;
     [SerializeField] GameObject emptyModel = null;
 
@@ -21,8 +19,6 @@ public class Manager3DActivas : MonoBehaviour
         {
             skillUI.FadeOut(fadeSpeed);
         }
-
-        cursor.FadeOut(fadeSpeed);
     }
     
     public void FadeInSkills_UI()
@@ -31,8 +27,6 @@ public class Manager3DActivas : MonoBehaviour
         {
             skillUI.FadeIn(fadeSpeed);
         }
-        
-        cursor.FadeIn(fadeSpeed);
     }
     
 
@@ -43,10 +37,10 @@ public class Manager3DActivas : MonoBehaviour
     }
     public void InitializeAllBlocked()
     {
-        for (int i = 0; i < 4; i++)
-        {
-            sides[i].SetModel(Instantiate(blockedModel));
-        }
+        //for (int i = 0; i < 4; i++)
+        //{
+        //    sides[i].SetModel(Instantiate(blockedModel));
+        //}
     }
 
     public void RefreshCooldownAuxiliar(int _index, float _time) => sides[_index].SetCooldow(_time);
@@ -54,7 +48,6 @@ public class Manager3DActivas : MonoBehaviour
 
     public void ExecuteSubmit(int _index) 
     {
-        cursor.ExecuteUse();
         var basevenetdata = new UnityEngine.EventSystems.BaseEventData(Main.instance.GetMyEventSystem().GetMyEventSystem());
         sides[_index].OnSubmit(basevenetdata); 
     }
@@ -117,7 +110,6 @@ public class Manager3DActivas : MonoBehaviour
         var basevenetdata = new UnityEngine.EventSystems.BaseEventData(Main.instance.GetMyEventSystem().GetMyEventSystem());
         foreach (var e in sides) e.OnDeselect(basevenetdata);
         sides[i].OnSelect(basevenetdata);
-        cursor.GoToPosition(sides[i].transform.position);
     }
     public void DeSelect(int i)
     {
