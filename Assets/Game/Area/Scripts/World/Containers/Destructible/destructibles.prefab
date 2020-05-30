@@ -24,7 +24,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 971761135495715050}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.5, y: 0, z: 1.31}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 971761136603584452}
@@ -86,6 +86,7 @@ GameObject:
   - component: {fileID: 6380366582629391767}
   - component: {fileID: 6851582623676240501}
   - component: {fileID: 6130862046047950044}
+  - component: {fileID: 3652014335636775602}
   m_Layer: 10
   m_Name: destructibles
   m_TagString: Untagged
@@ -151,12 +152,30 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 69bfb6acd0c964f48a9589355f6a5340, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  poolname: 
+  poolname: jarrones
   data: {fileID: 11400000, guid: b3b9a8d612909f6498d4c93eba910ada, type: 2}
   model_destroyedVersion: {fileID: 3504725395465579949, guid: 799138831732d8a44bb2e56cb31c3b73,
     type: 3}
   destroy: 1
   dest_part: {fileID: 3771877822808720732}
+  damageReceiver: {fileID: 3652014335636775602}
+--- !u!114 &3652014335636775602
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 971761136072754303}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 34a4aff0c0e65c4488cc465c038877b2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  invulnerability: 
+  resistances: 
+  debilities: 
+  debilityAddDmg: 0
+  resistanceRestDmg: 0
 --- !u!1 &971761136603584451
 GameObject:
   m_ObjectHideFlags: 0

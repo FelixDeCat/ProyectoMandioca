@@ -27,6 +27,9 @@ public class Destructible_Normal : DestructibleBase
 
     Rigidbody onerig;
     Vector3 dest;
+    Rigidbody rb;
+
+    [SerializeField] DamageReceiver damageReceiver;
 
 
     [System.NonSerialized] public List<GameObject> objectsToDrop = new List<GameObject>();
@@ -42,9 +45,7 @@ public class Destructible_Normal : DestructibleBase
         Invoke("Calculate", 0.1f);
 
         Main.instance.AddEntity(this);
-    }
-
-    
+    }    
 
     void Calculate()
     {
@@ -127,23 +128,10 @@ public class Destructible_Normal : DestructibleBase
             aux.Normalize();
             c.AddForce(aux * 5, ForceMode.VelocityChange);
         }
-
         //onerig.AddExplosionForce(200, transform.localPosition, 50);
-
-        
-
     }
     void OthersFeedbacks() { /*CompleteCameraController.instancia.Shake();*/ }
 
-    public override Attack_Result TakeDamage(int dmg, Vector3 attack_pos, Damagetype damagetype, EntityBase ent) 
-    {
-        return TakeDamage(dmg, attack_pos, damagetype);
-    }
-    public override Attack_Result TakeDamage(int dmg, Vector3 attack_pos, Damagetype damagetype)
-    {
-        DestroyDestructible();
-        return Attack_Result.sucessful;
-    }
     protected override void OnDestroyDestructible() 
     {
         Drop();
@@ -156,7 +144,11 @@ public class Destructible_Normal : DestructibleBase
 
     //////////////////////////////////////////////
     protected override void FeedbackDamage() { }
-    protected override void OnInitialize() { }
+    protected override void OnInitialize()
+    {
+        rb = GetComponent<Rigidbody>();
+        damageReceiver.Initialize(transform, () => { return false; }, (x) => {}, (x) => { DestroyDestructible() ; }, null, (x) => { return false; });
+    }
     protected override void OnTurnOn() { }
     protected override void OnTurnOff() { }
     protected override void OnUpdate() { }
