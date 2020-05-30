@@ -7,11 +7,13 @@ public class RedBull : MonoBehaviour
     public Shader shader;
     Material _ppmat;
     CharacterHead myChar;
+    public Vector2 speed;
 
     private void Start()
     {
         _ppmat = new Material(shader);
         if (myChar == null) myChar = Main.instance.GetChar();
+        _ppmat.SetVector("_Speed", speed);
     }
 
     private void OnRenderImage(RenderTexture source, RenderTexture destination)
