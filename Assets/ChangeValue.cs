@@ -13,6 +13,8 @@ public class ChangeValue : StateMachineBehaviour
     public bool isTrigger;
     public bool isBoolean;
 
+    public bool useRestTrigger;
+
     [Header("values")]
     public bool boolean_value;
     public float float_value;
@@ -24,6 +26,18 @@ public class ChangeValue : StateMachineBehaviour
         if (isBoolean)
         {
             animator.SetBool(parameterName, boolean_value);
+        }
+        if (isTrigger)
+        {
+            if (useRestTrigger)
+            {
+                animator.ResetTrigger(parameterName);
+            }
+            else
+            {
+                animator.SetTrigger(parameterName);
+            }
+            
         }
     }
 
