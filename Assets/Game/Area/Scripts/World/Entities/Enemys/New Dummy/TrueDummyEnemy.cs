@@ -78,16 +78,16 @@ public class TrueDummyEnemy : EnemyBase
         AudioManager.instance.GetSoundPool(takeHit_audioName, AudioGroups.GAME_FX, _takeHit_AC);
         
             //Debug.Log("OnInitialize");
-            rb = GetComponent<Rigidbody>();
+        rb = GetComponent<Rigidbody>();
         combatComponent.Configure(AttackEntity);
         anim.Add_Callback("DealDamage", DealDamage);
         movement.Configure(rootTransform, rb);
-        dmgData.Initialize(this);
         dmgReceiver.Initialize(rootTransform, () =>
         {
             if (cooldown || Invinsible || sm.Current.Name == "Die") return true;
             else return false;
         }, Die, TakeDamageFeedback, rb, lifesystem.Hit);
+        dmgData.Initialize(this);
 
         StartDebug();
 
@@ -350,7 +350,10 @@ public class TrueDummyEnemy : EnemyBase
     public void Die(Vector3 dir)
     {
         sm.SendInput(DummyEnemyInputs.DIE);
-        ragdoll.Ragdoll(true, dir);
+        if(dir==Vector3.zero)
+            ragdoll.Ragdoll(true, -rootTransform.forward);
+        else
+            ragdoll.Ragdoll(true, dir);
         death = true;
         director.RemoveTarget(this);
         Main.instance.RemoveEntity(this);

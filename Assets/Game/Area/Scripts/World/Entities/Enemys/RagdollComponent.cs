@@ -37,8 +37,12 @@ public class RagdollComponent : MonoBehaviour
             myBones[i].GetComponent<Collider>().enabled = active;
         }
 
-        if(active)
-            principalBone.GetComponent<Rigidbody>().AddForce((dir.normalized + transform.up) * explosionForce, ForceMode.Impulse);
+        if (active)
+        {
+            Vector3 temp = dir * explosionForce;
+
+            principalBone.GetComponent<Rigidbody>().AddForce(temp, ForceMode.Impulse);
+        }
     }
 
     public void DesactiveBones()

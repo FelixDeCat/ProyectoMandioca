@@ -217,8 +217,8 @@ public class CharacterHead : CharacterControllable
 
     public Vector3 DirAttack { get; private set; }
 
-    void DealLeft() { DirAttack = transform.right; }
-    void DealRight() { DirAttack = -transform.right; }
+    void DealLeft() { DirAttack = rot.right; }
+    void DealRight() { DirAttack = -rot.right; }
 
 
     float auxSpeedDebug;

@@ -274,7 +274,10 @@ public class JabaliEnemy : EnemyBase
         death = true;
         director.RemoveTarget(this);
         sm.SendInput(JabaliInputs.DEAD);
-        ragdoll.Ragdoll(true, dir);
+        if (dir == Vector3.zero)
+            ragdoll.Ragdoll(true, -rootTransform.forward);
+        else
+            ragdoll.Ragdoll(true, dir);
         Main.instance.eventManager.TriggerEvent(GameEvents.ENEMY_DEAD, new object[] { transform.position, petrified, expToDrop });
         Main.instance.RemoveEntity(this);
     }

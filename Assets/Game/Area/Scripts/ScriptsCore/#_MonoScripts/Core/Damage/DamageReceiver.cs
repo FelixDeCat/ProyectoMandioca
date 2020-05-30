@@ -97,10 +97,11 @@ public class DamageReceiver : MonoBehaviour
         Vector3 aux = (ownerRoot.position - data.owner_position).normalized;
 
         Vector3 knockbackForce = aux * data.knockbackForce + data.attackDir;
+
         rb.AddForce(knockbackForce, ForceMode.Impulse);
 
         bool death = OnHit(dmg);
-        if (death) OnDead(knockbackForce);
+        if (death) OnDead(data.attackDir);
 
         takeDmg(data);
 
