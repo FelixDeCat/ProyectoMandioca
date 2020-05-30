@@ -13,6 +13,8 @@ public class ChangeValue : StateMachineBehaviour
     public bool isTrigger;
     public bool isBoolean;
 
+    public bool useRestTrigger;
+
     [Header("values")]
     public bool boolean_value;
     public float float_value;
@@ -25,13 +27,24 @@ public class ChangeValue : StateMachineBehaviour
         {
             animator.SetBool(parameterName, boolean_value);
         }
-
+        if (isTrigger)
+        {
+            if (useRestTrigger)
+            {
+                animator.ResetTrigger(parameterName);
+            }
+            else
+            {
+                animator.SetTrigger(parameterName);
+            }
+            
+        }
     }
 
     // OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks
     //override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     //{
-    //    
+        
     //}
 
     // OnStateExit is called when a transition ends and the state machine finishes evaluating this state
