@@ -20,8 +20,8 @@ public class UI3D_Element_SkillsActivas : UI3D_Element_WithFeedbacks
     SkillInfo mySkillInfo;
     public Image img_to_fill;
     bool ocupied = false;
-    public void Ocupy() => ocupied = true;
-    public void Vacate() => ocupied = false;
+    public void Ocupy_place() => ocupied = true;
+    public void Vacate_place() => ocupied = false;
     public bool IsOcupied() => ocupied;
     public void SetSkillInfo(SkillInfo skillInfo) => mySkillInfo = skillInfo;
     public void RemoveSkillInfo() => mySkillInfo = null;

@@ -11,7 +11,6 @@ public class SkillManager_ActivasNueva : LoadComponent
     [SerializeField] List<SkillActivas> my_data_base;
     Dictionary<SkillInfo, SkillActivas> fastreference_actives;
     public SkillActivas[] equip;
-    public int current;
 
     public int nextToReplace;
 
@@ -51,14 +50,18 @@ public class SkillManager_ActivasNueva : LoadComponent
 
     public void EV_Switch()
     {
-        if (current == 0) current = 1;
-        else current = 0;
-        frontend3D.Switch(current);
+        if (equip[0] == null || equip[1] == null) return;
+        var aux = equip[0];
+        equip[0] = equip[1];
+        equip[1] = aux;
+        DebugCustom.Log("ACTIVAS", "current", equip[0].skillinfo.skill_name);
+        frontend3D.Refresh(equip);
     }
     public void EV_UseSkill()
     {
-        if (equip[current] != null)
-            equip[current].BeginSkill();
+        Debug.Log("use skill");
+        if (equip[0] != null)
+            equip[0].Execute();
     }
 
     public SkillInfo Look(int index) => my_data_base[index].skillinfo;
@@ -111,14 +114,12 @@ public class SkillManager_ActivasNueva : LoadComponent
         //asigno a este index el nuevo skill
         equip[nextToReplace] = fastreference_actives[_skillinfo];
 
-        //frontend3D.ReAssignUIInfo(equip);
-
         equip[nextToReplace].SetCallbackSuscessfulUsed(OnCallbackSussesfullUsed);
         equip[nextToReplace].SetCallbackCooldown(Callback_RefreshCooldown);
         equip[nextToReplace].SetCallbackEndCooldown(Callback_EndCooldown);
         equip[nextToReplace].BeginSkill();
 
-        frontend3D.ReAssignUIInfo(equip);
+        frontend3D.Refresh(equip);
 
         nextToReplace = nextToReplace.NextIndex(2);
 
@@ -128,12 +129,45 @@ public class SkillManager_ActivasNueva : LoadComponent
     #region Callbacks de las SkillActivas
     void OnCallbackSussesfullUsed(SkillInfo _skill)
     {
+        for (int i = 0; i < equip.Length; i++)
+        {
+            if (equip[i] != null)
+            {
+                if (equip[i].skillinfo == _skill)
+                {
+                    frontend3D.Execute(i);
+                }
+            }
+        }
     }
     public void Callback_RefreshCooldown(SkillInfo _skill, float _time)
     {
+        
+        for (int i = 0; i < equip.Length; i++)
+        {
+            if (equip[i] != null)
+            {
+                if (equip[i].skillinfo == _skill)
+                {
+                    DebugCustom.Log("ACTIVAS", equip[i].skillinfo.skill_name, _time);
+
+                    frontend3D.RefreshCooldownAuxiliar(i, _time);
+                }
+            }
+        }
     }
     void Callback_EndCooldown(SkillInfo _skill)
     {
+        for (int i = 0; i < equip.Length; i++)
+        {
+            if (equip[i] != null)
+            {
+                if (equip[i].skillinfo == _skill)
+                {
+                    frontend3D.CooldownEndReadyAuxiliar(i);
+                }
+            }
+        }
     }
     #endregion
 

@@ -28,45 +28,30 @@ public class Manager3DActivas : MonoBehaviour
     public void RefreshCooldownAuxiliar(int _index, float _time) => ui_actives[_index].SetCooldown(_time);
     public void CooldownEndReadyAuxiliar(int _index) => ui_actives[_index].SkillLoaded();
 
-    public void Execute()
+    public void Execute(int index)
     {
         var basevenetdata = new UnityEngine.EventSystems.BaseEventData(Main.instance.GetMyEventSystem().GetMyEventSystem());
-        ui_actives[0].OnSubmit(basevenetdata);
+        ui_actives[index].OnSubmit(basevenetdata);
 
     }
 
-    public void Refresh(int index) { }
-    public void Switch(int index)
-    {
-        GameObject model0 = ui_actives[0].GetModel();
-        GameObject model1 = ui_actives[1].GetModel();
-        if (index == 0)
-        {
-            ui_actives[0].SetModel(model0);
-            ui_actives[1].SetModel(model1);
-        }
-        else
-        {
-            ui_actives[0].SetModel(model1);
-            ui_actives[1].SetModel(model0);
-        }
-    }
-
-    public void ReAssignUIInfo(SkillActivas[] col)
+    public void Refresh(SkillActivas[] col) 
     {
         for (int i = 0; i < col.Length; i++)
         {
             if (col[i] != null)
             {
                 ui_actives[i].SetSkillInfo(col[i].skillinfo);
-                ui_actives[i].Ocupy();
+                ui_actives[i].SetIsUsable();
+                ui_actives[i].Ocupy_place();
                 ChangeModel(i, (col[i].skillinfo.model));
                 col[i].SetUI(ui_actives[i]);
             }
             else
             {
                 ui_actives[i].RemoveSkillInfo();
-                ui_actives[i].Vacate();
+                ui_actives[i].SetIsNotUsable();
+                ui_actives[i].Vacate_place();
                 SetEmpty(i);
             }
         }
