@@ -48,7 +48,6 @@ public class ABossGeneric : EnemyBase
     [SerializeField] float parriedTime = 2;
 
     [Header("Life Options")]
-    [SerializeField] GenericLifeSystem lifesystem = null;
     [SerializeField] float recallTime = 1;
     [SerializeField] float forceRecall = 4;
     [SerializeField] float explosionForce = 20;
@@ -79,15 +78,17 @@ public class ABossGeneric : EnemyBase
     
 
     EventStateMachine<RangeDummyInput> sm;
-    Rigidbody rb;
     public Rigidbody GetRigidbody() => rb;
 
     protected override void OnInitialize()
     {
+        //Cuando se implemente el dmg receiver, poner acá esta línea de código y setear las funciones TakeDamageFeedback, Die y IsDamage (InmuneFeedback solo si hace falta)
+        //base.OnInitialize();
+        rb.GetComponent<Rigidbody>();
+
         Main.instance.eventManager.TriggerEvent(GameEvents.ENEMY_SPAWN, new object[] { this });
 
         //Debug.Log("OnInitialize");
-        rb = GetComponent<Rigidbody>();
         combatComponent.Configure(AttackEntity);
         anim.Add_Callback("DealDamage", DealDamage);
         anim.Add_Callback("Death", DeathAnim);
@@ -476,6 +477,19 @@ public class ABossGeneric : EnemyBase
     }
 
     void EnableObject() { Initialize(); }
+
+    protected override void TakeDamageFeedback(DamageData data)
+    {
+    }
+
+    protected override void Die(Vector3 dir)
+    {
+    }
+
+    protected override bool IsDamage()
+    {
+        return true;
+    }
 
     #endregion
 

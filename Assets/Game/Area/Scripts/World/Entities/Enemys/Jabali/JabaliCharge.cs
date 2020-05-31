@@ -9,11 +9,16 @@ namespace ToolsMandioca.StateMachine
         float chargeTime;
         float timer = 0;
         Vector3 finalPos;
-        
+        string firstPushSound;
+        SoundPool pool;
+        AudioSource source;
 
-        public JabaliCharge(EState<JabaliEnemy.JabaliInputs> myState, EventStateMachine<JabaliEnemy.JabaliInputs> _sm, float _chargeTime) : base(myState, _sm)
+        public JabaliCharge(EState<JabaliEnemy.JabaliInputs> myState, EventStateMachine<JabaliEnemy.JabaliInputs> _sm, float _chargeTime,
+            string _updateSound, string _exitSound) : base(myState, _sm)
         {
             chargeTime = _chargeTime;
+            firstPushSound = _exitSound;
+            pool = AudioManager.instance.GetSoundPool(_updateSound);
         }
 
         protected override void Enter(EState<JabaliEnemy.JabaliInputs> input)
@@ -23,7 +28,8 @@ namespace ToolsMandioca.StateMachine
                 anim.SetBool("ChargeAttack", true);
             }
             finalPos = root.position - root.forward * 2;
-
+            source = pool.Get();
+            source.Play();
         }
 
         protected override void Update()
@@ -38,11 +44,14 @@ namespace ToolsMandioca.StateMachine
 
         protected override void Exit(JabaliEnemy.JabaliInputs input)
         {
-            if (input != JabaliEnemy.JabaliInputs.PETRIFIED)
+            if (input != JabaliEnemy.JabaliInputs.PETRIFIED && input != JabaliEnemy.JabaliInputs.DEAD)
             {
                 anim.SetBool("ChargeAttack", false);
                 timer = 0;
             }
+            source.Stop();
+            pool.ReturnToPool(source);
+            AudioManager.instance.PlaySound(firstPushSound);
         }
     }
 }
