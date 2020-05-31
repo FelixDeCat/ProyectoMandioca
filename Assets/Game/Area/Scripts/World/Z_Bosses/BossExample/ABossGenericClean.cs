@@ -69,6 +69,19 @@ public class ABossGenericClean : EnemyBase
     protected override void OnTurnOn() { }
     public override void ToAttack() => attacking = true;
     protected override void OnUpdateEntity() { }
+
+    protected override void TakeDamageFeedback(DamageData data)
+    {
+    }
+
+    protected override void Die(Vector3 dir)
+    {
+    }
+
+    protected override bool IsDamage()
+    {
+        return true;
+    }
     #endregion
 
 

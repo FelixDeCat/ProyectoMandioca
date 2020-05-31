@@ -9,7 +9,6 @@ public class TrueDummyEnemy : EnemyBase
 {
     [Header("Move Options")]
     [SerializeField] GenericEnemyMove movement;
-    [SerializeField] Transform rootTransform = null;
 
     public AnimationCurve animEmisive;
 
@@ -22,7 +21,6 @@ public class TrueDummyEnemy : EnemyBase
     private CombatDirector director;
 
     [Header("Life Options")]
-    [SerializeField] GenericLifeSystem lifesystem = null;
     [SerializeField] float recallTime = 1;
 
     [Header("for knockback")]
@@ -34,9 +32,6 @@ public class TrueDummyEnemy : EnemyBase
     private Action<EState<DummyEnemyInputs>> EnterStun;
     private Action<string> UpdateStun;
     private Action<DummyEnemyInputs> ExitStun;
-
-    [SerializeField] DamageData dmgData;
-    [SerializeField] DamageReceiver dmgReceiver;
 
     [Range(0,1)]
     [SerializeField] float freezeSpeedSlowed = 0.5f;
@@ -63,10 +58,10 @@ public class TrueDummyEnemy : EnemyBase
     
 
     EventStateMachine<DummyEnemyInputs> sm;
-    Rigidbody rb;
 
     protected override void OnInitialize()
     {
+        base.OnInitialize();
         Main.instance.eventManager.TriggerEvent(GameEvents.ENEMY_SPAWN, new object[] { this });
 
         var smr = GetComponentInChildren<SkinnedMeshRenderer>();
@@ -77,17 +72,10 @@ public class TrueDummyEnemy : EnemyBase
 
         AudioManager.instance.GetSoundPool(takeHit_audioName, AudioGroups.GAME_FX, _takeHit_AC);
         
-            //Debug.Log("OnInitialize");
         rb = GetComponent<Rigidbody>();
         combatComponent.Configure(AttackEntity);
         anim.Add_Callback("DealDamage", DealDamage);
         movement.Configure(rootTransform, rb);
-        dmgReceiver.Initialize(rootTransform, () =>
-        {
-            if (cooldown || Invinsible || sm.Current.Name == "Die") return true;
-            else return false;
-        }, Die, TakeDamageFeedback, rb, lifesystem.Hit);
-        dmgData.Initialize(this);
 
         StartDebug();
 
@@ -339,22 +327,6 @@ public class TrueDummyEnemy : EnemyBase
         return death ? Attack_Result.death : Attack_Result.sucessful;
     }
 
-    void TakeDamageFeedback(DamageData data)
-    {
-        if (sm.Current.Name == "Idle" || sm.Current.Name == "Persuit")
-        {
-            attacking = false;
-            director.ChangeTarget(this, data.owner, entityTarget);
-        }
-
-        sm.SendInput(DummyEnemyInputs.TAKE_DAMAGE);
-
-        greenblood.Play();
-        cooldown = true;
-
-        StartCoroutine(OnHitted(myMat, onHitFlashTime, onHitColor));
-    }
-
     public override Attack_Result TakeDamage(int dmg, Vector3 attack_pos, Damagetype damagetype, EntityBase owner_entity)
     {
 
@@ -370,10 +342,28 @@ public class TrueDummyEnemy : EnemyBase
         return TakeDamage(dmg, attack_pos, damagetype);
     }
 
-    public void Die(Vector3 dir)
+    protected override void TakeDamageFeedback(DamageData data)
+    {
+        if (sm.Current.Name == "Idle" || sm.Current.Name == "Persuit")
+        {
+            attacking = false;
+            director.ChangeTarget(this, data.owner, entityTarget);
+        }
+
+        AudioManager.instance.PlaySound(takeHit_audioName);
+
+        sm.SendInput(DummyEnemyInputs.TAKE_DAMAGE);
+
+        greenblood.Play();
+        cooldown = true;
+
+        StartCoroutine(OnHitted(myMat, onHitFlashTime, onHitColor));
+    }
+
+    protected override void Die(Vector3 dir)
     {
         sm.SendInput(DummyEnemyInputs.DIE);
-        if(dir==Vector3.zero)
+        if (dir == Vector3.zero)
             ragdoll.Ragdoll(true, -rootTransform.forward);
         else
             ragdoll.Ragdoll(true, dir);
@@ -382,6 +372,12 @@ public class TrueDummyEnemy : EnemyBase
         Main.instance.RemoveEntity(this);
 
         Main.instance.eventManager.TriggerEvent(GameEvents.ENEMY_DEAD, new object[] { transform.position, petrified, expToDrop });
+    }
+
+    protected override bool IsDamage()
+    {
+        if (cooldown || Invinsible || sm.Current.Name == "Die") return true;
+        else return false;
     }
     #endregion
 

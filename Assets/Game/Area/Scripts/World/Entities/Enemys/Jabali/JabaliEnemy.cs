@@ -8,7 +8,6 @@ public class JabaliEnemy : EnemyBase
 {
     [Header("Move Options")]
     [SerializeField] GenericEnemyMove movement;
-    [SerializeField] Transform rootTransform = null;
     [SerializeField] LineOfSight lineOfSight = null;
 
     public AnimationCurve animEmisive;
@@ -37,12 +36,9 @@ public class JabaliEnemy : EnemyBase
 
 
     [Header("Life Options")]
-    [SerializeField] GenericLifeSystem lifesystem = null;
     [SerializeField] float tdRecall = 0.5f;
     [SerializeField] float forceRecall = 5;
     [SerializeField] float explosionForce = 20;
-    [SerializeField] DamageData dmgData;
-    [SerializeField] DamageReceiver dmgReceiver;
 
     [Header("Stuns/Effects")]
     [SerializeField, Range(0, 1)] float freezeSpeedSlowed = 0.5f;
@@ -71,25 +67,15 @@ public class JabaliEnemy : EnemyBase
     [SerializeField] Material _petrifiedMat; 
 
     public bool isOnFire { get; private set; }
-
-    Rigidbody rb;
     EventStateMachine<JabaliInputs> sm;
 
     protected override void OnInitialize()
     {
-        rb = GetComponent<Rigidbody>();
+        base.OnInitialize();
         movement.Configure(rootTransform, rb);
         headAttack.Configure(HeadAttack);
         pushAttack.Configure(PushRelease, StunAfterCharge);
         lineOfSight.Configurate(rootTransform);
-
-        dmgData.Initialize(this);
-        dmgReceiver.Initialize(rootTransform, () =>
-        {
-            if (cooldown || Invinsible || sm.Current.Name == "Dead") return true;
-            else return false;
-        }, Die, TakeDamageFeedback, rb, lifesystem.Hit);
-
 
         anim.Add_Callback("DealDamage", DealDamage);
         StartDebug();
@@ -194,7 +180,7 @@ public class JabaliEnemy : EnemyBase
 
     void PushRelease(DamageReceiver e)
     {
-        dmgData.SetDamage(pushDamage).SetDamageTick(false).SetDamageType(Damagetype.inparry).SetKnockback(80)
+        dmgData.SetDamage(pushDamage).SetDamageTick(false).SetDamageType(Damagetype.parriable).SetKnockback(80)
             .SetPositionAndDirection(transform.position);
         Attack_Result takeDmg = e.TakeDamage(dmgData);
 
@@ -237,7 +223,7 @@ public class JabaliEnemy : EnemyBase
         return death ? Attack_Result.death : Attack_Result.sucessful;
     }
 
-    void TakeDamageFeedback(DamageData data)
+    protected override void TakeDamageFeedback(DamageData data)
     {
         if (sm.Current.Name == "Idle" || sm.Current.Name == "Persuit")
         {
@@ -270,7 +256,7 @@ public class JabaliEnemy : EnemyBase
         return TakeDamage(dmg, attack_pos, damagetype);
     }
 
-    public void Die(Vector3 dir)
+    protected override void Die(Vector3 dir)
     {
         death = true;
         director.RemoveTarget(this);
@@ -281,6 +267,12 @@ public class JabaliEnemy : EnemyBase
             ragdoll.Ragdoll(true, dir);
         Main.instance.eventManager.TriggerEvent(GameEvents.ENEMY_DEAD, new object[] { transform.position, petrified, expToDrop });
         Main.instance.RemoveEntity(this);
+    }
+
+    protected override bool IsDamage()
+    {
+        if (cooldown || Invinsible || sm.Current.Name == "Dead" || sm.Current.Name == "Push") return true;
+        else return false;
     }
 
     #endregion
