@@ -49,7 +49,6 @@ public class RangeDummy : EnemyBase
     private CombatDirector director;
 
     [Header("Life Options")]
-    [SerializeField] GenericLifeSystem lifesystem = null;
     [SerializeField] float recallTime = 1;
     [SerializeField] float forceRecall = 4;
     [SerializeField] float explosionForce = 20;
@@ -81,15 +80,14 @@ public class RangeDummy : EnemyBase
     
 
     EventStateMachine<RangeDummyInput> sm;
-    Rigidbody rb;
     public Rigidbody GetRigidbody() => rb;
 
     protected override void OnInitialize()
     {
+        base.OnInitialize();
+
         Main.instance.eventManager.TriggerEvent(GameEvents.ENEMY_SPAWN, new object[] { this });
 
-        //Debug.Log("OnInitialize");
-        rb = GetComponent<Rigidbody>();
         combatComponent.Configure(AttackEntity);
         anim.Add_Callback("DealDamage", DealDamage);
         anim.Add_Callback("Death", DeathAnim);
@@ -263,6 +261,42 @@ public class RangeDummy : EnemyBase
         }
 
         return TakeDamage(dmg, attack_pos, damagetype);
+    }
+
+    protected override void TakeDamageFeedback(DamageData data)
+    {
+        if (sm.Current.Name == "Idle" || sm.Current.Name == "Persuit")
+        {
+            attacking = false;
+            director.ChangeTarget(this, data.owner, entityTarget);
+        }
+
+        sm.SendInput(RangeDummyInput.TAKE_DAMAGE);
+
+        greenblood.Play();
+        cooldown = true;
+
+        StartCoroutine(OnHitted(myMat, onHitFlashTime, onHitColor));
+    }
+
+    protected override void Die(Vector3 dir)
+    {
+        sm.SendInput(RangeDummyInput.DIE);
+        //if (dir == Vector3.zero)
+        //    ragdoll.Ragdoll(true, -rootTransform.forward);
+        //else
+        //    ragdoll.Ragdoll(true, dir);
+        death = true;
+        director.RemoveTarget(this);
+        Main.instance.RemoveEntity(this);
+
+        Main.instance.eventManager.TriggerEvent(GameEvents.ENEMY_DEAD, new object[] { transform.position, petrified, expToDrop });
+    }
+
+    protected override bool IsDamage()
+    {
+        if (cooldown || Invinsible || sm.Current.Name == "Die") return true;
+        else return false;
     }
 
     public override void HalfLife()

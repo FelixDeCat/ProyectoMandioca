@@ -55,7 +55,7 @@ Shader "Terrain/VertexPaintingStandard"
 }
 /*ASEBEGIN
 Version=17200
-0;331;994;358;1491.288;165.1581;1.801609;True;False
+0;379;968;310;1467.867;114.713;1.801609;True;False
 Node;AmplifyShaderEditor.WorldSpaceLightDirHlpNode;2;-839.8319,84.31886;Inherit;False;False;1;0;FLOAT;0;False;4;FLOAT3;0;FLOAT;1;FLOAT;2;FLOAT;3
 Node;AmplifyShaderEditor.RangedFloatNode;3;-687.8319,214.3188;Inherit;False;Property;_Mask;Mask;0;0;Create;True;0;0;False;0;0;0.08;0;0;0;1;FLOAT;0
 Node;AmplifyShaderEditor.RangedFloatNode;5;-709.8319,-54.68114;Inherit;False;Property;_Step;Step;1;0;Create;True;0;0;False;0;0;1.32;0;0;0;1;FLOAT;0
@@ -66,4 +66,4 @@ WireConnection;1;9;2;0
 WireConnection;1;12;3;0
 WireConnection;0;0;1;0
 ASEEND*/
-//CHKSM=6A632C0AA3C0B79C34C335CDBC4E1C14F4AFEDC0
+//CHKSM=45A7839A40C685C9BDEA73C835339790A0B54ECB
