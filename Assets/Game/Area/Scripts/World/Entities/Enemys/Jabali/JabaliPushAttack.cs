@@ -10,15 +10,18 @@ namespace ToolsMandioca.StateMachine
         Action PlayCombat;
         float maxSpeed;
         GameObject feedbackCharge;
+        SoundPool pool;
+        AudioSource source;
 
         public JabaliPushAttack(EState<JabaliEnemy.JabaliInputs> myState, EventStateMachine<JabaliEnemy.JabaliInputs> _sm, float _speed,
-                                Action _DealDamage, GameObject _feedbackCharge, Action _PlayCombat) : base(myState, _sm)
+                                Action _DealDamage, GameObject _feedbackCharge, Action _PlayCombat, string _wooshSound) : base(myState, _sm)
         {
             maxSpeed = _speed;
             pushSpeed = maxSpeed / 2;
             DealDamage = _DealDamage;
             feedbackCharge = _feedbackCharge;
             PlayCombat = _PlayCombat;
+            pool = AudioManager.instance.GetSoundPool(_wooshSound);
         }
 
         protected override void Enter(EState<JabaliEnemy.JabaliInputs> input)
@@ -28,6 +31,8 @@ namespace ToolsMandioca.StateMachine
             feedbackCharge.GetComponent<ParticleSystem>().Play();
             PlayCombat();
             anim.SetTrigger("ChargeOk");
+            source = pool.Get();
+            source.Play();
         }
 
         protected override void Update()
@@ -54,6 +59,8 @@ namespace ToolsMandioca.StateMachine
             base.Exit(input);
             rb.velocity = Vector3.zero;
             combatDirector.AttackRelease(enemy, enemy.CurrentTarget());
+            source.Stop();
+            pool.ReturnToPool(source);
         }
     }
 }
