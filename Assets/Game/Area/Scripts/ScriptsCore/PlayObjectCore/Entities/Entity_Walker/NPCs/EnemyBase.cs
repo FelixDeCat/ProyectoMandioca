@@ -102,7 +102,27 @@ public abstract class EnemyBase : NPCBase, ICombatDirector
     }
     #endregion
 
-   
+    #region Damage Receiver y Damage Data
+    [Header("BaseThings")]
+    [SerializeField] protected DamageData dmgData;
+    [SerializeField] protected DamageReceiver dmgReceiver;
+    [SerializeField] protected GenericLifeSystem lifesystem = null;
+    protected Rigidbody rb;
+    [SerializeField] protected Transform rootTransform = null;
+
+    protected override void OnInitialize()
+    {
+        rb = GetComponent<Rigidbody>();
+        dmgData.Initialize(this);
+        dmgReceiver.Initialize(rootTransform, IsDamage, Die, TakeDamageFeedback, rb, lifesystem.Hit, InmuneFeedback);
+    }
+
+    protected abstract void TakeDamageFeedback(DamageData data);
+    protected abstract void Die(Vector3 dir);
+    protected abstract bool IsDamage();
+    protected virtual void InmuneFeedback() { }
+    #endregion
+
     public IEnumerator OnHitted(Material[] myMat, float onHitFlashTime, Color onHitColor)
     {
         var smr = GetComponentInChildren<SkinnedMeshRenderer>();
