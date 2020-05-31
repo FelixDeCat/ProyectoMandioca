@@ -6,7 +6,6 @@ using UnityEngine;
 
 public class CombatDirector : MonoBehaviour, IZoneElement
 {
-    List<ICombatDirector> awakeList = new List<ICombatDirector>();
     [SerializeField, Range(1, 8)] int maxEnemies = 1;
 
     Dictionary<EntityBase, List<ICombatDirector>> waitToAttack = new Dictionary<EntityBase, List<ICombatDirector>>();
@@ -138,7 +137,6 @@ public class CombatDirector : MonoBehaviour, IZoneElement
     {
         if (!listAttackTarget.ContainsKey(entity))
         {
-            Debug.Log(listAttackTarget.Count);
             listAttackTarget.Add(entity, new List<ICombatDirector>());
             attackingTarget.Add(entity, new List<ICombatDirector>());
             waitToAttack.Add(entity, new List<ICombatDirector>());
@@ -182,7 +180,6 @@ public class CombatDirector : MonoBehaviour, IZoneElement
     {
         if (listAttackTarget.ContainsKey(entity))
         {
-            Debug.Log("entro acá y remuevo todo");
             for (int i = 0; i < listAttackTarget[entity].Count; i++)
                 listAttackTarget[entity][i].ResetCombat();
 

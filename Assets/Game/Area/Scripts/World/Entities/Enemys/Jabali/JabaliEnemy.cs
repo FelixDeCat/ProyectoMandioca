@@ -64,7 +64,8 @@ public class JabaliEnemy : EnemyBase
     [SerializeField] Color onHitColor;
     [SerializeField] float onHitFlashTime;
     [SerializeField] GameObject feedbackCharge;
-    [SerializeField] Material _petrifiedMat; 
+    [SerializeField] Material _petrifiedMat;
+    [SerializeField] List<AudioClip> mySounds;
 
     public bool isOnFire { get; private set; }
     EventStateMachine<JabaliInputs> sm;
@@ -76,6 +77,12 @@ public class JabaliEnemy : EnemyBase
         headAttack.Configure(HeadAttack);
         pushAttack.Configure(PushRelease, StunAfterCharge);
         lineOfSight.Configurate(rootTransform);
+        AudioManager.instance.GetSoundPool(mySounds[0].name, AudioGroups.GAME_FX, mySounds[0], true);
+        AudioManager.instance.GetSoundPool(mySounds[1].name, AudioGroups.GAME_FX, mySounds[1]);
+        AudioManager.instance.GetSoundPool(mySounds[2].name, AudioGroups.GAME_FX, mySounds[2]);
+        AudioManager.instance.GetSoundPool(mySounds[3].name, AudioGroups.GAME_FX, mySounds[3], true);
+        AudioManager.instance.GetSoundPool(mySounds[4].name, AudioGroups.GAME_FX, mySounds[4]);
+        AudioManager.instance.GetSoundPool(mySounds[5].name, AudioGroups.GAME_FX, mySounds[5]);
 
         anim.Add_Callback("DealDamage", DealDamage);
         StartDebug();
@@ -132,6 +139,7 @@ public class JabaliEnemy : EnemyBase
                     if (Vector3.Distance(Main.instance.GetChar().transform.position, transform.position) <= combatDistance)
                     {
                         director.AddToList(this, Main.instance.GetChar());
+                        SetTarget(Main.instance.GetChar()); 
                         combat = true;
                     }
                 }
@@ -230,6 +238,8 @@ public class JabaliEnemy : EnemyBase
             attacking = false;
             director.ChangeTarget(this, data.owner, entityTarget);
         }
+
+        AudioManager.instance.PlaySound(mySounds[2].name);
 
         sm.SendInput(JabaliInputs.TAKE_DMG);
 
@@ -519,14 +529,16 @@ public class JabaliEnemy : EnemyBase
 
         new JabaliChasing(chasing, sm, IsAttack, IsChargeOk, distanceToCharge, distancePos, movement).SetDirector(director).SetThis(this).SetRoot(rootTransform);
 
-        new JabaliCharge(chargePush, sm, chargeTime).SetAnimator(animator).SetDirector(director).SetThis(this).SetRigidbody(rb).SetRoot(rootTransform);
+        new JabaliCharge(chargePush, sm, chargeTime, mySounds[0].name, mySounds[1].name).SetAnimator(animator).SetDirector(director)
+            .SetThis(this).SetRigidbody(rb).SetRoot(rootTransform);
 
-        new JabaliPushAttack(push, sm, chargeSpeed, PushAttack, feedbackCharge, pushAttack.Play).SetAnimator(animator).SetRigidbody(rb).SetRoot(rootTransform)
+        new JabaliPushAttack(push, sm, chargeSpeed, PushAttack, feedbackCharge, pushAttack.Play, mySounds[3].name)
+            .SetAnimator(animator).SetRigidbody(rb).SetRoot(rootTransform)
             .SetThis(this).SetDirector(director);
 
         new JabaliAttackAnticipation(headAnt, sm, movement, normalAttAnticipation).SetAnimator(animator).SetDirector(director).SetThis(this).SetRoot(rootTransform);
 
-        new JabaliHeadAttack(headAttack, sm, cdToHeadAttack).SetAnimator(animator).SetDirector(director).SetThis(this);
+        new JabaliHeadAttack(headAttack, sm, cdToHeadAttack, mySounds[4].name).SetAnimator(animator).SetDirector(director).SetThis(this);
 
         new JabaliTD(takeDamage, sm, tdRecall).SetAnimator(animator);
 
@@ -534,7 +546,7 @@ public class JabaliEnemy : EnemyBase
 
         new JabaliStun(petrified, sm, StartStun, TickStun, EndStun);
 
-        new JabaliDeath(dead, sm, ragdoll).SetThis(this).SetDirector(director);
+        new JabaliDeath(dead, sm, ragdoll, mySounds[5].name).SetThis(this).SetDirector(director);
 
         disable.OnEnter += (input) => DisableObject();
 

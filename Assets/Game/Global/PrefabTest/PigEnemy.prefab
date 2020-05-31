@@ -6501,8 +6501,11 @@ MonoBehaviour:
   combatDistance: 20
   combat: 0
   distancePos: 2.5
-  movement: {fileID: 6733651048786057550}
+  dmgData: {fileID: 4369836194751585076}
+  dmgReceiver: {fileID: 2220049257524496936}
+  lifesystem: {fileID: 3951395813138206301}
   rootTransform: {fileID: 293843520634246214}
+  movement: {fileID: 6733651048786057550}
   lineOfSight: {fileID: 3296736856270995490}
   animEmisive:
     serializedVersion: 2
@@ -6523,12 +6526,9 @@ MonoBehaviour:
   stunChargeTime: 2
   timeToObtainCharge: 5
   chargeSpeed: 12
-  lifesystem: {fileID: 3951395813138206301}
   tdRecall: 0.5
   forceRecall: 10
   explosionForce: 20
-  dmgData: {fileID: 4369836194751585076}
-  dmgReceiver: {fileID: 2220049257524496936}
   freezeSpeedSlowed: 0.5
   freezeTime: 4
   petrifiedTime: 3
@@ -6543,6 +6543,13 @@ MonoBehaviour:
   onHitFlashTime: 20
   feedbackCharge: {fileID: 1292516245881829255}
   _petrifiedMat: {fileID: 2100000, guid: 91d5b442df5aa57478d4ea36598e85a4, type: 2}
+  mySounds:
+  - {fileID: 8300000, guid: b0b37857d3ade8c43a6e0e62a7920a52, type: 3}
+  - {fileID: 8300000, guid: fb57c9cf676ed3f47a071252a84244f4, type: 3}
+  - {fileID: 8300000, guid: 5dc887321b243984898e21d2fc9430c0, type: 3}
+  - {fileID: 8300000, guid: 8a5035a2d11f58b4785bbf1f2ccbb916, type: 3}
+  - {fileID: 8300000, guid: e01c839682e0e7c4192cdf692833ac34, type: 3}
+  - {fileID: 8300000, guid: 8e7c3addaf7f3544fbbda7a3dee9607c, type: 3}
 --- !u!65 &3951395813138206302
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -17121,7 +17128,7 @@ MonoBehaviour:
     m_Bits: 257
   obstacleLayer:
     serializedVersion: 2
-    m_Bits: 33280
+    m_Bits: 33536
   distance: 1.5
   angleAttack: 90
   rot: {fileID: 293843520634246214}
