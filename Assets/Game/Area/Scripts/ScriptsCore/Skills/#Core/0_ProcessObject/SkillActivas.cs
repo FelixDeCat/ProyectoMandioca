@@ -12,9 +12,9 @@ public abstract class SkillActivas : SkillBase
     Action<SkillInfo> CallbackSuscessfullUsed = delegate { };
 
     [Header("Cooldown Settings")]
-    float cooldown;
-    float time_cooldown;
-    public float Cooldown { get => cooldown; }
+    [SerializeField] float cooldown;
+    float timer_cooldown;
+    public float Cooldown { get => timer_cooldown; }
     bool begincooldown;
 
     [Header("UseByRequest")]
@@ -87,7 +87,7 @@ public abstract class SkillActivas : SkillBase
     void TrueExecute()
     {
         begincooldown = true;
-        time_cooldown = 0;
+        timer_cooldown = 0;
         CallbackSuscessfullUsed(this.skillinfo);
         if (one_time_use) OnOneShotExecute();
         else {
@@ -147,11 +147,11 @@ public abstract class SkillActivas : SkillBase
         base.cooldownUpdate();
         if (begincooldown)
         {
-            if (time_cooldown < cooldown)
+            if (timer_cooldown < cooldown)
             {
-                time_cooldown = time_cooldown + 1 * Time.deltaTime;
+                timer_cooldown = timer_cooldown + 1 * Time.deltaTime;
 
-                var auxpercent = time_cooldown * 100 / cooldown;
+                var auxpercent = timer_cooldown * 100 / cooldown;
                 auxpercent = auxpercent * 0.01f;
                 CallbackCooldown(skillinfo, auxpercent);
                 //ui_skill.Cooldown_SetValueTime(time_cooldown);
@@ -159,7 +159,7 @@ public abstract class SkillActivas : SkillBase
             else
             {
                 CallbackEndCooldown.Invoke(skillinfo);
-                time_cooldown = 0;
+                timer_cooldown = 0;
                 begincooldown = false;
             }
         }

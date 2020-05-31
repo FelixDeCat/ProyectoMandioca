@@ -44,6 +44,7 @@ public class Manager3DActivas : MonoBehaviour
                 ui_actives[i].SetSkillInfo(col[i].skillinfo);
                 ui_actives[i].SetIsUsable();
                 ui_actives[i].Ocupy_place();
+                ui_actives[i].SetCooldown(col[i].Cooldown);
                 ChangeModel(i, (col[i].skillinfo.model));
                 col[i].SetUI(ui_actives[i]);
             }

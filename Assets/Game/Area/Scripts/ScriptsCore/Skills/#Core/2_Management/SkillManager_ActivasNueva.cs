@@ -54,7 +54,6 @@ public class SkillManager_ActivasNueva : LoadComponent
         var aux = equip[0];
         equip[0] = equip[1];
         equip[1] = aux;
-        DebugCustom.Log("ACTIVAS", "current", equip[0].skillinfo.skill_name);
         frontend3D.Refresh(equip);
     }
     public void EV_UseSkill()
@@ -149,8 +148,6 @@ public class SkillManager_ActivasNueva : LoadComponent
             {
                 if (equip[i].skillinfo == _skill)
                 {
-                    DebugCustom.Log("ACTIVAS", equip[i].skillinfo.skill_name, _time);
-
                     frontend3D.RefreshCooldownAuxiliar(i, _time);
                 }
             }
