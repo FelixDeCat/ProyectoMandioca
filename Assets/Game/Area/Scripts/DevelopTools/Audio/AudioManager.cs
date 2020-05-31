@@ -32,6 +32,24 @@ public class AudioManager : MonoBehaviour
         _audioMixers.Add(AudioGroups.MISC, _misc);
     }
 
+    #region SlowMO
+    //te puse estas dos funciones aca solo para estructurar... tal vez nisiquiera
+    //irian acá... la idea es que cuando entras al Buff o cuando entras a slowMO
+    //mande todos los sonidos con el pitch mas grave, a parte de que ejecutaria
+    //un sonido de SlowMoEnter, SlowMoLoop y SlowMoExit... tambien haria que el resto
+    //de los sonidos tambien tengan este modificador... nunca lo use pero cuando vi que agregaste
+    //audiomixergroup supuse que eso lo hacia... te dejo en la carpeta de Sonidos en la carpeta
+    //de editados los tres sonidos de slowMO
+    public void GoToSlowMo()
+    {
+        
+    }
+    public void BackToSlowMo()
+    {
+
+    }
+    #endregion
+
     /// <summary>
     /// Si el soundpool existe, va a reproducir el sonido que llamaron, sino va a tirar un warning
     /// </summary>
