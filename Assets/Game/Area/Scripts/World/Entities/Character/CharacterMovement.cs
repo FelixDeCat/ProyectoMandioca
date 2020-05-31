@@ -306,6 +306,7 @@ public class CharacterMovement
         return dashCdOk;
     }
 
+    //Pulir para que quede mas lindo
     public void Teleport()
     {
         RollForAnim();
@@ -325,23 +326,50 @@ public class CharacterMovement
         outroTeleport_ps.transform.position = _rb.position;
         outroTeleport_ps.Play();
     }
+
+    //Puli esto Fran que es muy feo
+    void BlockedTeleport(float distance)
+    {
+        RollForAnim();
+        
+        introTeleport_ps.transform.position = _rb.position;
+        introTeleport_ps.Play();
+        
+        inDash = true;
+        dashCdOk = true;
+
+        _rb.position = _rb .position + (dashDir * distance);
+        outroTeleport_ps.transform.position = _rb.position;
+        outroTeleport_ps.Play();
+    }
     
+    //Esto es una cagadaaaaaa, sera arreglado
     public bool CheckIfCanTeleport()
     {
         if (movX != 0 || movY != 0)
-            dashDir = new Vector3(movX, 0, movY);
+            dashDir = new Vector3(movX, 0, movY); //Actualizo direccion
         else
             dashDir = rotTransform.forward;
         
-        var player = Main.instance.GetChar();
+        var player = Main.instance.GetChar(); //con esto consigo el punto de donde sale el rayo
         RaycastHit hit;
-        if (Physics.Raycast(player.rayPivot.position, dashDir, out hit, _teleportDistance, 1 << 20))
+        if (Physics.Raycast(player.rayPivot.position, dashDir, out hit, _teleportDistance * 2, 1 << 20))
         {
-            Debug.Log("Le pego a la pared invisible");
+            var aux = Vector3.Distance(hit.point, _rb.position); //veo la distancia a donde pego el rayo
+            Debug.Log(aux);
+            if (aux <= 2f)//esto es para que no traspase la pared
+            {
+                BlockedTeleport(0);
+                return false;
+            } 
+            
+            BlockedTeleport(aux - aux / 3); //lo tiro un poquito antes de la pared
+            Debug.Log("Le pego a la pared invisible y me teleporto a ella");
             return false;
         }
         else
         {
+            //Si llega aca, va todo normal
             Debug.Log("Puedo hacer teleport");
             return true;
         }
