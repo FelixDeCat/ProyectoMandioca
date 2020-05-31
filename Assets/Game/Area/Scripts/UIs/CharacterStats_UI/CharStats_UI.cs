@@ -26,16 +26,21 @@ public class CharStats_UI : MonoBehaviour
 
     [SerializeField] private GameObject skillImage_template_pf = null;
 
+
     private void Start()
+    {
+        Main.instance.eventManager.SubscribeToEvent(GameEvents.GAME_END_LOAD, Initialize);
+    }
+    void Initialize()
     {
         _hero = Main.instance.GetChar();
         heroLife = _hero.Life;
         maxHP = heroLife.GetMax();
     }
-
     private void Update()
     {
-        UpdateLife_UI(heroLife.GetLife());
+        if (heroLife!=null)
+            UpdateLife_UI(heroLife.GetLife());
     }
 
     public void UpdateLife_UI(float newValue)

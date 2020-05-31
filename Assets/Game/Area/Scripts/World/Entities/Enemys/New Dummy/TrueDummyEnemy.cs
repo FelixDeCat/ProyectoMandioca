@@ -144,7 +144,8 @@ public class TrueDummyEnemy : EnemyBase
                 {
                     if (Vector3.Distance(Main.instance.GetChar().transform.position, transform.position) <= combatDistance)
                     {
-                        director.AddAwake(this);
+                        director.AddToList(this, Main.instance.GetChar());
+                        SetTarget(Main.instance.GetChar());
                         combat = true;
                     }
                 }

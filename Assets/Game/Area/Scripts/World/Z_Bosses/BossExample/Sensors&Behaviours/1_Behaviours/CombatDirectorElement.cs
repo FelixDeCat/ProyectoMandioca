@@ -34,7 +34,7 @@ public class CombatDirectorElement : MonoBehaviour, ICombatDirector
     }
     public void Ev_InCombatDistace()
     {
-        director.AddAwake(this);
+        director.AddToList(this, Main.instance.GetChar());
         combat = true;
     }
     

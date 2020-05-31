@@ -50,6 +50,7 @@ public class Checkpoint_Manager : MonoBehaviour
     public void SpawnChar()
     {
         Main.instance.GetChar().transform.position = _activeCheckPoint.transform.position;
+        Main.instance.GetCombatDirector().AddNewTarget(Main.instance.GetChar());
     }
 }
 

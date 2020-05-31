@@ -116,35 +116,21 @@ public class CharacterHead : CharacterControllable
     float dmgReceived = 1f;
 
     public bool Combat { private set; get; }
-    protected override void OnInitialize()
-    {
-        
-    }
-
-    #region Throw Something
-    Action<Vector3> throwCallback;
-    public void ThrowSomething(Action<Vector3> throwInPosition)
-    {
-        Main.instance.GetChar().charanim.StartThrow();
-        throwCallback = throwInPosition;
-    }
-    void ThrowCallback()
-    {
-        Debug.Log("entro aca");
-        throwCallback.Invoke(escudo.transform.position);
-    }
-    #endregion
 
     private void Start()
     {
-        rb = GetComponent<Rigidbody>();
-        _lockOn = new LockOn(enemyLayer, 100, transform);
-        lifesystem
+         lifesystem
             .Configure_CharLifeSystem()
             .ADD_EVENT_OnGainLife(OnGainLife)
             .ADD_EVENT_OnLoseLife(OnLoseLife)
             .ADD_EVENT_Death(OnDeath)
             .ADD_EVENT_OnChangeValue(OnChangeLife);
+    }
+    protected override void OnInitialize()
+    {
+        Main.instance.GetCombatDirector().AddNewTarget(this);
+        rb = GetComponent<Rigidbody>();
+        _lockOn = new LockOn(enemyLayer, 100, transform);
 
         charanim = new CharacterAnimator(anim_base);
         customCam = FindObjectOfType<CustomCamera>();
@@ -181,7 +167,7 @@ public class CharacterHead : CharacterControllable
         charAnimEvent.Add_Callback("DealAttackLeft", DealAttack);
 
         charAnimEvent.Add_Callback("Dash", move.RollForAnim);
-        charAnimEvent.Add_Callback("Pasos", Pasos );
+        charAnimEvent.Add_Callback("Pasos", Pasos);
         charAnimEvent.Add_Callback("OpenComboWindow", charAttack.ANIM_EVENT_OpenComboWindow);
         charAnimEvent.Add_Callback("CloseComboWindow", charAttack.ANIM_EVENT_CloseComboWindow);
 
@@ -195,14 +181,25 @@ public class CharacterHead : CharacterControllable
         DevelopTools.UI.Debug_UI_Tools.instance.CreateToogle("Use LockOn", false, UseLockOn);
 
         SetStates();
-        
+
         //Sound
-        AudioManager.instance.GetSoundPool(swing_SoundName, AudioGroups.GAME_FX ,swingSword_AC);
+        AudioManager.instance.GetSoundPool(swing_SoundName, AudioGroups.GAME_FX, swingSword_AC);
         AudioManager.instance.GetSoundPool("FootStep", AudioGroups.GAME_FX, footstep);
-
-        
-
     }
+
+    #region Throw Something
+    Action<Vector3> throwCallback;
+    public void ThrowSomething(Action<Vector3> throwInPosition)
+    {
+        Main.instance.GetChar().charanim.StartThrow();
+        throwCallback = throwInPosition;
+    }
+    void ThrowCallback()
+    {
+        Debug.Log("entro aca");
+        throwCallback.Invoke(escudo.transform.position);
+    }
+    #endregion
     void Pasos()
     {
         AudioManager.instance.PlaySound("FootStep");
@@ -491,7 +488,9 @@ public class CharacterHead : CharacterControllable
     void OnDeath() 
     {
         Debug.Log("DEATH");
+        Main.instance.RemoveEntity(this);
         Main.instance.eventManager.TriggerEvent(GameEvents.ON_PLAYER_DEATH);
+        Main.instance.GetCombatDirector().RemoveTarget(this);
     }
     void OnChangeLife(int current, int max) { }
     #endregion
@@ -822,24 +821,24 @@ public class CharacterHead : CharacterControllable
 
     public void ChangeTheWeapon(float w)
     {
-        if (!isValue && !charAttack.inAttack)
-        {
-            if (w == 1 || w == -1)
-            {
-                charAttack.ChangeWeapon((int)w);
-                ChangeWeaponPassives();
-                feedbackCW.Stop();
-                feedbackCW.Play();
-                isValue = true;
-            }
-        }
-        else
-        {
-            if (w != 1 && w != -1)
-            {
-                isValue = false;
-            }
-        }
+        //if (!isValue && !charAttack.inAttack)
+        //{
+        //    if (w == 1 || w == -1)
+        //    {
+        //        charAttack.ChangeWeapon((int)w);
+        //        ChangeWeaponPassives();
+        //        feedbackCW.Stop();
+        //        feedbackCW.Play();
+        //        isValue = true;
+        //    }
+        //}
+        //else
+        //{
+        //    if (w != 1 && w != -1)
+        //    {
+        //        isValue = false;
+        //    }
+        //}
     }
 
     public void ChangeDamage(float f)

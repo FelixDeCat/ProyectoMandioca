@@ -32,7 +32,10 @@ namespace ToolsMandioca.StateMachine
         protected override void Update()
         {
             if (!enemy.CurrentTarget())
+            {
                 sm.SendInput(JabaliEnemy.JabaliInputs.IDLE);
+                return;
+            }
 
             if (IsAttack())
             {

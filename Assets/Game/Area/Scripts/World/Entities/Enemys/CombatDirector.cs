@@ -32,15 +32,8 @@ public class CombatDirector : MonoBehaviour, IZoneElement
 
     public void Initialize()
     {
-        head = Main.instance.GetChar();
-        AddNewTarget(head);
         initialize = true;
         run = true;
-
-        for (int i = 0; i < awakeList.Count; i++)
-            AddToList(awakeList[i], head);
-
-        awakeList = new List<ICombatDirector>();
 
         Main.instance.eventManager.SubscribeToEvent(GameEvents.COMBAT_ENTER, RunCheck);
 
@@ -121,19 +114,6 @@ public class CombatDirector : MonoBehaviour, IZoneElement
 
     #endregion
 
-    ///<summary> Función para que no bugee al arrancar el juego. Si el player está inicializado, lo agrega a su lista, sino, espera hasta inicializar.
-    ///</summary>
-    public void AddAwake(ICombatDirector enemy)
-    {
-        if (!initialize)
-            awakeList.Add(enemy);
-        else
-        {
-            enemy.SetTarget(head);
-            AddToList(enemy, head);
-        }
-    }
-
     ///<summary> Resetea el Director volviendo todo a 0 (cuando se cambia de room o nivel se puede usar esta función).
     ///</summary>
     void ResetDirector()
@@ -158,6 +138,7 @@ public class CombatDirector : MonoBehaviour, IZoneElement
     {
         if (!listAttackTarget.ContainsKey(entity))
         {
+            Debug.Log(listAttackTarget.Count);
             listAttackTarget.Add(entity, new List<ICombatDirector>());
             attackingTarget.Add(entity, new List<ICombatDirector>());
             waitToAttack.Add(entity, new List<ICombatDirector>());
@@ -201,6 +182,7 @@ public class CombatDirector : MonoBehaviour, IZoneElement
     {
         if (listAttackTarget.ContainsKey(entity))
         {
+            Debug.Log("entro acá y remuevo todo");
             for (int i = 0; i < listAttackTarget[entity].Count; i++)
                 listAttackTarget[entity][i].ResetCombat();
 
@@ -219,6 +201,7 @@ public class CombatDirector : MonoBehaviour, IZoneElement
             isAttack.Remove(entity);
 
             AllUpdates -= updateDict[entity];
+            updateDict.Remove(entity);
         }
     }
 
@@ -243,7 +226,8 @@ public class CombatDirector : MonoBehaviour, IZoneElement
     ///</summary>
     public void DeleteToPrepare(ICombatDirector e, EntityBase target)
     {
-        prepareToAttack[target].Remove(e);
+        if(prepareToAttack.ContainsKey(target))
+            prepareToAttack[target].Remove(e);
     }
 
     ///<summary> Cuando muere un enemy que usa el combat, para sacarlo de las listas de ataque.
