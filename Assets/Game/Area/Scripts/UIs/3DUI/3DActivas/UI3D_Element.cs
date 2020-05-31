@@ -14,6 +14,7 @@ public class UI3D_Element : MonoBehaviour, ISelectHandler,IDeselectHandler,ISubm
     [SerializeField] bool interactable = true;
     //Para guardar los colores originales
     private Tuple<Color, Material>[] originalColors;
+    public Transform localscaledparent;
     #endregion
     #region model
     public GameObject GetModel() => mycurrentModel;
@@ -22,7 +23,7 @@ public class UI3D_Element : MonoBehaviour, ISelectHandler,IDeselectHandler,ISubm
         if (mycurrentModel) Destroy(mycurrentModel);
         go.transform.SetParent(parentmodel);
         go.transform.position = parentmodel.transform.position;
-        go.transform.localScale = new Vector3(1, 1, 1);
+        go.transform.localScale = localscaledparent.localScale;
         mycurrentModel = go;
     }
     #endregion

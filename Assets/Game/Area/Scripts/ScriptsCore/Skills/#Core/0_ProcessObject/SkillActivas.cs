@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using System;
 
+[System.Serializable]
 public abstract class SkillActivas : SkillBase
 {
     Action<SkillInfo, float> CallbackCooldown = delegate { };
@@ -31,11 +32,7 @@ public abstract class SkillActivas : SkillBase
     public bool use_coroutine = false;
     bool stop;
 
-    
-
-
     public void SetCallbackSuscessfulUsed(Action<SkillInfo> callback) { CallbackSuscessfullUsed = callback; }
-
     public void SetCallbackCooldown(Action<SkillInfo, float> callback) => CallbackCooldown = callback;
     public void SetCallbackEndCooldown(Action<SkillInfo> callback) => CallbackEndCooldown = callback;
     public void RemoveCallbackCooldown() => CallbackCooldown = delegate { };

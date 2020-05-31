@@ -25,7 +25,7 @@ public class UI3D_Element_SkillsActivas : UI3D_Element_WithFeedbacks
     public bool IsOcupied() => ocupied;
     public void SetSkillInfo(SkillInfo skillInfo) => mySkillInfo = skillInfo;
     public void RemoveSkillInfo() => mySkillInfo = null;
-    public void SetCooldow(float val) => img_to_fill.fillAmount = val;
+    public void SetCooldown(float val) => img_to_fill.fillAmount = val;
     public void SkillLoaded() => part_end_load.Play();
     public void SetUnlocked() { Set_Interactable = true; }
     public void SetBlocked() { Set_Interactable = false; }

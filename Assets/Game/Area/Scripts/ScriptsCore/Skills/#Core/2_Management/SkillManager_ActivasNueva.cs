@@ -9,25 +9,23 @@ public class SkillManager_ActivasNueva : LoadComponent
 
     [Header("All skills data base")]
     [SerializeField] List<SkillActivas> my_data_base;
-    SkillActivas master;
-    SkillActivas slave;
-
     Dictionary<SkillInfo, SkillActivas> fastreference_actives;
-    Dictionary<SkillInfo, Item> fastreference_item = new Dictionary<SkillInfo, Item>();
+    public SkillActivas[] equip;
+    public int current;
 
-    public Item[] items_to_spawn;
-
-    int current_index_centered = 0;
+    public int nextToReplace;
 
     public Manager3DActivas frontend3D;
+
+    [Header("para spawn")]
+    Dictionary<SkillInfo, Item> fastreference_item = new Dictionary<SkillInfo, Item>();
+    public Item[] items_to_spawn;
 
     protected override IEnumerator LoadMe()
     {
         //obtengo la data base de mis childrens
         my_data_base = GetComponentsInChildren<SkillActivas>().ToList();
-
-        master = null;
-        slave = null;
+        equip = new SkillActivas[2];
 
         //relleno el diccionario de acceso rapido
         fastreference_actives = new Dictionary<SkillInfo, SkillActivas>();
@@ -53,44 +51,96 @@ public class SkillManager_ActivasNueva : LoadComponent
 
     public void EV_Switch()
     {
-
+        if (current == 0) current = 1;
+        else current = 0;
+        frontend3D.Switch(current);
     }
-    public void EV_UseSkill() => TryToUseSelected();
-    public void TryToUseSelected()
+    public void EV_UseSkill()
     {
-        master.BeginSkill();
+        if (equip[current] != null)
+            equip[current].BeginSkill();
     }
-
-    void EnemyDeath(params object[] param)
-    {
-        Main.instance.SpawnItem(items_to_spawn[Random.Range(0, items_to_spawn.Length)], (Vector3)param[0]);
-    }
-
 
     public SkillInfo Look(int index) => my_data_base[index].skillinfo;
-    int current_index;
     public void Clear(int index)
     {
 
     }
-    bool oneshot;
-    public bool ReplaceFor(SkillInfo _skillinfo, int index, Item item)
+    public bool ReplaceFor(SkillInfo _skillinfo, Item item)
     {
+        #region para que no equipe si ya lo tengo
+        //si ya la tengo repetida ni la agarro
+        foreach (var i in equip)
+        {
+            if (i != null)
+            {
+                if (_skillinfo == i.skillinfo) return false;
+                else continue;
+            }
+        }
+        #endregion
+
+        #region esto es para guardar los items
+        if (!fastreference_item.ContainsKey(_skillinfo))
+        {
+            fastreference_item.Add(_skillinfo, item);
+        }
+        #endregion
+
+        var aux_last = nextToReplace;
+
+        #region para finalizar el anterior
+        if (equip[aux_last] != null) //si teniamos algo lo finalizo y lo dropeo
+        {
+            equip[aux_last].EndSkill();
+            equip[aux_last].RemoveCallbackCooldown();
+
+            //si mi diccionario biblioteca de items contiene el info del anterior
+            //spawneo el item
+            //si entro aca es porque quiere decir que alguna vez un item que puede ser dropeado entró aca, por lo tanto no va a estar vacio
+            if (fastreference_item.ContainsKey(equip[aux_last].skillinfo))
+            {
+                //obtengo el item del anterior
+                var _item = fastreference_item[equip[aux_last].skillinfo];
+                //spawneo el item anterior
+                Main.instance.SpawnItem(_item, Main.instance.GetChar().transform.position + Main.instance.GetChar().GetCharMove().GetRotatorDirection());
+            }
+        }
+        #endregion
+
+        //asigno a este index el nuevo skill
+        equip[nextToReplace] = fastreference_actives[_skillinfo];
+
+        //frontend3D.ReAssignUIInfo(equip);
+
+        equip[nextToReplace].SetCallbackSuscessfulUsed(OnCallbackSussesfullUsed);
+        equip[nextToReplace].SetCallbackCooldown(Callback_RefreshCooldown);
+        equip[nextToReplace].SetCallbackEndCooldown(Callback_EndCooldown);
+        equip[nextToReplace].BeginSkill();
+
+        frontend3D.ReAssignUIInfo(equip);
+
+        nextToReplace = nextToReplace.NextIndex(2);
+
         return true;
     }
 
+    #region Callbacks de las SkillActivas
     void OnCallbackSussesfullUsed(SkillInfo _skill)
     {
-
-
-        
-    }
-    void Callback_EndCooldown(SkillInfo _skill)
-    {
-
     }
     public void Callback_RefreshCooldown(SkillInfo _skill, float _time)
     {
-
     }
+    void Callback_EndCooldown(SkillInfo _skill)
+    {
+    }
+    #endregion
+
+    #region SpawnThings
+    void EnemyDeath(params object[] param)
+    {
+        Main.instance.SpawnItem(items_to_spawn[Random.Range(0, items_to_spawn.Length)], (Vector3)param[0]);
+    }
+    #endregion
 }

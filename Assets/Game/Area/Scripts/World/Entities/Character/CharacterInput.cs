@@ -67,6 +67,8 @@ public class CharacterInput : MonoBehaviour
 
         if (Input.GetButtonDown("Interact")) OnInteractBegin.Invoke();
         if (Input.GetButtonUp("Interact")) OnInteractEnd.Invoke();
+
+        //porque le manda un flotante??
         ChangeWeapon.Invoke(Input.GetAxis("XBOX360_DPadHorizontal"));
 
         if (Input.GetKeyDown(KeyCode.Alpha1)) EV_DPAD_UP();
@@ -131,10 +133,10 @@ public class CharacterInput : MonoBehaviour
             .SUBSCRIBE_RTRIGGER(EV_DPAD_RTRIGGER);
     }
     void RefreshHelper() => joystickhelper.Refresh();
-    void EV_DPAD_UP() { SendIndexAlphanumeric.Invoke(0); }
-    void EV_DPAD_DOWN() { SendIndexAlphanumeric.Invoke(3); }
-    void EV_DPAD_LEFT() { SendIndexAlphanumeric.Invoke(1);  }
-    void EV_DPAD_RIGHT() { SendIndexAlphanumeric.Invoke(2); }
+    void EV_DPAD_UP() {  }
+    void EV_DPAD_DOWN() {  }
+    void EV_DPAD_LEFT() { OnDpad_Left.Invoke(); }
+    void EV_DPAD_RIGHT() { OnDpad_Right.Invoke(); }
     void EV_DPAD_LTRIGGER() { LockON.Invoke(); }
     void EV_DPAD_RTRIGGER() { NextON.Invoke(); }
     #endregion

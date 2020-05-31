@@ -29,7 +29,7 @@ public class Main : MonoBehaviour
     [SerializeField] List<PlayObject> allentities = new List<PlayObject>();
     //[SerializeField] SkillManager_Pasivas pasives = null; 
     //[SerializeField] SkillManager_PasivasNoBranches pasives_nobranches = null;
-    [SerializeField] SkillManager_Activas actives = null;
+    [SerializeField] SkillManager_ActivasNueva actives = null;
     [SerializeField] LevelSystem levelSystem = null;
     [SerializeField] TimeManager timeManager = null;
     [SerializeField] Spawner spawner = null;
@@ -131,7 +131,7 @@ public class Main : MonoBehaviour
 
     //public SkillManager_Pasivas GetPasivesManager() => pasives;
 
-    public SkillManager_Activas GetActivesManager() => actives;
+    public SkillManager_ActivasNueva GetActivesManager() => actives;
 
     public LevelSystem GetLevelSystem() => levelSystem;
 

@@ -8,7 +8,7 @@ public class ItemSkillsActiva : ItemInterceptor
 
     public void EV_Collect()
     {
-        
+        Main.instance.GetActivesManager().ReplaceFor(info, myitemworld);
     }
 
     protected override bool OnCollect()
