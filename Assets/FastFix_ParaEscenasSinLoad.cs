@@ -12,8 +12,17 @@ public class FastFix_ParaEscenasSinLoad : MonoBehaviour
 
     private void Start()
     {
+        if (Main.instance == null)
+        {
+            Scenes.Load_0_Load();
+            return;
+        }
+
         Main.instance.GetNoOptimizedListEnemies().ForEach(x => x.Initialize());
+        Main.instance.GetNoOptimizedDestructibles().ForEach(x => x.Initialize());
         Main.instance.GetChar().transform.position = Vector3.zero;
+
+        
     }
     private void Update()
     {

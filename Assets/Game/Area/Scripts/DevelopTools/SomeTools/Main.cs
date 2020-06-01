@@ -128,6 +128,8 @@ public class Main : MonoBehaviour
     public List<EnemyBase> GetEnemies() => GetListOfComponent<EnemyBase>();
     public List<EnemyBase> GetEnemiesByPointInRadius(Vector3 point, float radius) => GetListOfComponentInRadius(point,radius).Select(x => x.GetComponent<EnemyBase>()).ToList();
     public List<EnemyBase> GetNoOptimizedListEnemies() => FindObjectsOfType<EnemyBase>().ToList();
+    public List<Destructible_Normal> GetNoOptimizedDestructibles() => FindObjectsOfType<Destructible_Normal>().ToList();
+    public List<EntityBase> GetNoOptimizedListEntities() => FindObjectsOfType<EntityBase>().ToList();
 
     //public SkillManager_Pasivas GetPasivesManager() => pasives;
 
