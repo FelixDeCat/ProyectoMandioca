@@ -14,6 +14,9 @@ public class GameLoop : MonoBehaviour
     private void Start()
     {
         Main.instance.eventManager.SubscribeToEvent(GameEvents.ON_PLAYER_DEATH, CharacterIsDeath);
+        
+        AudioManager.instance.GetSoundPool("ambiente", AudioGroups.MUSIC, ambience, true);
+        StartSoundAmbience();
     }
 
     public void StartGame()
@@ -42,12 +45,12 @@ public class GameLoop : MonoBehaviour
 
         Invoke("CharacterResurrect", 0.5f);
         
-        StartSoundAmbience();
+        
     }
 
     void StartSoundAmbience()
     {
-        AudioManager.instance.GetSoundPool("ambiente", AudioGroups.MUSIC, ambience);
+        
         AudioManager.instance.PlaySound("ambiente");
     }
 
