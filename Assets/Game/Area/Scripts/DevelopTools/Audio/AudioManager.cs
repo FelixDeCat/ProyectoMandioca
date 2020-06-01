@@ -12,6 +12,7 @@ public class AudioManager : MonoBehaviour
     [SerializeField] private AudioMixerGroup _jabali;
     [SerializeField] private AudioMixerGroup _music;
     [SerializeField] private AudioMixerGroup _misc;
+    [SerializeField] private AudioMixerGroup _slowmo;
     
     private Dictionary<string, SoundPool> _soundRegistry = new Dictionary<string, SoundPool>();
     private Dictionary<AudioGroups, AudioMixerGroup> _audioMixers = new Dictionary<AudioGroups, AudioMixerGroup>();
@@ -32,6 +33,7 @@ public class AudioManager : MonoBehaviour
         _audioMixers.Add(AudioGroups.MUSIC, _music);
         _audioMixers.Add(AudioGroups.MISC, _misc);
         _audioMixers.Add(AudioGroups.JABALI, _jabali);
+        _audioMixers.Add(AudioGroups.SLOWMO, _slowmo);
     }
 
     #region SlowMO
