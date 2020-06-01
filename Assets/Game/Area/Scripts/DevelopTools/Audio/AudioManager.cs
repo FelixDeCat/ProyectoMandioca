@@ -58,12 +58,14 @@ public class AudioManager : MonoBehaviour
     /// Si el soundpool existe, va a reproducir el sonido que llamaron, sino va a tirar un warning
     /// </summary>
     /// <param name="soundPoolName"></param>
-    public void PlaySound(string soundPoolName)
+    public void PlaySound(string soundPoolName, Transform trackingTransform = null)
     {
         if (_soundRegistry.ContainsKey(soundPoolName))
         {
-            _soundRegistry[soundPoolName].soundPoolPlaying = true;
-            AudioSource aS = _soundRegistry[soundPoolName].Get();
+            var soundPool = _soundRegistry[soundPoolName];
+            soundPool.soundPoolPlaying = true;
+            AudioSource aS = soundPool.Get();
+            if (trackingTransform != null) aS.transform.position = trackingTransform.position;
             aS.Play();
             
             if(!aS.loop)
@@ -93,7 +95,8 @@ public class AudioManager : MonoBehaviour
     /// <param name="soundPoolName"></param>
     /// <param name="audioClip"></param>
     /// <returns></returns>
-    public SoundPool GetSoundPool(string soundPoolName, AudioGroups audioGroups = AudioGroups.MISC , AudioClip audioClip = null, bool loop = false, int prewarmAmount = 2)
+    public SoundPool GetSoundPool(string soundPoolName, AudioGroups audioGroups = AudioGroups.MISC , 
+        AudioClip audioClip = null, bool loop = false, int prewarmAmount = 2)
     {
         if (_soundRegistry.ContainsKey(soundPoolName)) return _soundRegistry[soundPoolName];
         else if (audioClip != null) return CreateNewSoundPool(audioClip, soundPoolName,  audioGroups ,loop, prewarmAmount);
@@ -106,7 +109,8 @@ public class AudioManager : MonoBehaviour
     /// <param name="audioClip"></param>
     /// <param name="soundPoolName"></param>
     /// <returns></returns>
-    private SoundPool CreateNewSoundPool(AudioClip audioClip, string soundPoolName, AudioGroups audioGroups = AudioGroups.MISC, bool loop = false, int prewarmAmount = 2)
+    private SoundPool CreateNewSoundPool(AudioClip audioClip, string soundPoolName, AudioGroups audioGroups = AudioGroups.MISC, 
+        bool loop = false, int prewarmAmount = 2)
     {
         var soundPool = new GameObject($"{soundPoolName} soundPool").AddComponent<SoundPool>();
         soundPool.transform.SetParent(transform);

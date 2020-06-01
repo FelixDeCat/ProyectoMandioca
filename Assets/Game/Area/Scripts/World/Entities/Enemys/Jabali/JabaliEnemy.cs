@@ -239,7 +239,7 @@ public class JabaliEnemy : EnemyBase
             director.ChangeTarget(this, data.owner, entityTarget);
         }
 
-        AudioManager.instance.PlaySound(mySounds[2].name);
+        AudioManager.instance.PlaySound(mySounds[2].name, rootTransform);
 
         sm.SendInput(JabaliInputs.TAKE_DMG);
 

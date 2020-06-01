@@ -12,12 +12,15 @@ namespace ToolsMandioca.StateMachine
         string firstPushSound;
         SoundPool pool;
         AudioSource source;
+        private string soundName;
 
         public JabaliCharge(EState<JabaliEnemy.JabaliInputs> myState, EventStateMachine<JabaliEnemy.JabaliInputs> _sm, float _chargeTime,
             string _updateSound, string _exitSound) : base(myState, _sm)
         {
             chargeTime = _chargeTime;
             firstPushSound = _exitSound;
+            
+            soundName = _updateSound;
             pool = AudioManager.instance.GetSoundPool(_updateSound);
         }
 
@@ -29,6 +32,7 @@ namespace ToolsMandioca.StateMachine
             }
             finalPos = root.position - root.forward * 2;
             source = pool.Get();
+            source.transform.position = root.transform.position;
             source.Play();
         }
 
@@ -51,7 +55,7 @@ namespace ToolsMandioca.StateMachine
             }
             source.Stop();
             pool.ReturnToPool(source);
-            AudioManager.instance.PlaySound(firstPushSound);
+            AudioManager.instance.PlaySound(firstPushSound, root);
         }
     }
 }
