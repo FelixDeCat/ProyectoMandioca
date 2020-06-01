@@ -20,7 +20,7 @@ public class GameUI_controller : MonoBehaviour
     [SerializeField] private GameMenu_UI gameMenu_UI = null;
     private GameObject stats3D_UI;
     private CharStats_UI _charStats_Ui;
-    private UI3D_Shields_controller _shieldsController;
+    //private UI3D_Shields_controller _shieldsController;
     
     [Header("--XX--Canvas containers--XX--")]
     [SerializeField] private RectTransform leftCanvas = null;
@@ -58,8 +58,8 @@ public class GameUI_controller : MonoBehaviour
         
         stats3D_UI = Instantiate(stats3D_UI_pf, transform);
 
-        _shieldsController = Instantiate(_shieldsController_pf, transform);
-        _shieldsController.Init(3,3);
+        //_shieldsController = Instantiate(_shieldsController_pf, transform);
+        //_shieldsController.Init(3,3);
         
         Main.instance.GetChar().Life.frontendLife = stats3D_UI.GetComponent<Stats3D_UI_helper>().lifeBar;
         
@@ -75,9 +75,9 @@ public class GameUI_controller : MonoBehaviour
 
     #region Public methods
     
-    public void HideShields() => _shieldsController.HideShields();
-    public void ShowShields() => _shieldsController.ShowShields();
-    public void RefreshShields_UI(int currentShields, int maxShields) =>  _shieldsController.RefreshUI(currentShields, maxShields);
+    //public void HideShields() => _shieldsController.HideShields();
+    //public void ShowShields() => _shieldsController.ShowShields();
+    //public void RefreshShields_UI(int currentShields, int maxShields) =>  _shieldsController.RefreshUI(currentShields, maxShields);
     public RectTransform GetRectCanvas() => completeCanvas;
     
     /// <summary>
