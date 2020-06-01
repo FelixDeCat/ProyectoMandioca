@@ -5,6 +5,8 @@ using UnityEngine;
 public class GameLoop : MonoBehaviour
 {
     public static GameLoop instance; private void Awake() => instance = this;
+
+    [SerializeField] private AudioClip ambience;
     
     Checkpoint_Manager checkpointmanager;
     public void SubscribeCheckpoint(Checkpoint_Manager checkpointmanager) => this.checkpointmanager = checkpointmanager;
@@ -12,6 +14,9 @@ public class GameLoop : MonoBehaviour
     private void Start()
     {
         Main.instance.eventManager.SubscribeToEvent(GameEvents.ON_PLAYER_DEATH, CharacterIsDeath);
+        
+        AudioManager.instance.GetSoundPool("ambiente", AudioGroups.MUSIC, ambience, true);
+        StartSoundAmbience();
     }
 
     public void StartGame()
@@ -39,6 +44,14 @@ public class GameLoop : MonoBehaviour
         //bla bla bla bla bla
 
         Invoke("CharacterResurrect", 0.5f);
+        
+        
+    }
+
+    void StartSoundAmbience()
+    {
+        
+        AudioManager.instance.PlaySound("ambiente");
     }
 
     public void CharacterResurrect()

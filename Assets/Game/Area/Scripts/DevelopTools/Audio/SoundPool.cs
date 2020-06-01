@@ -14,6 +14,7 @@ public class SoundPool : SingleObjectPool<AudioSource>
    [SerializeField] private bool playOnAwake = false;
    public bool soundPoolPlaying = false;
    private AudioMixerGroup _audioMixer;
+   private Transform trackingTransform;
    
    protected override void Start()
    {
@@ -25,9 +26,7 @@ public class SoundPool : SingleObjectPool<AudioSource>
       _audioClip = audioClip;
       _loop = loop;
       _audioMixer = audioMixerGroup;
-
    }
-
    protected override void AddObject(int amount)
    {
       var newAudio = ASourceCreator.Create2DSource(_audioClip, _audioClip.name, _audioMixer, _loop, playOnAwake);

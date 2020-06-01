@@ -32,6 +32,7 @@ namespace ToolsMandioca.StateMachine
             PlayCombat();
             anim.SetTrigger("ChargeOk");
             source = pool.Get();
+            source.transform.position = root.transform.position;
             source.Play();
         }
 
