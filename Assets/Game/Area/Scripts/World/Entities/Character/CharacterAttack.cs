@@ -228,7 +228,11 @@ public class CharacterAttack
             case Attack_Result.sucessful:
                 if (damage_type == Damagetype.heavy) DealSuccesfullHeavy();
                 else DealSuccesfullNormal(); break;
-            case Attack_Result.blocked: break;
+            case Attack_Result.blocked:
+            {
+                
+                break;
+            }
             case Attack_Result.parried: break;
             case Attack_Result.reflexed: break;
             case Attack_Result.inmune: break;

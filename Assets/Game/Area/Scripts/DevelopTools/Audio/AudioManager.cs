@@ -9,6 +9,7 @@ using UnityEngine.Audio;
 public class AudioManager : MonoBehaviour
 {
     [SerializeField] private AudioMixerGroup _fx;
+    [SerializeField] private AudioMixerGroup _jabali;
     [SerializeField] private AudioMixerGroup _music;
     [SerializeField] private AudioMixerGroup _misc;
     
@@ -30,6 +31,7 @@ public class AudioManager : MonoBehaviour
         _audioMixers.Add(AudioGroups.GAME_FX, _fx);
         _audioMixers.Add(AudioGroups.MUSIC, _music);
         _audioMixers.Add(AudioGroups.MISC, _misc);
+        _audioMixers.Add(AudioGroups.JABALI, _jabali);
     }
 
     #region SlowMO
