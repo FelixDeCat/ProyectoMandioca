@@ -12,11 +12,6 @@ public class FastFix_ParaEscenasSinLoad : MonoBehaviour
 
     private void Start()
     {
-        Invoke("Initialize", 2f);
-    }
-
-    void Initialize()
-    {
         Main.instance.GetNoOptimizedListEnemies().ForEach(x => x.Initialize());
         Main.instance.GetChar().transform.position = Vector3.zero;
     }
