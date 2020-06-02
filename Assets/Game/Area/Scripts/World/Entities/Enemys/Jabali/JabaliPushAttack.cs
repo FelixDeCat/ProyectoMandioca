@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System;
+using System.Linq;
 
 namespace ToolsMandioca.StateMachine
 {
@@ -28,7 +29,9 @@ namespace ToolsMandioca.StateMachine
         {
             base.Enter(input);
             feedbackCharge.SetActive(true);
-            feedbackCharge.GetComponent<ParticleSystem>().Play();
+            feedbackCharge.GetComponentsInChildren<ParticleSystem>()
+                .ToList()
+                .ForEach(x => x.Play());
             PlayCombat();
             anim.SetTrigger("ChargeOk");
             source = pool.Get();
@@ -56,7 +59,10 @@ namespace ToolsMandioca.StateMachine
         protected override void Exit(JabaliEnemy.JabaliInputs input)
         {
             feedbackCharge.SetActive(false);
-            feedbackCharge.GetComponent<ParticleSystem>().Stop();
+            feedbackCharge.GetComponentsInChildren<ParticleSystem>()
+                .ToList()
+                .ForEach(x => x.Stop());
+
             base.Exit(input);
             rb.velocity = Vector3.zero;
             combatDirector.AttackRelease(enemy, enemy.CurrentTarget());
