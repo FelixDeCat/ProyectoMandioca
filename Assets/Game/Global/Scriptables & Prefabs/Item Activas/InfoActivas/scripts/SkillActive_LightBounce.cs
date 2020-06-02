@@ -23,6 +23,12 @@ public class SkillActive_LightBounce : SkillActivas
     private const string _fireSound = "fireSound";
     private const string _celestialChorus = "celestialChorus";
 
+
+    protected override void OnStart()
+    {
+        base.OnStart();
+        lightBeam.SetActive(false);
+    }
     protected override void OnOneShotExecute()
     {
         Debug.Log("OnOneSHot");
@@ -30,6 +36,7 @@ public class SkillActive_LightBounce : SkillActivas
 
     protected override void OnBeginSkill()
     {
+        lightBeam.SetActive(false);
         _hero = Main.instance.GetChar();
         blocker = _hero.GetCharBlock();
         AudioManager.instance.GetSoundPool(_fireSound, AudioGroups.GAME_FX,fireClip, true);
