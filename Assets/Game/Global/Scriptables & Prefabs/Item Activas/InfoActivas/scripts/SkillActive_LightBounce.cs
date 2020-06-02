@@ -7,14 +7,18 @@ public class SkillActive_LightBounce : SkillActivas
     [SerializeField] private int damage = 5;
     [SerializeField] private Damagetype dmgType = Damagetype.Fire;
     [SerializeField] private float range = 6;
+    [SerializeField] private GameObject lightAura = null;
     [SerializeField] private GameObject lightBeam = null;
-    [SerializeField] private ParticleSystem sparks_ps = null;
+
+   [SerializeField] private ParticleSystem sparks_ps = null;
 
     public float laserWidth = 0.1f;
     public float laserMaxLength = 5f;
 
     private CharacterHead _hero;
     private EntityBlock blocker;
+
+   
 
     [SerializeField] private LineRenderer _lineRenderer = null;
 
@@ -24,9 +28,11 @@ public class SkillActive_LightBounce : SkillActivas
     private const string _celestialChorus = "celestialChorus";
 
 
+
     protected override void OnStart()
     {
         base.OnStart();
+        lightAura.SetActive(false);
         lightBeam.SetActive(false);
     }
     protected override void OnOneShotExecute()
@@ -36,6 +42,7 @@ public class SkillActive_LightBounce : SkillActivas
 
     protected override void OnBeginSkill()
     {
+        lightAura.SetActive(false);
         lightBeam.SetActive(false);
         _hero = Main.instance.GetChar();
         blocker = _hero.GetCharBlock();
@@ -75,12 +82,13 @@ public class SkillActive_LightBounce : SkillActivas
             }
         }
 
-        _lineRenderer.SetPosition(0, targetPosition);
-        _lineRenderer.SetPosition(1, endPosition);
+       // _lineRenderer.SetPosition(0, targetPosition);
+       // _lineRenderer.SetPosition(1, endPosition);
     }
 
     protected override void OnStartUse()
     {
+        lightAura.SetActive(true);
         lightBeam.SetActive(true);
         AudioManager.instance.PlaySound(_celestialChorus);
 
@@ -88,17 +96,23 @@ public class SkillActive_LightBounce : SkillActivas
 
     protected override void OnStopUse()
     {
-        _lineRenderer.enabled = false;
+       // _lineRenderer.enabled = false;
         sparks_ps.Stop();
+        lightAura.SetActive(false);
         lightBeam.SetActive(false);
         AudioManager.instance.StopAllSounds(_fireSound);
     }
 
     protected override void OnUpdateUse()
     {
-        lightBeam.transform.position = _hero.transform.position;
+        lightAura.transform.position = _hero.transform.position;
+        lightBeam.transform.position = _hero.ShieldVectorDirection.position;
+        lightBeam.transform.forward = _hero.ShieldVectorDirection.forward;
+
         if (blocker.onBlock)
         {
+            lightBeam.SetActive(true);
+
             if (!AudioManager.instance.GetSoundPool(_fireSound).soundPoolPlaying)
             {
                 AudioManager.instance.PlaySound(_fireSound);
@@ -106,15 +120,16 @@ public class SkillActive_LightBounce : SkillActivas
             
             ShootLaserFromTargetPosition(_hero.transform.position + Vector3.up * 1, _hero.GetCharMove().GetRotatorDirection(), range);
             
-            _lineRenderer.enabled = true;    
+           // _lineRenderer.enabled = true;    
         }
         else
         {
+            lightBeam.SetActive(false);
             if (AudioManager.instance.GetSoundPool(_fireSound).soundPoolPlaying)
             {
                 AudioManager.instance.StopAllSounds(_fireSound);
             }
-            _lineRenderer.enabled = false;
+           // _lineRenderer.enabled = false;
         }
         
     }

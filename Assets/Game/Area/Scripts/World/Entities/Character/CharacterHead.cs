@@ -45,6 +45,7 @@ public class CharacterHead : CharacterControllable
     [SerializeField] float takeDamageRecall = 0;
     CharacterBlock charBlock;
     [SerializeField] GameObject sphereMask;
+    public Transform ShieldVectorDirection;
 
     internal void Mask(bool v) => sphereMask.SetActive(v);
 
