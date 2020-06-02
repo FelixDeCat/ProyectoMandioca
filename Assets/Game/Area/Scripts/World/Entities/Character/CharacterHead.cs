@@ -38,6 +38,8 @@ public class CharacterHead : CharacterControllable
     [SerializeField] ParticleSystem parryParticle = null;
     [SerializeField] ParticleSystem blockParticle = null;
     [SerializeField] ParticleSystem hitParticle = null;
+    [SerializeField] AudioClip audioParry = null;
+    [SerializeField] AudioClip audioblock = null;
     [SerializeField, Range(-1, 1)] float blockAngle = 0;
     [SerializeField] float parryRecall = 0;
     [SerializeField] float takeDamageRecall = 0;
@@ -187,6 +189,7 @@ public class CharacterHead : CharacterControllable
         //Sound
         AudioManager.instance.GetSoundPool(swing_SoundName, AudioGroups.GAME_FX, swingSword_AC);
         AudioManager.instance.GetSoundPool("FootStep", AudioGroups.GAME_FX, footstep);
+        AudioManager.instance.GetSoundPool("blockSound", AudioGroups.GAME_FX, audioblock);
     }
 
     #region Throw Something
@@ -373,7 +376,7 @@ public class CharacterHead : CharacterControllable
             .SetLeftAxis(GetLeftHorizontal, GetLeftVertical)
             .SetBlock(charBlock);
 
-        new CharParry(parry, stateMachine, parryRecall)
+        new CharParry(parry, stateMachine, parryRecall, audioParry)
             .SetMovement(this.move).SetBlock(charBlock);
 
         new CharRoll(roll, stateMachine, evadeParticle)
@@ -804,6 +807,7 @@ public class CharacterHead : CharacterControllable
         charanim.BlockSomething();
         charBlock.SetBlockCharges(-1);
         lifesystem.Hit(1);
+        AudioManager.instance.PlaySound("blockSound");
     }
 
     void TakeDamageFeedback(DamageData data)

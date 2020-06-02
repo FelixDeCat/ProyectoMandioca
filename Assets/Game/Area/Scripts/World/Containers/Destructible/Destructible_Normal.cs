@@ -34,18 +34,19 @@ public class Destructible_Normal : DestructibleBase
 
     [System.NonSerialized] public List<GameObject> objectsToDrop = new List<GameObject>();
 
-    private void Start()
+    protected override void OnInitialize()
     {
-        //Por temas practicos del momento lo voy a meter aca
-        //al Calculate() solo para que puedas probar tus cosas
-        //luego esto lo metemos en yo que se... en el OnPlayerEnterInThisRoom()
-        //asi luego optimizamos
+        rb = GetComponent<Rigidbody>();
         Calculate();
-
-        Invoke("Calculate", 0.1f);
-
         Main.instance.AddEntity(this);
-    }    
+        damageReceiver.Initialize(
+            transform,
+            () => { return false; }, 
+            (x) => { }, 
+            (x) => { DestroyDestructible(); }, 
+            null, 
+            (x) => { return false; });
+    }
 
     void Calculate()
     {
@@ -144,11 +145,7 @@ public class Destructible_Normal : DestructibleBase
 
     //////////////////////////////////////////////
     protected override void FeedbackDamage() { }
-    protected override void OnInitialize()
-    {
-        rb = GetComponent<Rigidbody>();
-        damageReceiver.Initialize(transform, () => { return false; }, (x) => {}, (x) => { DestroyDestructible() ; }, null, (x) => { return false; });
-    }
+    
     protected override void OnTurnOn() { }
     protected override void OnTurnOff() { }
     protected override void OnUpdate() { }

@@ -77,12 +77,12 @@ public class JabaliEnemy : EnemyBase
         headAttack.Configure(HeadAttack);
         pushAttack.Configure(PushRelease, StunAfterCharge);
         lineOfSight.Configurate(rootTransform);
-        AudioManager.instance.GetSoundPool(mySounds[0].name, AudioGroups.GAME_FX, mySounds[0], true);
-        AudioManager.instance.GetSoundPool(mySounds[1].name, AudioGroups.GAME_FX, mySounds[1]);
-        AudioManager.instance.GetSoundPool(mySounds[2].name, AudioGroups.GAME_FX, mySounds[2]);
-        AudioManager.instance.GetSoundPool(mySounds[3].name, AudioGroups.GAME_FX, mySounds[3], true);
-        AudioManager.instance.GetSoundPool(mySounds[4].name, AudioGroups.GAME_FX, mySounds[4]);
-        AudioManager.instance.GetSoundPool(mySounds[5].name, AudioGroups.GAME_FX, mySounds[5]);
+        AudioManager.instance.GetSoundPool(mySounds[0].name, AudioGroups.JABALI, mySounds[0], true);
+        AudioManager.instance.GetSoundPool(mySounds[1].name, AudioGroups.JABALI, mySounds[1]);
+        AudioManager.instance.GetSoundPool(mySounds[2].name, AudioGroups.JABALI, mySounds[2]);
+        AudioManager.instance.GetSoundPool(mySounds[3].name, AudioGroups.JABALI, mySounds[3]);
+        AudioManager.instance.GetSoundPool(mySounds[4].name, AudioGroups.JABALI, mySounds[4]);
+        AudioManager.instance.GetSoundPool(mySounds[5].name, AudioGroups.JABALI, mySounds[5]);
 
         anim.Add_Callback("DealDamage", DealDamage);
         StartDebug();
@@ -239,7 +239,7 @@ public class JabaliEnemy : EnemyBase
             director.ChangeTarget(this, data.owner, entityTarget);
         }
 
-        AudioManager.instance.PlaySound(mySounds[2].name);
+        AudioManager.instance.PlaySound(mySounds[2].name, rootTransform);
 
         sm.SendInput(JabaliInputs.TAKE_DMG);
 
