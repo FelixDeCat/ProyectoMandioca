@@ -16,10 +16,17 @@ public class SkillActive_SomeHeal : SkillActivas
     CharacterHead mychar;
     Animator anim;
 
+    [SerializeField] AudioClip slowmoEnter;
+    [SerializeField] AudioClip slowmoExit;
+
 
     protected override void OnBeginSkill()
     {
         if (mychar == null) mychar = Main.instance.GetChar();
+
+
+        AudioManager.instance.GetSoundPool("slowmo_enter", AudioGroups.MISC, slowmoEnter);
+        AudioManager.instance.GetSoundPool("slowmo_exit", AudioGroups.MISC, slowmoExit);
     }
 
 
@@ -36,10 +43,18 @@ public class SkillActive_SomeHeal : SkillActivas
     protected override void OnStartUse()
     {
         mychar.ActivateBuffState(damageBuff, damageResistance, speedAcceleration, timeScale, timeDuration);
+        AudioManager.instance.PlaySound("slowmo_enter");
     }
     protected override void OnStopUse()
     {
+        
+        AudioManager.instance.PlaySound("slowmo_exit", OnEndSound);
+    }
+
+    public void OnEndSound()
+    {
         mychar.DesactivateBuffState(damageBuff);
     }
+
     protected override void OnUpdateUse() { }
 }

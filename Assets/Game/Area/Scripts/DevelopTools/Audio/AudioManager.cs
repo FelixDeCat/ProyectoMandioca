@@ -13,10 +13,10 @@ public class AudioManager : MonoBehaviour
     [SerializeField] private AudioMixerGroup _music;
     [SerializeField] private AudioMixerGroup _misc;
     [SerializeField] private AudioMixerGroup _slowmo;
-    
+
     private Dictionary<string, SoundPool> _soundRegistry = new Dictionary<string, SoundPool>();
     private Dictionary<AudioGroups, AudioMixerGroup> _audioMixers = new Dictionary<AudioGroups, AudioMixerGroup>();
-    
+
 
     public static AudioManager instance;
 
@@ -46,7 +46,7 @@ public class AudioManager : MonoBehaviour
     //de editados los tres sonidos de slowMO
     public void GoToSlowMo()
     {
-        
+
     }
     public void BackToSlowMo()
     {
@@ -67,8 +67,8 @@ public class AudioManager : MonoBehaviour
             AudioSource aS = soundPool.Get();
             if (trackingTransform != null) aS.transform.position = trackingTransform.position;
             aS.Play();
-            
-            if(!aS.loop)
+
+            if (!aS.loop)
                 StartCoroutine(ReturnSoundToPool(aS, soundPoolName));
         }
         else
@@ -76,7 +76,32 @@ public class AudioManager : MonoBehaviour
             Debug.LogWarning("No tenes ese sonido en en pool");
         }
     }
-    
+    Action OnEnd;
+    public void PlaySound(string soundPoolName, Action callbackEnd, Transform trackingTransform = null)
+    {
+        if (_soundRegistry.ContainsKey(soundPoolName))
+        {
+            OnEnd = callbackEnd;
+            var soundPool = _soundRegistry[soundPoolName];
+            soundPool.soundPoolPlaying = true;
+            AudioSource aS = soundPool.Get();
+            if (trackingTransform != null) aS.transform.position = trackingTransform.position;
+            
+            aS.Play();
+
+            AudioEndChecker checker = new AudioEndChecker();
+            checker.CheckIfEnded(callbackEnd, aS);
+            Main.instance.GetRefreshSubscriber().SubscribeToRefresh(checker.Refresh);
+
+            if (!aS.loop)
+                StartCoroutine(ReturnSoundToPool(aS, soundPoolName));
+        }
+        else
+        {
+            Debug.LogWarning("No tenes ese sonido en en pool");
+        }
+    }
+
     public void StopAllSounds(string soundPoolName)
     {
         if (_soundRegistry.ContainsKey(soundPoolName))
