@@ -109,7 +109,7 @@ public class CharacterBlock : EntityBlock
             timerCharges = 0;
         }
 
-        Main.instance.gameUiController.RefreshShields_UI(CurrentBlockCharges, maxBlockCharges);
+        //Main.instance.gameUiController.RefreshShields_UI(CurrentBlockCharges, maxBlockCharges);
         //ui.OnValueChange(CurrentBlockCharges, maxBlockCharges, true); //reemplazado por escudos 3d
     }
 
