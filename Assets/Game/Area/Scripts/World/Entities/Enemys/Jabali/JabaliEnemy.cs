@@ -66,6 +66,8 @@ public class JabaliEnemy : EnemyBase
     [SerializeField] GameObject feedbackCharge;
     [SerializeField] Material _petrifiedMat;
     [SerializeField] List<AudioClip> mySounds;
+    [SerializeField] ParticleSystem onpetrified;
+    [SerializeField] ParticleSystem endPetrify;
 
     public bool isOnFire { get; private set; }
     EventStateMachine<JabaliInputs> sm;
@@ -83,6 +85,8 @@ public class JabaliEnemy : EnemyBase
         AudioManager.instance.GetSoundPool(mySounds[3].name, AudioGroups.JABALI, mySounds[3]);
         AudioManager.instance.GetSoundPool(mySounds[4].name, AudioGroups.JABALI, mySounds[4]);
         AudioManager.instance.GetSoundPool(mySounds[5].name, AudioGroups.JABALI, mySounds[5]);
+        AudioManager.instance.GetSoundPool(mySounds[6].name, AudioGroups.JABALI, mySounds[6]);//petrify stand
+        AudioManager.instance.GetSoundPool(mySounds[7].name, AudioGroups.JABALI, mySounds[7]);//petrify end
 
         anim.Add_Callback("DealDamage", DealDamage);
         StartDebug();
@@ -329,7 +333,8 @@ public class JabaliEnemy : EnemyBase
             if (smr != null)
             {
                 myMat = smr.materials;
-
+                onpetrified.Play();
+                AudioManager.instance.PlaySound(mySounds[6].name);
                 Material[] mats = smr.materials;
                 mats[0] = _petrifiedMat;
                 smr.materials = mats;
@@ -352,6 +357,9 @@ public class JabaliEnemy : EnemyBase
             var smr2 = GetComponentInChildren<SkinnedMeshRenderer>();
             if (smr2 != null)
             {
+                onpetrified.Stop();
+                AudioManager.instance.PlaySound(mySounds[7].name);
+                endPetrify.Play();
                 Material[] mats = smr2.materials;
                 smr2.materials = myMat;
             }
