@@ -310,10 +310,10 @@ public class CharacterMovement
     public void Teleport()
     {
         RollForAnim();
-        
+
         introTeleport_ps.transform.position = _rb.position;
         introTeleport_ps.Play();
-        
+
         inDash = true;
         dashCdOk = true;
         if (movX != 0 || movY != 0)
@@ -321,13 +321,14 @@ public class CharacterMovement
         else
             dashDir = rotTransform.forward;
 
+        dashDir.Normalize();
 
         _rb.position = _rb .position + (dashDir * _teleportDistance);
         outroTeleport_ps.transform.position = _rb.position;
         outroTeleport_ps.Play();
     }
 
-    //Puli esto Fran que es muy feo
+    //Puli esto Fran
     void BlockedTeleport(float distance)
     {
         RollForAnim();
@@ -343,7 +344,7 @@ public class CharacterMovement
         outroTeleport_ps.Play();
     }
     
-    //Esto es una cagadaaaaaa, sera arreglado
+    //arreglar esto
     public bool CheckIfCanTeleport()
     {
         if (movX != 0 || movY != 0)

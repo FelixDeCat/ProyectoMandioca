@@ -34,6 +34,7 @@ public class Main : MonoBehaviour
     [SerializeField] TimeManager timeManager = null;
     [SerializeField] Spawner spawner = null;
     [SerializeField] CombatDirector combatDirector = null;
+    [SerializeField] RefreshSubscriber refreshSubscriber = null;
 
     public GameUI_controller gameUiController;
 
@@ -138,7 +139,7 @@ public class Main : MonoBehaviour
     public LevelSystem GetLevelSystem() => levelSystem;
 
     public List<Minion> GetMinions() => GetListOfComponent<Minion>();
-
+    public RefreshSubscriber GetRefreshSubscriber() => refreshSubscriber;
     public CombatDirector GetCombatDirector() => combatDirector;
     public MyEventSystem GetMyEventSystem() => MyEventSystem.instance;
     public bool Ui_Is_Open() => gameUiController.openUI;

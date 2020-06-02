@@ -8,6 +8,14 @@ public class MedusaParry_skill : SkillBase
     //Para poder usar la duracion aca, se tiene que poder decidir cuanto tiempo el OnPetrified State va a durar
     [SerializeField] private float duracion;
     [SerializeField] private int _powerOfForce;
+    [SerializeField] private AudioClip clip_OnPetrifyBegin;
+
+    protected override void OnStart()
+    {
+        base.OnStart();
+        AudioManager.instance.GetSoundPool("OnPetrifyBegin", AudioGroups.GAME_FX, clip_OnPetrifyBegin);
+
+    }
 
     protected override void OnBeginSkill()
     {
@@ -26,6 +34,7 @@ public class MedusaParry_skill : SkillBase
             Vector3 dir = enemyPos - playerpos;
             Debug.Log(dir.normalized);
             Rigidbody rb = entity.GetComponent<Rigidbody>();
+            AudioManager.instance.PlaySound("OnPetrifyBegin");
             Debug.Log("petrificado");
             rb.AddForce(dir.normalized* _powerOfForce, ForceMode.Impulse);
         }

@@ -53,6 +53,10 @@ public class TrueDummyEnemy : EnemyBase
     [SerializeField] private AudioClip _takeHit_AC;
     private const string takeHit_audioName = "woodChop";
     [SerializeField] Material _petrifiedTex;
+    [SerializeField] ParticleSystem Petrified;
+    [SerializeField] ParticleSystem endPetrify;
+    [SerializeField] AudioClip clip_PetrifyStand;
+    [SerializeField] AudioClip clip_petrifyEnd;
 
     public bool isOnFire { get; private set; }
     
@@ -71,7 +75,9 @@ public class TrueDummyEnemy : EnemyBase
         }
 
         AudioManager.instance.GetSoundPool(takeHit_audioName, AudioGroups.GAME_FX, _takeHit_AC);
-        
+        AudioManager.instance.GetSoundPool("PetrifyStand", AudioGroups.GAME_FX, clip_PetrifyStand);
+        AudioManager.instance.GetSoundPool("PetrifyEnd", AudioGroups.GAME_FX, clip_petrifyEnd);
+
         rb = GetComponent<Rigidbody>();
         combatComponent.Configure(AttackEntity);
         anim.Add_Callback("DealDamage", DealDamage);
@@ -190,7 +196,8 @@ public class TrueDummyEnemy : EnemyBase
             {
                 
                 myMat = smr.materials;
-
+                Petrified.Play();
+                AudioManager.instance.PlaySound("PetrifyStand");
                 Material[] mats = smr.materials;
                 mats[0] = _petrifiedTex;
                 smr.materials = mats;
@@ -221,6 +228,9 @@ public class TrueDummyEnemy : EnemyBase
             {
                 Material[] mats = smr2.materials;
                 smr2.materials = myMat;
+                Petrified.Stop();
+                AudioManager.instance.PlaySound("PetrifyEnd");
+                endPetrify.Play();
                 Invinsible = false;
                 //poner las particulas de sangre de vuelta
             }

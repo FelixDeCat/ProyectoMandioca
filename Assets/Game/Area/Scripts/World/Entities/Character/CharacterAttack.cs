@@ -37,6 +37,7 @@ public class CharacterAttack
     event Action<Vector3> callbackPositio;
 
     ParticleSystem attackslash;
+    ParticleSystem heavyLoad;
 
     Action DealSuccesfullNormal;
     Action DealSuccesfullHeavy;
@@ -49,10 +50,11 @@ public class CharacterAttack
     Rigidbody myRig;
 
     public CharacterAttack(float _range, float _angle, float _heavyAttackTime, CharacterAnimator _anim, Transform _forward,
-        Action _normalAttack, Action _heavyAttack, ParticleSystem ps, float damage, ParticleSystem _attackslash, string swingSword_SoundName, DamageData data)
+        Action _normalAttack, Action _heavyAttack, ParticleSystem ps, float damage, ParticleSystem _attackslash, string swingSword_SoundName, DamageData data, ParticleSystem _heavyLoad)
     {
         hitstore = new HitStore();
 
+        heavyLoad = _heavyLoad;
         myWeapons = new List<Weapon>();
         myWeapons.Add(new GenericSword(damage, _range, "Generic Sword", _angle, data).ConfigureCallback(CALLBACK_DealDamage));
         //myWeapons.Add(new ExampleWeaponOne(damage, _range, "Other Weapon", 45));
@@ -106,7 +108,8 @@ public class CharacterAttack
             {
                 if (!oneshot)
                 {
-                    feedbackHeavy.Play();
+                    heavyLoad.Play();
+                    
                     oneshot = true;
                 }
 
@@ -140,7 +143,7 @@ public class CharacterAttack
     
     public void AttackBegin()
     {
-        
+        feedbackHeavy.Play();
         inCheck = true;
         buttonPressedTime = 0f;
         anim.OnAttackBegin(true);
