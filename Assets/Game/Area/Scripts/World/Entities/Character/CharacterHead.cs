@@ -160,7 +160,7 @@ public class CharacterHead : CharacterControllable
             .Initialize(rot, () => InDash(), Dead, TakeDamageFeedback, rb, lifesystem.Hit);
 
         charAttack = new CharacterAttack(attackRange, attackAngle, timeToHeavyAttack, charanim, rot, ReleaseInNormal, ReleaseInHeavy,
-            feedbackHeavy, dmg, slash, swing_SoundName, dmgData);
+            feedbackHeavy, dmg, slash, swing_SoundName, dmgData, feedbackCW);
         charAttack.FirstAttackReady(true);
 
         charAnimEvent.Add_Callback("CheckAttackType", CheckAttackType);
