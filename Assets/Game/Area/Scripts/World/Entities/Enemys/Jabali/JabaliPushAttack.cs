@@ -14,6 +14,9 @@ namespace ToolsMandioca.StateMachine
         SoundPool pool;
         AudioSource source;
 
+        float timer;
+        float timePush = 10;
+
         public JabaliPushAttack(EState<JabaliEnemy.JabaliInputs> myState, EventStateMachine<JabaliEnemy.JabaliInputs> _sm, float _speed,
                                 Action _DealDamage, GameObject _feedbackCharge, Action _PlayCombat, string _wooshSound) : base(myState, _sm)
         {
@@ -52,6 +55,10 @@ namespace ToolsMandioca.StateMachine
             rb.velocity = new Vector3(root.forward.x * pushSpeed, rb.velocity.y, root.forward.z * pushSpeed);
             DealDamage();
 
+            timer += Time.deltaTime;
+
+            if (timer >= timePush)
+                sm.SendInput(JabaliEnemy.JabaliInputs.IDLE);
 
             base.Update();
         }
@@ -68,6 +75,8 @@ namespace ToolsMandioca.StateMachine
             combatDirector.AttackRelease(enemy, enemy.CurrentTarget());
             source.Stop();
             pool.ReturnToPool(source);
+
+            timer = 0;
         }
     }
 }
