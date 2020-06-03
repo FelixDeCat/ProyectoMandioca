@@ -22,6 +22,7 @@ public class JabaliEnemy : EnemyBase
     [SerializeField] int normalDamage = 4;
     [SerializeField] float normalAttAnticipation = 0.5f;
     [SerializeField] float cdToHeadAttack = 1;
+    [SerializeField] float normalKockback = 30;
 
     [Header("PushAttack")]
     [SerializeField] int pushDamage = 8;
@@ -30,6 +31,7 @@ public class JabaliEnemy : EnemyBase
     [SerializeField] float stunChargeTime = 2;
     [SerializeField] float timeToObtainCharge = 5;
     [SerializeField] float chargeSpeed = 12;
+    [SerializeField] float pushKnockback = 80;
     private bool chargeOk = false;
     private float cargeTimer;
     private CombatDirector director;
@@ -180,7 +182,7 @@ public class JabaliEnemy : EnemyBase
     #region Attack Things
     public void HeadAttack(DamageReceiver e)
     {
-        dmgData.SetDamage(normalDamage).SetDamageTick(false).SetDamageType(Damagetype.parriable).SetKnockback(30)
+        dmgData.SetDamage(normalDamage).SetDamageTick(false).SetDamageType(Damagetype.parriable).SetKnockback(normalKockback)
             .SetPositionAndDirection(transform.position);
         Attack_Result takeDmg = e.TakeDamage(dmgData);
 
@@ -192,7 +194,7 @@ public class JabaliEnemy : EnemyBase
 
     void PushRelease(DamageReceiver e)
     {
-        dmgData.SetDamage(pushDamage).SetDamageTick(false).SetDamageType(Damagetype.parriable).SetKnockback(80)
+        dmgData.SetDamage(pushDamage).SetDamageTick(false).SetDamageType(Damagetype.parriable).SetKnockback(pushKnockback)
             .SetPositionAndDirection(transform.position);
         Attack_Result takeDmg = e.TakeDamage(dmgData);
 
