@@ -36,7 +36,8 @@ public class BasicThrowable : MonoBehaviour
         {
             if (myrig.velocity.magnitude <= 1)
             {
-                Destroy(this.gameObject);
+                gameObject.SetActive(false);
+                return;
             }
         }
         if (track) transform.position = ttotrack.position;

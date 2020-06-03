@@ -45,6 +45,7 @@ public class CharacterHead : CharacterControllable
     [SerializeField] float takeDamageRecall = 0;
     CharacterBlock charBlock;
     [SerializeField] GameObject sphereMask;
+    public Transform ShieldVectorDirection;
 
     internal void Mask(bool v) => sphereMask.SetActive(v);
 
@@ -160,7 +161,7 @@ public class CharacterHead : CharacterControllable
             .Initialize(rot, () => InDash(), Dead, TakeDamageFeedback, rb, lifesystem.Hit);
 
         charAttack = new CharacterAttack(attackRange, attackAngle, timeToHeavyAttack, charanim, rot, ReleaseInNormal, ReleaseInHeavy,
-            feedbackHeavy, dmg, slash, swing_SoundName, dmgData);
+            feedbackHeavy, dmg, slash, swing_SoundName, dmgData, feedbackCW);
         charAttack.FirstAttackReady(true);
 
         charAnimEvent.Add_Callback("CheckAttackType", CheckAttackType);
@@ -917,7 +918,7 @@ public class CharacterHead : CharacterControllable
         dmg_heavy += damageBuff;
         move.SetSpeed(speed + speedAcceleration);
         dmgReceived = damageReceived;
-        Main.instance.GetTimeManager().DoSlowMotion(scale, duration);
+        Main.instance.GetTimeManager().DoSlowMo(scale);
     }
     public void DesactivateBuffState(float damageBuff)
     {
@@ -927,6 +928,7 @@ public class CharacterHead : CharacterControllable
         dmg_heavy -= damageBuff;
         move.SetSpeed(speed);
         dmgReceived = 1;
+        Main.instance.GetTimeManager().StopSlowMo();
     }
     #endregion
 }

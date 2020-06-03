@@ -36,6 +36,7 @@ public abstract class MonoStateBase : MonoBehaviour
 
     public void Begin()
     {
+        DebugCustom.Log("WENDIGO", "State", gameObject.name);
         OnBegin();
     }
 

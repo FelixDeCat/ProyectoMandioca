@@ -13,6 +13,8 @@ namespace ToolsMandioca.StateMachine
         Animator anim;
         Func<bool> WaitAttack;
         ParticleSystem dashAttackParticles;
+        float timer;
+        bool enter;
 
         public CharReleaseAttack(EState<CharacterHead.PlayerInputs> myState, EventStateMachine<CharacterHead.PlayerInputs> _sm, float recall,
                                  Func<bool> _isHeavy, Action<bool> _ChangeHeavy, Animator _anim, Func<bool> _WaitAttack, ParticleSystem moveHeavyDash) : base(myState, _sm)
@@ -34,6 +36,7 @@ namespace ToolsMandioca.StateMachine
                 charMove.MovementVertical(0);
                 dashAttackParticles.Play();
             }
+            enter = true;
         }
 
         protected override void Update()
@@ -59,10 +62,20 @@ namespace ToolsMandioca.StateMachine
                     sm.SendInput(CharacterHead.PlayerInputs.MOVE);
                 }
             }
-            //timer += Time.deltaTime;
 
-            //if (timer >= attackRecall)
-            //    sm.SendInput(CharacterHead.PlayerInputs.IDLE);
+            if (enter)
+            {
+                if (timer < attackRecall)
+                {
+                    timer = timer + 1 * Time.deltaTime;
+                }
+                else
+                {
+                    sm.SendInput(CharacterHead.PlayerInputs.IDLE);
+                    enter = false;
+                    timer = 0;
+                }
+            }
         }
 
         protected override void FixedUpdate()
@@ -77,6 +90,8 @@ namespace ToolsMandioca.StateMachine
 
         protected override void Exit(CharacterHead.PlayerInputs input)
         {
+            enter = true;
+            timer = 0;
             ChangeHeavy(false);
             dashAttackParticles.Stop();
         }

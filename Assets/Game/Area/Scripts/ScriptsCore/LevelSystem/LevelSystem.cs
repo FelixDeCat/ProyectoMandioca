@@ -62,17 +62,6 @@ public class LevelSystem : MonoBehaviour
 
     public void RefreshUI()
     {
-        Main.instance.gameUiController.UI_SendActivePlusNotification(I_have_an_active_request());
-        if (currentIndex < levels.Length)
-        {
-            Main.instance.gameUiController.UI_RefreshExpBar(
-                currentExpValue,
-                levels[currentIndex].maxt_to_level_up,
-                CURRENT_LEVEL);
-        }
-        else
-        {
-            Main.instance.gameUiController.UI_MaxExpBar(CURRENT_LEVEL);
-        }
+        
     }
 }

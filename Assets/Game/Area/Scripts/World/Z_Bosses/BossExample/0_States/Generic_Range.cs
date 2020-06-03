@@ -5,8 +5,8 @@ using UnityEngine;
 public class Generic_Range : MonoStateBase
 {
     public Transform Hand;
-    public GameObject ObjectModel;
-    BasicThrowable current;
+    public BasicThrowable thowable;
+    public bool isThrower;
 
     protected override void OnOneAwake() { }
     protected override void OnBegin()
@@ -24,18 +24,25 @@ public class Generic_Range : MonoStateBase
 
     public void TakeSomething()
     {
-        GameObject go = GameObject.Instantiate(ObjectModel);
-        current = go.GetComponent<BasicThrowable>();
-        current.BegigTrackTransform(Hand);
+        if (!isThrower)
+        {
+            thowable.gameObject.SetActive(true);
+            thowable.BegigTrackTransform(Hand);
+        }
+        
     }
     public void ThrowSomething()
     {
-        current.EndTranckTransform();
+        if (isThrower)
+        {
+            thowable.EndTranckTransform();
 
-        Vector3 targetPosition = Main.instance.GetChar().transform.position;
-        Vector3 direction = targetPosition - Hand.position;
-        direction.Normalize();
-        current.Throw(Hand.position,direction, 4);
+            Vector3 targetPosition = Main.instance.GetChar().transform.position;
+            Vector3 direction = targetPosition - Hand.position;
+            direction.Normalize();
+            thowable.Throw(Hand.position, direction, 4);
+        }
+        
     }
 }
 
