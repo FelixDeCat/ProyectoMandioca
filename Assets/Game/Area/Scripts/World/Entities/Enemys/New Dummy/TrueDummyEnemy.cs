@@ -18,6 +18,7 @@ public class TrueDummyEnemy : EnemyBase
     [SerializeField] float normalDistance = 8;
     [SerializeField] float cdToAttack = 1;
     [SerializeField] float parriedTime = 2;
+    [SerializeField] float knockback = 20;
     private CombatDirector director;
 
     [Header("Life Options")]
@@ -166,7 +167,7 @@ public class TrueDummyEnemy : EnemyBase
 
     public void AttackEntity(DamageReceiver e)
     {
-        dmgData.SetDamage(damage).SetDamageTick(false).SetDamageType(Damagetype.parriable).SetKnockback(20)
+        dmgData.SetDamage(damage).SetDamageTick(false).SetDamageType(Damagetype.parriable).SetKnockback(knockback)
     .SetPositionAndDirection(transform.position);
         Attack_Result takeDmg = e.TakeDamage(dmgData);
 
