@@ -23,7 +23,6 @@ public class ABossGenericClean : EnemyBase
         life_behaviour.AddEventOnDeath(death_sensor.Hand_Enter);
         life_behaviour.AddEventOnHit(hit_sensor.Hand_Enter);
         take_dam_behaviour.SubscribeMeTo(NewTakeDamage, Predicate_CanTakeDamage);
-
     }
 
     public override void Zone_OnPlayerEnterInThisRoom(Transform who)
@@ -50,9 +49,6 @@ public class ABossGenericClean : EnemyBase
         bool death = sensors_and_behaviours.Behaviours.LifeSystemBase.Hit(dmg);
         return death ? Attack_Result.death : Attack_Result.sucessful;
     }
-
-    
-    
 
 
     #region Desuso
