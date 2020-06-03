@@ -39,16 +39,18 @@ public class CombatDirector : MonoBehaviour, IZoneElement
         Main.instance.eventManager.SubscribeToEvent(GameEvents.COMBAT_EXIT, RunCheck);
     }
 
+    #region para las rooms
     public void Zone_OnPlayerEnterInThisRoom(Transform who)
     {
         ResetDirector();
     }
-
     public void Zone_OnPlayerExitInThisRoom()
     {
         //Initialize();
         //Cuando esté bien definido lo de las rooms, Acá se puede poner el initialize con algunos cambios.
     }
+    #endregion
+
     #region Funciones Internas
 
     void RunDirector() => run = true;
@@ -110,16 +112,11 @@ public class CombatDirector : MonoBehaviour, IZoneElement
 
         //RunCheck();
     }
-
-    #endregion
-
     ///<summary> Resetea el Director volviendo todo a 0 (cuando se cambia de room o nivel se puede usar esta función).
     ///</summary>
     void ResetDirector()
     {
         initialize = false;
-
-
         listAttackTarget = new Dictionary<EntityBase, List<ICombatDirector>>();
         attackingTarget = new Dictionary<EntityBase, List<ICombatDirector>>();
         waitToAttack = new Dictionary<EntityBase, List<ICombatDirector>>();
@@ -131,8 +128,9 @@ public class CombatDirector : MonoBehaviour, IZoneElement
         AllUpdates = delegate { };
     }
 
-    ///<summary> Esta función hace que un entity base pueda ser atacado en base al combat director (Puede ser un minion, enemy o lo que sea entity)
-    ///</summary>
+    #endregion
+
+    ///<summary> Esta función hace que un entity base pueda ser atacado en base al combat director (Puede ser un minion, enemy o lo que sea entity) </summary>
     public void AddNewTarget(EntityBase entity)
     {
         if (!listAttackTarget.ContainsKey(entity))
@@ -173,9 +171,7 @@ public class CombatDirector : MonoBehaviour, IZoneElement
             AllUpdates += updateDict[entity];
         }
     }
-
-    ///<summary> Remueve un target, ya no va a poder ser atacado (recomendado cuando muere un entity que era target).
-    ///</summary>
+    ///<summary> Remueve un target, ya no va a poder ser atacado (recomendado cuando muere un entity que era target). </summary>
     public void RemoveTarget(EntityBase entity)
     {
         if (listAttackTarget.ContainsKey(entity))
@@ -201,9 +197,7 @@ public class CombatDirector : MonoBehaviour, IZoneElement
             updateDict.Remove(entity);
         }
     }
-
-    ///<summary> Con esta función se le dice al combat que estoy listo para atacar para que te tenga en consideración cuando da la orden.
-    ///</summary>
+    ///<summary> Con esta función se le dice al combat que estoy listo para atacar para que te tenga en consideración cuando da la orden. </summary>
     public void PrepareToAttack(ICombatDirector e, EntityBase target)
     {
         if (isAttack[target])
@@ -217,33 +211,24 @@ public class CombatDirector : MonoBehaviour, IZoneElement
             prepareToAttack[target].Add(e);
         }
     }
-
-    ///<summary> Esta función elemina de la consideración para la orden de ataque, ya fuese si stunean al enemigo, no está en posición de ataque o incluso, si se le 
-    ///acaba de dar la orden de atacar.
-    ///</summary>
+    ///<summary> Esta función elemina de la consideración para la orden de ataque, ya fuese si stunean al enemigo, no está en posición de ataque o incluso, si se le acaba de dar la orden de atacar.</summary>
     public void DeleteToPrepare(ICombatDirector e, EntityBase target)
     {
         if(prepareToAttack.ContainsKey(target))
             prepareToAttack[target].Remove(e);
     }
-
-    ///<summary> Cuando muere un enemy que usa el combat, para sacarlo de las listas de ataque.
-    ///</summary>
+    ///<summary> Cuando muere un enemy que usa el combat, para sacarlo de las listas de ataque. </summary>
     public void DeadEntity(ICombatDirector e, EntityBase target)
     {
         RemoveToList(e, target);
     }
-
-    ///<summary> Sobrecarga que además lo saca de los posibles target, por si el entity además podía ser atacado.
-    ///</summary>
+    ///<summary> Sobrecarga que además lo saca de los posibles target, por si el entity además podía ser atacado. </summary>
     public void DeadEntity(ICombatDirector e, EntityBase target, EntityBase me)
     {
         RemoveTarget(me);
         RemoveToList(e, target);
     }
-
-    ///<summary> Esto es cuando un entity termina de usar un ataque, para volver a agregarlo y sacarlo de la lista de ataque.
-    ///</summary>
+    ///<summary> Esto es cuando un entity termina de usar un ataque, para volver a agregarlo y sacarlo de la lista de ataque. </summary>
     public void AttackRelease(ICombatDirector e, EntityBase target)
     {
         if (!target || !listAttackTarget.ContainsKey(target))
@@ -256,9 +241,7 @@ public class CombatDirector : MonoBehaviour, IZoneElement
 
         AddToList(e, target);
     }
-
-    ///<summary> Agrega a la lista de ataque de un target específico.
-    ///</summary>
+    ///<summary> Agrega a la lista de ataque de un target específico.</summary>
     public void AddToList(ICombatDirector e, EntityBase target)
     {
         if (!target || !listAttackTarget.ContainsKey(target))
@@ -288,9 +271,7 @@ public class CombatDirector : MonoBehaviour, IZoneElement
         }
         //RunCheck();
     }
-
-    ///<summary> Esta función facilita el cambio entre targets. Elimina del ataque hacia el anterior target y lo agrega al nuevo.
-    ///</summary>
+    ///<summary> Esta función facilita el cambio entre targets. Elimina del ataque hacia el anterior target y lo agrega al nuevo. </summary>
     public void ChangeTarget(ICombatDirector e, EntityBase newTarget, EntityBase oldTarget)
     {
         if(oldTarget != null)
@@ -306,7 +287,6 @@ public class CombatDirector : MonoBehaviour, IZoneElement
             AllUpdates();
         }
     }
-
     void CalculateTimer(EntityBase target) => timeToAttacks[target] = UnityEngine.Random.Range(timerMin, timerMax);
 
     #region en desuso

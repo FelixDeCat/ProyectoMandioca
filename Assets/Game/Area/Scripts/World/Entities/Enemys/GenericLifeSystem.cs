@@ -7,10 +7,6 @@ public class GenericLifeSystem : MonoBehaviour
 {
     LifeSystemBase lifeSystemEnemy;
 
-    [SerializeField] protected WorldCanvasPopUp lifeBar;
-    [SerializeField] protected RectTransform canvas;
-    FrontendStatBase uilife;
-
     public int life = 100;
 
     bool isdeath;
@@ -30,11 +26,8 @@ public class GenericLifeSystem : MonoBehaviour
 
     protected void CreateLifeBar()
     {
-        var tempBar = Instantiate(lifeBar, canvas.transform);
-        tempBar.SetCanvasPopUp(transform, canvas);
-        uilife = tempBar.GetComponent<LifeBar>();
         lifeSystemEnemy = new LifeSystemBase();
-        lifeSystemEnemy.Config(life, OnHitCallback, EVENT_OnGainLife, EVENT_OnDeath, uilife, life);
+        lifeSystemEnemy.Config(life, OnHitCallback, EVENT_OnGainLife, EVENT_OnDeath, life);
     }
     void EVENT_OnGainLife() { }
     void EVENT_OnDeath()

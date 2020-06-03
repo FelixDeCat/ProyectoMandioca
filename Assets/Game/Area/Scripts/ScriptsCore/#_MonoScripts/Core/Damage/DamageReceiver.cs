@@ -12,6 +12,7 @@ public class DamageReceiver : MonoBehaviour
 
     [SerializeField] int debilityAddDmg;
     [SerializeField] int resistanceRestDmg;
+    [SerializeField] float knockbackMultiplier = 1;
 
     bool blockEntity;
     bool parryEntity;
@@ -99,7 +100,7 @@ public class DamageReceiver : MonoBehaviour
         if(rb)
         {
             Vector3 knockbackForce = aux * data.knockbackForce + data.attackDir;
-            rb.AddForce(knockbackForce, ForceMode.Impulse);
+            rb.AddForce(knockbackForce * knockbackMultiplier, ForceMode.Impulse);
         }
 
         bool death = OnHit(dmg);
