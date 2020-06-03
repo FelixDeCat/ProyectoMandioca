@@ -8,7 +8,6 @@ using UnityEngine.UI;
 public class Stats3D_UI_helper : MonoBehaviour
 {
     public FrontendStatBase lifeBar;
-    public FrontendStatBase expBar;
 
     private Tuple<Color, Material>[] originalColors;
 
