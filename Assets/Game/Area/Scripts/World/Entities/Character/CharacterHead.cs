@@ -918,7 +918,7 @@ public class CharacterHead : CharacterControllable
         dmg_heavy += damageBuff;
         move.SetSpeed(speed + speedAcceleration);
         dmgReceived = damageReceived;
-        Main.instance.GetTimeManager().DoSlowMotion(scale, duration);
+        Main.instance.GetTimeManager().DoSlowMo(scale);
     }
     public void DesactivateBuffState(float damageBuff)
     {
@@ -928,6 +928,7 @@ public class CharacterHead : CharacterControllable
         dmg_heavy -= damageBuff;
         move.SetSpeed(speed);
         dmgReceived = 1;
+        Main.instance.GetTimeManager().StopSlowMo();
     }
     #endregion
 }

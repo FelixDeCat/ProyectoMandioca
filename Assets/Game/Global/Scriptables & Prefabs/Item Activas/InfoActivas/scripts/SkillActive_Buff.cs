@@ -2,24 +2,26 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class SkillActive_SomeHeal : SkillActivas
+public class SkillActive_Buff : SkillActivas
 {
-
     [SerializeField] float damageBuff = 5;
     [SerializeField] float  damageResistance = 5;
     [SerializeField] float speedAcceleration = 3;
     [SerializeField] float timeScale = 0.5f;
     [SerializeField] float timeDuration = 5f;
-
-    [SerializeField] private ParticleSystem healFeedback = null;
-
+    
     CharacterHead mychar;
-    Animator anim;
+
+    [SerializeField] Atenea atenea;
+    [SerializeField] float offset;
 
     [SerializeField] AudioClip slowmoEnter;
     [SerializeField] AudioClip slowmoExit;
 
-
+    protected override void OnStart()
+    {
+        atenea.GetComponent<AnimEvent>().Add_Callback("Buff", Buff);
+    }
     protected override void OnBeginSkill()
     {
         if (mychar == null) mychar = Main.instance.GetChar();
@@ -29,25 +31,32 @@ public class SkillActive_SomeHeal : SkillActivas
         AudioManager.instance.GetSoundPool("slowmo_exit", AudioGroups.MISC, slowmoExit);
     }
 
+    public void Buff()
+    {
+        mychar.ActivateBuffState(damageBuff, damageResistance, speedAcceleration, timeScale, timeDuration);
+        atenea.FarFarAway();
+        AudioManager.instance.PlaySound("slowmo_enter");
+    }
+
 
     protected override void OnOneShotExecute()
     {
     }
     protected override void OnUpdateSkill()
     {
-        if (healFeedback.isPlaying)
-            healFeedback.transform.position = Main.instance.GetChar().transform.position;
     }
     
     protected override void OnEndSkill() { }
     protected override void OnStartUse()
     {
-        mychar.ActivateBuffState(damageBuff, damageResistance, speedAcceleration, timeScale, timeDuration);
-        AudioManager.instance.PlaySound("slowmo_enter");
+        atenea.GoToHero(offset);
+        atenea.Anim_Heal();
     }
     protected override void OnStopUse()
     {
-        
+        mychar.DesactivateBuffState(damageBuff);
+        atenea.FarFarAway();
+
         AudioManager.instance.PlaySound("slowmo_exit", OnEndSound);
     }
 

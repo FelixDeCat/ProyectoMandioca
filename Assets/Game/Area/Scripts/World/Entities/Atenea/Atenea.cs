@@ -15,8 +15,7 @@ public class Atenea : MonoBehaviour
     private void Awake()
     {
         myAnim = GetComponent<Animator>();
-
-
+        
        //var aux = myAnim.GetBehaviour<StateLinkerBehaviour>();
        // aux.Configure(OnEnterIdle, OnEnterIdle, () => { } ) ;
 
@@ -26,7 +25,7 @@ public class Atenea : MonoBehaviour
 
     public void FarFarAway() => gameObject.transform.position = new Vector3(999999, 0, 0);
     public void GoToHero() => gameObject.transform.position = Main.instance.GetChar().transform.position;
-
+    public void GoToHero(float offset) => gameObject.transform.position = Main.instance.GetChar().transform.position + transform.forward * offset;
 
     private void Update()
     {
@@ -35,7 +34,6 @@ public class Atenea : MonoBehaviour
         {
             OnEnterIdle();
         }
-
     }
 
     void empty() { }
@@ -45,7 +43,6 @@ public class Atenea : MonoBehaviour
         this.gameObject.SetActive(false);
         //apago mesh o render o lo que sea... o fade
     }
-
 
     public void Anim_Freeze()
     {
@@ -61,7 +58,7 @@ public class Atenea : MonoBehaviour
     }
     public void Anim_Heal()
     {
-        myAnim.Play("Atenea_Heal");
+        myAnim.Play("Atenea_Buff");
     }
     public void Anim_SmiteBegin()
     {

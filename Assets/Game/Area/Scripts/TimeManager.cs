@@ -19,9 +19,24 @@ public class TimeManager : MonoBehaviour
         StartCoroutine(HitStop());
     }
 
+    public void DoSlowMo(float scale)
+    {
+        if (isInSlowMo) return;
+
+        isInSlowMo = true;
+        Time.timeScale = scale;
+        Time.fixedDeltaTime = Time.timeScale * 0.02f;
+    }
+    public void StopSlowMo()
+    {
+        isInSlowMo = false;
+        Time.timeScale = normTimeScale;
+        Time.fixedDeltaTime = Time.timeScale * 0.02f;
+    }
+    
+
     IEnumerator SlowMotion (float scale, float time)
     {
-        Debug.Log("SlowMo");
         if (isInSlowMo)
             yield break;
 
