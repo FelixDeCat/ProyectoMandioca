@@ -18,7 +18,8 @@ using XInputDotNetPure;
 ///////////////////////////////////////////////////////////////////////////////////
 public class Destructible_Normal : DestructibleBase
 {
- 
+  
+
     public GameObject model_destroyedVersion;
     GameObject savedDestroyedVersion;
 

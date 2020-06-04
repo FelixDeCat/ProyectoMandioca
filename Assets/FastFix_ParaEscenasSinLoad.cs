@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class FastFix_ParaEscenasSinLoad : MonoBehaviour
 {
+    public bool hasSpawn;
     /// <summary>
     /// esto es un fast fix rapido para que los enemigos anden para la clase
     /// esto se va a remplazar por la carga de escenas con carga de scripts 
@@ -19,10 +20,16 @@ public class FastFix_ParaEscenasSinLoad : MonoBehaviour
         }
 
         Main.instance.GetNoOptimizedListEnemies().ForEach(x => x.Initialize());
-        Main.instance.GetNoOptimizedDestructibles().ForEach(x => x.Initialize());
-        Main.instance.GetChar().transform.position = Vector3.zero;
+        Main.instance.GetNoOptimizedDestructibles().ForEach(x => x.Initialize());     
 
-        
+        if (hasSpawn)
+        {
+            Main.instance.GetChar().transform.position = this.transform.position;
+        }
+        else
+        {
+            Main.instance.GetChar().transform.position = Vector3.zero;
+        }
     }
     private void Update()
     {

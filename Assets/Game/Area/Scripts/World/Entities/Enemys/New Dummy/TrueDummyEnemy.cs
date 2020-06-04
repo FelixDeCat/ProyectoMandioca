@@ -64,6 +64,7 @@ public class TrueDummyEnemy : EnemyBase
 
     EventStateMachine<DummyEnemyInputs> sm;
 
+    
 
     protected override void OnInitialize()
     {
