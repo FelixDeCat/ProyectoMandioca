@@ -31,6 +31,7 @@ public class CharacterHead : CharacterControllable
 
     [Header("Parry & Block Options")]
     [SerializeField] float _timerOfParry = 1;
+    [SerializeField] float knockbackOnParry = 5;
     [SerializeField] float _timeOfBlock = 3;
     [SerializeField] int maxBlockCharges = 3;
     [SerializeField] float timeToRecuperateCharges = 5;
@@ -797,14 +798,12 @@ public class CharacterHead : CharacterControllable
     }
 
     void ParryFeedback(EntityBase entity)
-    {
-        
-
-
+    {   
         Main.instance.eventManager.TriggerEvent(GameEvents.ON_PLAYER_PARRY, new object[] { entity });
         PerfectParry();
         Main.instance.GetTimeManager().DoSlowMotion(timeScale, slowDuration);
         customCam.DoFastZoom(10);
+        entity.GetComponent<EnemyBase>().AddForceToRb(entity.transform.position - transform.position, knockbackOnParry, ForceMode.Impulse);
     }
 
     void BlockFeedback(EntityBase entity)
