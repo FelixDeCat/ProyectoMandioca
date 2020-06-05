@@ -10,8 +10,9 @@ public class SkillActive_BoomeranShield : SkillActivas
     [SerializeField] private float throwRange = 4;
     [SerializeField] private float radius = 5;
     [SerializeField] private float spinDuration = 5;
-    [SerializeField] private int damage = 1;
     [SerializeField] private float throwSpeed = 5;
+    [SerializeField] private int damage = 1;
+    [SerializeField] Damagetype damageType = Damagetype.normal;
 
     private CharacterHead _hero;
     private GameObject _shield;
@@ -33,7 +34,6 @@ public class SkillActive_BoomeranShield : SkillActivas
     [SerializeField] private Vector3 v3;
     [SerializeField] private float rotSpeed;
 
-
     
     //Sonidos
     [SerializeField] private AudioClip _flingShield_Sound;
@@ -48,6 +48,8 @@ public class SkillActive_BoomeranShield : SkillActivas
 
     private float startTime;
 
+    DamageData dmgData;
+
     protected override void OnStart()
     {
         base.OnStart();
@@ -58,6 +60,10 @@ public class SkillActive_BoomeranShield : SkillActivas
     {
         _hero = Main.instance.GetChar();
         _shield = _hero.escudo;
+        dmgData = GetComponent<DamageData>();
+        dmgData.Initialize(_hero);
+        dmgData.SetDamage(damage).SetDamageTick(false).SetDamageType(damageType).SetKnockback(0).SetPositionAndDirection(_shield.transform.position);
+
 
         AudioManager.instance.GetSoundPool(_flingShield_SoundName, AudioGroups.GAME_FX,_flingShield_Sound);
         AudioManager.instance.GetSoundPool(_rotatingShield_SoundName, AudioGroups.GAME_FX,_rotatingShield_Sound, true);
@@ -133,10 +139,12 @@ public class SkillActive_BoomeranShield : SkillActivas
         auraZone.transform.position = auxShield.transform.position + Vector3.down * .5f;
         
         //Hago el daño
-        var enemiesClose = Extensions.FindInRadius<EnemyBase>(auxShield.transform.position, radius);
-        foreach (EnemyBase enemy in enemiesClose)
+        var enemiesClose = Extensions.FindInRadius<DamageReceiver>(auxShield.transform.position, radius);
+        
+        foreach (DamageReceiver enemy in enemiesClose)
         {
-            enemy.TakeDamage(damage, enemy.transform.position - auxShield.transform.position, Damagetype.normal);
+            if(enemy.GetComponent<EntityBase>() != dmgData.owner)
+                enemy.TakeDamage(dmgData);
         }
 
 

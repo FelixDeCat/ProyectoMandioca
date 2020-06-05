@@ -65,8 +65,7 @@ public class SkillActive_LightBounce : SkillActivas
     {
         Ray ray = new Ray(targetPosition, direction);
         RaycastHit raycastHit;
-        Vector3 endPosition = targetPosition + (length * direction);
-        
+        Vector3 endPosition = targetPosition + (length * direction);        
 
         if (Physics.Raycast(ray, out raycastHit, length))
         {
