@@ -798,6 +798,9 @@ public class CharacterHead : CharacterControllable
 
     void ParryFeedback(EntityBase entity)
     {
+        
+
+
         Main.instance.eventManager.TriggerEvent(GameEvents.ON_PLAYER_PARRY, new object[] { entity });
         PerfectParry();
         Main.instance.GetTimeManager().DoSlowMotion(timeScale, slowDuration);
