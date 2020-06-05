@@ -6,6 +6,7 @@ public class SkillActive_LightBounce : SkillActivas
 {
     [SerializeField] private int damage = 5;
     [SerializeField] private Damagetype dmgType = Damagetype.Fire;
+    [SerializeField] private bool isTickDamage;
     [SerializeField] private float range = 6;
     [SerializeField] private GameObject lightAura = null;
     [SerializeField] private GameObject lightBeam = null;
@@ -18,7 +19,7 @@ public class SkillActive_LightBounce : SkillActivas
     private CharacterHead _hero;
     private EntityBlock blocker;
 
-   
+    DamageData dmgData;      
 
     [SerializeField] private LineRenderer _lineRenderer = null;
 
@@ -34,6 +35,10 @@ public class SkillActive_LightBounce : SkillActivas
         base.OnStart();
         lightAura.SetActive(false);
         lightBeam.SetActive(false);
+
+        dmgData = GetComponent<DamageData>();
+        dmgData.Initialize(Main.instance.GetChar());
+        dmgData.SetDamage(damage).SetDamageTick(isTickDamage).SetDamageType(dmgType).SetKnockback(0).SetPositionAndDirection(Main.instance.GetChar().transform.position);
     }
     protected override void OnOneShotExecute()
     {
@@ -65,15 +70,15 @@ public class SkillActive_LightBounce : SkillActivas
 
         if (Physics.Raycast(ray, out raycastHit, length))
         {
-            var enemy = raycastHit.collider.gameObject.GetComponent<EnemyBase>();
+            var enemy = raycastHit.collider.gameObject.GetComponent<DamageReceiver>();
 
             if (enemy != null)
             {
                 sparks_ps.transform.position = raycastHit.point;
                 sparks_ps.Play();
                 Main.instance.Vibrate();
-                
-                enemy.TakeDamage(damage, _hero.transform.position, dmgType, _hero);
+
+                enemy.TakeDamage(dmgData);
             }
             else
             {

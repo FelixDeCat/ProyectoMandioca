@@ -307,6 +307,7 @@ public class CharacterHead : CharacterControllable
             .SetTransition(PlayerInputs.IDLE, idle)
             .SetTransition(PlayerInputs.MOVE, move)
             .SetTransition(PlayerInputs.TAKE_DAMAGE, takeDamage)
+            .SetTransition(PlayerInputs.BEGIN_BLOCK, beginBlock)
             .SetTransition(PlayerInputs.DEAD, dead)
             .Done();
 
@@ -330,6 +331,7 @@ public class CharacterHead : CharacterControllable
             .SetTransition(PlayerInputs.IDLE, idle)
             .SetTransition(PlayerInputs.MOVE, move)
             .SetTransition(PlayerInputs.CHARGE_ATTACK, attackCharge)
+            .SetTransition(PlayerInputs.BEGIN_BLOCK, beginBlock)
             .SetTransition(PlayerInputs.DEAD, dead)
             .Done();
 
