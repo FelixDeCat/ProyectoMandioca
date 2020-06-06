@@ -30,7 +30,6 @@ public class StateMachineHandler : MonoBehaviour
                 linkersCaptured[i].Configure(stateBase.Begin, stateBase.Exit, stateBase.Refresh);
             }
         }
-
     }
 
     public void BeginBoss() => current_animator.SetTrigger("start");

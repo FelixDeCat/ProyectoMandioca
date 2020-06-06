@@ -39,7 +39,13 @@ public enum LabelStatesLinkType
     STATE_TAUNT_1,
     STATE_TAUNT_2,
 
-    STATE_DEATH
+    STATE_DEATH,
+
+    STATE_FIND,
+    STATE_EFFECT
+
+        
+
 }
 
 //////////

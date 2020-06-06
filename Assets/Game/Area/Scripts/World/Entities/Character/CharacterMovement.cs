@@ -322,9 +322,9 @@ public class CharacterMovement
             dashDir = rotTransform.forward;
 
         dashDir.Normalize();
-
+        
         _rb.position = _rb .position + (dashDir * _teleportDistance);
-        outroTeleport_ps.transform.position = _rb.position;
+        outroTeleport_ps.transform.position = _rb.position + dashDir * _teleportDistance - dashDir * 1.5f;
         outroTeleport_ps.Play();
     }
 

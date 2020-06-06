@@ -123,6 +123,11 @@ public abstract class EnemyBase : NPCBase, ICombatDirector
     protected virtual void InmuneFeedback() { }
     #endregion
 
+    public void AddForceToRb(Vector3 dir, float knockbackForce, ForceMode forceMode)
+    {
+        rb.AddForce(dir.normalized * knockbackForce, forceMode);
+    }
+
     public IEnumerator OnHitted(Material[] myMat, float onHitFlashTime, Color onHitColor)
     {
         var smr = GetComponentInChildren<SkinnedMeshRenderer>();

@@ -125,6 +125,7 @@ public class SkillActive_BoomeranShield : SkillActivas
         sparks.Stop();
         auraZone.Stop();
         canuse = true;
+        auxShield.transform.position = _hero.transform.position;
         
         AudioManager.instance.StopAllSounds(_rotatingShield_SoundName);
     }
