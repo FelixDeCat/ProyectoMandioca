@@ -114,7 +114,7 @@ public abstract class EnemyBase : NPCBase, ICombatDirector
     {
         rb = GetComponent<Rigidbody>();
         dmgData.Initialize(this);
-        dmgReceiver.Initialize(rootTransform, IsDamage, Die, TakeDamageFeedback, rb, lifesystem.Hit, InmuneFeedback);
+        dmgReceiver.Initialize(rootTransform, IsDamage, Die, TakeDamageFeedback, rb, lifesystem, InmuneFeedback);
     }
 
     protected abstract void TakeDamageFeedback(DamageData data);

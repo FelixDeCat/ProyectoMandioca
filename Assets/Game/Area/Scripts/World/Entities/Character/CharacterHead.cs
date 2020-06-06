@@ -159,7 +159,7 @@ public class CharacterHead : CharacterControllable
         dmg = dmg_normal;
         dmgData.Initialize(this);
         dmgReceiver.SetBlock(charBlock.IsBlock, BlockFeedback).SetParry(charBlock.IsParry, ParryFeedback)
-            .Initialize(rot, () => InDash(), Dead, TakeDamageFeedback, rb, lifesystem.Hit);
+            .Initialize(rot, () => InDash(), Dead, TakeDamageFeedback, rb, lifesystem);
 
         charAttack = new CharacterAttack(attackRange, attackAngle, timeToHeavyAttack, charanim, rot, ReleaseInNormal, ReleaseInHeavy,
             feedbackHeavy, dmg, slash, swing_SoundName, dmgData, feedbackCW);
