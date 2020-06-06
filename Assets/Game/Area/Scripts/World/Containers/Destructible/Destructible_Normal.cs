@@ -38,6 +38,9 @@ public class Destructible_Normal : DestructibleBase
 
     protected override void OnInitialize()
     {
+        _lifeSytstem.Initialize();
+        _lifeSytstem.CreateADummyLifeSystem();
+
         rb = GetComponent<Rigidbody>();
         Calculate();
         Main.instance.AddEntity(this);
@@ -48,7 +51,7 @@ public class Destructible_Normal : DestructibleBase
             (x) => { DestroyDestructible(); }, 
             null, 
             _lifeSytstem);
-        _lifeSytstem.Initialize();
+        
     }
 
     void Calculate()

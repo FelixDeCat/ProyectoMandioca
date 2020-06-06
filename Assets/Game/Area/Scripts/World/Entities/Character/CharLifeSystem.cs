@@ -5,11 +5,7 @@ using UnityEngine;
 [System.Serializable]
 public class CharLifeSystem: _Base_Life_System
 {
-   
-
     public FrontendStatBase frontendLife;
-
-  
 
     private bool godMode = false;
 
@@ -27,8 +23,6 @@ public class CharLifeSystem: _Base_Life_System
         lifesystem.AddCallback_LifeChange(OnLifeChange);
         Debug_UI_Tools.instance.CreateToogle("GODMODE", false, ToogleDebug);
         return this;
-
-
     }
 
     string ToogleDebug(bool active) { godMode = active; ; return active ? "debug activado" : "debug desactivado"; }
