@@ -18,40 +18,22 @@ using XInputDotNetPure;
 ///////////////////////////////////////////////////////////////////////////////////
 public class Destructible_Normal : DestructibleBase
 {
-  
-
-    public GameObject model_destroyedVersion;
-    GameObject savedDestroyedVersion;
+    [SerializeField] protected DestructibleData data;
 
     public bool destroy;
 
-    public ParticleSystem dest_part;
+    [SerializeField] ParticleSystem dest_part;
 
     Rigidbody onerig;
     Vector3 dest;
-    Rigidbody rb;
-
-    [SerializeField] DamageReceiver damageReceiver;
-    [SerializeField] _Base_Life_System _lifeSytstem;
 
     [System.NonSerialized] public List<GameObject> objectsToDrop = new List<GameObject>();
 
     protected override void OnInitialize()
     {
-        _lifeSytstem.Initialize();
-        _lifeSytstem.CreateADummyLifeSystem();
-
-        rb = GetComponent<Rigidbody>();
+        base.OnInitialize();
         Calculate();
-        Main.instance.AddEntity(this);
-        damageReceiver.Initialize(
-            transform,
-            () => { return false; }, 
-            (x) => { }, 
-            (x) => { DestroyDestructible(); }, 
-            null, 
-            _lifeSytstem);
-        
+        Main.instance.AddEntity(this);        
     }
 
     void Calculate()
@@ -96,11 +78,11 @@ public class Destructible_Normal : DestructibleBase
 
         //esto lo hacemos en el principio y no cuando le pegamos para no generar esos picos de Procesamiento
 
-        savedDestroyedVersion = Main.instance.GetSpawner().SpawnItem(model_destroyedVersion, transform);
+        savedDestroyedVersion = Main.instance.GetSpawner().SpawnItem(model_destroyedVersion.gameObject, transform).GetComponent<DestroyedVersion>();
 
         onerig = objectsToDrop[0].GetComponent<Rigidbody>();
         objectsToDrop.ForEach(x => x.SetActive(false)); 
-        if (savedDestroyedVersion) savedDestroyedVersion.SetActive(false);
+        if (savedDestroyedVersion) savedDestroyedVersion.gameObject.SetActive(false);
     }
 
     void Drop()
@@ -123,9 +105,14 @@ public class Destructible_Normal : DestructibleBase
             }
         }
 
-        if (savedDestroyedVersion) savedDestroyedVersion.SetActive(true);
-        if (savedDestroyedVersion) savedDestroyedVersion.transform.position = transform.position;
-        if (savedDestroyedVersion) savedDestroyedVersion.GetComponent<DestroyedVersion>().BeginDestroy();
+        if (savedDestroyedVersion)
+        {
+            savedDestroyedVersion.gameObject.SetActive(true);
+            savedDestroyedVersion.transform.position = transform.position;
+            savedDestroyedVersion.BeginDestroy();
+        }
+        //if (savedDestroyedVersion) savedDestroyedVersion.transform.position = transform.position;
+        //if (savedDestroyedVersion) savedDestroyedVersion.GetComponent<DestroyedVersion>().BeginDestroy();
 
         var childs = savedDestroyedVersion.GetComponentsInChildren<Rigidbody>();
 
