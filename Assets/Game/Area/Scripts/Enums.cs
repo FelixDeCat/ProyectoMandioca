@@ -42,7 +42,8 @@ public enum LabelStatesLinkType
     STATE_DEATH,
 
     STATE_FIND,
-    STATE_EFFECT
+    STATE_EFFECT,
+    STATE_COMBAT
 
         
 
