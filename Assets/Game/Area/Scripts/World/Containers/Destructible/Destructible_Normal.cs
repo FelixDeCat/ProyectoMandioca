@@ -32,12 +32,15 @@ public class Destructible_Normal : DestructibleBase
     Rigidbody rb;
 
     [SerializeField] DamageReceiver damageReceiver;
-
+    [SerializeField] _Base_Life_System _lifeSytstem;
 
     [System.NonSerialized] public List<GameObject> objectsToDrop = new List<GameObject>();
 
     protected override void OnInitialize()
     {
+        _lifeSytstem.Initialize();
+        _lifeSytstem.CreateADummyLifeSystem();
+
         rb = GetComponent<Rigidbody>();
         Calculate();
         Main.instance.AddEntity(this);
@@ -47,7 +50,8 @@ public class Destructible_Normal : DestructibleBase
             (x) => { }, 
             (x) => { DestroyDestructible(); }, 
             null, 
-            (x) => { return false; });
+            _lifeSytstem);
+        
     }
 
     void Calculate()

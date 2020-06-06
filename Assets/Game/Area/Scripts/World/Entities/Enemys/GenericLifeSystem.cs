@@ -3,11 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 using System;
 
-public class GenericLifeSystem : MonoBehaviour
+public class GenericLifeSystem : _Base_Life_System
 {
-    LifeSystemBase lifeSystemEnemy;
-
-    public int life = 100;
+   
 
     bool isdeath;
 
@@ -26,8 +24,8 @@ public class GenericLifeSystem : MonoBehaviour
 
     protected void CreateLifeBar()
     {
-        lifeSystemEnemy = new LifeSystemBase();
-        lifeSystemEnemy.Config(life, OnHitCallback, EVENT_OnGainLife, EVENT_OnDeath, life);
+        Initialize();
+        lifesystem.Config(life, OnHitCallback, EVENT_OnGainLife, EVENT_OnDeath, life);
     }
     void EVENT_OnGainLife() { }
     void EVENT_OnDeath()
@@ -40,10 +38,10 @@ public class GenericLifeSystem : MonoBehaviour
         }
     }
 
-    public bool Hit(int _val)
-    {
-        return lifeSystemEnemy.Hit(_val);
-    }
+    //public bool Hit(int _val)
+    //{
+    //    return lifeSystemEnemy.Hit(_val);
+    //}
 
     
     public void DoTSystem(float duration, float timePerTick, int tickDamage, Damagetype damagetype, Action onFinishCallback )
