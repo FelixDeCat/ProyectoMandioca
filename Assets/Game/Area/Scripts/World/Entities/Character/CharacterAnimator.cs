@@ -11,6 +11,7 @@ public class CharacterAnimator : BaseAnimator
     }
 
     public void Roll() => myAnim.SetTrigger("Roll");
+    public void CatchProp() => myAnim.SetTrigger("catchProp");
     public void SetVerticalRoll(float x) => myAnim.SetFloat("dirX", x);
     public void SetHorizontalRoll(float y) => myAnim.SetFloat("dirY", y);
     public void Block(bool _block) => myAnim.SetBool("BeginBlock", _block);

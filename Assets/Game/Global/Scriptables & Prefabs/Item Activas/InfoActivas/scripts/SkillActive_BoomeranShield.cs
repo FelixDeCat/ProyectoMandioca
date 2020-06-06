@@ -118,6 +118,8 @@ public class SkillActive_BoomeranShield : SkillActivas
 
     protected override void OnStopUse()
     {
+        Debug.Log("agarro shield");
+        _hero.charanim.CatchProp();
         _hero.ToggleBlock(true);
         _shield.SetActive(true);
         auxShield.SetActive(false);
@@ -195,6 +197,7 @@ public class SkillActive_BoomeranShield : SkillActivas
             {
                 isReturning = false;
                 OnStopUse();
+                
             }
         }
     }
