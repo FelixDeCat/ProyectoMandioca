@@ -25,6 +25,7 @@ public class SkillActive_BoomeranShield : SkillActivas
 
     [SerializeField] private ParticleSystem sparks = null;
     [SerializeField] private ParticleSystem auraZone = null;
+    [SerializeField] private ParticleSystem flying = null;
 
     [SerializeField] private GameObject auxShield = null;
 
@@ -104,6 +105,8 @@ public class SkillActive_BoomeranShield : SkillActivas
         auxShield.transform.position = _shield.transform.position;
         _shield.SetActive(false);
         sparks.Play();
+        flying.transform.position = auxShield.transform.position;
+        flying.Play();
 
         var auraMain = auraZone.main;
         auraMain.startSize = radius * 2;
@@ -118,7 +121,6 @@ public class SkillActive_BoomeranShield : SkillActivas
 
     protected override void OnStopUse()
     {
-        Debug.Log("agarro shield");
         _hero.charanim.CatchProp();
         _hero.ToggleBlock(true);
         _shield.SetActive(true);
@@ -141,6 +143,7 @@ public class SkillActive_BoomeranShield : SkillActivas
         sparks.transform.position = auxShield.transform.position;
         auraZone.transform.position = auxShield.transform.position + Vector3.down * .5f;
         
+        
         //Hago el daño
         var enemiesClose = Extensions.FindInRadius<DamageReceiver>(auxShield.transform.position, radius);
         
@@ -158,6 +161,9 @@ public class SkillActive_BoomeranShield : SkillActivas
             var dir = spinPosition - auxShield.transform.position;
             dir = dir.normalized;
             
+            flying.transform.position = auxShield.transform.position - dir;
+            flying.transform.forward = -dir;
+            
             if (Vector3.Distance(  auxShield.transform.position, spinPosition) > .5f)
             {
                 auxShield.transform.position += Time.deltaTime * throwSpeed * dir;
@@ -173,6 +179,8 @@ public class SkillActive_BoomeranShield : SkillActivas
 
         if (isSpinning)
         {
+            if(flying.isPlaying)
+                flying.Stop();
             if(!auraZone.isPlaying)
                 auraZone.Play();
             

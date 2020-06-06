@@ -18,7 +18,6 @@ public class DamageReceiver : MonoBehaviour
     bool parryEntity;
 
 
-    Func<int, bool> OnHit;
     Action<DamageData> takeDmg;
     Action<Vector3> OnDead;
     Action InmuneFeedback;
@@ -29,19 +28,20 @@ public class DamageReceiver : MonoBehaviour
     Func<Vector3, Vector3, Vector3, bool> IsParry;
     Action<EntityBase> Block;
     Action<EntityBase> Parry;
+    _Base_Life_System _LifeSystem;
 
     Rigidbody rb;
 
     public void Initialize(Transform _ownerRoot, Func<bool> _IsDmg, Action<Vector3> _OnDead, Action<DamageData> _takeDmg,
-        Rigidbody _rb, Func<int, bool> _OnHit, Action _InmuneFeedback = default)
+        Rigidbody _rb,_Base_Life_System lifeSystem, Action _InmuneFeedback = default)
     {
         ownerRoot = _ownerRoot;
         takeDmg = _takeDmg;
         OnDead = _OnDead;
         IsDmg = _IsDmg;
         InmuneFeedback = _InmuneFeedback;
-        OnHit = _OnHit;
         rb = _rb;
+        _LifeSystem = lifeSystem;
     }
     public DamageReceiver SetBlock(Func<Vector3, Vector3, Vector3, bool> _IsBlock, Action<EntityBase> _Block)
     {
@@ -103,7 +103,7 @@ public class DamageReceiver : MonoBehaviour
             rb.AddForce(knockbackForce * knockbackMultiplier, ForceMode.Impulse);
         }
 
-        bool death = OnHit(dmg);
+        bool death = _LifeSystem.Hit(dmg);
         if (death) OnDead(data.attackDir);
 
         takeDmg(data);
