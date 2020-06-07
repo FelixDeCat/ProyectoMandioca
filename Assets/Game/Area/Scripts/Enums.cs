@@ -43,7 +43,8 @@ public enum LabelStatesLinkType
 
     STATE_FIND,
     STATE_EFFECT,
-    STATE_COMBAT
+    STATE_COMBAT,
+    STATE_SCAPE
 
         
 
