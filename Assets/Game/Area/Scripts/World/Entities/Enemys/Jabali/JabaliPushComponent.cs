@@ -66,7 +66,12 @@ public class JabaliPushComponent : CombatComponent
     {
         if (!play) return;  
         if ((1 << other.gameObject.layer & obstacleLayer) != 0)
+        {
+            if(other.GetComponent<DamageReceiver>())
+                giveDmgCallback.Invoke(other.GetComponent<DamageReceiver>());
+
             Stop();
+        }
     }
 
 }
