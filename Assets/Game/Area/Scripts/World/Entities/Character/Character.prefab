@@ -154,7 +154,7 @@ MonoBehaviour:
     m_Bits: 524055
   smoothTime: 10
   shakeDuration: 0.3
-  shakeAmmount: 0.2
+  shakeAmmount: 0.05
 --- !u!1 &513313826018068853
 GameObject:
   m_ObjectHideFlags: 0
@@ -9901,6 +9901,7 @@ GameObject:
   - component: {fileID: 3403020175800544563}
   - component: {fileID: 5067431278247479333}
   - component: {fileID: 7266307835747643104}
+  - component: {fileID: 3415322764738061175}
   m_Layer: 8
   m_Name: Character
   m_TagString: Untagged
@@ -9992,8 +9993,8 @@ MonoBehaviour:
   parryParticle: {fileID: 3280250539064182980}
   blockParticle: {fileID: 2201637678302814372}
   hitParticle: {fileID: 899402323578856254}
-  audioParry: {fileID: 8300000, guid: 17e1291cba5ed854b87ec4693a950a1d, type: 3}
-  audioblock: {fileID: 8300000, guid: 40d84a12f90e95c4095c35e8a483aafe, type: 3}
+  audioParry: {fileID: 8300000, guid: 157c7320a38b54431bc9842087d27f72, type: 3}
+  audioblock: {fileID: 8300000, guid: 50070499ea8fb403e8579ecf2a0497fe, type: 3}
   blockAngle: 0
   parryRecall: 0.5
   takeDamageRecall: 0
@@ -10027,9 +10028,7 @@ MonoBehaviour:
   go_SpinFeedback: {fileID: 0}
   currentWeapon: {fileID: 0}
   sensor: {fileID: 5509984382699915172}
-  lifesystem:
-    frontendLife: {fileID: 0}
-    life: 10
+  lifesystem: {fileID: 3415322764738061175}
   enemyLayer:
     serializedVersion: 2
     m_Bits: 1024
@@ -10387,6 +10386,20 @@ MonoBehaviour:
   damageTime: 0
   attackDir: {x: 0, y: 0, z: 0}
   owner: {fileID: 0}
+--- !u!114 &3415322764738061175
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1213734274902125731}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4f68247d9eb663f4b95e011ab63e50f1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  life: 12
+  frontendLife: {fileID: 0}
 --- !u!1 &1238918688219846606
 GameObject:
   m_ObjectHideFlags: 0

@@ -3,13 +3,9 @@ using DevelopTools.UI;
 using UnityEngine;
 
 [System.Serializable]
-public class CharLifeSystem
+public class CharLifeSystem: _Base_Life_System
 {
-    LifeSystemBase lifesystem;
-
     public FrontendStatBase frontendLife;
-
-    public int life = 100;
 
     private bool godMode = false;
 
@@ -21,14 +17,12 @@ public class CharLifeSystem
 
     public CharLifeSystem Configure_CharLifeSystem()
     {
-        lifesystem = new LifeSystemBase();
+        Initialize();
         lifesystem.Config(life, EVENT_OnLoseLife, EVENT_OnGainLife, EVENT_OnDeath, life);
 
         lifesystem.AddCallback_LifeChange(OnLifeChange);
         Debug_UI_Tools.instance.CreateToogle("GODMODE", false, ToogleDebug);
         return this;
-
-
     }
 
     string ToogleDebug(bool active) { godMode = active; ; return active ? "debug activado" : "debug desactivado"; }
@@ -66,7 +60,6 @@ public class CharLifeSystem
     //////////////////////////////////////////////////////////////////////////////////
     /// PUBLIC METHODS
     //////////////////////////////////////////////////////////////////////////////////
-    public bool Hit(int _val) => lifesystem.Hit(_val);
     public void Heal(int _val) => lifesystem.AddHealth(_val);
 
     public void Heal_AllHealth()
