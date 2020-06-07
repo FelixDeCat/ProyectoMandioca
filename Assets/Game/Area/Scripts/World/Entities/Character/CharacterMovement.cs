@@ -194,6 +194,8 @@ public class CharacterMovement
             else
             {
                 dir = new Vector3(movX, 0, movY);
+                if (dir == Vector3.zero)
+                    dir = rotTransform.forward;
             }
 
             //if (dir == Vector3.zero)
@@ -201,7 +203,7 @@ public class CharacterMovement
             //else
             //    dir = new Vector3(movY, 0, movX);
 
-            rotTransform.forward += dir;
+            rotTransform.forward = dir;
         }
     }
 
