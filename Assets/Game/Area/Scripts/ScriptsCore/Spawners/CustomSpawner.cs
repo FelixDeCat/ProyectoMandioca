@@ -106,8 +106,10 @@ public class CustomSpawner : PlayObject
     PlayObject SpawnPrefab()
     {
         var newObject = _poolPlayObject.Get();
-        newObject.GetComponent<TrueDummyEnemy>().Life().AddEventOnDeath(() => _poolPlayObject.ReturnToPool(newObject));
+        newObject.GetComponent<TrueDummyEnemy>()?.Life().AddEventOnDeath(() => _poolPlayObject.ReturnToPool(newObject));
+        newObject.GetComponent<TrueDummyEnemy>()?.Initialize();
         newObject.transform.position = GetPosRandom(spawnRadius, transform);
+        
         
         return newObject;
     }
