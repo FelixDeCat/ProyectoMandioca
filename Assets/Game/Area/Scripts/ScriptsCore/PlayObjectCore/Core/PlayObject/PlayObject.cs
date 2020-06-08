@@ -4,7 +4,7 @@ using UnityEngine;
 using System;
 
 
-public abstract class PlayObject : MonoBehaviour, IZoneElement
+public abstract class PlayObject : MonoBehaviour,IZoneElement
 {
     protected bool canupdate;
 
