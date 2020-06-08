@@ -10,12 +10,12 @@ public class StateMachineHandler : MonoBehaviour
 
     StateLinkerBehaviour[] linkersCaptured = new StateLinkerBehaviour[0];
 
-    internal void Initialize(SensorsAndBehaviours sens_and_beha, FastSubscriberPerState fastSubscriber)
+    internal void Initialize(SensorsAndBehaviours sens_and_beha, FastSubscriberPerState fastSubscriber, InputSenderBase inputSender)
     {
         linkersCaptured = current_animator.GetBehaviours<StateLinkerBehaviour>();
         foreach (var s in parentStates.GetComponentsInChildren<MonoStateBase>())
         {
-            s.Configure(sens_and_beha, fastSubscriber);
+            s.Configure(sens_and_beha, fastSubscriber, inputSender);
             LinkState(s);
         }
     }
@@ -32,8 +32,5 @@ public class StateMachineHandler : MonoBehaviour
         }
     }
 
-    public void BeginBoss() => current_animator.SetTrigger("start");
-    public void Distance(float dist) => current_animator.SetFloat("distance", dist);
-    public void OnHit() => current_animator.SetTrigger("onhit");
-    public void OnDeath() => current_animator.SetTrigger("death");
+    
 }

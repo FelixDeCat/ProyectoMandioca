@@ -5,7 +5,6 @@ using System;
 
 public class GenericLifeSystem : _Base_Life_System
 {
-   
 
     bool isdeath;
 

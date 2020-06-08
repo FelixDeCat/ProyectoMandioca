@@ -15,11 +15,9 @@ public class BehavioursManager : MonoBehaviour
     public ActivateDamage activateDamage;
     public ActivateDamage activateDamageHitTheFloor;
     public CooldownDamage cooldown_Damage;
-    public GenericLifeSystem LifeSystemBase;
-    public TakeDamageComponent takeDamageComponent;
     public CombatDirectorElement combatDirectorComponent;
 
-    public void InitializeBehaviours(Transform root, Rigidbody rb)
+    public void InitializeBehaviours(Transform root, Rigidbody rb, EntityBase entity)
     {
         this.root = root;
         this.rb = rb;
@@ -27,6 +25,7 @@ public class BehavioursManager : MonoBehaviour
         activateDamage.Configure(root);
         activateDamageHitTheFloor.Configure(root);
         followBehaviour.ConfigureFollowBehaviour(root,rb,target);
+        combatDirectorComponent.Initialize(entity);
     }
 
     public void ChangeTarget(Transform newtarget)

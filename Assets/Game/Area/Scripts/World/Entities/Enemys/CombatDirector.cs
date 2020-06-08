@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Threading;
 using UnityEngine;
 
-public class CombatDirector : MonoBehaviour, IZoneElement
+public class CombatDirector : LoadComponent, IZoneElement
 {
     [SerializeField, Range(1, 8)] int maxEnemies = 1;
 
@@ -17,58 +17,34 @@ public class CombatDirector : MonoBehaviour, IZoneElement
     Dictionary<EntityBase, bool> isAttack = new Dictionary<EntityBase, bool>();
     Dictionary<EntityBase, Action> updateDict = new Dictionary<EntityBase, Action>();
 
-
     CharacterHead head;
 
     bool run;
-    bool initialize;
     [SerializeField] float timerMin = 1;
     [SerializeField] float timerMax = 5;
 
     Action AllUpdates = delegate { };
 
-    private void Start() => Main.instance.eventManager.SubscribeToEvent(GameEvents.GAME_END_LOAD, Initialize);
-
-    public void Initialize()
+    #region Entrada
+    protected override IEnumerator LoadMe()
     {
-        initialize = true;
         run = true;
-
         Main.instance.eventManager.SubscribeToEvent(GameEvents.COMBAT_ENTER, RunCheck);
-
         Main.instance.eventManager.SubscribeToEvent(GameEvents.COMBAT_EXIT, RunCheck);
-    }
 
-    #region para las rooms
-    public void Zone_OnPlayerEnterInThisRoom(Transform who)
-    {
-        ResetDirector();
-    }
-    public void Zone_OnPlayerExitInThisRoom()
-    {
-        //Initialize();
-        //Cuando esté bien definido lo de las rooms, Acá se puede poner el initialize con algunos cambios.
+        yield return null;
     }
     #endregion
 
     #region Funciones Internas
-
-    void RunDirector() => run = true;
-
-    void StopDirector() => run = false;
-
     void AssignPos(EntityBase target)
     {
         ICombatDirector randomEnemy = waitToAttack[target][UnityEngine.Random.Range(0, waitToAttack[target].Count)];
-
         waitToAttack[target].Remove(randomEnemy);
         listAttackTarget[target].Add(randomEnemy);
-
         AssignPos(randomEnemy);
     }
-
     void AssignPos(ICombatDirector e) => e.SetBool(true);
-
     void RemoveToList(ICombatDirector e, EntityBase target)
     {
         if (!target || !listAttackTarget.ContainsKey(target))
@@ -91,45 +67,27 @@ public class CombatDirector : MonoBehaviour, IZoneElement
             e.SetBool(false);
         }
 
-        if(target==head)
+        #region Checkea si no hay mas entities subscriptos y le dice al character que ya no esta en combate
+        if (target==head)
             if (attackingTarget[target].Count + listAttackTarget[target].Count + waitToAttack[target].Count <= 0 && head.Combat)
                 Main.instance.eventManager.TriggerEvent(GameEvents.COMBAT_EXIT);
-
-        //RunCheck();
+        #endregion
     }
-
-    void RunCheck()
-    {
-
-    }
-
-
-
     void Attack(ICombatDirector e, EntityBase target)
     {
         listAttackTarget[target].Remove(e);
         attackingTarget[target].Add(e);
-
-        //RunCheck();
     }
-    ///<summary> Resetea el Director volviendo todo a 0 (cuando se cambia de room o nivel se puede usar esta función).
-    ///</summary>
-    void ResetDirector()
+    void CalculateTimer(EntityBase target) => timeToAttacks[target] = UnityEngine.Random.Range(timerMin, timerMax);
+    void Update()
     {
-        initialize = false;
-        listAttackTarget = new Dictionary<EntityBase, List<ICombatDirector>>();
-        attackingTarget = new Dictionary<EntityBase, List<ICombatDirector>>();
-        waitToAttack = new Dictionary<EntityBase, List<ICombatDirector>>();
-        prepareToAttack = new Dictionary<EntityBase, List<ICombatDirector>>();
-        timers = new Dictionary<EntityBase, float>();
-        timeToAttacks = new Dictionary<EntityBase, float>();
-        isAttack = new Dictionary<EntityBase, bool>();
-        updateDict = new Dictionary<EntityBase, Action>();
-        AllUpdates = delegate { };
+        if (run)
+        {
+            AllUpdates();
+        }
     }
-
     #endregion
-
+    #region Funciones Publicas
     ///<summary> Esta función hace que un entity base pueda ser atacado en base al combat director (Puede ser un minion, enemy o lo que sea entity) </summary>
     public void AddNewTarget(EntityBase entity)
     {
@@ -279,19 +237,28 @@ public class CombatDirector : MonoBehaviour, IZoneElement
         e.SetTarget(newTarget);
         AddToList(e, newTarget);
     }
-
-    private void Update()
-    {
-        if (run)
-        {
-            AllUpdates();
-        }
-    }
-    void CalculateTimer(EntityBase target) => timeToAttacks[target] = UnityEngine.Random.Range(timerMin, timerMax);
-
+    #endregion
     #region en desuso
+    void RunDirector() => run = true;
+    void StopDirector() => run = false;
+    void RunCheck() { }
     public void Zone_OnDungeonGenerationFinallized() { }
     public void Zone_OnUpdateInThisRoom() { }
     public void Zone_OnPlayerDeath() { }
+    public void Zone_OnPlayerEnterInThisRoom(Transform who) { }
+    public void Zone_OnPlayerExitInThisRoom() { }
+    ///<summary> Resetea el Director volviendo todo a 0 (cuando se cambia de room o nivel se puede usar esta función) </summary>
+    void ResetDirector()
+    {
+        listAttackTarget = new Dictionary<EntityBase, List<ICombatDirector>>();
+        attackingTarget = new Dictionary<EntityBase, List<ICombatDirector>>();
+        waitToAttack = new Dictionary<EntityBase, List<ICombatDirector>>();
+        prepareToAttack = new Dictionary<EntityBase, List<ICombatDirector>>();
+        timers = new Dictionary<EntityBase, float>();
+        timeToAttacks = new Dictionary<EntityBase, float>();
+        isAttack = new Dictionary<EntityBase, bool>();
+        updateDict = new Dictionary<EntityBase, Action>();
+        AllUpdates = delegate { };
+    }
     #endregion
 }

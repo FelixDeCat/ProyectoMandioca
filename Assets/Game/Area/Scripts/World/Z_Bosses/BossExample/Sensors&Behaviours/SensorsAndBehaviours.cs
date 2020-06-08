@@ -10,11 +10,11 @@ public class SensorsAndBehaviours : MonoBehaviour
     SensorManager sensor; public SensorManager Sensor { get => sensor; }
     BehavioursManager behaviours; public BehavioursManager Behaviours { get => behaviours; }
 
-    internal void Initialize()
+    internal void Initialize(EntityBase entity)
     {
         sensor = GetComponentInChildren<SensorManager>();
         behaviours = GetComponentInChildren<BehavioursManager>();
         sensor.InitializeSensors(root);
-        behaviours.InitializeBehaviours(root, rigidBody);
+        behaviours.InitializeBehaviours(root, rigidBody, entity);
     }
 }

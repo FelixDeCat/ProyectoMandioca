@@ -10,13 +10,16 @@ public abstract class MonoStateBase : MonoBehaviour
 
     SensorsAndBehaviours sensors_and_behaviours;
     FastSubscriberPerState myfastSubscriber;
+    InputSenderBase inputSender;
     protected SensorManager Get_Sensors { get { return sensors_and_behaviours.Sensor; } }
     protected BehavioursManager Get_Behaviours { get { return sensors_and_behaviours.Behaviours; } }
+    protected InputSenderBase Get_InputSender { get { return inputSender; } }
     protected FastSubscriberPerState Get_Anim_Event_Subscriber { get { return myfastSubscriber; } }
-    public void Configure(SensorsAndBehaviours _sensorsAndBehaviours, FastSubscriberPerState fastSubscriber)
+    public void Configure(SensorsAndBehaviours _sensorsAndBehaviours, FastSubscriberPerState fastSubscriber, InputSenderBase _inputSender)
     {
         sensors_and_behaviours = _sensorsAndBehaviours;
         myfastSubscriber = fastSubscriber;
+        inputSender = _inputSender;
 
         OnOneAwake();
     }
