@@ -27,11 +27,14 @@ public class GenericSword : Weapon
 
             if (dir.magnitude <= range && angle < base.angle)
             {
+                Debug.Log("current: " + current.gameObject.name);
+
                 data.SetDamage((int)damage)
                     .SetDamageTick(false)
                     .SetDamageType(Damagetype.parriable)
                     .SetKnockback(500)
                     .SetPositionAndDirection(_head.transform.position, _head.DirAttack);
+
                 var attackResult = current.TakeDamage(data);
 
                 AttackResult?.Invoke(attackResult,dmg_type, current); 

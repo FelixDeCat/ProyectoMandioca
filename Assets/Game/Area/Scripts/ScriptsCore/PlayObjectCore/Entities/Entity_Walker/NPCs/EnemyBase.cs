@@ -105,6 +105,7 @@ public abstract class EnemyBase : NPCBase, ICombatDirector
     #region Damage Receiver y Damage Data
     [Header("BaseThings")]
     [SerializeField] protected DamageData dmgData;
+    [SerializeField] protected DamageData dmgDataAuxiliar;
     [SerializeField] protected DamageReceiver dmgReceiver;
     [SerializeField] protected GenericLifeSystem lifesystem = null;
     protected Rigidbody rb;
