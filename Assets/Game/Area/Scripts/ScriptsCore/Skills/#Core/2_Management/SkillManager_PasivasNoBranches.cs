@@ -6,7 +6,6 @@ using System;
 
 public class SkillManager_PasivasNoBranches : LoadComponent
 {
-
     [Header("Data_base")]
     [SerializeField] List<SkillBase> skills = new List<SkillBase>();
     
@@ -23,6 +22,7 @@ public class SkillManager_PasivasNoBranches : LoadComponent
     bool open; public void Open() { open = !open; if (open) frontEnd.Open(); else frontEnd.Close(); }
 
     List<SkillInfo> coll_for_Feedback = new List<SkillInfo>();
+
     public void Equip(int index, bool active)
     {
         if (active) 
@@ -44,6 +44,19 @@ public class SkillManager_PasivasNoBranches : LoadComponent
 
         Main.instance.gameUiController.RefreshPassiveSkills_UI(coll_for_Feedback);
     }
+    public void Equip(SkillInfo skill)
+    {
+        for (int i = 0; i < skills.Count; i++)
+        {
+            if(skills[i].skillinfo == skill)
+            {
+                skills[i].BeginSkill();
+                coll_for_Feedback.Add(skills[i].skillinfo);
+            }
+        }
 
+        Main.instance.gameUiController.RefreshPassiveSkills_UI(coll_for_Feedback);
+    }
+   
     
 }

@@ -27,6 +27,12 @@ public class GameUI_controller : MonoBehaviour
     [SerializeField] private RectTransform rightCanvas = null;
     [SerializeField] private RectTransform completeCanvas = null;
 
+    //No me mates, es pa probar rapido si funciona
+    public Image skillImage;
+    public Text skillInfoTxt;
+    public Text skillName;
+    public GameObject skillInfoContainer;
+
     private SkillManager_Pasivas _skillManagerPasivas;
     
     
