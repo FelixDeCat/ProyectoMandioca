@@ -18,29 +18,42 @@ public class SpatialGrid_handler : MonoBehaviour
     {
         _grid = GetComponent<SpatialGrid>();
         _hero = Main.instance.GetChar();
-        
+
+        StartCoroutine(CheckGrid());
+
     }
 
-    private void Update()
+    private IEnumerator CheckGrid()
     {
-
-        if (Application.isPlaying)
+        while (true)
         {
-            selected = Query(_hero);
-            var temp = FindObjectsOfType<GridEntity>().Where(x=>!selected.Contains(x));
-            foreach (var item in temp)
+            if (Application.isPlaying)
             {
-                if(item.gameObject.activeInHierarchy)
-                    item.GetComponent<PlayObject>()?.Off();
-                //item.onGrid = false;
-            }
-            foreach (var item in selected)
-            {
-                if(!item.gameObject.activeInHierarchy)
-                    item.GetComponent<PlayObject>()?.On();
-                //item.onGrid = true;
-            }
-
+                selected = Query(_hero);
+                var temp = FindObjectsOfType<GridEntity>().Where(x=>!selected.Contains(x));
+                foreach (var item in temp)
+                {
+                    if (item.gameObject.activeInHierarchy)
+                    {
+                        item.gameObject.SetActive(false);
+                        item.GetComponent<PlayObject>()?.Off();
+                    }
+                
+                    item.onGrid = false;
+                }
+                foreach (var item in selected)
+                {
+                    if (!item.gameObject.activeInHierarchy)
+                    {
+                        item.gameObject.SetActive(true);
+                        item.GetComponent<PlayObject>()?.On();
+                    }
+                        
+                
+                    item.onGrid = true;
+                }
+            }  
+            yield return new WaitForSeconds(.2f);
         }
     }
 

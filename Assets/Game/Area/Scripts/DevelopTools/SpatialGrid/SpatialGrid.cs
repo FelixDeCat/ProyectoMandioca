@@ -55,11 +55,23 @@ public class SpatialGrid : MonoBehaviour
 
         foreach (var e in ents)
         {
-            //e.OnMove += UpdateEntity;
             UpdateEntity(e);
         }
-        
-        Debug.Log(ents.Count());
+
+    }
+
+    private void RefreshGrid()
+    {
+        //P/alumnos: por que no puedo usar OfType<>() despues del RecursiveWalker() aca?
+        var ents = RecursiveWalker(transform)
+            .Select(x => x.GetComponent<GridEntity>())
+            .Where(x => x != null);
+
+        foreach (var e in ents)
+        {
+            UpdateEntity(e);
+        }            
+     
     }
 
     public void UpdateEntity(GridEntity entity)
@@ -118,15 +130,18 @@ public class SpatialGrid : MonoBehaviour
             )
         );
 
+        var entities = cells.SelectMany(cell => buckets[cell.Item1, cell.Item2])
+            .Where(e => e.gameObject != null);
+        
+        Debug.Log(entities.Count() + "entes");
+
         // Iteramos las que queden dentro del criterio
-        var c = cells
-            .SelectMany(cell => buckets[cell.Item1, cell.Item2])
+        var c = entities
             .Where(e =>
                 from.x <= e.transform.position.x && e.transform.position.x <= to.x &&
                 from.z <= e.transform.position.z && e.transform.position.z <= to.z
             ).Where(x => filterByPosition(x.transform.position));
-
-        Debug.Log(c.Count());
+        
         return c;
     }
 
@@ -203,48 +218,48 @@ public class SpatialGrid : MonoBehaviour
 
         if (buckets == null || AreGizmosShutDown) return;
 
-        var originalCol = GUI.color;
-        GUI.color = Color.red;
-        if (!activatedGrid)
-        {
-            IEnumerable<GridEntity> allElems = Enumerable.Empty<GridEntity>();
-            foreach(var elem in buckets)
-                allElems = allElems.Concat(elem);
-
-            int connections = 0;
-            foreach (var ent in allElems)
-            {
-                foreach(var neighbour in allElems.Where(x => x != ent))
-                {
-                    Gizmos.DrawLine(ent.transform.position, neighbour.transform.position);
-                    connections++;
-                }
-                if(showLogs)
-                    Debug.Log("tengo " + connections + " conexiones por individuo");
-                connections = 0;
-            }
-        }
-        else
-        {
-            int connections = 0;
-            foreach (var elem in buckets)
-            {
-                foreach(var ent in elem)
-                {
-                    foreach (var n in elem.Where(x => x != ent))
-                    {
-                        Gizmos.DrawLine(ent.transform.position, n.transform.position);
-                        connections++;
-                    }
-                    if(showLogs)
-                        Debug.Log("tengo " + connections + " conexiones por individuo");
-                    connections = 0;
-                }
-            }
-        }
-
-        GUI.color = originalCol;
-        showLogs = false;
+//        var originalCol = GUI.color;
+//        GUI.color = Color.red;
+//        if (!activatedGrid)
+//        {
+//            IEnumerable<GridEntity> allElems = Enumerable.Empty<GridEntity>();
+//            foreach(var elem in buckets)
+//                allElems = allElems.Concat(elem);
+//
+//            int connections = 0;
+//            foreach (var ent in allElems)
+//            {
+//                foreach(var neighbour in allElems.Where(x => x != ent))
+//                {
+//                    Gizmos.DrawLine(ent.transform.position, neighbour.transform.position);
+//                    connections++;
+//                }
+//                if(showLogs)
+//                    Debug.Log("tengo " + connections + " conexiones por individuo");
+//                connections = 0;
+//            }
+//        }
+//        else
+//        {
+//            int connections = 0;
+//            foreach (var elem in buckets)
+//            {
+//                foreach(var ent in elem)
+//                {
+//                    foreach (var n in elem.Where(x => x != ent))
+//                    {
+//                        Gizmos.DrawLine(ent.transform.position, n.transform.position);
+//                        connections++;
+//                    }
+//                    if(showLogs)
+//                        Debug.Log("tengo " + connections + " conexiones por individuo");
+//                    connections = 0;
+//                }
+//            }
+//        }
+//
+//        GUI.color = originalCol;
+//        showLogs = false;
     }
     #endregion
 }

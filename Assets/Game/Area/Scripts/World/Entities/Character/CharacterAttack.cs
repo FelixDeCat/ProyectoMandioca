@@ -208,10 +208,9 @@ public class CharacterAttack
     }
     public void Attack(bool isHeavy)//esto es attack nada mas... todavia no se sabe si le pegué a algo
     {
-        attackslash.Play();
-        
         currentWeapon.Attack(forwardPos, currentDamage, isHeavy ? Damagetype.heavy : Damagetype.normal);
-        
+
+        BeginFeedbackSlash();
         AudioManager.instance.PlaySound(_swingSword_SoundName);
     }
 
