@@ -88,6 +88,7 @@ public class CharacterHead : CharacterControllable
     [SerializeField] Sensor sensorSpin = null;
     float dmg;
     CharacterAttack charAttack;
+    [SerializeField] AudioClip _dashSounds;
     [SerializeField] ParticleSystem slash = null;
     [SerializeField] DamageData dmgData;
     [SerializeField] DamageReceiver dmgReceiver;
@@ -141,7 +142,7 @@ public class CharacterHead : CharacterControllable
         charanim = new CharacterAnimator(anim_base);
         customCam = FindObjectOfType<CustomCamera>();
 
-        move = new CharacterMovement(GetComponent<Rigidbody>(), rot, charanim)
+        move = new CharacterMovement(GetComponent<Rigidbody>(), rot, charanim, _dashSounds)
             .SetSpeed(speed)
             .SetTimerDash(dashTiming).SetDashSpeed(dashSpeed)
             .SetDashCD(dashCD)

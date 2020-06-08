@@ -27,8 +27,8 @@ public class CharacterMovement
     float dashDecreaseSpeed;
     float dashMaxSpeed;
     bool dashCdOk;
-    
 
+    AudioClip _dashSound;
     CharacterAnimator anim;
 
     Action OnBeginRoll;
@@ -51,7 +51,7 @@ public class CharacterMovement
         set { teleportActive = value; }
     }
 
-    public CharacterMovement(Rigidbody rb, Transform rot, CharacterAnimator a)
+    public CharacterMovement(Rigidbody rb, Transform rot, CharacterAnimator a,AudioClip _dash)
     {
         _rb = rb;
         rotTransform = rot;
@@ -61,6 +61,8 @@ public class CharacterMovement
         RotateHorizontal += RightHorizontal;
         RotateVertical += RightVerical;
         Dash += Roll;
+        _dashSound = _dash;
+        AudioManager.instance.GetSoundPool("DashSounds", AudioGroups.GAME_FX, _dashSound);
     }
 
     #region BUILDER
@@ -261,6 +263,7 @@ public class CharacterMovement
 
     public void Roll()
     {
+        AudioManager.instance.PlaySound("DashSounds", rotTransform);
 
         if (movX != 0 || movY != 0)
             dashDir = new Vector3(movX, 0, movY).normalized;
@@ -312,7 +315,7 @@ public class CharacterMovement
     public void Teleport()
     {
         RollForAnim();
-
+        AudioManager.instance.PlaySound("TeleportAudio", rotTransform);
         introTeleport_ps.transform.position = _rb.position;
         introTeleport_ps.Play();
 
