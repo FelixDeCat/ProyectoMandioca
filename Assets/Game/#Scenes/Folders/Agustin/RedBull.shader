@@ -115,7 +115,7 @@ Shader "RedBull"
 }
 /*ASEBEGIN
 Version=17200
-0;698;1400;273;3213.593;187.8858;1;False;False
+0;0;1920;1019;3473.593;560.8858;1;True;True
 Node;AmplifyShaderEditor.TextureCoordinatesNode;88;-2729.83,-130.8777;Inherit;False;0;-1;2;3;2;SAMPLER2D;;False;0;FLOAT2;1,1;False;1;FLOAT2;0,0;False;5;FLOAT2;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
 Node;AmplifyShaderEditor.Vector2Node;94;-2607.593,-28.8858;Inherit;False;Property;_Speed0;Speed 0;3;0;Create;True;0;0;False;0;0.05,0;0,0;0;3;FLOAT2;0;FLOAT;1;FLOAT;2
 Node;AmplifyShaderEditor.PannerNode;93;-2306.593,-90.8858;Inherit;True;3;0;FLOAT2;0,0;False;2;FLOAT2;0.1,0;False;1;FLOAT;1;False;1;FLOAT2;0
@@ -124,8 +124,8 @@ Node;AmplifyShaderEditor.SamplerNode;84;-2027.666,259.6993;Inherit;True;Property
 Node;AmplifyShaderEditor.SamplerNode;11;-2060.363,-113.0409;Inherit;True;Property;_TextureSample1;Texture Sample 1;1;0;Create;True;0;0;False;0;-1;d8ee8e3f104a5594b801ddb232bfc730;0827ee3bd7258e24f8beb0cbbdc5340b;True;0;False;white;Auto;False;Object;-1;Auto;Texture2D;6;0;SAMPLER2D;;False;1;FLOAT2;0,0;False;2;FLOAT;0;False;3;FLOAT2;0,0;False;4;FLOAT2;0,0;False;5;FLOAT;1;False;5;COLOR;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
 Node;AmplifyShaderEditor.TextureCoordinatesNode;91;-1889.385,-431.1258;Inherit;False;0;-1;2;3;2;SAMPLER2D;;False;0;FLOAT2;1,1;False;1;FLOAT2;0,0;False;5;FLOAT2;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
 Node;AmplifyShaderEditor.SimpleSubtractOpNode;78;-1610.406,22.78284;Inherit;False;2;0;COLOR;0,0,0,0;False;1;COLOR;0,0,0,0;False;1;COLOR;0
-Node;AmplifyShaderEditor.SaturateNode;79;-1410.504,35.24619;Inherit;False;1;0;COLOR;0,0,0,0;False;1;COLOR;0
 Node;AmplifyShaderEditor.SimpleMultiplyOpNode;77;-1483.111,-165.1437;Inherit;False;2;2;0;FLOAT2;0,0;False;1;COLOR;0,0,0,0;False;1;COLOR;0
+Node;AmplifyShaderEditor.SaturateNode;79;-1410.504,35.24619;Inherit;False;1;0;COLOR;0,0,0,0;False;1;COLOR;0
 Node;AmplifyShaderEditor.SimpleAddOpNode;80;-1236.022,-78.2049;Inherit;False;2;2;0;COLOR;0,0,0,0;False;1;COLOR;0,0,0,0;False;1;COLOR;0
 Node;AmplifyShaderEditor.SaturateNode;82;-1023.251,-98.79566;Inherit;True;1;0;COLOR;0,0,0,0;False;1;COLOR;0
 Node;AmplifyShaderEditor.RangedFloatNode;5;-1030.217,214.0733;Inherit;False;Property;_Energy;Energy;0;0;Create;True;0;0;False;0;0;0;0;1;0;1;FLOAT;0
@@ -139,9 +139,9 @@ WireConnection;84;1;92;0
 WireConnection;11;1;93;0
 WireConnection;78;0;11;0
 WireConnection;78;1;84;0
-WireConnection;79;0;78;0
 WireConnection;77;0;91;0
 WireConnection;77;1;84;0
+WireConnection;79;0;78;0
 WireConnection;80;0;77;0
 WireConnection;80;1;79;0
 WireConnection;82;0;80;0
@@ -152,4 +152,4 @@ WireConnection;6;0;10;0
 WireConnection;6;1;12;0
 WireConnection;0;0;6;0
 ASEEND*/
-//CHKSM=A47FB01EDA330B225D9293B52B7337F6B42BFC84
+//CHKSM=F611A5C803B062B333454D625523093AEF4E939E

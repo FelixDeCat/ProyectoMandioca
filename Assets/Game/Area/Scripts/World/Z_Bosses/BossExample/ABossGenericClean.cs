@@ -7,49 +7,52 @@ using ToolsMandioca.StateMachine;
 public class ABossGenericClean : EnemyBase
 {
     [Header("Boss Options")]
+    [SerializeField] int life;
     [SerializeField] StateMachineHandler stateMachineHandler;
+    [SerializeField] InputSenderBase inputSender;
     [SerializeField] SensorsAndBehaviours sensors_and_behaviours;
     [SerializeField] FastSubscriberPerState fastSubscriber;
     [SerializeField] FeedbackManager feedbackManager;
+    [SerializeField] TakeDamageComponent TakeDamageHandler;
 
     protected override void OnInitialize()
     {
-        sensors_and_behaviours.Initialize();
-        stateMachineHandler.Initialize(sensors_and_behaviours, fastSubscriber);
-        var take_dam_behaviour = sensors_and_behaviours.Behaviours.takeDamageComponent;
-        var life_behaviour = sensors_and_behaviours.Behaviours.LifeSystemBase;
+        sensors_and_behaviours.Initialize(this);
+        stateMachineHandler.Initialize(sensors_and_behaviours, fastSubscriber, inputSender);
         var hit_sensor = sensors_and_behaviours.Sensor.sensor_hit;
         var death_sensor = sensors_and_behaviours.Sensor.sensor_death;
-        life_behaviour.AddEventOnDeath(death_sensor.Hand_Enter);
-        life_behaviour.AddEventOnHit(hit_sensor.Hand_Enter);
-        take_dam_behaviour.SubscribeMeTo(NewTakeDamage, Predicate_CanTakeDamage);
+
+        TakeDamageHandler.Initialize(
+            life, 
+            sensors_and_behaviours.Sensor.sensor_death.Hand_Enter, 
+            delegate { }, 
+            sensors_and_behaviours.Sensor.sensor_hit.Hand_Enter, 
+            rootTransform, 
+            rb,
+            TakeDamageFeedback);
+
+        inputSender.StartStateMachine();
+
+
+        
     }
 
     public override void Zone_OnPlayerEnterInThisRoom(Transform who)
     {
-        stateMachineHandler.BeginBoss();
+        //inputSender.BeginStateMachine();
+    }
+
+    void TakeDamageFeedback(Vector3 owner)
+    {
+        sensors_and_behaviours.Behaviours.cooldown_Damage.BeginCooldown();
+        feedbackManager.Play_FeedbackOnHit();
+        feedbackManager.Play_HitDamageEmission();
     }
 
     public bool Predicate_CanTakeDamage() => !sensors_and_behaviours.Behaviours.cooldown_Damage.IsInCooldown;
 
     
-    public Attack_Result NewTakeDamage(int dmg, Vector3 attack_pos, Damagetype damagetype, EntityBase entity)
-    {
-        sensors_and_behaviours.Behaviours.cooldown_Damage.BeginCooldown();
-        Vector3 vector_direction = (this.transform.position - attack_pos).normalized;
-
-        ////esto tambien en otro component/// apenas haya tiempo crear un component "KNOCKBACK"
-        //if (damagetype == Damagetype.explosion)
-        //    rb.AddForce(vector_direction * explosionForce, ForceMode.Impulse);
-        //else
-        //    rb.AddForce(vector_direction * forceRecall, ForceMode.Impulse);
-
-        feedbackManager.Play_FeedbackOnHit();
-        feedbackManager.Play_HitDamageEmission();
-        bool death = sensors_and_behaviours.Behaviours.LifeSystemBase.Hit(dmg);
-        return death ? Attack_Result.death : Attack_Result.sucessful;
-    }
-
+    
 
     #region Desuso
     public override float ChangeSpeed(float newSpeed) { return newSpeed; }
@@ -65,20 +68,8 @@ public class ABossGenericClean : EnemyBase
     protected override void OnTurnOn() { }
     public override void ToAttack() => attacking = true;
     protected override void OnUpdateEntity() { }
-
-    protected override void TakeDamageFeedback(DamageData data)
-    {
-    }
-
-    protected override void Die(Vector3 dir)
-    {
-    }
-
-    protected override bool IsDamage()
-    {
-        return true;
-    }
+    protected override void TakeDamageFeedback(DamageData data) { }
+    protected override void Die(Vector3 dir) { }
+    protected override bool IsDamage() => true;
     #endregion
-
-
 }

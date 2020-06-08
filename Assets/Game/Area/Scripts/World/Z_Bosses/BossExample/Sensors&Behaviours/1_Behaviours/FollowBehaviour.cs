@@ -15,6 +15,7 @@ public class FollowBehaviour : MonoBehaviour
     Rigidbody rb;
     Transform target;
     bool follow;
+    bool scape;
     bool lookat;
 
     private void Awake()
@@ -33,6 +34,8 @@ public class FollowBehaviour : MonoBehaviour
     public void ChangeTarget(Transform target) => this.target = target;
     public void StartFollow() { follow = true; }
     public void StopFollow() { follow = false; }
+    public void StartScape() { scape = true; }
+    public void StopScape() { scape = false; }
     public void StartLookAt() { lookat = true; }
     public void StopLookAt() { lookat = false; }
 
@@ -42,6 +45,12 @@ public class FollowBehaviour : MonoBehaviour
         {
             Vector3 forwardFix = genericEnemyMove.ObstacleAvoidance(new Vector3(Direction.x, 0, Direction.z));
             genericEnemyMove.MoveWRigidbodyV(forwardFix);
+            genericEnemyMove.Rotation(forwardFix);
+        }
+        else if (scape)
+        {
+            Vector3 forwardFix = genericEnemyMove.ObstacleAvoidance(new Vector3(Direction.x, 0, Direction.z));
+            genericEnemyMove.MoveWRigidbodyV(forwardFix *-1);
             genericEnemyMove.Rotation(forwardFix);
         }
         else

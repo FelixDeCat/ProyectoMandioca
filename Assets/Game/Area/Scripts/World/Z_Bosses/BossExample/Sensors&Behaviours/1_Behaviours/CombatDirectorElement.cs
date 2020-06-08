@@ -20,9 +20,9 @@ public class CombatDirectorElement : MonoBehaviour, ICombatDirector
         //como el del habitacion
     }
 
-    public void Initialize(CombatDirector _director, EntityBase entityBase)
+    public void Initialize(EntityBase entityBase)
     {
-        director = _director;
+        director = Main.instance.GetCombatDirector();
         director.AddNewTarget(entityBase);
     }
 
@@ -37,11 +37,13 @@ public class CombatDirectorElement : MonoBehaviour, ICombatDirector
         director.AddToList(this, Main.instance.GetChar());
         combat = true;
     }
-    
-    public Vector3 CurrentPos() => owner.transform.position;
+
+    #region ICombatDirector Functions
     public void SetTarget(EntityBase entity) { target = entity; }
-    public bool IsInPos() => withPos;
     public EntityBase CurrentTarget() => target;
+    public Vector3 CurrentPos() => owner.transform.position;
+    public void ToAttack() { }
+    public bool IsInPos() => withPos;
     public void SetBool(bool isPos) => withPos = isPos;
     public void ResetCombat()
     {
@@ -49,7 +51,6 @@ public class CombatDirectorElement : MonoBehaviour, ICombatDirector
         combat = false;
         SetBool(false);
     }
-    public void ToAttack() { }
-
+    #endregion
 }
-   
+

@@ -26,6 +26,7 @@ public class Generic_Range : MonoStateBase
     {
         if (!isThrower)
         {
+            Get_InputSender.SendBool("HasRock", true);
             thowable.gameObject.SetActive(true);
             thowable.BegigTrackTransform(Hand);
         }

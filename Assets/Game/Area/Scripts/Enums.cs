@@ -3,7 +3,7 @@ public enum side_type { neutral, ally, enemy, other }
 [System.Serializable] public enum SkillType { control, culpa, obligacion, generics, others }
 public enum Damagetype { Fire, normal, parriable, explosion, inparry, heavy }
 public enum CommonStates { IDLE, ATTACK, ENABLE, DISABLE, DIE, CHASING, GO_TO_POS }
-public enum AudioGroups {GAME_FX, MUSIC, MISC, JABALI, SLOWMO}
+public enum AudioGroups { GAME_FX, MUSIC, MISC, JABALI, SLOWMO }
 
 public enum LabelStatesLinkType
 {
@@ -44,15 +44,19 @@ public enum LabelStatesLinkType
     STATE_FIND,
     STATE_EFFECT,
     STATE_COMBAT,
-    STATE_SCAPE
+    STATE_SCAPE,
 
-        
+    STATE_THINK_MELEE_DECISION,
+    STATE_THINK_RANGE_DECISION,
+
+    STATE_RANGE_TAKE,
+    STATE_RANGE_THROW
 
 }
 
 //////////
 // UI stuff
 
-public enum UI_templates {skillSelection, charStats};
+public enum UI_templates { skillSelection, charStats };
 
-public enum soundTypes {golpeEspada, heroReceiveDamage}
+public enum soundTypes { golpeEspada, heroReceiveDamage }
