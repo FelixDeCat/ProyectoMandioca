@@ -1,7 +1,9 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using XInputDotNetPure;
+using Random = UnityEngine.Random;
 
 
 ///////////////////////////////////////////////////////////////////////////////////
@@ -28,6 +30,7 @@ public class Destructible_Normal : DestructibleBase
     Vector3 dest;
 
     [System.NonSerialized] public List<GameObject> objectsToDrop = new List<GameObject>();
+    
 
     protected override void OnInitialize()
     {
@@ -132,6 +135,7 @@ public class Destructible_Normal : DestructibleBase
         OthersFeedbacks();
         if (destroy) {
             Main.instance.RemoveEntity(this);
+            
             Destroy(this.gameObject); 
         }
     }
