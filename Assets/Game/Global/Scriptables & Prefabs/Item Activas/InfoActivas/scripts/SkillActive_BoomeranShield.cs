@@ -24,7 +24,7 @@ public class SkillActive_BoomeranShield : SkillActivas
     private Vector3 startHeroLookDirection;
 
     [SerializeField] private ParticleSystem sparks = null;
-    [SerializeField] private ParticleSystem auraZone = null;
+    //[SerializeField] private ParticleSystem auraZone = null;
     [SerializeField] private ParticleSystem flying = null;
 
     [SerializeField] private GameObject auxShield = null;
@@ -108,8 +108,8 @@ public class SkillActive_BoomeranShield : SkillActivas
         flying.transform.position = auxShield.transform.position;
         flying.Play();
 
-        var auraMain = auraZone.main;
-        auraMain.startSize = radius * 2;
+        //var auraMain = auraZone.main;
+        //auraMain.startSize = radius * 2;
 
         spinPosition = auxShield.transform.position + (_hero.GetCharMove().GetRotatorDirection() * throwRange);
         startHeroPos = _shield.transform.position;
@@ -127,7 +127,7 @@ public class SkillActive_BoomeranShield : SkillActivas
         auxShield.SetActive(false);
         timeCount = 0;
         sparks.Stop();
-        auraZone.Stop();
+        //auraZone.Stop();
         canuse = true;
         auxShield.transform.position = _hero.transform.position;
         
@@ -141,7 +141,7 @@ public class SkillActive_BoomeranShield : SkillActivas
        
         //Feedback
         sparks.transform.position = auxShield.transform.position;
-        auraZone.transform.position = auxShield.transform.position + Vector3.down * .5f;
+        //auraZone.transform.position = auxShield.transform.position + Vector3.down * .5f;
         
         
         //Hago el daño
@@ -181,8 +181,8 @@ public class SkillActive_BoomeranShield : SkillActivas
         {
             if(flying.isPlaying)
                 flying.Stop();
-            if(!auraZone.isPlaying)
-                auraZone.Play();
+            //if(!auraZone.isPlaying)
+            //    auraZone.Play();
             
             timeCount += Time.deltaTime;
             
