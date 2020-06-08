@@ -25,17 +25,31 @@ public class CombatDirectorElement : MonoBehaviour, ICombatDirector
         director = Main.instance.GetCombatDirector();
         director.AddNewTarget(entityBase);
     }
-
-    public void Ev_OutOfCombatDistance()
+    public void IAmReady()
     {
-        director.DeadEntity(this, target);
-        target = null;
-        combat = false;
+        combat = true;
+        director.PrepareToAttack(this, Main.instance.GetChar());
+
     }
-    public void Ev_InCombatDistace()
+    public void IAmNotReady()
+    {
+        combat = false;
+        director.DeleteToPrepare(this, Main.instance.GetChar());
+    }
+    public void AttackRelease()
+    {
+        director.AttackRelease(this, Main.instance.GetChar());
+    }
+    public void EnterCombat()
     {
         director.AddToList(this, Main.instance.GetChar());
         combat = true;
+    }
+    public void ExitCombat()
+    {
+        director.DeadEntity(this, Main.instance.GetChar());
+        target = null;
+        combat = false;
     }
 
     #region ICombatDirector Functions
