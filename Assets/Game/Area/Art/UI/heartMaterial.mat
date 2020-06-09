@@ -8,7 +8,7 @@ Material:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: heartMaterial
-  m_Shader: {fileID: 4800000, guid: 4fe3a76c772a3d54b89135611202eade, type: 3}
+  m_Shader: {fileID: 4800000, guid: 7e66b915870af8847bc9f1ea3117211c, type: 3}
   m_ShaderKeywords: 
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
@@ -19,24 +19,32 @@ Material:
   m_SavedProperties:
     serializedVersion: 3
     m_TexEnvs:
+    - _Ramp:
+        m_Texture: {fileID: 2800000, guid: a8da5ce5fe3aa314eb7997bd0209e3df, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     - _Ramp1:
         m_Texture: {fileID: 2800000, guid: a8da5ce5fe3aa314eb7997bd0209e3df, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _Ramp2:
-        m_Texture: {fileID: 0}
+        m_Texture: {fileID: 2800000, guid: a8da5ce5fe3aa314eb7997bd0209e3df, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     m_Floats:
+    - _HalfLambert: 0.11
     - _HalfLambert1: 0.4
-    - _HalfLambert2: 1
+    - _HalfLambert2: 0.11
+    - _MainLightAttenuation: 0.6
     - _MainLightAttenuation1: 0.68
-    - _MainLightAttenuation2: 0
+    - _MainLightAttenuation2: 0.6
+    - _Specular1: 0.77
     - _Specular2: 2.65
-    - _Specular3: 0
+    - _Specular3: 0.77
     - _Transparency: 1
-    - _Transparency1: 0.5
+    - _Transparency1: 1
     - __dirty: 0
     m_Colors:
+    - _Color: {r: 0.8117648, g: 0.14901961, b: 0.14901961, a: 1}
     - _Color1: {r: 0.839, g: 0.07047597, b: 0.07047597, a: 1}
-    - _Color2: {r: 1, g: 1, b: 1, a: 0}
+    - _Color2: {r: 0.8117648, g: 0.14901961, b: 0.14901961, a: 1}
