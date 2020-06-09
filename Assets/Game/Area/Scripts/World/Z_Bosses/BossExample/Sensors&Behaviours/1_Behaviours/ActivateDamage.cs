@@ -10,9 +10,20 @@ public class ActivateDamage : MonoBehaviour
 
     Transform myroot;
 
+    DamageData mydamagedata;
+
     private void Awake()
     {
         Deactivate();
+        mydamagedata = GetComponent<DamageData>();
+
+        mydamagedata
+            .SetDamage(damage)
+            .SetDamageTick(false)
+            .SetDamageType(Damagetype.parriable)
+            .SetPositionAndDirection(transform.position);
+
+        
     }
 
     public void Configure(Transform root)
@@ -28,20 +39,21 @@ public class ActivateDamage : MonoBehaviour
         {
             if (!charisdamage)
             {
-                var ent = go.GetComponent<EntityBase>();
-                ent.TakeDamage(damage, myroot.position, Damagetype.normal);
+                var d = go.GetComponent<DamageReceiver>();
+                Attack_Result takeDmg = d.TakeDamage(mydamagedata);
+
                 charisdamage = true;
             }
         }
         else
         {
-            var ent = go.GetComponent<EntityBase>();
-            ent.TakeDamage(damage, myroot.position, Damagetype.normal);
+            var d = go.GetComponent<DamageReceiver>();
+            Attack_Result takeDmg = d.TakeDamage(mydamagedata);
 
         }
     }
 
-    public void Activate() { sensor.gameObject.SetActive(true); charisdamage = false; }
+    public void Activate() { sensor.gameObject.SetActive(true); charisdamage = true; }
     public void Deactivate() { sensor.gameObject.SetActive(false); charisdamage = false; }
 
 }

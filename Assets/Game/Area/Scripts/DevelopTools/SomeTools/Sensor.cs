@@ -18,6 +18,7 @@ public class Sensor : MonoBehaviour
 
     protected virtual void OnTriggerEnter(Collider col)
     {
+        
         if ((1 << col.gameObject.layer & layers_to_collide) != 0)
         {
             Ev_Colision(col.gameObject);
