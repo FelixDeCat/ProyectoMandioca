@@ -32,6 +32,8 @@ public class ABossGenericClean : EnemyBase
             DeathVector);
 
         inputSender.StartStateMachine();
+
+
     }
 
     void DeathVector(Vector3 dir)
@@ -42,12 +44,27 @@ public class ABossGenericClean : EnemyBase
         sensors_and_behaviours.Behaviours.followBehaviour.StopLookAt();
         sensors_and_behaviours.Behaviours.followBehaviour.StopScape();
 
+
+        sensors_and_behaviours.Behaviours.combatDirectorComponent.ExitCombat();
+
         Debug.Log("DEATH VECTOR");
 
         if (dir == Vector3.zero)
             ragdoll.Ragdoll(true, -rootTransform.forward);
         else
             ragdoll.Ragdoll(true, dir);
+
+        Invoke("ShutDownBones", 5f);
+    }
+
+    void ShutDownBones()
+    {
+        ragdoll.DesactiveBones();
+        Invoke("DisableWendigo", 3f);
+    }
+    void DisableWendigo()
+    {
+        gameObject.SetActive(false);
     }
 
     void OnDeath()

@@ -52,7 +52,7 @@ public class CharacterMovement
         set { teleportActive = value; }
     }
 
-    public CharacterMovement(Rigidbody rb, Transform rot, CharacterAnimator a,AudioClip _dash)
+    public CharacterMovement(Rigidbody rb, Transform rot, CharacterAnimator a, AudioClip _dash)
     {
         _rb = rb;
         rotTransform = rot;
@@ -126,7 +126,7 @@ public class CharacterMovement
 
     }
 
-    float pushForce; 
+    float pushForce;
     Vector3 attackPushDir;
     Vector3 PushForward { get => rotTransform.transform.forward * pushForce; }
     public void FrontPushAttack()
@@ -142,7 +142,7 @@ public class CharacterMovement
         Vector3 auxNormalized = new Vector3(movX, velY, movY);
         auxNormalized.Normalize();
 
-        _rb.velocity = new Vector3(auxNormalized.x * speed, velY, auxNormalized.z * speed );
+        _rb.velocity = new Vector3(auxNormalized.x * speed, velY, auxNormalized.z * speed);
 
         var prom = Mathf.Abs(movY) + Mathf.Abs(movX);
 
@@ -152,7 +152,7 @@ public class CharacterMovement
 
             //float dotX = Vector3.Dot(rotTransform.forward, new Vector3(rotY, 0, rotX));
             //float dotY = Vector3.Dot(rotTransform.right, new Vector3(rotY, 0, rotX));
-            if(Mathf.Abs(rotTransform.forward.z) >= Mathf.Abs(rotTransform.forward.x))
+            if (Mathf.Abs(rotTransform.forward.z) >= Mathf.Abs(rotTransform.forward.x))
                 anim.Move(prom, -movX * rotTransform.right.x, movY * rotTransform.forward.z);
             else
                 anim.Move(prom, -movY * rotTransform.right.z, movX * rotTransform.forward.x);
@@ -245,8 +245,11 @@ public class CharacterMovement
 
             if (cdTimer >= dashCd)
             {
-                endTeleport.transform.position = rotTransform.position;
-                endTeleport.Play();
+                if (endTeleport)
+                {
+                    endTeleport.transform.position = rotTransform.position;
+                    endTeleport.Play();
+                }
                 dashCdOk = false;
                 cdTimer = 0;
             }
@@ -330,8 +333,8 @@ public class CharacterMovement
             dashDir = rotTransform.forward;
 
         dashDir.Normalize();
-        
-        _rb.position = _rb .position + (dashDir * _teleportDistance);
+
+        _rb.position = _rb.position + (dashDir * _teleportDistance);
         outroTeleport_ps.transform.position = _rb.position + dashDir * _teleportDistance - dashDir * 1.5f;
         outroTeleport_ps.Play();
     }
@@ -340,18 +343,18 @@ public class CharacterMovement
     void BlockedTeleport(float distance)
     {
         RollForAnim();
-        
+
         introTeleport_ps.transform.position = _rb.position;
         introTeleport_ps.Play();
-        
+
         inDash = true;
         dashCdOk = true;
 
-        _rb.position = _rb .position + (dashDir * distance);
+        _rb.position = _rb.position + (dashDir * distance);
         outroTeleport_ps.transform.position = _rb.position;
         outroTeleport_ps.Play();
     }
-    
+
     //arreglar esto
     public bool CheckIfCanTeleport()
     {
@@ -359,7 +362,7 @@ public class CharacterMovement
             dashDir = new Vector3(movX, 0, movY); //Actualizo direccion
         else
             dashDir = rotTransform.forward;
-        
+
         var player = Main.instance.GetChar(); //con esto consigo el punto de donde sale el rayo
         RaycastHit hit;
         if (Physics.Raycast(player.rayPivot.position, dashDir, out hit, _teleportDistance * 2, 1 << 20))
@@ -370,8 +373,8 @@ public class CharacterMovement
             {
                 BlockedTeleport(0);
                 return false;
-            } 
-            
+            }
+
             BlockedTeleport(aux - aux / 3); //lo tiro un poquito antes de la pared
             Debug.Log("Le pego a la pared invisible y me teleporto a ella");
             return false;
@@ -395,7 +398,7 @@ public class CharacterMovement
             dashDir = new Vector3(movX, 0, movY);
         else
             dashDir = rotTransform.forward;
-        
+
         return dashDir;
     }
 
