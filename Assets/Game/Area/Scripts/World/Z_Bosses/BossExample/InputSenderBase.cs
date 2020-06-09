@@ -14,7 +14,7 @@ public class InputSenderBase : MonoBehaviour
     public void StopStateMachine() => SendBool("On", false);
     public void Distance(float dist) => SendFloat("distance", dist);
     public void OnHit() => SendTrigger("OnHit");
-    public void OnDeath() => SendTrigger("Death");
+    public void OnDeath() => SendBool("Death", true);
     public void ExitCombat() => SendBool("InCombat", false);
 
 }

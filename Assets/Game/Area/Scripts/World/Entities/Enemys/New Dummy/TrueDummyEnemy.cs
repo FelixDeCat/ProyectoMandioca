@@ -93,6 +93,11 @@ public class TrueDummyEnemy : EnemyBase
         IAInitialize(Main.instance.GetCombatDirector());
     }
 
+
+    protected override void OnReset()
+    {
+        ragdoll.Ragdoll(false, Vector3.zero);
+    }
     public override void Zone_OnPlayerExitInThisRoom()
     {
         //Debug.Log("Player enter the room");

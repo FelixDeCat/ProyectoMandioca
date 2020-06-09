@@ -100,6 +100,11 @@ public class RangeDummy : EnemyBase
         IAInitialize(Main.instance.GetCombatDirector());
     }
 
+    protected override void OnReset()
+    {
+        //lo de el ragdoll
+    }
+
     public override void Zone_OnPlayerExitInThisRoom()
     {
         //Debug.Log("Player enter the room");

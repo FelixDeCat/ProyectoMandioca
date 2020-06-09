@@ -7,7 +7,7 @@ public abstract class MonoStateBase : MonoBehaviour
     [System.Serializable]
     public class MonoStateBaseOptions { public LabelStatesLinkType linker; }
     public MonoStateBaseOptions _monoStateBaseOptions = new MonoStateBaseOptions();
-
+    protected bool isactive;
     SensorsAndBehaviours sensors_and_behaviours;
     FastSubscriberPerState myfastSubscriber;
     InputSenderBase inputSender;
@@ -39,12 +39,14 @@ public abstract class MonoStateBase : MonoBehaviour
 
     public void Begin()
     {
+        isactive = true;
         DebugCustom.Log("WENDIGO", "State", gameObject.name);
         OnBegin();
     }
 
     public void Exit()
     {
+        isactive = false;
         OnExit();
     }
 
