@@ -73,15 +73,19 @@ public class SkillActive_LightBounce : SkillActivas
 
             if (enemy != null)
             {
-                sparks_ps.transform.position = raycastHit.point;
-                sparks_ps.Play();
+                if (sparks_ps)
+                {
+                    sparks_ps.transform.position = raycastHit.point;
+                    sparks_ps.Play();
+                }
                 Main.instance.Vibrate();
 
                 enemy.TakeDamage(dmgData);
             }
             else
             {
-                sparks_ps.Stop();
+                if(sparks_ps)
+                    sparks_ps.Stop();
                 endPosition = raycastHit.point;
             }
         }
@@ -101,7 +105,8 @@ public class SkillActive_LightBounce : SkillActivas
     protected override void OnStopUse()
     {
        // _lineRenderer.enabled = false;
-        sparks_ps.Stop();
+       if(sparks_ps)
+            sparks_ps.Stop();
         lightAura.SetActive(false);
         lightBeam.SetActive(false);
         AudioManager.instance.StopAllSounds(_fireSound);

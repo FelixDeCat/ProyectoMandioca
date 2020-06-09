@@ -12,10 +12,20 @@ public class RagdollComponent : MonoBehaviour
     [SerializeField] Collider principalBone;
 
     Bone[] myBones;
+    Vector3[] transformpositions;
 
     private void Awake()
     {
         myBones = GetComponentsInChildren<Bone>();
+
+        //´para el reset
+        /*
+        transformpositions = new Vector3[myBones.Length];
+        for (int i = 0; i < myBones.Length; i++) {
+            transformpositions[i] = myBones[i].transform.position;
+        }
+        */
+
         Ragdoll(false, Vector3.zero);
     }
 
@@ -44,6 +54,14 @@ public class RagdollComponent : MonoBehaviour
             principalBone.GetComponent<Rigidbody>().AddForce(temp, ForceMode.Impulse);
         }
     }
+
+
+    public void ResetBones()
+    {
+
+    }
+
+
 
     public void DesactiveBones()
     {

@@ -106,12 +106,16 @@ public class CustomSpawner : PlayObject
     PlayObject SpawnPrefab()
     {
         var newObject = _poolPlayObject.Get();
-        newObject.GetComponent<GenericLifeSystem>()?.AddEventOnDeath(() => _poolPlayObject.ReturnToPool(newObject));
+        newObject.GetComponent<EnemyBase>()?.AddCallbackFinishFeedbackDeath(ResetObject);
         newObject.GetComponent<EnemyBase>()?.Initialize();
         newObject.transform.position = GetPosRandom(spawnRadius, transform);
-        
-        
         return newObject;
+    }
+
+    void ResetObject(EnemyBase newobject)
+    {
+        newobject?.ResetEntity();
+        _poolPlayObject.ReturnToPool(newobject);
     }
 
     Vector3 GetPosRandom(float radio, Transform t)

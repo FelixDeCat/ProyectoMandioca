@@ -104,6 +104,7 @@ public class DamageReceiver : MonoBehaviour
         }
 
         bool death = _LifeSystem.Hit(dmg);
+
         if (death) OnDead(data.attackDir);
 
         takeDmg(data);

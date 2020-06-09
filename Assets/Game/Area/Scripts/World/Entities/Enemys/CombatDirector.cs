@@ -28,6 +28,7 @@ public class CombatDirector : LoadComponent, IZoneElement
     #region Entrada
     protected override IEnumerator LoadMe()
     {
+        Debug.Log("entra al debug");
         run = true;
         Main.instance.eventManager.SubscribeToEvent(GameEvents.COMBAT_ENTER, RunCheck);
         Main.instance.eventManager.SubscribeToEvent(GameEvents.COMBAT_EXIT, RunCheck);
@@ -114,10 +115,13 @@ public class CombatDirector : LoadComponent, IZoneElement
 
                         if (prepareToAttack[entity].Count <= 0)
                         {
+                            Debug.Log("prepare to attack del tiimer");
                             isAttack[entity] = true;
                         }
                         else
                         {
+
+                            Debug.Log("ELSE");
                             var e = prepareToAttack[entity][UnityEngine.Random.Range(0, prepareToAttack[entity].Count)];
                             e.ToAttack();
                             Attack(e, entity);
@@ -158,8 +162,10 @@ public class CombatDirector : LoadComponent, IZoneElement
     ///<summary> Con esta función se le dice al combat que estoy listo para atacar para que te tenga en consideración cuando da la orden. </summary>
     public void PrepareToAttack(ICombatDirector e, EntityBase target)
     {
+        Debug.Log("entra a prepare to attack");
         if (isAttack[target])
         {
+            Debug.Log("Tengo el target en el DIC");
             e.ToAttack();
             Attack(e, target);
             isAttack[target] = false;

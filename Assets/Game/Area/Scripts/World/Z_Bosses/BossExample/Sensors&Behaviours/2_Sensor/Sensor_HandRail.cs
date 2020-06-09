@@ -13,6 +13,7 @@ public class Sensor_HandRail : MonoBehaviour
 
     public void Hand_Enter()
     {
+        Debug.Log("HandRail");
         if (pred.Invoke())
         {
             HandExit();

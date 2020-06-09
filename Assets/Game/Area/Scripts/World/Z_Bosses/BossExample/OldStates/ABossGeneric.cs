@@ -36,7 +36,6 @@ public class ABossGeneric : EnemyBase
         public float ResetSpeedToOriginal() => currentSpeed = speedMovement;
     }
     public MoveOptions moveOptions = new MoveOptions();
-
     public AnimationCurve animEmisive;
 
     [Header("Combat Options")]
@@ -99,6 +98,11 @@ public class ABossGeneric : EnemyBase
         Main.instance.AddEntity(this);
 
         IAInitialize(Main.instance.GetCombatDirector());
+    }
+
+    protected override void OnReset()
+    {
+        //lo de el ragdoll
     }
 
     public override void Zone_OnPlayerExitInThisRoom()
@@ -490,6 +494,8 @@ public class ABossGeneric : EnemyBase
     {
         return true;
     }
+
+    
 
     #endregion
 
