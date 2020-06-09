@@ -9,14 +9,23 @@ public class BasicThrowable : MonoBehaviour
     int damage = 5;
     bool canDisapear;
     Rigidbody myrig;
+    public Collider col;
+    public Renderer render;
     Transform ttotrack;
     bool track;
 
+    private void Awake()
+    {
+        myrig = GetComponent<Rigidbody>();
+    }
+
     public void Throw(Vector3 postion, Vector3 vectorDirection, float forceMultiplerAux = 1, int _damage = 5)
     {
+        render.enabled = true;
+        col.enabled = true;
+        myrig.isKinematic = false;
         damage = _damage;
         sensor.AddCallback_OnTriggerEnter(ReceiveEntityToDamage);
-        myrig = GetComponent<Rigidbody>();
         this.transform.position = postion;
         this.transform.forward = vectorDirection;
         //this.transform.eulerAngles = new Vector3(Random.Range(0,360), Random.Range(0, 360), Random.Range(0, 360));
@@ -26,6 +35,9 @@ public class BasicThrowable : MonoBehaviour
 
     public void BegigTrackTransform(Transform t)
     {
+        render.enabled = false;
+        col.enabled = false;
+        myrig.isKinematic = true;
         ttotrack = t;
         track = true;
     }

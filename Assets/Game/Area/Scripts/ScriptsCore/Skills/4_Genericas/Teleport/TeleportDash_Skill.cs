@@ -14,6 +14,7 @@ public class TeleportDash_Skill : SkillBase
 
     public ParticleSystem intro;
     public ParticleSystem outro;
+    public ParticleSystem endCD;
 
     private bool teleportEnabled = false;
     protected override void OnBeginSkill()
@@ -25,7 +26,7 @@ public class TeleportDash_Skill : SkillBase
             _movement = _hero.GetCharMove();
         
         _hero.ChangeDashForTeleport();
-        _movement.ConfigureTeleport(teleportDistance, intro, outro);
+        _movement.ConfigureTeleport(teleportDistance, intro, outro, endCD);
 
         AudioManager.instance.GetSoundPool("TeleportAudio", AudioGroups.GAME_FX, teleportAudio);
     }

@@ -42,6 +42,7 @@ public class CharacterMovement
 
     private ParticleSystem introTeleport_ps;
     private ParticleSystem outroTeleport_ps;
+    private ParticleSystem endTeleport;
     private float _teleportDistance;
     private bool teleportActive;
 
@@ -244,6 +245,8 @@ public class CharacterMovement
 
             if (cdTimer >= dashCd)
             {
+                endTeleport.transform.position = rotTransform.position;
+                endTeleport.Play();
                 dashCdOk = false;
                 cdTimer = 0;
             }
@@ -396,10 +399,11 @@ public class CharacterMovement
         return dashDir;
     }
 
-    public void ConfigureTeleport(float teleportDistance, ParticleSystem intro, ParticleSystem outro)
+    public void ConfigureTeleport(float teleportDistance, ParticleSystem intro, ParticleSystem outro, ParticleSystem endCD)
     {
         introTeleport_ps = intro;
         outroTeleport_ps = outro;
+        endTeleport = endCD;
         _teleportDistance = teleportDistance;
     }
 
