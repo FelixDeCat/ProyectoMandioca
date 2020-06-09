@@ -76,7 +76,7 @@ public class InteractSensor : MonoBehaviour
         interactables = new List<Interactable>(filtered);
         filtered.Clear();
 
-        if (interactables.Count == 0) { Debug.Log("No hay mas nada"); return; }
+        if (interactables.Count == 0) { return; }
         if (interactables.Count == 1) current = interactables[0];
         else current = interactables.ReturnMostClose(transform.position);//esto tambien se puede optimizar mas a delante con un return most close que busque por grupos
 
