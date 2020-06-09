@@ -6,6 +6,7 @@ public class Generic_TakeInPlace : MonoStateBase
 {
     public Transform Hand;
     public BasicThrowable thowable;
+    public GameObject go;
 
     protected override void OnBegin()
     {
@@ -14,6 +15,7 @@ public class Generic_TakeInPlace : MonoStateBase
 
     public void TakeSomething()
     {
+        go.SetActive(true);
         Get_InputSender.SendBool("HasRock", true);
         thowable.gameObject.SetActive(true);
         thowable.BegigTrackTransform(Hand);

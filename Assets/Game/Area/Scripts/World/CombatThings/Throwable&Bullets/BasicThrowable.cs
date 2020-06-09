@@ -18,7 +18,8 @@ public class BasicThrowable : MonoBehaviour
         sensor.AddCallback_OnTriggerEnter(ReceiveEntityToDamage);
         myrig = GetComponent<Rigidbody>();
         this.transform.position = postion;
-        this.transform.eulerAngles = new Vector3(Random.Range(0,360), Random.Range(0, 360), Random.Range(0, 360));
+        this.transform.forward = vectorDirection;
+        //this.transform.eulerAngles = new Vector3(Random.Range(0,360), Random.Range(0, 360), Random.Range(0, 360));
         myrig.AddForce(vectorDirection * local_force_multiplier * forceMultiplerAux, ForceMode.VelocityChange);
         canDisapear = true;
     }
@@ -34,11 +35,11 @@ public class BasicThrowable : MonoBehaviour
     {
         if (canDisapear)
         {
-            if (myrig.velocity.magnitude <= 1)
-            {
-                gameObject.SetActive(false);
-                return;
-            }
+            //if (myrig.velocity.magnitude <= 1)
+            //{
+            //    gameObject.SetActive(false);
+            //    return;
+            //}
         }
         if (track) transform.position = ttotrack.position;
     }
