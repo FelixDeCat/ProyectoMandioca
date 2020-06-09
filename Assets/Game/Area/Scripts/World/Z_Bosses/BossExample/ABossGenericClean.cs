@@ -19,22 +19,37 @@ public class ABossGenericClean : EnemyBase
     {
         sensors_and_behaviours.Initialize(this);
         stateMachineHandler.Initialize(sensors_and_behaviours, fastSubscriber, inputSender);
-        var hit_sensor = sensors_and_behaviours.Sensor.sensor_hit;
-        var death_sensor = sensors_and_behaviours.Sensor.sensor_death;
 
         TakeDamageHandler.Initialize(
-            life, 
-            sensors_and_behaviours.Sensor.sensor_death.Hand_Enter, 
+            life,
+            OnDeath, 
             delegate { }, 
-            sensors_and_behaviours.Sensor.sensor_hit.Hand_Enter, 
+            OnHit, 
             rootTransform, 
             rb,
-            TakeDamageFeedback);
+            TakeDamageFeedback,
+            DeathVector);
 
         inputSender.StartStateMachine();
+    }
 
+    void DeathVector(Vector3 dir)
+    {
+        inputSender.OnDeath();
+    }
 
-        
+    void OnDeath()
+    {
+       // inputSender.OnDeath();
+    }
+    void OnHit()
+    {
+        inputSender.OnHit();
+    }
+
+    protected override void OnReset()
+    {
+        //lo de el ragdoll
     }
 
     public override void Zone_OnPlayerEnterInThisRoom(Transform who)
@@ -44,6 +59,7 @@ public class ABossGenericClean : EnemyBase
 
     void TakeDamageFeedback(Vector3 owner)
     {
+
         sensors_and_behaviours.Behaviours.cooldown_Damage.BeginCooldown();
         feedbackManager.Play_FeedbackOnHit();
         feedbackManager.Play_HitDamageEmission();

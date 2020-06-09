@@ -25,6 +25,9 @@ public abstract class EnemyBase : NPCBase, ICombatDirector
     public abstract float ChangeSpeed(float newSpeed);
     protected bool IsAttack() => attacking;
 
+    Action<EnemyBase> OnFinishFeedbackDeath;
+    public void AddCallbackFinishFeedbackDeath(Action<EnemyBase> _callback) => OnFinishFeedbackDeath = _callback;
+
     //sacar de aca
     #region Obligacion (llevar la logica a donde corresponde)
     //-------------- OBLIGACION 
@@ -111,14 +114,32 @@ public abstract class EnemyBase : NPCBase, ICombatDirector
     protected Rigidbody rb;
     [SerializeField] protected Transform rootTransform = null;
 
+    
+
     protected override void OnInitialize()
     {
         rb = GetComponent<Rigidbody>();
         dmgData.Initialize(this);
-        dmgReceiver.Initialize(rootTransform, IsDamage, Die, TakeDamageFeedback, rb, lifesystem, InmuneFeedback);
+        dmgReceiver.Initialize(rootTransform, IsDamage, Death, TakeDamageFeedback, rb, lifesystem, InmuneFeedback);
     }
 
+    public void ResetEntity()
+    {
+        ResetCombat();
+        StopAllCoroutines();
+        lifesystem.ResetLifeSystem();
+        OnReset();
+    }
+
+    protected abstract void OnReset();
+
     protected abstract void TakeDamageFeedback(DamageData data);
+    void Death(Vector3 dir) { Die(dir); /*Invoke("FinishDeath", 3f);*/ }
+    void FinishDeath() { 
+        //OnFinishFeedbackDeath.Invoke(this);
+        //OnFinishFeedbackDeath = delegate { };
+    }
+
     protected abstract void Die(Vector3 dir);
     protected abstract bool IsDamage();
     protected virtual void InmuneFeedback() { }

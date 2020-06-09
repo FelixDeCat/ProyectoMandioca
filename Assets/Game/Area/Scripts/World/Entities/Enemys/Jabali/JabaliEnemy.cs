@@ -97,6 +97,11 @@ public class JabaliEnemy : EnemyBase
 
         IAInitialize(Main.instance.GetCombatDirector());
     }
+    protected override void OnReset()
+    {
+        //lo de el ragdoll
+    }
+
 
     public override void IAInitialize(CombatDirector _director)
     {

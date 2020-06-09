@@ -16,6 +16,8 @@ public class Generic_Throw : MonoStateBase
     {
         thowable.EndTranckTransform();
 
+        Get_InputSender.SendBool("HasRock", false);
+
         Vector3 targetPosition = Main.instance.GetChar().transform.position;
         Vector3 direction = targetPosition - Hand.position;
         direction.Normalize();

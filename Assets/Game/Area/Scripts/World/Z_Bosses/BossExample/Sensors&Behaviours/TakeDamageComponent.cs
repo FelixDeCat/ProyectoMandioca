@@ -12,13 +12,13 @@ public class TakeDamageComponent : MonoBehaviour
 
     Func<bool> pred = delegate { return false; };
 
-    public void Initialize(int life, Action OnDeath, Action OnGain, Action OnHit, Transform owner, Rigidbody _rb, Action<Vector3> _tkdFeedback)
+    public void Initialize(int life, Action OnDeath, Action OnGain, Action OnHit, Transform owner, Rigidbody _rb, Action<Vector3> _tkdFeedback, Action<Vector3> OnDeathVector)
     {
         LifeSystem = GetComponent<GenericLifeSystem>();
         damageReceiver = GetComponent<DamageReceiver>();
 
         LifeSystem.Initialize(life, OnHit, OnGain, OnDeath);
-        damageReceiver.Initialize(owner, pred, DeathVector, TakeDamage, rb, LifeSystem);
+        damageReceiver.Initialize(owner, pred, OnDeathVector, TakeDamage, rb, LifeSystem);
         tkdFeedback = _tkdFeedback;
         rb = _rb;
     }
@@ -27,10 +27,5 @@ public class TakeDamageComponent : MonoBehaviour
     {
         Debug.Log("TakeDamage");
         tkdFeedback.Invoke(dmgdata.owner_position);
-    }
-
-    void DeathVector(Vector3 v3)
-    {
-        //esto es para el ragdoll
     }
 }
