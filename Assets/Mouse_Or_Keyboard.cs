@@ -18,7 +18,7 @@ public class Mouse_Or_Keyboard : MonoBehaviour
 
     public string sceneGame = "MAIN Completa";
     public string sceneGym = "Gym";
-    //public string sceneBlocking = "TerrainTestGonzaSinChar";
+    public string sceneBlocking = "TerrainTestGonzaSinChar";
 
     private void Start()
     {
@@ -50,6 +50,7 @@ public class Mouse_Or_Keyboard : MonoBehaviour
             CharacterInput inputs = Main.instance.GetChar().getInput;
             inputs.ChangeRotation(_activeRotation);
             LoadSceneHandler.instance.LoadAScene(sceneGame);
+            gameObject.SetActive(false);
 
         }
     }
@@ -60,6 +61,7 @@ public class Mouse_Or_Keyboard : MonoBehaviour
             CharacterInput inputs = Main.instance.GetChar().getInput;
             inputs.ChangeRotation(_activeRotation);
             LoadSceneHandler.instance.LoadAScene(sceneGym);
+            gameObject.SetActive(false);
 
         }
     }
@@ -69,7 +71,8 @@ public class Mouse_Or_Keyboard : MonoBehaviour
         {
             CharacterInput inputs = Main.instance.GetChar().getInput;
             inputs.ChangeRotation(_activeRotation);
-            //LoadSceneHandler.instance.LoadAScene(sceneBlocking);
+            LoadSceneHandler.instance.LoadAScene(sceneBlocking);
+            gameObject.SetActive(false);
 
         }
     }
