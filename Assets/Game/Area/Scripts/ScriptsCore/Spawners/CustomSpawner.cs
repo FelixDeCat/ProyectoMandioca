@@ -140,7 +140,10 @@ public class CustomSpawner : PlayObject
         Debug.Log("turn off");
     }
 
-    
+    private void OnDrawGizmos()
+    {       
+        Gizmos.DrawWireSphere(transform.position, spawnRadius);
+    }
     protected override void OnFixedUpdate(){}
     protected override void OnPause(){}
     protected override void OnResume(){}
