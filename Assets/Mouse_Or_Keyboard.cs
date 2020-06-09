@@ -8,9 +8,9 @@ public class Mouse_Or_Keyboard : MonoBehaviour
     [SerializeField]
     GameObject _joyStickImage;
     [SerializeField]
-    GameObject _KeyBoard;
+    GameObject _keyboardImage;
     [SerializeField]
-    GameObject _PlayButton;
+    GameObject _startButton;
     [SerializeField]
     GameObject _gymButton;
     public bool active;
@@ -18,28 +18,28 @@ public class Mouse_Or_Keyboard : MonoBehaviour
 
     public string sceneGame = "MAIN Completa";
     public string sceneGym = "Gym";
-    public string sceneBlocking = "TerrainTestGonzaSinChar";
+    //public string sceneBlocking = "TerrainTestGonzaSinChar";
 
     private void Start()
     {
         _joyStickImage.SetActive(false);
-        _KeyBoard.SetActive(false);
-        _PlayButton.SetActive(false);
+        _keyboardImage.SetActive(false);
+        _startButton.SetActive(false);
         _gymButton.SetActive(false);
     }
     public void JoystickButon()
     {
         _joyStickImage.SetActive(true);
-        _KeyBoard.SetActive(false);
-        _PlayButton.SetActive(true);
+        _keyboardImage.SetActive(false);
+        _startButton.SetActive(true);
         _gymButton.SetActive(true);
         _activeRotation = false;
     }
     public void KeyBoardButon()
     {
         _joyStickImage.SetActive(false);
-        _KeyBoard.SetActive(true);
-        _PlayButton.SetActive(true);
+        _keyboardImage.SetActive(true);
+        _startButton.SetActive(true);
         _gymButton.SetActive(true);
         _activeRotation = true;
     }
@@ -69,7 +69,7 @@ public class Mouse_Or_Keyboard : MonoBehaviour
         {
             CharacterInput inputs = Main.instance.GetChar().getInput;
             inputs.ChangeRotation(_activeRotation);
-            LoadSceneHandler.instance.LoadAScene(sceneBlocking);
+            //LoadSceneHandler.instance.LoadAScene(sceneBlocking);
 
         }
     }
