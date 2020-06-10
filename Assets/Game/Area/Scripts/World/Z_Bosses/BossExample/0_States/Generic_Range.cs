@@ -6,7 +6,7 @@ public class Generic_Range : MonoStateBase
 {
     public Transform Hand;
     public GameObject go;
-    public BasicThrowable thowable;
+    public Throwable thowable;
     public bool isThrower;
 
     protected override void OnOneAwake() { }

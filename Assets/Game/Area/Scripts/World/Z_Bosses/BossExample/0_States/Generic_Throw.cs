@@ -5,7 +5,7 @@ using UnityEngine;
 public class Generic_Throw : MonoStateBase
 {
     public Transform Hand;
-    public BasicThrowable thowable;
+    public Throwable thowable;
     public GameObject go;
 
     protected override void OnBegin()
