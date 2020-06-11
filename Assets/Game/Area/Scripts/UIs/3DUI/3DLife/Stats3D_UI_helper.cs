@@ -7,11 +7,17 @@ using UnityEngine.UI;
 
 public class Stats3D_UI_helper : MonoBehaviour
 {
-    public FrontendStatBase lifeBar;
+    //public FrontendStatBase lifeBar;
+    public FrontendStatBase littleHeart;
+    public UI3D_Shields_controller shieldController;
 
+    
+    
     private Tuple<Color, Material>[] originalColors;
 
-    public void FadeOut(float fadeSpeed)
+
+    #region Fade no se usa
+public void FadeOut(float fadeSpeed)
     {
         var _materials = GetComponentsInChildren<MeshRenderer>().SelectMany(m => m.materials).ToArray();//agarro los mats del objeto
         var _images = GetComponentsInChildren<Image>();//agarro las imagenes del objeto
@@ -22,7 +28,6 @@ public class Stats3D_UI_helper : MonoBehaviour
         StartCoroutine(StartFadeOut(_materials, _images ,fadeSpeed)); //arranco la corrutina para hacerles fade.
 
     }
-
     IEnumerator StartFadeOut(Material[] materiales, Image[] images,float fadeSpeed)
     {
         //Alpha de materiales
@@ -50,7 +55,6 @@ public class Stats3D_UI_helper : MonoBehaviour
             }
         }
     }
-    
     IEnumerator StartFadeIn(Tuple<Color, Material>[] materiales, Image[] images,float fadeSpeed)
     {
         //Igual que el fadeOut pero al reves. La diferencia es que aca uso como limite el valor original que me guarde
@@ -84,4 +88,8 @@ public class Stats3D_UI_helper : MonoBehaviour
         
         StartCoroutine(StartFadeIn(originalColors,_images ,fadeSpeed));
     }
+    
+
+    #endregion
+    
 }

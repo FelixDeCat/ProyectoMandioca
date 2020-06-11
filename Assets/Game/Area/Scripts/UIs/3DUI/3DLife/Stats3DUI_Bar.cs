@@ -5,5 +5,8 @@ public class Stats3DUI_Bar : FrontendStatBase {
         mat = GetComponent<MeshRenderer>().material;
         OnValueChange(1,1);
     }
-    public override void OnValueChange(int value, int max = 100, bool anim = false) => mat.SetFloat("_Value", value * 10f);
+    public override void OnValueChange(int value, int max = 100, bool anim = false)
+    {
+        mat.SetFloat("_Value1", value * 10f);
+    }
 }
