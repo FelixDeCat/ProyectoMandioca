@@ -17,8 +17,8 @@ public class AudioManager : MonoBehaviour
     private Dictionary<string, SoundPool> _soundRegistry = new Dictionary<string, SoundPool>();
     private Dictionary<AudioGroups, AudioMixerGroup> _audioMixers = new Dictionary<AudioGroups, AudioMixerGroup>();
 
-
     public static AudioManager instance;
+    Action OnEnd;
 
     private void Awake()
     {
@@ -76,7 +76,7 @@ public class AudioManager : MonoBehaviour
             Debug.LogWarning("No tenes ese sonido en en pool");
         }
     }
-    Action OnEnd;
+    
     public void PlaySound(string soundPoolName, Action callbackEnd, Transform trackingTransform = null)
     {
         if (_soundRegistry.ContainsKey(soundPoolName))
@@ -140,7 +140,7 @@ public class AudioManager : MonoBehaviour
         var soundPool = new GameObject($"{soundPoolName} soundPool").AddComponent<SoundPool>();
         soundPool.transform.SetParent(transform);
         soundPool.Configure(audioClip, _audioMixers[audioGroups],loop);
-        soundPool.PreWarm(prewarmAmount);
+        soundPool.Initialize(prewarmAmount);
         _soundRegistry.Add(soundPoolName, soundPool);
         return soundPool;
     }

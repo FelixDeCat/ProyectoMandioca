@@ -17,16 +17,9 @@ public class Throwable : MonoBehaviour
 
     Action<Throwable> ReturnToPool;
 
-    bool oneshot = false;
-
     public void Throw(ThrowData data, Action<Throwable> _ReturnToPoolCallback)
     {
-        if (!oneshot)//first entrance
-        {
-            oneshot = true;
-            myrig = GetComponent<Rigidbody>();
-        }
-
+        myrig = GetComponent<Rigidbody>();
         myrig.isKinematic = false;
         myrig.velocity = Vector3.zero;
         damage = data.Damage;
@@ -35,9 +28,7 @@ public class Throwable : MonoBehaviour
         this.transform.forward = data.Direction;
         myrig.AddForce(data.Direction * local_force_multiplier * data.Force, ForceMode.VelocityChange);
         canDisapear = true;
-
         ReturnToPool = _ReturnToPoolCallback;
-
     }
 
     private void Update()

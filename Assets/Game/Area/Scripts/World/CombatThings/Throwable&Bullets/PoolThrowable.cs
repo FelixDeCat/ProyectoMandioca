@@ -5,17 +5,15 @@ using DevelopTools;
 
 public class PoolThrowable : SingleObjectPool<Throwable>
 {
-    public void StartPool(int amount)
+    public void Configure(Throwable model)
     {
-        AddObject(amount);
+        prefab = model;
     }
 
-    public Throwable Throw()
+    public Throwable Throw(ThrowData throwData)
     {
         var obj = Get();
-        
-        //Le paso posicion direccion fuerza, etc etc etc
-
+        obj.Throw(throwData, BackToThePool);
         return obj;
     }
 

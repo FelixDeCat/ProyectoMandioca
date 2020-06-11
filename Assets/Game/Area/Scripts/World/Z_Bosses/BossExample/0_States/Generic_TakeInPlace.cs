@@ -4,10 +4,13 @@ using UnityEngine;
 
 public class Generic_TakeInPlace : MonoStateBase
 {
-
-    protected override void OnBegin()
+    protected override void OnOneAwake()
     {
         Get_Anim_Event_Subscriber.SubscribeMeTo(AnimEventLabel.Boss_TakeRock, TakeSomething);
+    }
+    protected override void OnBegin()
+    {
+
     }
 
     public void TakeSomething()
@@ -18,6 +21,6 @@ public class Generic_TakeInPlace : MonoStateBase
     }
 
     protected override void OnExit() { }
-    protected override void OnOneAwake() { }
+
     protected override void OnUpdate() { }
 }

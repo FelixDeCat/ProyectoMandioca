@@ -26,17 +26,14 @@ namespace DevelopTools
 
         protected List<T> currentlyUsingObj = new List<T>();
 
-        [Header("-----8888888-------")]
-        protected int prewarmAmount = 5;
+        #region Auto exponential size
+        bool auto_exp;
+        int auto_size = 0;
+        #endregion
 
         private void Awake()
         {
             Instance = this;
-        }
-
-        protected virtual void Start()
-        {
-            PreWarm(prewarmAmount);
         }
 
         /// <summary>
@@ -46,26 +43,23 @@ namespace DevelopTools
         /// <returns></returns>
         public T Get()
         {
-            if (objects.Count == 0)
-            {
-                AddObject(1);
-            }
-
+            if (objects.Count == 0) 
+                AddObject(auto_exp ? auto_size : 1);
             var obj = objects.Dequeue();
             obj.gameObject.SetActive(true);
             currentlyUsingObj.Add(obj);
             return obj;
         }
 
-        /// <summary>
-        /// Crea una cantidad de objetos antes de arrancar
-        /// </summary>
-        public virtual void PreWarm(int amount)
+       /// <summary>
+       /// Initialize con configuracion previa
+       /// </summary>
+       /// <param name="prewarm">prewarm para crear pre-crear objetos y tenerlos listos para usar</param>
+       /// <param name="autoExponential">activa el auto-escalado exponencial, para grandes volumenes de objetos</param>
+        public void Initialize(int prewarm = 5, bool autoExponential = false)
         {
-            for (int i = 0; i < amount; i++)
-            {
-                AddObject(1);
-            }
+            auto_exp = autoExponential;
+            for (int i = 0; i < prewarm; i++) AddObject(1);
         }
 
         /// <summary>
@@ -82,11 +76,15 @@ namespace DevelopTools
         /// Creo un objeto del prefab y lo agrego al pool previo apagarlo
         /// </summary>
         /// <param name="amount"></param>
-        protected virtual void AddObject(int amount)
+        protected virtual void AddObject(int amount = 5)
         {
-            var newObject = GameObject.Instantiate(prefab,transform);
-            newObject.gameObject.SetActive(false);
-            objects.Enqueue(newObject);
+            for (int i = 0; i < amount; i++)
+            {
+                var newObject = GameObject.Instantiate(prefab, transform);
+                newObject.gameObject.SetActive(false);
+                objects.Enqueue(newObject);
+                if (auto_exp && objects.Count > auto_size) auto_size = objects.Count;
+            }
         }
     }    
 

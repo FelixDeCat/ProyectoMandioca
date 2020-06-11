@@ -22,6 +22,6 @@ public class ScreamPool : SingleObjectPool<ScreamItemWorld>
 
     public void StartPool(int iniAmmount)
     {
-        AddObject(iniAmmount);
+       // AddObject(iniAmmount);
     }
 }

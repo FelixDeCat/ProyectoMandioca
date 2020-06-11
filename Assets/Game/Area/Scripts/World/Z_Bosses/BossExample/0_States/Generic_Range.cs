@@ -9,17 +9,19 @@ public class Generic_Range : MonoStateBase
     public Throwable thowable;
     public bool isThrower;
 
-    protected override void OnOneAwake() { }
+    protected override void OnOneAwake() 
+    {
+        Get_Anim_Event_Subscriber.SubscribeMeTo(AnimEventLabel.Boss_TakeRock, TakeSomething);
+        Get_Anim_Event_Subscriber.SubscribeMeTo(AnimEventLabel.Boss_Throw, ThrowSomething);
+    }
     protected override void OnBegin()
     {
         Get_Behaviours.followBehaviour.StartLookAt();
-        Get_Anim_Event_Subscriber.SubscribeMeTo(AnimEventLabel.Boss_TakeRock, TakeSomething);
-        Get_Anim_Event_Subscriber.SubscribeMeTo(AnimEventLabel.Boss_Throw, ThrowSomething);
+        
     }
     protected override void OnExit()
     {
         Get_Behaviours.followBehaviour.StopLookAt();
-        Get_Anim_Event_Subscriber.EraseSubscriptions();
     }
     protected override void OnUpdate() { }
 

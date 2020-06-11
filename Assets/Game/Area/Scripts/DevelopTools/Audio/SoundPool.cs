@@ -7,7 +7,6 @@ using UnityEngine.Audio;
 
 public class SoundPool : SingleObjectPool<AudioSource>
 {
-   public soundTypes soundType;
    
    [SerializeField] private AudioClip _audioClip;
    [SerializeField] private bool _loop = false;
@@ -15,11 +14,6 @@ public class SoundPool : SingleObjectPool<AudioSource>
    public bool soundPoolPlaying = false;
    private AudioMixerGroup _audioMixer;
    private Transform trackingTransform;
-   
-   protected override void Start()
-   {
-      
-   }
 
    public void Configure(AudioClip audioClip, AudioMixerGroup audioMixerGroup,  bool loop = false) 
    {
@@ -27,7 +21,7 @@ public class SoundPool : SingleObjectPool<AudioSource>
       _loop = loop;
       _audioMixer = audioMixerGroup;
    }
-   protected override void AddObject(int amount)
+   protected override void AddObject(int prewarm = 3)
    {
       var newAudio = ASourceCreator.Create2DSource(_audioClip, _audioClip.name, _audioMixer, _loop, playOnAwake);
       newAudio.gameObject.SetActive(false);
