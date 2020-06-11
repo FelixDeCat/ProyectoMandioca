@@ -29,6 +29,7 @@ public class Mouse_Or_Keyboard : MonoBehaviour
     }
     public void JoystickButon()
     {
+        Debug.Log("asdasdsad");
         _joyStickImage.SetActive(true);
         _keyboardImage.SetActive(false);
         _startButton.SetActive(true);
