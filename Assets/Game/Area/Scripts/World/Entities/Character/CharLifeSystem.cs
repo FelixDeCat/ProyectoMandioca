@@ -22,7 +22,6 @@ public class CharLifeSystem: _Base_Life_System
 
         lifesystem.AddCallback_LifeChange(OnLifeChange);
         Debug_UI_Tools.instance.CreateToogle("GODMODE", false, ToogleDebug);
-        lifechange.Invoke(life, life);
         return this;
     }
 

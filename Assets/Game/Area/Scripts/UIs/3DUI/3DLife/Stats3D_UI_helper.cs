@@ -11,8 +11,6 @@ public class Stats3D_UI_helper : MonoBehaviour
     public FrontendStatBase littleHeart;
     public UI3D_Shields_controller shieldController;
 
-    
-    
     private Tuple<Color, Material>[] originalColors;
 
 

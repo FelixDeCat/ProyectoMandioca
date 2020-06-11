@@ -3,7 +3,7 @@ public class Stats3DUI_Bar : FrontendStatBase {
     public Material mat;
     private void Start() { 
         mat = GetComponent<MeshRenderer>().material;
-        OnValueChange(1,1);
+        OnValueChange(100,100);
     }
     public override void OnValueChange(int value, int max = 100, bool anim = false)
     {
