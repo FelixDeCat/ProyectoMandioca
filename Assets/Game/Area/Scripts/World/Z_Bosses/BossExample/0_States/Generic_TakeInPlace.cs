@@ -4,9 +4,6 @@ using UnityEngine;
 
 public class Generic_TakeInPlace : MonoStateBase
 {
-    public Transform Hand;
-    public Throwable thowable;
-    public GameObject go;
 
     protected override void OnBegin()
     {
@@ -15,10 +12,9 @@ public class Generic_TakeInPlace : MonoStateBase
 
     public void TakeSomething()
     {
-        go.SetActive(true);
+        Get_FeedbackHandler.Play_PluckRock();
         Get_InputSender.SendBool("HasRock", true);
-        thowable.gameObject.SetActive(true);
-        thowable.BegigTrackTransform(Hand);
+        Get_FeedbackHandler.EnableRockInHand();
     }
 
     protected override void OnExit() { }

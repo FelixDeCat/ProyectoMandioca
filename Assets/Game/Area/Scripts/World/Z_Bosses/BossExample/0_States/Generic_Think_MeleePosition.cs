@@ -24,7 +24,7 @@ public class Generic_Think_MeleePosition : MonoStateBase
     }
     public void OnAttack()
     {
-        if (isactive)
+        if (_monoStateBaseOptions.isactive)
             Get_InputSender.SendBool("CloseFight", true);
     }
     protected override void OnExit()

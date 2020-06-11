@@ -13,7 +13,7 @@ public class Generic_Think_RangePosition : MonoStateBase
     }
     public void OnAttack()
     {
-        if (isactive)
+        if (_monoStateBaseOptions.isactive)
             Get_InputSender.SendBool("CombatDirAdvice", true);
     }
     protected override void OnExit()

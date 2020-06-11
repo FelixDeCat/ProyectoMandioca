@@ -29,7 +29,6 @@ public class Generic_Range : MonoStateBase
         {
             Get_InputSender.SendBool("HasRock", true);
             thowable.gameObject.SetActive(true);
-            thowable.BegigTrackTransform(Hand);
         }
         
     }
@@ -37,14 +36,13 @@ public class Generic_Range : MonoStateBase
     {
         if (isThrower)
         {
-            thowable.EndTranckTransform();
 
             Vector3 targetPosition = Main.instance.GetChar().transform.position;
             targetPosition.y = Hand.position.y;
             Vector3 direction = targetPosition - Hand.position;
             direction.Normalize();
             
-            thowable.Throw(Hand.position, direction, 4);
+            //thowable.Throw(Hand.position, direction, 4);
         }
         
     }

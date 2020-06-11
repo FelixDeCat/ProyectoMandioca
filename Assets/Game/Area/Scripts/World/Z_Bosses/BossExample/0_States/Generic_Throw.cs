@@ -18,7 +18,7 @@ public class Generic_Throw : MonoStateBase
     {
         go.SetActive(true);
 
-        thowable.EndTranckTransform();
+        Get_FeedbackHandler.DisableRockInHand();
 
         Get_InputSender.SendBool("HasRock", false);
 
@@ -26,7 +26,7 @@ public class Generic_Throw : MonoStateBase
         targetPosition.y = Main.instance.GetChar().transform.position.y + 2;
         Vector3 direction = targetPosition - Hand.position;
         direction.Normalize();
-        thowable.Throw(Hand.position, direction, 3);
+        //thowable.Throw(Hand.position, direction, 3);
     }
     protected override void OnExit() { }
     protected override void OnOneAwake() { }

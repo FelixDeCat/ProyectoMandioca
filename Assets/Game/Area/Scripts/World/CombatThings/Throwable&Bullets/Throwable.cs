@@ -33,8 +33,7 @@ public class Throwable : MonoBehaviour
         sensor.AddCallback_OnTriggerEnter(ReceiveEntityToDamage);
         this.transform.position = data.Position;
         this.transform.forward = data.Direction;
-        //this.transform.eulerAngles = new Vector3(Random.Range(0,360), Random.Range(0, 360), Random.Range(0, 360));
-        myrig.AddForce(vectorDirection * local_force_multiplier * exterior_force_multiplier, ForceMode.VelocityChange);
+        myrig.AddForce(data.Direction * local_force_multiplier * data.Force, ForceMode.VelocityChange);
         canDisapear = true;
 
         ReturnToPool = _ReturnToPoolCallback;
