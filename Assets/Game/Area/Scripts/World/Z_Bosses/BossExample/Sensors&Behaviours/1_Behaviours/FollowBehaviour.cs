@@ -41,6 +41,11 @@ public class FollowBehaviour : MonoBehaviour
 
     void Update()
     {
+        if (lookat)
+        {
+            genericEnemyMove.Rotation(Direction);
+        }
+
         if (follow)
         {
             Vector3 forwardFix = genericEnemyMove.ObstacleAvoidance(new Vector3(Direction.x, 0, Direction.z));
@@ -52,13 +57,6 @@ public class FollowBehaviour : MonoBehaviour
             Vector3 forwardFix = genericEnemyMove.ObstacleAvoidance(new Vector3(Direction.x, 0, Direction.z));
             genericEnemyMove.MoveWRigidbodyV(forwardFix *-1);
             genericEnemyMove.Rotation(forwardFix);
-        }
-        else
-        {
-            if (lookat)
-            {
-                genericEnemyMove.Rotation(Direction);
-            }
         }
         
     }

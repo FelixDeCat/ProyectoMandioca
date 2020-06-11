@@ -15,13 +15,20 @@ public class Generic_Throw : MonoStateBase
     protected override void OnOneAwake()
     {
         Get_Anim_Event_Subscriber.SubscribeMeTo(AnimEventLabel.Boss_Throw, ThrowSomething);
+        Get_Anim_Event_Subscriber.SubscribeMeTo(AnimEventLabel.Boss_StopLookAt, CatchDefinitiveTargetPosition);
         ThrowablePoolsManager.instance.CreateAPool(NAME_OBJECT, thowable);
     }
 
     protected override void OnBegin()
     {
         Get_Behaviours.followBehaviour.StartLookAt();
+        
+    }
+
+    void CatchDefinitiveTargetPosition()
+    {
         cap_position = Main.instance.GetChar().transform.position;
+        Get_Behaviours.followBehaviour.StopLookAt(); 
     }
 
     void ThrowSomething()
