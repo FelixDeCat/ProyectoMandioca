@@ -18,7 +18,7 @@ public class GameUI_controller : MonoBehaviour
     
     
     [SerializeField] private GameMenu_UI gameMenu_UI = null;
-    private GameObject stats3D_UI;
+    [HideInInspector] public GameObject stats3D_UI;
     private CharStats_UI _charStats_Ui;
     //private UI3D_Shields_controller _shieldsController;
     
@@ -67,7 +67,7 @@ public class GameUI_controller : MonoBehaviour
         //_shieldsController = Instantiate(_shieldsController_pf, transform);
         //_shieldsController.Init(3,3);
         
-        Main.instance.GetChar().Life.frontendLife = stats3D_UI.GetComponent<Stats3D_UI_helper>().lifeBar;
+        Main.instance.GetChar().Life.frontendLife = stats3D_UI.GetComponent<Stats3D_UI_helper>().littleHeart;
         
     }
 

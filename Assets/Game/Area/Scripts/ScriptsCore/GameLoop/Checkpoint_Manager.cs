@@ -46,7 +46,15 @@ public class Checkpoint_Manager : MonoBehaviour
     {
         _activeCheckPoint = cp;
     }
-    
+
+    private void Update()
+    {
+        if (Main.instance.GetChar().transform.position.y < -10)
+        {
+           SpawnChar();
+        }
+    }
+
     public void SpawnChar()
     {
         Main.instance.GetChar().transform.position = _activeCheckPoint.transform.position;

@@ -22,8 +22,6 @@ public class ActivateDamage : MonoBehaviour
             .SetDamageTick(false)
             .SetDamageType(Damagetype.parriable)
             .SetPositionAndDirection(transform.position);
-
-        
     }
 
     public void Configure(Transform root)
@@ -35,6 +33,8 @@ public class ActivateDamage : MonoBehaviour
     bool charisdamage;
     public void ReceiveEntityToDamage(GameObject go)
     {
+        Debug.Log("go received: => " + go.name);
+
         if (go.GetComponent<CharacterHead>() != null)
         {
             if (!charisdamage)

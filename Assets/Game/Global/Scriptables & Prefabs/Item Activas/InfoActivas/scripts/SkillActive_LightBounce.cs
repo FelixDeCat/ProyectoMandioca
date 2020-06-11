@@ -69,7 +69,7 @@ public class SkillActive_LightBounce : SkillActivas
 
         if (Physics.Raycast(ray, out raycastHit, length))
         {
-            var enemy = raycastHit.collider.gameObject.GetComponent<DamageReceiver>();
+            var enemy = raycastHit.collider.gameObject.GetComponent<WalkingEntity>();
 
             if (enemy != null)
             {
@@ -79,8 +79,9 @@ public class SkillActive_LightBounce : SkillActivas
                     sparks_ps.Play();
                 }
                 Main.instance.Vibrate();
-
-                enemy.TakeDamage(dmgData);
+                
+                enemy.OnPetrified();
+                
             }
             else
             {
@@ -89,9 +90,6 @@ public class SkillActive_LightBounce : SkillActivas
                 endPosition = raycastHit.point;
             }
         }
-
-       // _lineRenderer.SetPosition(0, targetPosition);
-       // _lineRenderer.SetPosition(1, endPosition);
     }
 
     protected override void OnStartUse()
@@ -104,8 +102,7 @@ public class SkillActive_LightBounce : SkillActivas
 
     protected override void OnStopUse()
     {
-       // _lineRenderer.enabled = false;
-       if(sparks_ps)
+        if(sparks_ps)
             sparks_ps.Stop();
         lightAura.SetActive(false);
         lightBeam.SetActive(false);
@@ -129,7 +126,6 @@ public class SkillActive_LightBounce : SkillActivas
             
             ShootLaserFromTargetPosition(_hero.transform.position + Vector3.up * 1, _hero.GetCharMove().GetRotatorDirection(), range);
             
-           // _lineRenderer.enabled = true;    
         }
         else
         {
@@ -138,7 +134,6 @@ public class SkillActive_LightBounce : SkillActivas
             {
                 AudioManager.instance.StopAllSounds(_fireSound);
             }
-           // _lineRenderer.enabled = false;
         }
         
     }
