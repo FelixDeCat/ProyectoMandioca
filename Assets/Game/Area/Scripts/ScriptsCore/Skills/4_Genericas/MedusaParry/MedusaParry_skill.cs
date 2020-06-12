@@ -25,7 +25,7 @@ public class MedusaParry_skill : SkillBase
     void PetrifyEnemies(params object[] param)
     {
         var entity = (EntityBase)param[0];
-
+        if (entity == null) return;
         if (entity.GetComponent<WalkingEntity>())
         {
             entity.GetComponent<WalkingEntity>().OnPetrified();
