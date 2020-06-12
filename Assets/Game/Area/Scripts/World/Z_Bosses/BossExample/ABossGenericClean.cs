@@ -23,17 +23,15 @@ public class ABossGenericClean : EnemyBase
 
         TakeDamageHandler.Initialize(
             life,
-            OnDeath, 
-            delegate { }, 
-            OnHit, 
-            rootTransform, 
+            OnDeath,
+            delegate { },
+            OnHit,
+            rootTransform,
             rb,
             TakeDamageFeedback,
             DeathVector);
 
         inputSender.StartStateMachine();
-
-
     }
 
     void DeathVector(Vector3 dir)
