@@ -7,7 +7,7 @@ using UnityEngine.UI;
 
 public class Stats3D_UI_helper : MonoBehaviour
 {
-    //public FrontendStatBase lifeBar;
+    public FrontendStatBase yellowHeart;
     public FrontendStatBase littleHeart;
     public UI3D_Shields_controller shieldController;
 
