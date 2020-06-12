@@ -76,7 +76,15 @@ public class SkillManager_ActivasNueva : LoadComponent
         {
             if (i != null)
             {
-                if (_skillinfo == i.skillinfo) return false;
+                if (_skillinfo == i.skillinfo) 
+                {
+                    if (fastreference_item.ContainsKey(_skillinfo))
+                    {
+                        var _item = fastreference_item[_skillinfo];
+                        Main.instance.SpawnItem(_item, Main.instance.GetChar().transform.position + Main.instance.GetChar().GetCharMove().GetRotatorDirection());
+                    }
+                    return false; 
+                }
                 else continue;
             }
         }

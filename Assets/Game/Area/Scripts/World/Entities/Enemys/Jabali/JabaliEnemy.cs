@@ -60,7 +60,6 @@ public class JabaliEnemy : EnemyBase
     [SerializeField] ParticleSystem greenblood = null;
     [SerializeField] AnimEvent anim = null;
     [SerializeField] Animator animator = null;
-    [SerializeField] UnityEngine.UI.Text txt_debug = null;
     [SerializeField] Material freeze_shader = null;
     [SerializeField] RagdollComponent ragdoll;
     [SerializeField] Color onHitColor;
@@ -588,8 +587,26 @@ public class JabaliEnemy : EnemyBase
     #endregion
 
     #region Debuggin
+    UnityEngine.UI.Text txt_debug = null;
+    public GameObject canvasDebugModel;
     void DebugState(string state) { if (txt_debug != null) txt_debug.text = state; }//viene de la state machine
-    public void ToogleDebug(bool val) { if (txt_debug != null) txt_debug.enabled = val; }//apaga y prende debug desde afuera
+    public void ToogleDebug(bool val)
+    {
+        if (val)
+        {
+            if (txt_debug == null)
+            {
+                GameObject go = Instantiate(canvasDebugModel, this.transform);
+                txt_debug = go.GetComponentInChildren<UnityEngine.UI.Text>();
+            }
+            txt_debug.enabled = val;
+        }
+        else
+        {
+            if (txt_debug != null)
+                txt_debug.enabled = val;
+        }
+    }
     void StartDebug() { if (txt_debug != null) txt_debug.enabled = DevelopToolsCenter.instance.EnemyDebuggingIsActive(); }// inicializacion
     #endregion
 }
