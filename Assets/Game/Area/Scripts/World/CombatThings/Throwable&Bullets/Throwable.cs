@@ -15,7 +15,23 @@ public class Throwable : MonoBehaviour
     float timerDisapear;
     bool canDisapear;
 
+    public LayerMask layermask_player;
+    public LayerMask layermask_enemy;
+
+    Vector3 posCollision;
+
     Action<Throwable> ReturnToPool;
+
+    public DamageData damageData;
+    ThrowData savethrowdata;
+
+    private void Awake()
+    {
+        damageData
+            .SetDamage(damage)
+            .SetDamageType(Damagetype.parriable)
+            .SetKnockback(500);
+    }
 
     public void Throw(ThrowData data, Action<Throwable> _ReturnToPoolCallback)
     {
@@ -23,12 +39,15 @@ public class Throwable : MonoBehaviour
         myrig.isKinematic = false;
         myrig.velocity = Vector3.zero;
         damage = data.Damage;
+        sensor.SetLayers(layermask_player);
         sensor.AddCallback_OnTriggerEnter(ReceiveEntityToDamage);
         this.transform.position = data.Position;
         this.transform.forward = data.Direction;
         myrig.AddForce(data.Direction * local_force_multiplier * data.Force, ForceMode.VelocityChange);
         canDisapear = true;
         ReturnToPool = _ReturnToPoolCallback;
+
+        savethrowdata = data;
     }
 
     private void Update()
@@ -48,15 +67,41 @@ public class Throwable : MonoBehaviour
         }
     }
 
+    void ReturnTheRock(Vector3 newPosition, Vector3 newDirection, float force)
+    {
+        myrig.isKinematic = false;
+        myrig.velocity = Vector3.zero;
+
+        sensor.SetLayers(layermask_enemy);
+        sensor.AddCallback_OnTriggerEnter(ReceiveEntityToDamage);
+
+        this.transform.position = newPosition;
+        this.transform.forward = newDirection;
+
+        myrig.AddForce(newDirection * local_force_multiplier * force, ForceMode.VelocityChange);
+        
+        canDisapear = true;
+        timerDisapear = 0;
+    }
+
     void ReceiveEntityToDamage(GameObject go)//cambiar por damage nuevo
     {
-        var ent = go.GetComponent<EntityBase>();
+        var ent = go.GetComponent<DamageReceiver>();
         if (ent != null)
         {
-            ent.TakeDamage(damage, transform.position, Damagetype.normal);
+            var dir = ent.transform.position - this.transform.position;
+            dir.Normalize();
+
+            damageData.SetPositionAndDirection(this.transform.position, dir);
+            var aux = ent.TakeDamage(damageData);
+
+            if (aux == Attack_Result.parried)
+            {
+                posCollision = this.transform.position;
+                var newdir = savethrowdata.Owner.position - posCollision;
+                newdir.Normalize();
+                ReturnTheRock(posCollision, newdir, savethrowdata.Force * 2);
+            }
         }
-
-        //agregarle si devuelve parry que devuelta el punto de daño y que lo retorne para devolverselo al enemigo... onda reflejar la piedra
-
     }
 }

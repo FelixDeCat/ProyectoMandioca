@@ -90,6 +90,7 @@ GameObject:
   - component: {fileID: 7744332779966298614}
   - component: {fileID: 7744332779966298615}
   - component: {fileID: 7744332779966298613}
+  - component: {fileID: -6985174493653873851}
   m_Layer: 0
   m_Name: rock
   m_TagString: Untagged
@@ -157,8 +158,37 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   local_force_multiplier: 5
   sensor: {fileID: 7744332780351284322}
-  col: {fileID: 7744332779966298615}
-  render: {fileID: 7744332779238177014}
+  time_to_disapear: 3
+  layermask_player:
+    serializedVersion: 2
+    m_Bits: 256
+  layermask_enemy:
+    serializedVersion: 2
+    m_Bits: 1024
+  damageData: {fileID: -6985174493653873851}
+--- !u!114 &-6985174493653873851
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7744332779966298609}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 76ec5563f4c97ae4dabf294f011c2d67, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  damage: 0
+  initDamage: 0
+  tickDamage: 0
+  finalDamage: 0
+  damageType: 0
+  owner_position: {x: 0, y: 0, z: 0}
+  knockbackForce: 0
+  hasDamageTick: 0
+  damageTime: 0
+  attackDir: {x: 0, y: 0, z: 0}
+  owner: {fileID: 0}
 --- !u!1 &7744332780351284348
 GameObject:
   m_ObjectHideFlags: 0

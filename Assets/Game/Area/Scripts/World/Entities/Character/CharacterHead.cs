@@ -804,7 +804,7 @@ public class CharacterHead : CharacterControllable
         PerfectParry();
         Main.instance.GetTimeManager().DoSlowMotion(timeScale, slowDuration);
         customCam.DoFastZoom(10);
-        entity.GetComponent<EnemyBase>().AddForceToRb(entity.transform.position - transform.position, knockbackOnParry, ForceMode.Impulse);
+        entity?.GetComponent<EnemyBase>().AddForceToRb(entity.transform.position - transform.position, knockbackOnParry, ForceMode.Impulse);
     }
 
     void BlockFeedback(EntityBase entity)

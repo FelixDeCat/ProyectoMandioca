@@ -15,7 +15,7 @@ public abstract class MonoStateBase : MonoBehaviour
     InputSenderBase inputSender;
     FeedbackManager feedbackManager;
 
-
+    protected Rigidbody Get_Rigidbody { get { return sensors_and_behaviours.rigidBody; } }
     protected SensorManager Get_Sensors { get { return sensors_and_behaviours.Sensor; } }
     protected BehavioursManager Get_Behaviours { get { return sensors_and_behaviours.Behaviours; } }
     protected InputSenderBase Get_InputSender { get { return inputSender; } }

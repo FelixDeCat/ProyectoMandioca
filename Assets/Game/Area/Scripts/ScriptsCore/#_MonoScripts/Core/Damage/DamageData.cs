@@ -24,7 +24,6 @@ public class DamageData : MonoBehaviour
     {
         owner = _owner;
     }
-
     public DamageData SetDamage(int dmg)
     {
         damage = dmg;

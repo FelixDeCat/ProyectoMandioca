@@ -44,7 +44,7 @@ public class Generic_Throw : MonoStateBase
         direction.Normalize();
 
         ThrowData data = new ThrowData();
-        data.Configure(Hand.position, direction, ThrowForce, rockDamage);
+        data.Configure(Hand.position, direction, ThrowForce, rockDamage, Get_Rigidbody.transform);
 
         ThrowablePoolsManager.instance.Throw(NAME_OBJECT, data);
 

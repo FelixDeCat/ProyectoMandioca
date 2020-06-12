@@ -77,7 +77,7 @@ public class DamageReceiver : MonoBehaviour
                 if (IsParry(ownerRoot.position, data.owner_position, ownerRoot.forward))
                 {
                     Parry(data.owner);
-                    return Attack_Result.blocked;
+                    return Attack_Result.parried;
                 }
             }
             if (blockEntity)

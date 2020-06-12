@@ -149,7 +149,7 @@ public class SkillActive_BoomeranShield : SkillActivas
         
         foreach (DamageReceiver enemy in enemiesClose)
         {
-            if(enemy.GetComponent<EntityBase>() != dmgData.owner)
+            if (enemy.GetComponent<EntityBase>() != Main.instance.GetChar())
                 enemy.TakeDamage(dmgData);
         }
 
