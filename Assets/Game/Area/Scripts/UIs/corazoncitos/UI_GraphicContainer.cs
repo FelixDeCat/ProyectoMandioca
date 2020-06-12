@@ -100,5 +100,5 @@ public class UI_GraphicContainer : FrontendStatBase
         return new GraphicContainer(back, front);
     }
 
-    
+    public override void OnValueChangeWithDelay(int value, float delay, int max = 100, bool anim = false){}
 }
