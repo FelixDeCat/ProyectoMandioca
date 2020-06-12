@@ -39,10 +39,11 @@ namespace ToolsMandioca.StateMachine
                // Debug.Log("IS LOCKON OFF");
                 charMove.RotateHorizontal(RightHorizontal());
                 charMove.RotateVertical(RightVertical());
+                charMove.MovementHorizontal(LeftHorizontal());
+                charMove.MovementVertical(LeftVertical());
             }
             
-            charMove.MovementHorizontal(LeftHorizontal());
-            charMove.MovementVertical(LeftVertical());
+            
 
             if (LeftVertical() == 0 && LeftHorizontal() == 0)
             {
