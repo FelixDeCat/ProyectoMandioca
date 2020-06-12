@@ -205,7 +205,6 @@ public class CharacterAttack
     {
         currentWeapon.Attack(forwardPos, currentDamage, isHeavy ? Damagetype.heavy : Damagetype.normal);
 
-        BeginFeedbackSlash();
         AudioManager.instance.PlaySound(_swingSword_SoundName);
     }
 
