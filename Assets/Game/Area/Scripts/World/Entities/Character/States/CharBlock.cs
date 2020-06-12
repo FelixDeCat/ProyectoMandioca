@@ -6,7 +6,7 @@ namespace ToolsMandioca.StateMachine
 {
     public class CharBlock : CharacterStates
     {
-        
+        float _speedPenalty = .75f;
         private float initSpeed;
         
         public CharBlock(EState<CharacterHead.PlayerInputs> myState, EventStateMachine<CharacterHead.PlayerInputs> _sm,LockOn myLockOn) : base(myState, _sm)
@@ -19,7 +19,7 @@ namespace ToolsMandioca.StateMachine
             charBlock.SetOnBlock(true);
             
             initSpeed = charMove.GetDefaultSpeed;
-            charMove.SetSpeed(charMove.GetDefaultSpeed * .5f);
+            charMove.SetSpeed(charMove.GetDefaultSpeed * _speedPenalty);
 
             //if (_myLockOn.isLockOn())
             //{
@@ -59,8 +59,8 @@ namespace ToolsMandioca.StateMachine
             }
             
             
-            charMove.MovementHorizontal(LeftHorizontal() * .5f);
-            charMove.MovementVertical(LeftVertical() * .5f);
+            charMove.MovementHorizontal(LeftHorizontal() * _speedPenalty);
+            charMove.MovementVertical(LeftVertical() * _speedPenalty);
         }
 
         protected override void FixedUpdate()
