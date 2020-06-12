@@ -7,6 +7,7 @@ namespace ToolsMandioca.StateMachine
     public class CharBeginBlock : CharacterStates
     {
         Animator anim;
+        private float initSpeed;
         public CharBeginBlock(EState<CharacterHead.PlayerInputs> myState, EventStateMachine<CharacterHead.PlayerInputs> _sm, Animator _anim) : base(myState, _sm)
         {
             anim = _anim;
@@ -15,15 +16,21 @@ namespace ToolsMandioca.StateMachine
         protected override void Enter(EState<CharacterHead.PlayerInputs> input)
         {
             charBlock.OnBlock();
+            initSpeed = charMove.GetDefaultSpeed;
+            charMove.SetSpeed(charMove.GetDefaultSpeed * .5f);
         }
 
         protected override void Update()
         {
             charMove.RotateHorizontal(RightHorizontal());
             charMove.RotateVertical(RightVertical());
+            
+            
             charMove.MovementHorizontal(LeftHorizontal());
             charMove.MovementVertical(LeftVertical());
 
+            
+            
             var info = anim.GetCurrentAnimatorStateInfo(1);
             if (info.IsName("BlockStay"))
             {
@@ -50,6 +57,13 @@ namespace ToolsMandioca.StateMachine
             }
             else
                 charBlock.OnBlockSuccessful();
+            
+            ResetSpeed();
+        }
+
+        void ResetSpeed()
+        {
+            charMove.SetSpeed(initSpeed);
         }
     }
 }

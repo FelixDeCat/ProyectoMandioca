@@ -46,6 +46,8 @@ public class CharacterMovement
     private float _teleportDistance;
     private bool teleportActive;
 
+
+    public float GetDefaultSpeed => speed;
     public bool TeleportActive
     {
         get => teleportActive;

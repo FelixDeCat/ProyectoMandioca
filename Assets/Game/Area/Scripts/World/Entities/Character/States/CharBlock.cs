@@ -6,6 +6,9 @@ namespace ToolsMandioca.StateMachine
 {
     public class CharBlock : CharacterStates
     {
+        
+        private float initSpeed;
+        
         public CharBlock(EState<CharacterHead.PlayerInputs> myState, EventStateMachine<CharacterHead.PlayerInputs> _sm,LockOn myLockOn) : base(myState, _sm)
         {
             _myLockOn = myLockOn;
@@ -14,6 +17,9 @@ namespace ToolsMandioca.StateMachine
         protected override void Enter(EState<CharacterHead.PlayerInputs> input)
         {
             charBlock.SetOnBlock(true);
+            
+            initSpeed = charMove.GetDefaultSpeed;
+            charMove.SetSpeed(charMove.GetDefaultSpeed * .5f);
 
             //if (_myLockOn.isLockOn())
             //{
@@ -26,8 +32,10 @@ namespace ToolsMandioca.StateMachine
             //    charMove.MovementHorizontal(0);
             //    charMove.MovementVertical(0);
             //}
-            charMove.MovementHorizontal(0);
-            charMove.MovementVertical(0);
+            
+            
+            //charMove.MovementHorizontal(0);
+            //charMove.MovementVertical(0);
         }
 
         protected override void Update()
@@ -47,8 +55,12 @@ namespace ToolsMandioca.StateMachine
             {
                 charMove.RotateHorizontal(RightHorizontal());
                 charMove.RotateVertical(RightVertical());
+                
             }
             
+            
+            charMove.MovementHorizontal(LeftHorizontal() * .5f);
+            charMove.MovementVertical(LeftVertical() * .5f);
         }
 
         protected override void FixedUpdate()
@@ -63,7 +75,12 @@ namespace ToolsMandioca.StateMachine
 
         protected override void Exit(CharacterHead.PlayerInputs input)
         {
-
+            ResetSpeed();
+        }
+        
+        void ResetSpeed()
+        {
+            charMove.SetSpeed(initSpeed);
         }
     }
 }
