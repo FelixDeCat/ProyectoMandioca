@@ -36,7 +36,6 @@ public class CharacterAttack
 
     event Action<Vector3> callbackPositio;
 
-    ParticleSystem attackslash;
     ParticleSystem heavyLoad;
 
     Action DealSuccesfullNormal;
@@ -50,7 +49,7 @@ public class CharacterAttack
     Rigidbody myRig;
 
     public CharacterAttack(float _range, float _angle, float _heavyAttackTime, CharacterAnimator _anim, Transform _forward,
-        Action _normalAttack, Action _heavyAttack, ParticleSystem ps, float damage, ParticleSystem _attackslash, string swingSword_SoundName, DamageData data, ParticleSystem _heavyLoad)
+        Action _normalAttack, Action _heavyAttack, ParticleSystem ps, float damage, string swingSword_SoundName, DamageData data, ParticleSystem _heavyLoad)
     {
         hitstore = new HitStore();
 
@@ -71,15 +70,11 @@ public class CharacterAttack
         HeavyAttack = _heavyAttack;
         feedbackHeavy = ps;
 
-        attackslash = _attackslash;
-
         _swingSword_SoundName = swingSword_SoundName;
     }
     public void SetRigidBody(Rigidbody _rb) => myRig = _rb;
     public string ChangeName() => currentWeapon.weaponName;
     public void ChangeDamageBase(int dmg) => currentDamage = dmg;
-    public void BeginFeedbackSlash() => attackslash.Play();
-    public void EndFeedbackSlash() => attackslash.Stop();
     public void BuffOrNerfDamage(float f) => currentDamage += f;
     public void ChangeWeapon(int index)
     {
