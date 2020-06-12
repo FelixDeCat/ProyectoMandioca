@@ -220,8 +220,8 @@ public class CharacterHead : CharacterControllable
     void DealLeft() { DirAttack = rot.right; DealAttack(); }
     void DealRight() { DirAttack = -rot.right; DealAttack(); }
 
-    void RightAttacktFeedback() { }
-    void LeftAttacktFeedback() { }
+    void RightAttacktFeedback() { slash_right.Play(); }
+    void LeftAttacktFeedback() { slash_left.Play(); }
 
     float auxSpeedDebug;
     string ToogleSpeed(bool active)
