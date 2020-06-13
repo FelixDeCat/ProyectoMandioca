@@ -5,6 +5,7 @@ using UnityEngine;
 public class Berseker : MonoBehaviour
 {
     public Material _ppmat;
+    public Material _ppmat2;
     CharacterHead myChar;
 
     private void Start()
@@ -21,10 +22,13 @@ public class Berseker : MonoBehaviour
     {
         if (myChar.isBuffed == true)
         {
-            _ppmat.SetFloat("_Berseker", 1);
-            Debug.Log("IMbuf");
+            _ppmat.SetFloat("_Value", 1);
+            _ppmat2.SetFloat("_Value", 1);
         }
         else
-            _ppmat.SetFloat("_Berseker", 0f);
+        {
+            _ppmat.SetFloat("_Value", 0);
+            _ppmat2.SetFloat("_Value", 0);
+        }
     }
 }

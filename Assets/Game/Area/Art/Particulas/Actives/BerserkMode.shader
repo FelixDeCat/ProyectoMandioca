@@ -117,13 +117,13 @@ Shader "Actives/Berserk"
 }
 /*ASEBEGIN
 Version=17200
-339;540;1136;489;1474.307;135.3647;1.59815;True;False
+91;410;1114;548;1503.073;77.03226;1.59815;True;False
 Node;AmplifyShaderEditor.FresnelNode;2;-1593.096,-49.3459;Inherit;True;Standard;WorldNormal;ViewDir;False;5;0;FLOAT3;0,0,1;False;4;FLOAT3;0,0,0;False;1;FLOAT;0;False;2;FLOAT;1.42;False;3;FLOAT;1;False;1;FLOAT;0
 Node;AmplifyShaderEditor.SaturateNode;4;-1243.915,-49.68416;Inherit;False;1;0;FLOAT;0;False;1;FLOAT;0
 Node;AmplifyShaderEditor.SimpleSubtractOpNode;5;-975.7488,159.5228;Inherit;True;2;0;FLOAT;1;False;1;FLOAT;0;False;1;FLOAT;0
-Node;AmplifyShaderEditor.ColorNode;6;-968.5925,393.9185;Inherit;False;Property;_InColor;InColor;2;0;Create;True;0;0;False;0;1,0.7474473,0.4764151,0;1,0.7474473,0.476415,0;True;0;5;COLOR;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
+Node;AmplifyShaderEditor.ColorNode;6;-968.5925,393.9185;Inherit;False;Property;_InColor;InColor;2;0;Create;True;0;0;False;0;1,0.7474473,0.4764151,0;1,0.8175162,0.6179245,0;True;0;5;COLOR;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
 Node;AmplifyShaderEditor.SaturateNode;8;-752.4395,201.0837;Inherit;False;1;0;FLOAT;0;False;1;FLOAT;0
-Node;AmplifyShaderEditor.ColorNode;1;-1259.369,41.01034;Inherit;False;Property;_OutColor;OutColor;1;0;Create;True;0;0;False;0;0,0,0,0;0.4847935,0,0.8117647,0;True;0;5;COLOR;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
+Node;AmplifyShaderEditor.ColorNode;1;-1259.369,41.01034;Inherit;False;Property;_OutColor;OutColor;1;0;Create;True;0;0;False;0;0,0,0,0;0.6062711,0,0.8117647,0;True;0;5;COLOR;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
 Node;AmplifyShaderEditor.SimpleMultiplyOpNode;7;-596.6473,267.857;Inherit;False;2;2;0;FLOAT;0;False;1;COLOR;0,0,0,0;False;1;COLOR;0
 Node;AmplifyShaderEditor.SimpleMultiplyOpNode;3;-976.465,-50.98325;Inherit;True;2;2;0;FLOAT;0;False;1;COLOR;0,0,0,0;False;1;COLOR;0
 Node;AmplifyShaderEditor.SimpleAddOpNode;9;-444.7351,139.6593;Inherit;True;2;2;0;COLOR;0,0,0,0;False;1;COLOR;0,0,0,0;False;1;COLOR;0
@@ -143,4 +143,4 @@ WireConnection;12;0;9;0
 WireConnection;12;1;10;0
 WireConnection;0;0;12;0
 ASEEND*/
-//CHKSM=6C3DBBC856DD2B0587D2980169C562EF2694C620
+//CHKSM=7EEB24BC5F900CC0D8F52599544F6B92EA0BC138
