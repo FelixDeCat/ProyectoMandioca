@@ -113,6 +113,7 @@ public class GameUI_controller : MonoBehaviour
 
     public void ResetYellowHeart()
     {
+        stats3D_UI.GetComponent<Stats3D_UI_helper>().yellowHeart.StopAllCoroutines();
         stats3D_UI.GetComponent<Stats3D_UI_helper>().yellowHeart.OnValueChange(1,1);
     }
     
