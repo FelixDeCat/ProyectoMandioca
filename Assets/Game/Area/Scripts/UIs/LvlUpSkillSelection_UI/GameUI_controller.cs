@@ -108,7 +108,7 @@ public class GameUI_controller : MonoBehaviour
     public void OnChangeLife(int current, int max)
     {
         stats3D_UI.GetComponent<Stats3D_UI_helper>().littleHeart.OnValueChange(current, max);
-        stats3D_UI.GetComponent<Stats3D_UI_helper>().yellowHeart.OnValueChangeWithDelay(current, 0,max); //el 0 esta mal, dsp lo coambio
+        stats3D_UI.GetComponent<Stats3D_UI_helper>().yellowHeart.OnValueChangeWithDelay(current, 1,max); //el 0 esta mal, dsp lo coambio
     }
 
     public void ResetYellowHeart()

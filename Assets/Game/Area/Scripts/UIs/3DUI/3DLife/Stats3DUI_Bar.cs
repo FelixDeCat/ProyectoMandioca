@@ -23,17 +23,14 @@ public class Stats3DUI_Bar : FrontendStatBase {
 
     IEnumerator DelayEffect(float value, float delay, float max)
     {
-        //float _count = 0;
-        float current = mat.GetFloat("_Value1");
+        yield return new WaitForSeconds(delay);
         
+        float current = mat.GetFloat("_Value1");
         float meta = (value / max) * 100;
-        Debug.Log($"value {value}, max {max}");
+        
         while (current > meta)
         {
-            Debug.Log($"current {current}, meta {meta}");
-            //_count += Time.deltaTime;
             current--;
-            
             mat.SetFloat("_Value1", current);
             yield return new WaitForEndOfFrame();
         }
