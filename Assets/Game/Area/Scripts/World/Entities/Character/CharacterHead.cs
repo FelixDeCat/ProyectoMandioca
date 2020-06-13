@@ -12,10 +12,11 @@ public class CharacterHead : CharacterControllable
 
     Action ChildrensUpdates;
     [SerializeField] CharacterInput _charInput;
+
     [Header("Dash Options")]
+    public AnimationCurve dashCurve;
     [SerializeField] float dashTiming = 2;
-    [SerializeField] float dashSpeed = 9;
-    [SerializeField] float dashDeceleration = 5;
+    [SerializeField] float dashDistance = 5;
     [SerializeField] float dashCD = 2;
     [SerializeField] float teleportCD = 2;
     [SerializeField] ParticleSystem evadeParticle = null;
@@ -89,7 +90,8 @@ public class CharacterHead : CharacterControllable
     float dmg;
     CharacterAttack charAttack;
     [SerializeField] AudioClip _dashSounds;
-    [SerializeField] ParticleSystem slash = null;
+    [SerializeField] ParticleSystem slash_right = null;
+    [SerializeField] ParticleSystem slash_left = null;
     [SerializeField] DamageData dmgData;
     [SerializeField] DamageReceiver dmgReceiver;
 
@@ -144,9 +146,11 @@ public class CharacterHead : CharacterControllable
 
         move = new CharacterMovement(GetComponent<Rigidbody>(), rot, charanim, _dashSounds)
             .SetSpeed(speed)
-            .SetTimerDash(dashTiming).SetDashSpeed(dashSpeed)
+            .SetTimerDash(dashTiming)
             .SetDashCD(dashCD)
-            .SetRollDeceleration(dashDeceleration);
+            .SetDashDistance(dashDistance);
+
+        move.Curve += () => dashCurve;
 
         InDash += move.IsDash;
         ChildrensUpdates += move.OnUpdate;
@@ -163,15 +167,16 @@ public class CharacterHead : CharacterControllable
             .Initialize(rot, () => InDash(), Dead, TakeDamageFeedback, rb, lifesystem);
 
         charAttack = new CharacterAttack(attackRange, attackAngle, timeToHeavyAttack, charanim, rot, ReleaseInNormal, ReleaseInHeavy,
-            feedbackHeavy, dmg, slash, swing_SoundName, dmgData, feedbackCW);
+            feedbackHeavy, dmg, swing_SoundName, dmgData, feedbackCW);
         charAttack.FirstAttackReady(true);
 
         charAnimEvent.Add_Callback("CheckAttackType", CheckAttackType);
 
         charAnimEvent.Add_Callback("DealAttackRight", DealRight);
         charAnimEvent.Add_Callback("DealAttackLeft", DealLeft);
-        charAnimEvent.Add_Callback("DealAttackRight", DealAttack);
-        charAnimEvent.Add_Callback("DealAttackLeft", DealAttack);
+
+        charAnimEvent.Add_Callback("ActiveRightAttackFeedback", RightAttacktFeedback);
+        charAnimEvent.Add_Callback("ActiveLeftAttackFeedback", LeftAttacktFeedback);
 
         charAnimEvent.Add_Callback("Dash", move.RollForAnim);
         charAnimEvent.Add_Callback("Pasos", Pasos);
@@ -215,9 +220,11 @@ public class CharacterHead : CharacterControllable
 
     public Vector3 DirAttack { get; private set; }
 
-    void DealLeft() { DirAttack = rot.right; }
-    void DealRight() { DirAttack = -rot.right; }
+    void DealLeft() { DirAttack = rot.right; DealAttack(); }
+    void DealRight() { DirAttack = -rot.right; DealAttack(); }
 
+    void RightAttacktFeedback() { slash_right.Play(); }
+    void LeftAttacktFeedback() { slash_left.Play(); }
 
     float auxSpeedDebug;
     string ToogleSpeed(bool active)

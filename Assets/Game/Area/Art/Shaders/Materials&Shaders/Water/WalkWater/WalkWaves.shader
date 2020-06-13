@@ -21,7 +21,7 @@ Shader "Effects/Water/WalkWaves"
 		CGINCLUDE
 		#pragma target 3.0
 		ENDCG
-		Blend One OneMinusSrcAlpha
+		Blend Off
 		Cull Back
 		ColorMask RGBA
 		ZWrite On
@@ -147,7 +147,7 @@ Shader "Effects/Water/WalkWaves"
 }
 /*ASEBEGIN
 Version=17200
-0;360;963;329;1333.779;-53.19478;1;True;False
+0;360;933;329;1114.779;-54.19478;1;True;False
 Node;AmplifyShaderEditor.TextureCoordinatesNode;26;-2459.552,192.3532;Inherit;False;0;-1;2;3;2;SAMPLER2D;;False;0;FLOAT2;1,1;False;1;FLOAT2;-0.5,-0.5;False;5;FLOAT2;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
 Node;AmplifyShaderEditor.LengthOpNode;29;-2246.142,192.5931;Inherit;False;1;0;FLOAT2;0,0;False;1;FLOAT;0
 Node;AmplifyShaderEditor.OneMinusNode;30;-2130.603,192.6159;Inherit;False;1;0;FLOAT;0;False;1;FLOAT;0
@@ -157,8 +157,8 @@ Node;AmplifyShaderEditor.SimpleTimeNode;34;-2000.961,276.701;Inherit;False;1;0;F
 Node;AmplifyShaderEditor.SimpleAddOpNode;33;-1867.961,189.701;Inherit;False;2;2;0;FLOAT;0;False;1;FLOAT;0;False;1;FLOAT;0
 Node;AmplifyShaderEditor.RangedFloatNode;38;-1830.473,274.1827;Inherit;False;Property;_Amplitude;Amplitude;3;0;Create;True;0;0;False;0;0;0.47;0;0;0;1;FLOAT;0
 Node;AmplifyShaderEditor.SinOpNode;36;-1750.993,191.922;Inherit;False;1;0;FLOAT;0;False;1;FLOAT;0
-Node;AmplifyShaderEditor.SimpleMultiplyOpNode;37;-1647.122,189.1593;Inherit;False;2;2;0;FLOAT;0;False;1;FLOAT;0;False;1;FLOAT;0
 Node;AmplifyShaderEditor.TextureCoordinatesNode;18;-1732.664,67.64072;Inherit;False;0;-1;2;3;2;SAMPLER2D;;False;0;FLOAT2;1,1;False;1;FLOAT2;-0.5,-0.5;False;5;FLOAT2;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
+Node;AmplifyShaderEditor.SimpleMultiplyOpNode;37;-1647.122,189.1593;Inherit;False;2;2;0;FLOAT;0;False;1;FLOAT;0;False;1;FLOAT;0
 Node;AmplifyShaderEditor.SimpleMultiplyOpNode;28;-1506.602,167.1253;Inherit;False;2;2;0;FLOAT2;0,0;False;1;FLOAT;0;False;1;FLOAT2;0
 Node;AmplifyShaderEditor.RangedFloatNode;16;-1607.139,269.654;Inherit;False;Property;_IntensityNormal;Intensity Normal;1;0;Create;True;0;0;False;0;0;0.01;0;0.1;0;1;FLOAT;0
 Node;AmplifyShaderEditor.SamplerNode;12;-1307.026,143.2336;Inherit;True;Property;_TextureSample0;Texture Sample 0;0;1;[HideInInspector];Create;True;0;0;False;0;-1;None;35a5a75c9ac607143bf4badd8b6e25a8;True;0;True;bump;Auto;True;Object;-1;Auto;Texture2D;6;0;SAMPLER2D;;False;1;FLOAT2;0,0;False;2;FLOAT;0;False;3;FLOAT2;0,0;False;4;FLOAT2;0,0;False;5;FLOAT;1;False;5;FLOAT3;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
@@ -167,7 +167,7 @@ Node;AmplifyShaderEditor.SimpleAddOpNode;15;-698.2084,149.4027;Inherit;False;2;2
 Node;AmplifyShaderEditor.PosVertexDataNode;60;-1453.24,519.969;Inherit;False;0;0;5;FLOAT3;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
 Node;AmplifyShaderEditor.FunctionNode;59;-1280.654,518.5566;Inherit;False;NewLowPolyStyle;-1;;2;9366fbf697958664ea2b821af5ab3369;0;1;8;FLOAT3;0,0,0;False;2;FLOAT;9;FLOAT3;0
 Node;AmplifyShaderEditor.ScreenColorNode;13;-590.7929,143.3571;Inherit;False;Global;_GrabScreen0;Grab Screen 0;1;0;Create;True;0;0;False;0;Object;-1;False;False;1;0;FLOAT2;0,0;False;5;COLOR;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
-Node;AmplifyShaderEditor.TemplateMultiPassMasterNode;17;-437.7078,148.6479;Float;False;True;2;ASEMaterialInspector;0;1;Effects/Water/WalkWaves;0770190933193b94aaa3065e307002fa;True;Unlit;0;0;Unlit;2;True;3;1;False;-1;10;False;-1;0;1;False;-1;0;False;-1;True;0;False;-1;0;False;-1;True;False;True;0;False;-1;True;True;True;True;True;0;False;-1;True;False;255;False;-1;255;False;-1;255;False;-1;7;False;-1;1;False;-1;1;False;-1;1;False;-1;7;False;-1;1;False;-1;1;False;-1;1;False;-1;True;1;False;-1;True;3;False;-1;True;True;0;False;-1;0;False;-1;True;1;RenderType=Opaque=RenderType;True;2;0;False;False;False;False;False;False;False;False;False;True;1;LightMode=ForwardBase;False;0;;0;0;Standard;1;Vertex Position,InvertActionOnDeselection;1;0;1;True;False;0
+Node;AmplifyShaderEditor.TemplateMultiPassMasterNode;17;-437.7078,148.6479;Float;False;True;2;ASEMaterialInspector;0;1;Effects/Water/WalkWaves;0770190933193b94aaa3065e307002fa;True;Unlit;0;0;Unlit;2;True;0;5;False;-1;1;False;-1;0;1;False;-1;0;False;-1;True;0;False;-1;0;False;-1;True;False;True;0;False;-1;True;True;True;True;True;0;False;-1;True;False;255;False;-1;255;False;-1;255;False;-1;7;False;-1;1;False;-1;1;False;-1;1;False;-1;7;False;-1;1;False;-1;1;False;-1;1;False;-1;True;1;False;-1;True;3;False;-1;True;True;0;False;-1;0;False;-1;True;1;RenderType=Opaque=RenderType;True;2;0;False;False;False;False;False;False;False;False;False;True;1;LightMode=ForwardBase;False;0;;0;0;Standard;1;Vertex Position,InvertActionOnDeselection;1;0;1;True;False;0
 WireConnection;29;0;26;0
 WireConnection;30;0;29;0
 WireConnection;31;0;30;0
@@ -187,4 +187,4 @@ WireConnection;59;8;60;0
 WireConnection;13;0;15;0
 WireConnection;17;0;13;0
 ASEEND*/
-//CHKSM=9FFABE0CE241ECFA033DE721D2C1BFDD18814351
+//CHKSM=7D749897A99A6E3C592BD44DB4DAB2C6C672E1F1

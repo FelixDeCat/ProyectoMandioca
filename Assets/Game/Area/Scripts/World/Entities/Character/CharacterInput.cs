@@ -86,6 +86,8 @@ public class CharacterInput : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Alpha1)) SendIndexAlphanumeric.Invoke(0);
         if (Input.GetKeyDown(KeyCode.Alpha2)) SendIndexAlphanumeric.Invoke(1);
 
+        if (Input.GetButtonDown("SwitchActive")) SwitchActive.Invoke();
+
         if (Input.GetKeyDown(KeyCode.LeftControl) || Input.GetKeyDown(KeyCode.RightControl)) SwitchActive.Invoke();
 
             RefreshHelper();

@@ -7,8 +7,8 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Effects_Water_Cascade
-  m_Shader: {fileID: 4800000, guid: 5a04f7fc3f41ff54c8305b2f212f241c, type: 3}
+  m_Name: Effects_Water_CascadeWave
+  m_Shader: {fileID: 4800000, guid: 745294c167797b04093b6b29b47713f6, type: 3}
   m_ShaderKeywords: 
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
@@ -20,11 +20,7 @@ Material:
     serializedVersion: 3
     m_TexEnvs:
     - _TextureSample0:
-        m_Texture: {fileID: 2800000, guid: 38fc7d99d9c15324d92e6f1b77b0127e, type: 3}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    - _TextureSample1:
-        m_Texture: {fileID: 2800000, guid: 96a8252c1a35840459f69c10e67286e3, type: 3}
+        m_Texture: {fileID: 2800000, guid: fabdbe3d0d8767d45813ffda970777fb, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _texcoord:
@@ -33,10 +29,13 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Floats:
     - _EdgeLength: 50
-    - _Float0: 0.86
-    - _Float1: 0.47
-    - _TessValue: 2.3
-    - _X: 1
-    - _Y: 0
+    - _Frequency: 24.07
+    - _Intensity: -0.04
+    - _IntensityMask: 0.53
+    - _IntensityMaskOpacity: 0.53
+    - _TessValue: 1
+    - _WaveSpeed: 6.35
     - __dirty: 0
-    m_Colors: []
+    m_Colors:
+    - _Color0: {r: 0.16862711, g: 0.4313722, b: 0.67058825, a: 0}
+    - _Color1: {r: 0.57849765, g: 0.8439038, b: 0.9811321, a: 0}

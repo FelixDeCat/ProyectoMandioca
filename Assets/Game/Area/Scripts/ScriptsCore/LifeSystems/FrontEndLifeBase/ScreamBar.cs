@@ -13,4 +13,6 @@ public class ScreamBar : FrontendStatBase
         genbar.Configure(max, 0.01f);
         genbar.SetValue(value);
     }
+
+    public override void OnValueChangeWithDelay(int value, float delay, int max = 100, bool anim = false){}
 }
