@@ -13,12 +13,19 @@ public class RagdollComponent : MonoBehaviour
     [SerializeField] Collider principalBone;
     Action callback_end;
 
+    [SerializeField] bool useParentBones = false;
+    [SerializeField] Transform parentBonesToFind;
+
     Bone[] myBones;
     Vector3[] transformpositions;
 
     private void Awake()
     {
-        myBones = GetComponentsInChildren<Bone>();
+        if (!useParentBones)
+            myBones = GetComponentsInChildren<Bone>();
+        else
+            myBones = parentBonesToFind?.GetComponentsInChildren<Bone>();
+        
         Ragdoll(false, Vector3.zero);
     }
 
