@@ -21,10 +21,9 @@ public class CharacterMovement
 
     float timerDash;
     float maxTimerDash;
-    float dashSpeed;
+    float dashDistance;
     float dashCd;
     float cdTimer;
-    float dashDecreaseSpeed;
     float dashMaxSpeed;
     bool dashCdOk;
 
@@ -34,6 +33,7 @@ public class CharacterMovement
     Action OnBeginRoll;
     Action OnEndRoll;
     public Action Dash;
+    public Func<AnimationCurve> Curve;
 
     public Action<float> MovementHorizontal;
     public Action<float> MovementVertical;
@@ -79,19 +79,14 @@ public class CharacterMovement
         maxTimerDash = n;
         return this;
     }
-    public CharacterMovement SetDashSpeed(float n)
+    public CharacterMovement SetDashDistance(float _dis)
     {
-        dashMaxSpeed = n;
+        dashDistance = _dis;
         return this;
     }
     public CharacterMovement SetDashCD(float n)
     {
         dashCd = n;
-        return this;
-    }
-    public CharacterMovement SetRollDeceleration(float n)
-    {
-        dashDecreaseSpeed = n;
         return this;
     }
     public CharacterMovement SetPushAttack(float n)
@@ -221,15 +216,11 @@ public class CharacterMovement
     {
         if (inDash)
         {
-            timerDash += Time.deltaTime;
+            timerDash += Time.deltaTime /** dashSpeed*/;
+            //Debug.Log(lastKey.time + "y" + Curve().Evaluate(timerDash) / lastKey.time);
+            _rb.transform.position = Vector3.Slerp(aPoint, bPoint, Curve().Evaluate(timerDash));
 
-            if (timerDash / maxTimerDash >= 0.7f && dashSpeed != dashDecreaseSpeed)
-            {
-                _rb.velocity = Vector3.zero;
-                dashSpeed = dashDecreaseSpeed;
-            }
-
-            _rb.velocity = dashDir * dashSpeed;
+            //_rb.velocity = dashDir * dashSpeed;
 
             if (timerDash >= maxTimerDash)
             {
@@ -238,6 +229,7 @@ public class CharacterMovement
                 _rb.velocity = Vector3.zero;
                 timerDash = 0;
                 dashDir = Vector3.zero;
+                dashCdOk = true;
             }
         }
 
@@ -258,15 +250,19 @@ public class CharacterMovement
         }
     }
 
+    Keyframe lastKey;
+    Vector3 aPoint;
+    Vector3 bPoint;
+
     public void RollForAnim()
     {
         OnBeginRoll();
+        lastKey = Curve()[Curve().length - 1];
+
+        aPoint = _rb.transform.position;
+        bPoint = _rb.position = _rb.position + (dashDir * dashDistance);
 
         inDash = true;
-        dashCdOk = true;
-
-
-        dashSpeed = dashMaxSpeed;
     }
 
     public void Roll()
@@ -411,13 +407,6 @@ public class CharacterMovement
         endTeleport = endCD;
         _teleportDistance = teleportDistance;
     }
-
-    #region SCRIPT TEMPORAL, BORRAR
-    public void ChangeDashCD(float _cd)
-    {
-        dashCd = _cd;
-    }
-    #endregion
 
     #endregion
 

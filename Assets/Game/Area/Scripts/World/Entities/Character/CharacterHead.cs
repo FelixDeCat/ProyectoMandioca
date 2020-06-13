@@ -12,10 +12,11 @@ public class CharacterHead : CharacterControllable
 
     Action ChildrensUpdates;
     [SerializeField] CharacterInput _charInput;
+
     [Header("Dash Options")]
+    public AnimationCurve dashCurve;
     [SerializeField] float dashTiming = 2;
-    [SerializeField] float dashSpeed = 9;
-    [SerializeField] float dashDeceleration = 5;
+    [SerializeField] float dashDistance = 5;
     [SerializeField] float dashCD = 2;
     [SerializeField] float teleportCD = 2;
     [SerializeField] ParticleSystem evadeParticle = null;
@@ -144,9 +145,11 @@ public class CharacterHead : CharacterControllable
 
         move = new CharacterMovement(GetComponent<Rigidbody>(), rot, charanim, _dashSounds)
             .SetSpeed(speed)
-            .SetTimerDash(dashTiming).SetDashSpeed(dashSpeed)
+            .SetTimerDash(dashTiming)
             .SetDashCD(dashCD)
-            .SetRollDeceleration(dashDeceleration);
+            .SetDashDistance(dashDistance);
+
+        move.Curve += () => dashCurve;
 
         InDash += move.IsDash;
         ChildrensUpdates += move.OnUpdate;
