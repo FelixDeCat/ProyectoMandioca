@@ -14,7 +14,6 @@ public class ABossGenericClean : EnemyBase
     [SerializeField] FastSubscriberPerState fastSubscriber;
     [SerializeField] FeedbackManager feedbackManager;
     [SerializeField] TakeDamageComponent TakeDamageHandler;
-    [SerializeField] RagdollComponent ragdoll;
 
     protected override void OnInitialize()
     {
@@ -37,30 +36,13 @@ public class ABossGenericClean : EnemyBase
     void DeathVector(Vector3 dir)
     {
         inputSender.OnDeath();
-
         sensors_and_behaviours.Behaviours.followBehaviour.StopFollow();
         sensors_and_behaviours.Behaviours.followBehaviour.StopLookAt();
         sensors_and_behaviours.Behaviours.followBehaviour.StopScape();
-
-
         sensors_and_behaviours.Behaviours.combatDirectorComponent.ExitCombat();
-
-        Debug.Log("DEATH VECTOR");
-
-        if (dir == Vector3.zero)
-            ragdoll.Ragdoll(true, -rootTransform.forward);
-        else
-            ragdoll.Ragdoll(true, dir);
-
-        Invoke("ShutDownBones", 5f);
+        sensors_and_behaviours.Behaviours.ragdollComponent.ActivateRagdoll(dir == Vector3.zero ? rootTransform.forward : dir , OnEndRagdollFall);
     }
-
-    void ShutDownBones()
-    {
-        ragdoll.DesactiveBones();
-        Invoke("DisableWendigo", 3f);
-    }
-    void DisableWendigo()
+    public void OnEndRagdollFall()
     {
         gameObject.SetActive(false);
     }

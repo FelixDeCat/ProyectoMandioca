@@ -954,7 +954,6 @@ GameObject:
   m_Component:
   - component: {fileID: 1909525048331572221}
   - component: {fileID: 4538564803568822472}
-  - component: {fileID: 3945339141202708864}
   m_Layer: 10
   m_Name: Wendigo
   m_TagString: Untagged
@@ -1003,7 +1002,6 @@ MonoBehaviour:
   combat: 0
   distancePos: 1.5
   dmgData: {fileID: 8851705996999269494}
-  dmgDataAuxiliar: {fileID: 8325603056181692331}
   dmgReceiver: {fileID: 4538564803222110690}
   lifesystem: {fileID: 4538564803222110691}
   rootTransform: {fileID: 4538564803222110688}
@@ -1014,25 +1012,6 @@ MonoBehaviour:
   fastSubscriber: {fileID: 4206187329583890622}
   feedbackManager: {fileID: 1314980442666227801}
   TakeDamageHandler: {fileID: 4563030485821299496}
-  ragdoll: {fileID: 3945339141202708864}
---- !u!114 &3945339141202708864
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1909525048331572220}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 04a83679e899e5b49a5825c651e9b8f7, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  myCollider:
-  - {fileID: 4538564803222110702}
-  myRigidbody: {fileID: 4538564803222110703}
-  anim: {fileID: 4209156339845887800}
-  explosionForce: 50
-  principalBone: {fileID: 1277070535446032326}
 --- !u!1 &1909525048760699112
 GameObject:
   m_ObjectHideFlags: 0
@@ -1127,6 +1106,7 @@ Transform:
   - {fileID: 1777950299287331159}
   - {fileID: 688706932326186064}
   - {fileID: 5384248830818247191}
+  - {fileID: 2559773447603221003}
   m_Father: {fileID: 4538564803575931456}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -1148,6 +1128,7 @@ MonoBehaviour:
   activateDamageHitTheFloor: {fileID: 3134654737524628902}
   cooldown_Damage: {fileID: 2232545847127019611}
   combatDirectorComponent: {fileID: 8120927659410274026}
+  ragdollComponent: {fileID: 714557662566268567}
 --- !u!1 &1909525049900984264
 GameObject:
   m_ObjectHideFlags: 0
@@ -4351,6 +4332,55 @@ Transform:
   m_Father: {fileID: 9127691054766358051}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &7413143713215857115
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2559773447603221003}
+  - component: {fileID: 714557662566268567}
+  m_Layer: 0
+  m_Name: Ragdollhandler
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2559773447603221003
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7413143713215857115}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 1909525048778442790}
+  m_RootOrder: 6
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &714557662566268567
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7413143713215857115}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 04a83679e899e5b49a5825c651e9b8f7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  myCollider:
+  - {fileID: 4538564803222110702}
+  myRigidbody: {fileID: 4538564803222110703}
+  anim: {fileID: 4209156339845887800}
+  explosionForce: 50
+  principalBone: {fileID: 1277070535446032326}
 --- !u!1 &7443427939297234267
 GameObject:
   m_ObjectHideFlags: 0

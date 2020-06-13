@@ -16,6 +16,7 @@ public class BehavioursManager : MonoBehaviour
     public ActivateDamage activateDamageHitTheFloor;
     public CooldownDamage cooldown_Damage;
     public CombatDirectorElement combatDirectorComponent;
+    public RagdollComponent ragdollComponent;
 
     public void InitializeBehaviours(Transform root, Rigidbody rb, EntityBase entity)
     {

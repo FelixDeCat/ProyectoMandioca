@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using System;
 
 public class RagdollComponent : MonoBehaviour
 {
@@ -10,6 +11,7 @@ public class RagdollComponent : MonoBehaviour
     [SerializeField] Animator anim = null;
     [SerializeField] float explosionForce = 40;
     [SerializeField] Collider principalBone;
+    Action callback_end;
 
     Bone[] myBones;
     Vector3[] transformpositions;
@@ -17,17 +19,23 @@ public class RagdollComponent : MonoBehaviour
     private void Awake()
     {
         myBones = GetComponentsInChildren<Bone>();
-
-        //´para el reset
-        /*
-        transformpositions = new Vector3[myBones.Length];
-        for (int i = 0; i < myBones.Length; i++) {
-            transformpositions[i] = myBones[i].transform.position;
-        }
-        */
-
         Ragdoll(false, Vector3.zero);
     }
+
+    public void ActivateRagdoll(Vector3 direction_to_fall, Action _callback_end)
+    {
+        callback_end = _callback_end;
+        Ragdoll(true, direction_to_fall);
+        Invoke("ShutDownBones", 5f);
+    }
+
+    void ShutDownBones()
+    {
+        DesactiveBones();
+        Invoke("DisableWendigo", 3f);
+    }
+    void DisableWendigo() => callback_end.Invoke();
+
 
     public void Ragdoll(bool active, Vector3 dir)
     {
@@ -54,14 +62,6 @@ public class RagdollComponent : MonoBehaviour
             principalBone.GetComponent<Rigidbody>().AddForce(temp, ForceMode.Impulse);
         }
     }
-
-
-    public void ResetBones()
-    {
-
-    }
-
-
 
     public void DesactiveBones()
     {
