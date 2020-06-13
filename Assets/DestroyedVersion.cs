@@ -11,10 +11,12 @@ public class DestroyedVersion : MonoBehaviour
     bool animate;
     Color mycolor;
 
+    [SerializeField] bool useFade = true;
+
     public void BeginDestroy()
     {
         render = GetComponentsInChildren<Renderer>();
-        mycolor = render[0].material.GetColor("_Color");
+        if(useFade) mycolor = render[0].material.color;
         animate = true;
         timer = 1;
     }
@@ -26,7 +28,7 @@ public class DestroyedVersion : MonoBehaviour
             if (timer > 0)
             {
                 timer = timer - 0.3f * Time.deltaTime;
-                foreach (var r in render) r.material.SetColor("_Color", new Color(mycolor.r, mycolor.g, mycolor.b, timer));
+                foreach (var r in render) if (useFade) r.material.color = new Color(mycolor.r, mycolor.g, mycolor.b, timer);
             }
             else
             {
