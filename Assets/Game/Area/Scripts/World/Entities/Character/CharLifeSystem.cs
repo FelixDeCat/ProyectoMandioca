@@ -23,6 +23,7 @@ public class CharLifeSystem: _Base_Life_System
         lifesystem.AddCallback_LifeChange(OnLifeChange);
         Debug_UI_Tools.instance.CreateToogle("GODMODE", false, ToogleDebug);
         ADD_EVENT_OnChangeValue(Main.instance.gameUiController.OnChangeLife);
+        
         return this;
     }
 
@@ -46,8 +47,6 @@ public class CharLifeSystem: _Base_Life_System
     void OnLifeChange(int current, int max)
     {
         lifechange.Invoke(current, max);
-
-        //if(frontendLife) frontendLife.OnValueChange(current, max);
     }
     void EVENT_OnLoseLife() { loselife.Invoke(); }
     void EVENT_OnGainLife() { gainlife.Invoke(); }
@@ -65,9 +64,9 @@ public class CharLifeSystem: _Base_Life_System
 
     public void Heal_AllHealth()
     {
-        
+        Main.instance.gameUiController.ResetYellowHeart();
         lifesystem.ResetLife();
-
+        
     }
 
     public void AddHealth(int _val) => lifesystem.IncreaseLife(_val);

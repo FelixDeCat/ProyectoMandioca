@@ -39,6 +39,10 @@
                 <e p="Color.shader" t="Include" />
               </e>
               <e p="Particulas" t="Include">
+                <e p="Actives" t="Include">
+                  <e p="BerserkFresnel.shader" t="Include" />
+                  <e p="BerserkMode.shader" t="Include" />
+                </e>
                 <e p="Particulas12_5" t="Include">
                   <e p="Fuego con shaders" t="Include">
                     <e p="FlameParticle.shader" t="Include" />
@@ -84,7 +88,8 @@
                       <e p="LowPoly.shader" t="Include" />
                     </e>
                     <e p="CharacterShader.shader" t="Include" />
-                    <e p="Low.shader" t="Include" />
+                    <e p="Low terrain.shader" t="Include" />
+                    <e p="LowTerrain.shader" t="Include" />
                   </e>
                   <e p="Parry" t="Include">
                     <e p="ParticlesParry.shader" t="Include" />
@@ -94,6 +99,9 @@
                     <e p="MainParticle.shader" t="Include" />
                   </e>
                   <e p="PP" t="Include">
+                    <e p="Depth Of Field" t="Include">
+                      <e p="DepthOfField.shader" t="Include" />
+                    </e>
                     <e p="New Amplify Shader.shader" t="Include" />
                   </e>
                   <e p="Shield" t="Include">
@@ -118,14 +126,24 @@
                     <e p="StandarVertexPainting.shader" t="Include" />
                   </e>
                   <e p="Water" t="Include">
-                    <e p="Cascade.shader" t="Include" />
-                    <e p="StencilWater.shader" t="Include" />
+                    <e p="Cascade" t="Include">
+                      <e p="Cascade.shader" t="Include" />
+                      <e p="CascadeCollision" t="Include">
+                        <e p="CascadeWave.shader" t="Include" />
+                      </e>
+                    </e>
+                    <e p="Mask" t="Include">
+                      <e p="StencilWater.shader" t="Include" />
+                    </e>
                     <e p="WalkWater" t="Include">
                       <e p="WalkWaves.shader" t="Include" />
                     </e>
-                    <e p="Water.shader" t="Include" />
+                    <e p="Water" t="Include">
+                      <e p="Water.shader" t="Include" />
+                    </e>
                   </e>
                 </e>
+                <e p="New Amplify Shader.shader" t="Include" />
                 <e p="Stencil Mask.shader" t="Include" />
               </e>
               <e p="SkyBox" t="Include">
@@ -1599,6 +1617,7 @@
                         <e p="BehavioursManager.cs" t="Include" />
                         <e p="CombatDirectorElement.cs" t="Include" />
                         <e p="CooldownDamage.cs" t="Include" />
+                        <e p="DamageRacall.cs" t="Include" />
                         <e p="FollowBehaviour.cs" t="Include" />
                       </e>
                       <e p="2_Sensor" t="Include">
@@ -1609,9 +1628,9 @@
                         <e p="SensorManager.cs" t="Include" />
                       </e>
                       <e p="3_Feedbacks" t="Include">
-                        <e p="FeebackEmission.cs" t="Include" />
                         <e p="FeedbackActivator.cs" t="Include" />
                         <e p="FeedbackBase.cs" t="Include" />
+                        <e p="FeedbackFlashMaterial.cs" t="Include" />
                         <e p="FeedbackManager.cs" t="Include" />
                         <e p="FeedbackOneShot.cs" t="Include" />
                       </e>
@@ -1785,6 +1804,7 @@
             </e>
           </e>
           <e p="Scripts" t="Include">
+            <e p="Fades_Screens.cs" t="Include" />
             <e p="SingleAudios.cs" t="Include" />
           </e>
         </e>
