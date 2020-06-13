@@ -24,6 +24,7 @@ public class CharacterMovement
     float dashDistance;
     float dashCd;
     float cdTimer;
+    float dashSpeed;
     float dashMaxSpeed;
     bool dashCdOk;
 
@@ -79,9 +80,9 @@ public class CharacterMovement
         maxTimerDash = n;
         return this;
     }
-    public CharacterMovement SetDashDistance(float _dis)
+    public CharacterMovement SetDashDistance(float _speed)
     {
-        dashDistance = _dis;
+        dashMaxSpeed = _speed;
         return this;
     }
     public CharacterMovement SetDashCD(float n)
@@ -218,7 +219,9 @@ public class CharacterMovement
         {
             timerDash += Time.deltaTime /** dashSpeed*/;
             //Debug.Log(lastKey.time + "y" + Curve().Evaluate(timerDash) / lastKey.time);
-            _rb.transform.position = Vector3.Slerp(aPoint, bPoint, Curve().Evaluate(timerDash));
+            dashSpeed = dashMaxSpeed * Curve().Evaluate(timerDash);
+            //_rb.transform.position = Vector3.Lerp(aPoint, bPoint, Curve().Evaluate(timerDash));
+            _rb.velocity = dashSpeed * dashDir;
 
             //_rb.velocity = dashDir * dashSpeed;
 
@@ -250,14 +253,12 @@ public class CharacterMovement
         }
     }
 
-    Keyframe lastKey;
     Vector3 aPoint;
     Vector3 bPoint;
 
     public void RollForAnim()
     {
         OnBeginRoll();
-        lastKey = Curve()[Curve().length - 1];
 
         aPoint = _rb.transform.position;
         bPoint = _rb.position = _rb.position + (dashDir * dashDistance);
