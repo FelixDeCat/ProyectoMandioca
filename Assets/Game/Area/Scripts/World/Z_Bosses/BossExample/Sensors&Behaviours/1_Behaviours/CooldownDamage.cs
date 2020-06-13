@@ -9,7 +9,11 @@ public class CooldownDamage : MonoBehaviour
     public bool IsInCooldown { get { return isInCooldown; } }
     float timer = 0;
     public float time_To_Cooldown_Damage = 0.5f;
-    public void BeginCooldown() => isInCooldown = true;
+    public void BeginCooldown()
+    { 
+
+        isInCooldown = true; 
+    }
 
 
     private void Update()
