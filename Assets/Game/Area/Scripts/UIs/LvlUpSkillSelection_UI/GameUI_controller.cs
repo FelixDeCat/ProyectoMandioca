@@ -36,6 +36,8 @@ public class GameUI_controller : MonoBehaviour
     private SkillManager_Pasivas _skillManagerPasivas;
     
     
+    
+    
     //Seguroi esto se deje de usar
     Dictionary<UI_templates, GameObject> UiTemplateRegistry = new Dictionary<UI_templates, GameObject>();
     
@@ -102,6 +104,12 @@ public class GameUI_controller : MonoBehaviour
     public void OpenGameMenu() => gameMenu_UI.Open();
     public void CloseGameMenu() => gameMenu_UI.Close();
     #endregion
+
+    public void OnChangeLife(int current, int max)
+    {
+        stats3D_UI.GetComponent<Stats3D_UI_helper>().littleHeart.OnValueChange(current, max);
+        stats3D_UI.GetComponent<Stats3D_UI_helper>().yellowHeart.OnValueChangeWithDelay(current, 0,max); //el 0 esta mal, dsp lo coambio
+    }
     public void Set_Opened_UI() { openUI = true; Main.instance.Pause(); }
     public void Set_Closed_UI() { openUI = false; Main.instance.Play(); }
     public void BTN_Back_OpenMenu()
