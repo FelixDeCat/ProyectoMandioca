@@ -110,6 +110,13 @@ public class GameUI_controller : MonoBehaviour
         stats3D_UI.GetComponent<Stats3D_UI_helper>().littleHeart.OnValueChange(current, max);
         stats3D_UI.GetComponent<Stats3D_UI_helper>().yellowHeart.OnValueChangeWithDelay(current, 0,max); //el 0 esta mal, dsp lo coambio
     }
+
+    public void ResetYellowHeart()
+    {
+        stats3D_UI.GetComponent<Stats3D_UI_helper>().yellowHeart.OnValueChange(1,1);
+    }
+    
+    
     public void Set_Opened_UI() { openUI = true; Main.instance.Pause(); }
     public void Set_Closed_UI() { openUI = false; Main.instance.Play(); }
     public void BTN_Back_OpenMenu()
