@@ -74,7 +74,7 @@ public class ABossGenericClean : EnemyBase
         feedbackManager.Play_OnHitFlashEmission();
     }
 
-    public bool Predicate_CanTakeDamage() => !sensors_and_behaviours.Behaviours.cooldown_Damage.IsInCooldown;
+    
 
     
     

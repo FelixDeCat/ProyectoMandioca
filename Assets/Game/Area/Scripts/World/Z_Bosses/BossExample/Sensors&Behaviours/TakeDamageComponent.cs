@@ -9,8 +9,10 @@ public class TakeDamageComponent : MonoBehaviour
     GenericLifeSystem LifeSystem;
     Action<Vector3> tkdFeedback;
     Rigidbody rb;
+    bool isInCooldown = false;
+    public bool Predicate_CanTakeDamage() => isInCooldown;
 
-    Func<bool> pred = delegate { return false; };
+    public float recalltime;
 
     public void Initialize(int life, Action OnDeath, Action OnGain, Action OnHit, Transform owner, Rigidbody _rb, Action<Vector3> _tkdFeedback, Action<Vector3> OnDeathVector)
     {
@@ -18,14 +20,23 @@ public class TakeDamageComponent : MonoBehaviour
         damageReceiver = GetComponent<DamageReceiver>();
 
         LifeSystem.Initialize(life, OnHit, OnGain, OnDeath);
-        damageReceiver.Initialize(owner, pred, OnDeathVector, TakeDamage, rb, LifeSystem);
+        damageReceiver.Initialize(owner, Predicate_CanTakeDamage, OnDeathVector, TakeDamage, rb, LifeSystem);
         tkdFeedback = _tkdFeedback;
         rb = _rb;
     }
 
     public void TakeDamage(DamageData dmgdata)
     {
-        Debug.Log("TakeDamage");
         tkdFeedback.Invoke(dmgdata.owner_position);
+        StopCoroutine(BeginDamage());
+        StartCoroutine(BeginDamage());
+    }
+    
+    IEnumerator BeginDamage()
+    {
+        isInCooldown = true;
+        yield return new WaitForSeconds(recalltime);
+        isInCooldown = false;
+        yield return null;
     }
 }
