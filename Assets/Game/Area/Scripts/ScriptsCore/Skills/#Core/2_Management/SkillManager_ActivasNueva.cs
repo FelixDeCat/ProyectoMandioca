@@ -18,7 +18,7 @@ public class SkillManager_ActivasNueva : LoadComponent
 
     [Header("para spawn")]
     Dictionary<SkillInfo, Item> fastreference_item = new Dictionary<SkillInfo, Item>();
-    public Item[] items_to_spawn;
+    //public Item[] items_to_spawn;
 
     protected override IEnumerator LoadMe()
     {
@@ -39,7 +39,7 @@ public class SkillManager_ActivasNueva : LoadComponent
         //otras cosas
         //(spawn de enemigos) esto lo hago aca porque quiero tener el control de spawn acá... 
         //para tener un roullete que no me tire siempre los mismos items que ya tengo equipado
-        Main.instance.eventManager.SubscribeToEvent(GameEvents.ENEMY_DEAD, EnemyDeath);
+       // Main.instance.eventManager.SubscribeToEvent(GameEvents.ENEMY_DEAD, EnemyDeath);
 
         yield return null;
     }
@@ -176,10 +176,10 @@ public class SkillManager_ActivasNueva : LoadComponent
     }
     #endregion
 
-    #region SpawnThings
-    void EnemyDeath(params object[] param)
-    {
-        Main.instance.SpawnItem(items_to_spawn[Random.Range(0, items_to_spawn.Length)], (Vector3)param[0]);
-    }
-    #endregion
+    //#region SpawnThings
+    //void EnemyDeath(params object[] param)
+    //{
+    //    Main.instance.SpawnItem(items_to_spawn[Random.Range(0, items_to_spawn.Length)], (Vector3)param[0]);
+    //}
+    //#endregion
 }
