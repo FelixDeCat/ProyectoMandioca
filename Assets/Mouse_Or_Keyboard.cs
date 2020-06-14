@@ -5,14 +5,10 @@ using UnityEngine.SceneManagement;
 
 public class Mouse_Or_Keyboard : MonoBehaviour
 {
-    [SerializeField]
-    GameObject _joyStickImage;
-    [SerializeField]
-    GameObject _keyboardImage;
-    [SerializeField]
-    GameObject _startButton;
-    [SerializeField]
-    GameObject _gymButton;
+    [SerializeField] GameObject _joyStickImage;
+    [SerializeField] GameObject _keyboardImage;
+    [SerializeField] GameObject _startButton;
+    [SerializeField] GameObject _gymButton;
     public bool active;
     bool _activeRotation;
 
@@ -29,7 +25,6 @@ public class Mouse_Or_Keyboard : MonoBehaviour
     }
     public void JoystickButon()
     {
-        Debug.Log("asdasdsad");
         _joyStickImage.SetActive(true);
         _keyboardImage.SetActive(false);
         _startButton.SetActive(true);
