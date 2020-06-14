@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 
-[RequireComponent(typeof(UI_AnimBase))]
+[RequireComponent(typeof(UI_Anim_Code))] 
 public abstract class UI_Base : MonoBehaviour
 {
     [Header("UI_Base")]

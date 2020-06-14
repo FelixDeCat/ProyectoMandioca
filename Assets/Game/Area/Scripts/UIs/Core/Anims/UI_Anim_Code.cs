@@ -19,21 +19,32 @@ public class UI_Anim_Code : UI_AnimBase
     Vector3 currentpos;
     Vector3 hidepos;
 
+    public bool usePosition;
+
     public enum AppearSide { Up, Down, Left, Right }
     public AppearSide side;
 
     private void Start()
     {
         myCanvasGroup = GetComponentInChildren<CanvasGroup>();
-        if(myCanvasGroup) myCanvasGroup.alpha = 0;
-        //currentpos = transform.localPosition;
-        //switch (side) {
-        //    case AppearSide.Up: hidepos = new Vector3(transform.localPosition.x, transform.localPosition.y + 500, transform.localPosition.z); break;
-        //    case AppearSide.Down: hidepos = new Vector3(transform.localPosition.x, transform.localPosition.y - 500, transform.localPosition.z); break;
-        //    case AppearSide.Left: hidepos = new Vector3(transform.localPosition.x - 500, transform.localPosition.y, transform.localPosition.z); break;
-        //    case AppearSide.Right: hidepos = new Vector3(transform.localPosition.x + 500, transform.localPosition.y, transform.localPosition.z); break;
-        //}
-        //if(!test_stay_in_my_place) transform.localPosition = hidepos;
+        if (myCanvasGroup) myCanvasGroup.alpha = 0;
+
+        if (usePosition)
+        {
+            currentpos = transform.localPosition;
+            switch (side)
+            {
+                case AppearSide.Up: hidepos = new Vector3(transform.localPosition.x, transform.localPosition.y + 500, transform.localPosition.z); break;
+                case AppearSide.Down: hidepos = new Vector3(transform.localPosition.x, transform.localPosition.y - 500, transform.localPosition.z); break;
+                case AppearSide.Left: hidepos = new Vector3(transform.localPosition.x - 500, transform.localPosition.y, transform.localPosition.z); break;
+                case AppearSide.Right: hidepos = new Vector3(transform.localPosition.x + 500, transform.localPosition.y, transform.localPosition.z); break;
+            }
+            if (!test_stay_in_my_place) transform.localPosition = hidepos;
+        }
+        else
+        {
+            
+        }
     }
 
     protected override void OnOpen()
