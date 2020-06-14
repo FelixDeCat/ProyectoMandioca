@@ -9,6 +9,10 @@ public class Checkpoint_Spot : MonoBehaviour
     private Checkpoint_Manager _checkpointManager;
     [SerializeField] private ParticleSystem checkpointActivated_ps;
 
+    [SerializeField] Transform custom_pos;
+
+    public Vector3 GetPosition => custom_pos != null ? custom_pos.position : this.transform.position;
+
     private void Start()
     {
         _checkpointManager = FindObjectOfType<Checkpoint_Manager>();
