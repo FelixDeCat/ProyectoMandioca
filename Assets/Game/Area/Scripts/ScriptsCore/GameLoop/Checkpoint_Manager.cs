@@ -57,8 +57,15 @@ public class Checkpoint_Manager : MonoBehaviour
 
     public void SpawnChar()
     {
+        Fades_Screens.instance.Black();
         Main.instance.GetChar().transform.position = _activeCheckPoint.transform.position;
         Main.instance.GetCombatDirector().AddNewTarget(Main.instance.GetChar());
+        Main.instance.GetMyCamera().InstantPosition();
+        Invoke("Wait", 0.75f);
+    }
+    public void Wait()
+    {
+        Fades_Screens.instance.FadeOff(()=> { });
     }
 }
 

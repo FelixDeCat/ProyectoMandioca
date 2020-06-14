@@ -7,6 +7,7 @@ public class Mouse_Or_Keyboard : MonoBehaviour
 {
 
     [SerializeField] DefaultMenuAnim buttons_joystick_panel;
+    [SerializeField] DefaultMenuAnim buttons_Keyboard_panel;
 
     public bool active;
     bool _activeRotation;
@@ -18,9 +19,6 @@ public class Mouse_Or_Keyboard : MonoBehaviour
     private void Start()
     {
         
-        _keyboardImage.SetActive(false);
-        _startButton.SetActive(false);
-        _gymButton.SetActive(false);
     }
 
     public void SwitchControls()
@@ -28,11 +26,13 @@ public class Mouse_Or_Keyboard : MonoBehaviour
         if (_activeRotation)
         {
             buttons_joystick_panel.Open();
+            buttons_Keyboard_panel.Close();
             _activeRotation = false;
         }
         else 
         {
             buttons_joystick_panel.Close();
+            buttons_Keyboard_panel.Open();
             _activeRotation = true;
         }
     }
