@@ -81,7 +81,7 @@ public class SkillManager_ActivasNueva : LoadComponent
                     if (fastreference_item.ContainsKey(_skillinfo))
                     {
                         var _item = fastreference_item[_skillinfo];
-                        Main.instance.SpawnItem(_item, Main.instance.GetChar().transform.position + Main.instance.GetChar().GetCharMove().GetRotatorDirection());
+                        Main.instance.SpawnItem(_item, Main.instance.GetChar().sensor.currentAltar.GetPosition());
                     }
                     return false; 
                 }
@@ -113,7 +113,7 @@ public class SkillManager_ActivasNueva : LoadComponent
                 //obtengo el item del anterior
                 var _item = fastreference_item[equip[aux_last].skillinfo];
                 //spawneo el item anterior
-                Main.instance.SpawnItem(_item, Main.instance.GetChar().transform.position + Main.instance.GetChar().GetCharMove().GetRotatorDirection());
+                Main.instance.SpawnItem(_item, Main.instance.GetChar().sensor.currentAltar.GetPosition());
             }
         }
         #endregion

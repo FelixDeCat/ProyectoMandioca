@@ -5,6 +5,12 @@ using UnityEngine;
 public class Altar : Interactable
 {
     public Transform spawnposition;
+    public ItemWorld item;
+
+    private void Awake()
+    {
+        Main.instance.SpawnItem(item, spawnposition);
+    }
 
     public Vector3 GetPosition() => spawnposition.position;
 
