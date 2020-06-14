@@ -13,6 +13,8 @@ public class InteractSensor : MonoBehaviour
     Interactable current;
     Interactable most_close;
 
+    public Altar currentAltar;
+
     public List<Interactable> filtered = new List<Interactable>();
 
     [Header("Walking Entity")]
@@ -93,6 +95,11 @@ public class InteractSensor : MonoBehaviour
             most_close.Exit();
             most_close = current;
             can_show_info = true;
+        }
+
+        if (most_close.gameObject.GetComponent<Altar>())
+        {
+            currentAltar = most_close.gameObject.GetComponent<Altar>();
         }
 
         //hasta ahora ya estariamos al dia de cual es el que tengo que calcular

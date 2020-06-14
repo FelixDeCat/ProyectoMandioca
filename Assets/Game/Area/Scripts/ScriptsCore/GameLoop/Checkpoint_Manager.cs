@@ -21,25 +21,29 @@ using System.Linq;
 
 public class Checkpoint_Manager : MonoBehaviour
 {
-    public static Checkpoint_Manager instance; private void Awake() => instance = this;
+    public static Checkpoint_Manager instance; 
 
     public Checkpoint_Spot _activeCheckPoint;
     public List<Checkpoint_Spot> allCheckpoints = new List<Checkpoint_Spot>();
 
-    private void Start()
-    {
-        GameLoop.instance.SubscribeCheckpoint(this);
-        RegisterAllCheckPoints();
-        _activeCheckPoint = allCheckpoints[0];
-    }
+    private void Awake() 
+    { 
+        instance = this;
 
-    void RegisterAllCheckPoints()
-    {
         allCheckpoints = transform.GetComponentsInChildren<Checkpoint_Spot>().ToList();
         foreach (var cp in allCheckpoints)
         {
             cp.OnCheckPointActivated += UpdateCurrentCheckpoint;
         }
+
+        _activeCheckPoint = allCheckpoints[0];
+    }
+
+    private void Start()
+    {
+        GameLoop.instance.SubscribeCheckpoint(this);
+        Fades_Screens.instance.Black();
+        Fades_Screens.instance.FadeOff(() => { });
     }
 
     void UpdateCurrentCheckpoint(Checkpoint_Spot cp)
