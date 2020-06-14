@@ -26,7 +26,7 @@ public class CharacterHead : CharacterControllable
     [SerializeField] float speed = 5;
 
     public Transform rayPivot;
-    
+
     [SerializeField] Transform rot = null;
     CharacterMovement move;
 
@@ -66,8 +66,8 @@ public class CharacterHead : CharacterControllable
     [SerializeField] private AudioClip swingSword_AC;
     private const string swing_SoundName = "swingSword";
     [SerializeField] private AudioClip footstep;
-    
-    
+
+
     [SerializeField] ParticleSystem inParryParticles = null;
 
     [Header("Animations")]
@@ -112,7 +112,7 @@ public class CharacterHead : CharacterControllable
     public InteractSensor sensor;
 
     [Header("Life Options")]
-    
+
     [SerializeField] CharLifeSystem lifesystem = null;
     public CharLifeSystem Life => lifesystem;
 
@@ -128,12 +128,12 @@ public class CharacterHead : CharacterControllable
 
     private void Start()
     {
-         lifesystem
-            .Configure_CharLifeSystem()
-            .ADD_EVENT_OnGainLife(OnGainLife)
-            .ADD_EVENT_OnLoseLife(OnLoseLife)
-            .ADD_EVENT_Death(OnDeath)
-            .ADD_EVENT_OnChangeValue(OnChangeLife);
+        lifesystem
+           .Configure_CharLifeSystem()
+           .ADD_EVENT_OnGainLife(OnGainLife)
+           .ADD_EVENT_OnLoseLife(OnLoseLife)
+           .ADD_EVENT_Death(OnDeath)
+           .ADD_EVENT_OnChangeValue(OnChangeLife);
     }
     protected override void OnInitialize()
     {
@@ -222,7 +222,7 @@ public class CharacterHead : CharacterControllable
 
     void DealLeft() { DirAttack = rot.right; DealAttack(); }
     void DealRight() { DirAttack = -rot.right; DealAttack(); }
-
+    public void StopMovement() { move.MovementHorizontal(0); move.MovementVertical(0); }
     void RightAttacktFeedback() { slash_right.Play(); }
     void LeftAttacktFeedback() { slash_left.Play(); }
 
@@ -234,7 +234,7 @@ public class CharacterHead : CharacterControllable
             speed *= 2;
         }
 
-        return active ? "speed x2" : "speed normal"; 
+        return active ? "speed x2" : "speed normal";
     }
 
     #region SET STATES
@@ -291,7 +291,7 @@ public class CharacterHead : CharacterControllable
             .SetTransition(PlayerInputs.CHARGE_ATTACK, attackCharge)
             .SetTransition(PlayerInputs.TAKE_DAMAGE, takeDamage)
             .SetTransition(PlayerInputs.DEAD, dead)
-           // .SetTransition(PlayerInputs.SPIN, spin)
+            // .SetTransition(PlayerInputs.SPIN, spin)
             .SetTransition(PlayerInputs.STUN, stun)
             .Done();
 
@@ -363,12 +363,12 @@ public class CharacterHead : CharacterControllable
 
         stateMachine = new EventStateMachine<PlayerInputs>(idle, debug_options.DebugState);
 
-        new CharIdle(idle, stateMachine,_lockOn)
+        new CharIdle(idle, stateMachine, _lockOn)
             .SetLeftAxis(GetLeftHorizontal, GetLeftVertical)
             .SetRightAxis(GetRightHorizontal, GetRightVertical)
             .SetMovement(this.move);
 
-        new CharMove(move, stateMachine,_lockOn)
+        new CharMove(move, stateMachine, _lockOn)
             .SetLeftAxis(GetLeftHorizontal, GetLeftVertical)
             .SetRightAxis(GetRightHorizontal, GetRightVertical)
             .SetMovement(this.move);
@@ -378,7 +378,7 @@ public class CharacterHead : CharacterControllable
             .SetRightAxis(GetRightHorizontal, GetRightVertical)
             .SetMovement(this.move).SetBlock(charBlock);
 
-        new CharBlock(block, stateMachine,_lockOn)
+        new CharBlock(block, stateMachine, _lockOn)
             .SetLeftAxis(GetLeftHorizontal, GetLeftVertical)
             .SetRightAxis(GetRightHorizontal, GetRightVertical)
             .SetMovement(this.move)
@@ -427,7 +427,7 @@ public class CharacterHead : CharacterControllable
         new CharDead(dead, stateMachine);
     }
 
-    float GetLeftHorizontal() => moveX;  
+    float GetLeftHorizontal() => moveX;
     float GetLeftVertical() => moveY;
     float GetRightHorizontal() => rotateX;
     float GetRightVertical() => rotateY;
@@ -477,9 +477,9 @@ public class CharacterHead : CharacterControllable
     #region Lockon
     bool lockon;
     string UseLockOn(bool useLockon) { lockon = useLockon; if (!useLockon) _lockOn.SetLockOn(false); return useLockon ? "ON" : "OFF"; }
-    void RefreshLockOn() { if(lockon) _lockOn.UpdateLockOnEnemys(); }
-    public void EVENT_StartLockOn() { if(lockon) _lockOn.EVENT_Joystick_LockOn(); }
-    public void EVENT_NextLockOn() { if(lockon) _lockOn.EVENT_Joystick_nextLockOn(); }
+    void RefreshLockOn() { if (lockon) _lockOn.UpdateLockOnEnemys(); }
+    public void EVENT_StartLockOn() { if (lockon) _lockOn.EVENT_Joystick_LockOn(); }
+    public void EVENT_NextLockOn() { if (lockon) _lockOn.EVENT_Joystick_nextLockOn(); }
     #endregion
 
     //caundo lo recibo desde el lock on
@@ -488,7 +488,7 @@ public class CharacterHead : CharacterControllable
         stateMachine.SendInput(PlayerInputs.PLAYER_LOCK_ON);
     }
 
-    
+
 
     protected override void OnPause()
     {
@@ -502,7 +502,7 @@ public class CharacterHead : CharacterControllable
     #region Life
     void OnLoseLife() { }
     void OnGainLife() => customCam.BeginShakeCamera();
-    void OnDeath() 
+    void OnDeath()
     {
         Debug.Log("DEATH");
         Main.instance.RemoveEntity(this);
@@ -518,7 +518,7 @@ public class CharacterHead : CharacterControllable
     bool attackWait;
     public void EVENT_OnAttackBegin()
     {
-        if(stateMachine.Current.Name != "Release_Attack")
+        if (stateMachine.Current.Name != "Release_Attack")
             stateMachine.SendInput(PlayerInputs.CHARGE_ATTACK);
         //attackWait = true;
         charAttack.UnfilteredAttack();
@@ -676,11 +676,11 @@ public class CharacterHead : CharacterControllable
             //Chequeo si tengo el teleport activado. Sino, sigo normalmente con el roll
             if (move.TeleportActive)
             {
-                if(move.CheckIfCanTeleport()) stateMachine.SendInput(PlayerInputs.ROLL);
-                
+                if (move.CheckIfCanTeleport()) stateMachine.SendInput(PlayerInputs.ROLL);
+
                 return;
             }
-            
+
             stateMachine.SendInput(PlayerInputs.ROLL);
         }
     }
@@ -689,18 +689,18 @@ public class CharacterHead : CharacterControllable
     public void ChangeDashForTeleport()
     {
         move.SetDashCD(teleportCD);
-        move.TeleportActive = true;   
+        move.TeleportActive = true;
         move.Dash -= move.Roll;
         move.Dash += move.Teleport;
     }
     public void ChangeTeleportForDash()
     {
         move.SetDashCD(dashCD);
-        move.TeleportActive = false;   
+        move.TeleportActive = false;
         move.Dash -= move.Teleport;
         move.Dash += move.Roll;
     }
-    
+
     public CharacterMovement GetCharMove()
     {
         return move;
@@ -748,7 +748,7 @@ public class CharacterHead : CharacterControllable
         if (InDash())
             return Attack_Result.inmune;
 
-        if(dmgtype != Damagetype.inparry)
+        if (dmgtype != Damagetype.inparry)
         {
             if (charBlock.IsParry(rot.position, attackDir, rot.forward))
             {
@@ -798,7 +798,7 @@ public class CharacterHead : CharacterControllable
         {
             if (charBlock.IsParry(rot.position, attackDir, rot.forward))
             {
-                Main.instance.eventManager.TriggerEvent(GameEvents.ON_PLAYER_PARRY, new object[]{ entity });
+                Main.instance.eventManager.TriggerEvent(GameEvents.ON_PLAYER_PARRY, new object[] { entity });
             }
         }
 
@@ -806,7 +806,7 @@ public class CharacterHead : CharacterControllable
     }
 
     void ParryFeedback(EntityBase entity)
-    {   
+    {
         Main.instance.eventManager.TriggerEvent(GameEvents.ON_PLAYER_PARRY, new object[] { entity });
         PerfectParry();
         Main.instance.GetTimeManager().DoSlowMotion(timeScale, slowDuration);
@@ -885,7 +885,7 @@ public class CharacterHead : CharacterControllable
     }
     #endregion
 
-    
+
 
     #region Fuera de uso
 
