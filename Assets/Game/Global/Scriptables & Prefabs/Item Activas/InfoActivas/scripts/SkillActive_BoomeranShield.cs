@@ -197,9 +197,15 @@ public class SkillActive_BoomeranShield : SkillActivas
 
         if (isReturning)
         {
+            var dir = _hero.transform.position - auxShield.transform.position;
+            dir = dir.normalized;
+            
+            
             if (Vector3.Distance(auxShield.transform.position, _hero.transform.position) > .5f)
             {
-                MoveWithLerp(auxShield.transform.position, _hero.transform.position);
+                auxShield.transform.position += Time.deltaTime * .1f * dir;
+                
+                //MoveWithLerp(auxShield.transform.position, _hero.transform.position);
             }
             else
             {
@@ -211,9 +217,9 @@ public class SkillActive_BoomeranShield : SkillActivas
     }
 
     
-    void MoveWithLerp(Vector3 start,Vector3 end)
+    void MoveWithLerp(Vector3 start,Vector3 end, float speed)
     {
-        float distCovered = (Time.time - startTime) * throwSpeed;
+        float distCovered = (Time.time - startTime) * speed;
         
         float fractionOfJourney = distCovered / Vector3.Distance(_hero.transform.position, auxShield.transform.position);
         
