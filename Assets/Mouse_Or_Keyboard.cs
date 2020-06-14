@@ -5,10 +5,9 @@ using UnityEngine.SceneManagement;
 
 public class Mouse_Or_Keyboard : MonoBehaviour
 {
-    [SerializeField] GameObject _joyStickImage;
-    [SerializeField] GameObject _keyboardImage;
-    [SerializeField] GameObject _startButton;
-    [SerializeField] GameObject _gymButton;
+
+    [SerializeField] DefaultMenuAnim buttons_joystick_panel;
+
     public bool active;
     bool _activeRotation;
 
@@ -18,25 +17,32 @@ public class Mouse_Or_Keyboard : MonoBehaviour
 
     private void Start()
     {
-        _joyStickImage.SetActive(false);
+        
         _keyboardImage.SetActive(false);
         _startButton.SetActive(false);
         _gymButton.SetActive(false);
     }
+
+    public void SwitchControls()
+    {
+        if (_activeRotation)
+        {
+            buttons_joystick_panel.Open();
+            _activeRotation = false;
+        }
+        else 
+        {
+            buttons_joystick_panel.Close();
+            _activeRotation = true;
+        }
+    }
+
     public void JoystickButon()
     {
-        _joyStickImage.SetActive(true);
-        _keyboardImage.SetActive(false);
-        _startButton.SetActive(true);
-        _gymButton.SetActive(true);
         _activeRotation = false;
     }
     public void KeyBoardButon()
     {
-        _joyStickImage.SetActive(false);
-        _keyboardImage.SetActive(true);
-        _startButton.SetActive(true);
-        _gymButton.SetActive(true);
         _activeRotation = true;
     }
     public void goToLevel()
