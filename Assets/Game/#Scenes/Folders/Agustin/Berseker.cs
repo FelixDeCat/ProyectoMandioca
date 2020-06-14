@@ -4,31 +4,56 @@ using UnityEngine;
 
 public class Berseker : MonoBehaviour
 {
-    public Material _ppmat;
-    public Material _ppmat2;
+    public Material enterBerserk;
+    public Material stayBerserk;
     CharacterHead myChar;
+    public float fadeOutTime;
+    float time;
+    float frames = 10;
+    bool oneTime = true;
 
     private void Start()
     {
         if (myChar == null) myChar = Main.instance.GetChar();
+        frames = 10;
     }
 
     private void OnRenderImage(RenderTexture source, RenderTexture destination)
     {
-        Graphics.Blit(source, destination, _ppmat);
+        Graphics.Blit(source, destination, enterBerserk);
+        stayBerserk.SetFloat("_Value", 0);
+        enterBerserk.SetFloat("_Value", 0);
     }
 
     private void Update()
     {
         if (myChar.isBuffed == true)
         {
-            _ppmat.SetFloat("_Value", 1);
-            _ppmat2.SetFloat("_Value", 1);
+            if (oneTime) StartCoroutine(fadeShaderOut());
+            
+            stayBerserk.SetFloat("_Value", 1);
         }
         else
         {
-            _ppmat.SetFloat("_Value", 0);
-            _ppmat2.SetFloat("_Value", 0);
+            if (!oneTime) oneTime = true;
+            stayBerserk.SetFloat("_Value", 0);
+        }
+    }
+
+    IEnumerator fadeShaderOut()
+    {
+        oneTime = false;
+        enterBerserk.SetFloat("_Value", 1);
+
+        time = fadeOutTime / frames;
+        float current = 1;
+
+        for (int i = 0; i < frames; i++)
+        {
+            current -= 1 / frames;
+            print(current);
+            enterBerserk.SetFloat("_Value", current);
+            yield return new WaitForSeconds(time);
         }
     }
 }
