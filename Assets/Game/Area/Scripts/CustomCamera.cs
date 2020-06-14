@@ -72,6 +72,10 @@ public class CustomCamera : MonoBehaviour
         transform.position = smoothedposition;
         if (lookAt) transform.LookAt(target);
     }
+    public void InstantPosition()
+    {
+        transform.position = target.position + offset;
+    }
     void ShaderMask()
     {
         

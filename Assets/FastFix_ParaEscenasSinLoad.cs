@@ -24,7 +24,8 @@ public class FastFix_ParaEscenasSinLoad : MonoBehaviour
 
         if (hasSpawn)
         {
-            Main.instance.GetChar().transform.position = this.transform.position;
+            Checkpoint_Manager.instance.SpawnChar();
+            //Main.instance.GetChar().transform.position = this.transform.position;
         }
         else
         {
@@ -33,9 +34,5 @@ public class FastFix_ParaEscenasSinLoad : MonoBehaviour
     }
     private void Update()
     {
-        if (Main.instance.GetChar().transform.position.y < -5)
-        {
-            Checkpoint_Manager.instance.SpawnChar();
-        }
     }
 }

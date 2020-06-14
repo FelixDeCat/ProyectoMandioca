@@ -25,21 +25,16 @@ public class LoadSceneHandler : MonoBehaviour
     {
         if (stayHere)
         {
-            LoadAScene("blablabla");
+            LoadAScene("asdasda");
         }
-    }
-
-    public void LoadALoader(LocalLoader localloader)
-    {
-        foreach (var loader in localloader.GetLoaders())
-            loadCOmponents.Add(loader);
     }
 
     public void LoadAScene(string scene)
     {
         SceneToLoad = scene;
         loadscreen.SetActive(true);
-        Invoke("LoadTime", 1f);
+        Fades_Screens.instance.Black();
+        Fades_Screens.instance.FadeOff(LoadTime);
     }
 
     void LoadTime()
@@ -74,19 +69,35 @@ public class LoadSceneHandler : MonoBehaviour
     #endregion
 
     #region Scene
+    AsyncOperation asyncLoad;
     IEnumerator LoadAsyncScene()
     {
-        AsyncOperation asyncLoad = SceneManager.LoadSceneAsync(SceneToLoad);
+        asyncLoad = SceneManager.LoadSceneAsync(SceneToLoad);
         asyncLoad.completed += Completed;
+        asyncLoad.allowSceneActivation = false;
         while (!asyncLoad.isDone)
         {
             yield return new WaitForEndOfFrame();
             MasterBarScene(asyncLoad.progress, 1);
+
+            if (asyncLoad.progress >= 0.9f)
+            {
+                asyncLoad.allowSceneActivation = true;
+            }
             yield return null;
         }
         OnEndLoad.Invoke();
     }
-    void Completed(AsyncOperation async) { MasterBarScene(1, 1); }
+    void Completed(AsyncOperation async) 
+    { 
+        MasterBarScene(1, 1);
+        Fades_Screens.instance.Black();
+        Fades_Screens.instance.FadeOff(PLAY);
+    }
+    void PLAY()
+    {
+        Debug.Log("IsPlay");
+    }
     #endregion
 
     #region Bar
