@@ -40,6 +40,7 @@ public class UI_Anim_Code : UI_AnimBase
                 case AppearSide.Right: hidepos = new Vector3(transform.localPosition.x + 500, transform.localPosition.y, transform.localPosition.z); break;
             }
             if (!test_stay_in_my_place) transform.localPosition = hidepos;
+            else transform.localPosition = currentpos;
         }
         else
         {
