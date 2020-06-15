@@ -28,6 +28,9 @@ public class CharacterMovement
     float dashMaxSpeed;
     bool dashCdOk;
 
+    float gravity = -7;
+    Func<bool> isGrounded = delegate { return true; };
+
     AudioClip _dashSound;
     CharacterAnimator anim;
 
@@ -55,7 +58,7 @@ public class CharacterMovement
         set { teleportActive = value; }
     }
 
-    public CharacterMovement(Rigidbody rb, Transform rot, CharacterAnimator a, AudioClip _dash)
+    public CharacterMovement(Rigidbody rb, Transform rot, CharacterAnimator a, AudioClip _dash, Func<bool> _isGrounded)
     {
         _rb = rb;
         rotTransform = rot;
@@ -66,6 +69,7 @@ public class CharacterMovement
         RotateVertical += RightVerical;
         Dash += Roll;
         _dashSound = _dash;
+        isGrounded = _isGrounded;
         AudioManager.instance.GetSoundPool("DashSounds", AudioGroups.GAME_FX, _dashSound);
     }
 
@@ -132,12 +136,12 @@ public class CharacterMovement
 
     }
 
+    float velY = 0;
+
     void Move()
     {
 
-        float velY = _rb.velocity.y;
-
-        Vector3 auxNormalized = new Vector3(movX, velY, movY);
+        Vector3 auxNormalized = new Vector3(movX, 0, movY);
         auxNormalized.Normalize();
 
         _rb.velocity = new Vector3(auxNormalized.x * speed, velY, auxNormalized.z * speed);
@@ -215,13 +219,28 @@ public class CharacterMovement
     #region ROLL
     public void OnUpdate()
     {
+        velY = 0;
+        if (!isGrounded.Invoke())
+        {
+            velY = gravity;
+            DebugCustom.Log("Gravity", "Gravity", "TRUE");
+        }
+        else
+        {
+            velY = 0;
+            DebugCustom.Log("Gravity", "Gravity", "false");
+        }
+
         if (inDash)
         {
             timerDash += Time.deltaTime /** dashSpeed*/;
             //Debug.Log(lastKey.time + "y" + Curve().Evaluate(timerDash) / lastKey.time);
             dashSpeed = dashMaxSpeed * Curve().Evaluate(timerDash);
             //_rb.transform.position = Vector3.Lerp(aPoint, bPoint, Curve().Evaluate(timerDash));
-            _rb.velocity = dashSpeed * dashDir;
+
+            dashDir = new Vector3(dashDir.x, 0, dashDir.z);
+
+            _rb.velocity = dashSpeed * dashDir + new Vector3(0,velY,0);
 
             //_rb.velocity = dashDir * dashSpeed;
 
@@ -278,6 +297,8 @@ public class CharacterMovement
         float dotY = Vector3.Dot(rotTransform.right, dashDir);
         //anim.SetVerticalRoll(dotX);
         //anim.SetHorizontalRoll(dotY);
+        //asdsa
+        dashDir = new Vector3(dashDir.x, 0, dashDir.z);
 
         if (dotX >= 0.5f)
         {
@@ -391,15 +412,15 @@ public class CharacterMovement
         return rotTransform.forward;
     }
 
-    public Vector3 GetLookDirection()
-    {
-        if (movX != 0 || movY != 0)
-            dashDir = new Vector3(movX, 0, movY);
-        else
-            dashDir = rotTransform.forward;
+    //public Vector3 GetLookDirection()
+    //{
+    //    if (movX != 0 || movY != 0)
+    //        dashDir = new Vector3(movX, 0, movY);
+    //    else
+    //        dashDir = rotTransform.forward;
 
-        return dashDir;
-    }
+    //    return dashDir;
+    //}
 
     public void ConfigureTeleport(float teleportDistance, ParticleSystem intro, ParticleSystem outro, ParticleSystem endCD)
     {

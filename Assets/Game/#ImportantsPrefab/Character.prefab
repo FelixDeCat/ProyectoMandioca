@@ -9902,6 +9902,7 @@ GameObject:
   - component: {fileID: 5067431278247479333}
   - component: {fileID: 7266307835747643104}
   - component: {fileID: 3415322764738061175}
+  - component: {fileID: 2540827451756274487}
   m_Layer: 8
   m_Name: Character
   m_TagString: Untagged
@@ -9945,7 +9946,7 @@ Rigidbody:
   m_IsKinematic: 0
   m_Interpolate: 0
   m_Constraints: 112
-  m_CollisionDetection: 0
+  m_CollisionDetection: 1
 --- !u!136 &5484189466513640065
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -9956,7 +9957,7 @@ CapsuleCollider:
   m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_Enabled: 1
-  m_Radius: 0.5
+  m_Radius: 0.3
   m_Height: 2
   m_Direction: 1
   m_Center: {x: 0, y: 1, z: 0}
@@ -10032,6 +10033,7 @@ MonoBehaviour:
   takeDamageRecall: 0
   sphereMask: {fileID: 5015244212203234754}
   ShieldVectorDirection: {fileID: 8549755271775958362}
+  groundSensor: {fileID: 3919591774726339618}
   escudo: {fileID: 9082867597329156880}
   timeScale: 0.25
   slowDuration: 0.75
@@ -10434,6 +10436,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   life: 12
   frontendLife: {fileID: 0}
+--- !u!65 &2540827451756274487
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1213734274902125731}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 0.08277116, y: 0.04172331, z: 0.08470687}
+  m_Center: {x: -0.001506906, y: -0.0006816089, z: -0.00042115152}
 --- !u!1 &1238918688219846606
 GameObject:
   m_ObjectHideFlags: 0
@@ -40457,6 +40472,7 @@ Transform:
   - {fileID: 3753817015191381729}
   - {fileID: 4291747033480725138}
   - {fileID: 6538491386507885591}
+  - {fileID: 1576843531743037749}
   m_Father: {fileID: 193108544159708194}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -45440,6 +45456,53 @@ ParticleSystemRenderer:
   m_Mesh2: {fileID: 0}
   m_Mesh3: {fileID: 0}
   m_MaskInteraction: 0
+--- !u!1 &4304400310090707077
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1576843531743037749}
+  - component: {fileID: 3919591774726339618}
+  m_Layer: 22
+  m_Name: GroundSensor
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1576843531743037749
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4304400310090707077}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: -0.0159, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 690428496328617213}
+  m_RootOrder: 6
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &3919591774726339618
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4304400310090707077}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bc9c473c0a3d9d848a4e1c9638f0fd1a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ground:
+    serializedVersion: 2
+    m_Bits: 2097152
+  radius: 0.19
 --- !u!1 &4316542425130628797
 GameObject:
   m_ObjectHideFlags: 0
