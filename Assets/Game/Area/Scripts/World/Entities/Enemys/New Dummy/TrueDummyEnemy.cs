@@ -58,6 +58,7 @@ public class TrueDummyEnemy : EnemyBase
     [SerializeField] ParticleSystem endPetrify;
     [SerializeField] AudioClip clip_PetrifyStand;
     [SerializeField] AudioClip clip_petrifyEnd;
+    [SerializeField] ParticleSystem _spawnParticules;
 
     public bool isOnFire { get; private set; }
     
@@ -70,7 +71,7 @@ public class TrueDummyEnemy : EnemyBase
     {
         base.OnInitialize();
         Main.instance.eventManager.TriggerEvent(GameEvents.ENEMY_SPAWN, new object[] { this });
-
+        _spawnParticules.Play();
         var smr = GetComponentInChildren<SkinnedMeshRenderer>();
         if (smr != null)
         {

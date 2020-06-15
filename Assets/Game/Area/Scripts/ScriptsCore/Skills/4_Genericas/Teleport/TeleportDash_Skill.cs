@@ -38,15 +38,15 @@ public class TeleportDash_Skill : SkillBase
     private void OnDrawGizmos()
     {
         
-        if(!teleportEnabled)
-            return;
+        //if(!teleportEnabled)
+        //    return;
         
         
-        Vector3 lookDir = _movement.GetLookDirection();
-        Vector3 heroPos = _hero.transform.position;
+        //Vector3 lookDir = _movement.GetLookDirection();
+        //Vector3 heroPos = _hero.transform.position;
 
-        Gizmos.color = Color.green;
-        Gizmos.DrawSphere(heroPos + (lookDir * teleportDistance), .6f);
+        //Gizmos.color = Color.green;
+        //Gizmos.DrawSphere(heroPos + (lookDir * teleportDistance), .6f);
         
         
     }

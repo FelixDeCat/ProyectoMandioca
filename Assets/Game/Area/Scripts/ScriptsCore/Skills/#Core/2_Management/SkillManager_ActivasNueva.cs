@@ -68,7 +68,7 @@ public class SkillManager_ActivasNueva : LoadComponent
     {
 
     }
-    public bool ReplaceFor(SkillInfo _skillinfo, Item item)
+    public bool ReplaceFor(SkillInfo _skillinfo, Item item, Vector3 replacePosition)
     {
         #region para que no equipe si ya lo tengo
         //si ya la tengo repetida ni la agarro
@@ -81,7 +81,10 @@ public class SkillManager_ActivasNueva : LoadComponent
                     if (fastreference_item.ContainsKey(_skillinfo))
                     {
                         var _item = fastreference_item[_skillinfo];
-                        Main.instance.SpawnItem(_item, Main.instance.GetChar().sensor.currentAltar.GetPosition());
+
+
+
+                        Main.instance.SpawnItem(_item, replacePosition);
                     }
                     return false; 
                 }
@@ -113,7 +116,7 @@ public class SkillManager_ActivasNueva : LoadComponent
                 //obtengo el item del anterior
                 var _item = fastreference_item[equip[aux_last].skillinfo];
                 //spawneo el item anterior
-                Main.instance.SpawnItem(_item, Main.instance.GetChar().sensor.currentAltar.GetPosition());
+                Main.instance.SpawnItem(_item, replacePosition);
             }
         }
         #endregion

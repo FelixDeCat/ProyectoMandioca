@@ -15,6 +15,7 @@ public class CharacterHead : CharacterControllable
 
     [Header("Dash Options")]
     public AnimationCurve dashCurve;
+    public AnimationCurve gravityCurve;
     [SerializeField] float dashTiming = 2;
     [SerializeField] float dashDistance = 5;
     [SerializeField] float dashCD = 2;
@@ -48,6 +49,8 @@ public class CharacterHead : CharacterControllable
     CharacterBlock charBlock;
     [SerializeField] GameObject sphereMask;
     public Transform ShieldVectorDirection;
+
+    [SerializeField] CharacterGroundSensor groundSensor;
 
     internal void Mask(bool v) => sphereMask.SetActive(v);
 
@@ -144,13 +147,14 @@ public class CharacterHead : CharacterControllable
         charanim = new CharacterAnimator(anim_base);
         customCam = FindObjectOfType<CustomCamera>();
 
-        move = new CharacterMovement(GetComponent<Rigidbody>(), rot, charanim, _dashSounds)
+        move = new CharacterMovement(GetComponent<Rigidbody>(), rot, charanim, _dashSounds, IsGrounded)
             .SetSpeed(speed)
             .SetTimerDash(dashTiming)
             .SetDashCD(dashCD)
             .SetDashDistance(dashDistance);
 
         move.Curve += () => dashCurve;
+        move.CurveGravityMultiplier += () => gravityCurve;
 
         InDash += move.IsDash;
         ChildrensUpdates += move.OnUpdate;
@@ -217,6 +221,7 @@ public class CharacterHead : CharacterControllable
     {
         AudioManager.instance.PlaySound("FootStep");
     }
+    bool IsGrounded() => groundSensor.IsGrounded();
 
     public Vector3 DirAttack { get; private set; }
 
