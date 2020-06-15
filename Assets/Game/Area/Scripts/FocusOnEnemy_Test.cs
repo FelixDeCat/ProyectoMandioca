@@ -16,8 +16,8 @@ public class FocusOnEnemy_Test : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        DevelopTools.UI.Debug_UI_Tools.instance.CreateToogle("Usar Lock On", false, UsarLockOn);
-        DevelopTools.UI.Debug_UI_Tools.instance.CreateSlider("Radius LockOn", radius, 20,180, ChageRadiusLockOn);
+        //DevelopTools.UI.Debug_UI_Tools.instance.CreateToogle("Usar Lock On", false, UsarLockOn);
+        //DevelopTools.UI.Debug_UI_Tools.instance.CreateSlider("Radius LockOn", radius, 20,180, ChageRadiusLockOn);
     }
 
     string ChageRadiusLockOn(float val)

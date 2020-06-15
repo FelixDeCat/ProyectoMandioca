@@ -93,7 +93,7 @@ public class RangeDummy : EnemyBase
         anim.Add_Callback("Death", DeathAnim);
         lifesystem.AddEventOnDeath(Die);
         moveOptions.SetCurrentSpeed(moveOptions.GetOriginalSpeed());
-        debug_options.StartDebug();
+       // debug_options.StartDebug();
 
         Main.instance.AddEntity(this);
 
@@ -477,7 +477,7 @@ public class RangeDummy : EnemyBase
             .SetTransition(RangeDummyInput.IDLE, idle)
             .Done();
 
-        sm = new EventStateMachine<RangeDummyInput>(idle, debug_options.DebugState);
+       // sm = new EventStateMachine<RangeDummyInput>(idle, debug_options.DebugState);
 
         var head = Main.instance.GetChar();
 
@@ -520,17 +520,17 @@ public class RangeDummy : EnemyBase
 
     #endregion
 
-    #region Debuggin
+    //#region Debuggin
 
-    public DebugOptions debug_options = new DebugOptions();
-    [System.Serializable]
-    public class DebugOptions
-    {
-        [SerializeField] UnityEngine.UI.Text txt_debug = null;
-        public void DebugState(string state) { if (txt_debug != null) txt_debug.text = state; }
-        public void ToogleDebug(bool val) { if (txt_debug != null) txt_debug.enabled = val; }
-        internal void StartDebug() { if (txt_debug != null) txt_debug.enabled = DevelopToolsCenter.instance.EnemyDebuggingIsActive(); }
-    }
-    #endregion
+    //public DebugOptions debug_options = new DebugOptions();
+    //[System.Serializable]
+    //public class DebugOptions
+    //{
+    //    [SerializeField] UnityEngine.UI.Text txt_debug = null;
+    //    public void DebugState(string state) { if (txt_debug != null) txt_debug.text = state; }
+    //    public void ToogleDebug(bool val) { if (txt_debug != null) txt_debug.enabled = val; }
+    //    internal void StartDebug() { if (txt_debug != null) txt_debug.enabled = DevelopToolsCenter.instance.EnemyDebuggingIsActive(); }
+    //}
+    //#endregion
 
 }

@@ -192,9 +192,9 @@ public class CharacterHead : CharacterControllable
         charAttack.SetRigidBody(rb);
 
         debug_options.StartDebug();
-        DevelopTools.UI.Debug_UI_Tools.instance.CreateToogle("Speed for testing", false, ToogleSpeed);
+      //  DevelopTools.UI.Debug_UI_Tools.instance.CreateToogle("Speed for testing", false, ToogleSpeed);
 
-        DevelopTools.UI.Debug_UI_Tools.instance.CreateToogle("Use LockOn", false, UseLockOn);
+       // DevelopTools.UI.Debug_UI_Tools.instance.CreateToogle("Use LockOn", false, UseLockOn);
 
         SetStates();
 

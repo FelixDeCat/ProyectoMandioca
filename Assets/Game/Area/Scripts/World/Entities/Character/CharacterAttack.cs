@@ -116,12 +116,12 @@ public class CharacterAttack
     #region PRE-ATTACK
     public void ANIM_EVENT_OpenComboWindow() 
     {
-        DebugCustom.Log("Attack", "Combo Window", "open");
+        //DebugCustom.Log("Attack", "Combo Window", "open");
         hitstore.OpenWindow(); 
     }
     public void ANIM_EVENT_CloseComboWindow()
     {
-        DebugCustom.Log("Attack", "Combo Window", "close");
+        //DebugCustom.Log("Attack", "Combo Window", "close");
         anim.Combo(hitstore.Use());
         hitstore.CloseWindow();
     }
@@ -129,7 +129,7 @@ public class CharacterAttack
     public void UnfilteredAttack()
     {
         c++;
-        DebugCustom.Log("Attack", "AttackPress", c);
+        //DebugCustom.Log("Attack", "AttackPress", c);
         hitstore.TryStore();
     }
 
