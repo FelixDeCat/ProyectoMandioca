@@ -11,9 +11,12 @@ public abstract class SkillBase : MonoBehaviour
     public UI_Skill GetUI() => ui_skill;
     bool alreadyActived;
     public bool is3D;
+
+    [Header("Feedback")] [SerializeField] private AudioClip skillInCD;
     public void Start()//LoadMe
     {
         OnStart();
+        AudioManager.instance.GetSoundPool("skillIncooldown", AudioGroups.GAME_FX, skillInCD);
     }
     public virtual void BeginSkill()
     {

@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -15,10 +16,16 @@ public class SkillManager_ActivasNueva : LoadComponent
     public int nextToReplace;
 
     public Manager3DActivas frontend3D;
-
+    [SerializeField] private AudioClip switchSkill;
+    
     [Header("para spawn")]
     Dictionary<SkillInfo, Item> fastreference_item = new Dictionary<SkillInfo, Item>();
     //public Item[] items_to_spawn;
+
+    private void Start()
+    {
+        AudioManager.instance.GetSoundPool("switchSkill", AudioGroups.GAME_FX, switchSkill);
+    }
 
     protected override IEnumerator LoadMe()
     {
@@ -41,6 +48,8 @@ public class SkillManager_ActivasNueva : LoadComponent
         //para tener un roullete que no me tire siempre los mismos items que ya tengo equipado
        // Main.instance.eventManager.SubscribeToEvent(GameEvents.ENEMY_DEAD, EnemyDeath);
 
+       
+       
         yield return null;
     }
 
@@ -50,6 +59,7 @@ public class SkillManager_ActivasNueva : LoadComponent
 
     public void EV_Switch()
     {
+        AudioManager.instance.PlaySound("switchSkill");
         if (equip[0] == null || equip[1] == null) return;
         var aux = equip[0];
         equip[0] = equip[1];

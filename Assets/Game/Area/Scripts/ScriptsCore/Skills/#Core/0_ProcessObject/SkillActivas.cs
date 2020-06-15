@@ -91,7 +91,7 @@ public abstract class SkillActivas : SkillBase
         }
         else
         {
-            
+            AudioManager.instance.PlaySound("skillIncooldown");
         }
     }
 
