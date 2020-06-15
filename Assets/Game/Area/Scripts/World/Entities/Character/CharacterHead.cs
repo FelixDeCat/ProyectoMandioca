@@ -49,6 +49,8 @@ public class CharacterHead : CharacterControllable
     [SerializeField] GameObject sphereMask;
     public Transform ShieldVectorDirection;
 
+    [SerializeField] CharacterGroundSensor groundSensor;
+
     internal void Mask(bool v) => sphereMask.SetActive(v);
 
     //Perdon por esto, pero lo necesito pra la skill del boomeran hasta tener la animacion y el estado "sin escudo"
@@ -144,7 +146,7 @@ public class CharacterHead : CharacterControllable
         charanim = new CharacterAnimator(anim_base);
         customCam = FindObjectOfType<CustomCamera>();
 
-        move = new CharacterMovement(GetComponent<Rigidbody>(), rot, charanim, _dashSounds)
+        move = new CharacterMovement(GetComponent<Rigidbody>(), rot, charanim, _dashSounds, IsGrounded)
             .SetSpeed(speed)
             .SetTimerDash(dashTiming)
             .SetDashCD(dashCD)
@@ -217,6 +219,7 @@ public class CharacterHead : CharacterControllable
     {
         AudioManager.instance.PlaySound("FootStep");
     }
+    bool IsGrounded() => groundSensor.IsGrounded();
 
     public Vector3 DirAttack { get; private set; }
 
