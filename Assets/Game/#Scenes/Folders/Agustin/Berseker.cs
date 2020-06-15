@@ -6,6 +6,7 @@ public class Berseker : MonoBehaviour
 {
     public Material enterBerserk;
     public Material stayBerserk;
+    public Material wings;
     CharacterHead myChar;
     public float fadeOutTime;
     float time;
@@ -23,6 +24,7 @@ public class Berseker : MonoBehaviour
         Graphics.Blit(source, destination, enterBerserk);
         stayBerserk.SetFloat("_Value", 0);
         enterBerserk.SetFloat("_Value", 0);
+        wings.SetFloat("_TransparencyValue", 0);
     }
 
     private void Update()
@@ -30,7 +32,6 @@ public class Berseker : MonoBehaviour
         if (myChar.isBuffed == true)
         {
             if (oneTime) StartCoroutine(fadeShaderOut());
-            
             stayBerserk.SetFloat("_Value", 1);
         }
         else
@@ -53,6 +54,9 @@ public class Berseker : MonoBehaviour
             current -= 1 / frames;
             print(current);
             enterBerserk.SetFloat("_Value", current);
+
+            wings.SetFloat("_TransparencyValue", current);
+
             yield return new WaitForSeconds(time);
         }
     }

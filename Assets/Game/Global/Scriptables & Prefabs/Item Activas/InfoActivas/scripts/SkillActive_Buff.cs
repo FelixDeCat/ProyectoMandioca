@@ -17,7 +17,8 @@ public class SkillActive_Buff : SkillActivas
     [SerializeField] ParticleSystem brightParticle;
     [SerializeField] float smallLightVerticalOffset;
     [SerializeField] ParticleSystem smallLightParticle;
-    
+    [SerializeField] GameObject berserkWings;
+
     protected override void OnBeginSkill()
     {
         if (mychar == null) mychar = Main.instance.GetChar();
@@ -45,6 +46,7 @@ public class SkillActive_Buff : SkillActivas
 
     protected override void OnUpdateUse()
     {
+        berserkWings.transform.position = mychar.transform.position;
         brightParticle.transform.position = mychar.transform.position + Vector3.up;
         smallLightParticle.transform.position = mychar.transform.position + Vector3.up * smallLightVerticalOffset;
     }
