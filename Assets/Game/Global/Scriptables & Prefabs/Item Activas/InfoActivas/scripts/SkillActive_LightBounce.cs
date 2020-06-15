@@ -25,6 +25,7 @@ public class SkillActive_LightBounce : SkillActivas
 
     [SerializeField] private AudioClip fireClip;
     [SerializeField] private AudioClip celestialChorus;
+    [SerializeField] private AudioClip pickUp_skill;
     private const string _fireSound = "fireSound";
     private const string _celestialChorus = "celestialChorus";
 
@@ -53,6 +54,9 @@ public class SkillActive_LightBounce : SkillActivas
         blocker = _hero.GetCharBlock();
         AudioManager.instance.GetSoundPool(_fireSound, AudioGroups.GAME_FX,fireClip, true);
         AudioManager.instance.GetSoundPool(_celestialChorus, AudioGroups.GAME_FX,celestialChorus);
+        AudioManager.instance.GetSoundPool("pick_lightBounceSkill", AudioGroups.GAME_FX,pickUp_skill);
+        
+        AudioManager.instance.PlaySound("pick_lightBounceSkill");
     }
     protected override void OnEndSkill() { }
 

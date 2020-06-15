@@ -26,6 +26,8 @@ namespace ToolsMandioca.StateMachine
         {
             base.Enter(input);
             anim.SetFloat("move", 0.3f);
+            
+            AudioManager.instance.PlaySound("WalkEnt");
         }
 
         protected override void Exit(TrueDummyEnemy.DummyEnemyInputs input)
@@ -34,6 +36,8 @@ namespace ToolsMandioca.StateMachine
 
             move.StopMove();
             anim.SetFloat("move", 0);
+            
+            AudioManager.instance.StopAllSounds("WalkEnt");
         }
 
         protected override void Update()

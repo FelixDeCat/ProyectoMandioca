@@ -25,6 +25,7 @@ namespace ToolsMandioca.StateMachine
         {
             base.Enter(last);
             combatDirector.PrepareToAttack(enemy, enemy.CurrentTarget());
+            AudioManager.instance.PlaySound("WalkEnt");
         }
 
         protected override void Update()
@@ -63,6 +64,8 @@ namespace ToolsMandioca.StateMachine
             base.Exit(input);
             if(enemy.CurrentTarget() != null)
                 combatDirector.DeleteToPrepare(enemy, enemy.CurrentTarget());
+            
+            AudioManager.instance.StopAllSounds("WalkEnt");
         }
 
     }

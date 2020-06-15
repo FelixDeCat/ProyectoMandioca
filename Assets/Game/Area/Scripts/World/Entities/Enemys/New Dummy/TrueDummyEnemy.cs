@@ -58,6 +58,7 @@ public class TrueDummyEnemy : EnemyBase
     [SerializeField] ParticleSystem endPetrify;
     [SerializeField] AudioClip clip_PetrifyStand;
     [SerializeField] AudioClip clip_petrifyEnd;
+    [SerializeField] AudioClip clip_walkEnt;
     [SerializeField] ParticleSystem _spawnParticules;
 
     public bool isOnFire { get; private set; }
@@ -81,6 +82,7 @@ public class TrueDummyEnemy : EnemyBase
         AudioManager.instance.GetSoundPool(takeHit_audioName, AudioGroups.GAME_FX, _takeHit_AC);
         AudioManager.instance.GetSoundPool("PetrifyStand", AudioGroups.GAME_FX, clip_PetrifyStand);
         AudioManager.instance.GetSoundPool("PetrifyEnd", AudioGroups.GAME_FX, clip_petrifyEnd);
+        AudioManager.instance.GetSoundPool("WalkEnt", AudioGroups.GAME_FX, clip_walkEnt, true);
 
         rb = GetComponent<Rigidbody>();
         combatComponent.Configure(AttackEntity);

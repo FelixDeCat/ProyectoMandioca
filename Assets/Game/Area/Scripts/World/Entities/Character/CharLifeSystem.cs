@@ -49,7 +49,12 @@ public class CharLifeSystem: _Base_Life_System
         lifechange.Invoke(current, max);
     }
     void EVENT_OnLoseLife() { loselife.Invoke(); }
-    void EVENT_OnGainLife() { gainlife.Invoke(); }
+
+    void EVENT_OnGainLife()
+    {
+        AudioManager.instance.PlaySound("takeHeal");
+        gainlife.Invoke();
+    }
 
     void EVENT_OnDeath()
     {

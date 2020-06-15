@@ -72,12 +72,26 @@ public abstract class SkillActivas : SkillBase
     public void Execute()
     {
         if (usePredicate)
-            if (!predicate()) return;
+        {
+            if (!predicate())
+            {
+                return;
+            }
+        }
 
         if (!begincooldown)
         {
-            if (useRequest) ConfigureRequest(TrueExecute);
-            else TrueExecute();
+            if (useRequest)
+            {
+                Debug.Log("Entra aca 3");
+                ConfigureRequest(TrueExecute);
+            }
+            else{TrueExecute();}
+            
+        }
+        else
+        {
+            
         }
     }
 

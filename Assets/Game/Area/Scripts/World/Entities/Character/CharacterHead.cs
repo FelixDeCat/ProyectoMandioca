@@ -66,6 +66,8 @@ public class CharacterHead : CharacterControllable
     [Header("Feedbacks")]
     [SerializeField] ParticleSystem feedbackCW = null;
 
+    [SerializeField] private AudioClip audioClip_takeHeal; 
+
     [SerializeField] private AudioClip swingSword_AC;
     private const string swing_SoundName = "swingSword";
     [SerializeField] private AudioClip footstep;
@@ -202,6 +204,7 @@ public class CharacterHead : CharacterControllable
         AudioManager.instance.GetSoundPool(swing_SoundName, AudioGroups.GAME_FX, swingSword_AC);
         AudioManager.instance.GetSoundPool("FootStep", AudioGroups.GAME_FX, footstep);
         AudioManager.instance.GetSoundPool("blockSound", AudioGroups.GAME_FX, audioblock);
+        AudioManager.instance.GetSoundPool("takeHeal", AudioGroups.GAME_FX, audioClip_takeHeal);
     }
 
     #region Throw Something
@@ -213,7 +216,6 @@ public class CharacterHead : CharacterControllable
     }
     void ThrowCallback()
     {
-        Debug.Log("entro aca");
         throwCallback.Invoke(escudo.transform.position);
     }
     #endregion
