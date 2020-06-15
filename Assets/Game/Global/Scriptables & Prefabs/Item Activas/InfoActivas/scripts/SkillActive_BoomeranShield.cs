@@ -11,6 +11,9 @@ public class SkillActive_BoomeranShield : SkillActivas
     [SerializeField] private float radius = 5;
     [SerializeField] private float spinDuration = 5;
     [SerializeField] private float throwSpeed = 5;
+    [SerializeField] private float returnSpeed = 5;
+    [SerializeField] private float distanceToTriggerCatch = 3;
+    
     [SerializeField] private int damage = 1;
     [SerializeField] Damagetype damageType = Damagetype.normal;
 
@@ -47,7 +50,7 @@ public class SkillActive_BoomeranShield : SkillActivas
     private bool isSpinning;
     private bool isReturning;
 
-    private float startTime;
+    //private float startTime;
 
     DamageData dmgData;
 
@@ -115,13 +118,14 @@ public class SkillActive_BoomeranShield : SkillActivas
         startHeroPos = _shield.transform.position;
         startHeroLookDirection = _hero.GetCharMove().GetRotatorDirection();
 
-        startTime = Time.time;
+        timeCount = 0;
+        //startTime = Time.time;
         isGoing = true;
     }
 
     protected override void OnStopUse()
     {
-        _hero.charanim.CatchProp();
+        
         _hero.ToggleBlock(true);
         _shield.SetActive(true);
         auxShield.SetActive(false);
@@ -179,6 +183,7 @@ public class SkillActive_BoomeranShield : SkillActivas
 
         if (isSpinning)
         {
+            
             if(flying.isPlaying)
                 flying.Stop();
             //if(!auraZone.isPlaying)
@@ -189,26 +194,28 @@ public class SkillActive_BoomeranShield : SkillActivas
             //volver
             if (timeCount > spinDuration)
             {
+                Debug.Log("asdasd");
                 isSpinning = false;
                 isReturning = true;
-                startTime = Time.time;
+                timeCount = 0;
             }
         }
 
         if (isReturning)
         {
+            
             var dir = _hero.transform.position - auxShield.transform.position;
             dir = dir.normalized;
             
             
-            if (Vector3.Distance(auxShield.transform.position, _hero.transform.position) > .5f)
+            if (Vector3.Distance(auxShield.transform.position, _hero.transform.position) >= distanceToTriggerCatch)
             {
-                auxShield.transform.position += Time.deltaTime * .1f * dir;
                 
-                //MoveWithLerp(auxShield.transform.position, _hero.transform.position);
+                auxShield.transform.position += Time.deltaTime * returnSpeed * dir;
             }
             else
             {
+                _hero.charanim.CatchProp();
                 isReturning = false;
                 OnStopUse();
                 
@@ -219,11 +226,11 @@ public class SkillActive_BoomeranShield : SkillActivas
     
     void MoveWithLerp(Vector3 start,Vector3 end, float speed)
     {
-        float distCovered = (Time.time - startTime) * speed;
+        //float distCovered = (Time.time - startTime) * speed;
         
-        float fractionOfJourney = distCovered / Vector3.Distance(_hero.transform.position, auxShield.transform.position);
+        //float fractionOfJourney = distCovered / Vector3.Distance(_hero.transform.position, auxShield.transform.position);
         
-        auxShield.transform.position = Vector3.Lerp(start, end, fractionOfJourney);
+        //auxShield.transform.position = Vector3.Lerp(start, end, fractionOfJourney);
     }
 
     protected override void OnOneShotExecute()
