@@ -15,6 +15,7 @@ public class CharacterHead : CharacterControllable
 
     [Header("Dash Options")]
     public AnimationCurve dashCurve;
+    public AnimationCurve gravityCurve;
     [SerializeField] float dashTiming = 2;
     [SerializeField] float dashDistance = 5;
     [SerializeField] float dashCD = 2;
@@ -153,6 +154,7 @@ public class CharacterHead : CharacterControllable
             .SetDashDistance(dashDistance);
 
         move.Curve += () => dashCurve;
+        move.CurveGravityMultiplier += () => gravityCurve;
 
         InDash += move.IsDash;
         ChildrensUpdates += move.OnUpdate;

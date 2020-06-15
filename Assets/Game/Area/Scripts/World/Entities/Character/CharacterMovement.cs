@@ -30,6 +30,10 @@ public class CharacterMovement
 
     float gravity = -7;
     Func<bool> isGrounded = delegate { return true; };
+    float timer_gravity_curve;
+    bool begin_gravityCurve;
+    public Func<AnimationCurve> CurveGravityMultiplier;
+    float gravity_multiplier = 1f;
 
     AudioClip _dashSound;
     CharacterAnimator anim;
@@ -38,6 +42,7 @@ public class CharacterMovement
     Action OnEndRoll;
     public Action Dash;
     public Func<AnimationCurve> Curve;
+    
 
     public Action<float> MovementHorizontal;
     public Action<float> MovementVertical;
@@ -219,10 +224,33 @@ public class CharacterMovement
     #region ROLL
     public void OnUpdate()
     {
+        if (begin_gravityCurve)
+        {
+            if (timer_gravity_curve < 1)
+            {
+                 gravity_multiplier = CurveGravityMultiplier.Invoke().Evaluate(timer_gravity_curve);
+            }
+            else
+            {
+                timer_gravity_curve = 0;
+                begin_gravityCurve = false;
+            }
+        }
+
         velY = 0;
         if (!isGrounded.Invoke())
         {
             velY = gravity;
+
+            //if (begin_gravityCurve)
+            //{
+            //    velY = gravity * gravity_multiplier;
+            //}
+            //else
+            //{
+            //    velY = gravity;
+            //}
+            
             DebugCustom.Log("Gravity", "Gravity", "TRUE");
         }
         else
@@ -282,6 +310,7 @@ public class CharacterMovement
         aPoint = _rb.transform.position;
         bPoint = _rb.position = _rb.position + (dashDir * dashDistance);
 
+        begin_gravityCurve = true;
         inDash = true;
     }
 
