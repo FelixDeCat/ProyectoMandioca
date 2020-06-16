@@ -219,7 +219,7 @@ public class TrueDummyEnemy : EnemyBase
 
         UpdateStun = (name) => {
             stunTimer += Time.deltaTime;
-            Debug.Log(stunTimer);
+            //Debug.Log(stunTimer);
             if (stunTimer >= petrifiedTime)
             {
                 if (name == "Begin_Attack")
