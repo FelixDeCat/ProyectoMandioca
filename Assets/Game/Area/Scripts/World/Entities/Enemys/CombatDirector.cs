@@ -115,13 +115,11 @@ public class CombatDirector : LoadComponent, IZoneElement
 
                         if (prepareToAttack[entity].Count <= 0)
                         {
-                            Debug.Log("prepare to attack del tiimer");
                             isAttack[entity] = true;
                         }
                         else
                         {
 
-                            Debug.Log("ELSE");
                             var e = prepareToAttack[entity][UnityEngine.Random.Range(0, prepareToAttack[entity].Count)];
                             e.ToAttack();
                             Attack(e, entity);

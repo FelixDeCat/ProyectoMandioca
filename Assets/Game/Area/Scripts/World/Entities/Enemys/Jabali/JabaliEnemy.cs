@@ -310,7 +310,7 @@ public class JabaliEnemy : EnemyBase
 
     void StunAfterCharge()
     {
-        EnterStun = (input) => {
+        EnterStun += (input) => {
             animator.SetBool("Stun", true);
         };
 
@@ -321,7 +321,7 @@ public class JabaliEnemy : EnemyBase
                 sm.SendInput(JabaliInputs.IDLE);
         };
 
-        ExitStun = (input) => {
+        ExitStun += (input) => {
             animator.SetBool("Stun", false);
             stunTimer = 0;
             chargeOk = false;
@@ -334,7 +334,9 @@ public class JabaliEnemy : EnemyBase
     {
         base.OnPetrified();
 
-        EnterStun = (input) => {
+        EnterStun += (input) => {
+            animator.SetBool("Petrified", true);
+
             var smr = GetComponentInChildren<SkinnedMeshRenderer>();
             if (smr != null)
             {
@@ -345,7 +347,7 @@ public class JabaliEnemy : EnemyBase
                 mats[0] = _petrifiedMat;
                 smr.materials = mats;
                 Invinsible = true;
-              //  rb.AddForce
+                //  rb.AddForce
             }
 
             currentAnimSpeed = animator.speed;
@@ -354,12 +356,11 @@ public class JabaliEnemy : EnemyBase
 
         UpdateStun = (name) => {
             stunTimer += Time.deltaTime;
-
             if (stunTimer >= petrifiedTime)
                 sm.SendInput(JabaliInputs.IDLE);
         };
 
-        ExitStun = (input) => {
+        ExitStun += (input) => {
             var smr2 = GetComponentInChildren<SkinnedMeshRenderer>();
             if (smr2 != null)
             {
@@ -370,6 +371,7 @@ public class JabaliEnemy : EnemyBase
                 smr2.materials = myMat;
             }
             animator.speed = currentAnimSpeed;
+            animator.SetBool("Petrified", false);
             stunTimer = 0;
             Invinsible = false;
         };
@@ -482,6 +484,7 @@ public class JabaliEnemy : EnemyBase
 
         ConfigureState.Create(push)
             .SetTransition(JabaliInputs.IDLE, idle)
+            .SetTransition(JabaliInputs.PARRIED, parried)
             .SetTransition(JabaliInputs.PETRIFIED, petrified)
             .SetTransition(JabaliInputs.DEAD, dead)
             .SetTransition(JabaliInputs.DISABLE, disable)
@@ -573,7 +576,7 @@ public class JabaliEnemy : EnemyBase
 
     void TickStun(string name) => UpdateStun(name);
 
-    void EndStun(JabaliInputs input) => ExitStun(input);
+    void EndStun(JabaliInputs input) { ExitStun(input); EnterStun = (x) => { }; ExitStun = (x) => { }; } 
 
     void DisableObject()
     {

@@ -219,13 +219,11 @@ public class TrueDummyEnemy : EnemyBase
 
         UpdateStun = (name) => {
             stunTimer += Time.deltaTime;
-            Debug.Log("petrified");
+            Debug.Log(stunTimer);
             if (stunTimer >= petrifiedTime)
             {
                 if (name == "Begin_Attack")
                     sm.SendInput(DummyEnemyInputs.BEGIN_ATTACK);
-                else if (name == "Attack")
-                    sm.SendInput(DummyEnemyInputs.ATTACK);
                 else
                     sm.SendInput(DummyEnemyInputs.IDLE);
             }
@@ -246,8 +244,6 @@ public class TrueDummyEnemy : EnemyBase
                 //poner las particulas de sangre de vuelta
             }
         };
-
-        Debug.Log("entra a enviar el petrify");
         sm.SendInput(DummyEnemyInputs.PETRIFIED);
     }
 

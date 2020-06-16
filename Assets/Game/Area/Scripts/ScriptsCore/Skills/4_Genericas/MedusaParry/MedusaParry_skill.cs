@@ -32,10 +32,8 @@ public class MedusaParry_skill : SkillBase
             Vector3 playerpos = Main.instance.GetChar().transform.position;
             Vector3 enemyPos = entity.transform.position;
             Vector3 dir = enemyPos - playerpos;
-            Debug.Log(dir.normalized);
             Rigidbody rb = entity.GetComponent<Rigidbody>();
             AudioManager.instance.PlaySound("OnPetrifyBegin");
-            Debug.Log("petrificado");
             rb.AddForce(dir.normalized* _powerOfForce, ForceMode.Impulse);
         }
            

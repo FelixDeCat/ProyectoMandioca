@@ -16,14 +16,11 @@ namespace ToolsMandioca.StateMachine
         {
             base.Exit(input);
 
-            if (input != TrueDummyEnemy.DummyEnemyInputs.PETRIFIED)
-            {
-                timer = 0;
-                anim.SetBool("Attack", false);
-                var myEnemy = (EnemyBase)enemy;
-                myEnemy.attacking = false;
-                combatDirector.AttackRelease(enemy, enemy.CurrentTarget());
-            }
+            timer = 0;
+            anim.SetBool("Attack", false);
+            var myEnemy = (EnemyBase)enemy;
+            myEnemy.attacking = false;
+            combatDirector.AttackRelease(enemy, enemy.CurrentTarget());
         }
 
         protected override void Update()
