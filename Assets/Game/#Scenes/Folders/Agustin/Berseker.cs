@@ -52,7 +52,6 @@ public class Berseker : MonoBehaviour
         for (int i = 0; i < frames; i++)
         {
             current -= 1 / frames;
-            print(current);
             enterBerserk.SetFloat("_Value", current);
 
             wings.SetFloat("_TransparencyValue", current);
