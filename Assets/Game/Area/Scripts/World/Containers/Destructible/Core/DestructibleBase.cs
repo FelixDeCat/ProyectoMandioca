@@ -31,7 +31,7 @@ public abstract class DestructibleBase : EntityBase
             GetComponent<Rigidbody>(), 
             _lifeSytstem);
 
-        AudioManager.instance.GetSoundPool(destroyedSound.name, AudioGroups.MISC, destroyedSound);
+        AudioManager.instance.GetSoundPool(destroyedSound.name, AudioGroups.AMBIENT_FX, destroyedSound);
     }
 
     public void DestroyDestructible()
