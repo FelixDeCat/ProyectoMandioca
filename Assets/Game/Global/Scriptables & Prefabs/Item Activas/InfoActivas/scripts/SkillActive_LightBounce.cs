@@ -89,9 +89,25 @@ public class SkillActive_LightBounce : SkillActivas
             }
             else
             {
-                if(sparks_ps)
-                    sparks_ps.Stop();
-                endPosition = raycastHit.point;
+                var enemyAux = raycastHit.collider.gameObject.GetComponentInParent<WalkingEntity>();
+
+                if (enemyAux != null)
+                {
+                    if (sparks_ps)
+                    {
+                        sparks_ps.transform.position = raycastHit.point;
+                        sparks_ps.Play();
+                    }
+                    Main.instance.Vibrate();
+
+                    enemyAux.OnPetrified();
+                }
+                else
+                {
+                    if (sparks_ps)
+                        sparks_ps.Stop();
+                    endPosition = raycastHit.point;
+                }
             }
         }
     }
