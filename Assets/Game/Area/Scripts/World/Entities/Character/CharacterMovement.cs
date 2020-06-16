@@ -42,7 +42,7 @@ public class CharacterMovement
     Action OnEndRoll;
     public Action Dash;
     public Func<AnimationCurve> Curve;
-    
+
 
     public Action<float> MovementHorizontal;
     public Action<float> MovementVertical;
@@ -228,7 +228,8 @@ public class CharacterMovement
         {
             if (timer_gravity_curve < 1)
             {
-                 gravity_multiplier = CurveGravityMultiplier.Invoke().Evaluate(timer_gravity_curve);
+                timer_gravity_curve = timer_gravity_curve + 1 * Time.deltaTime;
+                gravity_multiplier = CurveGravityMultiplier.Invoke().Evaluate(timer_gravity_curve);
             }
             else
             {
@@ -242,15 +243,15 @@ public class CharacterMovement
         {
             velY = gravity;
 
-            //if (begin_gravityCurve)
-            //{
-            //    velY = gravity * gravity_multiplier;
-            //}
-            //else
-            //{
-            //    velY = gravity;
-            //}
-            
+            if (begin_gravityCurve)
+            {
+                velY = gravity * gravity_multiplier;
+            }
+            else
+            {
+                velY = gravity;
+            }
+
             DebugCustom.Log("Gravity", "Gravity", "TRUE");
         }
         else
@@ -268,7 +269,7 @@ public class CharacterMovement
 
             dashDir = new Vector3(dashDir.x, 0, dashDir.z);
 
-            _rb.velocity = dashSpeed * dashDir + new Vector3(0,velY,0);
+            _rb.velocity = dashSpeed * dashDir + new Vector3(0, velY, 0);
 
             //_rb.velocity = dashDir * dashSpeed;
 
