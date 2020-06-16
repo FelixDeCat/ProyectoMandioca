@@ -205,6 +205,11 @@ public class CharacterHead : CharacterControllable
         AudioManager.instance.GetSoundPool("FootStep", AudioGroups.GAME_FX, footstep);
         AudioManager.instance.GetSoundPool("blockSound", AudioGroups.GAME_FX, audioblock);
         AudioManager.instance.GetSoundPool("takeHeal", AudioGroups.GAME_FX, audioClip_takeHeal);
+
+
+        originalNormal = dmg_normal;
+        originalHeavy = dmg_heavy;
+
     }
 
     #region Throw Something
@@ -929,12 +934,16 @@ public class CharacterHead : CharacterControllable
     public CharacterInput getInput => _charInput;
 
     #region BuffedState
+
+    float originalNormal;
+    float originalHeavy;
+
     public void ActivateBuffState(float damageBuff, float damageReceived, float speedAcceleration, float scale, float duration)
     {
         charanim.SetUpdateMode(AnimatorUpdateMode.UnscaledTime);
         isBuffed = true;
-        dmg_normal += damageBuff;
-        dmg_heavy += damageBuff;
+        dmg_normal = originalNormal + damageBuff;
+        dmg_heavy = originalHeavy + damageBuff;
         move.SetSpeed(speed + speedAcceleration);
         dmgReceived = damageReceived;
         Main.instance.GetTimeManager().DoSlowMo(scale);
@@ -943,8 +952,8 @@ public class CharacterHead : CharacterControllable
     {
         charanim.SetUpdateMode(AnimatorUpdateMode.Normal);
         isBuffed = false;
-        dmg_normal -= damageBuff;
-        dmg_heavy -= damageBuff;
+        dmg_normal = originalNormal;
+        dmg_heavy = originalHeavy;
         move.SetSpeed(speed);
         dmgReceived = 1;
         Main.instance.GetTimeManager().StopSlowMo();
