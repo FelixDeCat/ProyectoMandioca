@@ -19,13 +19,15 @@ public class SkillActive_Buff : SkillActivas
     [SerializeField] ParticleSystem smallLightParticle;
     [SerializeField] GameObject berserkWings;
 
+    Animator animWings;
+
     protected override void OnBeginSkill()
     {
         if (mychar == null) mychar = Main.instance.GetChar();
         AudioManager.instance.GetSoundPool("slowmo_enter", AudioGroups.MISC, slowmoEnter);
         AudioManager.instance.GetSoundPool("slowmo_exit", AudioGroups.MISC, slowmoExit);
         mychar = Main.instance.GetChar();
-
+        animWings = berserkWings.GetComponent<Animator>();
     }
     protected override void OnStartUse()
     {
@@ -35,6 +37,7 @@ public class SkillActive_Buff : SkillActivas
         berserkParticle.Play();
         brightParticle.Play();
         smallLightParticle.Play();
+        animWings.Play("openWings");
     }
     protected override void OnStopUse()
     {
@@ -46,11 +49,10 @@ public class SkillActive_Buff : SkillActivas
 
     protected override void OnUpdateUse()
     {
-        berserkWings.transform.position = mychar.transform.position;
         brightParticle.transform.position = mychar.transform.position + Vector3.up;
         smallLightParticle.transform.position = mychar.transform.position + Vector3.up * smallLightVerticalOffset;
     }
-
+   
     #region Desuso
     protected override void OnStart() { }
     protected override void OnOneShotExecute() { }
