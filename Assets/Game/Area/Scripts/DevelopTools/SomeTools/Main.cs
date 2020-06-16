@@ -121,6 +121,26 @@ public class Main : MonoBehaviour
     public void Play() { foreach (var e in allentities) e.Resume(); }
     public void Pause() { foreach (var e in allentities) e.Pause(); }
 
+    bool firstTimePasivas;
+    bool firstTimeActivas;
+    public void ShowMessagePasivasFirst()
+    {
+        if (!firstTimePasivas)
+        {
+            firstTimePasivas = true;
+            FastMessage.instance.Print("Esta es tu primer habilidad pasiva, esta estará activada todo el tiempo",5f);
+        }
+        
+    }
+    public void ShowMessageActivasFirst()
+    {
+        if (!firstTimeActivas)
+        {
+            firstTimeActivas = true;
+            FastMessage.instance.Print("Esta es tu primer habilidad activa, solo podrás tener dos equipadas, para poder cambiarlas tendras que ir a un altar", 5f);
+        }
+    }
+
 
     /////////////////////////////////////////////////////////////////////
     /// PUBLIC GETTERS

@@ -9,16 +9,20 @@ public abstract class UI_Base : MonoBehaviour
     [System.NonSerialized] public int idfinder;
     [System.NonSerialized] public bool isActive;
 
-    UI_AnimBase anim;
+    UI_Anim_Code anim;
     [SerializeField] protected GameObject parent;
     void Awake()
     {
-        anim = GetComponent<UI_AnimBase>();
-        if (anim == null) throw new System.Exception("No contiene un UI_AnimBase");
-        else anim.AddCallbacks(OnEndOpenAnimation, EndCloseAnimation);
+        
         OnAwake();
     }
-    void Start() { OnStart(); parent.SetActive(false); }
+    void Start() 
+    {
+        anim = GetComponent<UI_Anim_Code>();
+        if (anim == null) throw new System.Exception("No contiene un UI_AnimBase");
+        else anim.AddCallbacks(OnEndOpenAnimation, EndCloseAnimation);
+
+        OnStart(); parent.SetActive(false); }
     void EndCloseAnimation() => OnEndCloseAnimation();
     void Update() { OnUpdate(); }
     protected abstract void OnAwake();

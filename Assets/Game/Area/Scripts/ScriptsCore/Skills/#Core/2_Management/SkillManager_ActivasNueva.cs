@@ -59,6 +59,7 @@ public class SkillManager_ActivasNueva : LoadComponent
 
     public void EV_Switch()
     {
+        
         AudioManager.instance.PlaySound("switchSkill");
         if (equip[0] == null || equip[1] == null) return;
         var aux = equip[0];
@@ -80,6 +81,8 @@ public class SkillManager_ActivasNueva : LoadComponent
     }
     public bool ReplaceFor(SkillInfo _skillinfo, Item item, Vector3 replacePosition)
     {
+        Main.instance.ShowMessageActivasFirst();
+
         #region para que no equipe si ya lo tengo
         //si ya la tengo repetida ni la agarro
         foreach (var i in equip)

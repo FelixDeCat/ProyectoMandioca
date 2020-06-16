@@ -15,6 +15,8 @@ public class PasiveActivator : MonoBehaviour
         {
             if (!isActive)
             {
+                Main.instance.ShowMessagePasivasFirst();
+
                 Main.instance.GetPasivesNoBranchesManager().Equip(skillInfo);
                 isActive = true;
             }
