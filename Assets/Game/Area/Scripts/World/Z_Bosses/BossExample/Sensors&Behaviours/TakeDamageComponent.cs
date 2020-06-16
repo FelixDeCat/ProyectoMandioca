@@ -27,6 +27,8 @@ public class TakeDamageComponent : MonoBehaviour
 
     public void TakeDamage(DamageData dmgdata)
     {
+        DebugCustom.Log("Wendigo", "wendigo", "L:" + LifeSystem.Life + " D:" + dmgdata.damage);
+
         tkdFeedback.Invoke(dmgdata.owner_position);
         StopCoroutine(BeginDamage());
         StartCoroutine(BeginDamage());
