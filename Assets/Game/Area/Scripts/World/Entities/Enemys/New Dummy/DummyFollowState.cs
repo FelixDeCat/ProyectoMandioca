@@ -13,13 +13,16 @@ namespace ToolsMandioca.StateMachine
         float normalDistance;
         float minDistance;
 
+        Func<bool> IsSpecialAttack;
+
         public DummyFollowState(EState<TrueDummyEnemy.DummyEnemyInputs> myState, EventStateMachine<TrueDummyEnemy.DummyEnemyInputs> _sm, GenericEnemyMove _move,
-                                float distance, float _minDistance, EnemyBase me) : base(myState, _sm)
+                                float distance, float _minDistance, EnemyBase me, Func<bool> _IsSpecialAttack) : base(myState, _sm)
         {
             move = _move;
             normalDistance = distance;
             minDistance = _minDistance;
             noObs = me;
+            IsSpecialAttack = _IsSpecialAttack;
         }
 
         protected override void Enter(EState<TrueDummyEnemy.DummyEnemyInputs> input)
@@ -62,6 +65,9 @@ namespace ToolsMandioca.StateMachine
             }
             else
             {
+                if(IsSpecialAttack())
+                    sm.SendInput(TrueDummyEnemy.DummyEnemyInputs.CHASING);
+
                 Vector3 dirForward = (noObs.CurrentTarget().transform.position - root.position).normalized;
                 Vector3 fowardRotation = move.ObstacleAvoidance(new Vector3(dirForward.x, 0, dirForward.z));
 

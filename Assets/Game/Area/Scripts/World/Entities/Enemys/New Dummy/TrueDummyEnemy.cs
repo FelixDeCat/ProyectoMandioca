@@ -7,6 +7,14 @@ using UnityEngine.Serialization;
 
 public class TrueDummyEnemy : EnemyBase
 {
+    //PARA FRANCISCO (o el que tome la activa)
+    //podés ir directamente a la region STATE MACHINE THINGS, ahí dejé algunas cosas que podés modificar y cosas que deberías agregar para que funcione.
+    //La lógica de la habilidad podes tenerla donde quieras, pero deberías ejecutarla en el estado que te dejé creado. También si querés hacerlo de otra
+    //manera o modificar cierto comportamiento, podés hacerlo, pero es un re quilombo, así que lo dejo a tu criterio. Con lo que te dejé armado, en teoría
+    //debería de funcionar si sólo agregas la lógica de la activa y hacés lo que te dejé comentado. Dejo alto comentario acá, pero lo más seguro es que esté
+    //en las reuniones del viernes, sábado y domingo, pero por las dudas. 
+
+
     [Header("Move Options")]
     [SerializeField] GenericEnemyMove movement;
 
@@ -224,6 +232,8 @@ public class TrueDummyEnemy : EnemyBase
             {
                 if (name == "Begin_Attack")
                     sm.SendInput(DummyEnemyInputs.BEGIN_ATTACK);
+                else if(name == "Special_Attack")
+                    sm.SendInput(DummyEnemyInputs.SPECIAL_ATTACK);
                 else
                     sm.SendInput(DummyEnemyInputs.IDLE);
             }
@@ -403,7 +413,7 @@ public class TrueDummyEnemy : EnemyBase
     protected override void OnTurnOn() { }
 
     #region STATE MACHINE THINGS
-    public enum DummyEnemyInputs { IDLE, BEGIN_ATTACK,ATTACK, GO_TO_POS, DIE, DISABLE, TAKE_DAMAGE, PETRIFIED, PARRIED, CHASING };
+    public enum DummyEnemyInputs { IDLE, BEGIN_ATTACK,ATTACK, GO_TO_POS, DIE, DISABLE, TAKE_DAMAGE, PETRIFIED, PARRIED, CHASING, SPECIAL_ATTACK };
     void SetStates()
     {
         var idle = new EState<DummyEnemyInputs>("Idle");
@@ -411,6 +421,7 @@ public class TrueDummyEnemy : EnemyBase
         var chasing = new EState<DummyEnemyInputs>("Chasing");
         var beginAttack = new EState<DummyEnemyInputs>("Begin_Attack");
         var attack = new EState<DummyEnemyInputs>("Attack");
+        var specialAttack = new EState<DummyEnemyInputs>("Special_Attack");
         var parried = new EState<DummyEnemyInputs>("Parried");
         var takeDamage = new EState<DummyEnemyInputs>("Take_Damage");
         var die = new EState<DummyEnemyInputs>("Die");
@@ -439,6 +450,7 @@ public class TrueDummyEnemy : EnemyBase
             .SetTransition(DummyEnemyInputs.IDLE, idle)
             .SetTransition(DummyEnemyInputs.GO_TO_POS, goToPos)
             .SetTransition(DummyEnemyInputs.BEGIN_ATTACK, beginAttack)
+            .SetTransition(DummyEnemyInputs.SPECIAL_ATTACK, specialAttack) //transición del ataque especial
             .SetTransition(DummyEnemyInputs.TAKE_DAMAGE, takeDamage)
             .SetTransition(DummyEnemyInputs.DIE, die)
             .SetTransition(DummyEnemyInputs.PETRIFIED, petrified)
@@ -461,6 +473,13 @@ public class TrueDummyEnemy : EnemyBase
             .SetTransition(DummyEnemyInputs.DISABLE, disable)
             .Done();
 
+        ConfigureState.Create(specialAttack)  //Las transiciones del nuevo estado
+            .SetTransition(DummyEnemyInputs.IDLE, idle)
+            .SetTransition(DummyEnemyInputs.DIE, die)
+            .SetTransition(DummyEnemyInputs.PETRIFIED, petrified)
+            .SetTransition(DummyEnemyInputs.DISABLE, disable)
+            .Done();
+
         ConfigureState.Create(parried)
             .SetTransition(DummyEnemyInputs.IDLE, idle)
             .SetTransition(DummyEnemyInputs.PETRIFIED, petrified)
@@ -470,7 +489,7 @@ public class TrueDummyEnemy : EnemyBase
 
         ConfigureState.Create(petrified)
             .SetTransition(DummyEnemyInputs.IDLE, idle)
-            //.SetTransition(DummyEnemyInputs.ATTACK, attack)
+            .SetTransition(DummyEnemyInputs.SPECIAL_ATTACK, specialAttack) //transición del ataque especial
             .SetTransition(DummyEnemyInputs.BEGIN_ATTACK, beginAttack)
             .SetTransition(DummyEnemyInputs.DIE, die)
             .SetTransition(DummyEnemyInputs.DISABLE, disable)
@@ -495,15 +514,23 @@ public class TrueDummyEnemy : EnemyBase
         var head = Main.instance.GetChar();
 
         //Asignando las funciones de cada estado
+
+        Func<bool> SpecialAttackReady = () => false;
+        //Este Func lo tenes que modificar a tu antojo para que me dé true cuando está implicitamente listo para tirar la habilidad, y falso para cuando no.
+        //Un ejemplo sería: () => isPlayerNear && isCdOver ? true : false;
+        //Hacelo como se te haga más cómodo.
+
         new DummyIdleState(idle, sm, movement, distancePos, normalDistance, this).SetAnimator(animator).SetRoot(rootTransform).SetDirector(director);
 
-        new DummyFollowState(goToPos, sm, movement, normalDistance, distancePos, this).SetAnimator(animator).SetRoot(rootTransform);
+        new DummyFollowState(goToPos, sm, movement, normalDistance, distancePos, this, SpecialAttackReady).SetAnimator(animator).SetRoot(rootTransform); //Estado que necesita el Func
 
-        new DummyChasing(chasing, sm, IsAttack, distancePos, movement, this).SetDirector(director).SetRoot(rootTransform);
+        new DummyChasing(chasing, sm, IsAttack, distancePos, movement, this, SpecialAttackReady).SetDirector(director).SetRoot(rootTransform); //Estado que necesita el Func
 
         new DummyAttAnt(beginAttack, sm, movement, this).SetAnimator(animator).SetDirector(director).SetRoot(rootTransform);
 
         new DummyAttackState(attack, sm, cdToAttack, this).SetAnimator(animator).SetDirector(director);
+
+        new DummySpecialAttack(specialAttack, sm, this).SetDirector(director); //Seteando el estado que nos compete. Agregale todas las variables que necesites.
 
         new DummyParried(parried, sm, parriedTime, this).SetAnimator(animator).SetDirector(director);
 
