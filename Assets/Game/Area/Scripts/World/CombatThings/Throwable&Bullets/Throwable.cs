@@ -24,13 +24,14 @@ public class Throwable : MonoBehaviour
 
     public DamageData damageData;
     ThrowData savethrowdata;
-
+    [SerializeField] AudioClip _crushBoulder;
     private void Awake()
     {
         damageData
             .SetDamage(damage)
             .SetDamageType(Damagetype.parriable)
             .SetKnockback(500);
+        AudioManager.instance.GetSoundPool("boulder Crush", AudioGroups.GAME_FX, _crushBoulder);
     }
 
     public void Throw(ThrowData data, Action<Throwable> _ReturnToPoolCallback)
@@ -65,6 +66,7 @@ public class Throwable : MonoBehaviour
                 ReturnToPool(this);
             }
         }
+        //
     }
 
     void ReturnTheRock(Vector3 newPosition, Vector3 newDirection, float force)
@@ -97,6 +99,7 @@ public class Throwable : MonoBehaviour
 
             if (aux == Attack_Result.parried)
             {
+                AudioManager.instance.PlaySound("boulder Crush",go.transform);
                 posCollision = this.transform.position;
                 var newdir = savethrowdata.Owner.position - posCollision;
                 newdir.Normalize();
