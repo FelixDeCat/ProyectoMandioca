@@ -26,6 +26,7 @@ public class CharacterHead : CharacterControllable
 
     [Header("Movement Options")]
     [SerializeField] float speed = 5;
+    [SerializeField] float slowSpeed;
 
     public Transform rayPivot;
 
@@ -140,6 +141,9 @@ public class CharacterHead : CharacterControllable
            .ADD_EVENT_OnLoseLife(OnLoseLife)
            .ADD_EVENT_Death(OnDeath)
            .ADD_EVENT_OnChangeValue(OnChangeLife);
+
+        //Set de la velocidad en slow
+        slowSpeed = speed * .6f;
     }
     protected override void OnInitialize()
     {
@@ -456,8 +460,16 @@ public class CharacterHead : CharacterControllable
 
     public void SetSlow()
     {
-        //Hacer la logica para ralentizar
         Debug.Log("ESTOY ENMARAÑADO");
+        move.SetSpeed(slowSpeed);
+        Slowed = true;
+    }
+    
+    public void SetNormalSpeed()
+    {
+        Debug.Log("Salgo de la maraña");
+        move.SetSpeed(speed);
+        Slowed = false;
     }
 
     #endregion
@@ -702,10 +714,14 @@ public class CharacterHead : CharacterControllable
             {
                 if (move.CheckIfCanTeleport()) stateMachine.SendInput(PlayerInputs.ROLL);
 
+                
+                
                 return;
             }
 
             stateMachine.SendInput(PlayerInputs.ROLL);
+            
+            SetNormalSpeed();
         }
     }
     public void AddListenerToDash(Action listener) => move.Dash += listener;
