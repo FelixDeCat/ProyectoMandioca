@@ -21,6 +21,7 @@ public class CharacterHead : CharacterControllable
     [SerializeField] float dashCD = 2;
     [SerializeField] float teleportCD = 2;
     [SerializeField] ParticleSystem evadeParticle = null;
+    public bool Slowed { get; private set; }
     Func<bool> InDash;
 
     [Header("Movement Options")]
@@ -451,6 +452,17 @@ public class CharacterHead : CharacterControllable
 
     #endregion
 
+    #region Status Effect
+
+    public void SetSlow()
+    {
+        //Hacer la logica para ralentizar
+        Debug.Log("ESTOY ENMARAÑADO");
+    }
+
+    #endregion
+    
+    
     #region SkillRequest
     public Action RequestExecuteASkill(Action request)
     {

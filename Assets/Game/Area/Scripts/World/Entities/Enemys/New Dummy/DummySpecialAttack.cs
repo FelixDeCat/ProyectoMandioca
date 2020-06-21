@@ -10,10 +10,18 @@ namespace ToolsMandioca.StateMachine
         //estados si querés, pero es importante que cuando termine de atacar del todo, realice la lógica que te dejé en el Exit.
         ICombatDirector enemy;
 
+        private CharacterHead _hero;
+
         public DummySpecialAttack(EState<TrueDummyEnemy.DummyEnemyInputs> myState, EventStateMachine<TrueDummyEnemy.DummyEnemyInputs> _sm,
                                   ICombatDirector _enemy) : base(myState, _sm)
         {
             enemy = _enemy;
+        }
+
+        protected override void Enter(EState<TrueDummyEnemy.DummyEnemyInputs> last)
+        {
+            _hero = Main.instance.GetChar();
+            //Iniciar animacion de enmarañar
         }
 
         protected override void Exit(TrueDummyEnemy.DummyEnemyInputs input)
@@ -27,6 +35,12 @@ namespace ToolsMandioca.StateMachine
 
         protected override void Update()
         {
+        }
+
+        void SummonCorruptedVines()
+        {
+            Vector3 targetPos = _hero.transform.position;
+            
         }
     }
 }

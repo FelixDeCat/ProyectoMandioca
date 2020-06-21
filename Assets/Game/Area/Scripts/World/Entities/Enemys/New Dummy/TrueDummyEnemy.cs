@@ -27,6 +27,7 @@ public class TrueDummyEnemy : EnemyBase
     [SerializeField] float cdToAttack = 1;
     [SerializeField] float parriedTime = 2;
     [SerializeField] float knockback = 20;
+    [SerializeField] private bool hasSpecialAttack;
     private CombatDirector director;
 
     [Header("Life Options")]
@@ -515,7 +516,7 @@ public class TrueDummyEnemy : EnemyBase
 
         //Asignando las funciones de cada estado
 
-        Func<bool> SpecialAttackReady = () => false;
+        Func<bool> SpecialAttackReady = CanDoSpecialAttack;
         //Este Func lo tenes que modificar a tu antojo para que me dé true cuando está implicitamente listo para tirar la habilidad, y falso para cuando no.
         //Un ejemplo sería: () => isPlayerNear && isCdOver ? true : false;
         //Hacelo como se te haga más cómodo.
@@ -541,6 +542,21 @@ public class TrueDummyEnemy : EnemyBase
         new DummyDieState(die, sm, ragdoll, myGroundParticle).SetAnimator(animator).SetDirector(director).SetRigidbody(rb);
 
         new DummyDisableState(disable, sm, EnableObject, DisableObject);
+    }
+
+    bool CanDoSpecialAttack()
+    {
+        var character = Main.instance.GetChar();
+        
+        bool aux = false;
+        if (Vector3.Distance(character.transform.position, transform.position) <= 10 &&
+            Vector3.Distance(character.transform.position, transform.position) >= 4 && character.Slowed == false)
+        {
+            aux = true;
+            return aux;
+        }
+        
+        return aux;
     }
 
     void StartStun(EState<DummyEnemyInputs> input) => EnterStun(input);
