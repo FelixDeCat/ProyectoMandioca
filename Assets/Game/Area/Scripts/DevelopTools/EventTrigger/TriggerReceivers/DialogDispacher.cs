@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class DialogDispacher : TriggerReceiver
 {
+    public Sprite photoExample;
+
     private void Awake()
     {
         has_one_Shot = true;
@@ -11,6 +13,6 @@ public class DialogDispacher : TriggerReceiver
 
     protected override void OnExecute()
     {
-        Debug.LogWarning("Empieza un dialogo");
+        FastMessage.instance.Print("Esta es tu primer habilidad pasiva, esta estará activada todo el tiempo", 5f, photoExample);
     }
 }
