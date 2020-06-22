@@ -5,9 +5,19 @@ using DungeonGenerator;
 using DungeonGenerator.Components;
 using System.Linq;
 
+
+// Script viejo... si esto se llega a usar... 
+// hay que heredar de LocalScene y hacer los ajustes correspondientes... 
+// esto ya es un re frankenstein
 public class Dungeon : SceneMainBase
 {
     public NewRoomGenerator newManagerRooms;
+
+    protected override IEnumerator LoadMe()
+    {
+        // aprovechar el LoadMe y meter el Build de Dungeon procedural aca
+        yield return null;
+    }
 
     protected override void OnAwake()
     {
@@ -99,17 +109,12 @@ public class Dungeon : SceneMainBase
 
     public void PlayerIsDead() { }
     public void PlayerIsAlive() { }
-    protected override void OnPause() { }
 
     public override void OnPlayerDeath()
     {
         newManagerRooms.listrooms.ForEach(x => x.PlayerIsDeath());
     }
 
-    protected override void OnResume()
-    {
-        
-    }
 
     protected override void OnFade_GoBlack()
     {
@@ -117,6 +122,11 @@ public class Dungeon : SceneMainBase
     }
 
     protected override void OnFade_GoTransparent()
+    {
+        
+    }
+
+    protected override void OnStartGame()
     {
         
     }

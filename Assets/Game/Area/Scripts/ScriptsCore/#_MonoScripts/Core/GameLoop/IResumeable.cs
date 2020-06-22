@@ -1,4 +1,7 @@
-﻿public interface IResumeable
+﻿namespace MonoScripts.Core
 {
-    void Resume();
+    public interface IResumeable
+    {
+        void Resume();
+    }
 }
