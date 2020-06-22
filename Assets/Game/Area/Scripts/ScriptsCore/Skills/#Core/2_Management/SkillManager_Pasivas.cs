@@ -245,7 +245,7 @@ public class SkillManager_Pasivas : MonoBehaviour
         {
             //Debug.Log("Selected: " + deb.skillinfo.skill_name);
         }
-        Main.instance.gameUiController.RefreshPassiveSkills_UI(equiped.Select(x => x.skillinfo).ToList());
+        //Main.instance.gameUiController.RefreshPassiveSkills_UI(equiped.Select(x => x.skillinfo).ToList());
         Main.instance.gameUiController.UI_RefreshMenu();
         Main.instance.gameUiController.SetSelectedPath(CURRENT_TYPE.ToString());
     }

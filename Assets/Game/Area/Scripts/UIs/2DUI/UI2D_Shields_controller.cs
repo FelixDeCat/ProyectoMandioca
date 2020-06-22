@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class UI3D_Shields_controller : MonoBehaviour
+public class UI2D_Shields_controller : MonoBehaviour
 {
     //[Header("Rotate settings")] 
     [HideInInspector] public float rotSpeed;

@@ -42,7 +42,7 @@ public class SkillManager_PasivasNoBranches : LoadComponent
             }
         }
 
-        Main.instance.gameUiController.RefreshPassiveSkills_UI(coll_for_Feedback);
+       // Main.instance.gameUiController.RefreshPassiveSkills_UI(coll_for_Feedback);
     }
     public void Equip(SkillInfo skill)
     {
@@ -55,7 +55,7 @@ public class SkillManager_PasivasNoBranches : LoadComponent
             }
         }
 
-        Main.instance.gameUiController.RefreshPassiveSkills_UI(coll_for_Feedback);
+        //Main.instance.gameUiController.RefreshPassiveSkills_UI(coll_for_Feedback);
     }
    
     
