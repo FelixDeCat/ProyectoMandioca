@@ -11,26 +11,29 @@ public class WorldItemInfo : MonoBehaviour
     public Text _interactInfo;
     public GameObject icon;
 
+    public GameObject descriptionZone;
+    public GameObject titleZone;
+
     public bool hideicon;
 
-    public void Show(Vector3 pos, string title, string description, string interactInfo = "Agarrar", bool hide_button_icon = false)
+    public void Show(Vector3 pos, string title, string description, string interactInfo = "Agarrar", bool hide_button_icon = false, bool useDescription = true)
     {
         if (!hide_button_icon) icon.SetActive(true);
         else icon.SetActive(false);
         transform.position = pos;
         //if (RoomTriggerManager.instancia) transform.position = RoomTriggerManager.instancia.current.transform.position;
         //else transform.position = pos;
+        descriptionZone.SetActive(useDescription);
+        titleZone.SetActive(useDescription);
         _title.text = title;
         _description.text = description;
-        if(_interactInfo != null) _interactInfo.text = interactInfo;
+        if (_interactInfo != null) _interactInfo.text = interactInfo;
     }
     public void Show(Interactable interact, string title, string description, string interactInfo = "Agarrar", bool hide_button_icon = false)
     {
         if (!hide_button_icon) icon.SetActive(true);
         else icon.SetActive(false);
-
         transform.position = interact.pointToMessage == null ? interact.transform.position : interact.pointToMessage.position;
-
         _title.text = title;
         _description.text = description;
         if (_interactInfo != null) _interactInfo.text = interactInfo;
