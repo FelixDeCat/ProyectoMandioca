@@ -22,7 +22,7 @@ public class Generic_Throw : MonoStateBase
     protected override void OnBegin()
     {
         Get_Behaviours.followBehaviour.StartLookAt();
-        
+        Get_FeedbackHandler.Play_ThrowAttack();
     }
 
     void CatchDefinitiveTargetPosition()
