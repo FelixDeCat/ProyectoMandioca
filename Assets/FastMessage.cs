@@ -7,10 +7,12 @@ public class FastMessage : UI_Base
 {
     public static FastMessage instance;
     public Text txt_to_message;
+    public Image photo;
     public void Awake() => instance = this;
     bool anim;
     float timer;
     float time_to_close;
+
 
     public void Print(string message, float time)
     {
@@ -18,6 +20,15 @@ public class FastMessage : UI_Base
         time_to_close = time;
         anim = true;
         txt_to_message.text = message;
+    }
+
+    public void Print(string message, float time, Sprite photo)
+    {
+        Open();
+        time_to_close = time;
+        anim = true;
+        txt_to_message.text = message;
+        this.photo.sprite = photo;
     }
 
     protected override void OnUpdate()
