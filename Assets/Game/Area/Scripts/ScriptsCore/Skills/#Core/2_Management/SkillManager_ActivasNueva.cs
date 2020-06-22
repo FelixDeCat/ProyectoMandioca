@@ -15,7 +15,7 @@ public class SkillManager_ActivasNueva : LoadComponent
 
     public int nextToReplace;
 
-    public Manager3DActivas frontend3D;
+    public Manager2DActivas frontend;
     [SerializeField] private AudioClip switchSkill;
     
     [Header("para spawn")]
@@ -41,7 +41,7 @@ public class SkillManager_ActivasNueva : LoadComponent
 
         //refresco la ui con mis skills vacios
         //frontend.Refresh(myActiveSkills, OnUISelected);
-        frontend3D.InitializeAllBlocked();
+        frontend.InitializeAllBlocked();
 
         //otras cosas
         //(spawn de enemigos) esto lo hago aca porque quiero tener el control de spawn acá... 
@@ -65,7 +65,7 @@ public class SkillManager_ActivasNueva : LoadComponent
         var aux = equip[0];
         equip[0] = equip[1];
         equip[1] = aux;
-        frontend3D.Refresh(equip);
+        frontend.Refresh(equip);
     }
     public void EV_UseSkill()
     {
@@ -142,7 +142,7 @@ public class SkillManager_ActivasNueva : LoadComponent
         equip[nextToReplace].SetCallbackEndCooldown(Callback_EndCooldown);
         equip[nextToReplace].BeginSkill();
 
-        frontend3D.Refresh(equip);
+        frontend.Refresh(equip);
 
         nextToReplace = nextToReplace.NextIndex(2);
 
@@ -158,7 +158,7 @@ public class SkillManager_ActivasNueva : LoadComponent
             {
                 if (equip[i].skillinfo == _skill)
                 {
-                    frontend3D.Execute(i);
+                    frontend.Execute(i);
                 }
             }
         }
@@ -172,7 +172,7 @@ public class SkillManager_ActivasNueva : LoadComponent
             {
                 if (equip[i].skillinfo == _skill)
                 {
-                    frontend3D.RefreshCooldownAuxiliar(i, _time);
+                    frontend.RefreshCooldown(i, _time);
                 }
             }
         }
@@ -185,7 +185,7 @@ public class SkillManager_ActivasNueva : LoadComponent
             {
                 if (equip[i].skillinfo == _skill)
                 {
-                    frontend3D.CooldownEndReadyAuxiliar(i);
+                    frontend.CooldownEndReadyAuxiliar(i);
                 }
             }
         }
