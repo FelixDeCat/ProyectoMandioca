@@ -21,7 +21,7 @@ namespace DevelopTools.UI
 
         //container donde van a ir todos los sliders
         [SerializeField] private Transform container = null;
-        
+
         //Contenedor de todo
         [SerializeField] private Transform contenedorDeTODO = null;
 
@@ -32,6 +32,9 @@ namespace DevelopTools.UI
 
         //para tener una referencia a todos por cualquier cosa
         private List<GameObject> debug_UIs = new List<GameObject>();
+
+        //crei que estaba hecho por diccionario, le agregue esta lista auxiliar para no tener que cambiar toooodo
+        private List<string> aux_no_repeat = new List<string>();
 
         /// <summary>
         /// Crea un slider que actualiza un dato que le mandes para actualizar en el Func.
@@ -45,10 +48,10 @@ namespace DevelopTools.UI
         /// <param name="min"></param>
         /// <param name="max"></param>
         /// <param name="callback"></param>
-        public void CreateSlider(string title ,float actual, float min, float max, Func<float, string> callback)
+        public void CreateSlider(string title, float actual, float min, float max, Func<float, string> callback)
         {
             Debuggin_Template_Slider newSlider = Instantiate(slider_pf, container);
-            newSlider.Configurate(title,actual, max, min, callback);
+            newSlider.Configurate(title, actual, max, min, callback);
 
             debug_UIs.Add(newSlider.gameObject);
         }
@@ -77,6 +80,6 @@ namespace DevelopTools.UI
             contenedorDeTODO.gameObject.SetActive(value);
         }
     }
-    
+
 }
 

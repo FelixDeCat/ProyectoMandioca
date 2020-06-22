@@ -12,7 +12,7 @@ public class EnableRender : MonoBehaviour
     bool enable;
 
 
-    private void Awake()
+    private void InitializeMeshToogle()
     {
         Debug_UI_Tools.instance.CreateToogle(this.gameObject.name, false, Toogle);
     }
