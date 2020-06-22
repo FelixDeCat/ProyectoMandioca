@@ -41,6 +41,17 @@ public class Destructible_Normal : DestructibleBase
 
     void Calculate()
     {
+        if(data.data.Count>0)
+            DropCalculate();
+        //esto lo hacemos en el principio y no cuando le pegamos para no generar esos picos de Procesamiento
+
+        savedDestroyedVersion = Main.instance.GetSpawner().SpawnItem(model_destroyedVersion.gameObject, transform).GetComponent<DestroyedVersion>();
+
+        if (savedDestroyedVersion) savedDestroyedVersion.gameObject.SetActive(false);
+    }
+
+    void DropCalculate()
+    {
         //a todos les asigno su maximo y su minimo para ser recorrido con un cursor
         int totalrate = 0;
         for (int i = 0; i < data.data.Count; i++)
@@ -64,7 +75,7 @@ public class Destructible_Normal : DestructibleBase
                     break;
                 }
             }
-            if (!selected) throw new System.Exception("El ratecursor se fue a la mierda");
+            //if (!selected) throw new System.Exception("El ratecursor se fue a la mierda");
             //esto lo hacemos en el principio y no cuando le pegamos para no generar esos picos de Procesamiento
 
             var destinity = FindObjectOfType<ParentContainer>().transform.position;
@@ -76,16 +87,12 @@ public class Destructible_Normal : DestructibleBase
                     Random.Range(destinity.y - disp, destinity.y + disp),
                     Random.Range(destinity.z - disp, destinity.z + disp));
 
-            objectsToDrop.Add(Main.instance.GetSpawner().SpawnItem(selected, aux));
+            if (selected)
+                objectsToDrop.Add(Main.instance.GetSpawner().SpawnItem(selected, aux));
         }
 
-        //esto lo hacemos en el principio y no cuando le pegamos para no generar esos picos de Procesamiento
-
-        savedDestroyedVersion = Main.instance.GetSpawner().SpawnItem(model_destroyedVersion.gameObject, transform).GetComponent<DestroyedVersion>();
-
         onerig = objectsToDrop[0].GetComponent<Rigidbody>();
-        objectsToDrop.ForEach(x => x.SetActive(false)); 
-        if (savedDestroyedVersion) savedDestroyedVersion.gameObject.SetActive(false);
+        objectsToDrop.ForEach(x => x.SetActive(false));
     }
 
     void Drop()
