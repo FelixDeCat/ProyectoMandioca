@@ -15,7 +15,7 @@ public class Generic_TakeInPlace : MonoStateBase
 
     public void TakeSomething()
     {
-        Get_FeedbackHandler.Play_SonidoDeEjemplo();
+       // Get_FeedbackHandler.Play_SonidoDeEjemplo();
         Get_FeedbackHandler.Play_PluckRock();
         Get_InputSender.SendBool("HasRock", true);
         Get_FeedbackHandler.EnableRockInHand();

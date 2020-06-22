@@ -9,6 +9,7 @@ public class TakeDamageComponent : MonoBehaviour
     GenericLifeSystem LifeSystem;
     Action<Vector3> tkdFeedback;
     Rigidbody rb;
+    [SerializeField] FeedbackManager _feedBack;
     bool isInCooldown = false;
     public bool Predicate_CanTakeDamage() => isInCooldown;
 
@@ -32,6 +33,7 @@ public class TakeDamageComponent : MonoBehaviour
         tkdFeedback.Invoke(dmgdata.owner_position);
         StopCoroutine(BeginDamage());
         StartCoroutine(BeginDamage());
+        _feedBack.Play_GetDamage();
     }
     
     IEnumerator BeginDamage()

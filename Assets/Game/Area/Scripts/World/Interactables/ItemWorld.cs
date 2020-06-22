@@ -63,13 +63,13 @@ public class ItemWorld : Interactable
             if (interceptor.Collect())
             {
                 to_collect.Invoke();
-                if(destroy_on_collect) Destroy(this.gameObject);
+                if (destroy_on_collect) Destroy(this.gameObject);
             }
         }
         else
         {
             to_collect.Invoke();
-            if(destroy_on_collect) Destroy(this.gameObject);
+            if (destroy_on_collect) Destroy(this.gameObject);
         }
     }
 
@@ -84,14 +84,13 @@ public class ItemWorld : Interactable
         {
             if (item)
             {
-                if (pointToMessage != null)
-                {
-                    WorldItemInfo.instance.Show(pointToMessage.position, item.name, item.description);
-                }
-                else
-                {
-                    WorldItemInfo.instance.Show(this.transform.position, item.name, item.description);
-                }
+                WorldItemInfo.instance.Show(
+                    pointToMessage != null ? pointToMessage.position: this.transform.position, 
+                    item.name, 
+                    item.description, 
+                    "Agarrar", 
+                    false, 
+                    false);
             }
         }
         else

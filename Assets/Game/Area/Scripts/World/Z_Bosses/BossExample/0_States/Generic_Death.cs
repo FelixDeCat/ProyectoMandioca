@@ -7,6 +7,7 @@ public class Generic_Death : MonoStateBase
     protected override void OnBegin() { 
         Get_Behaviours.followBehaviour.StopFollow();
         Get_Behaviours.followBehaviour.StopLookAt();
+        Get_FeedbackHandler.Play_DeathClip();
     }
     protected override void OnExit() { }
     protected override void OnOneAwake() { }
