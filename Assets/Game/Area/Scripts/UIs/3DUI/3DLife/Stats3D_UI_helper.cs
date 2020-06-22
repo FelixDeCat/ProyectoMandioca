@@ -15,7 +15,7 @@ public class Stats3D_UI_helper : MonoBehaviour
 
 
     #region Fade no se usa
-public void FadeOut(float fadeSpeed)
+    public void FadeOut(float fadeSpeed)
     {
         var _materials = GetComponentsInChildren<MeshRenderer>().SelectMany(m => m.materials).ToArray();//agarro los mats del objeto
         var _images = GetComponentsInChildren<Image>();//agarro las imagenes del objeto
