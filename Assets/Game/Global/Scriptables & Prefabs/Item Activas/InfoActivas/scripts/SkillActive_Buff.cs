@@ -19,13 +19,22 @@ public class SkillActive_Buff : SkillActivas
     [SerializeField] ParticleSystem smallLightParticle;
     [SerializeField] GameObject berserkWings;
 
+    [SerializeField] private AudioClip pickUp_skill;
+    private const string _pickupSkill = "pickUp_skill";
+    private const string _slowMoEnter = "slowmo_enter";
+    private const string _slowMoExit = "slowmo_exit";
+
     Animator animWings;
 
     protected override void OnBeginSkill()
     {
         if (mychar == null) mychar = Main.instance.GetChar();
-        AudioManager.instance.GetSoundPool("slowmo_enter", AudioGroups.MISC, slowmoEnter);
-        AudioManager.instance.GetSoundPool("slowmo_exit", AudioGroups.MISC, slowmoExit);
+        AudioManager.instance.GetSoundPool(_slowMoEnter, AudioGroups.MISC, slowmoEnter);
+        AudioManager.instance.GetSoundPool(_slowMoExit, AudioGroups.MISC, slowmoExit);
+        AudioManager.instance.GetSoundPool(_pickupSkill, AudioGroups.GAME_FX,pickUp_skill);
+        
+        AudioManager.instance.PlaySound(_pickupSkill);
+    
         mychar = Main.instance.GetChar();
         animWings = berserkWings.GetComponent<Animator>();
     }

@@ -44,7 +44,8 @@ public class SkillActive_BoomeranShield : SkillActivas
     private const string _flingShield_SoundName = "flingShield";
     [SerializeField] private AudioClip _rotatingShield_Sound;
     private const string _rotatingShield_SoundName = "rotatingShield";
-    
+    [SerializeField] private AudioClip pickUp_skill;
+    private const string _pickupSkill = "pickUp_skill";
 
     private bool isGoing;
     private bool isSpinning;
@@ -71,6 +72,9 @@ public class SkillActive_BoomeranShield : SkillActivas
 
         AudioManager.instance.GetSoundPool(_flingShield_SoundName, AudioGroups.GAME_FX,_flingShield_Sound);
         AudioManager.instance.GetSoundPool(_rotatingShield_SoundName, AudioGroups.GAME_FX,_rotatingShield_Sound, true);
+        AudioManager.instance.GetSoundPool(_pickupSkill, AudioGroups.GAME_FX,pickUp_skill);
+
+        AudioManager.instance.PlaySound(_pickupSkill);    
 
         canuse = true;
 
