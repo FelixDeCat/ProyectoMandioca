@@ -120,6 +120,9 @@ public class CharacterHead : CharacterControllable
 
     [Header("Life Options")]
     [SerializeField] AudioClip sound_takedamage;
+    [SerializeField] AudioClip sound_takebigdamage;
+    [Range(0f,1f)]
+    [SerializeField] float big_damage_limit_percent = 0.3f;
 
     [SerializeField] CharLifeSystem lifesystem = null;
     public CharLifeSystem Life => lifesystem;
@@ -211,7 +214,8 @@ public class CharacterHead : CharacterControllable
         AudioManager.instance.GetSoundPool("FootStep", AudioGroups.GAME_FX, footstep);
         AudioManager.instance.GetSoundPool("blockSound", AudioGroups.GAME_FX, audioblock);
         AudioManager.instance.GetSoundPool("takeHeal", AudioGroups.GAME_FX, audioClip_takeHeal);
-        AudioManager.instance.GetSoundPool("takeDamage", AudioGroups.GAME_FX, sound_takedamage);
+        AudioManager.instance.GetSoundPool("takeBigDamage", AudioGroups.GAME_FX, sound_takebigdamage);
+        AudioManager.instance.GetSoundPool("takeNormalDamage", AudioGroups.GAME_FX, sound_takedamage);
 
         originalNormal = dmg_normal;
         originalHeavy = dmg_heavy;
@@ -866,9 +870,23 @@ public class CharacterHead : CharacterControllable
 
     void TakeDamageFeedback(DamageData data)
     {
-        AudioManager.instance.PlaySound("takeDamage");
+        float maxLife = Life.GetMax();
+        float dmgreceived = data.damage;
+
+        float perc = dmgreceived / maxLife;
+        if (perc >= big_damage_limit_percent)
+        {
+            AudioManager.instance.PlaySound("takeBigDamage");
+            customCam.BeginShakeCamera(0.5f);
+        }
+        else
+        {
+            AudioManager.instance.PlaySound("takeNormalDamage");
+            customCam.BeginShakeCamera();
+        }
+
+        
         hitParticle.Play();
-        customCam.BeginShakeCamera();
         Main.instance.Vibrate();
     }
 

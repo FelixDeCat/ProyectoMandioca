@@ -29,8 +29,6 @@ public class ABossGenericClean : EnemyBase
             rb,
             TakeDamageFeedback,
             DeathVector);
-
-        inputSender.StartStateMachine(); 
     }
 
     void DeathVector(Vector3 dir)

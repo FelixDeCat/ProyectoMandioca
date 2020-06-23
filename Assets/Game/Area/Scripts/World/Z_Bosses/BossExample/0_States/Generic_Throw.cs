@@ -22,7 +22,7 @@ public class Generic_Throw : MonoStateBase
     protected override void OnBegin()
     {
         Get_Behaviours.followBehaviour.StartLookAt();
-        Get_FeedbackHandler.Play_ThrowAttack();
+        
     }
 
     void CatchDefinitiveTargetPosition()
@@ -34,6 +34,8 @@ public class Generic_Throw : MonoStateBase
     void ThrowSomething()
     {
         Debug.Log("ENTRO ACA AL EVENTO");
+
+        Get_FeedbackHandler.Play_ThrowAttack();
 
         Get_FeedbackHandler.DisableRockInHand();
         Get_InputSender.SendBool("HasRock", false);

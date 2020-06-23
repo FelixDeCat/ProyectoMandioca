@@ -8,6 +8,7 @@ public class Generic_Taunt : MonoStateBase
     protected override void OnBegin() 
     {
         Get_FeedbackHandler.Play_BegginFightClip();
+        Get_InputSender.StartStateMachine();
     }
     protected override void OnExit() 
     {

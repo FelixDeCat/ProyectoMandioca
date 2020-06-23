@@ -10,6 +10,7 @@ public class CustomCamera : MonoBehaviour
     public Vector3 offset;
     public bool lookAt;
     public float shakeAmmount;
+    float original_shake_amount;
     private float shakeDurationCurrent;
     public float shakeDuration;
     private bool activeShake;
@@ -33,7 +34,7 @@ public class CustomCamera : MonoBehaviour
         mycam = GetComponent<Camera>();
         pingpongZoom.Configure(Zoom, false);
         changeCameraconf(0);
-
+        original_shake_amount = shakeAmmount;
         //skillCloseUp_Camera.SubscribeOnTurnOnCamera(CloseToCharacter);
         //skillCloseUp_Camera.SubscribeOnTurnOnCamera(ExitToCharacte);
     }
@@ -89,10 +90,12 @@ public class CustomCamera : MonoBehaviour
             Main.instance.GetChar().Mask(!hit.transform.GetComponent<CharacterHead>());
         }
     }
-    public void BeginShakeCamera()
+    public void BeginShakeCamera(float shake = -1)
     {
+        shakeAmmount = shake != -1 ? shake : original_shake_amount;
         activeShake = true;
         shakeDurationCurrent = shakeDuration;
+
     }
     private void Shake()
     {
