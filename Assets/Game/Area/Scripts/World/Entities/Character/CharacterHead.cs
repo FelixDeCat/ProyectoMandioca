@@ -119,6 +119,7 @@ public class CharacterHead : CharacterControllable
     public InteractSensor sensor;
 
     [Header("Life Options")]
+    [SerializeField] AudioClip sound_takedamage;
 
     [SerializeField] CharLifeSystem lifesystem = null;
     public CharLifeSystem Life => lifesystem;
@@ -210,7 +211,7 @@ public class CharacterHead : CharacterControllable
         AudioManager.instance.GetSoundPool("FootStep", AudioGroups.GAME_FX, footstep);
         AudioManager.instance.GetSoundPool("blockSound", AudioGroups.GAME_FX, audioblock);
         AudioManager.instance.GetSoundPool("takeHeal", AudioGroups.GAME_FX, audioClip_takeHeal);
-
+        AudioManager.instance.GetSoundPool("takeDamage", AudioGroups.GAME_FX, sound_takedamage);
 
         originalNormal = dmg_normal;
         originalHeavy = dmg_heavy;
@@ -865,6 +866,7 @@ public class CharacterHead : CharacterControllable
 
     void TakeDamageFeedback(DamageData data)
     {
+        AudioManager.instance.PlaySound("takeDamage");
         hitParticle.Play();
         customCam.BeginShakeCamera();
         Main.instance.Vibrate();
