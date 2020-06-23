@@ -9,39 +9,21 @@ public class FeedbackSoundDataBase : MonoBehaviour
     [SerializeField] AudioClip _throwAttackClip;
     [SerializeField] AudioClip _beginFightClip;
     [SerializeField] AudioClip _deathClip;
+    [SerializeField] AudioClip _hitTheGround;
+    Transform root;
 
-
-    // Start is called before the first frame update
     void Start()
     {
         AudioManager.instance.GetSoundPool(_getDamageClip.name, AudioGroups.GAME_FX, _getDamageClip);
         AudioManager.instance.GetSoundPool(_throwAttackClip.name, AudioGroups.GAME_FX, _throwAttackClip);
         AudioManager.instance.GetSoundPool(_beginFightClip.name, AudioGroups.GAME_FX, _beginFightClip);
         AudioManager.instance.GetSoundPool(_deathClip.name, AudioGroups.GAME_FX, _deathClip);
-
-
+        AudioManager.instance.GetSoundPool(_hitTheGround.name, AudioGroups.GAME_FX, _hitTheGround);
     }
-
-
-
-    public void GetDamageClip()
-    {
-        AudioManager.instance.PlaySound(_getDamageClip.name, transform);
-    }
-
-    public void ThrowAttackClip()
-    {
-        AudioManager.instance.PlaySound(_throwAttackClip.name, transform);
-    }
-
-    public void BeginFightClip()
-    {
-        AudioManager.instance.PlaySound(_beginFightClip.name, transform);
-    }
-
-    public void DeathClip()
-    {
-        AudioManager.instance.PlaySound(_deathClip.name, transform);
-
-    }
+    public void SetRoot(Transform root) => this.root = root;
+    public void GetDamageClip() => AudioManager.instance.PlaySound(_getDamageClip.name, root);
+    public void ThrowAttackClip() => AudioManager.instance.PlaySound(_throwAttackClip.name, root);
+    public void BeginFightClip() => AudioManager.instance.PlaySound(_beginFightClip.name, root);
+    public void HitTheGround() => AudioManager.instance.PlaySound(_hitTheGround.name, root);
+    public void DeathClip() => AudioManager.instance.PlaySound(_deathClip.name, root);
 }

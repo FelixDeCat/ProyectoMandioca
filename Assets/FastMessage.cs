@@ -8,10 +8,17 @@ public class FastMessage : UI_Base
     public static FastMessage instance;
     public Text txt_to_message;
     public Image photo;
-    public void Awake() => instance = this;
+    public void Awake()
+    {
+        instance = this;
+        
+    }
     bool anim;
     float timer;
     float time_to_close;
+
+    public AudioClip messagesound;
+    protected override void OnStart() { AudioManager.instance.GetSoundPool("message", AudioGroups.GAME_FX, messagesound); }
 
 
     public void Print(string message, float time)
@@ -20,6 +27,8 @@ public class FastMessage : UI_Base
         time_to_close = time;
         anim = true;
         txt_to_message.text = message;
+
+        AudioManager.instance.PlaySound("message", transform);
     }
 
     public void Print(string message, float time, Sprite photo)
@@ -29,6 +38,8 @@ public class FastMessage : UI_Base
         anim = true;
         txt_to_message.text = message;
         this.photo.sprite = photo;
+
+        AudioManager.instance.PlaySound("message", transform);
     }
 
     protected override void OnUpdate()
@@ -47,11 +58,14 @@ public class FastMessage : UI_Base
             }
         }
     }
-
+    
     public override void Refresh() { }
-    protected override void OnAwake() { }
+
     protected override void OnEndCloseAnimation() { }
     protected override void OnEndOpenAnimation() { }
-    protected override void OnStart() { }
-   
+    
+
+    protected override void OnAwake()
+    {
+    }
 }

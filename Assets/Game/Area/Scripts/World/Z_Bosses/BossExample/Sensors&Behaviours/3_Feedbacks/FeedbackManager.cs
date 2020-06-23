@@ -10,6 +10,11 @@ public class FeedbackManager : MonoBehaviour
     [SerializeField] FeedbackFlashMaterial FeedbackFlashHitEmission;
     [SerializeField] FeedbackSoundDataBase FeedbackSoundDataBase;
 
+    public void SetRoot(Transform _root)
+    {
+        FeedbackSoundDataBase.SetRoot(_root);
+    }
+
     public void Play_FeedbackOnHit() => FeedbackOnHit.PlayFeedback();
     public void Play_PluckRock() => FeedbackPluckRock.PlayFeedback();
     public void Play_OnHitFlashEmission() => FeedbackFlashHitEmission.PlayFeedback();
@@ -20,6 +25,7 @@ public class FeedbackManager : MonoBehaviour
     public void Play_GetDamage() => FeedbackSoundDataBase.GetDamageClip();
     public void Play_ThrowAttack() => FeedbackSoundDataBase.ThrowAttackClip();
     public void Play_DeathClip() => FeedbackSoundDataBase.DeathClip();
+    public void Play_HitTheGround() => FeedbackSoundDataBase.HitTheGround();
     public void EnableRockInHand() => feedbackInHand.Activate(true);
     public void DisableRockInHand() => feedbackInHand.Activate(false);
 }

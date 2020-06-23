@@ -18,6 +18,7 @@ public class ABossGenericClean : EnemyBase
     protected override void OnInitialize()
     {
         sensors_and_behaviours.Initialize(this);
+        feedbackManager.SetRoot(rootTransform);
         stateMachineHandler.Initialize(sensors_and_behaviours, fastSubscriber, inputSender, feedbackManager);
 
         TakeDamageHandler.Initialize(
