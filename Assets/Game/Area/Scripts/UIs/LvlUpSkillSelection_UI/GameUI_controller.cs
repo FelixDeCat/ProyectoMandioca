@@ -9,9 +9,6 @@ public class GameUI_controller : MonoBehaviour
 {
     [SerializeField] Canvas myCanvas = null; public Canvas MyCanvas { get => myCanvas; }
 
-    //public RectTransform CompleteParentInstancer { get => completeCanvas; }
-    
-    //private CharStats_UI _charStats_Ui;
     public UI2D_Shields_controller shieldsController;
     
     [Header("--XX--Canvas containers--XX--")]
@@ -29,13 +26,6 @@ public class GameUI_controller : MonoBehaviour
 
     public FrontendStatBase lifeHeart;
     
-    
-    //Seguroi esto se deje de usar
-    //Dictionary<UI_templates, GameObject> UiTemplateRegistry = new Dictionary<UI_templates, GameObject>();
-    
-
-    public bool openUI { get; private set; }
-
 
     #region Config
 
@@ -43,8 +33,6 @@ public class GameUI_controller : MonoBehaviour
     {
         Main.instance.eventManager.SubscribeToEvent(GameEvents.GAME_INITIALIZE, Initialize);
     }
-
-    //Esto est amuy feo, tengo que ponerlo mas lindo
     void Initialize(){shieldsController = GetComponent<UI2D_Shields_controller>();}
 
     #endregion
@@ -52,17 +40,15 @@ public class GameUI_controller : MonoBehaviour
     #region Public methods
     
     public void RefreshShields_UI(int currentShields, int maxShields) =>  shieldsController.RefreshUI(currentShields, maxShields);
-    public RectTransform GetRectCanvas() => completeCanvas;
+    //public RectTransform GetRectCanvas() => completeCanvas;
     
+    public bool openUI { get; private set; }
     public void UI_Send_NameSkillType(string s) { }
-    //public void UI_SendLevelUpNotification() {/* CanvasPopUpInWorld_Manager.instance.MakePopUpAnimated(Main.instance.GetChar().transform, lvlUp_pf);*/ }
-    //public void UI_SendActivePlusNotification(bool val) { if (val) _charStats_Ui.ToggleLvlUpSignON(); }
-    //public void RefreshPassiveSkills_UI(List<SkillInfo> skillsNuevas) => _charStats_Ui.UpdatePasiveSkills(skillsNuevas);
     public void SetSelectedPath(string pathName){}
 
-    public void UI_RefreshMenu(){} //=> gameMenu_UI.Refresh();
-    public void OpenGameMenu(){} // => gameMenu_UI.Open();
-    public void CloseGameMenu(){}// => gameMenu_UI.Close();
+    public void UI_RefreshMenu(){} 
+    public void OpenGameMenu(){}
+    public void CloseGameMenu(){}
     #endregion
 
     public void OnChangeLife(int current, int max)
