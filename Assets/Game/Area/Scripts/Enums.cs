@@ -5,6 +5,8 @@ public enum Damagetype { Fire, normal, parriable, explosion, inparry, heavy }
 public enum CommonStates { IDLE, ATTACK, ENABLE, DISABLE, DIE, CHASING, GO_TO_POS }
 public enum AudioGroups { GAME_FX, MUSIC, MISC, JABALI, SLOWMO, AMBIENT_FX }
 
+public enum Axis {X,Y,Z}
+
 public enum LabelStatesLinkType
 {
     STATE_DEACTIVATED,
