@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System;
 
-namespace ToolsMandioca.StateMachine
+namespace Tools.StateMachine
 {
 	public class EventStateMachine<T>
 	{

@@ -4,7 +4,7 @@ using System.Net;
 using System.Runtime.CompilerServices;
 using UnityEngine;
 
-namespace ToolsMandioca.StateMachine
+namespace Tools.StateMachine
 {
     public class BGoToTarget : BMinionStates
     {

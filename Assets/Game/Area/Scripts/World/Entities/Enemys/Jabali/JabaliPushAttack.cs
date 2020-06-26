@@ -2,7 +2,7 @@
 using System;
 using System.Linq;
 
-namespace ToolsMandioca.StateMachine
+namespace Tools.StateMachine
 {
     public class JabaliPushAttack : JabaliStates
     {

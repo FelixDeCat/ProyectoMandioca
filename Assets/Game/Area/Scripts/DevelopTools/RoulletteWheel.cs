@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 
-namespace ToolsMandioca
+namespace Tools
 {
     public static class RoulletteWheel
     {

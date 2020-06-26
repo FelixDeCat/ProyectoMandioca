@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using System;
-using ToolsMandioca.StateMachine;
+using Tools.StateMachine;
 using UnityEngine.Serialization;
 
 public class TrueDummyEnemy : EnemyBase

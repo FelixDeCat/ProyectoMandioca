@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace ToolsMandioca.StateMachine
+namespace Tools.StateMachine
 {
     public class ConfigureState<T>
     {

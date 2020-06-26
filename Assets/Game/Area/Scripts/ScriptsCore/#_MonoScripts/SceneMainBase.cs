@@ -1,6 +1,8 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
+using Tools.EventClasses;
 
 // CLASE VIEJA... esto antes era un Monobehavior, 
 // pero ahora tiene el overpower de PlayableScene como parent
@@ -13,19 +15,21 @@ using UnityEngine;
 
 public abstract class SceneMainBase : PlayableScene
 {
-    [Header("SpawnPoint")]
-    public Transform spawn_point;
+    [SerializeField] UnityEvent InputCheckHasCore;
+    [SerializeField] UnityEvent InputSpawn;
 
-    #region Awake
-    private void Awake() => OnAwake();
+    private void Awake() 
+    { 
+        OnAwake(); 
+    }
     protected abstract void OnAwake();
-    #endregion
-    #region Start
-    // si no se usa habria que hacerlo virtual
-    private void Start() => OnStart();
+
+    private void Start() 
+    { 
+        OnStart(); 
+    }
     protected abstract void OnStart();
-    #endregion
-    
+
 
     protected virtual void OnExitEscene() { }
     

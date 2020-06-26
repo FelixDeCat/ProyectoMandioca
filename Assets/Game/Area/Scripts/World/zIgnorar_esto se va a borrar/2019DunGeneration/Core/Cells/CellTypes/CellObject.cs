@@ -1,7 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using ToolsMandioca.Extensions;
+using Tools.Extensions;
 
 [ExecuteInEditMode]
 public abstract class CellObject : MonoBehaviour

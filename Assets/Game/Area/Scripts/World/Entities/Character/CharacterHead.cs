@@ -4,8 +4,8 @@ using UnityEngine;
 using System;
 using UnityEngine.Events;
 using DevelopTools;
-using ToolsMandioca.EventClasses;
-using ToolsMandioca.StateMachine;
+using Tools.EventClasses;
+using Tools.StateMachine;
 public class CharacterHead : CharacterControllable
 {
     public enum PlayerInputs { IDLE, MOVE, BEGIN_BLOCK, BLOCK, END_BLOCK, PARRY, CHARGE_ATTACK, RELEASE_ATTACK, TAKE_DAMAGE, DEAD, ROLL, SPIN, STUN, PLAYER_LOCK_ON, ON_SKILL };

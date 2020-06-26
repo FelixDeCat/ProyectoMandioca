@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
-using ToolsMandioca.EventClasses;
+using Tools.EventClasses;
 
 public class SensorDistance : SensorBase
 {

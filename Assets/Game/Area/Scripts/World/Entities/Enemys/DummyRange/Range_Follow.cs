@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System;
 
-namespace ToolsMandioca.StateMachine
+namespace Tools.StateMachine
 {
     public class Range_Follow : Range_EnemyStates
     {

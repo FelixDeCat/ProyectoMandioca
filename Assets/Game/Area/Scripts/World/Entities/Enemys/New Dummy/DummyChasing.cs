@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using System;
 
-namespace ToolsMandioca.StateMachine
+namespace Tools.StateMachine
 {
     public class DummyChasing : DummyEnemyStates
     {

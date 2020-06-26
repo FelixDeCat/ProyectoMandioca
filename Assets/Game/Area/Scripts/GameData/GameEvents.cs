@@ -1,10 +1,8 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-
-// pongamos los Summary porque nos vamos a volver locos si no recordamos 
+﻿/////////////////////////////////////////////////////////////////////////////////////////////////////
+// pongamos los Summary si son muchos parametros porque nos vamos a volver locos si no recordamos 
 // que era cada parametro, asi desde el otro lado solo con posar el 
 // mouse vemos y no tenemos que andar navegando para buscar que se triggerea
+/////////////////////////////////////////////////////////////////////////////////////////////////////
 
 public class GameEvents
 {

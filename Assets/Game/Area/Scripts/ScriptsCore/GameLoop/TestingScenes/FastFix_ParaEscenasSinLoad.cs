@@ -15,7 +15,7 @@ public class FastFix_ParaEscenasSinLoad : MonoBehaviour
     {
         if (Main.instance == null)
         {
-            Scenes.Load_0_Load();
+            Scenes.Load_Load();
             return;
         }
 

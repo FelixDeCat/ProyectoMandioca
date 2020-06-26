@@ -3,8 +3,6 @@ using System.Collections.Generic;
 using UnityEngine;
 
 // esta es la estructura que llevaria los scripts de main propios de cada escena
-// solo es la estructura y no esta integrado, hay cosas que todavia no funcionan, 
-// apenas haya un tiempo 
 
 public class LocalScene : SceneMainBase //  --->>  / SceneMainBase > PlayableScene > LoadComponent
 {

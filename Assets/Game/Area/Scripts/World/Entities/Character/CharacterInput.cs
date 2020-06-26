@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.UI;
-using ToolsMandioca.EventClasses;
+using Tools.EventClasses;
 
 public class CharacterInput : MonoBehaviour
 {

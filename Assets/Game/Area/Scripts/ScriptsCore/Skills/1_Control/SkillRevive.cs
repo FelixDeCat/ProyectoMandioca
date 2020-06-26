@@ -1,5 +1,5 @@
 ﻿using UnityEngine;
-using ToolsMandioca;
+using Tools;
 using System.Collections.Generic;
 
 public class SkillRevive : SkillBase

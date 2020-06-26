@@ -2,7 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using ToolsMandioca.Extensions;
+using Tools.Extensions;
 using UnityEngine.UI;
 
 public class GameUI_controller : MonoBehaviour

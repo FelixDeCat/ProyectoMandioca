@@ -5,7 +5,7 @@ using UnityEngine;
 using System.Linq;
 using DungeonGenerator;
 using DungeonGenerator.Components;
-using ToolsMandioca.Extensions;
+using Tools.Extensions;
 
 
 #region LEEME

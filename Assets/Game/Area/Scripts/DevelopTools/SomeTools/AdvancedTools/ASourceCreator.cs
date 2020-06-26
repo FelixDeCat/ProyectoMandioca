@@ -1,9 +1,9 @@
 ﻿using UnityEngine.Audio;
 
-namespace ToolsMandioca.Sound
+namespace Tools.Sound
 {
     using UnityEngine;
-    using ToolsMandioca.Extensions;
+    using Tools.Extensions;
 
     public static class ASourceCreator
     {

@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace ToolsMandioca.StateMachine
+namespace Tools.StateMachine
 {
     public class DummyAttAnt : DummyEnemyStates
     {

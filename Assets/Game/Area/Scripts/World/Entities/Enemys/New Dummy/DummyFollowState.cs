@@ -2,7 +2,7 @@
 using System;
 using System.Runtime.InteropServices;
 
-namespace ToolsMandioca.StateMachine
+namespace Tools.StateMachine
 {
     public class DummyFollowState : DummyEnemyStates
     {

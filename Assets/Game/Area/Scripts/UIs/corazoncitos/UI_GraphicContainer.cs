@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine.UI;
 using UnityEngine;
-using ToolsMandioca.Extensions;
+using Tools.Extensions;
 
 public class UI_GraphicContainer : FrontendStatBase
 {

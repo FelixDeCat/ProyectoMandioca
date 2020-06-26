@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
-using ToolsMandioca.Extensions;
+using Tools.Extensions;
 
 public class SkillManager_Activas : MonoBehaviour
 {

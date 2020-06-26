@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-namespace ToolsMandioca
+namespace Tools
 {
     public class MyEventSystem : MonoBehaviour
     {

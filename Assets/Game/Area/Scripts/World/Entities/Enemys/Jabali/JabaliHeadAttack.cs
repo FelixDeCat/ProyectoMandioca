@@ -1,7 +1,7 @@
 ﻿using System;
 using UnityEngine;
 
-namespace ToolsMandioca.StateMachine
+namespace Tools.StateMachine
 {
     public class JabaliHeadAttack : JabaliStates
     {

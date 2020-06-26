@@ -49,12 +49,12 @@ public class Dungeon : SceneMainBase
         if (spawn != null)
         {
             Vector3 v = spawn.transform.position;
-            spawn_point = spawn.transform;
+           // spawn_point = spawn.transform;
             Main.instance.GetChar().gameObject.transform.position = new Vector3(v.x, 0, v.z);
         }
         else
         {
-            spawn_point = rooms[0].transform;
+           // spawn_point = rooms[0].transform;
             Main.instance.GetChar().gameObject.transform.position = new Vector3(rooms[0].transform.position.x, 0, rooms[0].transform.position.z);
         }
 

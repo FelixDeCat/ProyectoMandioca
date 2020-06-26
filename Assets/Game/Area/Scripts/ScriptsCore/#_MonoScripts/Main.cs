@@ -2,8 +2,8 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using ToolsMandioca;
-using ToolsMandioca.Extensions;
+using Tools;
+using Tools.Extensions;
 using UnityEngine;
 //using XInputDotNetPure;
 

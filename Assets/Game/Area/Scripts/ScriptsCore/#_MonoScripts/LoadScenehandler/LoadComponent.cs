@@ -8,6 +8,6 @@ public abstract class LoadComponent : MonoBehaviour, ISceneLoadable
 {
     public IEnumerator Load() { yield return LoadMe(); }
     protected abstract IEnumerator LoadMe();
-    public virtual void OnSceneLoad() { }
+    public virtual void OnSceneLoaded() { }
     
 }

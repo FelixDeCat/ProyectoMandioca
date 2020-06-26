@@ -1,4 +1,4 @@
-﻿namespace ToolsMandioca.EventClasses
+﻿namespace Tools.EventClasses
 {
     using UnityEngine;
     using UnityEngine.Events;
