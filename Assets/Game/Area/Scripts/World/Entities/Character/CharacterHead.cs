@@ -216,6 +216,7 @@ public class CharacterHead : CharacterControllable
         AudioManager.instance.GetSoundPool("takeHeal", AudioGroups.GAME_FX, audioClip_takeHeal);
         AudioManager.instance.GetSoundPool("takeBigDamage", AudioGroups.GAME_FX, sound_takebigdamage);
         AudioManager.instance.GetSoundPool("takeNormalDamage", AudioGroups.GAME_FX, sound_takedamage);
+        AudioManager.instance.GetSoundPool("parrySound", AudioGroups.GAME_FX, audioParry);
 
         originalNormal = dmg_normal;
         originalHeavy = dmg_heavy;
@@ -410,7 +411,7 @@ public class CharacterHead : CharacterControllable
             .SetLeftAxis(GetLeftHorizontal, GetLeftVertical)
             .SetBlock(charBlock);
 
-        new CharParry(parry, stateMachine, parryRecall, audioParry)
+        new CharParry(parry, stateMachine, parryRecall)
             .SetMovement(this.move).SetBlock(charBlock);
 
         new CharRoll(roll, stateMachine, evadeParticle)
@@ -693,6 +694,7 @@ public class CharacterHead : CharacterControllable
     }
     public void PerfectParry()
     {
+
         parryParticle.Play();
         stateMachine.SendInput(PlayerInputs.PARRY);
     }
@@ -852,6 +854,7 @@ public class CharacterHead : CharacterControllable
 
     void ParryFeedback(EntityBase entity)
     {
+        AudioManager.instance.PlaySound("parrySound");
         Main.instance.eventManager.TriggerEvent(GameEvents.ON_PLAYER_PARRY, new object[] { entity });
         PerfectParry();
         Main.instance.GetTimeManager().DoSlowMotion(timeScale, slowDuration);

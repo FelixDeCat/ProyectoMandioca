@@ -10,10 +10,9 @@ namespace Tools.StateMachine
         float parryRecall;
 
 
-        public CharParry(EState<CharacterHead.PlayerInputs> myState, EventStateMachine<CharacterHead.PlayerInputs> _sm, float recall, AudioClip parrySound) : base(myState, _sm)
+        public CharParry(EState<CharacterHead.PlayerInputs> myState, EventStateMachine<CharacterHead.PlayerInputs> _sm, float recall) : base(myState, _sm)
         {
             parryRecall = recall;
-            AudioManager.instance.GetSoundPool("parrySound", AudioGroups.GAME_FX, parrySound);
         }
 
         protected override void Enter(EState<CharacterHead.PlayerInputs> input)
@@ -22,7 +21,6 @@ namespace Tools.StateMachine
             charMove.MovementVertical(0);
             charBlock.SetOnBlock(false);
             charBlock.OnParry();
-            AudioManager.instance.PlaySound("parrySound");
         }
 
         protected override void Update()
