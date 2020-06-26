@@ -8,7 +8,8 @@ public class Throwable : MonoBehaviour
 {
     public float local_force_multiplier = 5;
     public Sensor sensor;
-    int damage = 5;
+    [SerializeField] int damage = 5;
+    [SerializeField] int inParryDamage = 10;
     Rigidbody myrig;
 
     public float time_to_disapear = 3f;
@@ -25,6 +26,7 @@ public class Throwable : MonoBehaviour
     public DamageData damageData;
     ThrowData savethrowdata;
     [SerializeField] AudioClip _crushBoulder;
+
     private void Awake()
     {
         damageData
@@ -103,6 +105,10 @@ public class Throwable : MonoBehaviour
                 posCollision = this.transform.position;
                 var newdir = savethrowdata.Owner.position - posCollision;
                 newdir.Normalize();
+                damageData
+                   .SetDamage(inParryDamage)
+                   .SetDamageType(Damagetype.inparry)
+                   .SetKnockback(500);
                 ReturnTheRock(posCollision, newdir, savethrowdata.Force * 2);
             }
         }
