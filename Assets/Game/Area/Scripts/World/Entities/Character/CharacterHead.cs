@@ -694,21 +694,8 @@ public class CharacterHead : CharacterControllable
     }
     public void PerfectParry()
     {
-        var closeEnemies = Tools.Extensions.Extensions.FindInRadius<EnemyBase>(transform.position, 5);
-        PushBackOnParry(closeEnemies);
-
         parryParticle.Play();
         stateMachine.SendInput(PlayerInputs.PARRY);
-    }
-
-    void PushBackOnParry(List<EnemyBase> enemies)
-    {
-        
-        foreach (EnemyBase e in enemies)
-        {
-            Vector3 dir = e.transform.position - transform.position;
-            e.AddForceToRb(dir, 5, ForceMode.Impulse);
-        }
     }
 
     #endregion
@@ -871,6 +858,7 @@ public class CharacterHead : CharacterControllable
         PerfectParry();
         Main.instance.GetTimeManager().DoSlowMotion(timeScale, slowDuration);
         customCam.DoFastZoom(10);
+  
         entity?.GetComponent<EnemyBase>().AddForceToRb(entity.transform.position - transform.position, knockbackOnParry, ForceMode.Impulse);
     }
 
