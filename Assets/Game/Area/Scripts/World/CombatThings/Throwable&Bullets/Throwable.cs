@@ -49,6 +49,10 @@ public class Throwable : MonoBehaviour
         myrig.AddForce(data.Direction * local_force_multiplier * data.Force, ForceMode.VelocityChange);
         canDisapear = true;
         ReturnToPool = _ReturnToPoolCallback;
+        damageData
+              .SetDamage(damage)
+              .SetDamageType(Damagetype.parriable)
+              .SetKnockback(500);
 
         savethrowdata = data;
     }
