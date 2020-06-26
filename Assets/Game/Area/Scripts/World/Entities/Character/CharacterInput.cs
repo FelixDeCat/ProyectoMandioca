@@ -11,7 +11,7 @@ public class CharacterInput : MonoBehaviour
     public InputType input_type;
 
     JoystickBasicInput joystickhelper;
-    
+
     [Header("Movement")]
     public UnityEvFloat LeftHorizontal;
     public UnityEvFloat LeftVertical;
@@ -45,6 +45,9 @@ public class CharacterInput : MonoBehaviour
 
     public UnityEvent LockON;
     public UnityEvent NextON;
+
+    public InputControl inputControlCheck;
+    bool isJoystick;
 
     private void Awake() => ConfigureJoystickHelper();
 
@@ -92,6 +95,30 @@ public class CharacterInput : MonoBehaviour
 
             RefreshHelper();
 
+        if (!isJoystick) {
+            if (inputControlCheck.GetInputState() == InputControl.eInputState.Controler) 
+            {
+                input_type = InputType.Joystick;
+                isJoystick = true;
+                SendMessage(isJoystick);
+            }
+        }
+        else {
+            if (inputControlCheck.GetInputState() == InputControl.eInputState.MouseKeyboard) 
+            {
+                input_type = InputType.Mouse;
+                isJoystick = false;
+                SendMessage(isJoystick);
+            }
+        }
+    }
+
+    public JoystickMessage joystickMessage;
+
+    public void SendMessage(bool _isJoystick)
+    {
+        joystickMessage.Open();
+        joystickMessage.Message(_isJoystick);
     }
 
     public void MouseInputs()
@@ -109,17 +136,22 @@ public class CharacterInput : MonoBehaviour
         RightVertical.Invoke(Input.GetAxis("RightVertical"));
     }
 
+    /// <summary>
+    /// su es true usa mouse
+    /// </summary>
+    /// <param name="value"></param>
+    /// <returns></returns>
     public string ChangeRotation(bool value)
     {
         if (value)
         {
             input_type = InputType.Mouse;
-            return "Usa Mouse";
+            return "teclado y raton detectado";
         }
         else
         {
             input_type = InputType.Joystick;
-            return "Usa Joystick";
+            return "joystick detectado";
         }
     }
 
