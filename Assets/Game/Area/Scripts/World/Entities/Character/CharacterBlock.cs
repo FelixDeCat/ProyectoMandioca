@@ -61,7 +61,7 @@ public class CharacterBlock : EntityBlock
     //por animacion
     public override void OnBlockSuccessful()
     {
-        Debug.Log("parry");
+        //Debug.Log("parry");
         //BeginParry();
     }
 
