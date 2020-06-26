@@ -48,24 +48,21 @@ public class CharacterBlock : EntityBlock
         OnParry += FinishParry;
         BeginParry += Parry;
         BeginParry += ParryFeedback;
-        timeBlock = _timeToBlock;
+        //timeBlock = _timeToBlock;
         maxBlockCharges = maxCharges;
         CurrentBlockCharges = maxCharges;
         timeToRecuperate = timeRecuperate;
-        
-        //Saque esto para poner los escudos 3d
-        //var newUi = MonoBehaviour.Instantiate(_ui, Main.instance.gameUiController.MyCanvas.transform);
-        //ui = newUi.GetComponentInChildren<UI_GraphicContainer>();
-        //ui.OnValueChange(CurrentBlockCharges, maxBlockCharges);
+  
     }
 
-    public override void OnBlockDown() { if(!onBlock) anim.Block(true); }
+    public override void OnBlockDown() { if(!onBlock) anim.Block(true); BeginParry(); }
     public override void OnBlockUp() { anim.Block(false); FinishParry(); timerToUpBlock = 0;  }
 
     //por animacion
     public override void OnBlockSuccessful()
     {
-        BeginParry();
+        Debug.Log("parry");
+        //BeginParry();
     }
 
     public override void OnUpdate()
