@@ -346,7 +346,6 @@ public class JabaliEnemy : EnemyBase
                 Material[] mats = smr.materials;
                 mats[0] = _petrifiedMat;
                 smr.materials = mats;
-                Invinsible = true;
                 //  rb.AddForce
             }
 
@@ -373,7 +372,6 @@ public class JabaliEnemy : EnemyBase
             animator.speed = currentAnimSpeed;
             animator.SetBool("Petrified", false);
             stunTimer = 0;
-            Invinsible = false;
         };
 
         sm.SendInput(JabaliInputs.PETRIFIED);
