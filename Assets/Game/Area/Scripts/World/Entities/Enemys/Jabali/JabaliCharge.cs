@@ -42,6 +42,8 @@ namespace Tools.StateMachine
 
             rb.transform.position = Vector3.Lerp(root.position, finalPos, Time.deltaTime);
 
+
+
             if (timer >= chargeTime)
                 sm.SendInput(JabaliEnemy.JabaliInputs.PUSH);
         }
