@@ -240,7 +240,6 @@ public class TrueDummyEnemy : EnemyBase
                 Material[] mats = smr.materials;
                 mats[0] = _petrifiedTex;
                 smr.materials = mats;
-                Invinsible = true;
                 //cambiar las particulas de sangre a las de piedra
             }
         };
@@ -270,7 +269,6 @@ public class TrueDummyEnemy : EnemyBase
                 Petrified.Stop();
                 AudioManager.instance.PlaySound("PetrifyEnd");
                 endPetrify.Play();
-                Invinsible = false;
                 //poner las particulas de sangre de vuelta
             }
         };

@@ -162,7 +162,7 @@ public class GenericEnemyMove : MonoBehaviour
     public Vector3 ObstacleAvoidance(Vector3 dir)
     {
         obs = null;
-        var friends = Physics.OverlapSphere(root.position, avoidanceRadious, avoidMask);
+        var friends = Physics.OverlapSphere(root.position, avoidanceRadious, avoidMask, QueryTriggerInteraction.Ignore);
         if (friends.Length > 0)
         {
             foreach (var item in friends)
