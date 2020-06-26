@@ -127,7 +127,7 @@ public abstract class SkillActivas : SkillBase
             }
             else
             {
-                timer_use = 0;
+                timer_use = 1;
                 beginUse = false;
                 OnStopUse();
             }
@@ -173,7 +173,7 @@ public abstract class SkillActivas : SkillBase
             else
             {
                 CallbackEndCooldown.Invoke(skillinfo);
-                timer_cooldown = 0;
+                timer_cooldown = cooldown;
                 begincooldown = false;
             }
         }

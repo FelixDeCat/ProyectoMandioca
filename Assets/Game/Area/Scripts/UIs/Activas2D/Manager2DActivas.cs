@@ -45,7 +45,7 @@ public class Manager2DActivas : MonoBehaviour
             }
             else
             {
-                ui_actives[i].SetCooldown(0);
+                ui_actives[i].SetCooldown(1);
                 ui_actives[i].SetSprite(emptyModel);
             }
         }
