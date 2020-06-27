@@ -46,7 +46,6 @@ public class CharacterInput : MonoBehaviour
     public UnityEvent LockON;
     public UnityEvent NextON;
 
-    public InputImageDatabase inputDataBase;
     public InputControl inputControlCheck;
     bool isJoystick;
 
@@ -101,7 +100,9 @@ public class CharacterInput : MonoBehaviour
             {
                 input_type = InputType.Joystick;
                 isJoystick = true;
-                inputDataBase.ChangeInput(InputImageDatabase.InputImageCode.joystick);
+
+                InputImageDatabase.instance.ChangeInput(InputImageDatabase.InputImageCode.joystick);
+                Main.instance.eventManager.TriggerEvent(GameEvents.CHANGE_INPUT, "Joystick");
                 SendMessage(isJoystick);
             }
         }
@@ -110,7 +111,10 @@ public class CharacterInput : MonoBehaviour
             {
                 input_type = InputType.Mouse;
                 isJoystick = false;
-                inputDataBase.ChangeInput(InputImageDatabase.InputImageCode.mouse);
+
+                
+                InputImageDatabase.instance.ChangeInput(InputImageDatabase.InputImageCode.mouse);
+                Main.instance.eventManager.TriggerEvent(GameEvents.CHANGE_INPUT, "Mouse");
                 SendMessage(isJoystick);
             }
         }
