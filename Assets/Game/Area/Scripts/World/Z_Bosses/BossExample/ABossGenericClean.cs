@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using System;
 using Tools.StateMachine;
+using UnityEngine.Events;
 
 public class ABossGenericClean : EnemyBase
 {
@@ -14,6 +15,8 @@ public class ABossGenericClean : EnemyBase
     [SerializeField] FastSubscriberPerState fastSubscriber;
     [SerializeField] FeedbackManager feedbackManager;
     [SerializeField] TakeDamageComponent TakeDamageHandler;
+
+    [SerializeField] UnityEvent EntityDeath;
 
     protected override void OnInitialize()
     {
@@ -44,6 +47,7 @@ public class ABossGenericClean : EnemyBase
     public void OnEndRagdollFall()
     {
         gameObject.SetActive(false);
+        EntityDeath.Invoke();
     }
 
     void OnDeath()

@@ -54,6 +54,7 @@ public class GameUI_controller : MonoBehaviour
     public void OnChangeLife(int current, int max)
     {
         lifeHeart.OnValueChange(current, max);
+        lifeHeart.OnValueChangeWithDelay(current,1f,max, true);
     }
     public void ResetYellowHeart(){}
     public void Set_Opened_UI() { openUI = true; Main.instance.Pause(); }
