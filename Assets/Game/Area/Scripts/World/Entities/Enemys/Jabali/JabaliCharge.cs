@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System;
 
 namespace Tools.StateMachine
 {
@@ -13,6 +14,7 @@ namespace Tools.StateMachine
         SoundPool pool;
         AudioSource source;
         private string soundName;
+        Func<Transform> target;
 
         public JabaliCharge(EState<JabaliEnemy.JabaliInputs> myState, EventStateMachine<JabaliEnemy.JabaliInputs> _sm, float _chargeTime,
             string _updateSound, string _exitSound) : base(myState, _sm)
@@ -41,8 +43,6 @@ namespace Tools.StateMachine
             timer += Time.deltaTime;
 
             rb.transform.position = Vector3.Lerp(root.position, finalPos, Time.deltaTime);
-
-
 
             if (timer >= chargeTime)
                 sm.SendInput(JabaliEnemy.JabaliInputs.PUSH);
