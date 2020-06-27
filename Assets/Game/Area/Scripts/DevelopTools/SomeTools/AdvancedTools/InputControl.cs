@@ -72,7 +72,9 @@ public class InputControl : MonoBehaviour
         // joystick axis
         if (/*Input.GetAxis(HORIZONTAL) != 0.0f ||
            Input.GetAxis(VERTICAL) != 0.0f ||*/
-           Input.GetAxis(TRIGGERS) != 0.0f)
+           Input.GetAxis(TRIGGERS) != 0.0f
+           
+           )
         {
             return true;
         }

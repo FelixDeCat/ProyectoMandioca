@@ -6,24 +6,92 @@ using UnityEngine.UI;
 
 public class Stats2D_Bar : FrontendStatBase
 {
-    private Image img;
-    private void Start()
-    {
-        img = GetComponent<Image>();
-    }
+    [SerializeField] Image img;
+    [SerializeField] Image img_back;
+
+    bool anim;
+    public float speed = 0.5f;
+    float val_destiny;
+    public float delay = 0.5f;
 
     public override void OnValueChange(int value, int max = 100, bool anim = false)
     {
         float val = value;
         float mx = max;
         float numberF = (val / mx);
-        Debug.Log($"{numberF} y el de la fill amount es {img.fillAmount}" );
-        
+        val_destiny = numberF;
         img.fillAmount = numberF;
+        img_back.enabled = true;
+        if (img_back.fillAmount < numberF)
+        { 
+           img_back.fillAmount = numberF;
+        }
+        Invoke("BeginAnim", delay);
+    }
+
+    void BeginAnim()
+    {
+        this.anim = true;
+    }
+
+
+
+    private void Update()
+    {
+        if (anim)
+        {
+            if (img_back.fillAmount >= val_destiny)
+            {
+                img_back.fillAmount = img_back.fillAmount - 1 * Time.deltaTime * speed;
+            }
+            else
+            {
+                img_back.fillAmount = val_destiny;
+                img_back.enabled = false;
+                anim = false;
+            }
+        }
     }
 
     public override void OnValueChangeWithDelay(int value, float delay, int max = 100, bool anim = false)
     {
         
     }
+
+
+    //[SerializeField] Image img;
+    //[SerializeField] Image img_back;
+
+    //bool anim;
+    //public float speed = 0.5f;
+    //float val_destiny;
+    //public float delay = 0.5f;
+
+    //public override void OnValueChange(int value, int max = 100, bool anim = false)
+    //{
+    //    float numberF = (value / max);
+    //    val_destiny = numberF;
+    //    img.fillAmount = numberF;
+    //    //if (img_back.fillAmount < val_destiny) img_back.fillAmount = val_destiny;
+    //    //Invoke("BeginAnim", delay);
+    //}
+
+    //void BeginAnim()
+    //{
+    //    anim = true;
+    //}
+
+    //IEnumerator DelayEffect(float value, float delay, float max)
+    //{
+    //    yield return new WaitForSeconds(delay);
+    //    float val = value;
+    //    float mx = max;
+    //    float numberF = (val / mx);
+    //    while (val > numberF)
+    //    {
+    //        val--;
+    //        img_back.fillAmount = val;
+    //        yield return new WaitForEndOfFrame();
+    //    }
+    //}
 }

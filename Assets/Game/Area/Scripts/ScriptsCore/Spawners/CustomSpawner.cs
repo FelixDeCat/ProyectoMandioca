@@ -17,7 +17,8 @@ public class CustomSpawner : PlayObject
     [SerializeField] private float spawnRadius;
     [SerializeField] private float waveFrec;
     [SerializeField] private int waveAmount;
-    
+    [SerializeField] private bool infiniteSpawner;
+
     [Header("***--Wave Settings--***")]
     [SerializeField] private int totalAmount;
     [Header("***--Time Settings--***")]
@@ -75,7 +76,8 @@ public class CustomSpawner : PlayObject
             for (int i = 0; i < waveAmount; i++)
             {
                 SpawnPrefab();
-                _amountSpawned++;
+                if(!infiniteSpawner)
+                    _amountSpawned++;
             }
         }
     }
@@ -84,7 +86,9 @@ public class CustomSpawner : PlayObject
     void TimeMode()
     {
         _waveCount += Time.deltaTime;
-        _totalCount += Time.deltaTime;
+
+        if(!infiniteSpawner)
+            _totalCount += Time.deltaTime;
 
         if (_totalCount >= totalTime)
         {
@@ -103,14 +107,37 @@ public class CustomSpawner : PlayObject
         }
     }
 
+    public void ResetSpawner()
+    {
+        _totalCount = 0;
+        _amountSpawned = 0;
+    }
+
+    public void ToggleInfiniteSpawner(){ infiniteSpawner = !infiniteSpawner; }
+
     PlayObject SpawnPrefab()
     {
         var newObject = _poolPlayObject.Get();
         //newObject.GetComponent<EnemyBase>()?.AddCallbackFinishFeedbackDeath(ResetObject);
         newObject.GetComponent<EnemyBase>()?.Initialize();
-        newObject.transform.position = GetPosRandom(spawnRadius, transform);
+        newObject.transform.position = GetSurfacePos();
         return newObject;
     }
+
+    Vector3 GetSurfacePos()
+    {
+        var pos = GetPosRandom(spawnRadius, transform);
+        pos += Vector3.up * 30;
+
+        RaycastHit hit;
+      
+        if (Physics.Raycast(pos, Vector3.down, out hit, Mathf.Infinity, 1 << 21))
+        {
+            pos = hit.point;
+        }
+        return pos;
+    }
+
 
     void ResetObject(EnemyBase newobject)
     {
