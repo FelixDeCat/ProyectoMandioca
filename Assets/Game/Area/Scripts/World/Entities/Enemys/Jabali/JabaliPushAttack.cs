@@ -13,6 +13,8 @@ namespace Tools.StateMachine
         GameObject feedbackCharge;
         SoundPool pool;
         AudioSource source;
+        Func<Transform> GetTarget;
+
 
         float timer;
         float timePush = 10;

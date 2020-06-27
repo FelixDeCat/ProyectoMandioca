@@ -27,6 +27,12 @@ public class UI_Active : MonoBehaviour, ISubmitHandler
         bkg.sprite = sp;
     }
 
+    public void SetColor(Color color)
+    {
+        img.color = color; 
+        bkg.color = color;
+    }
+
     public void OnSubmit(BaseEventData eventData)
     {
         

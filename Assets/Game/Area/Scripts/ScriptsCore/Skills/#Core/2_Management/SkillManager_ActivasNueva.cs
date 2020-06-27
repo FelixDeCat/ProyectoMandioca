@@ -46,10 +46,12 @@ public class SkillManager_ActivasNueva : LoadComponent
         //otras cosas
         //(spawn de enemigos) esto lo hago aca porque quiero tener el control de spawn acá... 
         //para tener un roullete que no me tire siempre los mismos items que ya tengo equipado
-       // Main.instance.eventManager.SubscribeToEvent(GameEvents.ENEMY_DEAD, EnemyDeath);
+        // Main.instance.eventManager.SubscribeToEvent(GameEvents.ENEMY_DEAD, EnemyDeath);
 
-       
-       
+
+        frontend.Refresh(equip);
+
+
         yield return null;
     }
 

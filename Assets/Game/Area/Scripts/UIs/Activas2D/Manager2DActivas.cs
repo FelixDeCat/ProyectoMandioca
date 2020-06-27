@@ -6,9 +6,10 @@ public class Manager2DActivas : MonoBehaviour
 
     public UI_Active[] ui_actives;
     
-    public void ChangeModel(int i, Sprite model)
+    public void ChangeModel(int i, Sprite model, float cd = 1)
     {
         ui_actives[i].SetSprite(model);
+        ui_actives[i].SetCooldown(cd);
     }
 
     public void Execute(int index)
@@ -42,11 +43,13 @@ public class Manager2DActivas : MonoBehaviour
             {
                 ui_actives[i].SetCooldown(col[i].Cooldown);
                 ui_actives[i].SetSprite(col[i].skillinfo.img_actived);
+                ui_actives[i].SetColor(Color.white);
             }
             else
             {
                 ui_actives[i].SetCooldown(1);
                 ui_actives[i].SetSprite(emptyModel);
+                ui_actives[i].SetColor(Color.black);
             }
         }
     }
