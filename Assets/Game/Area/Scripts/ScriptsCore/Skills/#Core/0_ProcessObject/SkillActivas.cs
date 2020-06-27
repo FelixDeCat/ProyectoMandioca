@@ -172,8 +172,8 @@ public abstract class SkillActivas : SkillBase
             }
             else
             {
-                CallbackEndCooldown.Invoke(skillinfo);
                 timer_cooldown = cooldown;
+                CallbackEndCooldown.Invoke(skillinfo);
                 begincooldown = false;
             }
         }
