@@ -301,15 +301,9 @@ public class CharacterMovement
         }
     }
 
-    Vector3 aPoint;
-    Vector3 bPoint;
-
     public void RollForAnim()
     {
         OnBeginRoll();
-
-        aPoint = _rb.transform.position;
-        bPoint = _rb.position = _rb.position + (dashDir * dashDistance);
 
         begin_gravityCurve = true;
         inDash = true;
