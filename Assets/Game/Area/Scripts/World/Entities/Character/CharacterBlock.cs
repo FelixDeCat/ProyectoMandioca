@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using System;
 using Tools.StateMachine;
 
@@ -13,14 +11,12 @@ public class CharacterBlock : EntityBlock
     public Action BeginParry;
     public Action EndBlock;
 
-    CharacterAnimator anim;
+    private CharacterAnimator anim;
 
     ParticleSystem parryParticles;
 
     Func<EventStateMachine<CharacterHead.PlayerInputs>> sm;
 
-    float timeBlock;
-    float timerToUpBlock;
 
     public int CurrentBlockCharges { get; private set; }
     int maxBlockCharges;
@@ -52,11 +48,11 @@ public class CharacterBlock : EntityBlock
         maxBlockCharges = maxCharges;
         CurrentBlockCharges = maxCharges;
         timeToRecuperate = timeRecuperate;
-  
+   
     }
 
     public override void OnBlockDown() { if(!onBlock) anim.Block(true); BeginParry(); }
-    public override void OnBlockUp() { anim.Block(false); FinishParry(); timerToUpBlock = 0;  }
+    public override void OnBlockUp() { anim.Block(false); FinishParry(); }
 
     //por animacion
     public override void OnBlockSuccessful()
