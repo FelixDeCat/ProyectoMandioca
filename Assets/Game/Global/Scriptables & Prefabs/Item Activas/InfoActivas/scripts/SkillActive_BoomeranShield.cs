@@ -15,7 +15,7 @@ public class SkillActive_BoomeranShield : SkillActivas
     [SerializeField] private float distanceToTriggerCatch = 3;
     
     [SerializeField] private int damage = 1;
-    [SerializeField] Damagetype damageType = Damagetype.normal;
+    [SerializeField] Damagetype damageType = Damagetype.Normal;
 
     private CharacterHead _hero;
     private GameObject _shield;

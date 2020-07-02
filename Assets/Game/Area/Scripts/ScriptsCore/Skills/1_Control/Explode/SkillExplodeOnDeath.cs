@@ -25,15 +25,15 @@ public class SkillExplodeOnDeath : SkillBase
 
     public void ReceiveExplodeOnDeath(params object[] p)
     {
-        Vector3 pos = (Vector3)p[0];
-        var listOfEntities = Physics.OverlapSphere(pos, explosionRange);
+        //Vector3 pos = (Vector3)p[0];
+        //var listOfEntities = Physics.OverlapSphere(pos, explosionRange);
 
 
-        foreach (var item in listOfEntities)
-        {
-            EnemyBase myEnemy = item.GetComponent<EnemyBase>();
-            if (myEnemy)
-                myEnemy.TakeDamage(explosionDmg, Vector3.up, Damagetype.explosion);
-        }
+        //foreach (var item in listOfEntities)
+        //{
+        //    EnemyBase myEnemy = item.GetComponent<EnemyBase>();
+        //    if (myEnemy)
+        //        myEnemy.TakeDamage(explosionDmg, Vector3.up, Damagetype.explosion);
+        //}
     }
 }

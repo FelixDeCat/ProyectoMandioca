@@ -205,7 +205,7 @@ public class TrueDummyEnemy : EnemyBase
 
     public void AttackEntity(DamageReceiver e)
     {
-        dmgData.SetDamage(damage).SetDamageTick(false).SetDamageType(Damagetype.parriable).SetKnockback(knockback)
+        dmgData.SetDamage(damage).SetDamageTick(false).SetDamageType(Damagetype.Normal).SetKnockback(knockback)
     .SetPositionAndDirection(transform.position);
         Attack_Result takeDmg = e.TakeDamage(dmgData);
 
@@ -339,53 +339,6 @@ public class TrueDummyEnemy : EnemyBase
     #region Life Things
 
     public GenericLifeSystem Life() => lifesystem;
-    public override Attack_Result TakeDamage(int dmg, Vector3 attack_pos, Damagetype dmgtype)
-    {
-        SetTarget(entityTarget);
-
-        if (cooldown || Invinsible || sm.Current.Name == "Die") return Attack_Result.inmune;
-
-        // Debug.Log("damagetype" + dmgtype.ToString()); ;
-
-        Vector3 aux = this.transform.position - attack_pos;
-        aux.Normalize();
-        rb = GetComponent<Rigidbody>();
-        if (dmgtype == Damagetype.explosion)
-        {
-            Debug.Log(rb);
-            rb.AddForce(aux * explosionForce, ForceMode.Impulse);
-        }
-        else
-        {
-            rb.AddForce(aux * forceRecall, ForceMode.Impulse);
-        }
-        StartCoroutine(OnHitted(myMat, onHitFlashTime, onHitColor));
-
-        sm.SendInput(DummyEnemyInputs.TAKE_DAMAGE);
-
-        greenblood.Play();
-
-        AudioManager.instance.PlaySound(takeHit_audioName);
-        
-        cooldown = true;
-        bool death = lifesystem.Hit(dmg);
-        return death ? Attack_Result.death : Attack_Result.sucessful;
-    }
-
-    public override Attack_Result TakeDamage(int dmg, Vector3 attack_pos, Damagetype damagetype, EntityBase owner_entity)
-    {
-
-        if (sm.Current.Name == "Die") return Attack_Result.inmune;
-
-        if (sm.Current.Name != "Attack" && entityTarget != owner_entity)
-        {
-            attacking = false;
-            //if (entityTarget == null) throw new System.Exception("entity target es null");//esto rompe cuando vengo desde el Damage in Room
-            director.ChangeTarget(this, owner_entity, entityTarget);
-        }
-
-        return TakeDamage(dmg, attack_pos, damagetype);
-    }
 
     protected override void TakeDamageFeedback(DamageData data)
     {

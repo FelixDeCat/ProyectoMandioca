@@ -41,22 +41,22 @@ public class ExplosionCW : SkillBase
 
     void Explosion()
     {
-        explosionParticles.gameObject.SetActive(true);
-        explosionParticles.Play();
+        //explosionParticles.gameObject.SetActive(true);
+        //explosionParticles.Play();
 
-        var radiousToExplosion = Physics.OverlapSphere(head.transform.position, radiousExp);
+        //var radiousToExplosion = Physics.OverlapSphere(head.transform.position, radiousExp);
 
-        foreach (var item in radiousToExplosion)
-        {
-            if (item.GetComponent<EnemyBase>())
-            {
-                Debug.Log("0: Damage explosion: " + damageExp);
+        //foreach (var item in radiousToExplosion)
+        //{
+        //    if (item.GetComponent<EnemyBase>())
+        //    {
+        //        Debug.Log("0: Damage explosion: " + damageExp);
 
-                item.GetComponent<EnemyBase>().TakeDamage(damageExp, (item.transform.position - head.transform.position).normalized,  Damagetype.explosion, head);
-            }
-        }
+        //        item.GetComponent<EnemyBase>().TakeDamage(damageExp, (item.transform.position - head.transform.position).normalized,  Damagetype.explosion, head);
+        //    }
+        //}
 
-        buffActived = true;
+        //buffActived = true;
     }
 
     protected override void OnUpdateSkill()

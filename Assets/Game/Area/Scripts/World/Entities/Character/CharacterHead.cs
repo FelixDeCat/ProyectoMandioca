@@ -49,12 +49,9 @@ public class CharacterHead : CharacterControllable
     [SerializeField] float parryRecall = 0;
     [SerializeField] float takeDamageRecall = 0;
     CharacterBlock charBlock;
-    [SerializeField] GameObject sphereMask;
     public Transform ShieldVectorDirection;
 
     [SerializeField] CharacterGroundSensor groundSensor;
-
-    internal void Mask(bool v) => sphereMask.SetActive(v);
 
     //Perdon por esto, pero lo necesito pra la skill del boomeran hasta tener la animacion y el estado "sin escudo"
     bool canBlock = true;
@@ -787,70 +784,6 @@ public class CharacterHead : CharacterControllable
     }
 
     #region Take Damage
-    public override Attack_Result TakeDamage(int dmg, Vector3 attackDir, Damagetype dmgtype)
-    {
-        if (isBuffed) dmg = (int)(dmg * dmgReceived);
-
-        if (InDash())
-            return Attack_Result.inmune;
-
-        if (dmgtype != Damagetype.inparry)
-        {
-            if (charBlock.IsParry(rot.position, attackDir, rot.forward))
-            {
-                PerfectParry();
-                Main.instance.GetTimeManager().DoSlowMotion(timeScale, slowDuration);
-                customCam.DoFastZoom(10);
-                return Attack_Result.parried;
-            }
-            else if (charBlock.IsBlock(rot.position, attackDir, rot.forward))
-            {
-                blockParticle.Play();
-                charanim.BlockSomething();
-                charBlock.SetBlockCharges(-1);
-                lifesystem.Hit(dmg / 2);
-                return Attack_Result.blocked;
-            }
-            else
-            {
-                hitParticle.Play();
-                lifesystem.Hit(dmg);
-                Vector3 dir = (transform.position - attackDir).normalized;
-                //stateMachine.SendInput(PlayerInputs.TAKE_DAMAGE);
-                rb.AddForce(new Vector3(dir.x, 0, dir.z) * dmg * onHitRecall, ForceMode.Force);
-                customCam.BeginShakeCamera();
-                Main.instance.Vibrate();
-                return Attack_Result.sucessful;
-            }
-        }
-        else
-        {
-            hitParticle.Play();
-            lifesystem.Hit(dmg);
-            Vector3 dir = (transform.position - attackDir).normalized;
-            rb.AddForce(new Vector3(dir.x, 0, dir.z) * dmg * onHitRecall, ForceMode.Force);
-            customCam.BeginShakeCamera();
-            Main.instance.Vibrate();
-            return Attack_Result.sucessful;
-        }
-    }
-
-    public override Attack_Result TakeDamage(int dmg, Vector3 attackDir, Damagetype dmgtype, EntityBase entity)
-    {
-        if (InDash())
-            return Attack_Result.inmune;
-
-        if (dmgtype != Damagetype.inparry)
-        {
-            if (charBlock.IsParry(rot.position, attackDir, rot.forward))
-            {
-                Main.instance.eventManager.TriggerEvent(GameEvents.ON_PLAYER_PARRY, new object[] { entity });
-            }
-        }
-
-        return TakeDamage(dmg, attackDir, dmgtype);
-    }
-
     void ParryFeedback(EntityBase entity)
     {
         AudioManager.instance.PlaySound("parrySound");
@@ -867,7 +800,6 @@ public class CharacterHead : CharacterControllable
         blockParticle.Play();
         charanim.BlockSomething();
         charBlock.SetBlockCharges(-1);
-        lifesystem.Hit(1);
         AudioManager.instance.PlaySound("blockSound");
     }
 

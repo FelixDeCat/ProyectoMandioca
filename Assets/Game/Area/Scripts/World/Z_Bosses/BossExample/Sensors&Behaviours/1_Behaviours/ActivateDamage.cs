@@ -20,7 +20,7 @@ public class ActivateDamage : MonoBehaviour
         mydamagedata
             .SetDamage(damage)
             .SetDamageTick(false)
-            .SetDamageType(Damagetype.parriable)
+            .SetDamageType(Damagetype.Normal)
             .SetPositionAndDirection(transform.position);
     }
 

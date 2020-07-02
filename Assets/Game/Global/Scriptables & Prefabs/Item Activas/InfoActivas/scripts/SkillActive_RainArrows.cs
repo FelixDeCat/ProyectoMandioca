@@ -79,8 +79,8 @@ public class SkillActive_RainArrows : SkillActivas
     }
     private void DoDamageTo<T>(List<T> enemiesAffected) where T : EnemyBase
     {
-        foreach (T en in enemiesAffected) 
-            en.TakeDamage(Mathf.RoundToInt(dmgPerTick), Vector3.up, Damagetype.normal, _hero);
+        //foreach (T en in enemiesAffected) 
+        //    en.TakeDamage(Mathf.RoundToInt(dmgPerTick), Vector3.up, Damagetype.normal, _hero);
     }
 
     #region PARA SKILLS QUE EJECUTAN LA HABILIDAD EN UN SOLO FRAME

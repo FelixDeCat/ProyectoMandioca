@@ -33,7 +33,7 @@ namespace Tools.StateMachine
             var ent = go.GetComponent<EntityBase>();
             if (ent == null) return;
            
-            ent.TakeDamage(5, Main.instance.GetChar().transform.position, Damagetype.normal);
+            //ent.TakeDamage(5, Main.instance.GetChar().transform.position, Damagetype.normal);
         }
 
 

@@ -203,7 +203,7 @@ public class CharacterAttack
     }
     public void Attack(bool isHeavy)//esto es attack nada mas... todavia no se sabe si le pegué a algo
     {
-        currentWeapon.Attack(forwardPos, currentDamage, isHeavy ? Damagetype.heavy : Damagetype.normal);
+        currentWeapon.Attack(forwardPos, currentDamage, isHeavy ? Damagetype.Heavy : Damagetype.Normal);
 
         AudioManager.instance.PlaySound(_swingSword_SoundName);
     }
@@ -222,7 +222,7 @@ public class CharacterAttack
         switch (attack_result) 
         {
             case Attack_Result.sucessful:
-                if (damage_type == Damagetype.heavy) DealSuccesfullHeavy();
+                if (damage_type == Damagetype.Heavy) DealSuccesfullHeavy();
                 else DealSuccesfullNormal(); break;
             case Attack_Result.blocked:
             {
@@ -233,7 +233,7 @@ public class CharacterAttack
             case Attack_Result.reflexed: break;
             case Attack_Result.inmune: break;
             case Attack_Result.death:
-                if (damage_type == Damagetype.heavy) KillSuccesfullHeavy();
+                if (damage_type == Damagetype.Heavy) KillSuccesfullHeavy();
                 else KillSuccesfullNormal(); break; 
         }
     }

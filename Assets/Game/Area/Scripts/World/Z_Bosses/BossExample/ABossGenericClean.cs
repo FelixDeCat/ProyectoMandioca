@@ -85,10 +85,6 @@ public class ABossGenericClean : EnemyBase
     #region Desuso
     public override float ChangeSpeed(float newSpeed) { return newSpeed; }
     public override void IAInitialize(CombatDirector _director) { }
-    [Obsolete("podemos empezar a usar component por separado, me vi obligado al component heredarlo de EntityBase... Apenas hay un tiempo muerto habria que desacoplat el take damage de los entity base")]
-    public override Attack_Result TakeDamage(int dmg, Vector3 attack_pos, Damagetype damagetype) => Attack_Result.inmune;
-    [Obsolete("podemos empezar a usar component por separado, me vi obligado al component heredarlo de EntityBase... Apenas hay un tiempo muerto habria que desacoplat el take damage de los entity base")]
-    public override Attack_Result TakeDamage(int dmg, Vector3 attack_pos, Damagetype damagetype, EntityBase owner_entity) { return TakeDamage(dmg, attack_pos, damagetype); }
     protected override void OnFixedUpdate() { }
     protected override void OnPause() { }
     protected override void OnResume() { }

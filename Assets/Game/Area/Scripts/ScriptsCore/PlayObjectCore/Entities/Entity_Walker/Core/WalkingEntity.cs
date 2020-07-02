@@ -12,8 +12,6 @@ public abstract class WalkingEntity : EntityBase
     public virtual void OnPetrified() { petrified = true; }
     public virtual void OnFire() { }
     public virtual void OnFreeze() { }
-    public virtual void HalfLife() { }
-    public virtual void InstaKill() { }
 
     #region en desuso
     /// <summary>

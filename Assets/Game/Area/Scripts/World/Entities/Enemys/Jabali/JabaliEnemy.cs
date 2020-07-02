@@ -186,7 +186,7 @@ public class JabaliEnemy : EnemyBase
     #region Attack Things
     public void HeadAttack(DamageReceiver e)
     {
-        dmgData.SetDamage(normalDamage).SetDamageTick(false).SetDamageType(Damagetype.parriable).SetKnockback(normalKockback)
+        dmgData.SetDamage(normalDamage).SetDamageTick(false).SetDamageType(Damagetype.Normal).SetKnockback(normalKockback)
             .SetPositionAndDirection(transform.position);
         Attack_Result takeDmg = e.TakeDamage(dmgData);
 
@@ -198,7 +198,7 @@ public class JabaliEnemy : EnemyBase
 
     void PushRelease(DamageReceiver e)
     {
-        dmgData.SetDamage(pushDamage).SetDamageTick(false).SetDamageType(Damagetype.parriable).SetKnockback(pushKnockback)
+        dmgData.SetDamage(pushDamage).SetDamageTick(false).SetDamageType(Damagetype.Normal).SetKnockback(pushKnockback)
             .SetPositionAndDirection(transform.position);
         Attack_Result takeDmg = e.TakeDamage(dmgData);
 
@@ -215,32 +215,6 @@ public class JabaliEnemy : EnemyBase
     #endregion
 
     #region TakeDamage Things
-    public override Attack_Result TakeDamage(int dmg, Vector3 attack_pos, Damagetype dmgtype)
-    {
-        SetTarget(entityTarget);
-
-        if (cooldown || Invinsible || sm.Current.Name == "Dead") return Attack_Result.inmune;
-
-        //Debug.Log("damagetype" + dmgtype.ToString());
-
-        Vector3 aux = (this.transform.position - attack_pos).normalized;
-
-        if (dmgtype == Damagetype.explosion)
-            rb.AddForce(aux * explosionForce, ForceMode.Impulse);
-        else
-            rb.AddForce(aux * forceRecall, ForceMode.Impulse);
-
-        sm.SendInput(JabaliInputs.TAKE_DMG);
-
-        greenblood.Play();
-        cooldown = true;
-
-        StartCoroutine(OnHitted(myMat, onHitFlashTime, onHitColor));
-
-        bool death = lifesystem.Hit(dmg);
-        return death ? Attack_Result.death : Attack_Result.sucessful;
-    }
-
     protected override void TakeDamageFeedback(DamageData data)
     {
         if (sm.Current.Name == "Idle" || sm.Current.Name == "Persuit")
@@ -257,23 +231,6 @@ public class JabaliEnemy : EnemyBase
         cooldown = true;
 
         StartCoroutine(OnHitted(myMat, onHitFlashTime, onHitColor));
-    }
-
-    public override Attack_Result TakeDamage(int dmg, Vector3 attack_pos, Damagetype damagetype, EntityBase owner_entity)
-    {
-        if (sm.Current.Name == "Dead") return Attack_Result.inmune;
-
-        if (entityTarget != owner_entity)
-        {
-            if (sm.Current.Name == "Idle" || sm.Current.Name == "Persuit")
-            {
-                attacking = false;
-                //if (entityTarget == null) throw new System.Exception("entity target es null");//esto rompe cuando vengo desde el Damage in Room
-                director.ChangeTarget(this, owner_entity, entityTarget);
-            }
-        }
-
-        return TakeDamage(dmg, attack_pos, damagetype);
     }
 
     protected override void Die(Vector3 dir)

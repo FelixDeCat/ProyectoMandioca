@@ -62,11 +62,11 @@ public class BaseRoom : MonoBehaviour
 
     public bool VIPInRoom()
     {
-        for (int i = 0; i < myEnemies.Count; i++)
-        {
-            if (myEnemies[i].target)
-                return true;
-        }
+        //for (int i = 0; i < myEnemies.Count; i++)
+        //{
+        //    if (myEnemies[i].target)
+        //        return true;
+        //}
         return false;
     }
 }

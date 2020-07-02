@@ -125,10 +125,10 @@ public class BasicMinion : Minion
 
     public void AttackEntity(EntityBase e)
     {
-        Attack_Result takeDmg = e.TakeDamage(damage, transform.position, Damagetype.parriable);
+        //Attack_Result takeDmg = e.TakeDamage(damage, transform.position, Damagetype.parriable);
 
-        if (takeDmg == Attack_Result.parried)
-            combatComponent.Stop();
+        //if (takeDmg == Attack_Result.parried)
+        //    combatComponent.Stop();
     }
 
     #endregion
@@ -139,41 +139,6 @@ public class BasicMinion : Minion
     #endregion
 
     #region Life Things
-    public override Attack_Result TakeDamage(int dmg, Vector3 attack_pos, Damagetype dmgtype)
-    {
-        if (cooldown || sm.Current.Name == "Die") return Attack_Result.inmune;
-
-        Vector3 aux = (transform.position - attack_pos).normalized;
-
-        if (dmgtype == Damagetype.explosion)
-            rb.AddForce(aux * explosionForce, ForceMode.Impulse);
-        else
-            rb.AddForce(aux * forceRecall, ForceMode.Impulse);
-
-        sm.SendInput(BasicMinionInput.TAKE_DAMAGE);
-
-        takeDamageFX.Play();
-
-        cooldown = true;
-
-        bool death = lifesystem.Hit(dmg);
-        return death ? Attack_Result.death : Attack_Result.sucessful;
-    }
-
-    public override Attack_Result TakeDamage(int dmg, Vector3 attack_pos, Damagetype damagetype, EntityBase owner_entity)
-    {
-
-        if (sm.Current.Name == "Die") return Attack_Result.inmune;
-
-        if (sm.Current.Name != "Attack" && entityTarget != owner_entity)
-        {
-            attacking = false;
-            //if (entityTarget == null) throw new System.Exception("entity target es null");//esto rompe cuando vengo desde el Damage in Room
-            director.ChangeTarget(this, owner_entity, entityTarget);
-        }
-
-        return TakeDamage(dmg, attack_pos, damagetype);
-    }
 
     public void Die()
     {

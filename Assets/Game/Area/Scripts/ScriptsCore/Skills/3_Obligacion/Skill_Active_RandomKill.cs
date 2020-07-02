@@ -48,7 +48,7 @@ public class Skill_Active_RandomKill : SkillActivas
         if (enemSelected != null)
         {
             var charblock = (CharacterBlock)_player.GetCharBlock();
-            enemSelected.TakeDamage(200, transform.position, Damagetype.normal, Main.instance.GetChar());
+            //enemSelected.TakeDamage(200, transform.position, Damagetype.normal, Main.instance.GetChar());
             charblock.SetBlockCharges(-3);
         }
     }

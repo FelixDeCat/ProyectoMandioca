@@ -31,7 +31,7 @@ public class Throwable : MonoBehaviour
     {
         damageData
             .SetDamage(damage)
-            .SetDamageType(Damagetype.parriable)
+            .SetDamageType(Damagetype.Normal)
             .SetKnockback(500);
         AudioManager.instance.GetSoundPool("boulder Crush", AudioGroups.GAME_FX, _crushBoulder);
     }
@@ -51,7 +51,7 @@ public class Throwable : MonoBehaviour
         ReturnToPool = _ReturnToPoolCallback;
         damageData
               .SetDamage(damage)
-              .SetDamageType(Damagetype.parriable)
+              .SetDamageType(Damagetype.Normal)
               .SetKnockback(500);
 
         savethrowdata = data;
@@ -111,7 +111,7 @@ public class Throwable : MonoBehaviour
                 newdir.Normalize();
                 damageData
                    .SetDamage(inParryDamage)
-                   .SetDamageType(Damagetype.inparry)
+                   .SetDamageType(Damagetype.NonBlockAndParry)
                    .SetKnockback(500);
                 ReturnTheRock(posCollision, newdir, savethrowdata.Force * 2);
             }

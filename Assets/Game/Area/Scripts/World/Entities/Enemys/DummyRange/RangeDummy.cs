@@ -136,13 +136,6 @@ public class RangeDummy : EnemyBase
 
     public void AttackEntity(EntityBase e)
     {
-        Attack_Result takeDmg = e.TakeDamage(damage, transform.position, Damagetype.parriable);
-
-        if (takeDmg == Attack_Result.parried)
-        {
-            combatComponent.Stop();
-            sm.SendInput(RangeDummyInput.PARRIED);
-        }
     }
 
     protected override void OnUpdateEntity()
@@ -220,54 +213,6 @@ public class RangeDummy : EnemyBase
         });
     }
 
-    public override Attack_Result TakeDamage(int dmg, Vector3 attack_pos, Damagetype dmgtype)
-    {
-        SetTarget(entityTarget);
-
-        if (cooldown || Invinsible || sm.Current.Name == "Die") return Attack_Result.inmune;
-
-       // Debug.Log("damagetype" + dmgtype.ToString()); ;
-
-        Vector3 aux = this.transform.position - attack_pos;
-        aux.Normalize();
-        rb = GetComponent<Rigidbody>();
-        if (dmgtype == Damagetype.explosion)
-        {
-            Debug.Log(rb);
-            rb.AddForce(aux * explosionForce, ForceMode.Impulse);
-        }
-        else
-        {
-            rb.AddForce(aux * forceRecall, ForceMode.Impulse);
-        }
-
-        StartCoroutine(OnHitted(myMat, onHitFlashTime, onHitColor));
-
-        sm.SendInput(RangeDummyInput.TAKE_DAMAGE);
-
-        greenblood.Play();
-
-        cooldown = true;
-
-        bool death = lifesystem.Hit(dmg);
-        return death ? Attack_Result.death : Attack_Result.sucessful;
-    }
-
-    public override Attack_Result TakeDamage(int dmg, Vector3 attack_pos, Damagetype damagetype, EntityBase owner_entity)
-    {
-
-        if (sm.Current.Name == "Die") return Attack_Result.inmune;
-
-        if (sm.Current.Name != "Attack" && entityTarget != owner_entity)
-        {
-            attacking = false;
-            //if (entityTarget == null) throw new System.Exception("entity target es null");//esto rompe cuando vengo desde el Damage in Room
-            director.ChangeTarget(this, owner_entity, entityTarget);
-        }
-
-        return TakeDamage(dmg, attack_pos, damagetype);
-    }
-
     protected override void TakeDamageFeedback(DamageData data)
     {
         if (sm.Current.Name == "Idle" || sm.Current.Name == "Persuit")
@@ -303,16 +248,6 @@ public class RangeDummy : EnemyBase
         if (cooldown || Invinsible || sm.Current.Name == "Die") return true;
         else return false;
     }
-
-    public override void HalfLife()
-    {
-        base.HalfLife();
-        TakeDamage(lifesystem.life / 2, Main.instance.GetChar().transform.position, Damagetype.normal);
-        if (!base.target)
-            Invinsible = true;
-    }
-
-    public override void InstaKill() { base.InstaKill(); }
 
     float currentAnimSpeed;
 
@@ -380,14 +315,6 @@ public class RangeDummy : EnemyBase
     {
         sm.SendInput(RangeDummyInput.DIE);
 
-        if (target)
-        {
-           List<EnemyBase>myEnemys= Main.instance.GetNoOptimizedListEnemies();
-            for (int i = 0; i < myEnemys.Count; i++)
-            {
-                myEnemys[i].Invinsible = false;
-            }
-        }
         director.DeadEntity(this, entityTarget, this);
         death = true;
         Main.instance.RemoveEntity(this);

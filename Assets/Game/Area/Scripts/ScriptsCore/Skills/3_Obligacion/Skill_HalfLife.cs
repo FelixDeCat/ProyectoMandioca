@@ -19,21 +19,21 @@ public class Skill_HalfLife : SkillBase_Obligacion
         //    enemysInRoom[i].HalfLife();
 
         //}
-        for (int i = 0; i < myEnemies.Count; i++)
-        {
-            myEnemies[i].HalfLife();
-        }
+        //for (int i = 0; i < myEnemies.Count; i++)
+        //{
+        //    myEnemies[i].HalfLife();
+        //}
     }
 
     protected override void OnEndSkill()
     {
         base.OnEndSkill();
-        var enemysInRoom = Main.instance.GetRoom().GetMyEnemies();
-        for (int i = 0; i < enemysInRoom.Count; i++)
-        {
-            enemysInRoom[i].Mortal();
+        //var enemysInRoom = Main.instance.GetRoom().GetMyEnemies();
+        //for (int i = 0; i < enemysInRoom.Count; i++)
+        //{
+        //    enemysInRoom[i].Mortal();
 
-        }
+        //}
     }
 
     protected override void OnUpdateSkill()

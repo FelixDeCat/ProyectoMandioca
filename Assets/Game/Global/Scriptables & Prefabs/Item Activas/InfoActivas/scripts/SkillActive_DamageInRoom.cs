@@ -8,7 +8,7 @@ public class SkillActive_DamageInRoom : SkillActivas
 {
     [SerializeField] private int damagePower = 10;
     [SerializeField] private ParticleSystem feedback = null;
-    [SerializeField] private Damagetype dmgType = Damagetype.normal;
+    [SerializeField] private Damagetype dmgType = Damagetype.Normal;
     [SerializeField] LayerMask layerenem = 0;
     [SerializeField] private float radius = 10;
 

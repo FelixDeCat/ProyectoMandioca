@@ -69,10 +69,5 @@ public class Destructible_OLD : DestructibleBase
     {
         
     }
-
-    public override Attack_Result TakeDamage(int dmg, Vector3 attack_pos, Damagetype damagetype)
-    {
-        throw new System.NotImplementedException();
-    }
 }
 

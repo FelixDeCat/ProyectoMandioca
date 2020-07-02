@@ -70,9 +70,9 @@ public class DamageReceiver : MonoBehaviour
             return Attack_Result.inmune;
         }
 
-        if(data.damageType != Damagetype.inparry)
+        if(data.damageType != Damagetype.NonBlockAndParry)
         {
-            if (parryEntity)
+            if (parryEntity && data.damageType != Damagetype.NonParry)
             {
                 if (IsParry(ownerRoot.position, data.owner_position, ownerRoot.forward))
                 {
@@ -80,7 +80,7 @@ public class DamageReceiver : MonoBehaviour
                     return Attack_Result.parried;
                 }
             }
-            if (blockEntity)
+            if (blockEntity && data.damageType != Damagetype.NonBlock)
             {
                 if (IsBlock(ownerRoot.position, data.owner_position, ownerRoot.forward))
                 {
