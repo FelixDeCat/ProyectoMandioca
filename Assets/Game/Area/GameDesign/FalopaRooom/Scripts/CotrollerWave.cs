@@ -25,7 +25,7 @@ public class CotrollerWave : MonoBehaviour
         _currentTimer += Time.deltaTime;
         if (_currentTimer >= _timer)
         {
-            var auxList = spawns.GetRange(0,spawns.Count-1);
+            var auxList = spawns.GetRange(0,spawns.Count);
            
             for (int i = 0; i < _numbersOfSpawn; i++)
             {
@@ -33,6 +33,7 @@ public class CotrollerWave : MonoBehaviour
                 auxList[index].Spawn();
                 auxList.Remove(spawns[index]);
             }
+            _currentTimer = 0;
         }
     }
 }
