@@ -12,11 +12,14 @@ public class CharacterInput : MonoBehaviour
 
     JoystickBasicInput joystickhelper;
 
-    [Header("Movement")]
+    [Header("WASD / L_STICK")]
     public UnityEvFloat LeftHorizontal;
     public UnityEvFloat LeftVertical;
+
+    [Header("MOUSE_ROT / R_STICK")]
     public UnityEvFloat RightHorizontal;
     public UnityEvFloat RightVertical;
+
     public UnityEvFloat ChangeWeapon;
     public UnityEvent Dash;
 
@@ -59,6 +62,7 @@ public class CharacterInput : MonoBehaviour
     {
         LeftHorizontal.Invoke(Input.GetAxis("Horizontal"));
         LeftVertical.Invoke(Input.GetAxis("Vertical"));
+
         if (input_type == InputType.Joystick) JoystickInputs();
         else if (input_type == InputType.Mouse) MouseInputs();
         if (Input.GetButtonDown("Dash")) Dash.Invoke();

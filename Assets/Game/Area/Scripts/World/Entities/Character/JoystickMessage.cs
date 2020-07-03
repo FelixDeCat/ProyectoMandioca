@@ -11,12 +11,12 @@ public class JoystickMessage : UI_Base
     public Sprite joystick;
     public Sprite keyboard;
 
-    bool anim;
+    bool anim_joystick;
     float timer;
 
     public void Message(bool isjoystick)
     {
-        anim = true;
+        anim_joystick = true;
         timer = 0;
 
         if (isjoystick)
@@ -33,7 +33,7 @@ public class JoystickMessage : UI_Base
 
     private void Update()
     {
-        if (anim)
+        if (anim_joystick)
         {
             if (timer < 5)
             {
@@ -41,7 +41,7 @@ public class JoystickMessage : UI_Base
             }
             else
             {
-                anim = false;
+                anim_joystick = false;
                 timer = 0;
                 Close();
             }

@@ -11,9 +11,9 @@ public class FastMessage : UI_Base
     public void Awake()
     {
         instance = this;
-        
+
     }
-    bool anim;
+    bool anim_fastmessage;
     float timer;
     float time_to_close;
 
@@ -25,7 +25,7 @@ public class FastMessage : UI_Base
     {
         Open();
         time_to_close = time;
-        anim = true;
+        anim_fastmessage = true;
         txt_to_message.text = message;
 
         AudioManager.instance.PlaySound("message", transform);
@@ -35,7 +35,7 @@ public class FastMessage : UI_Base
     {
         Open();
         time_to_close = time;
-        anim = true;
+        anim_fastmessage = true;
         txt_to_message.text = message;
         this.photo.sprite = photo;
 
@@ -44,7 +44,7 @@ public class FastMessage : UI_Base
 
     protected override void OnUpdate()
     {
-        if (anim)
+        if (anim_fastmessage)
         {
             if (timer < time_to_close)
             {
@@ -52,7 +52,7 @@ public class FastMessage : UI_Base
             }
             else
             {
-                anim = false;
+                anim_fastmessage = false;
                 timer = 0;
                 Close();
             }
