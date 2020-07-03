@@ -27,20 +27,20 @@ public class PetrifyNearEnemies : SkillBase
 
     void PetrifyWhenDie(params object[] param)
     {
-        Vector3 pos = (Vector3)param[0];
-        bool isPetrified = (bool)param[1];
+        //Vector3 pos = (Vector3)param[0];
+        //bool isPetrified = (bool)param[1];
 
-        if (isPetrified)
-        {
-            feedbackParticle.Stop();
-            feedbackParticle.transform.position = pos;
-            feedbackParticle.Play();
+        //if (isPetrified)
+        //{
+        //    feedbackParticle.Stop();
+        //    feedbackParticle.transform.position = pos;
+        //    feedbackParticle.Play();
 
-            var overlap = Physics.OverlapSphere(pos, buffRange);
+        //    var overlap = Physics.OverlapSphere(pos, buffRange);
 
-            foreach (var item in overlap)
-                if (item.GetComponent<EnemyBase>())
-                    item.GetComponent<EnemyBase>().OnPetrified();
-        }
+        //    foreach (var item in overlap)
+        //        if (item.GetComponent<EnemyBase>())
+        //            item.GetComponent<EnemyBase>().OnPetrified();
+        //}
     }
 }

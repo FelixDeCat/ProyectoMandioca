@@ -16,10 +16,6 @@ public abstract class EnemyBase : NPCBase, ICombatDirector
     //habria que llevarlo mas arriba en la jerarquia
     [HideInInspector] public bool death;
 
-    //esto lo veo bien aca por ahora... mas adelante cuando tengamos que
-    //hacer lo de los niveles con la curva tambien es probable que tambien tenga su sistemita
-    [SerializeField] protected int expToDrop = 1;
-
     #endregion
 
     public abstract float ChangeSpeed(float newSpeed);
@@ -58,36 +54,6 @@ public abstract class EnemyBase : NPCBase, ICombatDirector
         entityTarget = null;
         combat = false;
         SetBool(false);
-    }
-    #endregion
-    #region Timer Effect (hacer component o Handler de efectos activos)
-    //timer de efectos... me gusta esto (y) no se quien lo hizo, estaria bueno que tambien sea un component
-    Dictionary<int, float> effectsTimer = new Dictionary<int, float>();
-    protected Action EffectUpdate = delegate { };
-    System.Random key = new System.Random(1);
-    protected void AddEffectTick(Action Effect)
-    {
-        EffectUpdate += Effect;
-    }
-    protected void AddEffectTick(Action Effect, float duration, Action EndEffect)
-    {
-        int myNumber = key.Next();
-        effectsTimer.Add(myNumber, 0);
-
-        Action MyUpdate = Effect;
-        Action MyEnd = EndEffect;
-        MyEnd += () => effectsTimer.Remove(myNumber);
-        MyEnd += () => EffectUpdate -= MyUpdate;
-
-        MyUpdate += () =>
-        {
-            effectsTimer[myNumber] += Time.deltaTime;
-
-            if (effectsTimer[myNumber] >= duration)
-                MyEnd();
-        };
-
-        AddEffectTick(MyUpdate);
     }
     #endregion
 

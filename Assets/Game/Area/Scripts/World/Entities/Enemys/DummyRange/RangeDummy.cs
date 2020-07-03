@@ -142,8 +142,6 @@ public class RangeDummy : EnemyBase
     {
         if (canupdate)
         {
-            EffectUpdate();
-
             if (combat)
             {
                 if (Vector3.Distance(entityTarget.transform.position, transform.position) > combatDistance + 2)
@@ -180,38 +178,6 @@ public class RangeDummy : EnemyBase
     protected override void OnResume() { }
 
     private Material[] myMat;
-    public override void OnFreeze()
-    {
-        base.OnFreeze();
-
-        Debug.Log("entré al freeze");
-
-        moveOptions.MultiplyCurrentSpeed(freezeSpeedSlowed);
-
-        animator.speed *= freezeSpeedSlowed;
-
-        var smr = GetComponentInChildren<SkinnedMeshRenderer>();
-        if (smr != null)
-        {
-            myMat = smr.materials;
-
-            Material[] mats = smr.materials;
-            mats[0] = freeze_shader;
-            smr.materials = mats;
-        }
-
-        AddEffectTick(() => { }, freezeTime, () => 
-        {
-            moveOptions.DivideCurrentSpeed(freezeSpeedSlowed);
-            animator.speed /= freezeSpeedSlowed;
-            var smr2 = GetComponentInChildren<SkinnedMeshRenderer>();
-            if (smr2 != null)
-            {
-                Material[] mats = smr2.materials;
-                smr2.materials = myMat;
-            }
-        });
-    }
 
     protected override void TakeDamageFeedback(DamageData data)
     {
@@ -239,8 +205,6 @@ public class RangeDummy : EnemyBase
         death = true;
         director.RemoveTarget(this);
         Main.instance.RemoveEntity(this);
-
-        Main.instance.eventManager.TriggerEvent(GameEvents.ENEMY_DEAD, new object[] { transform.position, petrified, expToDrop });
     }
 
     protected override bool IsDamage()
@@ -251,36 +215,6 @@ public class RangeDummy : EnemyBase
 
     float currentAnimSpeed;
 
-    public override void OnPetrified()
-    {
-        base.OnPetrified();
-
-        EnterStun = (input) => {
-            currentAnimSpeed = animator.speed;
-            animator.speed = 0;
-        };
-
-        UpdateStun = (name) => {
-            stunTimer += Time.deltaTime;
-
-            if (stunTimer >= petrifiedTime)
-            {
-                if (name == "Begin_Attack")
-                    sm.SendInput(RangeDummyInput.BEGIN_ATTACK);
-                else if (name == "Attack")
-                    sm.SendInput(RangeDummyInput.ATTACK);
-                else
-                    sm.SendInput(RangeDummyInput.IDLE);
-            }
-        };
-
-        ExitStun = (input) => {
-            animator.speed = currentAnimSpeed;
-            stunTimer = 0;
-        };
-
-        sm.SendInput(RangeDummyInput.PETRIFIED);
-    }
 
     public override float ChangeSpeed(float newSpeed)
     {
@@ -293,22 +227,6 @@ public class RangeDummy : EnemyBase
         moveOptions.SetCurrentSpeed(newSpeed);
 
         return moveOptions.GetOriginalSpeed();
-    }
-
-    public override void OnFire()
-    {
-        if (isOnFire)
-            return;
-
-        isOnFire = true;
-        feedbackFireDot.SetActive(true);
-        base.OnFire();
-
-        lifesystem.DoTSystem(30, 2, 1, Damagetype.Fire, () =>
-        {
-            isOnFire = false;
-            feedbackFireDot.SetActive(false);
-        });
     }
 
     public void Die()
@@ -324,7 +242,6 @@ public class RangeDummy : EnemyBase
     {
         //vector3, boolean, int
         gameObject.SetActive(false);
-        Main.instance.eventManager.TriggerEvent(GameEvents.ENEMY_DEAD, new object[] { transform.position, petrified, expToDrop });
     }
 
     protected override void OnFixedUpdate() { }

@@ -4,14 +4,10 @@ using UnityEngine;
 
 public abstract class WalkingEntity : EntityBase
 {
-    protected bool petrified;
     protected override void OnUpdate() { if (executeAStar) {/*Execute AStar*/}  OnUpdateEntity(); }
     protected abstract void OnUpdateEntity();
     public virtual void OnReceiveItem(ItemWorld itemworld) { }
     public virtual void OnStun() { }
-    public virtual void OnPetrified() { petrified = true; }
-    public virtual void OnFire() { }
-    public virtual void OnFreeze() { }
 
     #region en desuso
     /// <summary>

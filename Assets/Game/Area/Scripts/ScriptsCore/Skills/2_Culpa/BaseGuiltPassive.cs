@@ -113,15 +113,15 @@ public class BaseGuiltPassive : SkillBase
 
     void PetrifyAllEnemies()
     {
-        feedbackParticle.transform.position = head.transform.position;
-        feedbackParticle.Play();
-        var listOfEntities = Physics.OverlapSphere(head.transform.position, radiousSkill);
+        //feedbackParticle.transform.position = head.transform.position;
+        //feedbackParticle.Play();
+        //var listOfEntities = Physics.OverlapSphere(head.transform.position, radiousSkill);
 
-        foreach (var item in listOfEntities)
-        {
-            EnemyBase myEnemy = item.GetComponent<EnemyBase>();
-            if (myEnemy)
-                myEnemy.OnPetrified();
-        }
+        //foreach (var item in listOfEntities)
+        //{
+        //    EnemyBase myEnemy = item.GetComponent<EnemyBase>();
+        //    if (myEnemy)
+        //        myEnemy.OnPetrified();
+        //}
     }
 }

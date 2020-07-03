@@ -73,7 +73,7 @@ public class SkillActive_LightBounce : SkillActivas
 
         if (Physics.Raycast(ray, out raycastHit, length))
         {
-            var enemy = raycastHit.collider.gameObject.GetComponent<WalkingEntity>();
+            var enemy = raycastHit.collider.gameObject.GetComponent<EffectReceiver>();
 
             if (enemy != null)
             {
@@ -84,7 +84,7 @@ public class SkillActive_LightBounce : SkillActivas
                 }
                 Main.instance.Vibrate();
                 
-                enemy.OnPetrified();
+                enemy.TakeEffect(EffectName.OnPetrify);
                 
             }
             else
@@ -100,7 +100,7 @@ public class SkillActive_LightBounce : SkillActivas
                     }
                     Main.instance.Vibrate();
 
-                    enemyAux.OnPetrified();
+                    enemy.TakeEffect(EffectName.OnPetrify);
                 }
                 else
                 {

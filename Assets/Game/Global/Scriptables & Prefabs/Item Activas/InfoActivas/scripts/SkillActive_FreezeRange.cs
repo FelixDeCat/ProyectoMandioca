@@ -43,17 +43,17 @@ public class SkillActive_FreezeRange : SkillActivas
         atenea.Anim_Freeze();
         
         
-        List<EnemyBase> enemies = Extensions.FindInRadius<EnemyBase>(_hero.transform, range);
+        List<EffectReceiver> enemies = Extensions.FindInRadius<EffectReceiver>(_hero.transform, range);
 
         
-        foreach (EnemyBase enemy in enemies)
+        foreach (EffectReceiver enemy in enemies)
         {
             {
                 var shard = shardPool.Get();
                 shard.transform.position = enemy.transform.position;
                 shards.Add(shard);
                 
-                enemy.OnFreeze();
+                enemy.TakeEffect(EffectName.OnFreeze);
             }
         }
         

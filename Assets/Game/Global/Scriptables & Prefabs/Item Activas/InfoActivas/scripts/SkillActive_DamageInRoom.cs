@@ -69,23 +69,23 @@ public class SkillActive_DamageInRoom : SkillActivas
 
     void Cachin()
     {
-        Vector3 pos_collision = Main.instance.GetChar().transform.position;
+        //Vector3 pos_collision = Main.instance.GetChar().transform.position;
 
-        feedback.transform.position = pos_collision;
-        feedback.Play();
-        var enems = Physics.OverlapSphere(pos_collision, radius, layerenem).Select(x => x.GetComponent<EnemyBase>()).ToList();
+        //feedback.transform.position = pos_collision;
+        //feedback.Play();
+        //var enems = Physics.OverlapSphere(pos_collision, radius, layerenem).Select(x => x.GetComponent<EnemyBase>()).ToList();
 
-        foreach (EnemyBase enemy in enems)
-        {
-            Debug.Log(enemy.gameObject.name);
-            //enemy.TakeDamage(damagePower, pos_collision, dmgType, Main.instance.GetChar());
-            enemy.OnPetrified();
-        }
+        //foreach (EnemyBase enemy in enems)
+        //{
+        //    Debug.Log(enemy.gameObject.name);
+        //    //enemy.TakeDamage(damagePower, pos_collision, dmgType, Main.instance.GetChar());
+        //    enemy.OnPetrified();
+        //}
 
 
-        cachin_particle.Play();
-        glasses_face.SetActive(true);
-        glasses_hand.SetActive(false);
+        //cachin_particle.Play();
+        //glasses_face.SetActive(true);
+        //glasses_hand.SetActive(false);
     }
 
     

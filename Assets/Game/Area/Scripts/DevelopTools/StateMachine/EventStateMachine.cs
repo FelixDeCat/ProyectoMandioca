@@ -5,6 +5,13 @@ namespace Tools.StateMachine
 {
 	public class EventStateMachine<T>
 	{
+		public bool Active
+		{
+			get;
+
+			set;
+		}
+
 		private EState<T> current;
 		Action<string> debug = delegate { };
 		public EventStateMachine(EState<T> initial, Action<string> _debug)
@@ -12,9 +19,12 @@ namespace Tools.StateMachine
 			debug = _debug;
 			current = initial;
 			current.Enter(null);
+			Active = true;
 		}
 		public void SendInput(T input)
 		{
+			if (!Active) return;
+
 			EState<T> newState;
 			if (current.CheckInput(input, out newState))
 			{
@@ -27,9 +37,9 @@ namespace Tools.StateMachine
 		}
 
 		public EState<T> Current { get { return current; } }
-		public void Update() { current.Update(); }
-		public void LateUpdate() { current.LateUpdate(); }
-		public void FixedUpdate() { current.FixedUpdate(); }
+		public void Update() { if (!Active) return; current.Update(); }
+		public void LateUpdate() { if (!Active) return; current.LateUpdate(); }
+		public void FixedUpdate() { if (!Active) return; current.FixedUpdate(); }
 
 	}
 }

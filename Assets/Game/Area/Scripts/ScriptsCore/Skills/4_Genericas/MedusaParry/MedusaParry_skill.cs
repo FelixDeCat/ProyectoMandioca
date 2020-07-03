@@ -26,9 +26,9 @@ public class MedusaParry_skill : SkillBase
     {
         var entity = (EntityBase)param[0];
         if (entity == null) return;
-        if (entity.GetComponent<WalkingEntity>())
+        if (entity.GetComponent<EffectReceiver>())
         {
-            entity.GetComponent<WalkingEntity>().OnPetrified();
+            entity.GetComponent<EffectReceiver>().TakeEffect(EffectName.OnPetrify);
             Vector3 playerpos = Main.instance.GetChar().transform.position;
             Vector3 enemyPos = entity.transform.position;
             Vector3 dir = enemyPos - playerpos;

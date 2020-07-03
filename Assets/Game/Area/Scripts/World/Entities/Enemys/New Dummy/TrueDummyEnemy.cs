@@ -36,45 +36,28 @@ public class TrueDummyEnemy : EnemyBase
 
     [Header("Life Options")]
     [SerializeField] float recallTime = 1;
-
-    [Header("for knockback")]
-    [SerializeField] float forceRecall = 4;
-    [SerializeField] float explosionForce = 20;
-    [Header("for petrify")]
-    [SerializeField] float petrifiedTime = 2;
-    private float stunTimer;
     private Action<EState<DummyEnemyInputs>> EnterStun;
     private Action<string> UpdateStun;
     private Action<DummyEnemyInputs> ExitStun;
 
-    [Range(0,1)]
-    [SerializeField] float freezeSpeedSlowed = 0.5f;
-    [SerializeField] float freezeTime = 4;
     private bool cooldown = false;
     private float timercooldown = 0;
 
     [Header("Feedback")]
-    [SerializeField] GameObject feedbackFireDot = null;
     [SerializeField] ParticleSystem greenblood = null;
     [SerializeField] AnimEvent anim = null;
     [SerializeField] Animator animator = null;
-    
-    [SerializeField] Material freeze_shader = null;
+    private Material[] myMat;
     [SerializeField] Color onHitColor;
     [SerializeField] float onHitFlashTime;
     [SerializeField] RagdollComponent ragdoll = null;
     [SerializeField] ParticleSystem myGroundParticle = null;
     [SerializeField] private AudioClip _takeHit_AC;
     private const string takeHit_audioName = "woodChop";
-    [SerializeField] Material _petrifiedTex;
-    [SerializeField] ParticleSystem Petrified;
-    [SerializeField] ParticleSystem endPetrify;
-    [SerializeField] AudioClip clip_PetrifyStand;
-    [SerializeField] AudioClip clip_petrifyEnd;
     [SerializeField] AudioClip clip_walkEnt;
     [SerializeField] ParticleSystem _spawnParticules;
 
-    public bool isOnFire { get; private set; }
+    [SerializeField] EffectBase petrifyEffect;
     
 
     EventStateMachine<DummyEnemyInputs> sm;
@@ -88,13 +71,9 @@ public class TrueDummyEnemy : EnemyBase
         _spawnParticules.Play();
         var smr = GetComponentInChildren<SkinnedMeshRenderer>();
         if (smr != null)
-        {
             myMat = smr.materials;
-        }
 
         AudioManager.instance.GetSoundPool(takeHit_audioName, AudioGroups.GAME_FX, _takeHit_AC);
-        AudioManager.instance.GetSoundPool("PetrifyStand", AudioGroups.GAME_FX, clip_PetrifyStand);
-        AudioManager.instance.GetSoundPool("PetrifyEnd", AudioGroups.GAME_FX, clip_petrifyEnd);
         AudioManager.instance.GetSoundPool("WalkEnt", AudioGroups.GAME_FX, clip_walkEnt, true);
 
         rb = GetComponent<Rigidbody>();
@@ -110,6 +89,9 @@ public class TrueDummyEnemy : EnemyBase
         
         //Hago el pool de las vines aca
         PoolManager.instance.GetObjectPool("CorruptedVines", specialAttack_pf);
+
+        petrifyEffect?.AddStartCallback(() => sm.SendInput(DummyEnemyInputs.PETRIFIED));
+        petrifyEffect?.AddEndCallback(() => sm.SendInput(DummyEnemyInputs.IDLE));
     }
 
 
@@ -147,8 +129,6 @@ public class TrueDummyEnemy : EnemyBase
     {
         if (canupdate)
         {
-            EffectUpdate();
-
             if (!death)
             {
                 if (combat)
@@ -221,60 +201,6 @@ public class TrueDummyEnemy : EnemyBase
     #endregion
 
     #region Effects
-    float currentAnimSpeed;
-    public override void OnPetrified()
-    {
-        base.OnPetrified();
-       
-        EnterStun = (input) => {
-            currentAnimSpeed = animator.speed;
-            animator.speed = 0;
-
-            var smr = GetComponentInChildren<SkinnedMeshRenderer>();
-            if (smr != null)
-            {
-                
-                myMat = smr.materials;
-                Petrified.Play();
-                AudioManager.instance.PlaySound("PetrifyStand");
-                Material[] mats = smr.materials;
-                mats[0] = _petrifiedTex;
-                smr.materials = mats;
-                //cambiar las particulas de sangre a las de piedra
-            }
-        };
-
-        UpdateStun = (name) => {
-            stunTimer += Time.deltaTime;
-            //Debug.Log(stunTimer);
-            if (stunTimer >= petrifiedTime)
-            {
-                if (name == "Begin_Attack")
-                    sm.SendInput(DummyEnemyInputs.BEGIN_ATTACK);
-                else if(name == "Special_Attack")
-                    sm.SendInput(DummyEnemyInputs.SPECIAL_ATTACK);
-                else
-                    sm.SendInput(DummyEnemyInputs.IDLE);
-            }
-        };
-
-        ExitStun = (input) => {
-            animator.speed = currentAnimSpeed;
-            stunTimer = 0;
-            var smr2 = GetComponentInChildren<SkinnedMeshRenderer>();
-            if (smr2 != null)
-            {
-                Material[] mats = smr2.materials;
-                smr2.materials = myMat;
-                Petrified.Stop();
-                AudioManager.instance.PlaySound("PetrifyEnd");
-                endPetrify.Play();
-                //poner las particulas de sangre de vuelta
-            }
-        };
-        sm.SendInput(DummyEnemyInputs.PETRIFIED);
-    }
-
     public override float ChangeSpeed(float newSpeed)
     {
         if (newSpeed < 0)
@@ -284,56 +210,6 @@ public class TrueDummyEnemy : EnemyBase
 
         return movement.GetInitSpeed();
     }
-
-    public override void OnFire()
-    {
-        if (isOnFire)
-            return;
-
-        isOnFire = true;
-        feedbackFireDot.SetActive(true);
-        base.OnFire();
-
-        lifesystem.DoTSystem(30, 2, 1, Damagetype.Fire, () =>
-        {
-            isOnFire = false;
-            feedbackFireDot.SetActive(false);
-        });
-    }
-
-    private Material[] myMat;
-    public override void OnFreeze()
-    {
-        base.OnFreeze();
-
-        //Debug.Log("entré al freeze");
-
-        movement.MultiplySpeed(freezeSpeedSlowed);
-        animator.speed *= freezeSpeedSlowed;
-
-        var smr = GetComponentInChildren<SkinnedMeshRenderer>();
-        if (smr != null)
-        {
-            myMat = smr.materials;
-
-            Material[] mats = smr.materials;
-            mats[0] = freeze_shader;
-            smr.materials = mats;
-        }
-
-        AddEffectTick(() => { }, freezeTime, () => {
-            movement.DivideSpeed(freezeSpeedSlowed);
-            animator.speed /= freezeSpeedSlowed;
-            var smr2 = GetComponentInChildren<SkinnedMeshRenderer>();
-            if (smr2 != null)
-            {
-                Material[] mats = smr2.materials;
-                smr2.materials = myMat;
-            }
-        });
-    }
-    
-
     #endregion
 
     #region Life Things
@@ -368,8 +244,6 @@ public class TrueDummyEnemy : EnemyBase
         death = true;
         director.RemoveTarget(this);
         Main.instance.RemoveEntity(this);
-
-        Main.instance.eventManager.TriggerEvent(GameEvents.ENEMY_DEAD, new object[] { transform.position, petrified, expToDrop });
     }
 
     protected override bool IsDamage()
@@ -535,11 +409,11 @@ public class TrueDummyEnemy : EnemyBase
         
     }
 
-    void StartStun(EState<DummyEnemyInputs> input) => EnterStun(input);
+    void StartStun(EState<DummyEnemyInputs> input) => EnterStun?.Invoke(input);
 
-    void TickStun(string name) => UpdateStun(name);
+    void TickStun(string name) => UpdateStun?.Invoke(name);
 
-    void EndStun(DummyEnemyInputs input) => ExitStun(input);
+    void EndStun(DummyEnemyInputs input) => ExitStun?.Invoke(input);
 
     void DisableObject()
     {

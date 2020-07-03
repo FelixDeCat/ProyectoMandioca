@@ -22,8 +22,8 @@ public class FireParry_skill : SkillBase
         var entity = (EntityBase)param[0];
 
         Debug.Log("Tiró evento");
-        if (entity.GetComponent<WalkingEntity>())
-            entity.GetComponent<WalkingEntity>().OnFire();
+        if (entity.GetComponent<EffectReceiver>())
+            entity.GetComponent<EffectReceiver>().TakeEffect(EffectName.OnFire);
     }
 
     protected override void OnEndSkill()

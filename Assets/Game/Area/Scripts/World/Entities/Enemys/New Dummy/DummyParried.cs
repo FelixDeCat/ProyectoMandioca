@@ -20,8 +20,6 @@ namespace Tools.StateMachine
         {
             base.Enter(input);
 
-            Debug.Log("Entra a Petrify");
-
             anim.SetBool("Stun", true);
             anim.SetBool("Attack", false);
         }

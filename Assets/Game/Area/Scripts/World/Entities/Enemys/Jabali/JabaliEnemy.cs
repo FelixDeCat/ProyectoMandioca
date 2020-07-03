@@ -39,43 +39,35 @@ public class JabaliEnemy : EnemyBase
 
     [Header("Life Options")]
     [SerializeField] float tdRecall = 0.5f;
-    [SerializeField] float forceRecall = 5;
-    [SerializeField] float explosionForce = 20;
 
     [Header("Stuns/Effects")]
-    [SerializeField, Range(0, 1)] float freezeSpeedSlowed = 0.5f;
-    [SerializeField] float freezeTime = 4;
-    [SerializeField] float petrifiedTime = 3;
     private bool cooldown = false;
     private float timercooldown = 0;
-    private float currentAnimSpeed;
-    private float stunTimer;
+    float stunTimer;
     private Action<EState<JabaliInputs>> EnterStun;
     private Action<string> UpdateStun;
     private Action<JabaliInputs> ExitStun;
     private Material[] myMat;
 
     [Header("Feedback")]
-    [SerializeField] GameObject feedbackFireDot = null;
     [SerializeField] ParticleSystem greenblood = null;
     [SerializeField] AnimEvent anim = null;
     [SerializeField] Animator animator = null;
-    [SerializeField] Material freeze_shader = null;
     [SerializeField] RagdollComponent ragdoll;
     [SerializeField] Color onHitColor;
     [SerializeField] float onHitFlashTime;
     [SerializeField] GameObject feedbackCharge;
-    [SerializeField] Material _petrifiedMat;
     [SerializeField] List<AudioClip> mySounds;
-    [SerializeField] ParticleSystem onpetrified;
-    [SerializeField] ParticleSystem endPetrify;
+    [SerializeField] EffectBase petrifyEffect;
 
-    public bool isOnFire { get; private set; }
     EventStateMachine<JabaliInputs> sm;
 
     protected override void OnInitialize()
     {
         base.OnInitialize();
+
+        myMat = GetComponentInChildren<SkinnedMeshRenderer>().materials;
+
         movement.Configure(rootTransform, rb);
         headAttack.Configure(HeadAttack);
         pushAttack.Configure(PushRelease, StunAfterCharge);
@@ -86,8 +78,6 @@ public class JabaliEnemy : EnemyBase
         AudioManager.instance.GetSoundPool(mySounds[3].name, AudioGroups.JABALI, mySounds[3]);
         AudioManager.instance.GetSoundPool(mySounds[4].name, AudioGroups.JABALI, mySounds[4]);
         AudioManager.instance.GetSoundPool(mySounds[5].name, AudioGroups.JABALI, mySounds[5]);
-        AudioManager.instance.GetSoundPool(mySounds[6].name, AudioGroups.JABALI, mySounds[6]);//petrify stand
-        AudioManager.instance.GetSoundPool(mySounds[7].name, AudioGroups.JABALI, mySounds[7]);//petrify end
 
         anim.Add_Callback("DealDamage", DealDamage);
         StartDebug();
@@ -95,6 +85,9 @@ public class JabaliEnemy : EnemyBase
         Main.instance.AddEntity(this);
 
         IAInitialize(Main.instance.GetCombatDirector());
+
+        petrifyEffect?.AddStartCallback(() => sm.SendInput(JabaliInputs.PETRIFIED));
+        petrifyEffect?.AddEndCallback(() => sm.SendInput(JabaliInputs.IDLE));
     }
     protected override void OnReset()
     {
@@ -130,8 +123,6 @@ public class JabaliEnemy : EnemyBase
     {
         if (canupdate)
         {
-            EffectUpdate();
-
             if (!death)
             {
                 if (combat)
@@ -242,7 +233,6 @@ public class JabaliEnemy : EnemyBase
             ragdoll.Ragdoll(true, -rootTransform.forward);
         else
             ragdoll.Ragdoll(true, dir);
-        Main.instance.eventManager.TriggerEvent(GameEvents.ENEMY_DEAD, new object[] { transform.position, petrified, expToDrop });
         Main.instance.RemoveEntity(this);
     }
 
@@ -285,99 +275,6 @@ public class JabaliEnemy : EnemyBase
         };
 
         sm.SendInput(JabaliInputs.PETRIFIED);
-    }
-
-    public override void OnPetrified()
-    {
-        base.OnPetrified();
-
-        EnterStun += (input) => {
-            animator.SetBool("Petrified", true);
-
-            var smr = GetComponentInChildren<SkinnedMeshRenderer>();
-            if (smr != null)
-            {
-                myMat = smr.materials;
-                onpetrified.Play();
-                AudioManager.instance.PlaySound(mySounds[6].name);
-                Material[] mats = smr.materials;
-                mats[0] = _petrifiedMat;
-                smr.materials = mats;
-                //  rb.AddForce
-            }
-
-            currentAnimSpeed = animator.speed;
-            animator.speed = 0;
-        };
-
-        UpdateStun = (name) => {
-            stunTimer += Time.deltaTime;
-            if (stunTimer >= petrifiedTime)
-                sm.SendInput(JabaliInputs.IDLE);
-        };
-
-        ExitStun += (input) => {
-            var smr2 = GetComponentInChildren<SkinnedMeshRenderer>();
-            if (smr2 != null)
-            {
-                onpetrified.Stop();
-                AudioManager.instance.PlaySound(mySounds[7].name);
-                endPetrify.Play();
-                Material[] mats = smr2.materials;
-                smr2.materials = myMat;
-            }
-            animator.speed = currentAnimSpeed;
-            animator.SetBool("Petrified", false);
-            stunTimer = 0;
-        };
-
-        sm.SendInput(JabaliInputs.PETRIFIED);
-    }
-
-    public override void OnFire()
-    {
-        if (isOnFire)
-            return;
-
-        isOnFire = true;
-        feedbackFireDot.SetActive(true);
-        base.OnFire();
-
-        lifesystem.DoTSystem(30, 2, 1, Damagetype.Fire, () =>
-        {
-            isOnFire = false;
-            feedbackFireDot.SetActive(false);
-        });
-    }
-
-    public override void OnFreeze()
-    {
-        base.OnFreeze();
-
-        movement.MultiplySpeed(freezeSpeedSlowed);
-        animator.speed *= freezeSpeedSlowed;
-
-        var smr = GetComponentInChildren<SkinnedMeshRenderer>();
-        if (smr != null)
-        {
-            myMat = smr.materials;
-
-            Material[] mats = smr.materials;
-            mats[0] = freeze_shader;
-            smr.materials = mats;
-        }
-
-        AddEffectTick(() => { }, freezeTime, () => {
-            movement.DivideSpeed(freezeSpeedSlowed);
-            animator.speed /= freezeSpeedSlowed;
-            var smr2 = GetComponentInChildren<SkinnedMeshRenderer>();
-            if (smr2 != null)
-            {
-                Material[] mats = smr2.materials;
-                smr2.materials = myMat;
-            }
-        });
-
     }
 
     #endregion
@@ -527,11 +424,11 @@ public class JabaliEnemy : EnemyBase
 
     bool IsChargeOk() => chargeOk;
 
-    void StartStun(EState<JabaliInputs> input) => EnterStun(input);
+    void StartStun(EState<JabaliInputs> input) => EnterStun?.Invoke(input);
 
-    void TickStun(string name) => UpdateStun(name);
+    void TickStun(string name) => UpdateStun?.Invoke(name);
 
-    void EndStun(JabaliInputs input) { ExitStun(input); EnterStun = (x) => { }; ExitStun = (x) => { }; } 
+    void EndStun(JabaliInputs input) { ExitStun?.Invoke(input); EnterStun = (x) => { }; ExitStun = (x) => { }; } 
 
     void DisableObject()
     {
