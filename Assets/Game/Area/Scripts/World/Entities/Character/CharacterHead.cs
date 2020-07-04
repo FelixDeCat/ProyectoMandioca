@@ -319,6 +319,7 @@ public class CharacterHead : CharacterControllable
              .SetTransition(PlayerInputs.BLOCK, block)
              .SetTransition(PlayerInputs.END_BLOCK, endBlock)
              //.SetTransition(PlayerInputs.CHARGE_ATTACK, attackCharge)
+             .SetTransition(PlayerInputs.ROLL, roll)
              .SetTransition(PlayerInputs.TAKE_DAMAGE, takeDamage)
              .SetTransition(PlayerInputs.DEAD, dead)
              .Done();
@@ -328,6 +329,7 @@ public class CharacterHead : CharacterControllable
             // .SetTransition(PlayerInputs.ROLL, roll)
             //.SetTransition(PlayerInputs.CHARGE_ATTACK, attackCharge)
             .SetTransition(PlayerInputs.TAKE_DAMAGE, takeDamage)
+            .SetTransition(PlayerInputs.ROLL, roll)
             .SetTransition(PlayerInputs.PARRY, parry)
             .SetTransition(PlayerInputs.DEAD, dead)
             .Done();
@@ -335,6 +337,7 @@ public class CharacterHead : CharacterControllable
         ConfigureState.Create(endBlock)
             .SetTransition(PlayerInputs.IDLE, idle)
             .SetTransition(PlayerInputs.MOVE, move)
+            .SetTransition(PlayerInputs.ROLL, roll)
             .SetTransition(PlayerInputs.TAKE_DAMAGE, takeDamage)
             .SetTransition(PlayerInputs.BEGIN_BLOCK, beginBlock)
             .SetTransition(PlayerInputs.DEAD, dead)

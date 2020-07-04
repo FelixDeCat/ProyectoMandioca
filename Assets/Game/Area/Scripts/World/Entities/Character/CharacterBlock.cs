@@ -8,7 +8,6 @@ public class CharacterBlock : EntityBlock
     public Action UpBlock;
     public Action OnParry;
 
-    public Action BeginParry;
     public Action EndBlock;
 
     private CharacterAnimator anim;
@@ -42,8 +41,6 @@ public class CharacterBlock : EntityBlock
         sm = _sm;
         parryParticles = _parryParticles;
         OnParry += FinishParry;
-        BeginParry += Parry;
-        BeginParry += ParryFeedback;
         //timeBlock = _timeToBlock;
         maxBlockCharges = maxCharges;
         CurrentBlockCharges = maxCharges;
@@ -51,31 +48,18 @@ public class CharacterBlock : EntityBlock
    
     }
 
-    public override void OnBlockDown() { if(!onBlock) anim.Block(true); BeginParry(); }
+    public override void OnBlockDown() { if(!onBlock) anim.Block(true); Parry(); ParryFeedback(); }
     public override void OnBlockUp() { anim.Block(false); FinishParry(); }
 
     //por animacion
     public override void OnBlockSuccessful()
     {
-        
-        //BeginParry();
-        Debug.Log("parry");
- 
+
     }
 
     public override void OnUpdate()
     {
         base.OnUpdate();
-
-        //if (onBlock)
-        //{
-        //    timerToUpBlock += Time.deltaTime;
-
-        //    if (timerToUpBlock >= timeBlock)
-        //    {
-        //        EndBlock();
-        //    }
-        //}
 
         if (!onBlock && CurrentBlockCharges < maxBlockCharges)
         {

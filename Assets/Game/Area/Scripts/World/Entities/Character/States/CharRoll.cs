@@ -19,6 +19,11 @@ namespace Tools.StateMachine
         {
             evadepart.Play();
 
+            if (input.Name == "Begin_Block" || input.Name == "Block")
+            {
+                Debug.Log("DASH CON ESCUDO");
+            }
+
             charMove.Dash();
         }
 
