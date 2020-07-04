@@ -15,7 +15,7 @@ namespace Tools.StateMachine
 
         protected override void Enter(EState<CharacterHead.PlayerInputs> input)
         {
-            charBlock.OnBlock();
+            charBlock.callback_OnBlock();
             initSpeed = charMove.GetDefaultSpeed;
             charMove.SetSpeed(charMove.GetDefaultSpeed * .5f);
         }
@@ -53,7 +53,7 @@ namespace Tools.StateMachine
         {
             if (input != CharacterHead.PlayerInputs.BLOCK)
             {
-                charBlock.UpBlock();
+                charBlock.callback_UpBlock();
             }
             else
                 charBlock.OnBlockSuccessful();

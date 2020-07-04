@@ -135,7 +135,7 @@ public class SkillActive_LightBounce : SkillActivas
         lightBeam.transform.position = _hero.ShieldVectorDirection.position;
         lightBeam.transform.forward = _hero.ShieldVectorDirection.forward;
 
-        if (blocker.onBlock)
+        if (blocker.OnBlock)
         {
             lightBeam.SetActive(true);
 

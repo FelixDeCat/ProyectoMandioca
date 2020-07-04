@@ -13,7 +13,7 @@ namespace Tools.StateMachine
 
         protected override void Enter(EState<CharacterHead.PlayerInputs> input)
         {
-            charBlock.UpBlock();
+            charBlock.callback_UpBlock();
             charBlock.SetOnBlock(false);
         }
 

@@ -169,8 +169,8 @@ public class CharacterHead : CharacterControllable
         move.SetCallbacks(OnBeginRoll, OnEndRoll);
 
         charBlock = new CharacterBlock(_timerOfParry, blockAngle, _timeOfBlock, maxBlockCharges, timeToRecuperateCharges, chargesUI, charanim, GetSM, inParryParticles);
-        charBlock.OnParry += () => charanim.Parry(true);
-        charBlock.EndBlock += EVENT_UpBlocking;
+        charBlock.callback_OnParry += () => charanim.Parry(true);
+        charBlock.callback_EndBlock += EVENT_UpBlocking;
         ChildrensUpdates += charBlock.OnUpdate;
 
         dmg = dmg_normal;
@@ -412,10 +412,12 @@ public class CharacterHead : CharacterControllable
             .SetBlock(charBlock);
 
         new CharParry(parry, stateMachine, parryRecall)
-            .SetMovement(this.move).SetBlock(charBlock);
+            .SetMovement(this.move)
+            .SetBlock(charBlock);
 
         new CharRoll(roll, stateMachine, evadeParticle)
-            .SetMovement(this.move);
+            .SetMovement(this.move)
+            .SetBlock(charBlock);
 
         new CharChargeAttack(attackCharge, stateMachine)
             .SetLeftAxis(GetLeftHorizontal, GetLeftVertical)
@@ -686,11 +688,11 @@ public class CharacterHead : CharacterControllable
     }
     public void AddParry(Action listener)
     {
-        charBlock.OnParry += listener;
+        charBlock.callback_OnParry += listener;
     }
     public void RemoveParry(Action listener)
     {
-        charBlock.OnParry -= listener;
+        charBlock.callback_OnParry -= listener;
     }
     public void PerfectParry()
     {

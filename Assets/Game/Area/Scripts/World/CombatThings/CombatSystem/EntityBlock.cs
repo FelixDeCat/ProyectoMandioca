@@ -4,13 +4,16 @@ using UnityEngine;
 
 public class EntityBlock
 {
-    public bool onBlock;
+    
     protected bool onParry;
     protected float timeToParry;
     protected float timer;
 
     //Mucho muy importante que sea de -1 a 1
     float blockAngle;
+
+    protected bool onBlock;
+    public bool OnBlock { get => onBlock; }
 
     public EntityBlock(float timeParry, float blockRange)
     {
@@ -43,7 +46,7 @@ public class EntityBlock
 
     public virtual bool IsBlock(Vector3 mypos, Vector3 attackPos, Vector3 myForward)
     {
-        if (onBlock)
+        if (OnBlock)
         {
             Vector3 attackDir = mypos - attackPos;
             attackDir.Normalize();

@@ -20,7 +20,7 @@ namespace Tools.StateMachine
             charMove.MovementHorizontal(0);
             charMove.MovementVertical(0);
             charBlock.SetOnBlock(false);
-            charBlock.OnParry();
+            charBlock.callback_OnParry();
         }
 
         protected override void Update()
@@ -44,7 +44,7 @@ namespace Tools.StateMachine
         protected override void Exit(CharacterHead.PlayerInputs input)
         {
             timer = 0;
-            charBlock.UpBlock();
+            charBlock.callback_UpBlock();
         }
     }
 }

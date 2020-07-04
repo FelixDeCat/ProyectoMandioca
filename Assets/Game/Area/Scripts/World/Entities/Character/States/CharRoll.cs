@@ -15,14 +15,21 @@ namespace Tools.StateMachine
             evadepart = _evadepart;
         }
 
+        string _input;
+
         protected override void Enter(EState<CharacterHead.PlayerInputs> input)
         {
+
+            
             evadepart.Play();
 
-            if (input.Name == "Begin_Block" || input.Name == "Block")
-            {
-                Debug.Log("DASH CON ESCUDO");
-            }
+            _input = input.Name;
+
+            //if (input.Name == "Begin_Block" || input.Name == "Block")
+            //{
+            //    Debug.Log("ANIMACION COMPLETA DE DASH CON ESCUDO");
+            //    charBlock.UpBlock();
+            //}
 
             charMove.Dash();
         }
@@ -45,6 +52,12 @@ namespace Tools.StateMachine
         protected override void Exit(CharacterHead.PlayerInputs input)
         {
             evadepart.Stop();
+
+            if (_input == "Begin_Block" || _input == "Block")
+            {
+                charBlock.callback_UpBlock();
+                charBlock.SetOnBlock(false);
+            }
 
             base.Exit(input);
         }

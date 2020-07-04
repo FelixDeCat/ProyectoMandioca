@@ -4,11 +4,10 @@ using Tools.StateMachine;
 
 public class CharacterBlock : EntityBlock
 {
-    public Action OnBlock;
-    public Action UpBlock;
-    public Action OnParry;
-
-    public Action EndBlock;
+    public Action callback_OnBlock;
+    public Action callback_UpBlock;
+    public Action callback_OnParry;
+    public Action callback_EndBlock;
 
     private CharacterAnimator anim;
 
@@ -36,11 +35,11 @@ public class CharacterBlock : EntityBlock
                           ParticleSystem _parryParticles) : base(timeParry, blockRange)
     {
         anim = _anim;
-        OnBlock += OnBlockDown;
-        UpBlock += OnBlockUp;
+        callback_OnBlock += OnBlockDown;
+        callback_UpBlock += OnBlockUp;
         sm = _sm;
         parryParticles = _parryParticles;
-        OnParry += FinishParry;
+        callback_OnParry += FinishParry;
         //timeBlock = _timeToBlock;
         maxBlockCharges = maxCharges;
         CurrentBlockCharges = maxCharges;
@@ -48,7 +47,7 @@ public class CharacterBlock : EntityBlock
    
     }
 
-    public override void OnBlockDown() { if(!onBlock) anim.Block(true); Parry(); ParryFeedback(); }
+    public override void OnBlockDown() { if(!base.OnBlock) anim.Block(true); Parry(); ParryFeedback(); }
     public override void OnBlockUp() { anim.Block(false); FinishParry(); }
 
     //por animacion
@@ -61,7 +60,7 @@ public class CharacterBlock : EntityBlock
     {
         base.OnUpdate();
 
-        if (!onBlock && CurrentBlockCharges < maxBlockCharges)
+        if (!base.OnBlock && CurrentBlockCharges < maxBlockCharges)
         {
             timerCharges += Time.deltaTime;
 
@@ -80,7 +79,7 @@ public class CharacterBlock : EntityBlock
         if(CurrentBlockCharges <= 0)
         {
             CurrentBlockCharges = 0;
-            EndBlock();
+            callback_EndBlock();
         }
         else if (CurrentBlockCharges >= maxBlockCharges)
         {
@@ -101,7 +100,6 @@ public class CharacterBlock : EntityBlock
     public void SetOnBlock(bool b)
     {
         onBlock = b;
-
         if (!b)
             FinishParry();
     }
