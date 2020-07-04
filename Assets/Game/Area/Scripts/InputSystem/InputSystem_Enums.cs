@@ -30,3 +30,11 @@ public enum GameActions
     Extra_1,
     Extra_2
 }
+
+public enum InputEventAction
+{
+    Up,
+    Down,
+    Stay,
+    Axis
+}

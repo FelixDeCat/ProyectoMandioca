@@ -19,8 +19,12 @@ namespace Tools.StateMachine
         {
             charMove.RotateHorizontal(RightHorizontal());
             charMove.RotateVertical(RightVertical());
-            charMove.MovementHorizontal(LeftHorizontal());
-            charMove.MovementVertical(LeftVertical());
+            charMove.RotateHorizontal(LeftHorizontal());
+            charMove.RotateVertical(LeftVertical());
+            charMove.MovementHorizontal(0);
+            charMove.MovementVertical(0);
+            //charMove.MovementHorizontal(LeftHorizontal());
+            //charMove.MovementVertical(LeftVertical());
         }
 
         protected override void FixedUpdate()
