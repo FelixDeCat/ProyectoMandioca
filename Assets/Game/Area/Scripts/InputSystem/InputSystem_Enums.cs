@@ -1,4 +1,5 @@
-﻿///////////////////////////////////////////////////////////////
+﻿
+///////////////////////////////////////////////////////////////
 /// Los GameActions son las etiquetas que vamos a usar para identificar el input del jugador como accion, esto es 
 /// independiente del input por hardware, intenté ignorar los nombres de los botones o teclas para que sea génerico
 ///////////////////////////////////////////////////////////////
@@ -30,11 +31,25 @@ public enum GameActions
     Extra_1,
     Extra_2
 }
+public enum InputEventAction { Up, Down, Stay, Axis }
 
-public enum InputEventAction
+public static class UnityJoystickInputNames
 {
-    Up,
-    Down,
-    Stay,
-    Axis
+    public const string BUTTON_A = "xbox_button_A";
+    public const string BUTTON_B = "xbox_button_A";
+    public const string BUTTON_X = "xbox_button_X";
+    public const string BUTTON_Y = "xbox_button_Y";
+    public const string BUTTON_LB = "xbox_button_LB";
+    public const string BUTTON_RB = "xbox_button_RB";
+    public const string BUTTON_BACK = "xbox_button_BACK";
+    public const string BUTTON_START = "xbox_button_START";
+    public const string BUTTON_LEFT_STICKCENTER = "xbox_button_LEFT_STICKCENTER";
+    public const string BUTTON_RIGHT_STICKCENTER = "xbox_button_RIGHT_STICKCENTER";
+    public const string AXIS_LEFT_HORIZONTAL = "xbox_axis_LEFT_HORIZONTAL";
+    public const string AXIS_LEFT_VERTICAL = "xbox_axis_LEFT_VERTICAL";
+    public const string AXIS_RIGHT_HORIZONTAL = "xbox_axis_RIGHT_HORIZONTAL";
+    public const string AXIS_RIGHT_VERTICAL = "xbox_axis_RIGHT_VERTICAL";
+    public const string AXIS_TRIGGERS = "xbox_axis_TRIGGERS";
+    public const string AXIS_DPAD_HORIZONTA = "xbox_axis_DPAD_HORIZONTAL";
+    public const string AXIS_DPAD_VERTICAL = "xbox_axis_DPAD_VERTICAL";
 }
