@@ -14,7 +14,6 @@ Left Stick Button 8
 Right Stick Button 9
 */
 
-
 public class JoystickBasicInput
 {
     bool[] optimize = new bool[14];
