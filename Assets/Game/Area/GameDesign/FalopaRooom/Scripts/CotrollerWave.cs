@@ -8,6 +8,7 @@ public class CotrollerWave : MonoBehaviour
     [SerializeField] int _numbersOfSpawn;
     float _currentTimer;
     List<SpawnWaves> spawns = new List<SpawnWaves>();
+    [SerializeField] bool _active;
     // Start is called before the first frame update
     void Start()
     {
@@ -22,6 +23,8 @@ public class CotrollerWave : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (!_active)
+            return;
         _currentTimer += Time.deltaTime;
         if (_currentTimer >= _timer)
         {
@@ -35,5 +38,10 @@ public class CotrollerWave : MonoBehaviour
             }
             _currentTimer = 0;
         }
+    }
+
+    public void Activate(bool active)
+    {
+        _active = active;
     }
 }
