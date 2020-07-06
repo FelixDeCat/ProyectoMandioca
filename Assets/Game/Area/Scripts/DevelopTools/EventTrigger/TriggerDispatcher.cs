@@ -12,11 +12,19 @@ public class TriggerDispatcher : MonoBehaviour
 
     [SerializeField] TriggerReceiver[] receivers;
 
-    [SerializeField] Entities[] entitiesCanTrigger;
+    [SerializeField] Entities entitiesCanTrigger;
 
     private void OnTriggerEnter(Collider other)
     {
         OnExecute( OnTriggerEnterEvent,other);
+
+        StartCoroutine(LateEnter(other));
+    }
+
+    IEnumerator LateEnter(Collider other)
+    {
+        yield return new WaitForEndOfFrame();
+        OnExecute(OnTriggerLateEnterEvent, other);
     }
     
     private void OnTriggerStay(Collider other)
@@ -31,7 +39,7 @@ public class TriggerDispatcher : MonoBehaviour
 
     void OnExecute(UnityEvent eventToInvoke, Collider other)
     {
-        if (other.gameObject.GetComponent<CharacterHead>() != null)
+        if (CheckCollision(other))
         {
             eventToInvoke.Invoke();
 
@@ -42,6 +50,19 @@ public class TriggerDispatcher : MonoBehaviour
         }               
     }
 
+    public bool CheckCollision(Collider other)
+    {
+        switch (entitiesCanTrigger)
+        {
+            case Entities.all:
+                return other.GetComponent<WalkingEntity>();
+            case Entities.player:
+                return other.GetComponent<CharacterHead>();                
+            case Entities.enemy:
+                return other.GetComponent<EnemyBase>();            
+        }
+        return false;
+    }
 }
 
 public enum Entities //In progress
