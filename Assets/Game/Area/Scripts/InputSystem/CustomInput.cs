@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System;
 using UnityEngine;
 
-public class CustomInput
+public class CustomInput : MonoBehaviour
 {
     Dictionary<GameActions, string> JoystickBindingRoute = new Dictionary<GameActions, string>();
     Dictionary<GameActions, string> KeyboardBindingRoute = new Dictionary<GameActions, string>();
@@ -17,10 +17,10 @@ public class CustomInput
 
 
     #region Configurations and Subscriptions
-    public CustomInput ConfigureInput(GameActions gameaction, string buttonname) 
-    { 
-        if (!JoystickBindingRoute.ContainsKey(gameaction)) 
-            JoystickBindingRoute.Add(gameaction, buttonname); 
+    public CustomInput ConfigureInput(GameActions gameaction, string buttonname)
+    {
+        if (!JoystickBindingRoute.ContainsKey(gameaction))
+            JoystickBindingRoute.Add(gameaction, buttonname);
         return this;
     }
     public CustomInput SubscribeMeTo(GameActions gameaction, BindingConfig bindingconfig)
@@ -33,71 +33,6 @@ public class CustomInput
 
     public void Refresh()
     {
-        var aux = new List<GameActions>(bindActionConfigurations.Keys);
-
-        for (int i = 0; i < aux.Count; i++)
-        {
-            //por ahi tal vez aca pregunto que tipo de input joystick o teclado
-            var currentconfig = bindActionConfigurations[aux[i]];
-
-            switch (currentconfig.InputEventAction)
-            {
-                case InputEventAction.Up:
-
-                    if (Input.GetButtonUp(JoystickBindingRoute[aux[i]]))
-                    {
-                        currentconfig.Execute();
-                    }
-
-                    break;
-                case InputEventAction.Down:
-
-                    if (Input.GetButtonDown(JoystickBindingRoute[aux[i]]))
-                    {
-                        currentconfig.Execute();
-                    }
-                    break;
-                case InputEventAction.Stay:
-
-                    if (Input.GetButton(JoystickBindingRoute[aux[i]]))
-                    {
-                        currentconfig.Execute();
-                    }
-
-                    break;
-                case InputEventAction.Axis:
-
-                    currentconfig.Execute(Input.GetAxis(JoystickBindingRoute[aux[i]]));
-
-                    break;
-                default:
-                    break;
-            }
-        }
+        return this;
     }
-}
-
-public class BindingConfig
-{
-
-    InputEventAction inputEventAction;
-    public InputEventAction InputEventAction { get => inputEventAction; }
-    Action button_action = delegate { };
-    Action<float> axis_action = delegate { };
-    public BindingConfig(Action _buttonAction, InputEventAction _inputEventAction)
-    {
-        button_action = _buttonAction;
-        inputEventAction = _inputEventAction;
-    }
-    public BindingConfig(Action<float> _axisAction, InputEventAction _inputEventAction)
-    {
-        axis_action = _axisAction;
-        inputEventAction = _inputEventAction;
-    }
-
-
-
-    public void Execute() { button_action.Invoke(); }
-    public void Execute(float axis) { axis_action.Invoke(axis); }
-
 }

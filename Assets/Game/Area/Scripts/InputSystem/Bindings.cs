@@ -13,13 +13,12 @@ public class Bindings : MonoBehaviour
         customInput.SubscribeMeTo(GameActions.Right_Hand, new BindingConfig(Attack,InputEventAction.Down));
     }
 
-    void Attack()
-    {
-        Debug.Log("ATTACK");
+
+        customInput.SubscribeMeTo(GameActions.Right_Hand, InputEventAction.Down, ExampleBinding);
     }
 
-    private void Update()
+    void ExampleBinding(float axis)
     {
-        customInput.Refresh();
+
     }
 }
