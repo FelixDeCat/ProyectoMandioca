@@ -28,15 +28,16 @@ public class JoystickBasicInput
         b_movehorizontal, b_movevertical, b_twisthorizontal,
         b_twistvertical;
 
-    ClampedAxisButton DPad_Horizontal = new ClampedAxisButton("XBOX360_DPadHorizontal");
-    ClampedAxisButton DPad_Vertical = new ClampedAxisButton("XBOX360_DPadVertical");
-    ClampedAxisButton Triggers = new ClampedAxisButton("XBOX360_Trigger");
+    ClampedAxisButton DPad_Horizontal = new ClampedAxisButton(UnityJoystickInputNames.AXIS_DPAD_HORIZONTAL);
+    ClampedAxisButton DPad_Vertical = new ClampedAxisButton(UnityJoystickInputNames.AXIS_DPAD_VERTICAL);
+    ClampedAxisButton Triggers = new ClampedAxisButton(UnityJoystickInputNames.AXIS_TRIGGERS);
 
     public JoystickBasicInput SUBSCRIBE_ACCEPT(Action a) { accept += a; b_accept = true; return this; }
     public JoystickBasicInput SUBSCRIBE_CANCEL(Action a) { cancel += a; b_cancel = true;  return this; }
     public JoystickBasicInput SUBSCRIBE_SQUARE_X(Action a) { square += a; b_square = true;  return this; }
     public JoystickBasicInput SUBSCRIBE_TRIANGLE_Y(Action a) { triangle += a; b_triangle = true;  return this; }
     public JoystickBasicInput SUBSCRIBE_LBUTTON_DOWN(Action a) { lbuttonDown += a; b_lbuttonDown = true; return this; }
+    //aca hay un problema, si quiero tener los eventos de Up y stay, tengo que crear una funcion nueva
     public JoystickBasicInput SUBSCRIBE_LBUTTON_UP(Action a) { lbuttonUp += a; b_lbuttonUp = true; return this; }
     public JoystickBasicInput SUBSCRIBE_RBUTTON_DOWN(Action a) { rbuttonDown += a; b_rbuttonDown = true;  return this; }
     public JoystickBasicInput SUBSCRIBE_RBUTTON_UP(Action a) { rbuttonUp += a; b_rbuttonUp = true; return this; }
@@ -55,74 +56,28 @@ public class JoystickBasicInput
 
     public void Refresh()
     {
-        if (b_accept) if (Input.GetButtonDown("XBOX360_Accept")) accept.Invoke();
-        if (b_cancel) if (Input.GetButtonDown("XBOX360_Cancel")) cancel.Invoke();
-        if (b_square) if (Input.GetButtonDown("XBOX360_Square")) square.Invoke();
-        if (b_triangle) if (Input.GetButtonDown("XBOX360_Triangle")) triangle.Invoke();
+        if (b_accept) if (Input.GetButtonDown(UnityJoystickInputNames.BUTTON_A)) accept.Invoke();
+        if (b_cancel) if (Input.GetButtonDown(UnityJoystickInputNames.BUTTON_B)) cancel.Invoke();
+        if (b_square) if (Input.GetButtonDown(UnityJoystickInputNames.BUTTON_Y)) square.Invoke();
+        if (b_triangle) if (Input.GetButtonDown(UnityJoystickInputNames.AXIS_DPAD_HORIZONTAL)) triangle.Invoke();
 
-        if (b_lbuttonDown) if (Input.GetButtonDown("XBOX360_LB")) lbuttonDown.Invoke();
-        if (b_lbuttonUp) if (Input.GetButtonUp("XBOX360_LB")) lbuttonUp.Invoke();
+        if (b_lbuttonDown) if (Input.GetButtonDown(UnityJoystickInputNames.BUTTON_LB)) lbuttonDown.Invoke();
+        if (b_lbuttonUp) if (Input.GetButtonUp(UnityJoystickInputNames.BUTTON_LB)) lbuttonUp.Invoke();
 
-        if (b_rbuttonDown) if (Input.GetButtonDown("XBOX360_RB")) rbuttonDown.Invoke();
-        if (b_rbuttonUp) if (Input.GetButtonUp("XBOX360_RB")) rbuttonUp.Invoke();
+        if (b_rbuttonDown) if (Input.GetButtonDown(UnityJoystickInputNames.BUTTON_RB)) rbuttonDown.Invoke();
+        if (b_rbuttonUp) if (Input.GetButtonUp(UnityJoystickInputNames.BUTTON_RB)) rbuttonUp.Invoke();
 
-        if (b_movehorizontal) movehorizontal.Invoke(Input.GetAxis("MoveHorizontal"));
-        if (b_movevertical) movevertical.Invoke(Input.GetAxis("MoveVertical"));
-        if (b_twisthorizontal) twisthorizontal.Invoke(Input.GetAxis("TwistHorizontal"));
-        if (b_twistvertical) twistvertical.Invoke(Input.GetAxis("TwistVertical"));
+        if (b_movehorizontal) movehorizontal.Invoke(Input.GetAxis(UnityJoystickInputNames.AXIS_LEFT_HORIZONTAL));
+        if (b_movevertical) movevertical.Invoke(Input.GetAxis(UnityJoystickInputNames.AXIS_LEFT_VERTICAL));
+        if (b_twisthorizontal) twisthorizontal.Invoke(Input.GetAxis(UnityJoystickInputNames.AXIS_RIGHT_HORIZONTAL));
+        if (b_twistvertical) twistvertical.Invoke(Input.GetAxis(UnityJoystickInputNames.AXIS_RIGHT_VERTICAL));
 
         if (b_dpadLeft || b_dpadRight) DPad_Horizontal.Refresh();
         if (b_dpadDown || b_dpadUp) DPad_Vertical.Refresh();
         if (b_ltrigger || b_rtrigger) Triggers.Refresh();
 
-        if (b_back) if (Input.GetButtonDown("XBOX360_Back")) {  back.Invoke(); }
-        if (b_start) if (Input.GetButtonDown("XBOX360_Start")) { start.Invoke(); }
+        if (b_back) if (Input.GetButtonDown(UnityJoystickInputNames.BUTTON_BACK)) {  back.Invoke(); }
+        if (b_start) if (Input.GetButtonDown(UnityJoystickInputNames.BUTTON_START)) { start.Invoke(); }
         
-    }
-}
-
-
-public class ClampedAxisButton
-{
-    event Action PositiveEvent, NegativeEvent;
-
-    bool active_positive, active_negative;
-    bool positive, negative = true;
-    string axis;
-
-    public ClampedAxisButton(string axis) { this.axis = axis; }
-    public void AddEvent_Positive(Action ev_positive) {  PositiveEvent += ev_positive; active_positive = true; positive = true; }
-    public void AddEvent_Negative(Action ev_negative) { NegativeEvent += ev_negative; active_negative = true; negative = true; }
-
-    public void Refresh()
-    {
-        if (Input.GetAxisRaw(axis) != 0)
-        {
-            if (Input.GetAxisRaw(axis) == 1)
-            {
-                if (!active_positive) return;
-                if (positive)
-                {
-                    PositiveEvent.Invoke();
-                    positive = false;
-                    negative = true;
-                }
-            }
-            else
-            {
-                if (!active_negative) return;
-                if (negative)
-                {
-                    NegativeEvent.Invoke();
-                    positive = true;
-                    negative = false;
-                }
-            }
-        }
-        else
-        {
-            positive = true;
-            negative = true;
-        }
     }
 }

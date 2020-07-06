@@ -9,7 +9,7 @@ public class Bindings : MonoBehaviour
     private void Start()
     {
         customInput = new CustomInput();
-        customInput.Initialize();
+        customInput.ConfigureInput(GameActions.Right_Hand, UnityJoystickInputNames.BUTTON_A);
         customInput.SubscribeMeTo(GameActions.Right_Hand, new BindingConfig(Attack,InputEventAction.Down));
     }
 

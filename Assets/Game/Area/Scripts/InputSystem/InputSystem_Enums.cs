@@ -50,6 +50,6 @@ public static class UnityJoystickInputNames
     public const string AXIS_RIGHT_HORIZONTAL = "xbox_axis_RIGHT_HORIZONTAL";
     public const string AXIS_RIGHT_VERTICAL = "xbox_axis_RIGHT_VERTICAL";
     public const string AXIS_TRIGGERS = "xbox_axis_TRIGGERS";
-    public const string AXIS_DPAD_HORIZONTA = "xbox_axis_DPAD_HORIZONTAL";
+    public const string AXIS_DPAD_HORIZONTAL = "xbox_axis_DPAD_HORIZONTAL";
     public const string AXIS_DPAD_VERTICAL = "xbox_axis_DPAD_VERTICAL";
 }
