@@ -8,6 +8,11 @@ public class BashDashSensor : TriggerReceiver
 
     public float _powerOfForce = 5;
 
+    public void Awake()
+    {
+        DisableSensor();
+    }
+
     public void EnableSensor() { boxCollider.enabled = true; }
     public void DisableSensor() { boxCollider.enabled = false; }
 

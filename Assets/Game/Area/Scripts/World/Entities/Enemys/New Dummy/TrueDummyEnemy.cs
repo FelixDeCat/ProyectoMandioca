@@ -210,7 +210,6 @@ public class TrueDummyEnemy : EnemyBase
 
     public override void Bashed()
     {
-        combatComponent.Stop();
         sm.SendInput(DummyEnemyInputs.PARRIED);
     }
 
