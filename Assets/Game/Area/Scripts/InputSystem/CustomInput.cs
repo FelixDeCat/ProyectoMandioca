@@ -14,24 +14,30 @@ public class CustomInput
     ClampedAxisButton DPad_Vertical = new ClampedAxisButton(UnityJoystickInputNames.AXIS_DPAD_VERTICAL);
     ClampedAxisButton Triggers = new ClampedAxisButton(UnityJoystickInputNames.AXIS_TRIGGERS);
 
-
-    #region Configurations and Subscriptions
-    public CustomInput ConfigureInput(GameActions gameaction, string buttonname)
-    {
-        if (!JoystickBindingRoute.ContainsKey(gameaction))
-            JoystickBindingRoute.Add(gameaction, buttonname);
-        return this;
-    }
-
+    #region Subscribe to generic Actions
     public CustomInput SubscribeMeTo(GameActions gameaction, BindingConfig bindingconfig)
     {
         if (!bindActionConfigurations.ContainsKey(gameaction))
         {
             bindActionConfigurations.Add(gameaction, bindingconfig);
         }
-
         return this;
     }
+    #endregion
+
+    #region Configurations and Subscriptions
+    public CustomInput ConfigureJoystickInput(GameActions gameaction, string buttonname)
+    {
+        if (!JoystickBindingRoute.ContainsKey(gameaction))
+            JoystickBindingRoute.Add(gameaction, buttonname);
+        else
+        {
+            JoystickBindingRoute[gameaction] = buttonname;
+        }
+        return this;
+    }
+
+    
     #endregion
 
     public void Refresh()
@@ -45,36 +51,11 @@ public class CustomInput
 
             switch (currentconfig.InputEventAction)
             {
-                case InputEventAction.Up:
-
-                    if (Input.GetButtonUp(JoystickBindingRoute[aux[i]]))
-                    {
-                        currentconfig.Execute();
-                    }
-
-                    break;
-                case InputEventAction.Down:
-
-                    if (Input.GetButtonDown(JoystickBindingRoute[aux[i]]))
-                    {
-                        currentconfig.Execute();
-                    }
-                    break;
-                case InputEventAction.Stay:
-
-                    if (Input.GetButton(JoystickBindingRoute[aux[i]]))
-                    {
-                        currentconfig.Execute();
-                    }
-
-                    break;
-                case InputEventAction.Axis:
-
-                    currentconfig.Execute(Input.GetAxis(JoystickBindingRoute[aux[i]]));
-
-                    break;
-                default:
-                    break;
+                case InputEventAction.Up: if (Input.GetButtonUp(JoystickBindingRoute[aux[i]])) currentconfig.Execute(); break;
+                case InputEventAction.Down: if (Input.GetButtonDown(JoystickBindingRoute[aux[i]])) currentconfig.Execute(); break;
+                case InputEventAction.Stay: if (Input.GetButton(JoystickBindingRoute[aux[i]])) currentconfig.Execute(); break;
+                case InputEventAction.Axis: currentconfig.Execute(Input.GetAxis(JoystickBindingRoute[aux[i]])); break;
+                default: break;
             }
         }
     }

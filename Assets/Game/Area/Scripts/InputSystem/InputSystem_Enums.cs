@@ -36,7 +36,7 @@ public enum InputEventAction { Up, Down, Stay, Axis }
 public static class UnityJoystickInputNames
 {
     public const string BUTTON_A = "xbox_button_A";
-    public const string BUTTON_B = "xbox_button_A";
+    public const string BUTTON_B = "xbox_button_B";
     public const string BUTTON_X = "xbox_button_X";
     public const string BUTTON_Y = "xbox_button_Y";
     public const string BUTTON_LB = "xbox_button_LB";
