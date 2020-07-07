@@ -7,7 +7,9 @@ public class SpawnWaves : MonoBehaviour
     [SerializeField] Waves _wave;
     [SerializeField] int speed;
     [SerializeField] float lifeTime;
-    [SerializeField] float angle = 0f;
+    [SerializeField] float angleHorizontal = 0f;
+    [SerializeField] float angleVertical = 0f;
+
     [SerializeField] float range = 10.0f;
     // Start is called before the first frame update
     void Start()
@@ -26,8 +28,8 @@ public class SpawnWaves : MonoBehaviour
         Vector3 center = transform.position + transform.forward * range;
 
         int aux = Random.Range(0, 360);
-        if(!onlyBorders) center += new Vector3(0, Mathf.Sin(aux * Mathf.Deg2Rad) * Random.value, Mathf.Cos(aux * Mathf.Deg2Rad) * Random.value) * angle;
-        else center += new Vector3(0, Mathf.Sin(aux * Mathf.Deg2Rad), Mathf.Cos(aux * Mathf.Deg2Rad)) * angle;
+        if(!onlyBorders) center += new Vector3(0, Mathf.Sin(aux * Mathf.Deg2Rad) * Random.value *angleVertical,  Mathf.Cos(aux * Mathf.Deg2Rad) * Random.value * angleHorizontal) ;
+        else center += new Vector3(0, Mathf.Sin(aux * Mathf.Deg2Rad) * angleVertical, Mathf.Cos(aux * Mathf.Deg2Rad) *angleHorizontal);
 
         var wave = Instantiate(_wave);
         wave.transform.position = transform.position;
@@ -52,13 +54,13 @@ public class SpawnWaves : MonoBehaviour
             Vector3 center = transform.forward * range;
             if (i == 0)
                 aux = center;
-            center += new Vector3(0, Mathf.Sin(internalAngle * Mathf.Deg2Rad), Mathf.Cos(internalAngle * Mathf.Deg2Rad)) * angle;
+            center += new Vector3(0, Mathf.Sin(internalAngle * Mathf.Deg2Rad) * angleVertical, Mathf.Cos(internalAngle * Mathf.Deg2Rad) * angleHorizontal);
 
             Gizmos.DrawRay(transform.position, center);
 
             if (i == 0)
             {
-                aux += new Vector3(0, Mathf.Sin(rot * (ammount-1) * Mathf.Deg2Rad), Mathf.Cos(rot * (ammount - 1) * Mathf.Deg2Rad)) * angle;
+                aux += new Vector3(0, Mathf.Sin(rot * (ammount-1) * Mathf.Deg2Rad)* angleVertical, Mathf.Cos(rot * (ammount - 1) * Mathf.Deg2Rad) * angleHorizontal);
                 Gizmos.DrawRay(transform.position + aux, center - aux);
             }else
             {

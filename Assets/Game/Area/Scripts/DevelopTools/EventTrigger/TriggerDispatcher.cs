@@ -12,7 +12,7 @@ public class TriggerDispatcher : MonoBehaviour
 
     [SerializeField] TriggerReceiver[] receivers;
 
-    [SerializeField] Entities entitiesCanTrigger;
+    [SerializeField] Entities entitiesThatCanTrigger;
 
     private void OnTriggerEnter(Collider other)
     {
@@ -52,7 +52,7 @@ public class TriggerDispatcher : MonoBehaviour
 
     public bool CheckCollision(Collider other)
     {
-        switch (entitiesCanTrigger)
+        switch (entitiesThatCanTrigger)
         {
             case Entities.all:
                 return other.GetComponent<WalkingEntity>();
