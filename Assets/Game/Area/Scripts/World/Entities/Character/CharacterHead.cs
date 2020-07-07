@@ -99,6 +99,8 @@ public class CharacterHead : CharacterControllable
     [SerializeField] DamageData dmgData;
     [SerializeField] DamageReceiver dmgReceiver;
 
+    public BashDashSensor bashDash;
+
     CustomCamera customCam;
 
     [SerializeField] GameObject go_StunFeedback = null;
@@ -415,7 +417,7 @@ public class CharacterHead : CharacterControllable
             .SetMovement(this.move)
             .SetBlock(charBlock);
 
-        new CharRoll(roll, stateMachine, evadeParticle)
+        new CharRoll(roll, stateMachine, evadeParticle, BeginBashDash, StopBashDash)
             .SetMovement(this.move)
             .SetBlock(charBlock);
 
@@ -502,6 +504,9 @@ public class CharacterHead : CharacterControllable
         stateMachine.SendInput(PlayerInputs.IDLE);
     }
     #endregion
+
+    public void BeginBashDash() => bashDash.EnableSensor();
+    public void StopBashDash() => bashDash.DisableSensor();
 
     public void StartSpin(float _spinDuration, float _spinSpeed, float _stunDuration)
     {

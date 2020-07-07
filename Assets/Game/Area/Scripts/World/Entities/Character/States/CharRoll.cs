@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System;
 
 namespace Tools.StateMachine
 {
@@ -10,9 +11,14 @@ namespace Tools.StateMachine
     {
         ParticleSystem evadepart;
 
-        public CharRoll(EState<CharacterHead.PlayerInputs> myState, EventStateMachine<CharacterHead.PlayerInputs> _sm, ParticleSystem _evadepart) : base(myState, _sm)
+        public Action BeginBashDashCallback;
+        public Action EndBashDashCallback;
+
+        public CharRoll(EState<CharacterHead.PlayerInputs> myState, EventStateMachine<CharacterHead.PlayerInputs> _sm, ParticleSystem _evadepart, Action _BeginbashDashCallback, Action _EndBashDash) : base(myState, _sm)
         {
             evadepart = _evadepart;
+            BeginBashDashCallback = _BeginbashDashCallback;
+            EndBashDashCallback = _EndBashDash;
         }
 
         string _input;
@@ -25,11 +31,12 @@ namespace Tools.StateMachine
 
             _input = input.Name;
 
-            //if (input.Name == "Begin_Block" || input.Name == "Block")
-            //{
-            //    Debug.Log("ANIMACION COMPLETA DE DASH CON ESCUDO");
-            //    charBlock.UpBlock();
-            //}
+            if (input.Name == "Begin_Block" || input.Name == "Block")
+            {
+                BeginBashDashCallback.Invoke();
+               // Debug.Log("ANIMACION COMPLETA DE DASH CON ESCUDO");
+                //charBlock.UpBlock();
+            }
 
             charMove.Dash();
         }
@@ -55,6 +62,7 @@ namespace Tools.StateMachine
 
             if (_input == "Begin_Block" || _input == "Block")
             {
+                EndBashDashCallback.Invoke();
                 charBlock.callback_UpBlock();
                 charBlock.SetOnBlock(false);
             }

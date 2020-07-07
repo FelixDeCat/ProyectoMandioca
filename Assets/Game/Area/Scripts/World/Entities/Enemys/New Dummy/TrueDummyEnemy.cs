@@ -58,11 +58,9 @@ public class TrueDummyEnemy : EnemyBase
     [SerializeField] ParticleSystem _spawnParticules;
 
     [SerializeField] EffectBase petrifyEffect;
-    
-
     EventStateMachine<DummyEnemyInputs> sm;
 
-    
+    public DataBaseDummyParticles particles;
 
     protected override void OnInitialize()
     {
@@ -93,8 +91,6 @@ public class TrueDummyEnemy : EnemyBase
         petrifyEffect?.AddStartCallback(() => sm.SendInput(DummyEnemyInputs.PETRIFIED));
         petrifyEffect?.AddEndCallback(() => sm.SendInput(DummyEnemyInputs.IDLE));
     }
-
-
     protected override void OnReset()
     {
         ragdoll.Ragdoll(false, Vector3.zero);
@@ -104,12 +100,10 @@ public class TrueDummyEnemy : EnemyBase
         //Debug.Log("Player enter the room");
         IAInitialize(Main.instance.GetCombatDirector());
     }
-
     public override void Zone_OnPlayerEnterInThisRoom(Transform who)
     {
         sm.SendInput(DummyEnemyInputs.DISABLE);
     }
-
     public override void IAInitialize(CombatDirector _director)
     {
         director = _director;
@@ -124,7 +118,6 @@ public class TrueDummyEnemy : EnemyBase
 
         canupdate = true;
     }
-
     protected override void OnUpdateEntity()
     {
         if (canupdate)
@@ -176,7 +169,6 @@ public class TrueDummyEnemy : EnemyBase
             }
         }
     }
-
     protected override void OnPause() { }
     protected override void OnResume() { }
 
@@ -215,6 +207,12 @@ public class TrueDummyEnemy : EnemyBase
     #region Life Things
 
     public GenericLifeSystem Life() => lifesystem;
+
+    public override void Bashed()
+    {
+        combatComponent.Stop();
+        sm.SendInput(DummyEnemyInputs.PARRIED);
+    }
 
     protected override void TakeDamageFeedback(DamageData data)
     {
@@ -449,4 +447,15 @@ public class TrueDummyEnemy : EnemyBase
     void StartDebug() { if (txt_debug != null) txt_debug.enabled = DevelopToolsCenter.instance.EnemyDebuggingIsActive(); }// inicializacion
     #endregion
 
+
+    [System.Serializable]
+    public class DataBaseDummyParticles
+    {
+
+    }
+    [System.Serializable]
+    public class DummyAudioClipsDataBase
+    {
+
+    }
 }

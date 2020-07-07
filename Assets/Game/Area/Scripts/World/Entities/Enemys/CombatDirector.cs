@@ -28,7 +28,7 @@ public class CombatDirector : LoadComponent, IZoneElement
     #region Entrada
     protected override IEnumerator LoadMe()
     {
-        Debug.Log("entra al debug");
+
         run = true;
         Main.instance.eventManager.SubscribeToEvent(GameEvents.COMBAT_ENTER, RunCheck);
         Main.instance.eventManager.SubscribeToEvent(GameEvents.COMBAT_EXIT, RunCheck);

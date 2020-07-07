@@ -94,11 +94,18 @@ public abstract class EnemyBase : NPCBase, ICombatDirector
     protected abstract void Die(Vector3 dir);
     protected abstract bool IsDamage();
     protected virtual void InmuneFeedback() { }
+
+
     #endregion
 
     public void AddForceToRb(Vector3 dir, float knockbackForce, ForceMode forceMode)
     {
         rb.AddForce(dir.normalized * knockbackForce, forceMode);
+    }
+
+    public virtual void Bashed()
+    {
+
     }
 
     public IEnumerator OnHitted(Material[] myMat, float onHitFlashTime, Color onHitColor)

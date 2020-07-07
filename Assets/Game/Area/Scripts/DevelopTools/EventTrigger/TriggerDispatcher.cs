@@ -45,7 +45,7 @@ public class TriggerDispatcher : MonoBehaviour
 
             foreach (var r in receivers)
             {
-                r.Execute();
+                r.Execute(other);
             }
         }               
     }
