@@ -260,7 +260,17 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+  OnTriggerStayEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  OnTriggerExitEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  OnTriggerLateEnterEvent:
+    m_PersistentCalls:
+      m_Calls: []
   receivers: []
+  entitiesThatCanTrigger: 0
 --- !u!65 &6687653
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -671,7 +681,17 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+  OnTriggerStayEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  OnTriggerExitEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  OnTriggerLateEnterEvent:
+    m_PersistentCalls:
+      m_Calls: []
   receivers: []
+  entitiesThatCanTrigger: 0
 --- !u!65 &22397677
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -1152,6 +1172,86 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 31351609}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!1001 &32360203
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 93530780}
+    m_Modifications:
+    - target: {fileID: 8884592245503462425, guid: f99c35046b443a446a90b55d377b5023,
+        type: 3}
+      propertyPath: m_Name
+      value: teleport_name (5)
+      objectReference: {fileID: 0}
+    - target: {fileID: 8884592245503462430, guid: f99c35046b443a446a90b55d377b5023,
+        type: 3}
+      propertyPath: transform_destino
+      value: 
+      objectReference: {fileID: 1865142987}
+    - target: {fileID: 8884592245503462431, guid: f99c35046b443a446a90b55d377b5023,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 36.64
+      objectReference: {fileID: 0}
+    - target: {fileID: 8884592245503462431, guid: f99c35046b443a446a90b55d377b5023,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 11.35
+      objectReference: {fileID: 0}
+    - target: {fileID: 8884592245503462431, guid: f99c35046b443a446a90b55d377b5023,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -1.38
+      objectReference: {fileID: 0}
+    - target: {fileID: 8884592245503462431, guid: f99c35046b443a446a90b55d377b5023,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8884592245503462431, guid: f99c35046b443a446a90b55d377b5023,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8884592245503462431, guid: f99c35046b443a446a90b55d377b5023,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8884592245503462431, guid: f99c35046b443a446a90b55d377b5023,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8884592245503462431, guid: f99c35046b443a446a90b55d377b5023,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 8884592245503462431, guid: f99c35046b443a446a90b55d377b5023,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8884592245503462431, guid: f99c35046b443a446a90b55d377b5023,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8884592245503462431, guid: f99c35046b443a446a90b55d377b5023,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: f99c35046b443a446a90b55d377b5023, type: 3}
+--- !u!4 &32360204 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 8884592245503462431, guid: f99c35046b443a446a90b55d377b5023,
+    type: 3}
+  m_PrefabInstance: {fileID: 32360203}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &37219982
 GameObject:
   m_ObjectHideFlags: 0
@@ -1666,7 +1766,17 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+  OnTriggerStayEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  OnTriggerExitEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  OnTriggerLateEnterEvent:
+    m_PersistentCalls:
+      m_Calls: []
   receivers: []
+  entitiesThatCanTrigger: 0
 --- !u!65 &56828923
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -2643,6 +2753,44 @@ SkinnedMeshRenderer:
     m_Center: {x: -0.00000035762787, y: -0.17996922, z: -0.00025109854}
     m_Extent: {x: 0.87824196, y: 0.21834913, z: 0.02663301}
   m_DirtyAABB: 0
+--- !u!1 &93530779
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 93530780}
+  m_Layer: 0
+  m_Name: Teleports
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &93530780
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 93530779}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children:
+  - {fileID: 145478357}
+  - {fileID: 879856901}
+  - {fileID: 941569258}
+  - {fileID: 813144167}
+  - {fileID: 1865142987}
+  - {fileID: 32360204}
+  - {fileID: 1410375534}
+  - {fileID: 173153796}
+  m_Father: {fileID: 0}
+  m_RootOrder: 19
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &97599129
 GameObject:
   m_ObjectHideFlags: 0
@@ -2873,7 +3021,17 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+  OnTriggerStayEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  OnTriggerExitEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  OnTriggerLateEnterEvent:
+    m_PersistentCalls:
+      m_Calls: []
   receivers: []
+  entitiesThatCanTrigger: 0
 --- !u!65 &111372098
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -3365,7 +3523,17 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+  OnTriggerStayEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  OnTriggerExitEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  OnTriggerLateEnterEvent:
+    m_PersistentCalls:
+      m_Calls: []
   receivers: []
+  entitiesThatCanTrigger: 0
 --- !u!65 &137254287
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -3612,7 +3780,17 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+  OnTriggerStayEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  OnTriggerExitEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  OnTriggerLateEnterEvent:
+    m_PersistentCalls:
+      m_Calls: []
   receivers: []
+  entitiesThatCanTrigger: 0
 --- !u!65 &141657394
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -3672,6 +3850,86 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 141657391}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!1001 &145478356
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 93530780}
+    m_Modifications:
+    - target: {fileID: 8884592245503462425, guid: f99c35046b443a446a90b55d377b5023,
+        type: 3}
+      propertyPath: m_Name
+      value: teleport_name (1)
+      objectReference: {fileID: 0}
+    - target: {fileID: 8884592245503462430, guid: f99c35046b443a446a90b55d377b5023,
+        type: 3}
+      propertyPath: transform_destino
+      value: 
+      objectReference: {fileID: 879856901}
+    - target: {fileID: 8884592245503462431, guid: f99c35046b443a446a90b55d377b5023,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 35.6
+      objectReference: {fileID: 0}
+    - target: {fileID: 8884592245503462431, guid: f99c35046b443a446a90b55d377b5023,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 11.35
+      objectReference: {fileID: 0}
+    - target: {fileID: 8884592245503462431, guid: f99c35046b443a446a90b55d377b5023,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -132.7
+      objectReference: {fileID: 0}
+    - target: {fileID: 8884592245503462431, guid: f99c35046b443a446a90b55d377b5023,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8884592245503462431, guid: f99c35046b443a446a90b55d377b5023,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8884592245503462431, guid: f99c35046b443a446a90b55d377b5023,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8884592245503462431, guid: f99c35046b443a446a90b55d377b5023,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8884592245503462431, guid: f99c35046b443a446a90b55d377b5023,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8884592245503462431, guid: f99c35046b443a446a90b55d377b5023,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8884592245503462431, guid: f99c35046b443a446a90b55d377b5023,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8884592245503462431, guid: f99c35046b443a446a90b55d377b5023,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: f99c35046b443a446a90b55d377b5023, type: 3}
+--- !u!4 &145478357 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 8884592245503462431, guid: f99c35046b443a446a90b55d377b5023,
+    type: 3}
+  m_PrefabInstance: {fileID: 145478356}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &148871695
 GameObject:
   m_ObjectHideFlags: 0
@@ -3855,7 +4113,17 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+  OnTriggerStayEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  OnTriggerExitEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  OnTriggerLateEnterEvent:
+    m_PersistentCalls:
+      m_Calls: []
   receivers: []
+  entitiesThatCanTrigger: 0
 --- !u!65 &149944418
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -4337,7 +4605,17 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+  OnTriggerStayEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  OnTriggerExitEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  OnTriggerLateEnterEvent:
+    m_PersistentCalls:
+      m_Calls: []
   receivers: []
+  entitiesThatCanTrigger: 0
 --- !u!65 &166883811
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -4397,6 +4675,86 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 166883808}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!1001 &173153795
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 93530780}
+    m_Modifications:
+    - target: {fileID: 8884592245503462425, guid: f99c35046b443a446a90b55d377b5023,
+        type: 3}
+      propertyPath: m_Name
+      value: teleport_name (7)
+      objectReference: {fileID: 0}
+    - target: {fileID: 8884592245503462430, guid: f99c35046b443a446a90b55d377b5023,
+        type: 3}
+      propertyPath: transform_destino
+      value: 
+      objectReference: {fileID: 1410375534}
+    - target: {fileID: 8884592245503462431, guid: f99c35046b443a446a90b55d377b5023,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 35.27
+      objectReference: {fileID: 0}
+    - target: {fileID: 8884592245503462431, guid: f99c35046b443a446a90b55d377b5023,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 5.4
+      objectReference: {fileID: 0}
+    - target: {fileID: 8884592245503462431, guid: f99c35046b443a446a90b55d377b5023,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 38.81
+      objectReference: {fileID: 0}
+    - target: {fileID: 8884592245503462431, guid: f99c35046b443a446a90b55d377b5023,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8884592245503462431, guid: f99c35046b443a446a90b55d377b5023,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8884592245503462431, guid: f99c35046b443a446a90b55d377b5023,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8884592245503462431, guid: f99c35046b443a446a90b55d377b5023,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8884592245503462431, guid: f99c35046b443a446a90b55d377b5023,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 8884592245503462431, guid: f99c35046b443a446a90b55d377b5023,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8884592245503462431, guid: f99c35046b443a446a90b55d377b5023,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8884592245503462431, guid: f99c35046b443a446a90b55d377b5023,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: f99c35046b443a446a90b55d377b5023, type: 3}
+--- !u!4 &173153796 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 8884592245503462431, guid: f99c35046b443a446a90b55d377b5023,
+    type: 3}
+  m_PrefabInstance: {fileID: 173153795}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &177091623
 GameObject:
   m_ObjectHideFlags: 0
@@ -4457,7 +4815,17 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+  OnTriggerStayEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  OnTriggerExitEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  OnTriggerLateEnterEvent:
+    m_PersistentCalls:
+      m_Calls: []
   receivers: []
+  entitiesThatCanTrigger: 0
 --- !u!65 &177091626
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -4879,7 +5247,17 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+  OnTriggerStayEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  OnTriggerExitEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  OnTriggerLateEnterEvent:
+    m_PersistentCalls:
+      m_Calls: []
   receivers: []
+  entitiesThatCanTrigger: 0
 --- !u!65 &196290293
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -5510,7 +5888,17 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+  OnTriggerStayEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  OnTriggerExitEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  OnTriggerLateEnterEvent:
+    m_PersistentCalls:
+      m_Calls: []
   receivers: []
+  entitiesThatCanTrigger: 0
 --- !u!65 &228976367
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -5630,7 +6018,17 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+  OnTriggerStayEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  OnTriggerExitEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  OnTriggerLateEnterEvent:
+    m_PersistentCalls:
+      m_Calls: []
   receivers: []
+  entitiesThatCanTrigger: 0
 --- !u!65 &229982385
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -5750,7 +6148,17 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+  OnTriggerStayEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  OnTriggerExitEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  OnTriggerLateEnterEvent:
+    m_PersistentCalls:
+      m_Calls: []
   receivers: []
+  entitiesThatCanTrigger: 0
 --- !u!65 &232091540
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -5993,7 +6401,17 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+  OnTriggerStayEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  OnTriggerExitEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  OnTriggerLateEnterEvent:
+    m_PersistentCalls:
+      m_Calls: []
   receivers: []
+  entitiesThatCanTrigger: 0
 --- !u!65 &233532482
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -6701,7 +7119,17 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+  OnTriggerStayEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  OnTriggerExitEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  OnTriggerLateEnterEvent:
+    m_PersistentCalls:
+      m_Calls: []
   receivers: []
+  entitiesThatCanTrigger: 0
 --- !u!65 &262008283
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -7022,7 +7450,17 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+  OnTriggerStayEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  OnTriggerExitEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  OnTriggerLateEnterEvent:
+    m_PersistentCalls:
+      m_Calls: []
   receivers: []
+  entitiesThatCanTrigger: 0
 --- !u!65 &268399967
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -7636,7 +8074,17 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+  OnTriggerStayEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  OnTriggerExitEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  OnTriggerLateEnterEvent:
+    m_PersistentCalls:
+      m_Calls: []
   receivers: []
+  entitiesThatCanTrigger: 0
 --- !u!65 &277139434
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -8413,7 +8861,17 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+  OnTriggerStayEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  OnTriggerExitEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  OnTriggerLateEnterEvent:
+    m_PersistentCalls:
+      m_Calls: []
   receivers: []
+  entitiesThatCanTrigger: 0
 --- !u!65 &302921276
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -9226,7 +9684,17 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+  OnTriggerStayEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  OnTriggerExitEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  OnTriggerLateEnterEvent:
+    m_PersistentCalls:
+      m_Calls: []
   receivers: []
+  entitiesThatCanTrigger: 0
 --- !u!65 &331490435
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -9606,7 +10074,17 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+  OnTriggerStayEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  OnTriggerExitEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  OnTriggerLateEnterEvent:
+    m_PersistentCalls:
+      m_Calls: []
   receivers: []
+  entitiesThatCanTrigger: 0
 --- !u!65 &345994926
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -9726,7 +10204,17 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+  OnTriggerStayEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  OnTriggerExitEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  OnTriggerLateEnterEvent:
+    m_PersistentCalls:
+      m_Calls: []
   receivers: []
+  entitiesThatCanTrigger: 0
 --- !u!65 &346892448
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -10219,7 +10707,17 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+  OnTriggerStayEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  OnTriggerExitEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  OnTriggerLateEnterEvent:
+    m_PersistentCalls:
+      m_Calls: []
   receivers: []
+  entitiesThatCanTrigger: 0
 --- !u!65 &354543775
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -10756,7 +11254,17 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+  OnTriggerStayEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  OnTriggerExitEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  OnTriggerLateEnterEvent:
+    m_PersistentCalls:
+      m_Calls: []
   receivers: []
+  entitiesThatCanTrigger: 0
 --- !u!65 &385586765
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -11745,7 +12253,17 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+  OnTriggerStayEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  OnTriggerExitEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  OnTriggerLateEnterEvent:
+    m_PersistentCalls:
+      m_Calls: []
   receivers: []
+  entitiesThatCanTrigger: 0
 --- !u!65 &411396431
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -12395,7 +12913,17 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+  OnTriggerStayEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  OnTriggerExitEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  OnTriggerLateEnterEvent:
+    m_PersistentCalls:
+      m_Calls: []
   receivers: []
+  entitiesThatCanTrigger: 0
 --- !u!65 &461060826
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -12809,7 +13337,17 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+  OnTriggerStayEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  OnTriggerExitEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  OnTriggerLateEnterEvent:
+    m_PersistentCalls:
+      m_Calls: []
   receivers: []
+  entitiesThatCanTrigger: 0
 --- !u!65 &474595406
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -13008,7 +13546,17 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+  OnTriggerStayEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  OnTriggerExitEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  OnTriggerLateEnterEvent:
+    m_PersistentCalls:
+      m_Calls: []
   receivers: []
+  entitiesThatCanTrigger: 0
 --- !u!65 &480438658
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -13362,7 +13910,17 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+  OnTriggerStayEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  OnTriggerExitEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  OnTriggerLateEnterEvent:
+    m_PersistentCalls:
+      m_Calls: []
   receivers: []
+  entitiesThatCanTrigger: 0
 --- !u!65 &497140117
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -13574,7 +14132,17 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+  OnTriggerStayEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  OnTriggerExitEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  OnTriggerLateEnterEvent:
+    m_PersistentCalls:
+      m_Calls: []
   receivers: []
+  entitiesThatCanTrigger: 0
 --- !u!65 &499729724
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -14019,7 +14587,17 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+  OnTriggerStayEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  OnTriggerExitEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  OnTriggerLateEnterEvent:
+    m_PersistentCalls:
+      m_Calls: []
   receivers: []
+  entitiesThatCanTrigger: 0
 --- !u!65 &512160184
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -14815,7 +15393,17 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+  OnTriggerStayEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  OnTriggerExitEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  OnTriggerLateEnterEvent:
+    m_PersistentCalls:
+      m_Calls: []
   receivers: []
+  entitiesThatCanTrigger: 0
 --- !u!65 &527290835
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -15027,7 +15615,17 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+  OnTriggerStayEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  OnTriggerExitEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  OnTriggerLateEnterEvent:
+    m_PersistentCalls:
+      m_Calls: []
   receivers: []
+  entitiesThatCanTrigger: 0
 --- !u!65 &530297686
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -15970,7 +16568,17 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+  OnTriggerStayEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  OnTriggerExitEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  OnTriggerLateEnterEvent:
+    m_PersistentCalls:
+      m_Calls: []
   receivers: []
+  entitiesThatCanTrigger: 0
 --- !u!65 &557426143
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -16090,7 +16698,17 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+  OnTriggerStayEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  OnTriggerExitEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  OnTriggerLateEnterEvent:
+    m_PersistentCalls:
+      m_Calls: []
   receivers: []
+  entitiesThatCanTrigger: 0
 --- !u!65 &558773152
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -16614,7 +17232,17 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+  OnTriggerStayEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  OnTriggerExitEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  OnTriggerLateEnterEvent:
+    m_PersistentCalls:
+      m_Calls: []
   receivers: []
+  entitiesThatCanTrigger: 0
 --- !u!65 &571621420
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -19304,7 +19932,17 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+  OnTriggerStayEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  OnTriggerExitEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  OnTriggerLateEnterEvent:
+    m_PersistentCalls:
+      m_Calls: []
   receivers: []
+  entitiesThatCanTrigger: 0
 --- !u!65 &656966029
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -20016,7 +20654,17 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+  OnTriggerStayEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  OnTriggerExitEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  OnTriggerLateEnterEvent:
+    m_PersistentCalls:
+      m_Calls: []
   receivers: []
+  entitiesThatCanTrigger: 0
 --- !u!65 &686122429
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -20136,7 +20784,17 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+  OnTriggerStayEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  OnTriggerExitEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  OnTriggerLateEnterEvent:
+    m_PersistentCalls:
+      m_Calls: []
   receivers: []
+  entitiesThatCanTrigger: 0
 --- !u!65 &693125146
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -21042,7 +21700,17 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+  OnTriggerStayEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  OnTriggerExitEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  OnTriggerLateEnterEvent:
+    m_PersistentCalls:
+      m_Calls: []
   receivers: []
+  entitiesThatCanTrigger: 0
 --- !u!65 &721252529
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -21512,7 +22180,17 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+  OnTriggerStayEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  OnTriggerExitEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  OnTriggerLateEnterEvent:
+    m_PersistentCalls:
+      m_Calls: []
   receivers: []
+  entitiesThatCanTrigger: 0
 --- !u!65 &735107034
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -22075,7 +22753,17 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+  OnTriggerStayEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  OnTriggerExitEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  OnTriggerLateEnterEvent:
+    m_PersistentCalls:
+      m_Calls: []
   receivers: []
+  entitiesThatCanTrigger: 0
 --- !u!65 &753474511
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -22287,7 +22975,17 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+  OnTriggerStayEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  OnTriggerExitEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  OnTriggerLateEnterEvent:
+    m_PersistentCalls:
+      m_Calls: []
   receivers: []
+  entitiesThatCanTrigger: 0
 --- !u!65 &764092947
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -22407,7 +23105,17 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+  OnTriggerStayEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  OnTriggerExitEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  OnTriggerLateEnterEvent:
+    m_PersistentCalls:
+      m_Calls: []
   receivers: []
+  entitiesThatCanTrigger: 0
 --- !u!65 &766712321
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -22527,7 +23235,17 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+  OnTriggerStayEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  OnTriggerExitEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  OnTriggerLateEnterEvent:
+    m_PersistentCalls:
+      m_Calls: []
   receivers: []
+  entitiesThatCanTrigger: 0
 --- !u!65 &768953534
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -22956,7 +23674,17 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+  OnTriggerStayEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  OnTriggerExitEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  OnTriggerLateEnterEvent:
+    m_PersistentCalls:
+      m_Calls: []
   receivers: []
+  entitiesThatCanTrigger: 0
 --- !u!65 &779820505
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -23522,7 +24250,17 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+  OnTriggerStayEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  OnTriggerExitEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  OnTriggerLateEnterEvent:
+    m_PersistentCalls:
+      m_Calls: []
   receivers: []
+  entitiesThatCanTrigger: 0
 --- !u!65 &790647663
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -23642,7 +24380,17 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+  OnTriggerStayEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  OnTriggerExitEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  OnTriggerLateEnterEvent:
+    m_PersistentCalls:
+      m_Calls: []
   receivers: []
+  entitiesThatCanTrigger: 0
 --- !u!65 &793076068
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -23762,7 +24510,17 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+  OnTriggerStayEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  OnTriggerExitEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  OnTriggerLateEnterEvent:
+    m_PersistentCalls:
+      m_Calls: []
   receivers: []
+  entitiesThatCanTrigger: 0
 --- !u!65 &793125237
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -23882,7 +24640,17 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+  OnTriggerStayEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  OnTriggerExitEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  OnTriggerLateEnterEvent:
+    m_PersistentCalls:
+      m_Calls: []
   receivers: []
+  entitiesThatCanTrigger: 0
 --- !u!65 &793607242
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -24126,7 +24894,17 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+  OnTriggerStayEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  OnTriggerExitEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  OnTriggerLateEnterEvent:
+    m_PersistentCalls:
+      m_Calls: []
   receivers: []
+  entitiesThatCanTrigger: 0
 --- !u!65 &803736102
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -24576,6 +25354,86 @@ Transform:
   m_Father: {fileID: 1956671388}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1001 &813144166
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 93530780}
+    m_Modifications:
+    - target: {fileID: 8884592245503462425, guid: f99c35046b443a446a90b55d377b5023,
+        type: 3}
+      propertyPath: m_Name
+      value: teleport_name (3)
+      objectReference: {fileID: 0}
+    - target: {fileID: 8884592245503462430, guid: f99c35046b443a446a90b55d377b5023,
+        type: 3}
+      propertyPath: transform_destino
+      value: 
+      objectReference: {fileID: 941569258}
+    - target: {fileID: 8884592245503462431, guid: f99c35046b443a446a90b55d377b5023,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 35.6
+      objectReference: {fileID: 0}
+    - target: {fileID: 8884592245503462431, guid: f99c35046b443a446a90b55d377b5023,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 11.35
+      objectReference: {fileID: 0}
+    - target: {fileID: 8884592245503462431, guid: f99c35046b443a446a90b55d377b5023,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -99.68
+      objectReference: {fileID: 0}
+    - target: {fileID: 8884592245503462431, guid: f99c35046b443a446a90b55d377b5023,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8884592245503462431, guid: f99c35046b443a446a90b55d377b5023,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8884592245503462431, guid: f99c35046b443a446a90b55d377b5023,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8884592245503462431, guid: f99c35046b443a446a90b55d377b5023,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8884592245503462431, guid: f99c35046b443a446a90b55d377b5023,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 8884592245503462431, guid: f99c35046b443a446a90b55d377b5023,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8884592245503462431, guid: f99c35046b443a446a90b55d377b5023,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8884592245503462431, guid: f99c35046b443a446a90b55d377b5023,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: f99c35046b443a446a90b55d377b5023, type: 3}
+--- !u!4 &813144167 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 8884592245503462431, guid: f99c35046b443a446a90b55d377b5023,
+    type: 3}
+  m_PrefabInstance: {fileID: 813144166}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &813568536
 GameObject:
   m_ObjectHideFlags: 0
@@ -24636,7 +25494,17 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+  OnTriggerStayEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  OnTriggerExitEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  OnTriggerLateEnterEvent:
+    m_PersistentCalls:
+      m_Calls: []
   receivers: []
+  entitiesThatCanTrigger: 0
 --- !u!65 &813568539
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -24870,7 +25738,17 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+  OnTriggerStayEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  OnTriggerExitEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  OnTriggerLateEnterEvent:
+    m_PersistentCalls:
+      m_Calls: []
   receivers: []
+  entitiesThatCanTrigger: 0
 --- !u!65 &830369259
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -25069,7 +25947,17 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+  OnTriggerStayEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  OnTriggerExitEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  OnTriggerLateEnterEvent:
+    m_PersistentCalls:
+      m_Calls: []
   receivers: []
+  entitiesThatCanTrigger: 0
 --- !u!65 &833175543
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -25859,7 +26747,17 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+  OnTriggerStayEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  OnTriggerExitEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  OnTriggerLateEnterEvent:
+    m_PersistentCalls:
+      m_Calls: []
   receivers: []
+  entitiesThatCanTrigger: 0
 --- !u!65 &845249953
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -26195,7 +27093,17 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+  OnTriggerStayEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  OnTriggerExitEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  OnTriggerLateEnterEvent:
+    m_PersistentCalls:
+      m_Calls: []
   receivers: []
+  entitiesThatCanTrigger: 0
 --- !u!65 &854312361
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -26708,7 +27616,17 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+  OnTriggerStayEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  OnTriggerExitEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  OnTriggerLateEnterEvent:
+    m_PersistentCalls:
+      m_Calls: []
   receivers: []
+  entitiesThatCanTrigger: 0
 --- !u!65 &860314983
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -26919,7 +27837,17 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+  OnTriggerStayEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  OnTriggerExitEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  OnTriggerLateEnterEvent:
+    m_PersistentCalls:
+      m_Calls: []
   receivers: []
+  entitiesThatCanTrigger: 0
 --- !u!65 &862898034
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -27132,7 +28060,17 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+  OnTriggerStayEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  OnTriggerExitEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  OnTriggerLateEnterEvent:
+    m_PersistentCalls:
+      m_Calls: []
   receivers: []
+  entitiesThatCanTrigger: 0
 --- !u!65 &874013630
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -27486,6 +28424,86 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 879036243}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!1001 &879856900
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 93530780}
+    m_Modifications:
+    - target: {fileID: 8884592245503462425, guid: f99c35046b443a446a90b55d377b5023,
+        type: 3}
+      propertyPath: m_Name
+      value: teleport_name
+      objectReference: {fileID: 0}
+    - target: {fileID: 8884592245503462430, guid: f99c35046b443a446a90b55d377b5023,
+        type: 3}
+      propertyPath: transform_destino
+      value: 
+      objectReference: {fileID: 145478357}
+    - target: {fileID: 8884592245503462431, guid: f99c35046b443a446a90b55d377b5023,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -5.75
+      objectReference: {fileID: 0}
+    - target: {fileID: 8884592245503462431, guid: f99c35046b443a446a90b55d377b5023,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 5.11
+      objectReference: {fileID: 0}
+    - target: {fileID: 8884592245503462431, guid: f99c35046b443a446a90b55d377b5023,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 9.69
+      objectReference: {fileID: 0}
+    - target: {fileID: 8884592245503462431, guid: f99c35046b443a446a90b55d377b5023,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8884592245503462431, guid: f99c35046b443a446a90b55d377b5023,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8884592245503462431, guid: f99c35046b443a446a90b55d377b5023,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8884592245503462431, guid: f99c35046b443a446a90b55d377b5023,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8884592245503462431, guid: f99c35046b443a446a90b55d377b5023,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8884592245503462431, guid: f99c35046b443a446a90b55d377b5023,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8884592245503462431, guid: f99c35046b443a446a90b55d377b5023,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8884592245503462431, guid: f99c35046b443a446a90b55d377b5023,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: f99c35046b443a446a90b55d377b5023, type: 3}
+--- !u!4 &879856901 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 8884592245503462431, guid: f99c35046b443a446a90b55d377b5023,
+    type: 3}
+  m_PrefabInstance: {fileID: 879856900}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &880151017
 GameObject:
   m_ObjectHideFlags: 0
@@ -27948,7 +28966,17 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+  OnTriggerStayEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  OnTriggerExitEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  OnTriggerLateEnterEvent:
+    m_PersistentCalls:
+      m_Calls: []
   receivers: []
+  entitiesThatCanTrigger: 0
 --- !u!65 &891234588
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -29305,7 +30333,17 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+  OnTriggerStayEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  OnTriggerExitEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  OnTriggerLateEnterEvent:
+    m_PersistentCalls:
+      m_Calls: []
   receivers: []
+  entitiesThatCanTrigger: 0
 --- !u!65 &929007612
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -29658,6 +30696,86 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 933066428}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!1001 &941569257
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 93530780}
+    m_Modifications:
+    - target: {fileID: 8884592245503462425, guid: f99c35046b443a446a90b55d377b5023,
+        type: 3}
+      propertyPath: m_Name
+      value: teleport_name (2)
+      objectReference: {fileID: 0}
+    - target: {fileID: 8884592245503462430, guid: f99c35046b443a446a90b55d377b5023,
+        type: 3}
+      propertyPath: transform_destino
+      value: 
+      objectReference: {fileID: 813144167}
+    - target: {fileID: 8884592245503462431, guid: f99c35046b443a446a90b55d377b5023,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 35.6
+      objectReference: {fileID: 0}
+    - target: {fileID: 8884592245503462431, guid: f99c35046b443a446a90b55d377b5023,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 5.4
+      objectReference: {fileID: 0}
+    - target: {fileID: 8884592245503462431, guid: f99c35046b443a446a90b55d377b5023,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -107.21
+      objectReference: {fileID: 0}
+    - target: {fileID: 8884592245503462431, guid: f99c35046b443a446a90b55d377b5023,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8884592245503462431, guid: f99c35046b443a446a90b55d377b5023,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8884592245503462431, guid: f99c35046b443a446a90b55d377b5023,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8884592245503462431, guid: f99c35046b443a446a90b55d377b5023,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8884592245503462431, guid: f99c35046b443a446a90b55d377b5023,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 8884592245503462431, guid: f99c35046b443a446a90b55d377b5023,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8884592245503462431, guid: f99c35046b443a446a90b55d377b5023,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8884592245503462431, guid: f99c35046b443a446a90b55d377b5023,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: f99c35046b443a446a90b55d377b5023, type: 3}
+--- !u!4 &941569258 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 8884592245503462431, guid: f99c35046b443a446a90b55d377b5023,
+    type: 3}
+  m_PrefabInstance: {fileID: 941569257}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &944934059
 GameObject:
   m_ObjectHideFlags: 0
@@ -29875,7 +30993,17 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+  OnTriggerStayEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  OnTriggerExitEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  OnTriggerLateEnterEvent:
+    m_PersistentCalls:
+      m_Calls: []
   receivers: []
+  entitiesThatCanTrigger: 0
 --- !u!65 &947666384
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -30244,7 +31372,17 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+  OnTriggerStayEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  OnTriggerExitEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  OnTriggerLateEnterEvent:
+    m_PersistentCalls:
+      m_Calls: []
   receivers: []
+  entitiesThatCanTrigger: 0
 --- !u!65 &958728526
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -30939,7 +32077,17 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+  OnTriggerStayEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  OnTriggerExitEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  OnTriggerLateEnterEvent:
+    m_PersistentCalls:
+      m_Calls: []
   receivers: []
+  entitiesThatCanTrigger: 0
 --- !u!65 &973054462
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -31754,7 +32902,17 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+  OnTriggerStayEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  OnTriggerExitEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  OnTriggerLateEnterEvent:
+    m_PersistentCalls:
+      m_Calls: []
   receivers: []
+  entitiesThatCanTrigger: 0
 --- !u!65 &1013510277
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -31936,7 +33094,17 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+  OnTriggerStayEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  OnTriggerExitEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  OnTriggerLateEnterEvent:
+    m_PersistentCalls:
+      m_Calls: []
   receivers: []
+  entitiesThatCanTrigger: 0
 --- !u!65 &1031580163
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -32417,7 +33585,17 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+  OnTriggerStayEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  OnTriggerExitEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  OnTriggerLateEnterEvent:
+    m_PersistentCalls:
+      m_Calls: []
   receivers: []
+  entitiesThatCanTrigger: 0
 --- !u!65 &1054221696
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -32568,7 +33746,17 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+  OnTriggerStayEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  OnTriggerExitEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  OnTriggerLateEnterEvent:
+    m_PersistentCalls:
+      m_Calls: []
   receivers: []
+  entitiesThatCanTrigger: 0
 --- !u!65 &1059781339
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -33186,7 +34374,17 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+  OnTriggerStayEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  OnTriggerExitEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  OnTriggerLateEnterEvent:
+    m_PersistentCalls:
+      m_Calls: []
   receivers: []
+  entitiesThatCanTrigger: 0
 --- !u!65 &1070825243
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -33398,7 +34596,17 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+  OnTriggerStayEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  OnTriggerExitEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  OnTriggerLateEnterEvent:
+    m_PersistentCalls:
+      m_Calls: []
   receivers: []
+  entitiesThatCanTrigger: 0
 --- !u!65 &1073425460
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -33809,7 +35017,17 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+  OnTriggerStayEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  OnTriggerExitEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  OnTriggerLateEnterEvent:
+    m_PersistentCalls:
+      m_Calls: []
   receivers: []
+  entitiesThatCanTrigger: 0
 --- !u!65 &1088752071
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -34192,7 +35410,17 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+  OnTriggerStayEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  OnTriggerExitEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  OnTriggerLateEnterEvent:
+    m_PersistentCalls:
+      m_Calls: []
   receivers: []
+  entitiesThatCanTrigger: 0
 --- !u!65 &1098716296
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -35019,7 +36247,17 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+  OnTriggerStayEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  OnTriggerExitEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  OnTriggerLateEnterEvent:
+    m_PersistentCalls:
+      m_Calls: []
   receivers: []
+  entitiesThatCanTrigger: 0
 --- !u!65 &1123743681
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -35448,7 +36686,17 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+  OnTriggerStayEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  OnTriggerExitEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  OnTriggerLateEnterEvent:
+    m_PersistentCalls:
+      m_Calls: []
   receivers: []
+  entitiesThatCanTrigger: 0
 --- !u!65 &1129461448
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -35862,7 +37110,17 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+  OnTriggerStayEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  OnTriggerExitEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  OnTriggerLateEnterEvent:
+    m_PersistentCalls:
+      m_Calls: []
   receivers: []
+  entitiesThatCanTrigger: 0
 --- !u!65 &1136167854
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -36184,7 +37442,17 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+  OnTriggerStayEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  OnTriggerExitEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  OnTriggerLateEnterEvent:
+    m_PersistentCalls:
+      m_Calls: []
   receivers: []
+  entitiesThatCanTrigger: 0
 --- !u!65 &1143695607
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -36304,7 +37572,17 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+  OnTriggerStayEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  OnTriggerExitEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  OnTriggerLateEnterEvent:
+    m_PersistentCalls:
+      m_Calls: []
   receivers: []
+  entitiesThatCanTrigger: 0
 --- !u!65 &1144844187
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -36786,7 +38064,17 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+  OnTriggerStayEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  OnTriggerExitEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  OnTriggerLateEnterEvent:
+    m_PersistentCalls:
+      m_Calls: []
   receivers: []
+  entitiesThatCanTrigger: 0
 --- !u!65 &1159799697
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -36998,7 +38286,17 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+  OnTriggerStayEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  OnTriggerExitEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  OnTriggerLateEnterEvent:
+    m_PersistentCalls:
+      m_Calls: []
   receivers: []
+  entitiesThatCanTrigger: 0
 --- !u!65 &1161385846
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -37118,7 +38416,17 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+  OnTriggerStayEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  OnTriggerExitEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  OnTriggerLateEnterEvent:
+    m_PersistentCalls:
+      m_Calls: []
   receivers: []
+  entitiesThatCanTrigger: 0
 --- !u!65 &1164085475
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -37238,7 +38546,17 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+  OnTriggerStayEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  OnTriggerExitEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  OnTriggerLateEnterEvent:
+    m_PersistentCalls:
+      m_Calls: []
   receivers: []
+  entitiesThatCanTrigger: 0
 --- !u!65 &1167712356
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -37388,7 +38706,17 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+  OnTriggerStayEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  OnTriggerExitEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  OnTriggerLateEnterEvent:
+    m_PersistentCalls:
+      m_Calls: []
   receivers: []
+  entitiesThatCanTrigger: 0
 --- !u!65 &1179650419
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -37726,7 +39054,17 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+  OnTriggerStayEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  OnTriggerExitEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  OnTriggerLateEnterEvent:
+    m_PersistentCalls:
+      m_Calls: []
   receivers: []
+  entitiesThatCanTrigger: 0
 --- !u!65 &1194314731
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -38047,7 +39385,17 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+  OnTriggerStayEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  OnTriggerExitEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  OnTriggerLateEnterEvent:
+    m_PersistentCalls:
+      m_Calls: []
   receivers: []
+  entitiesThatCanTrigger: 0
 --- !u!65 &1218933941
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -38576,7 +39924,17 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+  OnTriggerStayEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  OnTriggerExitEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  OnTriggerLateEnterEvent:
+    m_PersistentCalls:
+      m_Calls: []
   receivers: []
+  entitiesThatCanTrigger: 0
 --- !u!65 &1244256768
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -38911,7 +40269,17 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+  OnTriggerStayEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  OnTriggerExitEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  OnTriggerLateEnterEvent:
+    m_PersistentCalls:
+      m_Calls: []
   receivers: []
+  entitiesThatCanTrigger: 0
 --- !u!65 &1252472836
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -39031,7 +40399,17 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+  OnTriggerStayEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  OnTriggerExitEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  OnTriggerLateEnterEvent:
+    m_PersistentCalls:
+      m_Calls: []
   receivers: []
+  entitiesThatCanTrigger: 0
 --- !u!65 &1261387129
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -39274,7 +40652,17 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+  OnTriggerStayEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  OnTriggerExitEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  OnTriggerLateEnterEvent:
+    m_PersistentCalls:
+      m_Calls: []
   receivers: []
+  entitiesThatCanTrigger: 0
 --- !u!65 &1263725970
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -40079,7 +41467,17 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+  OnTriggerStayEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  OnTriggerExitEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  OnTriggerLateEnterEvent:
+    m_PersistentCalls:
+      m_Calls: []
   receivers: []
+  entitiesThatCanTrigger: 0
 --- !u!65 &1294020530
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -40302,7 +41700,17 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+  OnTriggerStayEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  OnTriggerExitEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  OnTriggerLateEnterEvent:
+    m_PersistentCalls:
+      m_Calls: []
   receivers: []
+  entitiesThatCanTrigger: 0
 --- !u!65 &1313778180
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -40545,7 +41953,17 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+  OnTriggerStayEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  OnTriggerExitEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  OnTriggerLateEnterEvent:
+    m_PersistentCalls:
+      m_Calls: []
   receivers: []
+  entitiesThatCanTrigger: 0
 --- !u!65 &1332414567
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -41497,7 +42915,17 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+  OnTriggerStayEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  OnTriggerExitEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  OnTriggerLateEnterEvent:
+    m_PersistentCalls:
+      m_Calls: []
   receivers: []
+  entitiesThatCanTrigger: 0
 --- !u!65 &1359821807
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -42639,7 +44067,17 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+  OnTriggerStayEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  OnTriggerExitEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  OnTriggerLateEnterEvent:
+    m_PersistentCalls:
+      m_Calls: []
   receivers: []
+  entitiesThatCanTrigger: 0
 --- !u!65 &1391713133
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -43161,7 +44599,17 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+  OnTriggerStayEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  OnTriggerExitEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  OnTriggerLateEnterEvent:
+    m_PersistentCalls:
+      m_Calls: []
   receivers: []
+  entitiesThatCanTrigger: 0
 --- !u!65 &1406775570
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -43221,6 +44669,86 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1406775567}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!1001 &1410375533
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 93530780}
+    m_Modifications:
+    - target: {fileID: 8884592245503462425, guid: f99c35046b443a446a90b55d377b5023,
+        type: 3}
+      propertyPath: m_Name
+      value: teleport_name (6)
+      objectReference: {fileID: 0}
+    - target: {fileID: 8884592245503462430, guid: f99c35046b443a446a90b55d377b5023,
+        type: 3}
+      propertyPath: transform_destino
+      value: 
+      objectReference: {fileID: 173153796}
+    - target: {fileID: 8884592245503462431, guid: f99c35046b443a446a90b55d377b5023,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 38.03
+      objectReference: {fileID: 0}
+    - target: {fileID: 8884592245503462431, guid: f99c35046b443a446a90b55d377b5023,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 8.62
+      objectReference: {fileID: 0}
+    - target: {fileID: 8884592245503462431, guid: f99c35046b443a446a90b55d377b5023,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 24.86
+      objectReference: {fileID: 0}
+    - target: {fileID: 8884592245503462431, guid: f99c35046b443a446a90b55d377b5023,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8884592245503462431, guid: f99c35046b443a446a90b55d377b5023,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8884592245503462431, guid: f99c35046b443a446a90b55d377b5023,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8884592245503462431, guid: f99c35046b443a446a90b55d377b5023,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8884592245503462431, guid: f99c35046b443a446a90b55d377b5023,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 8884592245503462431, guid: f99c35046b443a446a90b55d377b5023,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8884592245503462431, guid: f99c35046b443a446a90b55d377b5023,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8884592245503462431, guid: f99c35046b443a446a90b55d377b5023,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: f99c35046b443a446a90b55d377b5023, type: 3}
+--- !u!4 &1410375534 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 8884592245503462431, guid: f99c35046b443a446a90b55d377b5023,
+    type: 3}
+  m_PrefabInstance: {fileID: 1410375533}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1413433760
 GameObject:
   m_ObjectHideFlags: 0
@@ -43650,7 +45178,17 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+  OnTriggerStayEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  OnTriggerExitEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  OnTriggerLateEnterEvent:
+    m_PersistentCalls:
+      m_Calls: []
   receivers: []
+  entitiesThatCanTrigger: 0
 --- !u!65 &1424728038
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -44018,7 +45556,17 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+  OnTriggerStayEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  OnTriggerExitEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  OnTriggerLateEnterEvent:
+    m_PersistentCalls:
+      m_Calls: []
   receivers: []
+  entitiesThatCanTrigger: 0
 --- !u!65 &1459163313
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -44956,7 +46504,17 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+  OnTriggerStayEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  OnTriggerExitEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  OnTriggerLateEnterEvent:
+    m_PersistentCalls:
+      m_Calls: []
   receivers: []
+  entitiesThatCanTrigger: 0
 --- !u!65 &1487944714
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -46451,7 +48009,17 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+  OnTriggerStayEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  OnTriggerExitEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  OnTriggerLateEnterEvent:
+    m_PersistentCalls:
+      m_Calls: []
   receivers: []
+  entitiesThatCanTrigger: 0
 --- !u!65 &1554642636
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -47150,7 +48718,17 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+  OnTriggerStayEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  OnTriggerExitEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  OnTriggerLateEnterEvent:
+    m_PersistentCalls:
+      m_Calls: []
   receivers: []
+  entitiesThatCanTrigger: 0
 --- !u!65 &1577128760
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -48242,7 +49820,17 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+  OnTriggerStayEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  OnTriggerExitEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  OnTriggerLateEnterEvent:
+    m_PersistentCalls:
+      m_Calls: []
   receivers: []
+  entitiesThatCanTrigger: 0
 --- !u!65 &1615667355
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -48798,7 +50386,17 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+  OnTriggerStayEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  OnTriggerExitEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  OnTriggerLateEnterEvent:
+    m_PersistentCalls:
+      m_Calls: []
   receivers: []
+  entitiesThatCanTrigger: 0
 --- !u!65 &1630230967
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -48918,7 +50516,17 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+  OnTriggerStayEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  OnTriggerExitEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  OnTriggerLateEnterEvent:
+    m_PersistentCalls:
+      m_Calls: []
   receivers: []
+  entitiesThatCanTrigger: 0
 --- !u!65 &1630383468
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -49212,7 +50820,17 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+  OnTriggerStayEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  OnTriggerExitEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  OnTriggerLateEnterEvent:
+    m_PersistentCalls:
+      m_Calls: []
   receivers: []
+  entitiesThatCanTrigger: 0
 --- !u!65 &1633536544
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -49332,7 +50950,17 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+  OnTriggerStayEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  OnTriggerExitEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  OnTriggerLateEnterEvent:
+    m_PersistentCalls:
+      m_Calls: []
   receivers: []
+  entitiesThatCanTrigger: 0
 --- !u!65 &1634427133
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -49534,7 +51162,17 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+  OnTriggerStayEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  OnTriggerExitEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  OnTriggerLateEnterEvent:
+    m_PersistentCalls:
+      m_Calls: []
   receivers: []
+  entitiesThatCanTrigger: 0
 --- !u!65 &1639911400
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -49851,7 +51489,17 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+  OnTriggerStayEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  OnTriggerExitEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  OnTriggerLateEnterEvent:
+    m_PersistentCalls:
+      m_Calls: []
   receivers: []
+  entitiesThatCanTrigger: 0
 --- !u!65 &1665698832
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -50381,7 +52029,17 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+  OnTriggerStayEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  OnTriggerExitEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  OnTriggerLateEnterEvent:
+    m_PersistentCalls:
+      m_Calls: []
   receivers: []
+  entitiesThatCanTrigger: 0
 --- !u!65 &1681168848
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -50501,7 +52159,17 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+  OnTriggerStayEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  OnTriggerExitEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  OnTriggerLateEnterEvent:
+    m_PersistentCalls:
+      m_Calls: []
   receivers: []
+  entitiesThatCanTrigger: 0
 --- !u!65 &1683718174
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -51037,7 +52705,17 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+  OnTriggerStayEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  OnTriggerExitEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  OnTriggerLateEnterEvent:
+    m_PersistentCalls:
+      m_Calls: []
   receivers: []
+  entitiesThatCanTrigger: 0
 --- !u!65 &1700806982
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -51797,7 +53475,17 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+  OnTriggerStayEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  OnTriggerExitEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  OnTriggerLateEnterEvent:
+    m_PersistentCalls:
+      m_Calls: []
   receivers: []
+  entitiesThatCanTrigger: 0
 --- !u!65 &1722429396
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -52018,7 +53706,17 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+  OnTriggerStayEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  OnTriggerExitEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  OnTriggerLateEnterEvent:
+    m_PersistentCalls:
+      m_Calls: []
   receivers: []
+  entitiesThatCanTrigger: 0
 --- !u!65 &1723507235
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -53074,7 +54772,17 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+  OnTriggerStayEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  OnTriggerExitEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  OnTriggerLateEnterEvent:
+    m_PersistentCalls:
+      m_Calls: []
   receivers: []
+  entitiesThatCanTrigger: 0
 --- !u!65 &1757393025
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -53194,7 +54902,17 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+  OnTriggerStayEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  OnTriggerExitEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  OnTriggerLateEnterEvent:
+    m_PersistentCalls:
+      m_Calls: []
   receivers: []
+  entitiesThatCanTrigger: 0
 --- !u!65 &1761126793
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -53314,7 +55032,17 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+  OnTriggerStayEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  OnTriggerExitEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  OnTriggerLateEnterEvent:
+    m_PersistentCalls:
+      m_Calls: []
   receivers: []
+  entitiesThatCanTrigger: 0
 --- !u!65 &1770969368
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -53989,7 +55717,17 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+  OnTriggerStayEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  OnTriggerExitEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  OnTriggerLateEnterEvent:
+    m_PersistentCalls:
+      m_Calls: []
   receivers: []
+  entitiesThatCanTrigger: 0
 --- !u!65 &1782620776
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -54109,7 +55847,17 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+  OnTriggerStayEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  OnTriggerExitEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  OnTriggerLateEnterEvent:
+    m_PersistentCalls:
+      m_Calls: []
   receivers: []
+  entitiesThatCanTrigger: 0
 --- !u!65 &1783450142
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -54475,7 +56223,17 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+  OnTriggerStayEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  OnTriggerExitEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  OnTriggerLateEnterEvent:
+    m_PersistentCalls:
+      m_Calls: []
   receivers: []
+  entitiesThatCanTrigger: 0
 --- !u!65 &1785635782
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -55367,7 +57125,17 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+  OnTriggerStayEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  OnTriggerExitEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  OnTriggerLateEnterEvent:
+    m_PersistentCalls:
+      m_Calls: []
   receivers: []
+  entitiesThatCanTrigger: 0
 --- !u!65 &1805920836
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -55579,7 +57347,17 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+  OnTriggerStayEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  OnTriggerExitEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  OnTriggerLateEnterEvent:
+    m_PersistentCalls:
+      m_Calls: []
   receivers: []
+  entitiesThatCanTrigger: 0
 --- !u!65 &1807543633
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -55974,7 +57752,17 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+  OnTriggerStayEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  OnTriggerExitEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  OnTriggerLateEnterEvent:
+    m_PersistentCalls:
+      m_Calls: []
   receivers: []
+  entitiesThatCanTrigger: 0
 --- !u!65 &1817374227
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -56535,7 +58323,17 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+  OnTriggerStayEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  OnTriggerExitEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  OnTriggerLateEnterEvent:
+    m_PersistentCalls:
+      m_Calls: []
   receivers: []
+  entitiesThatCanTrigger: 0
 --- !u!65 &1845292610
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -56736,7 +58534,17 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+  OnTriggerStayEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  OnTriggerExitEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  OnTriggerLateEnterEvent:
+    m_PersistentCalls:
+      m_Calls: []
   receivers: []
+  entitiesThatCanTrigger: 0
 --- !u!65 &1852583050
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -56948,6 +58756,86 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   has_one_Shot: 0
   photoExample: {fileID: 21300000, guid: 2aa64d8ee475b3a4398615adae9a9cef, type: 3}
+--- !u!1001 &1865142986
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 93530780}
+    m_Modifications:
+    - target: {fileID: 8884592245503462425, guid: f99c35046b443a446a90b55d377b5023,
+        type: 3}
+      propertyPath: m_Name
+      value: teleport_name (4)
+      objectReference: {fileID: 0}
+    - target: {fileID: 8884592245503462430, guid: f99c35046b443a446a90b55d377b5023,
+        type: 3}
+      propertyPath: transform_destino
+      value: 
+      objectReference: {fileID: 32360204}
+    - target: {fileID: 8884592245503462431, guid: f99c35046b443a446a90b55d377b5023,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 35.27
+      objectReference: {fileID: 0}
+    - target: {fileID: 8884592245503462431, guid: f99c35046b443a446a90b55d377b5023,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 5.4
+      objectReference: {fileID: 0}
+    - target: {fileID: 8884592245503462431, guid: f99c35046b443a446a90b55d377b5023,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -4.79
+      objectReference: {fileID: 0}
+    - target: {fileID: 8884592245503462431, guid: f99c35046b443a446a90b55d377b5023,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8884592245503462431, guid: f99c35046b443a446a90b55d377b5023,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8884592245503462431, guid: f99c35046b443a446a90b55d377b5023,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8884592245503462431, guid: f99c35046b443a446a90b55d377b5023,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8884592245503462431, guid: f99c35046b443a446a90b55d377b5023,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 8884592245503462431, guid: f99c35046b443a446a90b55d377b5023,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8884592245503462431, guid: f99c35046b443a446a90b55d377b5023,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8884592245503462431, guid: f99c35046b443a446a90b55d377b5023,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: f99c35046b443a446a90b55d377b5023, type: 3}
+--- !u!4 &1865142987 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 8884592245503462431, guid: f99c35046b443a446a90b55d377b5023,
+    type: 3}
+  m_PrefabInstance: {fileID: 1865142986}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1868210163
 GameObject:
   m_ObjectHideFlags: 0
@@ -57086,7 +58974,17 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+  OnTriggerStayEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  OnTriggerExitEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  OnTriggerLateEnterEvent:
+    m_PersistentCalls:
+      m_Calls: []
   receivers: []
+  entitiesThatCanTrigger: 0
 --- !u!65 &1868844021
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -57833,7 +59731,17 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+  OnTriggerStayEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  OnTriggerExitEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  OnTriggerLateEnterEvent:
+    m_PersistentCalls:
+      m_Calls: []
   receivers: []
+  entitiesThatCanTrigger: 0
 --- !u!65 &1897711439
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -58410,7 +60318,17 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+  OnTriggerStayEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  OnTriggerExitEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  OnTriggerLateEnterEvent:
+    m_PersistentCalls:
+      m_Calls: []
   receivers: []
+  entitiesThatCanTrigger: 0
 --- !u!65 &1912396123
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -58805,7 +60723,17 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+  OnTriggerStayEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  OnTriggerExitEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  OnTriggerLateEnterEvent:
+    m_PersistentCalls:
+      m_Calls: []
   receivers: []
+  entitiesThatCanTrigger: 0
 --- !u!65 &1926150178
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -59526,7 +61454,17 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+  OnTriggerStayEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  OnTriggerExitEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  OnTriggerLateEnterEvent:
+    m_PersistentCalls:
+      m_Calls: []
   receivers: []
+  entitiesThatCanTrigger: 0
 --- !u!65 &1949635290
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -60757,7 +62695,17 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+  OnTriggerStayEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  OnTriggerExitEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  OnTriggerLateEnterEvent:
+    m_PersistentCalls:
+      m_Calls: []
   receivers: []
+  entitiesThatCanTrigger: 0
 --- !u!65 &1989393127
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -61478,7 +63426,17 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+  OnTriggerStayEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  OnTriggerExitEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  OnTriggerLateEnterEvent:
+    m_PersistentCalls:
+      m_Calls: []
   receivers: []
+  entitiesThatCanTrigger: 0
 --- !u!65 &2009237549
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -61598,7 +63556,17 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+  OnTriggerStayEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  OnTriggerExitEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  OnTriggerLateEnterEvent:
+    m_PersistentCalls:
+      m_Calls: []
   receivers: []
+  entitiesThatCanTrigger: 0
 --- !u!65 &2013415878
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -61874,7 +63842,17 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+  OnTriggerStayEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  OnTriggerExitEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  OnTriggerLateEnterEvent:
+    m_PersistentCalls:
+      m_Calls: []
   receivers: []
+  entitiesThatCanTrigger: 0
 --- !u!65 &2021090612
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -61994,7 +63972,17 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+  OnTriggerStayEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  OnTriggerExitEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  OnTriggerLateEnterEvent:
+    m_PersistentCalls:
+      m_Calls: []
   receivers: []
+  entitiesThatCanTrigger: 0
 --- !u!65 &2021197017
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -62206,7 +64194,17 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+  OnTriggerStayEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  OnTriggerExitEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  OnTriggerLateEnterEvent:
+    m_PersistentCalls:
+      m_Calls: []
   receivers: []
+  entitiesThatCanTrigger: 0
 --- !u!65 &2025451765
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -62722,8 +64720,18 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 1
         m_CallState: 2
+  OnTriggerStayEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  OnTriggerExitEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  OnTriggerLateEnterEvent:
+    m_PersistentCalls:
+      m_Calls: []
   receivers:
   - {fileID: 1863266294}
+  entitiesThatCanTrigger: 0
 --- !u!65 &2051339498
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -62877,7 +64885,17 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+  OnTriggerStayEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  OnTriggerExitEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  OnTriggerLateEnterEvent:
+    m_PersistentCalls:
+      m_Calls: []
   receivers: []
+  entitiesThatCanTrigger: 0
 --- !u!65 &2063920268
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -63259,7 +65277,17 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+  OnTriggerStayEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  OnTriggerExitEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  OnTriggerLateEnterEvent:
+    m_PersistentCalls:
+      m_Calls: []
   receivers: []
+  entitiesThatCanTrigger: 0
 --- !u!65 &2069163644
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -63532,7 +65560,17 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+  OnTriggerStayEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  OnTriggerExitEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  OnTriggerLateEnterEvent:
+    m_PersistentCalls:
+      m_Calls: []
   receivers: []
+  entitiesThatCanTrigger: 0
 --- !u!65 &2079986917
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -64306,7 +66344,17 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+  OnTriggerStayEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  OnTriggerExitEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  OnTriggerLateEnterEvent:
+    m_PersistentCalls:
+      m_Calls: []
   receivers: []
+  entitiesThatCanTrigger: 0
 --- !u!65 &2093255170
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -64921,7 +66969,17 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+  OnTriggerStayEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  OnTriggerExitEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  OnTriggerLateEnterEvent:
+    m_PersistentCalls:
+      m_Calls: []
   receivers: []
+  entitiesThatCanTrigger: 0
 --- !u!65 &2109236365
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -65120,7 +67178,17 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+  OnTriggerStayEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  OnTriggerExitEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  OnTriggerLateEnterEvent:
+    m_PersistentCalls:
+      m_Calls: []
   receivers: []
+  entitiesThatCanTrigger: 0
 --- !u!65 &2113284913
 BoxCollider:
   m_ObjectHideFlags: 0
