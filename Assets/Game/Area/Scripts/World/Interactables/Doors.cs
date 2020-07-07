@@ -61,4 +61,8 @@ public class Doors : MonoBehaviour
             }
         }
     }
+    public void OnDestroy()
+    {
+        Destroy(gameObject);
+    }
 }

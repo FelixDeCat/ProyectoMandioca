@@ -1,11 +1,10 @@
-﻿using System;
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 
 [RequireComponent(typeof(DamageReceiver), typeof(_Base_Life_System))]
-public abstract class DestructibleBase : EntityBase
+public abstract class BaseDestructible : EntityBase
 {
     [SerializeField] protected DestroyedVersion model_destroyedVersion;
     protected DestroyedVersion savedDestroyedVersion;
@@ -25,15 +24,22 @@ public abstract class DestructibleBase : EntityBase
 
     protected override void OnInitialize()
     {
-        _lifeSytstem.Initialize();
-        _lifeSytstem.CreateADummyLifeSystem();
-        damageReceiver.Initialize(
+        _lifeSytstem.Initialize( _lifeSytstem.life, ()=> { }, () => { }, () => { });
+
+        /*damageReceiver.Initialize(
             transform,
-            () => { return false; }, 
-            (x) => {  }, 
-            (x) => { DestroyDestructible(); }, 
-            GetComponent<Rigidbody>(), 
-            _lifeSytstem);
+            () => { return false; },
+            (x) => { },
+            (x) => { DestroyDestructible(); },
+            GetComponent<Rigidbody>(),
+            _lifeSytstem);*/
+
+        damageReceiver.Initialize(transform,
+            () => { return false; },
+            (x) => { OnDestroyed.Invoke(); },
+            (x) => { OnTakeDamage.Invoke(); },
+            GetComponent<Rigidbody>(),
+            _lifeSytstem);           
 
         AudioManager.instance.GetSoundPool(destroyedSound.name, AudioGroups.AMBIENT_FX, destroyedSound);
     }
