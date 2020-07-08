@@ -12,7 +12,6 @@ public class PropDestructible : BaseDestructible
     {
         base.OnInitialize();
         Calculate();
-        Main.instance.AddEntity(this);
     }
 
     void Calculate()
@@ -45,7 +44,6 @@ public class PropDestructible : BaseDestructible
                 dest_part.transform.position = transform.position;
                 dest_part.Play();
             }
-            Main.instance.RemoveEntity(this);
             Destroy(this.gameObject);
         }
     }

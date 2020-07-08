@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.Events;
 
 [RequireComponent(typeof(DamageReceiver), typeof(_Base_Life_System))]
-public abstract class BaseDestructible : EntityBase
+public abstract class BaseDestructible : Environment
 {
     [SerializeField] protected DestroyedVersion model_destroyedVersion;
     protected DestroyedVersion savedDestroyedVersion;
@@ -25,14 +25,6 @@ public abstract class BaseDestructible : EntityBase
     protected override void OnInitialize()
     {
         _lifeSytstem.Initialize( _lifeSytstem.life, ()=> { }, () => { }, () => { });
-
-        /*damageReceiver.Initialize(
-            transform,
-            () => { return false; },
-            (x) => { },
-            (x) => { DestroyDestructible(); },
-            GetComponent<Rigidbody>(),
-            _lifeSytstem);*/
 
         damageReceiver.Initialize(transform,
             () => { return false; },
