@@ -44,35 +44,47 @@ public class TrueDummyEnemy : EnemyBase
     private float timercooldown = 0;
 
     [Header("Feedback")]
-    [SerializeField] ParticleSystem greenblood = null;
     [SerializeField] AnimEvent anim = null;
     [SerializeField] Animator animator = null;
     private Material[] myMat;
     [SerializeField] Color onHitColor;
     [SerializeField] float onHitFlashTime;
     [SerializeField] RagdollComponent ragdoll = null;
-    [SerializeField] ParticleSystem myGroundParticle = null;
-    [SerializeField] private AudioClip _takeHit_AC;
     private const string takeHit_audioName = "woodChop";
-    [SerializeField] AudioClip clip_walkEnt;
-    [SerializeField] ParticleSystem _spawnParticules;
 
     [SerializeField] EffectBase petrifyEffect;
     EventStateMachine<DummyEnemyInputs> sm;
 
     public DataBaseDummyParticles particles;
+    public DummyAudioClipsDataBase sounds;
+
+    [System.Serializable]
+    public class DataBaseDummyParticles
+    {
+        public ParticleSystem _spawnParticules = null;
+        public ParticleSystem myGroundParticle = null;
+        public ParticleSystem greenblood = null;
+    }
+
+    [System.Serializable]
+    public class DummyAudioClipsDataBase
+    {
+        public AudioClip _takeHit_AC;
+        public AudioClip clip_walkEnt;
+    }
+
 
     protected override void OnInitialize()
     {
         base.OnInitialize();
         Main.instance.eventManager.TriggerEvent(GameEvents.ENEMY_SPAWN, new object[] { this });
-        _spawnParticules.Play();
+        particles._spawnParticules.Play();
         var smr = GetComponentInChildren<SkinnedMeshRenderer>();
         if (smr != null)
             myMat = smr.materials;
 
-        AudioManager.instance.GetSoundPool(takeHit_audioName, AudioGroups.GAME_FX, _takeHit_AC);
-        AudioManager.instance.GetSoundPool("WalkEnt", AudioGroups.GAME_FX, clip_walkEnt, true);
+        AudioManager.instance.GetSoundPool(takeHit_audioName, AudioGroups.GAME_FX, sounds._takeHit_AC);
+        AudioManager.instance.GetSoundPool("WalkEnt", AudioGroups.GAME_FX, sounds.clip_walkEnt, true);
 
         rb = GetComponent<Rigidbody>();
         combatComponent.Configure(AttackEntity);
@@ -225,7 +237,7 @@ public class TrueDummyEnemy : EnemyBase
 
         sm.SendInput(DummyEnemyInputs.TAKE_DAMAGE);
 
-        greenblood.Play();
+        particles.greenblood.Play();
         cooldown = true;
 
         StartCoroutine(OnHitted(myMat, onHitFlashTime, onHitColor));
@@ -380,7 +392,7 @@ public class TrueDummyEnemy : EnemyBase
 
         new DummyStunState(petrified, sm, StartStun, TickStun, EndStun);
 
-        new DummyDieState(die, sm, ragdoll, myGroundParticle).SetAnimator(animator).SetDirector(director).SetRigidbody(rb);
+        new DummyDieState(die, sm, ragdoll, particles.myGroundParticle).SetAnimator(animator).SetDirector(director).SetRigidbody(rb);
 
         new DummyDisableState(disable, sm, EnableObject, DisableObject);
     }
@@ -447,14 +459,5 @@ public class TrueDummyEnemy : EnemyBase
     #endregion
 
 
-    [System.Serializable]
-    public class DataBaseDummyParticles
-    {
-
-    }
-    [System.Serializable]
-    public class DummyAudioClipsDataBase
-    {
-
-    }
+    
 }
