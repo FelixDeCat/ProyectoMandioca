@@ -11,6 +11,7 @@ namespace Tools.StateMachine
         public Action OnFixedUpdate = delegate { };
         public Action<T> OnExit = delegate { };
         Dictionary<T, TransitionState<T>> transitions;
+        Dictionary<T, Action> transitionAction = new Dictionary<T, Action>();
 
         public void Enter(EState<T> lastState) { OnEnter(lastState); }
         public void Update() { OnUpdate(); }
@@ -26,9 +27,10 @@ namespace Tools.StateMachine
             Name = _name;
         }
 
-        public EState<T> Configure(Dictionary<T, TransitionState<T>> transitions)
+        public EState<T> Configure(Dictionary<T, TransitionState<T>> transitions, Dictionary<T, Action> transitionAction)
         {
             this.transitions = transitions;
+            this.transitionAction = transitionAction;
             return this;
         }
 
@@ -46,6 +48,9 @@ namespace Tools.StateMachine
                 var transition = transitions[input];
                 transition.OnTransitionExecute(input);
                 next = transition.TargetState;
+
+                if(transitionAction.ContainsKey(input)) transitionAction[input]?.Invoke();
+
                 return true;
             }
             next = this;

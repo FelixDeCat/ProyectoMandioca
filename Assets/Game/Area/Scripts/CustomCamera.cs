@@ -98,7 +98,12 @@ public class CustomCamera : MonoBehaviour
                     StartCoroutine(ShaderFade());
                 }
             }
-
+            else
+            {
+                currentObstacle?.GetComponent<MeshRenderer>().material.SetFloat("_Intensity", 1);
+                currentObstacle = null;
+                StopCoroutine(ShaderFade());
+            }
             DebugCustom.Log("CameraThings", "Raycast Hit Element", hit.transform.gameObject.name);
             //Main.instance.GetChar().Mask(!hit.transform.GetComponent<CharacterHead>());
 
@@ -107,7 +112,7 @@ public class CustomCamera : MonoBehaviour
         {
             currentObstacle?.GetComponent<MeshRenderer>().material.SetFloat("_Intensity", 1);
             currentObstacle = null;
-            //StopCoroutine(ShaderFade());
+            StopCoroutine(ShaderFade());
         }    
     }
 
