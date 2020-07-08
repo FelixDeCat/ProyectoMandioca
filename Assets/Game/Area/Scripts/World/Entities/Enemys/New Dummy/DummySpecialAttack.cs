@@ -47,7 +47,7 @@ namespace Tools.StateMachine
             if(_count <= 0)
             {
                 _count = 1;
-                _smOwner.isSpecialInCD = true;
+                _smOwner.dummySpecialAttack.isSpecialInCD = true;
                 sm.SendInput(TrueDummyEnemy.DummyEnemyInputs.IDLE);
             }
         }

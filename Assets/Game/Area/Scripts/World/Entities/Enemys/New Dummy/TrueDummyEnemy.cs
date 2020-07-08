@@ -27,11 +27,13 @@ public class TrueDummyEnemy : EnemyBase
     [SerializeField] float cdToAttack = 1;
     [SerializeField] float parriedTime = 2;
     [SerializeField] float knockback = 20;
-    [SerializeField] private bool hasSpecialAttack;
-    [SerializeField] public bool isSpecialInCD;
-    [SerializeField] private CorruptedVine specialAttack_pf;
-    [SerializeField] private float _specialAttackCount_CD;
-    [SerializeField] private float specialAttack_CD;
+    //[SerializeField] private bool hasSpecialAttack;
+    //[SerializeField] public bool isSpecialInCD;
+    //[SerializeField] private CorruptedVine specialAttack_pf;
+    //[SerializeField] private float _specialAttackCount_CD;
+    //[SerializeField] private float specialAttack_CD;
+    public DummySpecialAttack dummySpecialAttack;
+
     private CombatDirector director;
 
     [Header("Life Options")]
@@ -44,35 +46,73 @@ public class TrueDummyEnemy : EnemyBase
     private float timercooldown = 0;
 
     [Header("Feedback")]
-    [SerializeField] ParticleSystem greenblood = null;
     [SerializeField] AnimEvent anim = null;
     [SerializeField] Animator animator = null;
     private Material[] myMat;
     [SerializeField] Color onHitColor;
     [SerializeField] float onHitFlashTime;
     [SerializeField] RagdollComponent ragdoll = null;
-    [SerializeField] ParticleSystem myGroundParticle = null;
-    [SerializeField] private AudioClip _takeHit_AC;
     private const string takeHit_audioName = "woodChop";
-    [SerializeField] AudioClip clip_walkEnt;
-    [SerializeField] ParticleSystem _spawnParticules;
 
     [SerializeField] EffectBase petrifyEffect;
     EventStateMachine<DummyEnemyInputs> sm;
 
     public DataBaseDummyParticles particles;
+    public DummyAudioClipsDataBase sounds;
+
+    [System.Serializable]
+    public class DataBaseDummyParticles
+    {
+        public ParticleSystem _spawnParticules = null;
+        public ParticleSystem myGroundParticle = null;
+        public ParticleSystem greenblood = null;
+    }
+
+    [System.Serializable]
+    public class DummyAudioClipsDataBase
+    {
+        public AudioClip _takeHit_AC;
+        public AudioClip clip_walkEnt;
+    }
+
+    [System.Serializable]
+    public class DummySpecialAttack
+    {
+        public bool hasSpecialAttack;
+        public bool isSpecialInCD;
+        public CorruptedVine specialAttack_pf;
+        public float _specialAttackCount_CD;
+        public float specialAttack_CD;
+
+        internal bool canDoSpecialAttack() => hasSpecialAttack && !isSpecialInCD;
+
+        public void UpdateSpecialAttack()
+        {
+            if (hasSpecialAttack && isSpecialInCD)
+            {
+                _specialAttackCount_CD += Time.deltaTime;
+
+                if (_specialAttackCount_CD >= specialAttack_CD)
+                {
+                    _specialAttackCount_CD = 0;
+                    isSpecialInCD = false;
+                }
+            }
+        }
+    }
+
 
     protected override void OnInitialize()
     {
         base.OnInitialize();
         Main.instance.eventManager.TriggerEvent(GameEvents.ENEMY_SPAWN, new object[] { this });
-        _spawnParticules.Play();
+        particles._spawnParticules.Play();
         var smr = GetComponentInChildren<SkinnedMeshRenderer>();
         if (smr != null)
             myMat = smr.materials;
 
-        AudioManager.instance.GetSoundPool(takeHit_audioName, AudioGroups.GAME_FX, _takeHit_AC);
-        AudioManager.instance.GetSoundPool("WalkEnt", AudioGroups.GAME_FX, clip_walkEnt, true);
+        AudioManager.instance.GetSoundPool(takeHit_audioName, AudioGroups.GAME_FX, sounds._takeHit_AC);
+        AudioManager.instance.GetSoundPool("WalkEnt", AudioGroups.GAME_FX, sounds.clip_walkEnt, true);
 
         rb = GetComponent<Rigidbody>();
         combatComponent.Configure(AttackEntity);
@@ -86,7 +126,7 @@ public class TrueDummyEnemy : EnemyBase
         IAInitialize(Main.instance.GetCombatDirector());
         
         //Hago el pool de las vines aca
-        PoolManager.instance.GetObjectPool("CorruptedVines", specialAttack_pf);
+        PoolManager.instance.GetObjectPool("CorruptedVines", dummySpecialAttack.specialAttack_pf);
 
         petrifyEffect?.AddStartCallback(() => sm.SendInput(DummyEnemyInputs.PETRIFIED));
         petrifyEffect?.AddEndCallback(() => sm.SendInput(DummyEnemyInputs.IDLE));
@@ -154,19 +194,10 @@ public class TrueDummyEnemy : EnemyBase
                 if (timercooldown < recallTime)  timercooldown = timercooldown + 1 * Time.deltaTime;
                 else {  cooldown = false; timercooldown = 0; }
             }
-            
-            //special attack CD no funciono como queria
-            
-            if (hasSpecialAttack && isSpecialInCD)
-            {
-                _specialAttackCount_CD += Time.deltaTime;
 
-                if (_specialAttackCount_CD >= specialAttack_CD)
-                {
-                    _specialAttackCount_CD = 0;
-                    isSpecialInCD = false;
-                }   
-            }
+            //special attack CD no funciono como queria
+
+            dummySpecialAttack.UpdateSpecialAttack();
         }
     }
     protected override void OnPause() { }
@@ -225,7 +256,7 @@ public class TrueDummyEnemy : EnemyBase
 
         sm.SendInput(DummyEnemyInputs.TAKE_DAMAGE);
 
-        greenblood.Play();
+        particles.greenblood.Play();
         cooldown = true;
 
         StartCoroutine(OnHitted(myMat, onHitFlashTime, onHitColor));
@@ -372,7 +403,7 @@ public class TrueDummyEnemy : EnemyBase
 
         new DummyAttackState(attack, sm, cdToAttack, this).SetAnimator(animator).SetDirector(director);
 
-        new DummySpecialAttack(this,specialAttack, sm, this).SetDirector(director); //Seteando el estado que nos compete. Agregale todas las variables que necesites.
+        new Tools.StateMachine.DummySpecialAttack(this, specialAttack, sm, this).SetDirector(director); //Seteando el estado que nos compete. Agregale todas las variables que necesites.
 
         new DummyParried(parried, sm, parriedTime, this).SetAnimator(animator).SetDirector(director);
 
@@ -380,7 +411,7 @@ public class TrueDummyEnemy : EnemyBase
 
         new DummyStunState(petrified, sm, StartStun, TickStun, EndStun);
 
-        new DummyDieState(die, sm, ragdoll, myGroundParticle).SetAnimator(animator).SetDirector(director).SetRigidbody(rb);
+        new DummyDieState(die, sm, ragdoll, particles.myGroundParticle).SetAnimator(animator).SetDirector(director).SetRigidbody(rb);
 
         new DummyDisableState(disable, sm, EnableObject, DisableObject);
     }
@@ -390,7 +421,7 @@ public class TrueDummyEnemy : EnemyBase
         var character = Main.instance.GetChar();
         
         bool aux = false;
-        if (hasSpecialAttack && !isSpecialInCD && Vector3.Distance(character.transform.position, transform.position) <= 10 &&
+        if (dummySpecialAttack.canDoSpecialAttack() && Vector3.Distance(character.transform.position, transform.position) <= 10 &&
             Vector3.Distance(character.transform.position, transform.position) >= 4 && character.Slowed == false)
         {
             //isSpecialInCD = true;
@@ -447,14 +478,5 @@ public class TrueDummyEnemy : EnemyBase
     #endregion
 
 
-    [System.Serializable]
-    public class DataBaseDummyParticles
-    {
-
-    }
-    [System.Serializable]
-    public class DummyAudioClipsDataBase
-    {
-
-    }
+    
 }

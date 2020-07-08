@@ -1,7 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-
+﻿using UnityEngine;
 public class BasicEnemyAtack : CombatComponent
 {
     [Header("Overlap")]
@@ -9,25 +6,7 @@ public class BasicEnemyAtack : CombatComponent
     [SerializeField] float distance = 3;
     [SerializeField] float angleAttack = 45;
     [SerializeField] Transform rot = null;
-
-    public override void ManualTriggerAttack()
-    {
-        Calculate();
-    }
-    public override void BeginAutomaticAttack()
-    {
-
-    }
-
-    public override void Play()
-    {
-
-    }
-
-    public override void Stop()
-    {
-    }
-
+    public override void ManualTriggerAttack() => Calculate();
     void Calculate()
     {
         DamageReceiver entity = null;
@@ -48,5 +27,11 @@ public class BasicEnemyAtack : CombatComponent
             }
         }
     }
+
+    #region desuso
+    public override void BeginAutomaticAttack() { }
+    public override void Play() { }
+    public override void Stop() { }
+    #endregion
 
 }

@@ -31,13 +31,13 @@ public abstract class EnemyBase : NPCBase, ICombatDirector
     //estas dos cosas tambien tendrian que tener un component... un sensor mas que nada
     //son dos cosas que se estan usando para hacer checkeos, cuando
     //los checkeos los tienen que hacer los components
-    [Header("TEMP:/sensor combat")]
+    [Header("sensor combat")]
     [SerializeField] protected float combatDistance = 20;
     public bool combat;
     #endregion
     #region Combat Director Functions (hacer component)
     //cuando haya tiempo hacer un combat director connector component
-    [Header("TEMP:/Combat director")]
+    [Header("Combat director")]
     [SerializeField, Range(0.5f, 15)] protected float distancePos = 1.5f;
     protected bool withPos;
     protected EntityBase entityTarget;

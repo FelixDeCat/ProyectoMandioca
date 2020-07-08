@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace Tools.StateMachine
 {
@@ -7,21 +8,26 @@ namespace Tools.StateMachine
 		EState<T> _state;
 
 		Dictionary<T, TransitionState<T>> transitions = new Dictionary<T, TransitionState<T>>();
+        Dictionary<T, Action> transitionAction = new Dictionary<T, Action>();
 
 		public ConfigureState(EState<T> state)
         {
             _state = state;
         }
 
-        public ConfigureState<T> SetTransition(T input, EState<T> target)
+        public ConfigureState<T> SetTransition(T input, EState<T> target, Action actionInput = null)
         {
             transitions.Add(input, new TransitionState<T>(input, target));
+
+            if (actionInput != null)
+                transitionAction.Add(input, actionInput);
+
             return this;
         }
 
 		public void Done()
         {
-            _state.Configure(transitions);
+            _state.Configure(transitions, transitionAction);
         }
     }
 
