@@ -14,8 +14,6 @@ public class EntityBlock
     private bool onBlock;
     public bool OnBlock { get => onBlock; set => onBlock = value; }
 
-    public EntityBlock() { }
-
     public virtual void OnBlockDown() { }
     public virtual void OnBlockUp() { }
     public virtual void OnBlockSuccessful() => onBlock = true;

@@ -55,9 +55,6 @@ public class CharacterHead : CharacterControllable
     private const string swing_SoundName = "swingSword";
     [SerializeField] private AudioClip footstep;
 
-
-    
-
     [Header("Animations")]
     [SerializeField] Animator anim_base = null;
     public AnimEvent charAnimEvent = null;
@@ -133,9 +130,6 @@ public class CharacterHead : CharacterControllable
 
     public bool Combat { private set; get; }
 
-
-
-
     private void Start()
     {
         lifesystem
@@ -169,7 +163,8 @@ public class CharacterHead : CharacterControllable
         ChildrensUpdates += move.OnUpdate;
         move.SetCallbacks(OnBeginRoll, OnEndRoll);
 
-        charBlock = new CharacterBlock( /*maxBlockCharges, timeToRecuperateCharges,*/ charanim);
+        charBlock.Initialize();
+        charBlock.SetAnimator(charanim);
         charBlock.callback_OnParry += () => charanim.Parry(true);
         charBlock.callback_EndBlock += EVENT_UpBlocking;
         ChildrensUpdates += charBlock.OnUpdate;
