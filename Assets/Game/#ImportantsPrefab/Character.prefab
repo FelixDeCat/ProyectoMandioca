@@ -10060,31 +10060,15 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  dashTiming: 0.7
-  dashDistance: 12
-  dashCD: 0.5
+  dashTiming: 0.67
+  dashDistance: 11.98
+  dashCD: 0.3
   teleportCD: 2
   evadeParticle: {fileID: 663615935436443794}
   speed: 4.5
   slowSpeed: 0
   rayPivot: {fileID: 7745805242438169524}
   rot: {fileID: 193108544159708194}
-  _timerOfParry: 0.5
-  knockbackOnParry: 300
-  _timeOfBlock: 1.5
-  maxBlockCharges: 3
-  timeToRecuperateCharges: 5
-  chargesUI: {fileID: 5052379951306238818, guid: f72556e79ba58774aacb3c5d249e9505,
-    type: 3}
-  parryParticle: {fileID: 3280250539064182980}
-  blockParticle: {fileID: 2201637678302814372}
-  hitParticle: {fileID: 899402323578856254}
-  audioParry: {fileID: 8300000, guid: 157c7320a38b54431bc9842087d27f72, type: 3}
-  audioblock: {fileID: 8300000, guid: 50070499ea8fb403e8579ecf2a0497fe, type: 3}
-  blockAngle: 0
-  parryRecall: 0.5
-  takeDamageRecall: 0
-  ShieldVectorDirection: {fileID: 8549755271775958362}
   groundSensor: {fileID: 3919591774726339618}
   escudo: {fileID: 9082867597329156880}
   timeScale: 0.25
@@ -10094,12 +10078,11 @@ MonoBehaviour:
   audioClip_takeHeal: {fileID: 8300000, guid: 803ac43ddbf31b249b355fffd2413fc0, type: 3}
   swingSword_AC: {fileID: 8300000, guid: 83f7cbc543f88254b9219d9ffa911f2b, type: 3}
   footstep: {fileID: 0}
-  inParryParticles: {fileID: 4197015748749705676}
   anim_base: {fileID: 6614275666175361325}
   charAnimEvent: {fileID: 3313320725218148069}
   feedbackHeavy: {fileID: 3451873257134623665}
   feedbackDashHeavy: {fileID: 663615935436443794}
-  dmg_normal: 20
+  dmg_normal: 12
   dmg_heavy: 50
   attackRange: 3
   attackAngle: 90
@@ -10118,14 +10101,31 @@ MonoBehaviour:
   go_SpinFeedback: {fileID: 0}
   currentWeapon: {fileID: 0}
   sensor: {fileID: 5509984382699915172}
-  sound_takedamage: {fileID: 8300000, guid: 124a3b5f3f1f6c34e9b4cd0a031b080e, type: 3}
-  sound_takebigdamage: {fileID: 8300000, guid: e32ac168dec61ff4da317b4ad76676e3, type: 3}
+  sound_takedamage: {fileID: 8300000, guid: 749968ee2cebcd948926623d0f05bf6d, type: 3}
+  sound_takebigdamage: {fileID: 8300000, guid: cb937109131e08b44b5cd8c7d94cf4e2, type: 3}
   big_damage_limit_percent: 0.3
   lifesystem: {fileID: 3415322764738061175}
   enemyLayer:
     serializedVersion: 2
     m_Bits: 1024
   isBuffed: 0
+  charBlock:
+    timeToParry: 0.6
+    blockAngle: 0
+    maxBlockCharges: 3
+    currentBlockCharges: 3
+    timeToRecuperate: 5
+    parryForceToKnockBack: 650
+    parryParticles: {fileID: 4197015748749705676}
+  knockbackOnParry: 650
+  parryParticle: {fileID: 3280250539064182980}
+  blockParticle: {fileID: 2201637678302814372}
+  hitParticle: {fileID: 899402323578856254}
+  audioParry: {fileID: 8300000, guid: 157c7320a38b54431bc9842087d27f72, type: 3}
+  audioblock: {fileID: 8300000, guid: 50070499ea8fb403e8579ecf2a0497fe, type: 3}
+  parryRecall: 0
+  takeDamageRecall: 0
+  ShieldForward: {fileID: 8549755271775958362}
   debug_options:
     txt_debug: {fileID: 981212012071996506}
 --- !u!114 &3403020175800544563
@@ -109172,7 +109172,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8549755271775958362}
   m_Layer: 0
-  m_Name: ShieldVectorDirection
+  m_Name: ShieldForward
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -143960,6 +143960,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 690428496328617213}
     m_Modifications:
+    - target: {fileID: -7751398339489008998, guid: 0c7d2b8df9883aa4ca3df6b7b6887f17,
+        type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: c3f1697a7689ca5468198cced6fd88df, type: 2}
     - target: {fileID: -6748819603077575650, guid: 0c7d2b8df9883aa4ca3df6b7b6887f17,
         type: 3}
       propertyPath: m_LocalPosition.z

@@ -2,24 +2,19 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+[System.Serializable]
 public class EntityBlock
 {
-    
-    protected bool onParry;
-    protected float timeToParry;
-    protected float timer;
+    [Header("Entity Block Parameters")]
+    [SerializeField] [Range(0, 2)] float timeToParry;
+    [SerializeField] [Range(-1, 1)] float blockAngle;
 
-    //Mucho muy importante que sea de -1 a 1
-    float blockAngle;
+    private float timer;
+    private bool onParry;
+    private bool onBlock;
+    public bool OnBlock { get => onBlock; set => onBlock = value; }
 
-    protected bool onBlock;
-    public bool OnBlock { get => onBlock; }
-
-    public EntityBlock(float timeParry, float blockRange)
-    {
-        timeToParry = timeParry;
-        blockAngle = blockRange;
-    }
+    public EntityBlock() { }
 
     public virtual void OnBlockDown() { }
     public virtual void OnBlockUp() { }

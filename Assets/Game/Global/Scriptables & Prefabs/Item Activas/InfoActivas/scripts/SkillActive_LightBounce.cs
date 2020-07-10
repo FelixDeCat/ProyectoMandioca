@@ -132,8 +132,8 @@ public class SkillActive_LightBounce : SkillActivas
     protected override void OnUpdateUse()
     {
         lightAura.transform.position = _hero.transform.position;
-        lightBeam.transform.position = _hero.ShieldVectorDirection.position;
-        lightBeam.transform.forward = _hero.ShieldVectorDirection.forward;
+        lightBeam.transform.position = _hero.ShieldForward.position;
+        lightBeam.transform.forward = _hero.ShieldForward.forward;
 
         if (blocker.OnBlock)
         {

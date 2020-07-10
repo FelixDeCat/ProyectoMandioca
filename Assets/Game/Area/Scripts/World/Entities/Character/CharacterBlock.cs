@@ -2,8 +2,15 @@
 using System;
 using Tools.StateMachine;
 
+[System.Serializable]
 public class CharacterBlock : EntityBlock
-{
+{ 
+    [Header ("Character Block Parameters")]
+    [SerializeField] private int maxBlockCharges = 3;
+    [SerializeField] private int currentBlockCharges = 3;
+    [SerializeField] private float timeToRecuperate = 5f;
+    [SerializeField] private float parryForceToKnockBack = 650;
+
     public Action callback_OnBlock;
     public Action callback_UpBlock;
     public Action callback_OnParry;
@@ -11,40 +18,22 @@ public class CharacterBlock : EntityBlock
 
     private CharacterAnimator anim;
 
-    ParticleSystem parryParticles;
+    public float ParryForce { get => parryForceToKnockBack; }
 
-    Func<EventStateMachine<CharacterHead.PlayerInputs>> sm;
+    [SerializeField] ParticleSystem parryParticles;
 
+    public int CurrentBlockCharges { get => currentBlockCharges; }
 
-    public int CurrentBlockCharges { get; private set; }
-    int maxBlockCharges;
-
-    float timeToRecuperate;
     float timerCharges;
 
-    UI_GraphicContainer ui;
+    
 
-    public CharacterBlock(float timeParry,
-                          float blockRange,
-                          float _timeToBlock,
-                          int maxCharges,
-                          float timeRecuperate,
-                          GameObject _ui,
-                          CharacterAnimator _anim,
-                          Func<EventStateMachine<CharacterHead.PlayerInputs>> _sm,
-                          ParticleSystem _parryParticles) : base(timeParry, blockRange)
+    public CharacterBlock( CharacterAnimator _anim) : base()
     {
         anim = _anim;
         callback_OnBlock += OnBlockDown;
         callback_UpBlock += OnBlockUp;
-        sm = _sm;
-        parryParticles = _parryParticles;
         callback_OnParry += FinishParry;
-        //timeBlock = _timeToBlock;
-        maxBlockCharges = maxCharges;
-        CurrentBlockCharges = maxCharges;
-        timeToRecuperate = timeRecuperate;
-   
     }
 
     public override void OnBlockDown() { if(!base.OnBlock) anim.Block(true); Parry(); ParryFeedback(); }
@@ -60,7 +49,7 @@ public class CharacterBlock : EntityBlock
     {
         base.OnUpdate();
 
-        if (!base.OnBlock && CurrentBlockCharges < maxBlockCharges)
+        if (!base.OnBlock && currentBlockCharges < maxBlockCharges)
         {
             timerCharges += Time.deltaTime;
 
@@ -74,23 +63,23 @@ public class CharacterBlock : EntityBlock
 
     public void SetBlockCharges(int chargesAmmount)
     {
-        CurrentBlockCharges += chargesAmmount;
+        currentBlockCharges += chargesAmmount;
 
-        if(CurrentBlockCharges <= 0)
+        if(currentBlockCharges <= 0)
         {
-            CurrentBlockCharges = 0;
+            currentBlockCharges = 0;
             callback_EndBlock();
         }
-        else if (CurrentBlockCharges >= maxBlockCharges)
+        else if (currentBlockCharges >= maxBlockCharges)
         {
-            CurrentBlockCharges = maxBlockCharges;
+            currentBlockCharges = maxBlockCharges;
             timerCharges = 0;
         }
 
-        Main.instance.gameUiController.shieldsController.RefreshUI(CurrentBlockCharges, maxBlockCharges);
+        Main.instance.gameUiController.shieldsController.RefreshUI(currentBlockCharges, maxBlockCharges);
     }
 
-    public bool CanUseCharge() => CurrentBlockCharges > maxBlockCharges-1;
+    public bool CanUseCharge() => currentBlockCharges > maxBlockCharges-1;
 
     void ParryFeedback()
     {
@@ -99,7 +88,7 @@ public class CharacterBlock : EntityBlock
 
     public void SetOnBlock(bool b)
     {
-        onBlock = b;
+        OnBlock = b;
         if (!b)
             FinishParry();
     }

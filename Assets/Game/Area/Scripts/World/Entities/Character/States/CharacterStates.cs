@@ -15,7 +15,6 @@ namespace Tools.StateMachine
         protected CharacterBlock charBlock;
         protected CharacterMovement charMove;
         protected CharacterAnimator charAnim;
-        protected LockOn _myLockOn;
 
         public CharacterStates(EState<CharacterHead.PlayerInputs> myState, EventStateMachine<CharacterHead.PlayerInputs> _sm) : base(myState, _sm)
         {

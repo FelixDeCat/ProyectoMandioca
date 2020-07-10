@@ -33,23 +33,7 @@ public class CharacterHead : CharacterControllable
     [SerializeField] Transform rot = null;
     CharacterMovement move;
 
-    [Header("Parry & Block Options")]
-    [SerializeField] float _timerOfParry = 1;
-    [SerializeField] float knockbackOnParry = 5;
-    [SerializeField] float _timeOfBlock = 3;
-    [SerializeField] int maxBlockCharges = 3;
-    [SerializeField] float timeToRecuperateCharges = 5;
-    [SerializeField] GameObject chargesUI = null;
-    [SerializeField] ParticleSystem parryParticle = null;
-    [SerializeField] ParticleSystem blockParticle = null;
-    [SerializeField] ParticleSystem hitParticle = null;
-    [SerializeField] AudioClip audioParry = null;
-    [SerializeField] AudioClip audioblock = null;
-    [SerializeField, Range(-1, 1)] float blockAngle = 0;
-    [SerializeField] float parryRecall = 0;
-    [SerializeField] float takeDamageRecall = 0;
-    CharacterBlock charBlock;
-    public Transform ShieldVectorDirection;
+   
 
     [SerializeField] CharacterGroundSensor groundSensor;
 
@@ -72,7 +56,7 @@ public class CharacterHead : CharacterControllable
     [SerializeField] private AudioClip footstep;
 
 
-    [SerializeField] ParticleSystem inParryParticles = null;
+    
 
     [Header("Animations")]
     [SerializeField] Animator anim_base = null;
@@ -127,14 +111,30 @@ public class CharacterHead : CharacterControllable
     public CharLifeSystem Life => lifesystem;
 
     Rigidbody rb;
-    LockOn _lockOn;
     public LayerMask enemyLayer;
 
     [HideInInspector]
     public bool isBuffed = false;
     float dmgReceived = 1f;
 
+    [Header("Parry & Block Options")]
+    public CharacterBlock charBlock;
+
+    [SerializeField] float knockbackOnParry = 650;
+
+    [SerializeField] ParticleSystem parryParticle = null;
+    [SerializeField] ParticleSystem blockParticle = null;
+    [SerializeField] ParticleSystem hitParticle = null;
+    [SerializeField] AudioClip audioParry = null;
+    [SerializeField] AudioClip audioblock = null;
+    [SerializeField] float parryRecall = 0;
+    [SerializeField] float takeDamageRecall = 0;
+    public Transform ShieldForward;
+
     public bool Combat { private set; get; }
+
+
+
 
     private void Start()
     {
@@ -152,7 +152,6 @@ public class CharacterHead : CharacterControllable
     {
         Main.instance.GetCombatDirector().AddNewTarget(this);
         rb = GetComponent<Rigidbody>();
-        _lockOn = new LockOn(enemyLayer, 100, transform);
 
         charanim = new CharacterAnimator(anim_base);
         customCam = FindObjectOfType<CustomCamera>();
@@ -170,7 +169,7 @@ public class CharacterHead : CharacterControllable
         ChildrensUpdates += move.OnUpdate;
         move.SetCallbacks(OnBeginRoll, OnEndRoll);
 
-        charBlock = new CharacterBlock(_timerOfParry, blockAngle, _timeOfBlock, maxBlockCharges, timeToRecuperateCharges, chargesUI, charanim, GetSM, inParryParticles);
+        charBlock = new CharacterBlock( /*maxBlockCharges, timeToRecuperateCharges,*/ charanim);
         charBlock.callback_OnParry += () => charanim.Parry(true);
         charBlock.callback_EndBlock += EVENT_UpBlocking;
         ChildrensUpdates += charBlock.OnUpdate;
@@ -388,12 +387,12 @@ public class CharacterHead : CharacterControllable
 
         stateMachine = new EventStateMachine<PlayerInputs>(idle, debug_options.DebugState);
 
-        new CharIdle(idle, stateMachine, _lockOn)
+        new CharIdle(idle, stateMachine)
             .SetLeftAxis(GetLeftHorizontal, GetLeftVertical)
             .SetRightAxis(GetRightHorizontal, GetRightVertical)
             .SetMovement(this.move);
 
-        new CharMove(move, stateMachine, _lockOn)
+        new CharMove(move, stateMachine)
             .SetLeftAxis(GetLeftHorizontal, GetLeftVertical)
             .SetRightAxis(GetRightHorizontal, GetRightVertical)
             .SetMovement(this.move);
@@ -403,7 +402,7 @@ public class CharacterHead : CharacterControllable
             .SetRightAxis(GetRightHorizontal, GetRightVertical)
             .SetMovement(this.move).SetBlock(charBlock);
 
-        new CharBlock(block, stateMachine, _lockOn)
+        new CharBlock(block, stateMachine)
             .SetLeftAxis(GetLeftHorizontal, GetLeftVertical)
             .SetRightAxis(GetRightHorizontal, GetRightVertical)
             .SetMovement(this.move)
@@ -461,7 +460,6 @@ public class CharacterHead : CharacterControllable
     float GetSpinDuration() => spinDuration;
     float GetSpinSpeed() => spinSpeed;
     float GetStunDuration() => stunDuration;
-    EventStateMachine<PlayerInputs> GetSM() => stateMachine;
 
 
     #endregion
@@ -470,14 +468,12 @@ public class CharacterHead : CharacterControllable
 
     public void SetSlow()
     {
-        Debug.Log("ESTOY ENMARAÑADO");
         move.SetSpeed(slowSpeed);
         Slowed = true;
     }
     
     public void SetNormalSpeed()
     {
-        Debug.Log("Salgo de la maraña");
         move.SetSpeed(speed);
         Slowed = false;
     }
@@ -520,21 +516,6 @@ public class CharacterHead : CharacterControllable
         stateMachine.Update();
         ChildrensUpdates();
         charAttack.Refresh();
-        RefreshLockOn();
-    }
-
-    #region Lockon
-    bool lockon;
-    string UseLockOn(bool useLockon) { lockon = useLockon; if (!useLockon) _lockOn.SetLockOn(false); return useLockon ? "ON" : "OFF"; }
-    void RefreshLockOn() { if (lockon) _lockOn.UpdateLockOnEnemys(); }
-    public void EVENT_StartLockOn() { if (lockon) _lockOn.EVENT_Joystick_LockOn(); }
-    public void EVENT_NextLockOn() { if (lockon) _lockOn.EVENT_Joystick_nextLockOn(); }
-    #endregion
-
-    //caundo lo recibo desde el lock on
-    public void SetToInputStateMAchinLockON()
-    {
-        stateMachine.SendInput(PlayerInputs.PLAYER_LOCK_ON);
     }
 
 

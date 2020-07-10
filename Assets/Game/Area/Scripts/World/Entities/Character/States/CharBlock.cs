@@ -9,9 +9,9 @@ namespace Tools.StateMachine
         float _speedPenalty = .75f;
         private float initSpeed;
         
-        public CharBlock(EState<CharacterHead.PlayerInputs> myState, EventStateMachine<CharacterHead.PlayerInputs> _sm,LockOn myLockOn) : base(myState, _sm)
+        public CharBlock(EState<CharacterHead.PlayerInputs> myState, EventStateMachine<CharacterHead.PlayerInputs> _sm) : base(myState, _sm)
         {
-            _myLockOn = myLockOn;
+            
         }
 
         protected override void Enter(EState<CharacterHead.PlayerInputs> input)
@@ -40,25 +40,9 @@ namespace Tools.StateMachine
 
         protected override void Update()
         {
-            if (_myLockOn.isLockOn())
-            {
-                Transform myTransform = charMove.GetTransformRotation();
-                EnemyBase myEnemy = _myLockOn.GetCurrentEnemy();
-                if (myEnemy)
-                {
-                    Vector3 enemyPos = new Vector3(myEnemy.transform.position.x, 0f, myEnemy.transform.position.z);
-                    myTransform.LookAt(enemyPos);
-                }
-                    
-            }
-            else
-            {
-                charMove.RotateHorizontal(RightHorizontal());
-                charMove.RotateVertical(RightVertical());
-                
-            }
-            
-            
+            charMove.RotateHorizontal(RightHorizontal());
+            charMove.RotateVertical(RightVertical());
+
             charMove.MovementHorizontal(LeftHorizontal() * _speedPenalty);
             charMove.MovementVertical(LeftVertical() * _speedPenalty);
         }
