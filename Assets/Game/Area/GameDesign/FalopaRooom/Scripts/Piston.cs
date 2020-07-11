@@ -9,7 +9,8 @@ public class Piston : MonoBehaviour
     [SerializeField] float _speed;
     [SerializeField] bool _goBack;
     public bool active;
-    [SerializeField] float _transitionTime;
+    [SerializeField] float _transitionTimeDown;
+    [SerializeField] float _transitionTimeUp;
     float _currentTimer;
     [SerializeField] TriggerOfPiston trigger;
 
@@ -18,7 +19,12 @@ public class Piston : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        transform.position = _startPos.position;
+        if(!_goBack)
+            transform.position = _startPos.position;
+        else
+            transform.position = _EndPos.position;
+
+
         trigger.getPiston(this);
     }
 
@@ -32,17 +38,19 @@ public class Piston : MonoBehaviour
         {
             transform.position = Vector3.Lerp(transform.position, _EndPos.position, Time.deltaTime* _speed);
             _currentTimer += Time.deltaTime;
-            if (_currentTimer >= _transitionTime)
+            if (_currentTimer >= _transitionTimeDown)
             {
+                _currentTimer = 0;
                 _goBack = true;
             }
         }
         else
         {
             transform.position = Vector3.Lerp(transform.position, _startPos.position, Time.deltaTime* _speed);
-            _currentTimer -= Time.deltaTime;
-            if (_currentTimer <= 0)
+            _currentTimer += Time.deltaTime;
+            if (_currentTimer >= _transitionTimeUp)
             {
+                _currentTimer = 0;
                 _goBack = false;
             }
         }
