@@ -32,8 +32,7 @@ public class CharacterHead : CharacterControllable
 
     [SerializeField] Transform rot = null;
     CharacterMovement move;
-
-   
+    public CharacterInput getInput => _charInput;
 
     [SerializeField] CharacterGroundSensor groundSensor;
 
@@ -49,7 +48,7 @@ public class CharacterHead : CharacterControllable
     [Header("Feedbacks")]
     [SerializeField] ParticleSystem feedbackCW = null;
 
-    [SerializeField] private AudioClip audioClip_takeHeal; 
+    [SerializeField] private AudioClip audioClip_takeHeal;
 
     [SerializeField] private AudioClip swingSword_AC;
     private const string swing_SoundName = "swingSword";
@@ -101,7 +100,7 @@ public class CharacterHead : CharacterControllable
     [Header("Life Options")]
     [SerializeField] AudioClip sound_takedamage;
     [SerializeField] AudioClip sound_takebigdamage;
-    [Range(0f,1f)]
+    [Range(0f, 1f)]
     [SerializeField] float big_damage_limit_percent = 0.3f;
 
     [SerializeField] CharLifeSystem lifesystem = null;
@@ -128,6 +127,8 @@ public class CharacterHead : CharacterControllable
     [SerializeField] float takeDamageRecall = 0;
     public Transform ShieldForward;
 
+    [SerializeField] CharFeedbacks feedbacks;
+
     public bool Combat { private set; get; }
 
     private void Start()
@@ -147,10 +148,12 @@ public class CharacterHead : CharacterControllable
         Main.instance.GetCombatDirector().AddNewTarget(this);
         rb = GetComponent<Rigidbody>();
 
+        feedbacks.Initialize();
+
         charanim = new CharacterAnimator(anim_base);
         customCam = FindObjectOfType<CustomCamera>();
 
-        move = new CharacterMovement(GetComponent<Rigidbody>(), rot, charanim, _dashSounds, IsGrounded)
+        move = new CharacterMovement(GetComponent<Rigidbody>(), rot, charanim, feedbacks, IsGrounded)
             .SetSpeed(speed)
             .SetTimerDash(dashTiming)
             .SetDashCD(dashCD)
@@ -163,19 +166,23 @@ public class CharacterHead : CharacterControllable
         ChildrensUpdates += move.OnUpdate;
         move.SetCallbacks(OnBeginRoll, OnEndRoll);
 
-        charBlock.Initialize();
-        charBlock.SetAnimator(charanim);
+        charBlock
+            .Initialize()
+            .SetFeedbacks(feedbacks)
+            .SetAnimator(charanim);
         charBlock.callback_OnParry += () => charanim.Parry(true);
-        charBlock.callback_EndBlock += EVENT_UpBlocking;
+        charBlock.callback_EndBlock += UNITYEVENT_PressUp_UpBlocking;
         ChildrensUpdates += charBlock.OnUpdate;
 
         dmg = dmg_normal;
         dmgData.Initialize(this);
-        dmgReceiver.SetBlock(charBlock.IsBlock, BlockFeedback).SetParry(charBlock.IsParry, ParryFeedback)
+        dmgReceiver
+            .SetBlock(charBlock.IsBlock, BlockFeedback)
+            .SetParry(charBlock.IsParry, ParryFeedback)
             .Initialize(rot, () => InDash(), Dead, TakeDamageFeedback, rb, lifesystem);
 
         charAttack = new CharacterAttack(attackRange, attackAngle, timeToHeavyAttack, charanim, rot, ReleaseInNormal, ReleaseInHeavy,
-            feedbackHeavy, dmg, swing_SoundName, dmgData, feedbackCW);
+            feedbackHeavy, dmg, feedbacks, dmgData, feedbackCW);
         charAttack.FirstAttackReady(true);
 
         charAnimEvent.Add_Callback("CheckAttackType", CheckAttackType);
@@ -187,7 +194,7 @@ public class CharacterHead : CharacterControllable
         charAnimEvent.Add_Callback("ActiveLeftAttackFeedback", LeftAttacktFeedback);
 
         charAnimEvent.Add_Callback("Dash", move.RollForAnim);
-        charAnimEvent.Add_Callback("Pasos", Pasos);
+        charAnimEvent.Add_Callback("Pasos", FootSteps);
         charAnimEvent.Add_Callback("OpenComboWindow", charAttack.ANIM_EVENT_OpenComboWindow);
         charAnimEvent.Add_Callback("CloseComboWindow", charAttack.ANIM_EVENT_CloseComboWindow);
 
@@ -196,9 +203,9 @@ public class CharacterHead : CharacterControllable
         charAttack.SetRigidBody(rb);
 
         debug_options.StartDebug();
-      //  DevelopTools.UI.Debug_UI_Tools.instance.CreateToogle("Speed for testing", false, ToogleSpeed);
 
-       // DevelopTools.UI.Debug_UI_Tools.instance.CreateToogle("Use LockOn", false, UseLockOn);
+        //  DevelopTools.UI.Debug_UI_Tools.instance.CreateToogle("Speed for testing", false, ToogleSpeed);
+        // DevelopTools.UI.Debug_UI_Tools.instance.CreateToogle("Use LockOn", false, UseLockOn);
 
         SetStates();
 
@@ -215,42 +222,19 @@ public class CharacterHead : CharacterControllable
         originalHeavy = dmg_heavy;
 
     }
-
-    #region Throw Something
-    Action<Vector3> throwCallback;
-    public void ThrowSomething(Action<Vector3> throwInPosition)
+    
+    public void StopMovement() { move.MovementHorizontal(0); move.MovementVertical(0); }
+    void SlowMO()
     {
-        Main.instance.GetChar().charanim.StartThrow();
-        throwCallback = throwInPosition;
-    }
-    void ThrowCallback()
-    {
-        throwCallback.Invoke(escudo.transform.position);
-    }
-    #endregion
-    void Pasos()
-    {
-        AudioManager.instance.PlaySound("FootStep");
+        Main.instance.GetTimeManager().DoSlowMotion(timeScale, slowDuration);
+        customCam.DoFastZoom(speedAnim);
     }
     bool IsGrounded() => groundSensor.IsGrounded();
-
-    public Vector3 DirAttack { get; private set; }
-
-    void DealLeft() { DirAttack = rot.right; DealAttack(); }
-    void DealRight() { DirAttack = -rot.right; DealAttack(); }
-    public void StopMovement() { move.MovementHorizontal(0); move.MovementVertical(0); }
-    void RightAttacktFeedback() { slash_right.Play(); }
-    void LeftAttacktFeedback() { slash_left.Play(); }
-
-    float auxSpeedDebug;
-    string ToogleSpeed(bool active)
+    protected override void OnUpdateEntity()
     {
-        if (active)
-        {
-            speed *= 2;
-        }
-
-        return active ? "speed x2" : "speed normal";
+        stateMachine.Update();
+        ChildrensUpdates();
+        charAttack.Refresh();
     }
 
     #region SET STATES
@@ -460,22 +444,18 @@ public class CharacterHead : CharacterControllable
     #endregion
 
     #region Status Effect
-
     public void SetSlow()
     {
         move.SetSpeed(slowSpeed);
         Slowed = true;
     }
-    
     public void SetNormalSpeed()
     {
         move.SetSpeed(speed);
         Slowed = false;
     }
-
     #endregion
-    
-    
+
     #region SkillRequest
     public Action RequestExecuteASkill(Action request)
     {
@@ -496,9 +476,25 @@ public class CharacterHead : CharacterControllable
     }
     #endregion
 
+    #region Bash Dash
     public void BeginBashDash() => bashDash.EnableSensor();
     public void StopBashDash() => bashDash.DisableSensor();
+    #endregion
 
+    #region Throw Something
+    Action<Vector3> throwCallback;
+    public void ThrowSomething(Action<Vector3> throwInPosition)
+    {
+        Main.instance.GetChar().charanim.StartThrow();
+        throwCallback = throwInPosition;
+    }
+    void ThrowCallback()
+    {
+        throwCallback.Invoke(escudo.transform.position);
+    }
+    #endregion
+
+    #region Spin
     public void StartSpin(float _spinDuration, float _spinSpeed, float _stunDuration)
     {
         spinDuration = _spinDuration;
@@ -506,23 +502,12 @@ public class CharacterHead : CharacterControllable
         stunDuration = _stunDuration;
         stateMachine.SendInput(PlayerInputs.SPIN);
     }
-    protected override void OnUpdateEntity()
-    {
-        stateMachine.Update();
-        ChildrensUpdates();
-        charAttack.Refresh();
-    }
+    #endregion
 
-
-
-    protected override void OnPause()
-    {
-
-    }
-    protected override void OnResume()
-    {
-
-    }
+    #region Pause & Resume
+    protected override void OnPause() { }
+    protected override void OnResume() { }
+    #endregion
 
     #region Life
     void OnLoseLife() { }
@@ -539,6 +524,11 @@ public class CharacterHead : CharacterControllable
 
     #region Attack
     /////////////////////////////////////////////////////////////////
+    void RightAttacktFeedback() { slash_right.Play(); }
+    void LeftAttacktFeedback() { slash_left.Play(); }
+    public Vector3 DirAttack { get; private set; }
+    void DealLeft() { DirAttack = rot.right; DealAttack(); }
+    void DealRight() { DirAttack = -rot.right; DealAttack(); }
 
     bool attackWait;
     public void EVENT_OnAttackBegin()
@@ -634,53 +624,23 @@ public class CharacterHead : CharacterControllable
     #endregion
 
     #region Block & Parry
-
-    //Toggle con la posibilidad de bloquear o no
-    public void ToggleBlock(bool val)
-    {
-        canBlock = val;
-    }
-
-    public void EVENT_OnBlocking()
+    //>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+    public void UNITYEVENT_PressDown_Block()
     {
         //Puesto para no poder bloquear cuando el personaje tira el escudo en el boomeranSkill
         if (!canBlock)
             return;
-
         if (charBlock.CurrentBlockCharges > 0)
-        {
             stateMachine.SendInput(PlayerInputs.BEGIN_BLOCK);
-        }
     }
-    public void EVENT_UpBlocking()
-    {
-        stateMachine.SendInput(PlayerInputs.END_BLOCK);
-    }
-
-    //lo uso para el skill del escudo que refleja luz
-    public EntityBlock GetCharBlock()
-    {
-        return charBlock;
-    }
-
-    public void EVENT_Parry()
-    {
-        stateMachine.SendInput(PlayerInputs.PARRY);
-    }
-    public void AddParry(Action listener)
-    {
-        charBlock.callback_OnParry += listener;
-    }
-    public void RemoveParry(Action listener)
-    {
-        charBlock.callback_OnParry -= listener;
-    }
-    public void PerfectParry()
-    {
-        parryParticle.Play();
-        stateMachine.SendInput(PlayerInputs.PARRY);
-    }
-
+    public void ToggleBlock(bool val) => canBlock = val;
+    public void UNITYEVENT_PressUp_UpBlocking() => stateMachine.SendInput(PlayerInputs.END_BLOCK);
+    public EntityBlock GetCharBlock() => charBlock;
+    public void EVENT_Parry() => stateMachine.SendInput(PlayerInputs.PARRY);
+    public void AddParry(Action listener) => charBlock.callback_OnParry += listener;
+    public void RemoveParry(Action listener) => charBlock.callback_OnParry -= listener;
+    public void PerfectParry() { parryParticle.Play(); stateMachine.SendInput(PlayerInputs.PARRY); }
+    //<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
     #endregion
 
     #region Roll
@@ -688,7 +648,6 @@ public class CharacterHead : CharacterControllable
     {
         //Activar trail o feedback x del roll
     }
-
     void OnEndRoll()
     {
         //desactivar trail o feedback x del roll
@@ -703,13 +662,13 @@ public class CharacterHead : CharacterControllable
             {
                 if (move.CheckIfCanTeleport()) stateMachine.SendInput(PlayerInputs.ROLL);
 
-                
-                
+
+
                 return;
             }
 
             stateMachine.SendInput(PlayerInputs.ROLL);
-            
+
             SetNormalSpeed();
         }
     }
@@ -742,42 +701,21 @@ public class CharacterHead : CharacterControllable
     float rotateY;
     float moveX;
     float moveY;
-
-    public void LeftHorizontal(float axis)
-    {
-        moveX = axis;
-    }
-
-    public void LeftVerical(float axis)
-    {
-        moveY = axis;
-    }
-
-    public void RightHorizontal(float axis)
-    {
-        rotateX = axis;
-    }
-    public void RightVerical(float axis)
-    {
-        rotateY = axis;
-    }
+    public void LeftHorizontal(float axis) => moveX = axis;
+    public void LeftVerical(float axis) => moveY = axis;
+    public void RightHorizontal(float axis) => rotateX = axis;
+    public void RightVerical(float axis) => rotateY = axis;
     #endregion
-
-    void SlowMO()
-    {
-        Main.instance.GetTimeManager().DoSlowMotion(timeScale, slowDuration);
-        customCam.DoFastZoom(speedAnim);
-    }
 
     #region Take Damage
     void ParryFeedback(EntityBase entity)
     {
-        AudioManager.instance.PlaySound("parrySound");
+        feedbacks.sounds.Play_Parry();
         Main.instance.eventManager.TriggerEvent(GameEvents.ON_PLAYER_PARRY, new object[] { entity });
         PerfectParry();
         Main.instance.GetTimeManager().DoSlowMotion(timeScale, slowDuration);
         customCam.DoFastZoom(10);
-  
+
         entity?.GetComponent<EnemyBase>().AddForceToRb(entity.transform.position - transform.position, knockbackOnParry, ForceMode.Impulse);
     }
 
@@ -786,7 +724,7 @@ public class CharacterHead : CharacterControllable
         blockParticle.Play();
         charanim.BlockSomething();
         charBlock.SetBlockCharges(-1);
-        AudioManager.instance.PlaySound("blockSound");
+        feedbacks.sounds.Play_Block();
     }
 
     void TakeDamageFeedback(DamageData data)
@@ -797,16 +735,16 @@ public class CharacterHead : CharacterControllable
         float perc = dmgreceived / maxLife;
         if (perc >= big_damage_limit_percent)
         {
-            AudioManager.instance.PlaySound("takeBigDamage");
+            feedbacks.sounds.Play_TakeBigDamage();
             customCam.BeginShakeCamera(0.5f);
         }
         else
         {
-            AudioManager.instance.PlaySound("takeNormalDamage");
+            feedbacks.sounds.Play_TakeNormalDamage();
             customCam.BeginShakeCamera();
         }
 
-        
+
         hitParticle.Play();
         Main.instance.Vibrate();
     }
@@ -815,10 +753,70 @@ public class CharacterHead : CharacterControllable
 
     #endregion
 
+    #region Interact
+    public void UNITY_EVENT_OnInteractDown()
+    {
+        sensor.OnInteractDown();
+    }
+    public void UNITY_EVENT_OnInteractUp()
+    {
+        sensor.OnInteractUp();
+    }
+    #endregion
+
+    #region Debuggin
+    public DebugOptions debug_options = new DebugOptions();
+    [System.Serializable]
+    public class DebugOptions
+    {
+        [SerializeField] UnityEngine.UI.Text txt_debug = null;
+        public void DebugState(string state) { if (txt_debug != null) txt_debug.text = state; }
+        public void StartDebug() { if (txt_debug != null) txt_debug.enabled = false; DevelopTools.UI.Debug_UI_Tools.instance.CreateToogle("Character State Machine Debug", true, ToogleDebug); }
+        string ToogleDebug(bool active) { if (txt_debug != null) txt_debug.enabled = active; return active ? "debug activado" : "debug desactivado"; }
+    }
+    #endregion
+
+    #region BuffedState
+    float originalNormal;
+    float originalHeavy;
+    public void ActivateBuffState(float damageBuff, float damageReceived, float speedAcceleration, float scale, float duration)
+    {
+        charanim.SetUpdateMode(AnimatorUpdateMode.UnscaledTime);
+        isBuffed = true;
+        dmg_normal = originalNormal + damageBuff;
+        dmg_heavy = originalHeavy + damageBuff;
+        move.SetSpeed(speed + speedAcceleration);
+        dmgReceived = damageReceived;
+        Main.instance.GetTimeManager().DoSlowMo(scale);
+    }
+    public void DesactivateBuffState(float damageBuff)
+    {
+        charanim.SetUpdateMode(AnimatorUpdateMode.Normal);
+        isBuffed = false;
+        dmg_normal = originalNormal;
+        dmg_heavy = originalHeavy;
+        move.SetSpeed(speed);
+        dmgReceived = 1;
+        Main.instance.GetTimeManager().StopSlowMo();
+    }
+    #endregion
+
+    #region Fuera de uso
+    void FootSteps()
+    {
+        feedbacks.sounds.Play_FootStep();
+    }
+    protected override void OnTurnOn() { }
+    protected override void OnTurnOff() { }
+    protected override void OnFixedUpdate() { }
+    #region Items
+    public override void OnReceiveItem(ItemWorld itemworld)
+    {
+        base.OnReceiveItem(itemworld);
+    }
+    #endregion
     #region Change Weapon
-
     bool isValue;
-
     public void ChangeTheWeapon(float w)
     {
         //if (!isValue && !charAttack.inAttack)
@@ -840,92 +838,18 @@ public class CharacterHead : CharacterControllable
         //    }
         //}
     }
-
     public void ChangeDamage(float f)
     {
         charAttack.BuffOrNerfDamage(f);
     }
 
     #endregion
-
-    #region Interact
-    public void UNITY_EVENT_OnInteractDown()
-    {
-        sensor.OnInteractDown();
-    }
-    public void UNITY_EVENT_OnInteractUp()
-    {
-        sensor.OnInteractUp();
-    }
-    #endregion
-
-    #region Items
-    public override void OnReceiveItem(ItemWorld itemworld)
-    {
-        base.OnReceiveItem(itemworld);
-    }
-    #endregion
-
-
-
-    #region Fuera de uso
-
-    protected override void OnTurnOn() { }
-    protected override void OnTurnOff() { }
-    protected override void OnFixedUpdate() { }
-
-
-
-    #endregion
-
-
-    #region Debuggin
-    public DebugOptions debug_options = new DebugOptions();
-    [System.Serializable]
-    public class DebugOptions
-    {
-        [SerializeField] UnityEngine.UI.Text txt_debug = null;
-        public void DebugState(string state) { if (txt_debug != null) txt_debug.text = state; }
-        public void StartDebug() { if (txt_debug != null) txt_debug.enabled = false; DevelopTools.UI.Debug_UI_Tools.instance.CreateToogle("Character State Machine Debug", true, ToogleDebug); }
-        string ToogleDebug(bool active) { if (txt_debug != null) txt_debug.enabled = active; return active ? "debug activado" : "debug desactivado"; }
-    }
-    #endregion
-
     #region Guilt
     public Action<int> AddScreamAction = delegate { };
-
     public void CollectScream()
     {
         AddScreamAction(1);
     }
-
     #endregion
-    public CharacterInput getInput => _charInput;
-
-    #region BuffedState
-
-    float originalNormal;
-    float originalHeavy;
-
-    public void ActivateBuffState(float damageBuff, float damageReceived, float speedAcceleration, float scale, float duration)
-    {
-        charanim.SetUpdateMode(AnimatorUpdateMode.UnscaledTime);
-        isBuffed = true;
-        dmg_normal = originalNormal + damageBuff;
-        dmg_heavy = originalHeavy + damageBuff;
-        move.SetSpeed(speed + speedAcceleration);
-        dmgReceived = damageReceived;
-        Main.instance.GetTimeManager().DoSlowMo(scale);
-    }
-    public void DesactivateBuffState(float damageBuff)
-    {
-        charanim.SetUpdateMode(AnimatorUpdateMode.Normal);
-        isBuffed = false;
-        dmg_normal = originalNormal;
-        dmg_heavy = originalHeavy;
-        move.SetSpeed(speed);
-        dmgReceived = 1;
-        Main.instance.GetTimeManager().StopSlowMo();
-    }
     #endregion
 }

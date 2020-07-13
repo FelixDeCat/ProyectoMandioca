@@ -19,20 +19,25 @@ public class CharacterBlock : EntityBlock
 
     private CharacterAnimator anim;
 
+    CharFeedbacks feedbacks;
+
     public float ParryForce { get => parryForceToKnockBack; }
 
     public int CurrentBlockCharges { get => currentBlockCharges; }
 
     float timerCharges;
 
-    public void Initialize()
+    #region Set
+    public CharacterBlock Initialize()
     {
         callback_OnBlock += OnBlockDown;
         callback_UpBlock += OnBlockUp;
         callback_OnParry += FinishParry;
+        return this;
     }
-
-    public void SetAnimator(CharacterAnimator _anim) => anim = _anim;
+    public CharacterBlock SetFeedbacks(CharFeedbacks _feedbacks) { feedbacks = _feedbacks; return this; }
+    public CharacterBlock SetAnimator(CharacterAnimator _anim) { anim = _anim; return this; }
+    #endregion
 
     public override void OnBlockDown() { if(!base.OnBlock) anim.Block(true); Parry(); ParryFeedback(); }
     public override void OnBlockUp() { anim.Block(false); FinishParry(); }

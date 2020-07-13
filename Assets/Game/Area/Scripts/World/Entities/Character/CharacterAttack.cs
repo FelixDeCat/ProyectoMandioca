@@ -17,8 +17,6 @@ public class CharacterAttack
 
     Action NormalAttack;
     Action HeavyAttack;
-
-    private string _swingSword_SoundName;
     
     ParticleSystem feedbackHeavy;
     bool oneshot;
@@ -48,8 +46,10 @@ public class CharacterAttack
 
     Rigidbody myRig;
 
+    CharFeedbacks feedbacks;
+
     public CharacterAttack(float _range, float _angle, float _heavyAttackTime, CharacterAnimator _anim, Transform _forward,
-        Action _normalAttack, Action _heavyAttack, ParticleSystem ps, float damage, string swingSword_SoundName, DamageData data, ParticleSystem _heavyLoad)
+        Action _normalAttack, Action _heavyAttack, ParticleSystem ps, float damage, CharFeedbacks _charFeedbacks, DamageData data, ParticleSystem _heavyLoad)
     {
         hitstore = new HitStore();
 
@@ -66,11 +66,11 @@ public class CharacterAttack
         anim = _anim;
         forwardPos = _forward;
 
+        feedbacks = _charFeedbacks;
+
         NormalAttack = _normalAttack;
         HeavyAttack = _heavyAttack;
         feedbackHeavy = ps;
-
-        _swingSword_SoundName = swingSword_SoundName;
     }
     public void SetRigidBody(Rigidbody _rb) => myRig = _rb;
     public string ChangeName() => currentWeapon.weaponName;
@@ -204,8 +204,7 @@ public class CharacterAttack
     public void Attack(bool isHeavy)//esto es attack nada mas... todavia no se sabe si le pegué a algo
     {
         currentWeapon.Attack(forwardPos, currentDamage, isHeavy ? Damagetype.Heavy : Damagetype.Normal);
-
-        AudioManager.instance.PlaySound(_swingSword_SoundName);
+        feedbacks.sounds.Play_SwingSword();
     }
 
     void CALLBACK_DealDamage(Attack_Result attack_result, Damagetype damage_type, DamageReceiver entityToDamage)
