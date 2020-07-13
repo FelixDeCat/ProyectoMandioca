@@ -15,7 +15,7 @@ public class CustomCamera : MonoBehaviour
     private float shakeDurationCurrent;
     public float shakeDuration;
     private bool activeShake;
-
+    public bool active=true;
     Collider currentObstacle;
 
     [SerializeField] private SkillCloseUp_Camera skillCloseUp_Camera;
@@ -52,16 +52,22 @@ public class CustomCamera : MonoBehaviour
 
     private void Update()
     {
+        if (!active)
+            return;
         pingpongZoom.Updatear();
         ShaderMask();
         nextIndex();
     }
     private void FixedUpdate()
     {
+        if (!active)
+            return;
         SmoothToTarget();
     }
     private void LateUpdate()
     {
+        if (!active)
+            return;
         if (activeShake) Shake();
     }
 
