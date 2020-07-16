@@ -55,6 +55,7 @@ public class CharacterMovement
     private float _teleportDistance;
     private bool teleportActive;
 
+    CharFeedbacks feedbacks;
 
     public float GetDefaultSpeed => speed;
     public bool TeleportActive
@@ -63,7 +64,7 @@ public class CharacterMovement
         set { teleportActive = value; }
     }
 
-    public CharacterMovement(Rigidbody rb, Transform rot, CharacterAnimator a, AudioClip _dash, Func<bool> _isGrounded)
+    public CharacterMovement(Rigidbody rb, Transform rot, CharacterAnimator a, CharFeedbacks _feedbacks, Func<bool> _isGrounded)
     {
         _rb = rb;
         rotTransform = rot;
@@ -73,7 +74,7 @@ public class CharacterMovement
         RotateHorizontal += RightHorizontal;
         RotateVertical += RightVerical;
         Dash += Roll;
-        _dashSound = _dash;
+        feedbacks = _feedbacks;
         isGrounded = _isGrounded;
         AudioManager.instance.GetSoundPool("DashSounds", AudioGroups.GAME_FX, _dashSound);
     }
@@ -311,7 +312,7 @@ public class CharacterMovement
 
     public void Roll()
     {
-        AudioManager.instance.PlaySound("DashSounds", rotTransform);
+        feedbacks.sounds.Play_Dash();
 
         if (movX != 0 || movY != 0)
             dashDir = new Vector3(movX, 0, movY).normalized;

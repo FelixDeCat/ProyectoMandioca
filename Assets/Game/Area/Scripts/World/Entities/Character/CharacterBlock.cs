@@ -10,6 +10,7 @@ public class CharacterBlock : EntityBlock
     [SerializeField] private int currentBlockCharges = 3;
     [SerializeField] private float timeToRecuperate = 5f;
     [SerializeField] private float parryForceToKnockBack = 650;
+    [SerializeField] ParticleSystem parryParticles;
 
     public Action callback_OnBlock;
     public Action callback_UpBlock;
@@ -18,23 +19,25 @@ public class CharacterBlock : EntityBlock
 
     private CharacterAnimator anim;
 
-    public float ParryForce { get => parryForceToKnockBack; }
+    CharFeedbacks feedbacks;
 
-    [SerializeField] ParticleSystem parryParticles;
+    public float ParryForce { get => parryForceToKnockBack; }
 
     public int CurrentBlockCharges { get => currentBlockCharges; }
 
     float timerCharges;
 
-    
-
-    public CharacterBlock( CharacterAnimator _anim) : base()
+    #region Set
+    public CharacterBlock Initialize()
     {
-        anim = _anim;
         callback_OnBlock += OnBlockDown;
         callback_UpBlock += OnBlockUp;
         callback_OnParry += FinishParry;
+        return this;
     }
+    public CharacterBlock SetFeedbacks(CharFeedbacks _feedbacks) { feedbacks = _feedbacks; return this; }
+    public CharacterBlock SetAnimator(CharacterAnimator _anim) { anim = _anim; return this; }
+    #endregion
 
     public override void OnBlockDown() { if(!base.OnBlock) anim.Block(true); Parry(); ParryFeedback(); }
     public override void OnBlockUp() { anim.Block(false); FinishParry(); }
@@ -80,6 +83,7 @@ public class CharacterBlock : EntityBlock
     }
 
     public bool CanUseCharge() => currentBlockCharges > maxBlockCharges-1;
+
 
     void ParryFeedback()
     {
