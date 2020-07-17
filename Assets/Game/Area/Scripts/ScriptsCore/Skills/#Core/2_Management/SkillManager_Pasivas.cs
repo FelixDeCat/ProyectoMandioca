@@ -7,7 +7,7 @@ public class SkillManager_Pasivas : MonoBehaviour
 {
     [Header("UI")]
     public GameObject model_skill_selector;
-    GameObject selector;
+    GameObject selector = null;
 
     [Header("Data_base")]
     [SerializeField] List<SkillBase> my_editor_data_base = new List<SkillBase>();

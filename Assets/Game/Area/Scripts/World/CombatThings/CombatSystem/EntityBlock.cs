@@ -6,8 +6,8 @@ using UnityEngine;
 public class EntityBlock
 {
     [Header("Entity Block Parameters")]
-    [SerializeField] [Range(0, 2)] float timeToParry;
-    [SerializeField] [Range(-1, 1)] float blockAngle;
+    [SerializeField] [Range(0, 2)] float timeToParry = 1;
+    [SerializeField] [Range(-1, 1)] float blockAngle = 0;
 
     private float timer;
     private bool onParry;

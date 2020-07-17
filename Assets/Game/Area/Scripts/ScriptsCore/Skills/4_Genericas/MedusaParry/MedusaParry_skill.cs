@@ -6,9 +6,9 @@ using System.Linq;
 public class MedusaParry_skill : SkillBase
 {
     //Para poder usar la duracion aca, se tiene que poder decidir cuanto tiempo el OnPetrified State va a durar
-    [SerializeField] private float duracion;
-    [SerializeField] private int _powerOfForce;
-    [SerializeField] private AudioClip clip_OnPetrifyBegin;
+    [SerializeField] private float duration = 3;
+    [SerializeField] private int _powerOfForce = 5;
+    [SerializeField] private AudioClip clip_OnPetrifyBegin = null;
 
     protected override void OnStart()
     {
@@ -28,7 +28,7 @@ public class MedusaParry_skill : SkillBase
         if (entity == null) return;
         if (entity.GetComponent<EffectReceiver>())
         {
-            entity.GetComponent<EffectReceiver>().TakeEffect(EffectName.OnPetrify);
+            entity.GetComponent<EffectReceiver>().TakeEffect(EffectName.OnPetrify, duration);
             Vector3 playerpos = Main.instance.GetChar().transform.position;
             Vector3 enemyPos = entity.transform.position;
             Vector3 dir = enemyPos - playerpos;

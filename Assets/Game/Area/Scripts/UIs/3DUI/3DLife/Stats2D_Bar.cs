@@ -6,8 +6,8 @@ using UnityEngine.UI;
 
 public class Stats2D_Bar : FrontendStatBase
 {
-    [SerializeField] Image img;
-    [SerializeField] Image img_back;
+    [SerializeField] Image img = null;
+    [SerializeField] Image img_back = null;
 
     bool anim;
     public float speed = 0.5f;

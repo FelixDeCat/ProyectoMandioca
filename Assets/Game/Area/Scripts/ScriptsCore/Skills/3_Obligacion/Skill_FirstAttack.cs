@@ -9,10 +9,6 @@ public class Skill_FirstAttack : SkillBase_Obligacion
     private CharacterHead _hero;
 
     CharacterAttack charattack;
-    private void Start()
-    {
-        
-    }
 
     protected override void OnBeginSkill()
     {

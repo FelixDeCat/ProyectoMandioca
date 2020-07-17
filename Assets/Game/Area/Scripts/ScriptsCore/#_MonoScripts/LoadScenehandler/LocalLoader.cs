@@ -6,7 +6,7 @@ using System.Threading;
 
 public class LocalLoader : MonoBehaviour
 {
-    [SerializeField] List<LoadComponent> loadCOmponents;
+    [SerializeField] List<LoadComponent> loadCOmponents =  new List<LoadComponent>();
     public int MaxCount { get => loadCOmponents.Count; }
     public List<LoadComponent> GetLoaders() => loadCOmponents;
 }

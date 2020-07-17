@@ -35,16 +35,16 @@ public class SkillActive_BoomeranShield : SkillActivas
     bool canuse;
     
     //rotation
-    [SerializeField] private Vector3 v3;
-    [SerializeField] private float rotSpeed;
+    [SerializeField] private Vector3 v3 = Vector3.zero;
+    [SerializeField] private float rotSpeed = 5;
 
     
     //Sonidos
-    [SerializeField] private AudioClip _flingShield_Sound;
+    [SerializeField] private AudioClip _flingShield_Sound = null;
     private const string _flingShield_SoundName = "flingShield";
-    [SerializeField] private AudioClip _rotatingShield_Sound;
+    [SerializeField] private AudioClip _rotatingShield_Sound = null;
     private const string _rotatingShield_SoundName = "rotatingShield";
-    [SerializeField] private AudioClip pickUp_skill;
+    [SerializeField] private AudioClip pickUp_skill = null;
     private const string _pickupSkill = "pickUp_skill";
 
     private bool isGoing;

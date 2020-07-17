@@ -6,7 +6,7 @@ public class FeedbackFlashMaterial : FeedbackBase
 {
     [SerializeField] Color onHitColor = Color.red;
     [SerializeField] float onHitFlashTime = 20;
-    [SerializeField] SkinnedMeshRenderer skinnedMeshRederer;
+    [SerializeField] SkinnedMeshRenderer skinnedMeshRederer = null;
 
     const int INDEX_MAT = 1;
     const string MAT_PARAM_VALUE = "_EmissionColor";

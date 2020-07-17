@@ -7,7 +7,7 @@ using UnityEngine.UI;
 public class MainMenuButtons : MonoBehaviour
 {
     EventSystem eventSystem;
-    [SerializeField] GameObject primaryButton;
+    [SerializeField] GameObject primaryButton = null;
 
     private void Awake()
     {

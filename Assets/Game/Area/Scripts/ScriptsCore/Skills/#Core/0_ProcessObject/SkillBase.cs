@@ -12,7 +12,7 @@ public abstract class SkillBase : MonoBehaviour
     bool alreadyActived;
     public bool is3D;
 
-    [Header("Feedback")] [SerializeField] private AudioClip skillInCD;
+    [Header("Feedback")] [SerializeField] private AudioClip skillInCD = null;
     public void Start()//LoadMe
     {
         OnStart();

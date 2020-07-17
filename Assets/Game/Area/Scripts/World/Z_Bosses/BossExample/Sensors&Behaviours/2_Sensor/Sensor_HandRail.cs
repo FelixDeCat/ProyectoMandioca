@@ -6,7 +6,7 @@ using System;
 
 public class Sensor_HandRail : MonoBehaviour
 {
-    [SerializeField] UnityEvent OnExecute;
+    [SerializeField] UnityEvent OnExecute = null;
 
     Func<bool> pred = delegate { return true; };
     public void SetPredicate(Func<bool> _pred ) => pred = _pred;

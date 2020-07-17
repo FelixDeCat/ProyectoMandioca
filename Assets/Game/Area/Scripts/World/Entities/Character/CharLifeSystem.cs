@@ -15,7 +15,7 @@ public class CharLifeSystem: _Base_Life_System
     public event Action gainlife = delegate { };
     public event Action death = delegate { };
 
-    CharFeedbacks feedbacks;
+    CharFeedbacks feedbacks = null;
 
     public CharLifeSystem Configure_CharLifeSystem()
     {

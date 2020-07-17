@@ -7,7 +7,6 @@ public class TeleportDash_Skill : SkillBase
 {
     private CharacterHead _hero;
     [SerializeField] private float teleportDistance = 6;
-    [SerializeField] private float cd = 6;
     private CharacterMovement _movement;
 
     public AudioClip teleportAudio;
@@ -15,8 +14,6 @@ public class TeleportDash_Skill : SkillBase
     public ParticleSystem intro;
     public ParticleSystem outro;
     public ParticleSystem endCD;
-
-    private bool teleportEnabled = false;
     protected override void OnBeginSkill()
     {
         if(_hero == null)
@@ -31,7 +28,7 @@ public class TeleportDash_Skill : SkillBase
         AudioManager.instance.GetSoundPool("TeleportAudio", AudioGroups.GAME_FX, teleportAudio);
     }
 
-    protected override void OnEndSkill(){_hero.ChangeTeleportForDash();teleportEnabled = false;}
+    protected override void OnEndSkill(){_hero.ChangeTeleportForDash();}
 
     protected override void OnUpdateSkill(){}
 

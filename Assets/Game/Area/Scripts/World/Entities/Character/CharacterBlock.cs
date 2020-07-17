@@ -10,7 +10,7 @@ public class CharacterBlock : EntityBlock
     [SerializeField] private int currentBlockCharges = 3;
     [SerializeField] private float timeToRecuperate = 5f;
     [SerializeField] private float parryForceToKnockBack = 650;
-    [SerializeField] ParticleSystem parryParticles;
+    [SerializeField] ParticleSystem parryParticles = null;
 
     public Action callback_OnBlock;
     public Action callback_UpBlock;

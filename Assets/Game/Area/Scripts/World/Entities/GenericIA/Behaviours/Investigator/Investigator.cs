@@ -19,7 +19,7 @@ public class Investigator : MonoBehaviour, ISoundListener
     Search current_search;
 
     public Inspectable current;
-    RigInspectable currentRig;
+    //RigInspectable currentRig;
 
     Action Nothing;
     Action Find;
@@ -29,7 +29,7 @@ public class Investigator : MonoBehaviour, ISoundListener
 
     
     
-    Enem enem;
+    //Enem enem;
 
     float timer;
 

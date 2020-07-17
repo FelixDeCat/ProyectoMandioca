@@ -25,7 +25,7 @@ public class Throwable : MonoBehaviour
 
     public DamageData damageData;
     ThrowData savethrowdata;
-    [SerializeField] AudioClip _crushBoulder;
+    [SerializeField] AudioClip _crushBoulder = null;
 
     private void Awake()
     {

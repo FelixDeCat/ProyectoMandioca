@@ -9,7 +9,7 @@ public class UI3D_Element : MonoBehaviour, ISelectHandler,IDeselectHandler,ISubm
 {
     #region Variables
     [Header("UI3D_Element_Settings")]
-    [SerializeField] Transform parentmodel;
+    [SerializeField] Transform parentmodel = null;
     GameObject mycurrentModel;
     [SerializeField] bool interactable = true;
     //Para guardar los colores originales

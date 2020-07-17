@@ -6,8 +6,8 @@ using UnityEngine.SceneManagement;
 public class Mouse_Or_Keyboard : MonoBehaviour
 {
 
-    [SerializeField] DefaultMenuAnim buttons_joystick_panel;
-    [SerializeField] DefaultMenuAnim buttons_Keyboard_panel;
+    [SerializeField] DefaultMenuAnim buttons_joystick_panel = null;
+    [SerializeField] DefaultMenuAnim buttons_Keyboard_panel = null;
 
     [Header("Si esta activo usa el input del mouse")]
     public bool _activeRotation;

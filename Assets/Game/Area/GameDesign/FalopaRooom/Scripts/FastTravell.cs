@@ -4,19 +4,13 @@ using UnityEngine;
 
 public class FastTravell : MonoBehaviour
 {
-    [SerializeField]CustomCamera _myCamera;
+    [SerializeField]CustomCamera _myCamera = null;
      public Vector3 _myTransform;
-    [SerializeField] Transform _originalTransform;
+    [SerializeField] Transform _originalTransform = null;
     bool _inFastTravell;
-    [SerializeField] float _speedOfTravell;
-    [SerializeField] LayerMask _mask;
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+    [SerializeField] float _speedOfTravell = 2;
+    [SerializeField] LayerMask _mask = 0;
 
-    // Update is called once per frame
     void Update()
     {
         if (_inFastTravell)

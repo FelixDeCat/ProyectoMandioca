@@ -6,7 +6,7 @@ public class SkillActive_LightBounce : SkillActivas
 {
     [SerializeField] private int damage = 5;
     [SerializeField] private Damagetype dmgType = Damagetype.Fire;
-    [SerializeField] private bool isTickDamage;
+    [SerializeField] private bool isTickDamage = false;
     [SerializeField] private float range = 6;
     [SerializeField] private GameObject lightAura = null;
     [SerializeField] private GameObject lightBeam = null;
@@ -21,11 +21,9 @@ public class SkillActive_LightBounce : SkillActivas
 
     DamageData dmgData;      
 
-    [SerializeField] private LineRenderer _lineRenderer = null;
-
-    [SerializeField] private AudioClip fireClip;
-    [SerializeField] private AudioClip celestialChorus;
-    [SerializeField] private AudioClip pickUp_skill;
+    [SerializeField] private AudioClip fireClip = null;
+    [SerializeField] private AudioClip celestialChorus = null;
+    [SerializeField] private AudioClip pickUp_skill = null;
     private const string _fireSound = "fireSound";
     private const string _celestialChorus = "celestialChorus";
     private const string _pickupSkill = "pickUp_skill";

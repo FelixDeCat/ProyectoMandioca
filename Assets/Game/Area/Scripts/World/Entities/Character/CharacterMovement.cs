@@ -35,7 +35,6 @@ public class CharacterMovement
     public Func<AnimationCurve> CurveGravityMultiplier;
     float gravity_multiplier = 1f;
 
-    AudioClip _dashSound;
     CharacterAnimator anim;
 
     Action OnBeginRoll;
@@ -76,7 +75,7 @@ public class CharacterMovement
         Dash += Roll;
         feedbacks = _feedbacks;
         isGrounded = _isGrounded;
-        AudioManager.instance.GetSoundPool("DashSounds", AudioGroups.GAME_FX, _dashSound);
+        AudioManager.instance.GetSoundPool("DashSounds", AudioGroups.GAME_FX);
     }
 
     #region BUILDER

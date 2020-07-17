@@ -20,11 +20,11 @@ using Random = UnityEngine.Random;
 ///////////////////////////////////////////////////////////////////////////////////
 public class Destructible_Normal : DestructibleBase
 {
-    [SerializeField] protected DestructibleData data;
+    [SerializeField] protected DestructibleData data = null;
 
     public bool destroy;
 
-    [SerializeField] ParticleSystem dest_part;
+    [SerializeField] ParticleSystem dest_part = null;
 
     Rigidbody onerig;
     Vector3 dest;

@@ -7,10 +7,10 @@ using UnityEngine.UI;
 
 public class DialogueBox_Controller : MonoBehaviour
 {
-    [SerializeField] public Text boxText;
-    [SerializeField] private RectTransform choicesContainer;
+    [SerializeField] public Text boxText = null;
+    [SerializeField] private RectTransform choicesContainer = null;
 
-    [SerializeField] private ChoiceUI_Template choiceTemplate_pf;
+    [SerializeField] private ChoiceUI_Template choiceTemplate_pf = null;
 
     Queue<string> _dialogues = new Queue<string>();
 

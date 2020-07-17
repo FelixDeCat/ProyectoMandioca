@@ -10,8 +10,8 @@ public class DamageReceiver : MonoBehaviour
     [SerializeField] List<Damagetype> debilities = new List<Damagetype>();
 
 
-    [SerializeField] int debilityAddDmg;
-    [SerializeField] int resistanceRestDmg;
+    [SerializeField] int debilityAddDmg = 5;
+    [SerializeField] int resistanceRestDmg = 3;
     [SerializeField] float knockbackMultiplier = 1;
 
     bool blockEntity;

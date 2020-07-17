@@ -6,7 +6,7 @@ public class GameLoop : MonoBehaviour
 {
     public static GameLoop instance; private void Awake() => instance = this;
 
-    [SerializeField] private AudioClip ambience;
+    [SerializeField] private AudioClip ambience = null;
     
     Checkpoint_Manager checkpointmanager;
     public void SubscribeCheckpoint(Checkpoint_Manager checkpointmanager) => this.checkpointmanager = checkpointmanager;

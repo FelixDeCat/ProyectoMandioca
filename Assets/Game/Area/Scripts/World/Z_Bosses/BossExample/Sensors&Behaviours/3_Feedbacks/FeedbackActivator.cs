@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class FeedbackActivator : FeedbackBase
 {
-    [SerializeField] GameObject to_active_gameObject; 
+    [SerializeField] GameObject to_active_gameObject = null; 
     protected override void OnPlayFeedback() { }
 
     public void Activate(bool val)

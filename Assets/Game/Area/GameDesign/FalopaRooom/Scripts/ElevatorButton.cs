@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class ElevatorButton : Interactable
 {
-    [SerializeField] Elevator _myElevator;
+    [SerializeField] Elevator _myElevator = null;
     public override void OnEnter(WalkingEntity entity)
     {
         WorldItemInfo.instance.Show(transform.position, "elevator", "start/stop elevator");

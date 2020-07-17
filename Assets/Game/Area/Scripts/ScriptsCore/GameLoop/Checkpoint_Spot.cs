@@ -7,9 +7,9 @@ public class Checkpoint_Spot : MonoBehaviour
 {
     public Action<Checkpoint_Spot> OnCheckPointActivated;
     private Checkpoint_Manager _checkpointManager;
-    [SerializeField] private ParticleSystem checkpointActivated_ps;
+    [SerializeField] private ParticleSystem checkpointActivated_ps = null;
 
-    [SerializeField] Transform custom_pos;
+    [SerializeField] Transform custom_pos = null;
 
     public Vector3 GetPosition => custom_pos != null ? custom_pos.position : this.transform.position;
 

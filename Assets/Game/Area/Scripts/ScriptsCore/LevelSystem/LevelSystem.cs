@@ -11,7 +11,7 @@ public class LevelSystem : MonoBehaviour
     public int CURRENT_LEVEL { get { return currentIndex + 1; } }
     int currentExpValue;
 
-    [SerializeField] ParticleSystem levelUp = null;
+    //[SerializeField] ParticleSystem levelUp = null;
     //int point_to_spend;
 
     public Item experience;

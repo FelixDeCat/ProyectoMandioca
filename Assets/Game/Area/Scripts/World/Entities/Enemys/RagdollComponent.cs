@@ -10,11 +10,11 @@ public class RagdollComponent : MonoBehaviour
     [SerializeField] Rigidbody myRigidbody = null;
     [SerializeField] Animator anim = null;
     [SerializeField] float explosionForce = 40;
-    [SerializeField] Collider principalBone;
+    [SerializeField] Collider principalBone = null;
     Action callback_end;
 
     [SerializeField] bool useParentBones = false;
-    [SerializeField] Transform parentBonesToFind;
+    [SerializeField] Transform parentBonesToFind = null;
 
     Bone[] myBones;
     Vector3[] transformpositions;

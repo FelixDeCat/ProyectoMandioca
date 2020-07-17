@@ -9,14 +9,14 @@ public class SkillManager_ActivasNueva : LoadComponent
 {
 
     [Header("All skills data base")]
-    [SerializeField] List<SkillActivas> my_data_base;
+    [SerializeField] List<SkillActivas> my_data_base = new List<SkillActivas>();
     Dictionary<SkillInfo, SkillActivas> fastreference_actives;
     public SkillActivas[] equip;
 
     public int nextToReplace;
 
     public Manager2DActivas frontend;
-    [SerializeField] private AudioClip switchSkill;
+    [SerializeField] private AudioClip switchSkill = null;
     
     [Header("para spawn")]
     Dictionary<SkillInfo, Item> fastreference_item = new Dictionary<SkillInfo, Item>();

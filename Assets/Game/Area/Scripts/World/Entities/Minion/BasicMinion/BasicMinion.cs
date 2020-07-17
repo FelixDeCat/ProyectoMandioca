@@ -12,24 +12,16 @@ public class BasicMinion : Minion
 
     [Header("Combat Options")]
     [SerializeField] CombatComponent combatComponent = null;
-    [SerializeField] int damage = 2;
     [SerializeField] float cdToAttack = 1;
 
     [Header("Life Options")]
     [SerializeField] GenericLifeSystem lifesystem = null;
     [SerializeField] float recallTime = 1;
-    [SerializeField] float forceRecall = 2;
-    [SerializeField] float explosionForce = 20;
-    private float stunTimer;
-    private Action<EState<BasicMinionInput>> EnterStun;
-    private Action<string> UpdateStun;
-    private Action<BasicMinionInput> ExitStun;
 
     private bool cooldown = false;
     private float timercooldown = 0;
 
     [Header("Feedback")]
-    [SerializeField] ParticleSystem takeDamageFX = null;
     [SerializeField] AnimEvent anim = null;
     [SerializeField] Animator animator = null;
     [SerializeField] UnityEngine.UI.Text txt_debug = null;
@@ -172,14 +164,12 @@ public class BasicMinion : Minion
         var attack = new EState<BasicMinionInput>("Attack");
         var takeDamage = new EState<BasicMinionInput>("Take_Damage");
         var die = new EState<BasicMinionInput>("Die");
-        var stun = new EState<BasicMinionInput>("Stun");
 
         ConfigureState.Create(idle)
             .SetTransition(BasicMinionInput.GO_TO_POS, goToPos)
             .SetTransition(BasicMinionInput.CHASING, chasing)
             .SetTransition(BasicMinionInput.TAKE_DAMAGE, takeDamage)
             .SetTransition(BasicMinionInput.DIE, die)
-            .SetTransition(BasicMinionInput.STUN, stun)
             .Done();
 
         ConfigureState.Create(goToPos)
@@ -187,7 +177,6 @@ public class BasicMinion : Minion
             .SetTransition(BasicMinionInput.CHASING, chasing)
             .SetTransition(BasicMinionInput.TAKE_DAMAGE, takeDamage)
             .SetTransition(BasicMinionInput.DIE, die)
-            .SetTransition(BasicMinionInput.STUN, stun)
             .Done();
 
         ConfigureState.Create(chasing)
@@ -196,31 +185,20 @@ public class BasicMinion : Minion
             .SetTransition(BasicMinionInput.BEGIN_ATTACK, beginAttack)
             .SetTransition(BasicMinionInput.TAKE_DAMAGE, takeDamage)
             .SetTransition(BasicMinionInput.DIE, die)
-            .SetTransition(BasicMinionInput.STUN, stun)
             .Done();
 
         ConfigureState.Create(beginAttack)
             .SetTransition(BasicMinionInput.ATTACK, attack)
             .SetTransition(BasicMinionInput.DIE, die)
-            .SetTransition(BasicMinionInput.STUN, stun)
             .Done();
 
         ConfigureState.Create(attack)
             .SetTransition(BasicMinionInput.IDLE, idle)
             .SetTransition(BasicMinionInput.DIE, die)
-            .SetTransition(BasicMinionInput.STUN, stun)
-            .Done();
-
-        ConfigureState.Create(stun)
-            .SetTransition(BasicMinionInput.IDLE, idle)
-            .SetTransition(BasicMinionInput.ATTACK, attack)
-            .SetTransition(BasicMinionInput.BEGIN_ATTACK, beginAttack)
-            .SetTransition(BasicMinionInput.DIE, die)
             .Done();
 
         ConfigureState.Create(takeDamage)
             .SetTransition(BasicMinionInput.IDLE, idle)
-            .SetTransition(BasicMinionInput.STUN, stun)
             .SetTransition(BasicMinionInput.DIE, die)
             .Done();
 
@@ -245,18 +223,10 @@ public class BasicMinion : Minion
 
         new BTakeDmg(takeDamage, sm, recallTime).SetAnimator(animator);
 
-        new BStun(stun, sm, StartStun, TickStun, EndStun);
-
         new BDie(die, sm).SetAnimator(animator).SetDirector(director).SetRigidbody(rb);
     }
 
     bool IsAttack() => attacking;
-
-    void StartStun(EState<BasicMinionInput> input) => EnterStun(input);
-
-    void TickStun(string name) => UpdateStun(name);
-
-    void EndStun(BasicMinionInput input) => ExitStun(input);
 
     #endregion
 

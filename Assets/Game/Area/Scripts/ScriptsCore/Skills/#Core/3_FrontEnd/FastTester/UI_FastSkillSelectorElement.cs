@@ -6,14 +6,14 @@ using System;
 public class UI_FastSkillSelectorElement : MonoBehaviour
 {
     [Header("Info")]
-    [SerializeField] Image img;
-    [SerializeField] Text txt_info;
-    [SerializeField] Text txt_name;
+    [SerializeField] Image img = null;
+    [SerializeField] Text txt_info = null;
+    [SerializeField] Text txt_name = null;
     int index;
     Action<int, bool> callbackSelection = delegate { };
     bool selected;
     [Header("feedback")]
-    [SerializeField] Image imgSelected;
+    [SerializeField] Image imgSelected = null;
     Func<Sprite> GetOnImage;
     Func<Sprite> GetOffImage;
     public void SetInfo(string _name, string info, Sprite sprt, int _index, Action<int, bool> _callbackSelection, Func<Sprite> GetOnImage, Func<Sprite> GetOffImage)

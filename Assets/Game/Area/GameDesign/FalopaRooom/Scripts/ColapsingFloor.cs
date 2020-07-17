@@ -6,7 +6,7 @@ using UnityEngine;
 public class ColapsingFloor : MonoBehaviour
 {
    private ShakeTransformS _shaker;
-   [SerializeField] private float fallingSpeed;
+   [SerializeField] private float fallingSpeed = 3;
    
    private bool goingDown = false;
    private void Start()

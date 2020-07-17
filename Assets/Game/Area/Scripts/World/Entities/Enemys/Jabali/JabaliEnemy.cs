@@ -7,7 +7,7 @@ using Tools.StateMachine;
 public class JabaliEnemy : EnemyBase
 {
     [Header("Move Options")]
-    [SerializeField] GenericEnemyMove movement;
+    [SerializeField] GenericEnemyMove movement = null;
     [SerializeField] LineOfSight lineOfSight = null;
 
     public AnimationCurve animEmisive;
@@ -53,12 +53,12 @@ public class JabaliEnemy : EnemyBase
     [SerializeField] ParticleSystem greenblood = null;
     [SerializeField] AnimEvent anim = null;
     [SerializeField] Animator animator = null;
-    [SerializeField] RagdollComponent ragdoll;
-    [SerializeField] Color onHitColor;
-    [SerializeField] float onHitFlashTime;
-    [SerializeField] GameObject feedbackCharge;
-    [SerializeField] List<AudioClip> mySounds;
-    [SerializeField] EffectBase petrifyEffect;
+    [SerializeField] RagdollComponent ragdoll = null;
+    [SerializeField] Color onHitColor = Color.white;
+    [SerializeField] float onHitFlashTime = 0.1f;
+    [SerializeField] GameObject feedbackCharge = null;
+    [SerializeField] List<AudioClip> mySounds = new List<AudioClip>();
+    [SerializeField] EffectBase petrifyEffect = null;
 
     EventStateMachine<JabaliInputs> sm;
 

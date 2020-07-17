@@ -9,7 +9,7 @@ public class TakeDamageComponent : MonoBehaviour
     GenericLifeSystem LifeSystem;
     Action<Vector3> tkdFeedback;
     Rigidbody rb;
-    [SerializeField] FeedbackManager _feedBack;
+    [SerializeField] FeedbackManager _feedBack = null;
     bool isInCooldown = false;
     public bool Predicate_CanTakeDamage() => isInCooldown;
 

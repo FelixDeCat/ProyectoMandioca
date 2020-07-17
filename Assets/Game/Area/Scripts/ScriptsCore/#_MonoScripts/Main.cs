@@ -25,7 +25,7 @@ public class Main : MonoBehaviour
     [Header("Inspector References")]
     public EventManager eventManager;
     [SerializeField] CharacterHead character = null;
-    [SerializeField] LoadSceneHandler loader = null;
+    //[SerializeField] LoadSceneHandler loader = null;
     [SerializeField] List<PlayObject> allentities = new List<PlayObject>();
     //[SerializeField] SkillManager_Pasivas pasives = null; 
     [SerializeField] SkillManager_PasivasNoBranches pasives_nobranches = null;

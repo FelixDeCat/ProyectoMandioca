@@ -5,17 +5,17 @@ using UnityEngine;
 
 public class HealthPickUp : Interactable
 {
-    [SerializeField] private GameObject model;
+    [SerializeField] private GameObject model = null;
     
     [Header("True con porcentaje")]
-    [SerializeField] private bool percent;
+    [SerializeField] private bool percent = true;
     
     [Header("SETTINGS")]
-    [SerializeField] private int valor;
+    [SerializeField] private int valor = 5;
     [Range(0,1)]
-    [SerializeField] private float percentValue;
+    [SerializeField] private float percentValue = 20;
 
-    [SerializeField] private ParticleSystem pickUpParticle;
+    [SerializeField] private ParticleSystem pickUpParticle = null;
     public override void OnEnter(WalkingEntity entity)
     {
         

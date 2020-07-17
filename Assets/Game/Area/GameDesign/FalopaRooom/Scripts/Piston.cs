@@ -4,15 +4,15 @@ using UnityEngine;
 
 public class Piston : MonoBehaviour
 {
-    [SerializeField] Transform _startPos;
-    [SerializeField] Transform _EndPos;
-    [SerializeField] float _speed;
-    [SerializeField] bool _goBack;
+    [SerializeField] Transform _startPos = null;
+    [SerializeField] Transform _EndPos = null;
+    [SerializeField] float _speed = 5;
+    [SerializeField] bool _goBack = false;
     public bool active;
-    [SerializeField] float _transitionTimeDown;
-    [SerializeField] float _transitionTimeUp;
+    [SerializeField] float _transitionTimeDown = 0.5f;
+    [SerializeField] float _transitionTimeUp = 0.5f;
     float _currentTimer;
-    [SerializeField] TriggerOfPiston trigger;
+    [SerializeField] TriggerOfPiston trigger = null;
 
 
     

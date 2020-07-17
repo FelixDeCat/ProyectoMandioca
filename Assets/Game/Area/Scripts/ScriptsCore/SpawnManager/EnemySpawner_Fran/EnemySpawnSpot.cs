@@ -6,9 +6,9 @@ using UnityEngine;
 public class EnemySpawnSpot : MonoBehaviour
 {
    private bool active = false;
-   [SerializeField] private float radius;
+   [SerializeField] private float radius = 3;
    private CharacterHead _hero;
-   [SerializeField] private PlayObject enemy_pf;
+   [SerializeField] private PlayObject enemy_pf = null;
 
 
    private void Start()

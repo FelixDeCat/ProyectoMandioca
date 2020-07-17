@@ -10,7 +10,7 @@ public class UI2D_Shields_controller : MonoBehaviour
     [HideInInspector]public Vector3 v3;
     [HideInInspector]public bool pingPong = false;
     private float _count;
-    private float timeToPong; 
+    private float timeToPong = 4; 
     
     //[SerializeField] private ParticleSystem shieldOn_ps;
     //[SerializeField] private float spacingHorizontal;

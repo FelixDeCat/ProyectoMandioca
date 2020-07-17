@@ -8,9 +8,9 @@ namespace DevelopTools.UI
     public class DebugVisualSpace : MonoBehaviour
     {
         private Dictionary<string, DebugVisualElement> mychilds = new Dictionary<string, DebugVisualElement>();
-        [SerializeField] Text myNameSpace;
-        [SerializeField] GameObject model;
-        [SerializeField] Transform parent;
+        [SerializeField] Text myNameSpace = null;
+        [SerializeField] GameObject model = null;
+        [SerializeField] Transform parent = null;
         bool isHide = false;
         public void SetNameSpace(string _myNameSpace) => myNameSpace.text = _myNameSpace;
         public void SetValueChild(string _nameChild, string _value)

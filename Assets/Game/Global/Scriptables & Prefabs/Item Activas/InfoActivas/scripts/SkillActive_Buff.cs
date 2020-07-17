@@ -11,15 +11,15 @@ public class SkillActive_Buff : SkillActivas
     [SerializeField] float timeDuration = 5f;
     
     CharacterHead mychar;
-    [SerializeField] AudioClip slowmoEnter;
-    [SerializeField] AudioClip slowmoExit;
-    [SerializeField] ParticleSystem berserkParticle;
-    [SerializeField] ParticleSystem brightParticle;
-    [SerializeField] float smallLightVerticalOffset;
-    [SerializeField] ParticleSystem smallLightParticle;
-    [SerializeField] GameObject berserkWings;
+    [SerializeField] AudioClip slowmoEnter = null;
+    [SerializeField] AudioClip slowmoExit = null;
+    [SerializeField] ParticleSystem berserkParticle = null;
+    [SerializeField] ParticleSystem brightParticle = null;
+    [SerializeField] float smallLightVerticalOffset = 1;
+    [SerializeField] ParticleSystem smallLightParticle = null;
+    [SerializeField] GameObject berserkWings = null;
 
-    [SerializeField] private AudioClip pickUp_skill;
+    [SerializeField] private AudioClip pickUp_skill = null;
     private const string _pickupSkill = "pickUp_skill";
     private const string _slowMoEnter = "slowmo_enter";
     private const string _slowMoExit = "slowmo_exit";

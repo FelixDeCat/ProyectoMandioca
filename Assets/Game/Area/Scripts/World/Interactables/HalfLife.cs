@@ -4,8 +4,8 @@ using UnityEngine;
 
 public class HalfLife : Interactable
 {
-    bool execute;
-    float timer;
+    //bool execute;
+    //float timer;
 
     public int mycant;
     public GenericBar genericbar;
@@ -20,11 +20,11 @@ public class HalfLife : Interactable
 
     public override void OnExecute(WalkingEntity entity)
     {
-        execute = true;
+        //execute = true;
     }
     public override void OnExit()
     {
-        execute = false;
+        //execute = false;
     }
     public override void OnEnter(WalkingEntity entity)
     {

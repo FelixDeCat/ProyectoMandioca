@@ -6,26 +6,20 @@ using UnityEngine;
 public class AStarNodeMakerTool : MonoBehaviour
 {
     public bool execute;
-    [SerializeField] Transform startPos;
-    [SerializeField] Transform endPos;
+    [SerializeField] Transform startPos = null;
     Vector3 posZ;
     Vector3 posX;
-    [SerializeField] int _amountOfNodesInX;
-    [SerializeField] int _amountOfNodesInZ;
-    [SerializeField] float maxHeight;
-    [SerializeField] float minHeight;
-    [SerializeField] LayerMask _mask;
-    [SerializeField] float _range;
-    [SerializeField] GameObject _node;
-    [SerializeField] float sensivility;
-    [SerializeField] GameObject parentOfNodes;
-    // Start is called before the first frame update
-    void Start()
-    {
-       
-    }
+    [SerializeField] int _amountOfNodesInX = 20;
+    [SerializeField] int _amountOfNodesInZ = 20;
+    [SerializeField] float maxHeight = 10;
+    [SerializeField] float minHeight = -5;
+    [SerializeField] LayerMask _mask = 0;
+    [SerializeField] float _range = 166;
+    [SerializeField] GameObject _node = null;
+    [SerializeField] float sensivility = 10;
+    [SerializeField] GameObject parentOfNodes = null;
 
-    // Update is called once per frame
+
     void Update()
     {
         if (execute)

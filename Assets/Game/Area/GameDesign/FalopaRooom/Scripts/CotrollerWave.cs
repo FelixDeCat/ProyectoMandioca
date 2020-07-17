@@ -4,12 +4,12 @@ using UnityEngine;
 
 public class CotrollerWave : MonoBehaviour
 {
-    [SerializeField] float _timer;
-    [SerializeField] int _numbersOfSpawn;
+    [SerializeField] float _timer = 5;
+    [SerializeField] int _numbersOfSpawn = 6;
     float _currentTimer;
     List<SpawnWaves> spawns = new List<SpawnWaves>();
-    [SerializeField] bool _active;
-    // Start is called before the first frame update
+    [SerializeField] bool _active = false;
+
     void Start()
     {
         var childs = GetComponentsInChildren<SpawnWaves>();
@@ -19,8 +19,6 @@ public class CotrollerWave : MonoBehaviour
         }
 
     }
-
-    // Update is called once per frame
     void Update()
     {
         if (!_active)

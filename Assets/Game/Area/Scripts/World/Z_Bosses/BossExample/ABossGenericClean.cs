@@ -8,15 +8,15 @@ using UnityEngine.Events;
 public class ABossGenericClean : EnemyBase
 {
     [Header("Boss Options")]
-    [SerializeField] int life;
-    [SerializeField] StateMachineHandler stateMachineHandler;
-    [SerializeField] InputSenderBase inputSender;
-    [SerializeField] SensorsAndBehaviours sensors_and_behaviours;
-    [SerializeField] FastSubscriberPerState fastSubscriber;
-    [SerializeField] FeedbackManager feedbackManager;
-    [SerializeField] TakeDamageComponent TakeDamageHandler;
+    [SerializeField] int life = 8;
+    [SerializeField] StateMachineHandler stateMachineHandler = null;
+    [SerializeField] InputSenderBase inputSender = null;
+    [SerializeField] SensorsAndBehaviours sensors_and_behaviours = null;
+    [SerializeField] FastSubscriberPerState fastSubscriber = null;
+    [SerializeField] FeedbackManager feedbackManager = null;
+    [SerializeField] TakeDamageComponent TakeDamageHandler = null;
 
-    [SerializeField] UnityEvent EntityDeath;
+    [SerializeField] UnityEvent EntityDeath = null;
 
     protected override void OnInitialize()
     {

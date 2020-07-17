@@ -7,16 +7,16 @@ using UnityEngine.Events;
 [RequireComponent(typeof(DamageReceiver), typeof(_Base_Life_System))]
 public abstract class DestructibleBase : EntityBase
 {
-    [SerializeField] protected DestroyedVersion model_destroyedVersion;
+    [SerializeField] protected DestroyedVersion model_destroyedVersion = null;
     protected DestroyedVersion savedDestroyedVersion;
 
-    [SerializeField] protected DamageReceiver damageReceiver;
-    [SerializeField] protected _Base_Life_System _lifeSytstem;
+    [SerializeField] protected DamageReceiver damageReceiver = null;
+    [SerializeField] protected _Base_Life_System _lifeSytstem = null;
 
-    [SerializeField] AudioClip destroyedSound;
+    [SerializeField] AudioClip destroyedSound = null;
 
-    [SerializeField] UnityEvent OnTakeDamage;
-    [SerializeField] UnityEvent OnDestroyed;
+    [SerializeField] UnityEvent OnTakeDamage = null;
+    [SerializeField] UnityEvent OnDestroyed = null;
 
     private void Start()
     {

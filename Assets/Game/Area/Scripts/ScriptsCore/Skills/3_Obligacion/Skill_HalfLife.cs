@@ -6,10 +6,6 @@ public class Skill_HalfLife : SkillBase_Obligacion
 {
     CharacterHead character;
 
-    private void Start()
-    {
-        character = Main.instance.GetChar();
-    }
     protected override void OnBeginSkill()
     {
         base.OnBeginSkill();

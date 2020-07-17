@@ -11,7 +11,7 @@ public class CharacterHead : CharacterControllable
     public enum PlayerInputs { IDLE, MOVE, BEGIN_BLOCK, BLOCK, END_BLOCK, PARRY, CHARGE_ATTACK, RELEASE_ATTACK, TAKE_DAMAGE, DEAD, ROLL, SPIN, STUN, PLAYER_LOCK_ON, ON_SKILL };
 
     Action ChildrensUpdates;
-    [SerializeField] CharacterInput _charInput;
+    [SerializeField] CharacterInput _charInput = null;
 
     [Header("Dash Options")]
     public AnimationCurve dashCurve;
@@ -25,7 +25,7 @@ public class CharacterHead : CharacterControllable
 
     [Header("Movement Options")]
     [SerializeField] float speed = 5;
-    [SerializeField] float slowSpeed;
+    [SerializeField] float slowSpeed = 2;
 
     public Transform rayPivot;
 
@@ -33,7 +33,7 @@ public class CharacterHead : CharacterControllable
     CharacterMovement move;
     public CharacterInput getInput => _charInput;
 
-    [SerializeField] CharacterGroundSensor groundSensor;
+    [SerializeField] CharacterGroundSensor groundSensor = null;
 
     //Perdon por esto, pero lo necesito pra la skill del boomeran hasta tener la animacion y el estado "sin escudo"
     bool canBlock = true;
@@ -56,14 +56,14 @@ public class CharacterHead : CharacterControllable
     [SerializeField] float attackRange = 3;
     [SerializeField] float attackAngle = 90;
     [SerializeField] float timeToHeavyAttack = 1.5f;
-    [SerializeField] float rangeOfPetrified = 5;
+    //[SerializeField] float rangeOfPetrified = 5;
     [SerializeField] float attackRecall = 1;
-    [SerializeField] float onHitRecall = 2;
-    [SerializeField] Sensor sensorSpin = null;
+    //[SerializeField] float onHitRecall = 2;
+    //[SerializeField] Sensor sensorSpin = null;
     float dmg;
     CharacterAttack charAttack;
-    [SerializeField] DamageData dmgData;
-    [SerializeField] DamageReceiver dmgReceiver;
+    [SerializeField] DamageData dmgData = null;
+    [SerializeField] DamageReceiver dmgReceiver = null;
 
     public BashDashSensor bashDash;
 
@@ -105,7 +105,7 @@ public class CharacterHead : CharacterControllable
     [SerializeField] float takeDamageRecall = 0;
     public Transform ShieldForward;
 
-    [SerializeField] CharFeedbacks feedbacks;
+    [SerializeField] CharFeedbacks feedbacks = null;
 
     public bool Combat { private set; get; }
 

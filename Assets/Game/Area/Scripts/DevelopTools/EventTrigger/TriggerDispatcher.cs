@@ -5,14 +5,14 @@ using UnityEngine.Events;
 
 public class TriggerDispatcher : MonoBehaviour
 {
-    [SerializeField] UnityEvent OnTriggerEnterEvent;
-    [SerializeField] UnityEvent OnTriggerStayEvent;
-    [SerializeField] UnityEvent OnTriggerExitEvent;
-    [SerializeField] UnityEvent OnTriggerLateEnterEvent;
+    [SerializeField] UnityEvent OnTriggerEnterEvent = null;
+    [SerializeField] UnityEvent OnTriggerStayEvent = null;
+    [SerializeField] UnityEvent OnTriggerExitEvent = null;
+    [SerializeField] UnityEvent OnTriggerLateEnterEvent = null;
 
-    [SerializeField] TriggerReceiver[] receivers;
+    [SerializeField] TriggerReceiver[] receivers = new TriggerReceiver[0];
 
-    [SerializeField] Entities entitiesThatCanTrigger;
+    [SerializeField] Entities entitiesThatCanTrigger = Entities.all;
 
     private void OnTriggerEnter(Collider other)
     {

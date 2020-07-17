@@ -69,8 +69,8 @@ public class ParticlesManager : MonoBehaviour
 
             aS.Play();
 
-            if (!aS.loop)
-                StartCoroutine(ReturnSoundToPool(aS, soundPoolName));
+            //if (!aS.loop)
+            //    StartCoroutine(ReturnSoundToPool(aS, soundPoolName));
         }
         else
         {

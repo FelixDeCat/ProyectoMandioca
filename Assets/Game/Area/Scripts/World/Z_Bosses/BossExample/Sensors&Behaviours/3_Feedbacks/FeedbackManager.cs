@@ -4,11 +4,11 @@ using UnityEngine;
 
 public class FeedbackManager : MonoBehaviour
 {
-    [SerializeField] FeedbackOneShot FeedbackOnHit;
-    [SerializeField] FeedbackActivator feedbackInHand;
-    [SerializeField] FeedbackOneShot FeedbackPluckRock;
-    [SerializeField] FeedbackFlashMaterial FeedbackFlashHitEmission;
-    [SerializeField] FeedbackSoundDataBase FeedbackSoundDataBase;
+    [SerializeField] FeedbackOneShot FeedbackOnHit = null;
+    [SerializeField] FeedbackActivator feedbackInHand = null;
+    [SerializeField] FeedbackOneShot FeedbackPluckRock = null;
+    [SerializeField] FeedbackFlashMaterial FeedbackFlashHitEmission = null;
+    [SerializeField] FeedbackSoundDataBase FeedbackSoundDataBase = null;
 
     public void SetRoot(Transform _root)
     {

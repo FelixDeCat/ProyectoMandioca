@@ -13,7 +13,7 @@ public class SkillActive_FreezeRange : SkillActivas
     [SerializeField] private ParticleSystem freezeSmoke = null;
     [SerializeField] private Transform particleContainer = null;
     [SerializeField] private IceShard_particleObjectPool shardPool = null;
-    [SerializeField] private AudioClip freeze_Sound;
+    [SerializeField] private AudioClip freeze_Sound = null;
 
     private List<ParticleSystem> shards = new List<ParticleSystem>();
     List<ParticleSystem> ps = new List<ParticleSystem>();
@@ -21,7 +21,7 @@ public class SkillActive_FreezeRange : SkillActivas
     private CharacterHead _hero;
     private const string freezeSound = "freeze";
 
-    [SerializeField] Atenea atenea;
+    [SerializeField] Atenea atenea = null;
     protected override void OnBeginSkill()
     {
         _hero = Main.instance.GetChar();
@@ -53,7 +53,7 @@ public class SkillActive_FreezeRange : SkillActivas
                 shard.transform.position = enemy.transform.position;
                 shards.Add(shard);
                 
-                enemy.TakeEffect(EffectName.OnFreeze);
+                enemy.TakeEffect(EffectName.OnFreeze, freezeDuration);
             }
         }
         

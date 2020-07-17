@@ -6,22 +6,19 @@ using Tools.Extensions;
 public class SkillActive_RainArrows : SkillActivas
 {
     [Header("Rain arrows settings")]
-    [SerializeField] private float duration = 6;
-    [SerializeField] private float dmgTotal = 5;
     [SerializeField] private int ticksAmount = 6;
-    private float dmgPerTick;
     [SerializeField] private float range = 14;
     private float tickCount;
 
     [SerializeField] private ParticleSystem arrowRain_ps = null;
     private Vector3 anchorPos;
 
-    [SerializeField] private AudioClip _arrowSound;
+    [SerializeField] private AudioClip _arrowSound = null;
     private const string _arrowsSoundName = "arrows";
 
     private CharacterHead _hero;
 
-    [SerializeField] Atenea atenea;
+    [SerializeField] Atenea atenea = null;
 
     protected override void OnStart()
     {
@@ -37,7 +34,6 @@ public class SkillActive_RainArrows : SkillActivas
     void ThrowArrows()
     {
         AudioManager.instance.PlaySound(_arrowsSoundName);
-        dmgPerTick = dmgTotal / (duration / ticksAmount);
         SetPositionOfRainEffect();
         SetRainFeedBackParticlesPosition();
         arrowRain_ps.Play();

@@ -4,24 +4,13 @@ using UnityEngine;
 
 public class SpawnWaves : MonoBehaviour
 {
-    [SerializeField] Waves _wave;
-    [SerializeField] int speed;
-    [SerializeField] float lifeTime;
+    [SerializeField] Waves _wave = null;
+    [SerializeField] int speed = 5;
+    [SerializeField] float lifeTime = 2;
     [SerializeField] float angleHorizontal = 0f;
     [SerializeField] float angleVertical = 0f;
 
     [SerializeField] float range = 10.0f;
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
 
     public void Spawn()
     {

@@ -10,8 +10,8 @@ public class LoadSceneHandler : MonoBehaviour
     private void Awake() => instance = this;
     Action OnEndLoad = delegate { };
     //[SerializeField] GameObject model_master_loadBar;
-    [SerializeField] GenericBar master_genbar_localLoader;
-    [SerializeField] GenericBar master_genbar_Scene;
+    [SerializeField] GenericBar master_genbar_localLoader = null;
+    [SerializeField] GenericBar master_genbar_Scene = null;
     //GenericBar slave_genbar;
 
     public GameObject loadscreen;

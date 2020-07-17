@@ -5,7 +5,7 @@ using System;
 
 public abstract class SensorBase : MonoBehaviour
 {
-    [SerializeField] bool executeAllTheTime = false;
+    //[SerializeField] bool executeAllTheTime = false;
 
     Action CallbackSensor_TRIGGER = delegate { };
     Action<float> CallbackSensor_FLOAT = delegate { };

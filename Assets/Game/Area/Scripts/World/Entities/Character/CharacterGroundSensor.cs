@@ -26,16 +26,16 @@ public class CharacterGroundSensor : MonoBehaviour
     {
         if ((1 << other.gameObject.layer & ground) != 0)
         {
-            DebugCustom.Log("GroundSensor", "Sensor", true);
             isGronded = true;
+            DebugCustom.Log("GroundSensor", "Sensor", isGronded);
         }
     }
     public void OnTriggerExit(Collider other)
     {
         if ((1 << other.gameObject.layer & ground) != 0)
         {
-            DebugCustom.Log("GroundSensor", "Sensor", false);
             isGronded = false;
+            DebugCustom.Log("GroundSensor", "Sensor", isGronded);
         }
     }
 }

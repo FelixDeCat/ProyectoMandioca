@@ -16,7 +16,7 @@ public class TrueDummyEnemy : EnemyBase
 
 
     [Header("Move Options")]
-    [SerializeField] GenericEnemyMove movement;
+    [SerializeField] GenericEnemyMove movement = null;
 
     public AnimationCurve animEmisive;
 
@@ -38,9 +38,6 @@ public class TrueDummyEnemy : EnemyBase
 
     [Header("Life Options")]
     [SerializeField] float recallTime = 1;
-    private Action<EState<DummyEnemyInputs>> EnterStun;
-    private Action<string> UpdateStun;
-    private Action<DummyEnemyInputs> ExitStun;
 
     private bool cooldown = false;
     private float timercooldown = 0;
@@ -49,12 +46,12 @@ public class TrueDummyEnemy : EnemyBase
     [SerializeField] AnimEvent anim = null;
     [SerializeField] Animator animator = null;
     private Material[] myMat;
-    [SerializeField] Color onHitColor;
-    [SerializeField] float onHitFlashTime;
+    [SerializeField] Color onHitColor = Color.white;
+    [SerializeField] float onHitFlashTime = 0.1f;
     [SerializeField] RagdollComponent ragdoll = null;
     private const string takeHit_audioName = "woodChop";
 
-    [SerializeField] EffectBase petrifyEffect;
+    [SerializeField] EffectBase petrifyEffect = null;
     EventStateMachine<DummyEnemyInputs> sm;
 
     public DataBaseDummyParticles particles;
@@ -409,7 +406,7 @@ public class TrueDummyEnemy : EnemyBase
 
         new DummyTDState(takeDamage, sm, recallTime).SetAnimator(animator);
 
-        new DummyStunState(petrified, sm, StartStun, TickStun, EndStun);
+        new DummyStunState(petrified, sm);
 
         new DummyDieState(die, sm, ragdoll, particles.myGroundParticle).SetAnimator(animator).SetDirector(director).SetRigidbody(rb);
 
@@ -436,12 +433,6 @@ public class TrueDummyEnemy : EnemyBase
     {
         
     }
-
-    void StartStun(EState<DummyEnemyInputs> input) => EnterStun?.Invoke(input);
-
-    void TickStun(string name) => UpdateStun?.Invoke(name);
-
-    void EndStun(DummyEnemyInputs input) => ExitStun?.Invoke(input);
 
     void DisableObject()
     {

@@ -8,7 +8,7 @@ public class CharacterAttack
     public Transform forwardPos { get; private set; }
     float heavyAttackTime = 1f;
     float buttonPressedTime;
-    float angleOfAttack;
+    //float angleOfAttack;
     float currentDamage;
 
     CharacterAnimator anim;
@@ -31,7 +31,7 @@ public class CharacterAttack
 
     Action callback_ReceiveEntity = delegate { };
 
-    event Action<Vector3> callbackPositio;
+    //event Action<Vector3> callbackPositio;
 
 
     Action DealSuccesfullNormal;

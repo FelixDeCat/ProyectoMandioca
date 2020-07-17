@@ -4,10 +4,10 @@ using UnityEngine;
 
 public class Elevator : MonoBehaviour
 {
-    [SerializeField] Transform _startPos;
-    [SerializeField] Transform _EndPos;
-    [SerializeField] float _speed;
-    [SerializeField] bool _goBack;
+    [SerializeField] Transform _startPos = null;
+    [SerializeField] Transform _EndPos = null;
+    [SerializeField] float _speed = 5;
+    [SerializeField] bool _goBack = true;
     public bool active;
     // Start is called before the first frame update
     void Start()

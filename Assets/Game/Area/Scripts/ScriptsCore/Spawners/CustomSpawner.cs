@@ -12,17 +12,17 @@ public class CustomSpawner : PlayObject
     private int _amountSpawned;
     
     [Header("__*General Settings*__")]
-    [SerializeField] private SpawnMode mode;
-    [SerializeField] private PlayObject prefab;
-    [SerializeField] private float spawnRadius;
-    [SerializeField] private float waveFrec;
-    [SerializeField] private int waveAmount;
-    [SerializeField] private bool infiniteSpawner;
+    [SerializeField] private SpawnMode mode = SpawnMode.Waves;
+    [SerializeField] private PlayObject prefab = null;
+    [SerializeField] private float spawnRadius = 5;
+    [SerializeField] private float waveFrec = 1;
+    [SerializeField] private int waveAmount = 5;
+    [SerializeField] private bool infiniteSpawner = false;
 
     [Header("***--Wave Settings--***")]
-    [SerializeField] private int totalAmount;
+    [SerializeField] private int totalAmount = 20;
     [Header("***--Time Settings--***")]
-    [SerializeField] private float totalTime;
+    [SerializeField] private float totalTime = 15;
 
    
     

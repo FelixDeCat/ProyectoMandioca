@@ -71,7 +71,7 @@ public abstract class MonoStateBase : MonoBehaviour
     [System.Serializable]
     public class MonoStateBaseOptions
     {
-        [SerializeField] private LabelStatesLinkType linker;
+        [SerializeField] private LabelStatesLinkType linker = LabelStatesLinkType.STATE_01_ACTION;
         internal LabelStatesLinkType Linker { get => linker; }
         [System.NonSerialized] internal bool isactive;
     }

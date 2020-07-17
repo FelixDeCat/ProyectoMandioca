@@ -17,7 +17,7 @@ public class CombatDirector : LoadComponent, IZoneElement
     Dictionary<EntityBase, bool> isAttack = new Dictionary<EntityBase, bool>();
     Dictionary<EntityBase, Action> updateDict = new Dictionary<EntityBase, Action>();
 
-    CharacterHead head;
+    CharacterHead head = null;
 
     bool run;
     [SerializeField] float timerMin = 1;

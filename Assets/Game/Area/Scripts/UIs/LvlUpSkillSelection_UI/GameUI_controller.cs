@@ -12,9 +12,9 @@ public class GameUI_controller : MonoBehaviour
     public UI2D_Shields_controller shieldsController;
     
     [Header("--XX--Canvas containers--XX--")]
-    [SerializeField] private RectTransform leftCanvas = null;
-    [SerializeField] private RectTransform rightCanvas = null;
-    [SerializeField] private RectTransform completeCanvas = null;
+    //[SerializeField] private RectTransform leftCanvas = null;
+    //[SerializeField] private RectTransform rightCanvas = null;
+    //[SerializeField] private RectTransform completeCanvas = null;
 
     //No me mates, es pa probar rapido si funciona
     public Image skillImage;

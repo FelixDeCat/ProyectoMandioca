@@ -12,7 +12,7 @@ public abstract class SkillActivas : SkillBase
     Action<SkillInfo> CallbackSuscessfullUsed = delegate { };
 
     [Header("Cooldown Settings")]
-    [SerializeField] float cooldown;
+    [SerializeField] float cooldown = 1;
     float timer_cooldown;
     public float Cooldown { get => timer_cooldown; }
     bool begincooldown;

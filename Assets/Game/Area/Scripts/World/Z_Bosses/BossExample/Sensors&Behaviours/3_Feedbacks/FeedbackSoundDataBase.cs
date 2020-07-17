@@ -5,11 +5,11 @@ using UnityEngine;
 
 public class FeedbackSoundDataBase : MonoBehaviour
 {
-    [SerializeField] AudioClip _getDamageClip;
-    [SerializeField] AudioClip _throwAttackClip;
-    [SerializeField] AudioClip _beginFightClip;
-    [SerializeField] AudioClip _deathClip;
-    [SerializeField] AudioClip _hitTheGround;
+    [SerializeField] AudioClip _getDamageClip = null;
+    [SerializeField] AudioClip _throwAttackClip = null;
+    [SerializeField] AudioClip _beginFightClip = null;
+    [SerializeField] AudioClip _deathClip = null;
+    [SerializeField] AudioClip _hitTheGround = null;
     Transform root;
 
     void Start()

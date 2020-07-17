@@ -44,26 +44,26 @@ public class ThreadRequestObject<T> where T : MonoBehaviour
 
     public HashSet<T> hash = new HashSet<T>();
 
-    IEnumerator Find<T>(Action<IEnumerable<T>> callbackCollection) where T : MonoBehaviour
+    IEnumerator Find<K>(Action<IEnumerable<K>> callbackCollection) where K : MonoBehaviour
     {
         var gos = SceneManager.SceneManager.GetActiveScene().GetRootGameObjects();
         var SceneCount = SceneManager.SceneManager.sceneCount;
 
         bar.Configure(gos.Length-1, 0.01f);
 
-        List<T> col = new List<T>();
+        List<K> col = new List<K>();
 
         for (int i = 0; i < gos.Length; i++)
         {
             //yield return new WaitForSeconds(0.01f);
             bar.SetValue((float)i);
 
-            foreach (var child in gos[i].GetComponentsInChildren<T>())
+            foreach (var child in gos[i].GetComponentsInChildren<K>())
             {
                 if (!col.Contains(child))
                     col.Add(child);
             }
-            var c = gos[i].GetComponent<T>();
+            var c = gos[i].GetComponent<K>();
             if (c != null)
             {
                 if(!col.Contains(c))

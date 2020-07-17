@@ -7,14 +7,14 @@ using System;
 public class Fades_Screens : MonoBehaviour
 {
     public static Fades_Screens instance;
-    [SerializeField] float speed;
-    [SerializeField] CanvasGroup canvas_group;
+    [SerializeField] float speed = 0.5f;
+    [SerializeField] CanvasGroup canvas_group = null;
     float timer;
     public bool on;
     Action EndOff = delegate { };
     Action EndOn = delegate { };
     public bool Anim=true;
-    [SerializeField] bool startOn;
+    [SerializeField] bool startOn = false;
     private void Awake() { instance = this; if(startOn) canvas_group.alpha = 1; }
     public void Black() { canvas_group.alpha = 1; }
     public void Transparent() { canvas_group.alpha = 0; }

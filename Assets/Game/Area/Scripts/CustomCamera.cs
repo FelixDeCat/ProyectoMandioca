@@ -18,7 +18,7 @@ public class CustomCamera : MonoBehaviour
     public bool active=true;
     Collider currentObstacle;
 
-    [SerializeField] private SkillCloseUp_Camera skillCloseUp_Camera;
+    [SerializeField] private SkillCloseUp_Camera skillCloseUp_Camera = null;
 
     public float zoomDuration;
     const int FIELD_OF_VIEW_ORIGINAL = 60;

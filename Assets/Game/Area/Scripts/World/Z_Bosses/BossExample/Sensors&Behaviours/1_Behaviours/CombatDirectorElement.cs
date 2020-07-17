@@ -7,15 +7,15 @@ using System;
 public class CombatDirectorElement : MonoBehaviour, ICombatDirector
 {
     [Header("TEMP:/Combat director")]
-    [SerializeField, Range(0.5f, 15)] float distancePos = 1.5f;
+    //[SerializeField, Range(0.5f, 15)] float distancePos = 1.5f;
     bool withPos;
 
     CombatDirector director;
-    EntityBase owner;
+    EntityBase owner = null;
     EntityBase target;
     bool combat;
 
-    [SerializeField] UnityEvent CanAttack;
+    [SerializeField] UnityEvent CanAttack = null;
 
     void SubscribeMeToInitializer()
     {
