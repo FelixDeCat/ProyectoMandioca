@@ -9,14 +9,11 @@ namespace Tools.StateMachine
 
     public class CharRoll : CharacterStates
     {
-        ParticleSystem evadepart;
-
         public Action BeginBashDashCallback;
         public Action EndBashDashCallback;
 
-        public CharRoll(EState<CharacterHead.PlayerInputs> myState, EventStateMachine<CharacterHead.PlayerInputs> _sm, ParticleSystem _evadepart, Action _BeginbashDashCallback, Action _EndBashDash) : base(myState, _sm)
+        public CharRoll(EState<CharacterHead.PlayerInputs> myState, EventStateMachine<CharacterHead.PlayerInputs> _sm, Action _BeginbashDashCallback, Action _EndBashDash) : base(myState, _sm)
         {
-            evadepart = _evadepart;
             BeginBashDashCallback = _BeginbashDashCallback;
             EndBashDashCallback = _EndBashDash;
         }
@@ -25,19 +22,12 @@ namespace Tools.StateMachine
 
         protected override void Enter(EState<CharacterHead.PlayerInputs> input)
         {
-
-            
-            evadepart.Play();
-
+            feedbacks.particles.evadeParticle.Play();
             _input = input.Name;
-
             if (input.Name == "Begin_Block" || input.Name == "Block")
             {
                 BeginBashDashCallback.Invoke();
-               // Debug.Log("ANIMACION COMPLETA DE DASH CON ESCUDO");
-                //charBlock.UpBlock();
             }
-
             charMove.Dash();
         }
 
@@ -58,7 +48,7 @@ namespace Tools.StateMachine
 
         protected override void Exit(CharacterHead.PlayerInputs input)
         {
-            evadepart.Stop();
+            feedbacks.particles.evadeParticle.Stop();
 
             if (_input == "Begin_Block" || _input == "Block")
             {

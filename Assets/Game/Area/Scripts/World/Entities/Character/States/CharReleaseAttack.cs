@@ -11,20 +11,16 @@ namespace Tools.StateMachine
         Func<bool> IsHeavy;
         Action<bool> ChangeHeavy;
         Animator anim;
-        Func<bool> WaitAttack;
-        ParticleSystem dashAttackParticles;
         float timer;
         bool enter;
 
         public CharReleaseAttack(EState<CharacterHead.PlayerInputs> myState, EventStateMachine<CharacterHead.PlayerInputs> _sm, float recall,
-                                 Func<bool> _isHeavy, Action<bool> _ChangeHeavy, Animator _anim, Func<bool> _WaitAttack, ParticleSystem moveHeavyDash) : base(myState, _sm)
+                                 Func<bool> _isHeavy, Action<bool> _ChangeHeavy, Animator _anim) : base(myState, _sm)
         {
             attackRecall = recall;
             IsHeavy = _isHeavy;
             ChangeHeavy = _ChangeHeavy;
             anim = _anim;
-            WaitAttack = _WaitAttack;
-            dashAttackParticles = moveHeavyDash;
 
         }
 
@@ -34,7 +30,7 @@ namespace Tools.StateMachine
             {
                 charMove.MovementHorizontal(0);
                 charMove.MovementVertical(0);
-                dashAttackParticles.Play();
+                feedbacks.particles.feedbackDashHeavy.Play();
             }
             enter = true;
         }
@@ -105,7 +101,7 @@ namespace Tools.StateMachine
             enter = true;
             timer = 0;
             ChangeHeavy(false);
-            dashAttackParticles.Stop();
+            feedbacks.particles.feedbackDashHeavy.Stop();
         }
     }
 }

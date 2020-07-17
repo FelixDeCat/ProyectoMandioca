@@ -18,7 +18,6 @@ public class CharacterAttack
     Action NormalAttack;
     Action HeavyAttack;
     
-    ParticleSystem feedbackHeavy;
     bool oneshot;
 
     public bool inAttack;
@@ -34,7 +33,6 @@ public class CharacterAttack
 
     event Action<Vector3> callbackPositio;
 
-    ParticleSystem heavyLoad;
 
     Action DealSuccesfullNormal;
     Action DealSuccesfullHeavy;
@@ -49,16 +47,11 @@ public class CharacterAttack
     CharFeedbacks feedbacks;
 
     public CharacterAttack(float _range, float _angle, float _heavyAttackTime, CharacterAnimator _anim, Transform _forward,
-        Action _normalAttack, Action _heavyAttack, ParticleSystem ps, float damage, CharFeedbacks _charFeedbacks, DamageData data, ParticleSystem _heavyLoad)
+        Action _normalAttack, Action _heavyAttack, float damage, CharFeedbacks _charFeedbacks, DamageData data)
     {
         hitstore = new HitStore();
-
-        heavyLoad = _heavyLoad;
         myWeapons = new List<Weapon>();
         myWeapons.Add(new GenericSword(damage, _range, "Generic Sword", _angle, data).ConfigureCallback(CALLBACK_DealDamage));
-        //myWeapons.Add(new ExampleWeaponOne(damage, _range, "Other Weapon", 45));
-        //myWeapons.Add(new ExampleWeaponTwo(damage, _range, "Sarasa Weapon", 45));
-        //myWeapons.Add(new ExampleWeaponThree(damage, _range, "Ultimate Blessed Weapon", 45));
         currentWeapon = myWeapons[0];
         currentDamage = currentWeapon.baseDamage;
 
@@ -70,7 +63,6 @@ public class CharacterAttack
 
         NormalAttack = _normalAttack;
         HeavyAttack = _heavyAttack;
-        feedbackHeavy = ps;
     }
     public void SetRigidBody(Rigidbody _rb) => myRig = _rb;
     public string ChangeName() => currentWeapon.weaponName;
@@ -103,7 +95,7 @@ public class CharacterAttack
             {
                 if (!oneshot)
                 {
-                    heavyLoad.Play();
+                    feedbacks.particles.HeavyLoaded.Play();
                     
                     oneshot = true;
                 }
@@ -138,7 +130,7 @@ public class CharacterAttack
     
     public void AttackBegin()
     {
-        feedbackHeavy.Play();
+        feedbacks.particles.feedbackHeavy.Play();
         inCheck = true;
         buttonPressedTime = 0f;
         anim.OnAttackBegin(true);
@@ -160,7 +152,7 @@ public class CharacterAttack
         inCheck = false;
         buttonPressedTime = 0f;
         anim.OnAttackBegin(false);
-        feedbackHeavy.Stop();
+        feedbacks.particles.feedbackHeavy.Stop();
         oneshot = false;
     }
 
@@ -183,7 +175,7 @@ public class CharacterAttack
         {
             HeavyAttack.Invoke();
         }
-        feedbackHeavy.Stop();
+        feedbacks.particles.feedbackHeavy.Stop();
         oneshot = false;
         buttonPressedTime = 0f;
         anim.OnAttackBegin(false);

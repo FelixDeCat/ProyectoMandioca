@@ -20,7 +20,6 @@ public class CharacterHead : CharacterControllable
     [SerializeField] float dashDistance = 5;
     [SerializeField] float dashCD = 2;
     [SerializeField] float teleportCD = 2;
-    [SerializeField] ParticleSystem evadeParticle = null;
     public bool Slowed { get; private set; }
     Func<bool> InDash;
 
@@ -45,14 +44,6 @@ public class CharacterHead : CharacterControllable
     [SerializeField] float slowDuration = 2;
     [SerializeField] float speedAnim = 1;
 
-    [Header("Feedbacks")]
-    [SerializeField] ParticleSystem feedbackCW = null;
-
-    [SerializeField] private AudioClip audioClip_takeHeal;
-
-    [SerializeField] private AudioClip swingSword_AC;
-    private const string swing_SoundName = "swingSword";
-    [SerializeField] private AudioClip footstep;
 
     [Header("Animations")]
     [SerializeField] Animator anim_base = null;
@@ -60,8 +51,6 @@ public class CharacterHead : CharacterControllable
     public CharacterAnimator charanim;
 
     [Header("Attack Options")]
-    [SerializeField] ParticleSystem feedbackHeavy = null;
-    [SerializeField] ParticleSystem feedbackDashHeavy = null;
     [SerializeField] float dmg_normal = 5;
     [SerializeField] float dmg_heavy = 20;
     [SerializeField] float attackRange = 3;
@@ -73,9 +62,6 @@ public class CharacterHead : CharacterControllable
     [SerializeField] Sensor sensorSpin = null;
     float dmg;
     CharacterAttack charAttack;
-    [SerializeField] AudioClip _dashSounds;
-    [SerializeField] ParticleSystem slash_right = null;
-    [SerializeField] ParticleSystem slash_left = null;
     [SerializeField] DamageData dmgData;
     [SerializeField] DamageReceiver dmgReceiver;
 
@@ -84,7 +70,6 @@ public class CharacterHead : CharacterControllable
     CustomCamera customCam;
 
     [SerializeField] GameObject go_StunFeedback = null;
-    [SerializeField] GameObject go_SpinFeedback = null;
     float spinDuration;
     float spinSpeed;
     float stunDuration;
@@ -98,8 +83,6 @@ public class CharacterHead : CharacterControllable
     public InteractSensor sensor;
 
     [Header("Life Options")]
-    [SerializeField] AudioClip sound_takedamage;
-    [SerializeField] AudioClip sound_takebigdamage;
     [Range(0f, 1f)]
     [SerializeField] float big_damage_limit_percent = 0.3f;
 
@@ -118,11 +101,6 @@ public class CharacterHead : CharacterControllable
 
     [SerializeField] float knockbackOnParry = 650;
 
-    [SerializeField] ParticleSystem parryParticle = null;
-    [SerializeField] ParticleSystem blockParticle = null;
-    [SerializeField] ParticleSystem hitParticle = null;
-    [SerializeField] AudioClip audioParry = null;
-    [SerializeField] AudioClip audioblock = null;
     [SerializeField] float parryRecall = 0;
     [SerializeField] float takeDamageRecall = 0;
     public Transform ShieldForward;
@@ -181,8 +159,7 @@ public class CharacterHead : CharacterControllable
             .SetParry(charBlock.IsParry, ParryFeedback)
             .Initialize(rot, () => InDash(), Dead, TakeDamageFeedback, rb, lifesystem);
 
-        charAttack = new CharacterAttack(attackRange, attackAngle, timeToHeavyAttack, charanim, rot, ReleaseInNormal, ReleaseInHeavy,
-            feedbackHeavy, dmg, feedbacks, dmgData, feedbackCW);
+        charAttack = new CharacterAttack(attackRange, attackAngle, timeToHeavyAttack, charanim, rot, ReleaseInNormal, ReleaseInHeavy, dmg, feedbacks, dmgData);
         charAttack.FirstAttackReady(true);
 
         charAnimEvent.Add_Callback("CheckAttackType", CheckAttackType);
@@ -208,15 +185,6 @@ public class CharacterHead : CharacterControllable
         // DevelopTools.UI.Debug_UI_Tools.instance.CreateToogle("Use LockOn", false, UseLockOn);
 
         SetStates();
-
-        //Sound
-        AudioManager.instance.GetSoundPool(swing_SoundName, AudioGroups.GAME_FX, swingSword_AC);
-        AudioManager.instance.GetSoundPool("FootStep", AudioGroups.GAME_FX, footstep);
-        AudioManager.instance.GetSoundPool("blockSound", AudioGroups.GAME_FX, audioblock);
-        AudioManager.instance.GetSoundPool("takeHeal", AudioGroups.GAME_FX, audioClip_takeHeal);
-        AudioManager.instance.GetSoundPool("takeBigDamage", AudioGroups.GAME_FX, sound_takebigdamage);
-        AudioManager.instance.GetSoundPool("takeNormalDamage", AudioGroups.GAME_FX, sound_takedamage);
-        AudioManager.instance.GetSoundPool("parrySound", AudioGroups.GAME_FX, audioParry);
 
         originalNormal = dmg_normal;
         originalHeavy = dmg_heavy;
@@ -395,9 +363,10 @@ public class CharacterHead : CharacterControllable
             .SetMovement(this.move)
             .SetBlock(charBlock);
 
-        new CharRoll(roll, stateMachine, evadeParticle, BeginBashDash, StopBashDash)
+        new CharRoll(roll, stateMachine, BeginBashDash, StopBashDash)
             .SetMovement(this.move)
-            .SetBlock(charBlock);
+            .SetBlock(charBlock)
+            .SetFeedbacks(feedbacks);
 
         new CharChargeAttack(attackCharge, stateMachine)
             .SetLeftAxis(GetLeftHorizontal, GetLeftVertical)
@@ -405,12 +374,12 @@ public class CharacterHead : CharacterControllable
             .SetMovement(this.move)
             .SetAttack(charAttack);
 
-        new CharReleaseAttack(attackRelease, stateMachine, attackRecall, HeavyAttackRealease, ChangeHeavy, anim_base, IsAttackWait, feedbackDashHeavy)
-                    .SetMovement(this.move)
+        new CharReleaseAttack(attackRelease, stateMachine, attackRecall, HeavyAttackRealease, ChangeHeavy, anim_base)
+            .SetMovement(this.move)
             .SetLeftAxis(GetLeftHorizontal, GetLeftVertical)
             .SetRightAxis(GetRightHorizontal, GetRightVertical)
             .SetAttack(charAttack)
-            .SetLeftAxis(GetLeftHorizontal, GetLeftVertical);
+            .SetLeftAxis(GetLeftHorizontal, GetLeftVertical).SetFeedbacks(feedbacks);
 
         new CharTakeDmg(takeDamage, stateMachine, takeDamageRecall);
 
@@ -524,13 +493,11 @@ public class CharacterHead : CharacterControllable
 
     #region Attack
     /////////////////////////////////////////////////////////////////
-    void RightAttacktFeedback() { slash_right.Play(); }
-    void LeftAttacktFeedback() { slash_left.Play(); }
+    void RightAttacktFeedback() { feedbacks.particles.slash_right.Play(); }
+    void LeftAttacktFeedback() { feedbacks.particles.slash_left.Play(); }
     public Vector3 DirAttack { get; private set; }
     void DealLeft() { DirAttack = rot.right; DealAttack(); }
     void DealRight() { DirAttack = -rot.right; DealAttack(); }
-
-    bool attackWait;
     public void EVENT_OnAttackBegin()
     {
         if (stateMachine.Current.Name != "Release_Attack")
@@ -539,8 +506,6 @@ public class CharacterHead : CharacterControllable
         charAttack.UnfilteredAttack();
     }
     public void EVENT_OnAttackEnd() { stateMachine.SendInput(PlayerInputs.RELEASE_ATTACK); /*attackWait = false;*/ }
-
-    bool IsAttackWait() => attackWait;
     public void CheckAttackType() => charAttack.BeginCheckAttackType();//tengo la espada arriba
     public void DealAttack()
     {
@@ -639,7 +604,7 @@ public class CharacterHead : CharacterControllable
     public void EVENT_Parry() => stateMachine.SendInput(PlayerInputs.PARRY);
     public void AddParry(Action listener) => charBlock.callback_OnParry += listener;
     public void RemoveParry(Action listener) => charBlock.callback_OnParry -= listener;
-    public void PerfectParry() { parryParticle.Play(); stateMachine.SendInput(PlayerInputs.PARRY); }
+    public void PerfectParry() { feedbacks.particles.parryParticle.Play(); stateMachine.SendInput(PlayerInputs.PARRY); }
     //<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
     #endregion
 
@@ -721,7 +686,7 @@ public class CharacterHead : CharacterControllable
 
     void BlockFeedback(EntityBase entity)
     {
-        blockParticle.Play();
+        feedbacks.particles.blockParticle.Play();
         charanim.BlockSomething();
         charBlock.SetBlockCharges(-1);
         feedbacks.sounds.Play_Block();
@@ -745,7 +710,7 @@ public class CharacterHead : CharacterControllable
         }
 
 
-        hitParticle.Play();
+        feedbacks.particles.hitParticle.Play();
         Main.instance.Vibrate();
     }
 

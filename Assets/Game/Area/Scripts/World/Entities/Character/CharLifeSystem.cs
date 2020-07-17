@@ -15,6 +15,8 @@ public class CharLifeSystem: _Base_Life_System
     public event Action gainlife = delegate { };
     public event Action death = delegate { };
 
+    CharFeedbacks feedbacks;
+
     public CharLifeSystem Configure_CharLifeSystem()
     {
         Initialize();
@@ -52,7 +54,7 @@ public class CharLifeSystem: _Base_Life_System
 
     void EVENT_OnGainLife()
     {
-        AudioManager.instance.PlaySound("takeHeal");
+        feedbacks.sounds.Play_TakeHeal();
         gainlife.Invoke();
     }
 
