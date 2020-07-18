@@ -19,6 +19,8 @@ public class CustomSpawner : PlayObject
     [SerializeField] private float waveFrec = 1;
     [SerializeField] private int waveAmount = 5;
     [SerializeField] private bool infiniteSpawner = false;
+    [SerializeField] private Transform spawnSpot;
+    
 
     [Header("***--Wave Settings--***")]
     [SerializeField] private int totalAmount = 20;
@@ -32,11 +34,12 @@ public class CustomSpawner : PlayObject
 
     //Se activa el spawner
     public void ActivateSpawner(){canupdate = true;}
-    public void StopSpawner(){canupdate = false;}
+    public void StopSpawner(){canupdate = false; ResetSpawner(); }
 
     //Una state machine XD
     protected override void OnUpdate()
     {
+        Debug.Log("asdasdas");
         switch (mode)
         {
             case SpawnMode.Time:
@@ -120,7 +123,7 @@ public class CustomSpawner : PlayObject
 
     Vector3 GetSurfacePos()
     {
-        var pos = GetPosRandom(spawnRadius, transform);
+        var pos = GetPosRandom(spawnRadius, spawnSpot);
         pos += Vector3.up * 30;
 
         RaycastHit hit;
@@ -163,7 +166,7 @@ public class CustomSpawner : PlayObject
 
     private void OnDrawGizmos()
     {       
-        Gizmos.DrawWireSphere(transform.position, spawnRadius);
+        Gizmos.DrawWireSphere(spawnSpot.position, spawnRadius);
     }
     protected override void OnFixedUpdate(){}
     protected override void OnPause(){}
