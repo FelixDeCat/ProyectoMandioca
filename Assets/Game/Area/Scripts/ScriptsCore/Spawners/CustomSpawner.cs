@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 using Random = UnityEngine.Random;
 
 public class CustomSpawner : PlayObject
@@ -24,21 +25,14 @@ public class CustomSpawner : PlayObject
     [Header("***--Time Settings--***")]
     [SerializeField] private float totalTime = 15;
 
-   
-    
+
     private enum SpawnMode{Time, Waves}
 
     private void Start(){_poolPlayObject = PoolManager.instance.GetObjectPool(gameObject.name, prefab);}
 
     //Se activa el spawner
-    private void OnTriggerEnter(Collider other)
-    {
-        var hero = other.gameObject.GetComponent<CharacterHead>();
-        if(hero != null)
-            ActivateSpawner();    
-    }
-
-    void ActivateSpawner(){canupdate = true;}
+    public void ActivateSpawner(){canupdate = true;}
+    public void StopSpawner(){canupdate = false;}
 
     //Una state machine XD
     protected override void OnUpdate()
