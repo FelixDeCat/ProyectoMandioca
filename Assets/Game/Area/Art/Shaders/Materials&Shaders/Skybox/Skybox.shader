@@ -16,216 +16,215 @@ Shader "Effects/Skybox/CustoSkybox"
 		[HideInInspector]_TextureSample0("Texture Sample 0", 2D) = "white" {}
 		_Mask("Mask", Range( 0 , 1)) = 0
 		[HideInInspector] _texcoord( "", 2D ) = "white" {}
-		[HideInInspector] __dirty( "", Int ) = 1
-	}
 
+	}
+	
 	SubShader
 	{
-		Tags{ "RenderType" = "Transparent"  "Queue" = "Transparent+0" "IgnoreProjector" = "True" "IsEmissive" = "true"  }
-		Cull Back
+		
+		
+		Tags { "RenderType"="Opaque" }
+		LOD 100
+
 		CGINCLUDE
-		#include "UnityShaderVariables.cginc"
-		#include "UnityPBSLighting.cginc"
-		#include "Lighting.cginc"
 		#pragma target 3.0
-		#pragma shader_feature _SATURATEMASK_ON
-		struct Input
-		{
-			float3 worldPos;
-			float3 viewDir;
-			float2 uv_texcoord;
-		};
-
-		uniform float4 _GroundColor;
-		uniform float4 _SkyColor;
-		uniform float _MoveGradiant;
-		uniform float _IntensitySkyBox;
-		uniform float _SunSize;
-		uniform float _SunIntensity;
-		uniform float _CloudsSpeed;
-		uniform sampler2D _TextureSample0;
-		uniform float4 _TextureSample0_ST;
-		uniform float _Mask;
-		uniform float _CloudsSize;
-
-
-		float2 voronoihash121( float2 p )
-		{
-			p = p - 1 * floor( p / 1 );
-			p = float2( dot( p, float2( 127.1, 311.7 ) ), dot( p, float2( 269.5, 183.3 ) ) );
-			return frac( sin( p ) *43758.5453);
-		}
-
-
-		float voronoi121( float2 v, float time, inout float2 id )
-		{
-			float2 n = floor( v );
-			float2 f = frac( v );
-			float F1 = 8.0;
-			float F2 = 8.0; float2 mr = 0; float2 mg = 0;
-			for ( int j = -1; j <= 1; j++ )
-			{
-				for ( int i = -1; i <= 1; i++ )
-			 	{
-			 		float2 g = float2( i, j );
-			 		float2 o = voronoihash121( n + g );
-					o = ( sin( time + o * 6.2831 ) * 0.5 + 0.5 ); float2 r = g - f + o;
-					float d = 0.5 * dot( r, r );
-			 		if( d<F1 ) {
-			 			F2 = F1;
-			 			F1 = d; mg = g; mr = r; id = o;
-			 		} else if( d<F2 ) {
-			 			F2 = d;
-			 		}
-			 	}
-			}
-			return (F2 + F1) * 0.5;
-		}
-
-
-		float3 mod2D289( float3 x ) { return x - floor( x * ( 1.0 / 289.0 ) ) * 289.0; }
-
-		float2 mod2D289( float2 x ) { return x - floor( x * ( 1.0 / 289.0 ) ) * 289.0; }
-
-		float3 permute( float3 x ) { return mod2D289( ( ( x * 34.0 ) + 1.0 ) * x ); }
-
-		float snoise( float2 v )
-		{
-			const float4 C = float4( 0.211324865405187, 0.366025403784439, -0.577350269189626, 0.024390243902439 );
-			float2 i = floor( v + dot( v, C.yy ) );
-			float2 x0 = v - i + dot( i, C.xx );
-			float2 i1;
-			i1 = ( x0.x > x0.y ) ? float2( 1.0, 0.0 ) : float2( 0.0, 1.0 );
-			float4 x12 = x0.xyxy + C.xxzz;
-			x12.xy -= i1;
-			i = mod2D289( i );
-			float3 p = permute( permute( i.y + float3( 0.0, i1.y, 1.0 ) ) + i.x + float3( 0.0, i1.x, 1.0 ) );
-			float3 m = max( 0.5 - float3( dot( x0, x0 ), dot( x12.xy, x12.xy ), dot( x12.zw, x12.zw ) ), 0.0 );
-			m = m * m;
-			m = m * m;
-			float3 x = 2.0 * frac( p * C.www ) - 1.0;
-			float3 h = abs( x ) - 0.5;
-			float3 ox = floor( x + 0.5 );
-			float3 a0 = x - ox;
-			m *= 1.79284291400159 - 0.85373472095314 * ( a0 * a0 + h * h );
-			float3 g;
-			g.x = a0.x * x0.x + h.x * x0.y;
-			g.yz = a0.yz * x12.xz + h.yz * x12.yw;
-			return 130.0 * dot( m, g );
-		}
-
-
-		void surf( Input i , inout SurfaceOutputStandard o )
-		{
-			float3 ase_worldPos = i.worldPos;
-			float3 normalizeResult3 = normalize( ase_worldPos );
-			float3 break4 = normalizeResult3;
-			float2 appendResult9 = (float2(( ( atan2( break4.x , break4.z ) / 6.28318548202515 ) / _MoveGradiant ) , ( ( asin( break4.y ) / ( UNITY_PI / 2.0 ) ) / _MoveGradiant )));
-			float2 UVSkybox26 = appendResult9;
-			#ifdef _SATURATEMASK_ON
-				float staticSwitch59 = saturate( UVSkybox26.y );
-			#else
-				float staticSwitch59 = UVSkybox26.y;
-			#endif
-			float4 lerpResult14 = lerp( _GroundColor , _SkyColor , staticSwitch59);
-			float4 SkyBoxBase64 = lerpResult14;
-			float3 normalizeResult70 = normalize( i.viewDir );
-			float dotResult68 = dot( float3(0.87,0,0) , normalizeResult70 );
-			float4 color120 = IsGammaSpace() ? float4(1,0.9447657,0.5330188,0) : float4(1,0.8789211,0.2458856,0);
-			float time121 = _Time.y;
-			float2 coords121 = UVSkybox26 * 2.63;
-			float2 id121 = 0;
-			float voroi121 = voronoi121( coords121, time121,id121 );
-			float4 Sun66 = ( ( ( saturate( ( 1.0 - step( _SunSize , asin( dotResult68 ) ) ) ) * color120 ) * voroi121 ) * _SunIntensity );
-			float2 uv_TextureSample0 = i.uv_texcoord * _TextureSample0_ST.xy + _TextureSample0_ST.zw;
-			float4 lerpResult175 = lerp( tex2D( _TextureSample0, uv_TextureSample0 ) , float4( UVSkybox26, 0.0 , 0.0 ) , _Mask);
-			float2 panner162 = ( ( _Time.y * _CloudsSpeed ) * float2( 1,0 ) + lerpResult175.rg);
-			float simplePerlin2D151 = snoise( panner162*_CloudsSize );
-			simplePerlin2D151 = simplePerlin2D151*0.5 + 0.5;
-			float Clouds144 = saturate( step( 2.66 , ( simplePerlin2D151 * ( UVSkybox26.y + 2.8 ) ) ) );
-			o.Emission = ( ( ( SkyBoxBase64 * _IntensitySkyBox ) + Sun66 ) + Clouds144 ).rgb;
-			o.Alpha = 1;
-		}
-
 		ENDCG
-		CGPROGRAM
-		#pragma surface surf Standard alpha:fade keepalpha fullforwardshadows 
-
-		ENDCG
+		Blend Off
+		Cull Back
+		ColorMask RGBA
+		ZWrite On
+		ZTest LEqual
+		Offset 0 , 0
+		
+		
+		
 		Pass
 		{
-			Name "ShadowCaster"
-			Tags{ "LightMode" = "ShadowCaster" }
-			ZWrite On
+			Name "Unlit"
+			Tags { "LightMode"="ForwardBase" }
 			CGPROGRAM
+
+			
+
+			#ifndef UNITY_SETUP_STEREO_EYE_INDEX_POST_VERTEX
+			//only defining to not throw compilation error over Unity 5.5
+			#define UNITY_SETUP_STEREO_EYE_INDEX_POST_VERTEX(input)
+			#endif
 			#pragma vertex vert
 			#pragma fragment frag
-			#pragma target 3.0
-			#pragma multi_compile_shadowcaster
-			#pragma multi_compile UNITY_PASS_SHADOWCASTER
-			#pragma skip_variants FOG_LINEAR FOG_EXP FOG_EXP2
-			#include "HLSLSupport.cginc"
-			#if ( SHADER_API_D3D11 || SHADER_API_GLCORE || SHADER_API_GLES || SHADER_API_GLES3 || SHADER_API_METAL || SHADER_API_VULKAN )
-				#define CAN_SKIP_VPOS
-			#endif
+			#pragma multi_compile_instancing
 			#include "UnityCG.cginc"
-			#include "Lighting.cginc"
-			#include "UnityPBSLighting.cginc"
+			#include "UnityShaderVariables.cginc"
+			#pragma shader_feature _SATURATEMASK_ON
+
+
+			struct appdata
+			{
+				float4 vertex : POSITION;
+				float4 color : COLOR;
+				UNITY_VERTEX_INPUT_INSTANCE_ID
+				float4 ase_texcoord : TEXCOORD0;
+			};
+			
 			struct v2f
 			{
-				V2F_SHADOW_CASTER;
-				float2 customPack1 : TEXCOORD1;
-				float3 worldPos : TEXCOORD2;
+				float4 vertex : SV_POSITION;
 				UNITY_VERTEX_INPUT_INSTANCE_ID
 				UNITY_VERTEX_OUTPUT_STEREO
+				float4 ase_texcoord : TEXCOORD0;
+				float4 ase_texcoord1 : TEXCOORD1;
 			};
-			v2f vert( appdata_full v )
+
+			uniform float4 _GroundColor;
+			uniform float4 _SkyColor;
+			uniform float _MoveGradiant;
+			uniform float _IntensitySkyBox;
+			uniform float _SunSize;
+			uniform float _SunIntensity;
+			uniform float _CloudsSpeed;
+			uniform sampler2D _TextureSample0;
+			uniform float4 _TextureSample0_ST;
+			uniform float _Mask;
+			uniform float _CloudsSize;
+					float2 voronoihash121( float2 p )
+					{
+						p = p - 1 * floor( p / 1 );
+						p = float2( dot( p, float2( 127.1, 311.7 ) ), dot( p, float2( 269.5, 183.3 ) ) );
+						return frac( sin( p ) *43758.5453);
+					}
+			
+					float voronoi121( float2 v, float time, inout float2 id )
+					{
+						float2 n = floor( v );
+						float2 f = frac( v );
+						float F1 = 8.0;
+						float F2 = 8.0; float2 mr = 0; float2 mg = 0;
+						for ( int j = -1; j <= 1; j++ )
+						{
+							for ( int i = -1; i <= 1; i++ )
+						 	{
+						 		float2 g = float2( i, j );
+						 		float2 o = voronoihash121( n + g );
+								o = ( sin( time + o * 6.2831 ) * 0.5 + 0.5 ); float2 r = g - f + o;
+								float d = 0.5 * dot( r, r );
+						 		if( d<F1 ) {
+						 			F2 = F1;
+						 			F1 = d; mg = g; mr = r; id = o;
+						 		} else if( d<F2 ) {
+						 			F2 = d;
+						 		}
+						 	}
+						}
+						return (F2 + F1) * 0.5;
+					}
+			
+			float3 mod2D289( float3 x ) { return x - floor( x * ( 1.0 / 289.0 ) ) * 289.0; }
+			float2 mod2D289( float2 x ) { return x - floor( x * ( 1.0 / 289.0 ) ) * 289.0; }
+			float3 permute( float3 x ) { return mod2D289( ( ( x * 34.0 ) + 1.0 ) * x ); }
+			float snoise( float2 v )
+			{
+				const float4 C = float4( 0.211324865405187, 0.366025403784439, -0.577350269189626, 0.024390243902439 );
+				float2 i = floor( v + dot( v, C.yy ) );
+				float2 x0 = v - i + dot( i, C.xx );
+				float2 i1;
+				i1 = ( x0.x > x0.y ) ? float2( 1.0, 0.0 ) : float2( 0.0, 1.0 );
+				float4 x12 = x0.xyxy + C.xxzz;
+				x12.xy -= i1;
+				i = mod2D289( i );
+				float3 p = permute( permute( i.y + float3( 0.0, i1.y, 1.0 ) ) + i.x + float3( 0.0, i1.x, 1.0 ) );
+				float3 m = max( 0.5 - float3( dot( x0, x0 ), dot( x12.xy, x12.xy ), dot( x12.zw, x12.zw ) ), 0.0 );
+				m = m * m;
+				m = m * m;
+				float3 x = 2.0 * frac( p * C.www ) - 1.0;
+				float3 h = abs( x ) - 0.5;
+				float3 ox = floor( x + 0.5 );
+				float3 a0 = x - ox;
+				m *= 1.79284291400159 - 0.85373472095314 * ( a0 * a0 + h * h );
+				float3 g;
+				g.x = a0.x * x0.x + h.x * x0.y;
+				g.yz = a0.yz * x12.xz + h.yz * x12.yw;
+				return 130.0 * dot( m, g );
+			}
+			
+
+			
+			v2f vert ( appdata v )
 			{
 				v2f o;
-				UNITY_SETUP_INSTANCE_ID( v );
-				UNITY_INITIALIZE_OUTPUT( v2f, o );
-				UNITY_INITIALIZE_VERTEX_OUTPUT_STEREO( o );
-				UNITY_TRANSFER_INSTANCE_ID( v, o );
-				Input customInputData;
-				float3 worldPos = mul( unity_ObjectToWorld, v.vertex ).xyz;
-				half3 worldNormal = UnityObjectToWorldNormal( v.normal );
-				o.customPack1.xy = customInputData.uv_texcoord;
-				o.customPack1.xy = v.texcoord;
-				o.worldPos = worldPos;
-				TRANSFER_SHADOW_CASTER_NORMALOFFSET( o )
+				UNITY_SETUP_INSTANCE_ID(v);
+				UNITY_INITIALIZE_VERTEX_OUTPUT_STEREO(o);
+				UNITY_TRANSFER_INSTANCE_ID(v, o);
+
+				float3 ase_worldPos = mul(unity_ObjectToWorld, v.vertex).xyz;
+				o.ase_texcoord.xyz = ase_worldPos;
+				
+				o.ase_texcoord1.xy = v.ase_texcoord.xy;
+				
+				//setting value to unused interpolator channels and avoid initialization warnings
+				o.ase_texcoord.w = 0;
+				o.ase_texcoord1.zw = 0;
+				float3 vertexValue = float3(0, 0, 0);
+				#if ASE_ABSOLUTE_VERTEX_POS
+				vertexValue = v.vertex.xyz;
+				#endif
+				vertexValue = vertexValue;
+				#if ASE_ABSOLUTE_VERTEX_POS
+				v.vertex.xyz = vertexValue;
+				#else
+				v.vertex.xyz += vertexValue;
+				#endif
+				o.vertex = UnityObjectToClipPos(v.vertex);
 				return o;
 			}
-			half4 frag( v2f IN
-			#if !defined( CAN_SKIP_VPOS )
-			, UNITY_VPOS_TYPE vpos : VPOS
-			#endif
-			) : SV_Target
+			
+			fixed4 frag (v2f i ) : SV_Target
 			{
-				UNITY_SETUP_INSTANCE_ID( IN );
-				Input surfIN;
-				UNITY_INITIALIZE_OUTPUT( Input, surfIN );
-				surfIN.uv_texcoord = IN.customPack1.xy;
-				float3 worldPos = IN.worldPos;
-				half3 worldViewDir = normalize( UnityWorldSpaceViewDir( worldPos ) );
-				surfIN.viewDir = worldViewDir;
-				surfIN.worldPos = worldPos;
-				SurfaceOutputStandard o;
-				UNITY_INITIALIZE_OUTPUT( SurfaceOutputStandard, o )
-				surf( surfIN, o );
-				#if defined( CAN_SKIP_VPOS )
-				float2 vpos = IN.pos;
+				UNITY_SETUP_INSTANCE_ID(i);
+				UNITY_SETUP_STEREO_EYE_INDEX_POST_VERTEX(i);
+				fixed4 finalColor;
+				float3 ase_worldPos = i.ase_texcoord.xyz;
+				float3 normalizeResult3 = normalize( ase_worldPos );
+				float3 break4 = normalizeResult3;
+				float2 appendResult9 = (float2(( ( atan2( break4.x , break4.z ) / 6.28318548202515 ) / _MoveGradiant ) , ( ( asin( break4.y ) / ( UNITY_PI / 2.0 ) ) / _MoveGradiant )));
+				float2 UVSkybox26 = appendResult9;
+				#ifdef _SATURATEMASK_ON
+				float staticSwitch59 = saturate( UVSkybox26.y );
+				#else
+				float staticSwitch59 = UVSkybox26.y;
 				#endif
-				SHADOW_CASTER_FRAGMENT( IN )
+				float4 lerpResult14 = lerp( _GroundColor , _SkyColor , staticSwitch59);
+				float4 SkyBoxBase64 = lerpResult14;
+				float3 ase_worldViewDir = UnityWorldSpaceViewDir(ase_worldPos);
+				ase_worldViewDir = normalize(ase_worldViewDir);
+				float3 normalizeResult70 = normalize( ase_worldViewDir );
+				float dotResult68 = dot( float3(0.87,0,0) , normalizeResult70 );
+				float4 color120 = IsGammaSpace() ? float4(1,0.9447657,0.5330188,0) : float4(1,0.8789211,0.2458856,0);
+				float time121 = _Time.y;
+				float2 coords121 = UVSkybox26 * 2.63;
+				float2 id121 = 0;
+				float voroi121 = voronoi121( coords121, time121,id121 );
+				float4 Sun66 = ( ( ( saturate( ( 1.0 - step( _SunSize , asin( dotResult68 ) ) ) ) * color120 ) * voroi121 ) * _SunIntensity );
+				float2 uv_TextureSample0 = i.ase_texcoord1.xy * _TextureSample0_ST.xy + _TextureSample0_ST.zw;
+				float4 lerpResult175 = lerp( tex2D( _TextureSample0, uv_TextureSample0 ) , float4( UVSkybox26, 0.0 , 0.0 ) , _Mask);
+				float2 panner162 = ( ( _Time.y * _CloudsSpeed ) * float2( 1,0 ) + lerpResult175.rg);
+				float simplePerlin2D151 = snoise( panner162*_CloudsSize );
+				simplePerlin2D151 = simplePerlin2D151*0.5 + 0.5;
+				float Clouds144 = saturate( step( 2.66 , ( simplePerlin2D151 * ( UVSkybox26.y + 2.8 ) ) ) );
+				
+				
+				finalColor = ( ( ( SkyBoxBase64 * _IntensitySkyBox ) + Sun66 ) + Clouds144 );
+				return finalColor;
 			}
 			ENDCG
 		}
 	}
-	Fallback "Diffuse"
 	CustomEditor "ASEMaterialInspector"
+	
+	
 }
 /*ASEBEGIN
 Version=17200
-0;416;1021;273;734.842;-306.7453;2.720995;True;False
+0;416;974;273;-1386.742;91.4644;1;True;False
 Node;AmplifyShaderEditor.WorldPosInputsNode;2;-1848.646,109.9494;Inherit;False;0;4;FLOAT3;0;FLOAT;1;FLOAT;2;FLOAT;3
 Node;AmplifyShaderEditor.NormalizeNode;3;-1676.646,109.9494;Inherit;False;1;0;FLOAT3;0,0,0;False;1;FLOAT3;0
 Node;AmplifyShaderEditor.PiNode;8;-1354.681,231.1869;Inherit;False;1;0;FLOAT;1;False;1;FLOAT;0
@@ -244,9 +243,9 @@ Node;AmplifyShaderEditor.SimpleDivideOpNode;52;-721.5803,20.61088;Inherit;False;
 Node;AmplifyShaderEditor.NormalizeNode;70;21.26366,510.443;Inherit;False;1;0;FLOAT3;0,0,0;False;1;FLOAT3;0
 Node;AmplifyShaderEditor.DynamicAppendNode;9;-625.4331,109.3495;Inherit;False;FLOAT2;4;0;FLOAT;0;False;1;FLOAT;0;False;2;FLOAT;0;False;3;FLOAT;0;False;1;FLOAT2;0
 Node;AmplifyShaderEditor.DotProductOpNode;68;160.3549,475.4476;Inherit;False;2;0;FLOAT3;0,0,0;False;1;FLOAT3;0,0,0;False;1;FLOAT;0
+Node;AmplifyShaderEditor.RegisterLocalVarNode;26;-521.4635,104.6793;Inherit;False;UVSkybox;-1;True;1;0;FLOAT2;0,0;False;1;FLOAT2;0
 Node;AmplifyShaderEditor.RangedFloatNode;76;-32.28989,317.5683;Inherit;False;Property;_SunSize;Sun Size;5;0;Create;True;0;0;False;0;0;-1;-1;1;0;1;FLOAT;0
 Node;AmplifyShaderEditor.ASinOpNode;74;259.9809,470.6348;Inherit;False;1;0;FLOAT;0;False;1;FLOAT;0
-Node;AmplifyShaderEditor.RegisterLocalVarNode;26;-521.4635,104.6793;Inherit;False;UVSkybox;-1;True;1;0;FLOAT2;0,0;False;1;FLOAT2;0
 Node;AmplifyShaderEditor.RangedFloatNode;176;-248.8102,1192.889;Inherit;False;Property;_Mask;Mask;10;0;Create;True;0;0;False;0;0;0.92;0;1;0;1;FLOAT;0
 Node;AmplifyShaderEditor.GetLocalVarNode;157;-286.2948,1119.74;Inherit;False;26;UVSkybox;1;0;OBJECT;0;False;1;FLOAT2;0
 Node;AmplifyShaderEditor.StepOpNode;75;366.5386,443.4793;Inherit;False;2;0;FLOAT;0;False;1;FLOAT;0;False;1;FLOAT;0
@@ -261,13 +260,13 @@ Node;AmplifyShaderEditor.GetLocalVarNode;168;176.0191,1300.01;Inherit;False;26;U
 Node;AmplifyShaderEditor.SimpleMultiplyOpNode;164;1.542847,1318.42;Inherit;False;2;2;0;FLOAT;0;False;1;FLOAT;0;False;1;FLOAT;0
 Node;AmplifyShaderEditor.SaturateNode;58;-64.51599,155.9067;Inherit;False;1;0;FLOAT;0;False;1;FLOAT;0
 Node;AmplifyShaderEditor.SaturateNode;118;592.815,441.5688;Inherit;False;1;0;FLOAT;0;False;1;FLOAT;0
-Node;AmplifyShaderEditor.RangedFloatNode;167;233.0191,1222.01;Inherit;False;Property;_CloudsSize;CloudsSize;8;0;Create;True;0;0;False;0;0;4.4;0;0;0;1;FLOAT;0
+Node;AmplifyShaderEditor.PannerNode;162;196.151,1082.378;Inherit;False;3;0;FLOAT2;0,0;False;2;FLOAT2;1,0;False;1;FLOAT;0.2;False;1;FLOAT2;0
 Node;AmplifyShaderEditor.SimpleTimeNode;123;697.7987,601.8174;Inherit;False;1;0;FLOAT;1;False;1;FLOAT;0
-Node;AmplifyShaderEditor.WireNode;91;-17.0697,81.3014;Inherit;False;1;0;FLOAT;0;False;1;FLOAT;0
+Node;AmplifyShaderEditor.RangedFloatNode;167;233.0191,1222.01;Inherit;False;Property;_CloudsSize;CloudsSize;8;0;Create;True;0;0;False;0;0;4.4;0;0;0;1;FLOAT;0
 Node;AmplifyShaderEditor.BreakToComponentsNode;158;354.8571,1304.405;Inherit;False;FLOAT2;1;0;FLOAT2;0,0;False;16;FLOAT;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4;FLOAT;5;FLOAT;6;FLOAT;7;FLOAT;8;FLOAT;9;FLOAT;10;FLOAT;11;FLOAT;12;FLOAT;13;FLOAT;14;FLOAT;15
 Node;AmplifyShaderEditor.ColorNode;120;485.2032,510.4256;Inherit;False;Constant;_Color0;Color 0;10;0;Create;True;0;0;False;0;1,0.9447657,0.5330188,0;0,0,0,0;True;0;5;COLOR;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
 Node;AmplifyShaderEditor.GetLocalVarNode;126;699.6349,546.5345;Inherit;False;26;UVSkybox;1;0;OBJECT;0;False;1;FLOAT2;0
-Node;AmplifyShaderEditor.PannerNode;162;196.151,1082.378;Inherit;False;3;0;FLOAT2;0,0;False;2;FLOAT2;1,0;False;1;FLOAT;0.2;False;1;FLOAT2;0
+Node;AmplifyShaderEditor.WireNode;91;-17.0697,81.3014;Inherit;False;1;0;FLOAT;0;False;1;FLOAT;0
 Node;AmplifyShaderEditor.SimpleMultiplyOpNode;119;737.2455,431.4744;Inherit;False;2;2;0;FLOAT;0;False;1;COLOR;0,0,0,0;False;1;COLOR;0
 Node;AmplifyShaderEditor.ColorNode;16;-32.28954,-84.96143;Inherit;False;Property;_SkyColor;Sky Color;1;0;Create;True;0;0;False;0;0.309124,0.7264151,0,0;0.4103762,0.4103762,1,1;True;0;5;COLOR;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
 Node;AmplifyShaderEditor.VoronoiNode;121;866.3275,553.7964;Inherit;False;0;0;1;3;1;True;1;False;3;0;FLOAT2;0,0;False;1;FLOAT;0;False;2;FLOAT;2.63;False;2;FLOAT;0;FLOAT;1
@@ -291,12 +290,12 @@ Node;AmplifyShaderEditor.RegisterLocalVarNode;144;1537.798,1090.236;Inherit;Fals
 Node;AmplifyShaderEditor.GetLocalVarNode;79;1405.718,90.03861;Inherit;False;66;Sun;1;0;OBJECT;0;False;1;COLOR;0
 Node;AmplifyShaderEditor.SimpleAddOpNode;135;1606.979,-26.61336;Inherit;False;2;2;0;COLOR;0,0,0,0;False;1;COLOR;0,0,0,0;False;1;COLOR;0
 Node;AmplifyShaderEditor.GetLocalVarNode;146;1627.95,78.02818;Inherit;False;144;Clouds;1;0;OBJECT;0;False;1;FLOAT;0
-Node;AmplifyShaderEditor.TextureCoordinatesNode;183;763.4005,801.1733;Inherit;False;0;-1;2;3;2;SAMPLER2D;;False;0;FLOAT2;1,1;False;1;FLOAT2;0,0;False;5;FLOAT2;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
 Node;AmplifyShaderEditor.VoronoiNode;182;1050.114,782.5906;Inherit;True;0;0;1;2;1;False;1;False;3;0;FLOAT2;0,0;False;1;FLOAT;0;False;2;FLOAT;29.83;False;2;FLOAT;0;FLOAT;1
 Node;AmplifyShaderEditor.SimpleDivideOpNode;188;1280.395,780.2396;Inherit;True;2;0;FLOAT;0;False;1;FLOAT;0.08;False;1;FLOAT;0
 Node;AmplifyShaderEditor.SimpleAddOpNode;145;1814.817,-13.77533;Inherit;True;2;2;0;COLOR;0,0,0,0;False;1;FLOAT;0;False;1;COLOR;0
 Node;AmplifyShaderEditor.SimpleMultiplyOpNode;189;1458.304,762.4781;Inherit;False;2;2;0;FLOAT;0;False;1;FLOAT;0;False;1;FLOAT;0
-Node;AmplifyShaderEditor.StandardSurfaceOutputNode;190;1998.657,-55.6077;Float;False;True;2;ASEMaterialInspector;0;0;Standard;Effects/Skybox/CustoSkybox;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;False;False;False;False;False;False;Back;0;False;-1;0;False;-1;False;0;False;-1;0;False;-1;False;0;Transparent;0.5;True;True;0;False;Transparent;;Transparent;All;14;all;True;True;True;True;0;False;-1;False;0;False;-1;255;False;-1;255;False;-1;0;False;-1;0;False;-1;0;False;-1;0;False;-1;0;False;-1;0;False;-1;0;False;-1;0;False;-1;False;2;15;10;25;False;0.5;True;2;5;False;-1;10;False;-1;0;0;False;-1;0;False;-1;0;False;-1;0;False;-1;0;False;0;0,0,0,0;VertexOffset;True;False;Cylindrical;False;Relative;0;;-1;-1;-1;-1;0;False;0;0;False;-1;-1;0;False;-1;0;0;0;False;0.1;False;-1;0;False;-1;16;0;FLOAT3;0,0,0;False;1;FLOAT3;0,0,0;False;2;FLOAT3;0,0,0;False;3;FLOAT;0;False;4;FLOAT;0;False;5;FLOAT;0;False;6;FLOAT3;0,0,0;False;7;FLOAT3;0,0,0;False;8;FLOAT;0;False;9;FLOAT;0;False;10;FLOAT;0;False;13;FLOAT3;0,0,0;False;11;FLOAT3;0,0,0;False;12;FLOAT3;0,0,0;False;14;FLOAT4;0,0,0,0;False;15;FLOAT3;0,0,0;False;0
+Node;AmplifyShaderEditor.TextureCoordinatesNode;183;763.4005,801.1733;Inherit;False;0;-1;2;3;2;SAMPLER2D;;False;0;FLOAT2;1,1;False;1;FLOAT2;0,0;False;5;FLOAT2;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
+Node;AmplifyShaderEditor.TemplateMultiPassMasterNode;193;2020.829,-57.08585;Float;False;True;2;ASEMaterialInspector;0;1;Effects/Skybox/CustoSkybox;0770190933193b94aaa3065e307002fa;True;Unlit;0;0;Unlit;2;True;0;1;False;-1;0;False;-1;0;1;False;-1;0;False;-1;True;0;False;-1;0;False;-1;True;False;True;0;False;-1;True;True;True;True;True;0;False;-1;True;False;255;False;-1;255;False;-1;255;False;-1;7;False;-1;1;False;-1;1;False;-1;1;False;-1;7;False;-1;1;False;-1;1;False;-1;1;False;-1;True;1;False;-1;True;3;False;-1;True;True;0;False;-1;0;False;-1;True;1;RenderType=Opaque=RenderType;True;2;0;False;False;False;False;False;False;False;False;False;True;1;LightMode=ForwardBase;False;0;;0;0;Standard;1;Vertex Position,InvertActionOnDeselection;1;0;1;True;False;0
 WireConnection;3;0;2;0
 WireConnection;4;0;3;0
 WireConnection;5;0;4;1
@@ -316,8 +315,8 @@ WireConnection;9;0;52;0
 WireConnection;9;1;53;0
 WireConnection;68;0;71;0
 WireConnection;68;1;70;0
-WireConnection;74;0;68;0
 WireConnection;26;0;9;0
+WireConnection;74;0;68;0
 WireConnection;75;0;76;0
 WireConnection;75;1;74;0
 WireConnection;13;0;26;0
@@ -330,10 +329,10 @@ WireConnection;164;0;163;0
 WireConnection;164;1;165;0
 WireConnection;58;0;13;1
 WireConnection;118;0;77;0
-WireConnection;91;0;61;0
-WireConnection;158;0;168;0
 WireConnection;162;0;175;0
 WireConnection;162;1;164;0
+WireConnection;158;0;168;0
+WireConnection;91;0;61;0
 WireConnection;119;0;118;0
 WireConnection;119;1;120;0
 WireConnection;121;0;126;0
@@ -366,6 +365,6 @@ WireConnection;188;0;182;0
 WireConnection;145;0;135;0
 WireConnection;145;1;146;0
 WireConnection;189;1;188;0
-WireConnection;190;2;145;0
+WireConnection;193;0;145;0
 ASEEND*/
-//CHKSM=86DA9EEF26480A3004613E957052B0B3426F3DE5
+//CHKSM=385E12BB3CDF69D93EF58C8D798AA690183AEEF8
