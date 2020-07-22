@@ -463,6 +463,10 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3562638887606662366}
+  - component: {fileID: 1965616166}
+  - component: {fileID: 1965616163}
+  - component: {fileID: 1965616164}
+  - component: {fileID: 1965616165}
   m_Layer: 0
   m_Name: Totem
   m_TagString: Untagged
@@ -488,6 +492,87 @@ Transform:
   m_Father: {fileID: 5183703912996513260}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!65 &1965616166
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7683376448181427589}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 2, y: 3, z: 2}
+  m_Center: {x: 0, y: 1, z: 0}
+--- !u!114 &1965616163
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7683376448181427589}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 97301530160956143a2f769dc14daa71, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  poolname: 
+  model_destroyedVersion: {fileID: 7370496262025782177, guid: 799138831732d8a44bb2e56cb31c3b73,
+    type: 3}
+  damageReceiver: {fileID: 1965616165}
+  _lifeSytstem: {fileID: 1965616164}
+  destroyedSound: {fileID: 8300000, guid: f9747fee7dd9074468d71d7d3be31a6a, type: 3}
+  OnTakeDamage:
+    m_PersistentCalls:
+      m_Calls: []
+  OnDestroyed:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 5183703912996513258}
+        m_MethodName: DestroySpawner
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  destroy: 1
+  dest_part: {fileID: 0}
+--- !u!114 &1965616164
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7683376448181427589}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f843a0694e17b4a41833c93e4ceba1c5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  life: 1
+--- !u!114 &1965616165
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7683376448181427589}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 34a4aff0c0e65c4488cc465c038877b2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  invulnerability: 
+  resistances: 
+  debilities: 
+  debilityAddDmg: 5
+  resistanceRestDmg: 3
+  knockbackMultiplier: 1
 --- !u!1001 &698095734733982530
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -554,6 +639,11 @@ PrefabInstance:
         type: 3}
       propertyPath: OnTriggerEnterEvent.m_PersistentCalls.m_Calls.Array.size
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 649438286006094192, guid: 4bfaa79e47a9b4846b913e024a49a402,
+        type: 3}
+      propertyPath: receivers.Array.size
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 649438286006094192, guid: 4bfaa79e47a9b4846b913e024a49a402,
         type: 3}
