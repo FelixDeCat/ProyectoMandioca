@@ -35,7 +35,7 @@ public class CustomSpawner : PlayObject
     //Se activa el spawner
     public void ActivateSpawner(){canupdate = true;}
     public void StopSpawner() { canupdate = false; }
-    public void DestroySpawner() { Destroy(gameObject);  Debug.Log("asdasdas"); }
+    public void DestroySpawner() { Destroy(gameObject); }
 
     //Una state machine XD
     protected override void OnUpdate()
