@@ -18,6 +18,8 @@ public class CotrollerWave : MonoBehaviour
             spawns.Add(item);
         }
 
+        _numbersOfSpawn = spawns.Count;
+
     }
     void Update()
     {

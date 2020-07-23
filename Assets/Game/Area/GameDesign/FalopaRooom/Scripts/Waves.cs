@@ -6,10 +6,13 @@ public class Waves : MonoBehaviour
 {
     int _speed;
     float _lifeTime;
+
+    DamageData dmgDATA;
     // Start is called before the first frame update
     void Start()
     {
-        
+        dmgDATA = GetComponent<DamageData>();
+        dmgDATA.SetDamage(5);
     }
 
     // Update is called once per frame
@@ -37,8 +40,9 @@ public class Waves : MonoBehaviour
     {
         if (other.gameObject.GetComponent<CharacterHead>())
         {
-            CharacterHead character= other.gameObject.GetComponent<CharacterHead>();
+            DamageReceiver character = other.gameObject.GetComponent<DamageReceiver>();
 
+            character.TakeDamage(dmgDATA);
         }
     }
 }
