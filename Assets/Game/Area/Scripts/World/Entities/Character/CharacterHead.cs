@@ -423,6 +423,11 @@ public class CharacterHead : CharacterControllable
         move.SetSpeed(speed);
         Slowed = false;
     }
+    public void SetFastSpeed()
+    {
+        move.SetSpeed(10);
+        Slowed = false;
+    }
     #endregion
 
     #region SkillRequest
