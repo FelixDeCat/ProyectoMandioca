@@ -54,7 +54,7 @@ public class CharLifeSystem: _Base_Life_System
 
     void EVENT_OnGainLife()
     {
-        feedbacks.sounds.Play_TakeHeal();
+        if(feedbacks != null) feedbacks.sounds.Play_TakeHeal();
         gainlife.Invoke();
     }
 
