@@ -1,12 +1,15 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class TalkableModule : Interactable
 {
+    public UnityEvent ExecuteTalkable;
     public override void OnExecute(WalkingEntity collector)
     {
         //aca ejecutas el dialogo
+        ExecuteTalkable.Invoke();
     }
 
     #region Mensaje
