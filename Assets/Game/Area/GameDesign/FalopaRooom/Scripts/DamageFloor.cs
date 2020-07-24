@@ -6,11 +6,24 @@ public class DamageFloor : PlayObject
 {
     DamageData dmgDATA;
 
+    [SerializeField] ParticleSystem telegraphAttack;
+
     void Start()
     {
         dmgDATA = GetComponent<DamageData>();
         dmgDATA.SetDamage(5);
 
+        telegraphAttack.Play();
+
+        StartCoroutine(SpawnDamageFloor());
+    }
+
+    IEnumerator SpawnDamageFloor()
+    {
+        yield return new WaitForSeconds(3);
+        telegraphAttack.Stop();
+        GetComponent<BoxCollider>().enabled = true;
+        GetComponent<MeshRenderer>().enabled = true;
         Destroy(gameObject, 3);
     }
 
