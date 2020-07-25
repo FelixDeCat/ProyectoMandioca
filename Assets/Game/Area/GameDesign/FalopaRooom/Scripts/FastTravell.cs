@@ -5,11 +5,12 @@ using UnityEngine;
 public class FastTravell : MonoBehaviour
 {
     [SerializeField]CustomCamera _myCamera = null;
-     public Vector3 _myTransform;
+     public Transform _myTransform;
     [SerializeField] Transform _originalTransform = null;
     bool _inFastTravell;
     [SerializeField] float _speedOfTravell = 2;
     [SerializeField] LayerMask _mask = 0;
+    bool DoneTheReturn;
 
     void Update()
     {
@@ -28,8 +29,9 @@ public class FastTravell : MonoBehaviour
     }
     void _goToFastTravell()
     {
+        DoneTheReturn = false;
         _myCamera.active = false;
-        _myCamera.transform.position = Vector3.Lerp(_myCamera.transform.position, _myTransform, Time.deltaTime * _speedOfTravell);
+        _myCamera.transform.position = Vector3.Lerp(_myCamera.transform.position, _myTransform.position, Time.deltaTime * _speedOfTravell);
         _myCamera.transform.forward = Vector3.Lerp(_myCamera.transform.forward, Vector3.down, Time.deltaTime * _speedOfTravell);
         Vector3 mousePos = Input.mousePosition;
        
@@ -54,8 +56,12 @@ public class FastTravell : MonoBehaviour
     }
     void _ReturnFastTravell()
     {
-        _myCamera.active = true;
-        //_myCamera.transform.position = Vector3.Lerp(_myCamera.transform.position, _originalTransform.position, Time.deltaTime * _speedOfTravell);
-        //_myCamera.transform.forward = Vector3.Lerp(_myCamera.transform.forward, _originalTransform.forward, Time.deltaTime * _speedOfTravell);
+        if (!DoneTheReturn)
+        {
+            _myCamera.ChangeToDefaultCamera();
+            DoneTheReturn = true;
+        }
+        
+       
     }
 }
