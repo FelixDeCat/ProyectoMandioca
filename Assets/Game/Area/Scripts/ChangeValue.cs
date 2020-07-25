@@ -27,7 +27,7 @@ public class ChangeValue : StateMachineBehaviour
         {
             animator.SetBool(parameterName, boolean_value);
         }
-        if (isTrigger)
+        else if (isTrigger)
         {
             if (useRestTrigger)
             {
@@ -37,7 +37,14 @@ public class ChangeValue : StateMachineBehaviour
             {
                 animator.SetTrigger(parameterName);
             }
-            
+        }
+        else if (isInt)
+        {
+            animator.SetInteger(parameterName, int_value);
+        }
+        else if (isFloat)
+        {
+            animator.SetFloat(parameterName, float_value);
         }
     }
     override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)

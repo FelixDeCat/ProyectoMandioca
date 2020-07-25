@@ -134,6 +134,7 @@ public class CharacterAttack
         inCheck = true;
         buttonPressedTime = 0f;
         anim.OnAttackBegin(true);
+        anim.ForceAttack();
     }
 
 
@@ -142,7 +143,6 @@ public class CharacterAttack
     // OnPressUp
     public void AttackEnd()
     {
-        
         Check();
     }
 

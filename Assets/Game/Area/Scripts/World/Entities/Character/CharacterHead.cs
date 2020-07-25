@@ -507,10 +507,10 @@ public class CharacterHead : CharacterControllable
     {
         if (stateMachine.Current.Name != "Release_Attack")
             stateMachine.SendInput(PlayerInputs.CHARGE_ATTACK);
-        //attackWait = true;
+
         charAttack.UnfilteredAttack();
     }
-    public void EVENT_OnAttackEnd() { stateMachine.SendInput(PlayerInputs.RELEASE_ATTACK); /*attackWait = false;*/ }
+    public void EVENT_OnAttackEnd() { stateMachine.SendInput(PlayerInputs.RELEASE_ATTACK); }
     public void CheckAttackType() => charAttack.BeginCheckAttackType();//tengo la espada arriba
     public void DealAttack()
     {
