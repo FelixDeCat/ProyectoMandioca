@@ -5,7 +5,6 @@ using System;
 
 public class CharacterMovement
 {
-
     Rigidbody _rb;
     Transform rotTransform;
     float speed;
@@ -151,27 +150,25 @@ public class CharacterMovement
 
         _rb.velocity = new Vector3(auxNormalized.x * speed, velY, auxNormalized.z * speed);
 
-        var prom = Mathf.Abs(movY) + Mathf.Abs(movX);
-
         if (rotX >= 0.3 || rotX <= -0.3 || rotY >= 0.3 || rotY <= -0.3)
         {
-            //Rotation(rotY, rotX);
 
-            //float dotX = Vector3.Dot(rotTransform.forward, new Vector3(rotY, 0, rotX));
-            //float dotY = Vector3.Dot(rotTransform.right, new Vector3(rotY, 0, rotX));
-            if (Mathf.Abs(rotTransform.forward.z) >= Mathf.Abs(rotTransform.forward.x))
-                anim.Move(prom, -movX * rotTransform.right.x, movY * rotTransform.forward.z);
+            if (movX <= 0.3 && movX >= -0.3 && movY <= 0.3 && movY >= -0.3)
+                anim.Move(0, 0);
             else
-                anim.Move(prom, -movY * rotTransform.right.z, movX * rotTransform.forward.x);
-
-            //if (rotY >= 0)
-            //    anim.Move(prom, axisX, axisY);
-            //else
-            //    anim.Move(prom, axisX, -axisY);
+            {
+                if (Mathf.Abs(rotTransform.forward.z) >= Mathf.Abs(rotTransform.forward.x))
+                    anim.Move(-movX * rotTransform.right.x, movY * rotTransform.forward.z);
+                else
+                    anim.Move(-movY * rotTransform.right.z, movX * rotTransform.forward.x);
+            }
         }
         else
         {
-            anim.Move(prom, 0, 1);
+            if(movX >= 0.3 && movX <= -0.3 && movY >= 0.3 && movY <= -0.3)
+                anim.Move(0, 1);
+            else
+                anim.Move(0, 0);
         }
 
     }

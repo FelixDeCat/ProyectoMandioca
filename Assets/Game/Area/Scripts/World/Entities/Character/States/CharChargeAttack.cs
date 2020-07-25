@@ -13,16 +13,14 @@ namespace Tools.StateMachine
         protected override void Enter(EState<CharacterHead.PlayerInputs> input)
         {
             charAttack.AttackBegin();
+            charMove.MovementHorizontal(0);
+            charMove.MovementVertical(0);
         }
 
         protected override void Update()
         {
             charMove.RotateHorizontal(RightHorizontal());
             charMove.RotateVertical(RightVertical());
-            charMove.RotateHorizontal(LeftHorizontal());
-            charMove.RotateVertical(LeftVertical());
-            charMove.MovementHorizontal(0);
-            charMove.MovementVertical(0);
             //charMove.MovementHorizontal(LeftHorizontal());
             //charMove.MovementVertical(LeftVertical());
         }

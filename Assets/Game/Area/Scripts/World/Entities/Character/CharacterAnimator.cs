@@ -3,9 +3,8 @@ using System;
 public class CharacterAnimator : BaseAnimator
 {
     public CharacterAnimator(Animator _anim) : base(_anim) { }
-    public void Move(float _speed, float dirX, float dirY)
+    public void Move(float dirX, float dirY)
     {
-        myAnim.SetFloat("Speed", _speed);
         myAnim.SetFloat("moveX", dirX);
         myAnim.SetFloat("moveY", dirY);
     }
@@ -23,6 +22,8 @@ public class CharacterAnimator : BaseAnimator
     public void AttackAntiBug(){ myAnim.ResetTrigger("HeavyAttack"); myAnim.ResetTrigger("NormalAttack"); }
     public void ForceAnimation(string s) { myAnim.Play(s); }
     public void Dead() => myAnim.SetTrigger("Death");
+
+    public void ForceAttack() => myAnim.SetTrigger("ForceAttack");
 
     public void Combo(bool val)
     {
