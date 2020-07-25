@@ -6,7 +6,7 @@ public class CotrollerWave : MonoBehaviour
 {
     [SerializeField] float _timer = 5;
     [SerializeField] int _numbersOfSpawn = 6;
-    float _currentTimer;
+    float _currentTimer = 4;
     List<SpawnWaves> spawns = new List<SpawnWaves>();
     [SerializeField] bool _active = false;
 
