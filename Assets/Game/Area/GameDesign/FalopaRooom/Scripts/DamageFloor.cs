@@ -7,6 +7,7 @@ public class DamageFloor : PlayObject
     DamageData dmgDATA;
 
     [SerializeField] ParticleSystem telegraphAttack;
+    [SerializeField] ParticleSystem fireAttack;
 
     void Start()
     {
@@ -23,7 +24,8 @@ public class DamageFloor : PlayObject
         yield return new WaitForSeconds(3);
         telegraphAttack.Stop();
         GetComponent<BoxCollider>().enabled = true;
-        GetComponent<MeshRenderer>().enabled = true;
+        //GetComponent<MeshRenderer>().enabled = true;
+        fireAttack.Play();
         Destroy(gameObject, 3);
     }
 

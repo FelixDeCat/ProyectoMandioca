@@ -9,7 +9,7 @@ public class Waves : MonoBehaviour
 
     DamageData dmgDATA;
     // Start is called before the first frame update
-    void Start()
+    protected virtual void Start()
     {
         dmgDATA = GetComponent<DamageData>();
         dmgDATA.SetDamage(5);
