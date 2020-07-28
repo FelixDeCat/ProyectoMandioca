@@ -171,8 +171,13 @@ public class CharacterMovement
 
     public void MovementAddForce(Vector3 dir, float force)
     {
-        forcing = true;
-        _rb.AddForce(dir * force, ForceMode.Force);
+        if (!forcing)
+        {
+            _rb.velocity = Vector3.zero;
+            forcing = true;
+        }
+
+        _rb.AddForce(dir * force, ForceMode.Impulse);
     }
 
     public void StopForceBool()

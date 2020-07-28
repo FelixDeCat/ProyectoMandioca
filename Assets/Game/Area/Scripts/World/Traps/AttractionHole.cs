@@ -24,11 +24,16 @@ public class AttractionHole : MonoBehaviour
         {
             Vector3 att = centerPoint.position - character.transform.position;
 
-            if (att.x > -0.3f && att.x < 0.3f && att.z > -0.3f && att.z < 0.3f && !isZero)
+            if (att.x > -0.3f && att.x < 0.3f && att.z > -0.3f && att.z < 0.3f)
             {
-                character.GetCharMove().StopForce();
-                isZero = true;
+                if (!isZero)
+                {
+                    character.GetCharMove().StopForce();
+                    isZero = true;
+                }
             }
+            else
+                isZero = false;
 
             if(!isZero)
                 character.GetCharMove().MovementAddForce(att.normalized, attractionForce);
