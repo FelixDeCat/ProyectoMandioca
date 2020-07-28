@@ -8,7 +8,6 @@ public class CharacterAttack
     public Transform forwardPos { get; private set; }
     float heavyAttackTime = 1f;
     float buttonPressedTime;
-    //float angleOfAttack;
     float currentDamage;
 
     CharacterAnimator anim;
@@ -21,8 +20,6 @@ public class CharacterAttack
     bool oneshot;
 
     public bool inAttack;
-
-    //FirstAttackPassive
     private bool firstAttack;
 
     List<Weapon> myWeapons;
@@ -30,10 +27,6 @@ public class CharacterAttack
     int currentIndexWeapon;
 
     Action callback_ReceiveEntity = delegate { };
-
-    //event Action<Vector3> callbackPositio;
-
-
     Action DealSuccesfullNormal;
     Action DealSuccesfullHeavy;
     Action KillSuccesfullNormal;

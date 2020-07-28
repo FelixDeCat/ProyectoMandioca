@@ -21,7 +21,9 @@ public class DamageReceiver : MonoBehaviour
     Action<DamageData> takeDmg;
     Action<Vector3> OnDead;
     Action InmuneFeedback;
+    Action IndestructibleFeedback;
     Func<bool> IsDmg;
+    bool IsNotDestructible = false;
     Transform ownerRoot;
 
     Func<Vector3, Vector3, Vector3, bool> IsBlock;
@@ -63,6 +65,12 @@ public class DamageReceiver : MonoBehaviour
     public Attack_Result TakeDamage(DamageData data)
     {
         if (IsDmg()) return Attack_Result.inmune;
+
+        if (IsNotDestructible)
+        {
+            InmuneFeedback();
+            return Attack_Result.inmune;
+        }
 
         if (invulnerability.Contains(data.damageType))
         {
@@ -123,4 +131,6 @@ public class DamageReceiver : MonoBehaviour
     public void AddDebility(Damagetype inv) { if (!debilities.Contains(inv)) debilities.Add(inv); }
 
     public void RemoveDebility(Damagetype inv) { if (debilities.Contains(inv)) debilities.Remove(inv); }
-}
+
+    public void ChangeIndestructibility(bool isIndestructible) { IsNotDestructible = isIndestructible; }
+ }

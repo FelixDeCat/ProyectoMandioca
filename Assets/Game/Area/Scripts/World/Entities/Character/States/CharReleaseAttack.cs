@@ -39,27 +39,17 @@ namespace Tools.StateMachine
         {
             if (!IsHeavy())
             {
-
                 charMove.RotateHorizontal(RightHorizontal());
                 charMove.RotateVertical(RightVertical());
                 charMove.RotateHorizontal(LeftHorizontal());
                 charMove.RotateVertical(LeftVertical());
                 charMove.MovementHorizontal(0);
                 charMove.MovementVertical(0);
-
-                //charMove.MovementHorizontal(0);
-                //charMove.MovementVertical(0);
-                //charMove.RotateHorizontal(0);
-                //charMove.RotateVertical(0);
-                //charMove.MovementHorizontal(LeftHorizontal());
-                //charMove.MovementVertical(LeftVertical());
-                //charMove.RotateHorizontal(RightHorizontal());
-                //charMove.RotateVertical(RightVertical());
             }
 
-            var info = anim.GetCurrentAnimatorStateInfo(2);
+            var info = anim.GetCurrentAnimatorStateInfo(1);
 
-            if (info.IsName("CentralState"))
+            if (info.IsName("AntiBug"))
             {
                 if (LeftHorizontal() == 0 && LeftVertical() == 0)
                 {
