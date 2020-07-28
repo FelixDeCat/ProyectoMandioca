@@ -169,7 +169,7 @@ public class CharacterMovement
     #endregion
     bool forcing;
 
-    public void MovementAddForce(Vector3 dir, float force)
+    public void MovementAddForce(Vector3 dir, float force, ForceMode mode)
     {
         if (!forcing)
         {
@@ -177,7 +177,7 @@ public class CharacterMovement
             forcing = true;
         }
 
-        _rb.AddForce(dir * force, ForceMode.Impulse);
+        _rb.AddForce(dir * force, mode);
     }
 
     public void StopForceBool()

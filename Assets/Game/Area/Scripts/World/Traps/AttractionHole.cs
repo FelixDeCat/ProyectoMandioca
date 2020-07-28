@@ -8,6 +8,7 @@ public class AttractionHole : MonoBehaviour
     [SerializeField] float attractionForce = 500;
     [SerializeField] ParticleSystem holeParticle = null;
     [SerializeField] Transform centerPoint = null;
+    [SerializeField] ForceMode mode = ForceMode.Acceleration;
     bool on;
     bool isZero;
 
@@ -36,7 +37,7 @@ public class AttractionHole : MonoBehaviour
                 isZero = false;
 
             if(!isZero)
-                character.GetCharMove().MovementAddForce(att.normalized, attractionForce);
+                character.GetCharMove().MovementAddForce(att.normalized, attractionForce, mode);
         }
     }
 
