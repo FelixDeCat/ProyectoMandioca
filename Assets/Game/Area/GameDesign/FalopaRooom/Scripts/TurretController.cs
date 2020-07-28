@@ -9,9 +9,17 @@ public class TurretController : MonoBehaviour
 
     [SerializeField] float shootingTime;
 
+    [SerializeField] bool InitByCode; 
+
     GameObject current;
 
     private void Start()
+    {
+        if(!InitByCode)
+            StartCoroutine(LoopShootingWaves());
+    }
+
+    public void Begin()
     {
         StartCoroutine(LoopShootingWaves());
     }

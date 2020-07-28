@@ -3,14 +3,12 @@ using System.Collections.Generic;
 using UnityEngine;
 using System;
 
+[System.Serializable]
 public abstract class StatBase
 {
     int val;
     int maxVal;
-    /////////////////////////////
-    ///
     public int MaxVal => maxVal;
-
     public int Val
     {
         get { return val; }
@@ -62,22 +60,22 @@ public abstract class StatBase
         }
     }
 
-    public abstract void CanNotAddMore();
-    public abstract void OnAdd();
-    public abstract void OnRemove();
-    public abstract void OnLoseAll();
-    public abstract void CanNotRemoveMore();
-    public abstract void OnValueChange(int value, int max, string message);
-
-    /////////////////////////////
-
-    //Constructor
-    public StatBase(int maxHealth, int initial_Life = -1)
+    #region Constructor
+    public StatBase(int _MaxValue, int _Initial_Value = -1)
     {
-        this.maxVal = maxHealth;
-        val = initial_Life == -1 ? this.maxVal : initial_Life;
-        OnValueChange(val, maxHealth, "Inicializando valor");
+        this.maxVal = _MaxValue;
+        val = _Initial_Value == -1 ? this.maxVal : _Initial_Value;
+        OnValueChange(val, _MaxValue, "Inicializando valor");
     }
+    #endregion
+    #region Abstracts
+    protected abstract void CanNotAddMore();
+    protected abstract void OnAdd();
+    protected abstract void OnRemove();
+    protected abstract void OnLoseAll();
+    protected abstract void CanNotRemoveMore();
+    protected abstract void OnValueChange(int value, int max, string message);
+    #endregion
 
     /////////////////////////////
     public void ResetValueToMax()

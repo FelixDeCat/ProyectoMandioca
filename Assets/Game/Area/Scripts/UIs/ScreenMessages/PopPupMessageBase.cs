@@ -1,17 +1,19 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿
 using UnityEngine;
+using UnityEngine.UI;
 
-public class PopPupMessageBase : UI_Base
+public class PopPupMessageBase: MonoBehaviour
 {
-    protected override void OnAwake() { }
-    protected override void OnStart() { }
+    public Text txt_message;
+    public Image Img_photo;
 
-    protected override void OnUpdate() { }
-    public override void Refresh() { }
-    
-    protected override void OnEndCloseAnimation() { }
-    protected override void OnEndOpenAnimation() { }
-    
-    
+    public void SetInfo(string _name)
+    {
+        txt_message.text = _name;
+    }
+    public void SetInfo(string _name, Sprite _photo)
+    {
+        txt_message.text = _name;
+        Img_photo.sprite = _photo;
+    }
 }

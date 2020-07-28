@@ -33,6 +33,7 @@ public abstract class UI_Base : MonoBehaviour
     public abstract void Refresh();
     public void ConfigurateFirst(GameObject go) => firstToOpenMenu = go;
 
+    public bool IsActive { get { return isActive; } }
     public virtual void Open()
     {
         anim.Open();
@@ -45,6 +46,7 @@ public abstract class UI_Base : MonoBehaviour
     {
         anim.Close();
         parent.SetActive(false);
+        isActive = false;
         Main.instance.GetMyEventSystem().DeselectGameObject();
     }
 }

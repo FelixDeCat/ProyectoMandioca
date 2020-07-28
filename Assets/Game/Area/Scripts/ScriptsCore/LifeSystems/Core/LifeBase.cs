@@ -29,13 +29,13 @@ public class LifeBase : StatBase
     public void AddEventListener_OnLifeChange(Action<int, int> listener) { lifechange += listener; }
 
 
-    public override void OnAdd() { gainlife.Invoke(); }
-    public override void OnRemove() { loselife.Invoke(); }
-    public override void OnLoseAll() { death.Invoke(); }
-    public override void CanNotAddMore() { cannotAddMore.Invoke(); }
-    public override void CanNotRemoveMore() { cannotRemoveMore.Invoke(); }
+    protected override void OnAdd() { gainlife.Invoke(); }
+    protected override void OnRemove() { loselife.Invoke(); }
+    protected override void OnLoseAll() { death.Invoke(); }
+    protected override void CanNotAddMore() { cannotAddMore.Invoke(); }
+    protected override void CanNotRemoveMore() { cannotRemoveMore.Invoke(); }
 
-    public override void OnValueChange(int value, int max, string message)
+    protected override void OnValueChange(int value, int max, string message)
     {
         lifechange.Invoke(value, max);
         if (uilife != null) uilife.OnValueChange(value, max);
