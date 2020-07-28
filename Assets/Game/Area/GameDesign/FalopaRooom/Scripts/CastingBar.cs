@@ -34,6 +34,13 @@ public class CastingBar : MonoBehaviour
         OnStartCasting?.Invoke();
         StartCoroutine(Casting());
     }
+
+    public void StartCasting(float time)
+    {
+        castingTime = time;
+        OnStartCasting?.Invoke();
+        StartCoroutine(Casting());
+    }
     /// <summary>
     /// Se encarga del proceso de casteo. Es un timer con el fill de la barra(no creo que usemos barra igual, sino una animacion clara)
     /// </summary>
