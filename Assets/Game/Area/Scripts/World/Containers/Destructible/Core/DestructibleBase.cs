@@ -42,6 +42,7 @@ public abstract class DestructibleBase : EntityBase
     {
         AudioManager.instance.PlaySound(destroyedSound.name, transform);
         OnDestroyDestructible();
+        OnDestroyed.Invoke();
     }
     protected abstract void OnDestroyDestructible();
     protected abstract void FeedbackDamage();
