@@ -116,20 +116,14 @@ public class CharacterMovement
     //Joystick Izquierdo, Movimiento
     void LeftHorizontal(float axis)
     {
-        float velZ = _rb.velocity.z;
-
         movX = axis;
         Move();
-
     }
 
     void LeftVertical(float axis)
     {
-        float velX = _rb.velocity.x;
-
         movY = axis;
         Move();
-
     }
 
     float pushForce;
@@ -144,11 +138,11 @@ public class CharacterMovement
 
     void Move()
     {
-
         Vector3 auxNormalized = new Vector3(movX, 0, movY);
         auxNormalized.Normalize();
 
-        _rb.velocity = new Vector3(auxNormalized.x * speed, velY, auxNormalized.z * speed);
+        if (!forcing)
+            _rb.velocity = new Vector3(auxNormalized.x * speed, velY, auxNormalized.z * speed);
 
         if (rotX >= 0.3 || rotX <= -0.3 || rotY >= 0.3 || rotY <= -0.3)
         {
@@ -173,6 +167,23 @@ public class CharacterMovement
 
     }
     #endregion
+    bool forcing;
+
+    public void MovementAddForce(Vector3 dir, float force)
+    {
+        forcing = true;
+        _rb.AddForce(dir * force, ForceMode.Force);
+    }
+
+    public void StopForceBool()
+    {
+        forcing = false;
+    }
+
+    public void StopForce()
+    {
+        _rb.velocity = Vector3.zero;
+    }
 
     #region ROTATION
     //Joystick Derecho, Rotacion
