@@ -555,6 +555,7 @@ public class CharacterHead : CharacterControllable
         ChangeAngleAttack(attackAngle);
         ChangeRangeAttack(attackRange);
         charanim.NormalAttack();
+        Debug.Log("IsNormalAttacking");
     }
     public void SetCombat(bool b) => Combat = b;
 
@@ -566,6 +567,7 @@ public class CharacterHead : CharacterControllable
         ChangeAngleAttack(attackAngle * 2);
         ChangeRangeAttack(attackRange + 1);
         charanim.HeavyAttack();
+        Debug.Log("IsHeavyAttacking");
     }
     void ChangeHeavy(bool y) { isHeavyRelease = y; }
 
