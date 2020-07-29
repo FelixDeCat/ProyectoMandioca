@@ -19,37 +19,37 @@ public class Action_TalkAlcalde : ActionRealize
 
     public override void Excecute()
     {
-        if (misioncristales)
-        {
-            if (MisionManager.instancia.MisionIsActive(misioncristales))
-            {
-                Debug.Log("Ya la tengo");
-                if (!misioncristales.completed) misioncristales.AlcaldeActivo();
-            }
-            else
-            {
-                if (MisionManager.instancia.MisionIsActive(misionPrincipal))
-                {
-                    Debug.Log("NO la tengo");
-                    //UI_Messages.instancia.ShowMessage("Investiga el basural");
-                }
-                else
-                {
-                    Debug.Log("NO la tengo");
+        //if (misioncristales)
+        //{
+        //    if (MisionManager.instancia.MisionIsActive(misioncristales))
+        //    {
+        //        Debug.Log("Ya la tengo");
+        //        if (!misioncristales.completed) misioncristales.AlcaldeActivo();
+        //    }
+        //    else
+        //    {
+        //        if (MisionManager.instancia.MisionIsActive(misionPrincipal))
+        //        {
+        //            Debug.Log("NO la tengo");
+        //            //UI_Messages.instancia.ShowMessage("Investiga el basural");
+        //        }
+        //        else
+        //        {
+        //            Debug.Log("NO la tengo");
 
-                    if (!misioncristales.completed)
-                    {
-                        Debug.Log("NO la tengo");
-                        AgregarMisionSiNoLaTenia();
-                        misioncristales.AlcaldeActivo();
-                    }
-                }
+        //            if (!misioncristales.completed)
+        //            {
+        //                Debug.Log("NO la tengo");
+        //                AgregarMisionSiNoLaTenia();
+        //                misioncristales.AlcaldeActivo();
+        //            }
+        //        }
 
-            }
-        }
-        else
-        {
-            Debug.LogError("No se encotro la mision, algo se rompio");
-        }
+        //    }
+        //}
+        //else
+        //{
+        //    Debug.LogError("No se encotro la mision, algo se rompio");
+        //}
     }
 }

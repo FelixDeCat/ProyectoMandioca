@@ -361,7 +361,7 @@ public class CharacterMovement
             }
         }
 
-        anim.Roll();
+        anim.Dash();
     }
 
     public bool IsDash()

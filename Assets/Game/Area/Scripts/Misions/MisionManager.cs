@@ -2,43 +2,44 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class MisionManager : MonoBehaviour
+public class MisionManager : LoadComponent
 {
     public static MisionManager instancia;
     private void Awake() => instancia = this;
 
     public List<Mision> active_misions;
-    public List<Mision> allmisions;
     public UI_MisionManager ui;
 
-    public Mision first;
+
+    protected override IEnumerator LoadMe()
+    {
+        /// AddMissionFromDisk
+        /// bla bla bla
+        yield return null;
+    }
 
     public bool MisionIsActive(Mision m) => active_misions.Contains(m);
 
-    public void FirstTime() => AddMision(first);
     public void RemoveMision(Mision m)
     {
-        m.isactive = false;
+        m.End();
         active_misions.Remove(m);
         UI_StackMision.instancia.LogearMision(m, "MisionFinalizada", 8f);
     }
 
-    public void AddMissionFromDisk(int id, int[] progression, bool _isactive, bool _completed)
+    public void AddMissionFromDisk(int index, Misions.Core.Serializable_MisionData data)
     {
         var findedmisions = FindObjectsOfType<Mision>();
 
         for (int i = 0; i < findedmisions.Length; i++)
         {
-            if (findedmisions[i].id_mision == id)
+            if (findedmisions[i].id_mision == index)
             {
-                findedmisions[i].alreadyconfigured = true;
-                findedmisions[i].SetProgresion(progression);
-                findedmisions[i].isactive = _isactive;
-                findedmisions[i].completed = _completed;
+                findedmisions[i].data = data;
 
                 ///si nunca la tuve... no importa si esta completada o no...
                 ///lo que yo necsito es saber cuales estan en progreso
-                if (findedmisions[i].isactive)
+                if (findedmisions[i].data.IsActive)
                 {
                     AddMision(findedmisions[i]);
                 }
@@ -56,7 +57,6 @@ public class MisionManager : MonoBehaviour
 
     public void AddMision(Mision m)
     {
-        m.isactive = true;
         UI_StackMision.instancia.LogearMision(m, "Mision Nueva", 4f);
         m.Begin();
         active_misions.Add(m);
@@ -70,7 +70,7 @@ public class MisionManager : MonoBehaviour
         foreach (var m in active_misions) m.CheckProgresion();
         foreach (var m in active_misions)
         {
-            if (m.completed)
+            if (m.Completed)
             {
                 m.End();
                 if (m.next) nextMisions.Add(m.next);
@@ -83,12 +83,5 @@ public class MisionManager : MonoBehaviour
         ui.RefreshUIMisions(active_misions);
     }
 
-    private void Update()
-    {
-        if (active_misions.Count >= 1)
-        {
-            for (int i = 0; i < active_misions.Count; i++)
-                active_misions[i].OnUpdate();
-        }
-    }
+    
 }

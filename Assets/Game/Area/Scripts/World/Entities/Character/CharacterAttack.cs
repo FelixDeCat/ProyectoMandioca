@@ -128,6 +128,7 @@ public class CharacterAttack
         buttonPressedTime = 0f;
         anim.OnAttackBegin(true);
         anim.ForceAttack();
+        Debug.Log("isAttacking");
     }
 
 
@@ -158,7 +159,6 @@ public class CharacterAttack
     {
         inCheck = false;
 
-        myRig.AddForce(forwardPos.transform.forward * 10, ForceMode.VelocityChange);
 
         if (buttonPressedTime < heavyAttackTime)
         {
@@ -167,6 +167,7 @@ public class CharacterAttack
         else
         {
             HeavyAttack.Invoke();
+            myRig.AddForce(forwardPos.transform.forward * 10, ForceMode.VelocityChange);
         }
         feedbacks.particles.feedbackHeavy.Stop();
         oneshot = false;

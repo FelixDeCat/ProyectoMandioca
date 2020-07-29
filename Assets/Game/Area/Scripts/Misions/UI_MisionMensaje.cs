@@ -28,9 +28,9 @@ public class UI_MisionMensaje : UI_Base
         Canvas.ForceUpdateCanvases();
 
         txt_tipodemensaje.text = tipo;
-        txt_Titulo.text = mision.mision_name;
-        txt_Descripcion.text = mision.description;
-        txt_Subdescription.text = mision.subdescription;
+        txt_Titulo.text = mision.info.mision_name;
+        txt_Descripcion.text = mision.info.description;
+        txt_Subdescription.text = mision.info.subdescription;
 
         LayoutRebuilder.ForceRebuildLayoutImmediate(txt_Titulo.rectTransform);
         LayoutRebuilder.ForceRebuildLayoutImmediate(txt_Descripcion.rectTransform);
