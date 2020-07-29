@@ -9,26 +9,23 @@ public class CharacterAnimator : BaseAnimator
         myAnim.SetFloat("moveY", dirY);
     }
 
-    public void Roll() => myAnim.SetTrigger("Roll");
+    public void Dash() => myAnim.SetTrigger("Dash");
     public void CatchProp() => myAnim.SetTrigger("catchProp");
     public void SetVerticalRoll(float x) => myAnim.SetFloat("dirX", x);
     public void SetHorizontalRoll(float y) => myAnim.SetFloat("dirY", y);
     public void Block(bool _block) => myAnim.SetBool("BeginBlock", _block);
     public void BlockSomething() => myAnim.SetTrigger("BlockSomething");
     public void Parry(bool b) => myAnim.SetBool("IsParry", b);
-    public void OnAttackBegin(bool b) => myAnim.SetBool("AttackBegin", b);
+    public void OnAttackBegin(bool b) => myAnim.SetBool("CheckHeavy", b);
     public void NormalAttack() => myAnim.SetTrigger("NormalAttack");
-    public void HeavyAttack() => myAnim.SetBool("HeavyAttack", true);
+    public void HeavyAttack() => myAnim.SetTrigger("HeavyAttack");
     public void AttackAntiBug(){ myAnim.ResetTrigger("HeavyAttack"); myAnim.ResetTrigger("NormalAttack"); }
     public void ForceAnimation(string s) { myAnim.Play(s); }
     public void Dead() => myAnim.SetTrigger("Death");
 
     public void ForceAttack() => myAnim.SetTrigger("ForceAttack");
 
-    public void Combo(bool val)
-    {
-        myAnim.SetBool("IsCombo", val);
-    }
+    public void Combo(bool val) => myAnim.SetBool("IsCombo", val);
 
     public void StartThrow() { myAnim.SetTrigger("ThrowShield"); }
     public void BeginSpin(Action callbackEndAnimation) { myAnim.SetTrigger("BeginSpin"); myAnim.GetBehaviour<ANIM_SCRIPT_BeginSpin>().ConfigureCallback(callbackEndAnimation); }
