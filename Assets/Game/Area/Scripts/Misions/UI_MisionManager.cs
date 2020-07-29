@@ -47,9 +47,9 @@ public class UI_MisionManager : MonoBehaviour
             go.transform.localPosition = new Vector3(0, 0, 0);
 
             var m = go.GetComponent<UI_CompMision>();
-            m.SetData(misions[i].mision_name,
-                misions[i].description,
-                misions[i].subdescription);
+            m.SetData(misions[i].info.mision_name,
+                misions[i].info.description,
+                misions[i].info.subdescription);
 
             ui_misions.Add(m);
         }
