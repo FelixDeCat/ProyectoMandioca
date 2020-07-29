@@ -111,11 +111,12 @@ public class DamageReceiver : MonoBehaviour
             rb.AddForce(knockbackForce * knockbackMultiplier, ForceMode.Impulse);
         }
 
+        
         bool death = _LifeSystem.Hit(dmg);
-
+       
         if (death) OnDead(data.attackDir);
 
-        takeDmg(data);
+       takeDmg(data);
 
         return death ? Attack_Result.death : Attack_Result.sucessful;
     }

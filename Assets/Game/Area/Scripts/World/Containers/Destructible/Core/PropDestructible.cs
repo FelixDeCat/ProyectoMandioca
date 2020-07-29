@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class DestructibleProp : DestructibleBase
+public class PropDestructible : BaseDestructible
 {
     public bool destroy;
 
@@ -12,7 +12,6 @@ public class DestructibleProp : DestructibleBase
     {
         base.OnInitialize();
         Calculate();
-        Main.instance.AddEntity(this);
     }
 
     void Calculate()
@@ -23,6 +22,8 @@ public class DestructibleProp : DestructibleBase
 
     protected override void OnDestroyDestructible()
     {
+        Debug.Log("asdasdsa");
+
         if (savedDestroyedVersion)
         {
             savedDestroyedVersion.gameObject.SetActive(true);
@@ -38,15 +39,17 @@ public class DestructibleProp : DestructibleBase
             c.AddForce(aux * 5, ForceMode.VelocityChange);
         }
 
+        
+
         if (destroy)
         {
-            if(dest_part != null)
+            if (dest_part != null)
             {
                 dest_part.transform.position = transform.position;
                 dest_part.Play();
             }
-            Main.instance.RemoveEntity(this);
-            Destroy(this.gameObject);
+           
+            Destroy(gameObject);
         }
     }
 
@@ -59,6 +62,4 @@ public class DestructibleProp : DestructibleBase
     protected override void OnFixedUpdate() { }
     protected override void OnPause() { }
     protected override void OnResume() { }
-
-
 }

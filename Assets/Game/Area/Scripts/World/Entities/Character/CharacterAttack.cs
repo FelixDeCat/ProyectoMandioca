@@ -197,7 +197,7 @@ public class CharacterAttack
         callback_ReceiveEntity();
         FirstAttackReady(false);//esto tambien es de obligacion... tampoco debería estar aca
 
-        if (entityToDamage.GetComponent<DestructibleBase>())
+        if (entityToDamage.GetComponent<BaseDestructible>())
         {
             BreakObject.Invoke();
             return;

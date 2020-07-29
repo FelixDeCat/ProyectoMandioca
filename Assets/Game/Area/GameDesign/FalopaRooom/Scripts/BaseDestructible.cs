@@ -28,7 +28,7 @@ public abstract class BaseDestructible : Environment
 
         damageReceiver.Initialize(transform,
             () => { return false; },
-            (x) => { OnDestroyed.Invoke(); },
+            (x) => { OnDestroyed.Invoke(); DestroyDestructible(); },
             (x) => { OnTakeDamage.Invoke(); },
             GetComponent<Rigidbody>(),
             _lifeSytstem);           
