@@ -34,7 +34,7 @@ public class CustomSpawner : PlayObject
 
     //Se activa el spawner
     public void ActivateSpawner(){canupdate = true;}
-    public void StopSpawner() { canupdate = false; }
+    public void StopSpawner() { canupdate = false;  Debug.Log("frena spawner"); }
     public void DestroySpawner() { Destroy(gameObject); }
 
     //Una state machine XD

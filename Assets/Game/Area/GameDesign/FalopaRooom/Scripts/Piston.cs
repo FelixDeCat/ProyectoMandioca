@@ -7,6 +7,7 @@ public class Piston : MonoBehaviour
     [SerializeField] Transform _startPos = null;
     [SerializeField] Transform _EndPos = null;
     [SerializeField] float _speed = 5;
+    [SerializeField] float _speedUp = 2;
     [SerializeField] bool _goBack = false;
     public bool active;
     [SerializeField] float _transitionTimeDown = 0.5f;
@@ -46,7 +47,7 @@ public class Piston : MonoBehaviour
         }
         else
         {
-            transform.position = Vector3.Lerp(transform.position, _startPos.position, Time.deltaTime* _speed);
+            transform.position = Vector3.Lerp(transform.position, _startPos.position, Time.deltaTime* _speedUp);
             _currentTimer += Time.deltaTime;
             if (_currentTimer >= _transitionTimeUp)
             {

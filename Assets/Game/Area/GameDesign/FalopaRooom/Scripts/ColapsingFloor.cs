@@ -3,10 +3,12 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ColapsingFloor : MonoBehaviour
+public class ColapsingFloor : PlayObject
 {
    private ShakeTransformS _shaker;
    [SerializeField] private float fallingSpeed = 3;
+
+    public bool active;
    
    private bool goingDown = false;
    private void Start()
@@ -22,10 +24,10 @@ public class ColapsingFloor : MonoBehaviour
 
    private void Update()
    {
-      if (Input.GetKeyDown(KeyCode.L))
-      {
-         ActivateFloorSequence();
-      }
+      //if (Input.GetKeyDown(KeyCode.L))
+      //{
+       //  ActivateFloorSequence();
+      //}
 
       if (goingDown)
       {
@@ -35,10 +37,45 @@ public class ColapsingFloor : MonoBehaviour
 
    public void ActivateFloorSequence()
    {
+        if (!active) return;
+
+
       _shaker.Begin();
    }
-   
-   
-   
-   
+
+
+    protected override void OnInitialize()
+    {
+        throw new NotImplementedException();
+    }
+
+    protected override void OnTurnOn()
+    {
+        active = true;
+    }
+
+    protected override void OnTurnOff()
+    {
+        active = false;
+    }
+
+    protected override void OnUpdate()
+    {
+    
+    }
+
+    protected override void OnFixedUpdate()
+    {
+        
+    }
+
+    protected override void OnPause()
+    {
+  
+    }
+
+    protected override void OnResume()
+    {
+     
+    }
 }

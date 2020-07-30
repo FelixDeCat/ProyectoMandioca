@@ -31,9 +31,12 @@ public class CustomCamera : MonoBehaviour
     public float speedRot;
     Camera mycam;
     public List<CamConfiguration> myCameras = new List<CamConfiguration>();
-    int index;
+   public int index;
+    JoystickBasicInput _joystick;
     private void Start()
     {
+        _joystick = new JoystickBasicInput();
+        _joystick.SUBSCRIBE_START(ChangeCamera);
         shakeDurationCurrent = shakeDuration;
         mycam = GetComponent<Camera>();
         pingpongZoom.Configure(Zoom, false);
@@ -57,6 +60,7 @@ public class CustomCamera : MonoBehaviour
         pingpongZoom.Updatear();
         ShaderMask();
         nextIndex();
+        _joystick.Refresh();
     }
     private void FixedUpdate()
     {
@@ -163,7 +167,7 @@ public class CustomCamera : MonoBehaviour
         //cambiar lo de poner el input. es solo para probar
         if (Input.GetKeyDown(KeyCode.C))
         {
-            if (index < myCameras.Count-1)
+            if (index < myCameras.Count - 1)
                 index++;
             else
                 index = 0;
@@ -172,7 +176,14 @@ public class CustomCamera : MonoBehaviour
         transform.forward = Vector3.Lerp(transform.forward, myCameras[index].transform.forward, speedRot*Time.deltaTime);
 
     }
-
+    void ChangeCamera()
+    {
+        if (index < myCameras.Count - 1)
+            index++;
+        else
+            index = 0;
+        changeCameraconf(index);
+    }
     void changeCameraconf(int i)
     {
         target = myCameras[i].transform;
@@ -185,5 +196,11 @@ public class CustomCamera : MonoBehaviour
         camera.fieldOfView = myCameras[i].fieldOfView;
     }
     
-    
+    public void ChangeToDefaultCamera()
+    {
+        active = true;
+        index = 0;
+        changeCameraconf(index);
+        transform.forward = Vector3.Lerp(transform.forward, myCameras[index].transform.forward, speedRot * Time.deltaTime);
+    }
 }

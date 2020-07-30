@@ -8,7 +8,6 @@ public class CharacterAttack
     public Transform forwardPos { get; private set; }
     float heavyAttackTime = 1f;
     float buttonPressedTime;
-    //float angleOfAttack;
     float currentDamage;
 
     CharacterAnimator anim;
@@ -21,8 +20,6 @@ public class CharacterAttack
     bool oneshot;
 
     public bool inAttack;
-
-    //FirstAttackPassive
     private bool firstAttack;
 
     List<Weapon> myWeapons;
@@ -30,10 +27,6 @@ public class CharacterAttack
     int currentIndexWeapon;
 
     Action callback_ReceiveEntity = delegate { };
-
-    //event Action<Vector3> callbackPositio;
-
-
     Action DealSuccesfullNormal;
     Action DealSuccesfullHeavy;
     Action KillSuccesfullNormal;
@@ -134,6 +127,8 @@ public class CharacterAttack
         inCheck = true;
         buttonPressedTime = 0f;
         anim.OnAttackBegin(true);
+        anim.ForceAttack();
+        Debug.Log("isAttacking");
     }
 
 
@@ -142,7 +137,6 @@ public class CharacterAttack
     // OnPressUp
     public void AttackEnd()
     {
-        
         Check();
     }
 
@@ -165,7 +159,6 @@ public class CharacterAttack
     {
         inCheck = false;
 
-        myRig.AddForce(forwardPos.transform.forward * 10, ForceMode.VelocityChange);
 
         if (buttonPressedTime < heavyAttackTime)
         {
@@ -174,6 +167,7 @@ public class CharacterAttack
         else
         {
             HeavyAttack.Invoke();
+            myRig.AddForce(forwardPos.transform.forward * 10, ForceMode.VelocityChange);
         }
         feedbacks.particles.feedbackHeavy.Stop();
         oneshot = false;
@@ -204,7 +198,7 @@ public class CharacterAttack
         callback_ReceiveEntity();
         FirstAttackReady(false);//esto tambien es de obligacion... tampoco debería estar aca
 
-        if (entityToDamage.GetComponent<DestructibleBase>())
+        if (entityToDamage.GetComponent<BaseDestructible>())
         {
             BreakObject.Invoke();
             return;

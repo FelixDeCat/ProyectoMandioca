@@ -5,7 +5,6 @@ using System;
 
 public class CharacterMovement
 {
-
     Rigidbody _rb;
     Transform rotTransform;
     float speed;
@@ -117,20 +116,14 @@ public class CharacterMovement
     //Joystick Izquierdo, Movimiento
     void LeftHorizontal(float axis)
     {
-        float velZ = _rb.velocity.z;
-
         movX = axis;
         Move();
-
     }
 
     void LeftVertical(float axis)
     {
-        float velX = _rb.velocity.x;
-
         movY = axis;
         Move();
-
     }
 
     float pushForce;
@@ -145,37 +138,57 @@ public class CharacterMovement
 
     void Move()
     {
-
         Vector3 auxNormalized = new Vector3(movX, 0, movY);
         auxNormalized.Normalize();
 
-        _rb.velocity = new Vector3(auxNormalized.x * speed, velY, auxNormalized.z * speed);
-
-        var prom = Mathf.Abs(movY) + Mathf.Abs(movX);
+        if (!forcing)
+            _rb.velocity = new Vector3(auxNormalized.x * speed, velY, auxNormalized.z * speed);
 
         if (rotX >= 0.3 || rotX <= -0.3 || rotY >= 0.3 || rotY <= -0.3)
         {
-            //Rotation(rotY, rotX);
 
-            //float dotX = Vector3.Dot(rotTransform.forward, new Vector3(rotY, 0, rotX));
-            //float dotY = Vector3.Dot(rotTransform.right, new Vector3(rotY, 0, rotX));
-            if (Mathf.Abs(rotTransform.forward.z) >= Mathf.Abs(rotTransform.forward.x))
-                anim.Move(prom, -movX * rotTransform.right.x, movY * rotTransform.forward.z);
+            if (movX <= 0.3 && movX >= -0.3 && movY <= 0.3 && movY >= -0.3)
+                anim.Move(0, 0);
             else
-                anim.Move(prom, -movY * rotTransform.right.z, movX * rotTransform.forward.x);
-
-            //if (rotY >= 0)
-            //    anim.Move(prom, axisX, axisY);
-            //else
-            //    anim.Move(prom, axisX, -axisY);
+            {
+                if (Mathf.Abs(rotTransform.forward.z) >= Mathf.Abs(rotTransform.forward.x))
+                    anim.Move(-movX * rotTransform.right.x, movY * rotTransform.forward.z);
+                else
+                    anim.Move(-movY * rotTransform.right.z, movX * rotTransform.forward.x);
+            }
         }
         else
         {
-            anim.Move(prom, 0, 1);
+            if(movX >= 0.3 && movX <= -0.3 && movY >= 0.3 && movY <= -0.3)
+                anim.Move(0, 1);
+            else
+                anim.Move(0, 0);
         }
 
     }
     #endregion
+    bool forcing;
+
+    public void MovementAddForce(Vector3 dir, float force, ForceMode mode)
+    {
+        if (!forcing)
+        {
+            _rb.velocity = Vector3.zero;
+            forcing = true;
+        }
+
+        _rb.AddForce(dir * force, mode);
+    }
+
+    public void StopForceBool()
+    {
+        forcing = false;
+    }
+
+    public void StopForce()
+    {
+        _rb.velocity = Vector3.zero;
+    }
 
     #region ROTATION
     //Joystick Derecho, Rotacion
@@ -348,7 +361,7 @@ public class CharacterMovement
             }
         }
 
-        anim.Roll();
+        anim.Dash();
     }
 
     public bool IsDash()
