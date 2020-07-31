@@ -128,7 +128,6 @@ public class CharacterAttack
         buttonPressedTime = 0f;
         anim.OnAttackBegin(true);
         anim.ForceAttack();
-        Debug.Log("isAttacking");
     }
 
 

@@ -17,10 +17,6 @@ public class UI_MisionMensaje : UI_Base
     public Transform parentobjetosrecompensa;
     List<GameObject> objcs;
 
-    //public RectTransform myrect;
-
-    
-
     public void MostrarMensaje(Mision mision, string tipo)
     {
        // PreOpen();
@@ -59,13 +55,13 @@ public class UI_MisionMensaje : UI_Base
         objcs.Clear();
         objcs = new List<GameObject>();
 
-        if (mision.recompensa != null)
+        if (mision.rewarding.items_rewarding != null)
         {
-            if (mision.recompensa.Length > 0)
+            if (mision.rewarding.items_rewarding.Length > 0)
             {
                 pivotRecompensa.localScale = new Vector3(1, 1, 1);
 
-                for (int i = 0; i < mision.recompensa.Length; i++)
+                for (int i = 0; i < mision.rewarding.items_rewarding.Length; i++)
                 {
 
                     GameObject go = GameObject.Instantiate(model_recompensa);
@@ -73,7 +69,7 @@ public class UI_MisionMensaje : UI_Base
                     go.transform.localPosition = new Vector3(0, 0, 0);
                     go.transform.localScale = new Vector3(1, 1, 1);
 
-                    go.GetComponent<Image>().sprite = mision.recompensa[i].item.img;
+                    go.GetComponent<Image>().sprite = mision.rewarding.items_rewarding[i].item.img;
 
                     objcs.Add(go);
                 }
@@ -89,11 +85,7 @@ public class UI_MisionMensaje : UI_Base
         }
     }
 
-    public override void Refresh()
-    {
-       
-    }
-
+    
     protected override void OnAwake()
     {
         objcs = new List<GameObject>();
@@ -104,19 +96,9 @@ public class UI_MisionMensaje : UI_Base
         callback.Invoke();
     }
 
-    protected override void OnEndOpenAnimation()
-    {
-       
-    }
-
-    protected override void OnStart()
-    {
-       
-    }
-
-    protected override void OnUpdate()
-    {
-        
-    }
+    public override void Refresh() { }
+    protected override void OnEndOpenAnimation() { }
+    protected override void OnStart() { }
+    protected override void OnUpdate() { }
 
 }

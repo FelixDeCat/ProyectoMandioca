@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System;
 
 public abstract class Mision : MonoBehaviour
 {
@@ -8,31 +9,34 @@ public abstract class Mision : MonoBehaviour
 
     public Misions.Core.Serializable_DescriptiveInfo info;
     public Misions.Core.Serializable_MisionData data;
+    public Misions.Core.Serializable_WorldTracking[] currenttracking;
+    public Misions.Core.Serializable_Reward rewarding;
+    public Misions.Core.Serializable_Events events;
 
     public bool Completed { get { return data.Completed; } }
 
-    public ItemInInventory[] recompensa;
-
-    public Mision next;
-
     bool canupdate;
 
+    public Action<Mision> mision_end_callback;
     
     private void Start()
     {
         ConfigureProgresion();
     }
-    public void Begin()
+    public void Begin(Action<Mision> _mision_end_callback)
     {
         data.ActivateMision();
         canupdate = true;
         OnBegin();
+        mision_end_callback = _mision_end_callback;
+        events.OnStartMission.Invoke();
     }
     public void End()
     {
         data.DeactivateMision();
         canupdate = false;
         OnEnd();
+        events.OnEndMission.Invoke();
     }
     
 
@@ -42,6 +46,11 @@ public abstract class Mision : MonoBehaviour
         {
             OnUpdate();
         }
+    }
+
+    protected void Finish()
+    {
+        mision_end_callback.Invoke(this);
     }
 
     public abstract void Refresh();
@@ -56,8 +65,15 @@ public abstract class Mision : MonoBehaviour
     protected abstract void OnUpdate();
 }
 
+public class QuestFile
+{
+
+}
+
 namespace Misions.Core
 {
+    using UnityEngine.Events;
+
     #region [ CORE ] Serializable Item Mision
     #region INFO
     [System.Serializable]
@@ -76,12 +92,24 @@ namespace Misions.Core
         [SerializeField] bool completed = false;
         [SerializeField] bool isactive = false;
         [SerializeField] Serializable_ItemMision[] mision_item = new Serializable_ItemMision[0];
+        [SerializeField] string[] regions_to_enable;
         internal int[] Progression { get { return progression; } }
         internal bool Completed { get { return completed; } }
         internal bool IsActive { get { return isactive; } }
         internal Serializable_ItemMision[] MisionItem { get { return mision_item; } }
         internal void ActivateMision() => isactive = true;
         internal void DeactivateMision() => isactive = false;
+        internal bool CanPrint(string place)
+        {
+            foreach (var p in regions_to_enable)
+            {
+                if (p == place)
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
     }
     #endregion
     #region DATA_CORE
@@ -119,7 +147,24 @@ namespace Misions.Core
             this.description = _description;
         }
     }
+    [System.Serializable]
+    public class Serializable_Reward
+    {
+        [SerializeField] internal ItemInInventory[] items_rewarding;
+
+    }
+    [System.Serializable]
+    public class Serializable_Events
+    {
+        [SerializeField] internal UnityEvent OnStartMission;
+        [SerializeField] internal UnityEvent OnEndMission;
+    }
     #endregion
     #endregion
+    public  class Serializable_WorldTracking
+    {
+        internal string scene = "";
+        internal Vector3 position = new Vector3(0, 0, 0);
+    }
 
 }

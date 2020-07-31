@@ -8,25 +8,19 @@ public class MisionManager : LoadComponent
     private void Awake() => instancia = this;
 
     public List<Mision> active_misions;
+    public List<Mision> finished_misions;
+
+
     public UI_MisionManager ui;
 
 
+    #region para carga de datos
     protected override IEnumerator LoadMe()
     {
         /// AddMissionFromDisk
         /// bla bla bla
         yield return null;
     }
-
-    public bool MisionIsActive(Mision m) => active_misions.Contains(m);
-
-    public void RemoveMision(Mision m)
-    {
-        m.End();
-        active_misions.Remove(m);
-        UI_StackMision.instancia.LogearMision(m, "MisionFinalizada", 8f);
-    }
-
     public void AddMissionFromDisk(int index, Misions.Core.Serializable_MisionData data)
     {
         var findedmisions = FindObjectsOfType<Mision>();
@@ -43,7 +37,6 @@ public class MisionManager : LoadComponent
                 {
                     AddMision(findedmisions[i]);
                 }
-                
                 return;
             }
             else
@@ -54,34 +47,42 @@ public class MisionManager : LoadComponent
 
         Debug.LogError("NO se encuentra el indice de esta mision, fijate si esta mision que buscas tiene asignado el indice");
     }
+    #endregion
+
+    public bool MisionIsActive(Mision m) => active_misions.Contains(m);
+
+
+    public void RefreshInPlace(string place)
+    {
+        foreach (var m in active_misions)
+        {
+            m.data.CanPrint(place);
+        }
+    }
+
+    public void RemoveMision(Mision m)
+    {
+        m.End();
+        active_misions.Remove(m);
+        UI_StackMision.instancia.LogearMision(m, "MisionFinalizada", 8f);
+    }
 
     public void AddMision(Mision m)
     {
         UI_StackMision.instancia.LogearMision(m, "Mision Nueva", 4f);
-        m.Begin();
+        m.Begin(EndMision);
         active_misions.Add(m);
         CheckMision();
     }
 
+
     public void CheckMision()
     {
-        List<Mision> nextMisions = new List<Mision>();
-        List<Mision> marktoremove = new List<Mision>();
-        foreach (var m in active_misions) m.CheckProgresion();
-        foreach (var m in active_misions)
-        {
-            if (m.Completed)
-            {
-                m.End();
-                if (m.next) nextMisions.Add(m.next);
-                marktoremove.Add(m);
-            }
-        }
-        foreach (var m in marktoremove) RemoveMision(m);
-        foreach (var nm in nextMisions) AddMision(nm);
-        foreach (var m in active_misions) m.Refresh();
         ui.RefreshUIMisions(active_misions);
     }
 
-    
+    public void EndMision(Mision m)
+    {
+
+    }
 }

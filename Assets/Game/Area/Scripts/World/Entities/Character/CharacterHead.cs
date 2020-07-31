@@ -488,7 +488,6 @@ public class CharacterHead : CharacterControllable
     void OnGainLife() => customCam.BeginShakeCamera();
     void OnDeath()
     {
-        Debug.Log("DEATH");
         Main.instance.RemoveEntity(this);
         Main.instance.eventManager.TriggerEvent(GameEvents.ON_PLAYER_DEATH);
         Main.instance.GetCombatDirector().RemoveTarget(this);
@@ -555,7 +554,6 @@ public class CharacterHead : CharacterControllable
         ChangeAngleAttack(attackAngle);
         ChangeRangeAttack(attackRange);
         charanim.NormalAttack();
-        Debug.Log("IsNormalAttacking");
     }
     public void SetCombat(bool b) => Combat = b;
 

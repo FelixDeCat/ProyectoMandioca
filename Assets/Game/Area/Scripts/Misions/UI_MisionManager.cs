@@ -5,10 +5,8 @@ using UnityEngine;
 public class UI_MisionManager : MonoBehaviour
 {
     public List<UI_CompMision> ui_misions;
-
     public Transform parent;
     public GameObject model;
-
     bool mostrar;
 
     public void Awake()
