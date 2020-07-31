@@ -10,7 +10,6 @@ public class MisionManager : LoadComponent
     public List<Mision> active_misions;
     public List<Mision> finished_misions;
 
-
     public UI_MisionManager ui;
 
 

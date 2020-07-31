@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using Tools.Extensions;
+using Tools.EventClasses;
 
 public class CustomCamera : MonoBehaviour
 {
@@ -33,6 +35,9 @@ public class CustomCamera : MonoBehaviour
     public List<CamConfiguration> myCameras = new List<CamConfiguration>();
    public int index;
     JoystickBasicInput _joystick;
+
+    [SerializeField] EventInt invertAxis;
+
     private void Start()
     {
         _joystick = new JoystickBasicInput();
@@ -59,7 +64,7 @@ public class CustomCamera : MonoBehaviour
             return;
         pingpongZoom.Updatear();
         ShaderMask();
-        nextIndex();
+        transform.forward = Vector3.Lerp(transform.forward, myCameras[index].transform.forward, speedRot * Time.deltaTime);
         _joystick.Refresh();
     }
     private void FixedUpdate()
@@ -162,20 +167,34 @@ public class CustomCamera : MonoBehaviour
     }
     void SmoothDump() => transform.position = Vector3.SmoothDamp(transform.position, target.position, ref velocity, smooth);
 
-    private void nextIndex()
-    {
-        //cambiar lo de poner el input. es solo para probar
-        if (Input.GetKeyDown(KeyCode.C))
-        {
-            if (index < myCameras.Count - 1)
-                index++;
-            else
-                index = 0;
-            changeCameraconf(index);
-        }
-        transform.forward = Vector3.Lerp(transform.forward, myCameras[index].transform.forward, speedRot*Time.deltaTime);
 
+    public void NextCamera()
+    {
+        index = index.NextIndex(myCameras.Count);
+        changeCameraconf(index);
+        invertAxis.Invoke(index);
     }
+    public void PrevCamera()
+    {
+        index = index.BackIndex(myCameras.Count);
+        changeCameraconf(index);
+        invertAxis.Invoke(index);
+    }
+
+    //private void nextIndex()
+    //{
+    //    //cambiar lo de poner el input. es solo para probar
+    //    if (Input.GetKeyDown(KeyCode.C))
+    //    {
+    //        if (index < myCameras.Count - 1)
+    //            index++;
+    //        else
+    //            index = 0;
+    //        changeCameraconf(index);
+    //}
+        
+
+    //}
     void ChangeCamera()
     {
         if (index < myCameras.Count - 1)
