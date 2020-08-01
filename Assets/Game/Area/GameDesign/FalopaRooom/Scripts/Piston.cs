@@ -9,6 +9,8 @@ public class Piston : MonoBehaviour
     [SerializeField] float _speed = 5;
     [SerializeField] float _speedUp = 2;
     [SerializeField] bool _goBack = false;
+    [SerializeField] float _delayStart;
+    private float _timeToStart;
     public bool active;
     [SerializeField] float _transitionTimeDown = 0.5f;
     [SerializeField] float _transitionTimeUp = 0.5f;
@@ -34,27 +36,35 @@ public class Piston : MonoBehaviour
     {
         if (!active)
             return;
-
-        if (!_goBack)
+        if (_timeToStart < _delayStart)
         {
-            transform.position = Vector3.Lerp(transform.position, _EndPos.position, Time.deltaTime* _speed);
-            _currentTimer += Time.deltaTime;
-            if (_currentTimer >= _transitionTimeDown)
-            {
-                _currentTimer = 0;
-                _goBack = true;
-            }
+            _timeToStart += Time.deltaTime;
         }
         else
         {
-            transform.position = Vector3.Lerp(transform.position, _startPos.position, Time.deltaTime* _speedUp);
-            _currentTimer += Time.deltaTime;
-            if (_currentTimer >= _transitionTimeUp)
+            if (!_goBack)
             {
-                _currentTimer = 0;
-                _goBack = false;
+                transform.position = Vector3.Lerp(transform.position, _EndPos.position, Time.deltaTime * _speed);
+                _currentTimer += Time.deltaTime;
+                if (_currentTimer >= _transitionTimeDown)
+                {
+                    _currentTimer = 0;
+                    _goBack = true;
+                }
+            }
+            else
+            {
+                transform.position = Vector3.Lerp(transform.position, _startPos.position, Time.deltaTime * _speedUp);
+                _currentTimer += Time.deltaTime;
+                if (_currentTimer >= _transitionTimeUp)
+                {
+                    _currentTimer = 0;
+                    _goBack = false;
+                }
             }
         }
+
+      
 
     }
 
@@ -65,4 +75,5 @@ public class Piston : MonoBehaviour
             active = true;
         }
     }
+
 }

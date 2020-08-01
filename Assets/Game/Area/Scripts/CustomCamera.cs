@@ -19,7 +19,7 @@ public class CustomCamera : MonoBehaviour
     private bool activeShake;
     public bool active=true;
     Collider currentObstacle;
-
+    [SerializeField] float sensitivity;
     [SerializeField] private SkillCloseUp_Camera skillCloseUp_Camera = null;
 
     public float zoomDuration;
@@ -66,6 +66,10 @@ public class CustomCamera : MonoBehaviour
         ShaderMask();
         transform.forward = Vector3.Lerp(transform.forward, myCameras[index].transform.forward, speedRot * Time.deltaTime);
         _joystick.Refresh();
+        if (Input.GetKeyDown(KeyCode.C))
+        {
+            NextCamera();
+        }
     }
     private void FixedUpdate()
     {
@@ -88,7 +92,18 @@ public class CustomCamera : MonoBehaviour
     void Zoom(float valtozoom) => mycam.fieldOfView = Mathf.Lerp(FIELD_OF_VIEW_ORIGINAL, fieldOfView_toZoom, valtozoom);
     void SmoothToTarget() {
         Vector3 desiredposition = target.position + offset;
-        Vector3 smoothedposition = Vector3.Lerp(transform.position, desiredposition, smooth * Time.deltaTime);
+        float axisX = Input.GetAxis("Horizontal");
+        float axisZ = Input.GetAxis("Vertical");
+        Vector3 moveOffset = desiredposition;
+        if (axisX != 0)
+        {
+            moveOffset += transform.right * axisX * sensitivity;
+        }
+        if (axisZ != 0)
+        {
+            moveOffset += transform.up * axisZ * sensitivity;
+        }
+        Vector3 smoothedposition = Vector3.Lerp(transform.position, moveOffset, smooth * Time.deltaTime);
         transform.position = smoothedposition;
         if (lookAt) transform.LookAt(target);
     }
@@ -191,8 +206,8 @@ public class CustomCamera : MonoBehaviour
     //        else
     //            index = 0;
     //        changeCameraconf(index);
-    //}
-        
+    //    }
+
 
     //}
     void ChangeCamera()

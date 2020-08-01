@@ -10,6 +10,10 @@ public abstract class Interactable : MonoBehaviour
     public bool autoexecute;
     public Transform pointToMessage;
     public FeedbackInteractBase[] feedback;
+    public bool _withDelay;
+    private float currentTime;
+    public float delayTime;
+    protected bool updateDelay;
     public void Enter(WalkingEntity entity)
     {
         if (!autoexecute) if (feedback.Length > 0) foreach (var fdbck in feedback) fdbck.Show();
@@ -19,13 +23,36 @@ public abstract class Interactable : MonoBehaviour
     {
         if (feedback.Length > 0) foreach (var fdbck in feedback) fdbck.Hide();
         OnExit();
+        currentTime = 0;
+        updateDelay = false;
     }
     public void Execute(WalkingEntity entity)
     {
-        OnExecute(entity);
+        if (!_withDelay)
+            OnExecute(entity);
+        else
+            updateDelay = true;
+    }
+    protected virtual void Update()
+    {
+        if (updateDelay)
+        {
+            DelayExecute(delayTime);
+        }
+    }
+    public virtual void DelayExecute(float loadTime)
+    {
+        currentTime += Time.deltaTime;
+        Debug.Log(currentTime);
+        if (loadTime <= currentTime)
+        {
+            OnExecute(Main.instance.GetChar());
+        }
     }
     public abstract void OnEnter(WalkingEntity entity);
     public abstract void OnExecute(WalkingEntity collector);
     public abstract void OnExit();
+
+
 
 }
