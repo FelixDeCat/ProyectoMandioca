@@ -64,6 +64,7 @@ public class DamageReceiver : MonoBehaviour
 
     public Attack_Result TakeDamage(DamageData data)
     {
+        Debug.Log("1");
         if (IsDmg()) return Attack_Result.inmune;
 
         if (IsNotDestructible)
@@ -78,7 +79,8 @@ public class DamageReceiver : MonoBehaviour
             return Attack_Result.inmune;
         }
 
-        if(data.damageType != Damagetype.NonBlockAndParry)
+        Debug.Log("2");
+        if (data.damageType != Damagetype.NonBlockAndParry)
         {
             if (parryEntity && data.damageType != Damagetype.NonParry)
             {
@@ -97,6 +99,8 @@ public class DamageReceiver : MonoBehaviour
                 }
             }
         }
+
+        Debug.Log("3");
 
         int dmg = data.damage;
 

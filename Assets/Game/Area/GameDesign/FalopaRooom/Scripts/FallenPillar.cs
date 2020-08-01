@@ -30,6 +30,7 @@ public class FallenPillar : MonoBehaviour
 
     void GetHit()
     {
+        Debug.Log("asdasdasdsad");
         originPillar.SetActive(false);
         pillarFallen.SetActive(true);
     }
