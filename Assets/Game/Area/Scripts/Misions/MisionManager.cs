@@ -12,6 +12,8 @@ public class MisionManager : LoadComponent
 
     public UI_MisionManager ui;
 
+    public UI_Mission_GeneralManager ui_panel;
+
 
     #region para carga de datos
     protected override IEnumerator LoadMe()
@@ -49,6 +51,14 @@ public class MisionManager : LoadComponent
     #endregion
 
     public bool MisionIsActive(Mision m) => active_misions.Contains(m);
+
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.J))
+        {
+            ui_panel.Enable();
+        }
+    }
 
 
     public void RefreshInPlace(string place)
