@@ -29,27 +29,37 @@ public class UI_MissionCompleteInfo : MonoBehaviour
         subdescription.text = mision.info.subdescription;
 
         mision_state.text = mision.data.Completed ? "Finalizado" : "En curso";
-        mision_state.color = mision.data.Completed ? Color.black : Color.green;
+        mision_state.color = mision.data.Completed ? Color.black : Color.grey;
 
         items.text = "Subtareas\n";
 
         foreach (var item in mision.data.MisionItems)
         {
-            var auxbool = (BoolItemMision)item;
-            if (auxbool != null)
+            try
             {
-                string desc = auxbool.Description;
-                items.text += "<color=" + (auxbool.IsCompleted ? "green" : "black") + "> " + desc + "</color>";
+                var auxbool = (BoolItemMision)item;
+                if (auxbool != null)
+                {
+                    string desc = auxbool.Description;
+                    items.text += "<color=" + (auxbool.IsCompleted ? "green" : "black") + "> " + desc + "</color> \n";
+                }
             }
+            catch (System.InvalidCastException ex) {  }
 
-            var auxint = (IntItemMision)item;
-            if (auxint != null)
+            try
             {
-                string desc = auxint.CurrentValue + " / " + auxint.MaxValue + " " + auxint.Description;
-                items.text += "<color=" + (auxint.IsCompleted ? "green" : "black") + "> " + desc + "</color>";
+                var auxint = (IntItemMision)item;
+                if (auxint != null)
+                {
+                    string desc = auxint.CurrentValue + " / " + auxint.MaxValue + " " + auxint.Description;
+                    items.text += "<color=" + (auxint.IsCompleted ? "green" : "black") + "> " + desc + "</color> \n";
+                }
             }
+            catch (System.InvalidCastException ex) { }
         }
 
+
+        regions_to_enable.text = "";
         foreach (var place in mision.data.Regions)
         {
             regions_to_enable.text += place + "\n";
@@ -63,6 +73,7 @@ public class UI_MissionCompleteInfo : MonoBehaviour
                 regions_to_enable.text += mision.data.Regions[i];
         }
 
+        recompensa.text = "";
         for (int i = 0; i < mision.rewarding.items_rewarding.Length; i++)
         {
             if (i != mision.rewarding.items_rewarding.Length - 1)
