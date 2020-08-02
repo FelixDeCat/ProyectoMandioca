@@ -332,7 +332,9 @@ public class CharacterMovement
 
     public void Roll()
     {
-        feedbacks.sounds.Play_Dash();
+        if (inDash) return;
+
+            feedbacks.sounds.Play_Dash();
 
         if (movX != 0 || movY != 0)
             dashDir = new Vector3(movX, 0, movY).normalized;
