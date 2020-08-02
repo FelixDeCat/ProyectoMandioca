@@ -14,7 +14,7 @@ public class CharacterHead : CharacterControllable
     [SerializeField] CharacterInput _charInput = null;
 
     [Header("Dash Options")]
-    public AnimationCurve dashCurve;
+    //public AnimationCurve dashCurve;
     public AnimationCurve gravityCurve;
     [SerializeField] float dashTiming = 2;
     [SerializeField] float dashDistance = 5;
@@ -137,7 +137,7 @@ public class CharacterHead : CharacterControllable
             .SetDashCD(dashCD)
             .SetDashDistance(dashDistance);
 
-        move.Curve += () => dashCurve;
+      //  move.Curve += () => dashCurve;
         move.CurveGravityMultiplier += () => gravityCurve;
 
         InDash += move.IsDash;
@@ -170,7 +170,7 @@ public class CharacterHead : CharacterControllable
         charAnimEvent.Add_Callback("ActiveRightAttackFeedback", RightAttacktFeedback);
         charAnimEvent.Add_Callback("ActiveLeftAttackFeedback", LeftAttacktFeedback);
 
-        charAnimEvent.Add_Callback("Dash", move.RollForAnim);
+        charAnimEvent.Add_Callback("OnDashAnimEnded", move.ANIM_EVENT_RollEnded);
         charAnimEvent.Add_Callback("Pasos", FootSteps);
         charAnimEvent.Add_Callback("OpenComboWindow", charAttack.ANIM_EVENT_OpenComboWindow);
         charAnimEvent.Add_Callback("CloseComboWindow", charAttack.ANIM_EVENT_CloseComboWindow);
@@ -631,14 +631,9 @@ public class CharacterHead : CharacterControllable
             if (move.TeleportActive)
             {
                 if (move.CheckIfCanTeleport()) stateMachine.SendInput(PlayerInputs.ROLL);
-
-
-
                 return;
             }
-
             stateMachine.SendInput(PlayerInputs.ROLL);
-
             SetNormalSpeed();
         }
     }
