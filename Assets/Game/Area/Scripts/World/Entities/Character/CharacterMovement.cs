@@ -36,10 +36,9 @@ public class CharacterMovement
 
     CharacterAnimator anim;
 
-    Action OnBeginRoll;
-    Action OnEndRoll;
+    Action OnBeginRollFeedback_Callback;
+    Action OnEndRollFeedback_Callback;
     public Action Dash;
-    public Func<AnimationCurve> Curve;
 
 
     public Action<float> MovementHorizontal;
@@ -108,8 +107,8 @@ public class CharacterMovement
 
     public void SetCallbacks(Action _OnBeginRoll, Action _OnEndRoll)
     {
-        OnBeginRoll = _OnBeginRoll;
-        OnEndRoll = _OnEndRoll;
+        OnBeginRollFeedback_Callback = _OnBeginRoll;
+        OnEndRollFeedback_Callback = _OnEndRoll;
     }
 
     #region MOVEMENT
@@ -237,6 +236,7 @@ public class CharacterMovement
     #region ROLL
     public void OnUpdate()
     {
+        #region toda la parte de calculos relacionados a la curva de gravedad
         if (begin_gravityCurve)
         {
             if (timer_gravity_curve < 1)
@@ -264,7 +264,6 @@ public class CharacterMovement
             {
                 velY = gravity;
             }
-
             DebugCustom.Log("Gravity", "Gravity", "TRUE");
         }
         else
@@ -272,31 +271,24 @@ public class CharacterMovement
             velY = 0;
             DebugCustom.Log("Gravity", "Gravity", "false");
         }
-
+        #endregion
+        #region el dash fisico mero mero
         if (inDash)
         {
-            timerDash += Time.deltaTime /** dashSpeed*/;
-            //Debug.Log(lastKey.time + "y" + Curve().Evaluate(timerDash) / lastKey.time);
-            dashSpeed = dashMaxSpeed * Curve().Evaluate(timerDash);
-            //_rb.transform.position = Vector3.Lerp(aPoint, bPoint, Curve().Evaluate(timerDash));
+            timerDash += Time.deltaTime;
+            dashSpeed = dashMaxSpeed;
 
             dashDir = new Vector3(dashDir.x, 0, dashDir.z);
 
             _rb.velocity = dashSpeed * dashDir + new Vector3(0, velY, 0);
 
-            //_rb.velocity = dashDir * dashSpeed;
-
             if (timerDash >= maxTimerDash)
             {
-                OnEndRoll.Invoke();
-                inDash = false;
-                _rb.velocity = Vector3.zero;
-                timerDash = 0;
-                dashDir = Vector3.zero;
-                dashCdOk = true;
+                StopRoll();
             }
         }
-
+        #endregion
+        #region Dash cooldown
         if (dashCdOk)
         {
             cdTimer += Time.deltaTime;
@@ -312,12 +304,28 @@ public class CharacterMovement
                 cdTimer = 0;
             }
         }
+        #endregion
     }
 
+    public void StopRoll()
+    {
+        OnEndRollFeedback_Callback.Invoke();
+        inDash = false;
+        _rb.velocity = Vector3.zero;
+        timerDash = 0;
+        dashDir = Vector3.zero;
+        dashCdOk = true;
+        timer_gravity_curve = 0;
+        begin_gravityCurve = false;
+    }
+
+    public void ANIM_EVENT_RollEnded()
+    {
+        StopRoll();
+    }
     public void RollForAnim()
     {
-        OnBeginRoll();
-
+        OnBeginRollFeedback_Callback();
         begin_gravityCurve = true;
         inDash = true;
     }
@@ -362,6 +370,8 @@ public class CharacterMovement
         }
 
         anim.Dash();
+
+        RollForAnim();
     }
 
     public bool IsDash()
