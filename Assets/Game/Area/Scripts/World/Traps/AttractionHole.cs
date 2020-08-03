@@ -9,6 +9,7 @@ public class AttractionHole : MonoBehaviour
     [SerializeField] ParticleSystem holeParticle = null;
     [SerializeField] Transform centerPoint = null;
     [SerializeField] ForceMode mode = ForceMode.Acceleration;
+    [SerializeField, Range(-1, 1)] int forceDirection = 1;
     bool on;
     bool isZero;
 
@@ -23,14 +24,18 @@ public class AttractionHole : MonoBehaviour
 
         if (character)
         {
-            Vector3 att = centerPoint.position - character.transform.position;
+            Vector3 att = (centerPoint.position - character.transform.position) * forceDirection;
 
             if (att.x > -0.3f && att.x < 0.3f && att.z > -0.3f && att.z < 0.3f)
             {
-                if (!isZero)
+                if(forceDirection == 1 && !isZero)
                 {
                     character.GetCharMove().StopForce();
                     isZero = true;
+                }
+                else if (forceDirection == -1)
+                {
+                    att = Vector3.right;
                 }
             }
             else
