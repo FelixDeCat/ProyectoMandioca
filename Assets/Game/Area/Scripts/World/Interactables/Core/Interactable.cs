@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System;
 
 [SerializeField]
 public abstract class Interactable : MonoBehaviour
@@ -11,7 +12,8 @@ public abstract class Interactable : MonoBehaviour
     public Transform pointToMessage;
     public FeedbackInteractBase[] feedback;
     public bool _withDelay;
-    private float currentTime;
+    protected float currentTime;
+    protected Action _executeAction;
     public float delayTime;
     protected bool updateDelay;
     public void Enter(WalkingEntity entity)
@@ -43,7 +45,7 @@ public abstract class Interactable : MonoBehaviour
     public virtual void DelayExecute(float loadTime)
     {
         currentTime += Time.deltaTime;
-        Debug.Log(currentTime);
+
         if (loadTime <= currentTime)
         {
             OnExecute(Main.instance.GetChar());
