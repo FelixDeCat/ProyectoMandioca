@@ -504,7 +504,7 @@ public class CharacterHead : CharacterControllable
     void DealRight() { DirAttack = -rot.right; DealAttack(); }
     public void EVENT_OnAttackBegin()
     {
-        if (stateMachine.Current.Name != "Release_Attack")
+        //if (stateMachine.Current.Name != "Release_Attack")
             stateMachine.SendInput(PlayerInputs.CHARGE_ATTACK);
 
         charAttack.UnfilteredAttack();
