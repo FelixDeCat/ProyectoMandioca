@@ -162,6 +162,7 @@ public class CharacterAttack
         if (buttonPressedTime < heavyAttackTime)
         {
             NormalAttack.Invoke();
+            myRig.AddForce(forwardPos.transform.forward * 7, ForceMode.VelocityChange);
         }
         else
         {
