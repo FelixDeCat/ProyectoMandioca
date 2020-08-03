@@ -158,7 +158,7 @@ public class CharacterMovement
         }
         else
         {
-            if (movX >= 0.3 && movX <= -0.3 && movY >= 0.3 && movY <= -0.3)
+            if (movX >= 0.3 || movX <= -0.3 || movY >= 0.3 || movY <= -0.3)
                 anim.Move(0, 1);
             else
                 anim.Move(0, 0);

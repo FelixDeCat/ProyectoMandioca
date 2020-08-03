@@ -766,6 +766,15 @@ public class CharacterHead : CharacterControllable
     }
     #endregion
 
+    #region Stun
+    public void GetStunned(float _stunDuration)
+    {
+        stunDuration = _stunDuration;
+        Debug.Log("GetStunned");
+        stateMachine.SendInput(PlayerInputs.STUN);
+    }
+    #endregion
+
     #region Fuera de uso
     void FootSteps()
     {
