@@ -158,7 +158,7 @@ public class CharacterMovement
         }
         else
         {
-            if(movX >= 0.3 && movX <= -0.3 && movY >= 0.3 && movY <= -0.3)
+            if (movX >= 0.3 && movX <= -0.3 && movY >= 0.3 && movY <= -0.3)
                 anim.Move(0, 1);
             else
                 anim.Move(0, 0);
@@ -319,8 +319,11 @@ public class CharacterMovement
         begin_gravityCurve = false;
     }
 
+
     public void ANIM_EVENT_RollEnded()
     {
+        //este es el que viene desde evento del animator
+        //se ejecuta cuando la animacion terminó
         StopRoll();
     }
     public void RollForAnim()
@@ -334,19 +337,15 @@ public class CharacterMovement
     {
         if (inDash) return;
 
-            feedbacks.sounds.Play_Dash();
+        if (movX != 0 || movY != 0) dashDir = new Vector3(movX, 0, movY).normalized;
+        else dashDir = rotTransform.forward;
 
-        if (movX != 0 || movY != 0)
-            dashDir = new Vector3(movX, 0, movY).normalized;
-        else
-            dashDir = rotTransform.forward;
         float dotX = Vector3.Dot(rotTransform.forward, dashDir);
         float dotY = Vector3.Dot(rotTransform.right, dashDir);
-        //anim.SetVerticalRoll(dotX);
-        //anim.SetHorizontalRoll(dotY);
-        //asdsa
+
         dashDir = new Vector3(dashDir.x, 0, dashDir.z);
 
+        #region calculo para mandarselo al BlendTree
         if (dotX >= 0.5f)
         {
             anim.SetVerticalRoll(1);
@@ -370,8 +369,12 @@ public class CharacterMovement
                 anim.SetHorizontalRoll(-1);
             }
         }
+        #endregion
 
         anim.Dash();
+
+        //feedback... luego ponerselo a un ANIM EVENT para que suene cuando tocas el suelo
+        feedbacks.sounds.Play_Dash();
 
         RollForAnim();
     }
