@@ -63,7 +63,7 @@ public class CustomCamera : MonoBehaviour
         if (!active)
             return;
         pingpongZoom.Updatear();
-        ShaderMask();
+        //ShaderMask();
         transform.forward = Vector3.Lerp(transform.forward, myCameras[index].transform.forward, speedRot * Time.deltaTime);
         _joystick.Refresh();
         if (Input.GetKeyDown(KeyCode.C))
