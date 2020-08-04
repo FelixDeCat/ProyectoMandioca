@@ -111,40 +111,40 @@ public class CustomCamera : MonoBehaviour
     {
         transform.position = target.position + offset;
     }
-    void ShaderMask()
-    {
+    //void ShaderMask()
+    //{
         
-        RaycastHit hit;
-        var dir = Main.instance.GetChar().transform.position - this.transform.transform.position;
-        dir.Normalize();
-        if (Physics.Raycast(this.transform.transform.position, dir, out hit, 10000, _layermask_raycast_mask, QueryTriggerInteraction.Ignore))
-        {
-            if (hit.transform.GetComponent<MeshRenderer>())
-            {
-                if (currentObstacle != hit.collider)
-                {
-                    currentObstacle?.GetComponent<MeshRenderer>().material.SetFloat("_Intensity", 1);
-                    currentObstacle = hit.collider;
-                    StartCoroutine(ShaderFade());
-                }
-            }
-            else
-            {
-                currentObstacle?.GetComponent<MeshRenderer>().material.SetFloat("_Intensity", 1);
-                currentObstacle = null;
-                StopCoroutine(ShaderFade());
-            }
-            DebugCustom.Log("CameraThings", "Raycast Hit Element", hit.transform.gameObject.name);
-            //Main.instance.GetChar().Mask(!hit.transform.GetComponent<CharacterHead>());
+    //    RaycastHit hit;
+    //    var dir = Main.instance.GetChar().transform.position - this.transform.transform.position;
+    //    dir.Normalize();
+    //    if (Physics.Raycast(this.transform.transform.position, dir, out hit, 10000, _layermask_raycast_mask, QueryTriggerInteraction.Ignore))
+    //    {
+    //        if (hit.transform.GetComponent<MeshRenderer>())
+    //        {
+    //            if (currentObstacle != hit.collider)
+    //            {
+    //                currentObstacle?.GetComponent<MeshRenderer>().material.SetFloat("_Intensity", 1);
+    //                currentObstacle = hit.collider;
+    //                StartCoroutine(ShaderFade());
+    //            }
+    //        }
+    //        else
+    //        {
+    //            currentObstacle?.GetComponent<MeshRenderer>()?.material.SetFloat("_Intensity", 1);
+    //            currentObstacle = null;
+    //            StopCoroutine(ShaderFade());
+    //        }
+    //        DebugCustom.Log("CameraThings", "Raycast Hit Element", hit.transform.gameObject.name);
+    //        Main.instance.GetChar().Mask(!hit.transform.GetComponent<CharacterHead>());
 
-        }
-        else
-        {
-            currentObstacle?.GetComponent<MeshRenderer>().material.SetFloat("_Intensity", 1);
-            currentObstacle = null;
-            StopCoroutine(ShaderFade());
-        }    
-    }
+    //    }
+    //    else
+    //    {
+    //        currentObstacle?.GetComponent<MeshRenderer>().material.SetFloat("_Intensity", 1);
+    //        currentObstacle = null;
+    //        StopCoroutine(ShaderFade());
+    //    }    
+    //}
 
 
     IEnumerator ShaderFade()
