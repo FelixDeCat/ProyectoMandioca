@@ -23,6 +23,9 @@ public class UI_Mission_GeneralManager : MonoBehaviour
     {
         currents.Refresh(_currents, RefreshCompleteInfo);
         AddCollectionToDicctionary(_currents);
+
+        if (_currents.Count > 0) RefreshCompleteInfo(_currents[0].id_mision);
+        else RefreshCompleteInfo();
     }
     public void RefreshFinishedMissions(List<Mision> _finisheds)
     {
@@ -39,10 +42,18 @@ public class UI_Mission_GeneralManager : MonoBehaviour
         }
     }
 
-    public void RefreshCompleteInfo(int idMision)
+    public void RefreshCompleteInfo(int idMision = -1)
     {
-        if (allmissions.ContainsKey(idMision))
-            completeinfo.SetInfo(allmissions[idMision]);
+        if (idMision != -1)
+        {
+            if (allmissions.ContainsKey(idMision))
+                completeinfo.SetInfo(allmissions[idMision]);
+        }
+        else
+        {
+            completeinfo.ClearInfo();
+        }
+        
     }
 
 

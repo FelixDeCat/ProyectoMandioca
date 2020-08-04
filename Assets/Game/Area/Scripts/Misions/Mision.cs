@@ -3,82 +3,44 @@ using System.Collections.Generic;
 using UnityEngine;
 using System;
 
-public abstract class Mision : MonoBehaviour
+[System.Serializable]
+public class Mision
 {
     public int id_mision;
-
     public Misions.Core.Serializable_DescriptiveInfo info;
     public Misions.Core.Serializable_MisionData data;
-    public Misions.Core.Serializable_WorldTracking[] currenttracking;
     public Misions.Core.Serializable_Reward rewarding;
-    public Misions.Core.Serializable_Events events;
-
     public bool Completed { get { return data.Completed; } }
-
-    bool canupdate;
-
     public Action<Mision> mision_end_callback;
     public Action Callback_Refresh;
     
-    private void Start()
-    {
-        ConfigureProgresion();
-    }
+
     public void Begin(Action<Mision> _mision_end_callback, Action Refresh)
     {
-        data.SetItemsMision(GetComponentsInChildren<ItemMision>());
         foreach (var mi in data.MisionItems) mi.SubscribeTo_ItemSelfUpdate(OnRefresh);
         data.ActivateMision();
-        canupdate = true;
-        OnBegin();
         mision_end_callback = _mision_end_callback;
-        events.OnStartMission.Invoke();
         Callback_Refresh = Refresh;
     }
-    public void End()
-    {
-        data.DeactivateMision();
-        canupdate = false;
-        OnEnd();
-        events.OnEndMission.Invoke();
-    }
+    public void End() => data.DeactivateMision();
 
     public void OnRefresh()
     {
-        //un item me avisó que acaba de ser modificado
+        if (AllItemsFinished()) Finish();
         Callback_Refresh.Invoke();
-
     }
-    
 
-    private void Update()
+    bool AllItemsFinished()
     {
-        if (canupdate)
+        foreach (var mi in data.MisionItems)
         {
-            OnUpdate();
+            if (!mi.IsCompleted) return false;
+            else continue;
         }
+        return true;
     }
 
-    protected void Finish()
-    {
-        mision_end_callback.Invoke(this);
-    }
-
-    public abstract void Refresh();
-    public abstract void OnFailed();
-    public abstract void CheckProgresion();
-    public abstract void ConfigureProgresion();
-    public abstract void SetProgresion(int[] prog);
-    public abstract void PermanentConfigurations();
-
-    protected abstract void OnBegin();
-    protected abstract void OnEnd();
-    protected abstract void OnUpdate();
-}
-
-public class QuestFile
-{
-
+    protected void Finish() => mision_end_callback.Invoke(this);
 }
 
 namespace Misions.Core
@@ -92,7 +54,6 @@ namespace Misions.Core
     {
         [Multiline(3)] public string mision_name;
         [Multiline(10)] public string description;
-        [Multiline(5)] public string subdescription;
     }
     #endregion
     #region DATA
@@ -109,6 +70,22 @@ namespace Misions.Core
         internal bool IsActive { get { return isactive; } }
         internal string[] Regions { get { return regions_to_enable; } }
         internal ItemMision[] MisionItems { get { return mision_item; } }
+        internal string ItemsCompleteString()
+        {
+            string aux = "";
+            for (int i = 0; i < mision_item.Length; i++)
+            {
+                if (i < mision_item.Length - 1)
+                {
+                    aux += i + ". "+  mision_item[i].ToString() + "\n";
+                }
+                else
+                {
+                    aux += i + ". " + mision_item[i].ToString();
+                }
+            }
+            return aux;
+        }
         internal void SetItemsMision(ItemMision[] items) => mision_item = items;
         internal void ActivateMision() => isactive = true;
         internal void DeactivateMision() => isactive = false;
@@ -134,18 +111,8 @@ namespace Misions.Core
         [SerializeField] internal ItemInInventory[] items_rewarding;
 
     }
-    [System.Serializable]
-    public class Serializable_Events
-    {
-        [SerializeField] internal UnityEvent OnStartMission;
-        [SerializeField] internal UnityEvent OnEndMission;
-    }
     #endregion
     #endregion
-    public  class Serializable_WorldTracking
-    {
-        internal string scene = "";
-        internal Vector3 position = new Vector3(0, 0, 0);
-    }
+
 
 }

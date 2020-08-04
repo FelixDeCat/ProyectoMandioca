@@ -34,7 +34,7 @@ public class UI_StackMision : MonoBehaviour
                     Debug.LogWarning("Obtengo y muestro");
                     current = misionesencola.Dequeue();
                     oneshot = true;
-                    mensaje.MostrarMensaje(current.m, current.tipo);
+                    mensaje.MostrarMensaje(current.m, current.finalized);
                     animate = true;
                 }
             }
@@ -52,7 +52,6 @@ public class UI_StackMision : MonoBehaviour
             }
             else
             {
-                Debug.LogWarning("Termino el tiempo");
                 disparo = false;
                 mensaje.CerrarMensaje(MensajeTerminoDeMostrarse);
                 animate = false;
@@ -62,27 +61,26 @@ public class UI_StackMision : MonoBehaviour
 
     public void MensajeTerminoDeMostrarse()
     {
-        Debug.LogWarning("Termino de mostrar todo");
         disparo = true;
         oneshot = false;
         timer = 0;
     }
 
-    public void LogearMision(Mision m, string tipo, float duracion)
+    public void LogearMision(Mision m, bool finalized, float duracion)
     {
-        misionesencola.Enqueue(new Misionscomp(m, tipo, duracion));
+        misionesencola.Enqueue(new Misionscomp(m, finalized, duracion));
         disparo = true;
     }
 
     public struct Misionscomp
     {
         public Mision m;
-        public string tipo;
+        public bool finalized;
         public float time;
-        public Misionscomp(Mision _m, string _tipo, float _time)
+        public Misionscomp(Mision _m, bool _finalized, float _time)
         {
             m = _m;
-            tipo = _tipo;
+            finalized = _finalized;
             time = _time;
 
         }

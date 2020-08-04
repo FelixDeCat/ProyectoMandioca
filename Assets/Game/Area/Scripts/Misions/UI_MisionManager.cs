@@ -1,12 +1,13 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class UI_MisionManager : MonoBehaviour
 {
     public List<UI_CompMision> ui_misions;
-    public Transform parent;
-    public GameObject model;
+    public RectTransform parent;
+    public UI_CompMision model;
     bool mostrar;
 
     public void Awake()
@@ -26,7 +27,6 @@ public class UI_MisionManager : MonoBehaviour
             parent.localScale = new Vector3(1, 1, 1);
             mostrar = true;
         }
-        
     }
 
     public void RefreshUIMisions(List<Mision> misions)
@@ -39,17 +39,16 @@ public class UI_MisionManager : MonoBehaviour
 
         for (int i = 0; i < misions.Count; i++)
         {
-            GameObject go = GameObject.Instantiate(model);
-            go.transform.SetParent(parent);
-            go.transform.localScale = new Vector3(1, 1, 1);
-            go.transform.localPosition = new Vector3(0, 0, 0);
-
-            var m = go.GetComponent<UI_CompMision>();
-            m.SetData(misions[i].info.mision_name,
-                misions[i].info.description,
-                misions[i].info.subdescription);
+            UI_CompMision m = GameObject.Instantiate(model, parent);
+            m.SetData(
+                misions[i].info.mision_name,
+                misions[i].data.ItemsCompleteString());
 
             ui_misions.Add(m);
         }
+
+        LayoutRebuilder.ForceRebuildLayoutImmediate(parent);
+
+
     }
 }
