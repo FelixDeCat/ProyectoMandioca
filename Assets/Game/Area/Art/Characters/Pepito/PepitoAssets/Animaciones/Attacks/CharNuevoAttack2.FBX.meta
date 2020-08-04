@@ -1,20 +1,15 @@
 fileFormatVersion: 2
-guid: 245e42a83c8fdae409023a7526873d13
+guid: 2af0cae40d71e3c41a41d761c616ca68
 ModelImporter:
   serializedVersion: 26
   internalIDToNameTable:
   - first:
-      74: -6239216113759591374
-    second: Anticipation
+      74: 8114531597553069840
+    second: Attack2_Begin
   - first:
-      74: -1237627231230554532
-    second: attack (1)
-  externalObjects:
-  - first:
-      type: UnityEngine:Material
-      assembly: UnityEngine.CoreModule
-      name: No Name
-    second: {fileID: 2100000, guid: 0d417c0e095457b48acad589fb40acea, type: 2}
+      74: -281379319793850761
+    second: Attack2_Rest
+  externalObjects: {}
   materials:
     importMaterials: 0
     materialName: 0
@@ -43,40 +38,11 @@ ModelImporter:
     extraUserProperties: []
     clipAnimations:
     - serializedVersion: 16
-      name: Anticipation
-      takeName: attack
+      name: Attack2_Begin
+      takeName: Attack2
       internalID: 0
-      firstFrame: 0
-      lastFrame: 15
-      wrapMode: 0
-      orientationOffsetY: 0
-      level: 0
-      cycleOffset: 0
-      loop: 0
-      hasAdditiveReferencePose: 0
-      loopTime: 0
-      loopBlend: 0
-      loopBlendOrientation: 0
-      loopBlendPositionY: 0
-      loopBlendPositionXZ: 0
-      keepOriginalOrientation: 0
-      keepOriginalPositionY: 1
-      keepOriginalPositionXZ: 0
-      heightFromFeet: 0
-      mirror: 0
-      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
-      curves: []
-      events: []
-      transformMask: []
-      maskType: 3
-      maskSource: {instanceID: 0}
-      additiveReferencePoseFrame: 0
-    - serializedVersion: 16
-      name: attack (1)
-      takeName: attack
-      internalID: 0
-      firstFrame: 16
-      lastFrame: 50
+      firstFrame: 1
+      lastFrame: 8
       wrapMode: 0
       orientationOffsetY: 0
       level: 0
@@ -96,9 +62,87 @@ ModelImporter:
       bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
       curves: []
       events:
-      - time: 0.26694912
+      - time: 0.18856199
         functionName: EVENT_Callback
-        data: DealDamage
+        data: OpenComboWindow
+        objectReferenceParameter: {instanceID: 0}
+        floatParameter: 0
+        intParameter: 0
+        messageOptions: 0
+      - time: 0.3050398
+        functionName: EVENT_Callback
+        data: DealAttackLeft
+        objectReferenceParameter: {instanceID: 0}
+        floatParameter: 0
+        intParameter: 0
+        messageOptions: 0
+      - time: 0.50928384
+        functionName: EVENT_Callback
+        data: EndAttack
+        objectReferenceParameter: {instanceID: 0}
+        floatParameter: 0
+        intParameter: 0
+        messageOptions: 0
+      - time: 0.9704797
+        functionName: EVENT_Callback
+        data: CloseComboWindow
+        objectReferenceParameter: {instanceID: 0}
+        floatParameter: 0
+        intParameter: 0
+        messageOptions: 0
+      - time: 0.4266304
+        functionName: EVENT_Callback
+        data: ActiveLeftAttackFeedback
+        objectReferenceParameter: {instanceID: 0}
+        floatParameter: 0
+        intParameter: 0
+        messageOptions: 0
+      transformMask: []
+      maskType: 3
+      maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 0
+    - serializedVersion: 16
+      name: Attack2_Rest
+      takeName: Attack2
+      internalID: 0
+      firstFrame: 8
+      lastFrame: 15
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      hasAdditiveReferencePose: 0
+      loopTime: 0
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events:
+      - time: 0
+        functionName: EVENT_Callback
+        data: OpenComboWindow
+        objectReferenceParameter: {instanceID: 0}
+        floatParameter: 0
+        intParameter: 0
+        messageOptions: 0
+      - time: 0.44562337
+        functionName: EVENT_Callback
+        data: CloseComboWindow
+        objectReferenceParameter: {instanceID: 0}
+        floatParameter: 0
+        intParameter: 0
+        messageOptions: 0
+      - time: 0.99262
+        functionName: EVENT_Callback
+        data: CloseComboWindow
         objectReferenceParameter: {instanceID: 0}
         floatParameter: 0
         intParameter: 0
