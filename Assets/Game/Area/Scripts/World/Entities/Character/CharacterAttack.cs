@@ -25,6 +25,7 @@ public class CharacterAttack
     List<Weapon> myWeapons;
     public Weapon currentWeapon { get; private set; }
     int currentIndexWeapon;
+    BashDash bashDash;
 
     Action callback_ReceiveEntity = delegate { };
     Action DealSuccesfullNormal;
@@ -45,6 +46,7 @@ public class CharacterAttack
         hitstore = new HitStore();
         myWeapons = new List<Weapon>();
         myWeapons.Add(new GenericSword(damage, _range, "Generic Sword", _angle, data).ConfigureCallback(CALLBACK_DealDamage));
+        bashDash = new BashDash(0, _range, "BashDash", _angle, data);
         currentWeapon = myWeapons[0];
         currentDamage = currentWeapon.baseDamage;
 
@@ -57,6 +59,7 @@ public class CharacterAttack
         NormalAttack = _normalAttack;
         HeavyAttack = _heavyAttack;
     }
+
     public void SetRigidBody(Rigidbody _rb) => myRig = _rb;
     public string ChangeName() => currentWeapon.weaponName;
     public void ChangeDamageBase(int dmg) => currentDamage = dmg;
@@ -78,6 +81,7 @@ public class CharacterAttack
         currentWeapon = myWeapons[currentIndexWeapon];
         currentDamage += currentWeapon.baseDamage;
     }
+
     public void Refresh()
     {
         if (inCheck)
@@ -97,6 +101,11 @@ public class CharacterAttack
         }
     }
 
+    public void ExecuteBashDash()
+    {
+        anim.BashDashAnim();
+        bashDash?.Attack(forwardPos, 0, 0);
+    }
 
     #region PRE-ATTACK
     public void ANIM_EVENT_OpenComboWindow() 

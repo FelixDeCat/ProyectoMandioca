@@ -23,6 +23,7 @@ public class CharacterAnimator : BaseAnimator
     public void ForceAnimation(string s) { myAnim.Play(s); }
     public void Dead() => myAnim.SetTrigger("Death");
 
+    public void BashDashAnim() => myAnim.SetTrigger("BashDash");
     public void ForceAttack() => myAnim.SetTrigger("ForceAttack");
 
     public void Combo(bool val) => myAnim.SetBool("IsCombo", val);

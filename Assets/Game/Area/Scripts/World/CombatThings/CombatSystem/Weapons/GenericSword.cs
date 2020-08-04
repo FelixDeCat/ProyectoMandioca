@@ -14,16 +14,13 @@ public class GenericSword : Weapon
         var entities = Physics.OverlapSphere(pos.position, range)
             .Where(x => x.GetComponent<DamageReceiver>())
             .Where(x => x.GetComponent<DamageReceiver>() != _head.GetComponent<DamageReceiver>())
-            .Where(x => !x.GetComponent<Minion>())
+            .Select(x => x.GetComponent<DamageReceiver>())
             .ToList();
 
         for (int i = 0; i < entities.Count; i++)
         {
-
             Vector3 dir = entities[i].transform.position - pos.position;
             float angle = Vector3.Angle(pos.forward, dir);
-
-            var current = entities[i].GetComponent<DamageReceiver>();
 
             if (dir.magnitude <= range && angle < base.angle)
             {
@@ -33,9 +30,9 @@ public class GenericSword : Weapon
                     .SetKnockback(500)
                     .SetPositionAndDirection(_head.transform.position, _head.DirAttack);
 
-                var attackResult = current.TakeDamage(data);
+                var attackResult = entities[i].TakeDamage(data);
 
-                AttackResult?.Invoke(attackResult,dmg_type, current); 
+                AttackResult?.Invoke(attackResult,dmg_type, entities[i]); 
             }
         }
     }
