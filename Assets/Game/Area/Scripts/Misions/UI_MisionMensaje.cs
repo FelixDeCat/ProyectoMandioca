@@ -3,34 +3,33 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using System;
+using TMPro;
 
 public class UI_MisionMensaje : UI_Base
 {
     [Header("UI_MisionMensaje")]
     public Text txt_tipodemensaje;
-    public Text txt_Titulo;
-    public Text txt_Descripcion;
-    public Text txt_Subdescription;
+    public TextMeshProUGUI txt_Titulo;
+    //public Text txt_Descripcion;
 
     public Transform pivotRecompensa;
     public GameObject model_recompensa;
     public Transform parentobjetosrecompensa;
     List<GameObject> objcs;
 
-    public void MostrarMensaje(Mision mision, string tipo)
+    public void MostrarMensaje(Mision mision, bool estado)
     {
        // PreOpen();
 
         Canvas.ForceUpdateCanvases();
 
-        txt_tipodemensaje.text = tipo;
-        txt_Titulo.text = mision.info.mision_name;
-        txt_Descripcion.text = mision.info.description;
-        txt_Subdescription.text = mision.info.subdescription;
+
+        txt_tipodemensaje.text = estado ? "mision finalizada" : "nueva mision";
+        txt_Titulo.text = (estado ? "<s>" : "") + mision.info.mision_name + (estado ? "</s>" : "");
+        // txt_Descripcion.text = mision.info.description;
 
         LayoutRebuilder.ForceRebuildLayoutImmediate(txt_Titulo.rectTransform);
-        LayoutRebuilder.ForceRebuildLayoutImmediate(txt_Descripcion.rectTransform);
-        LayoutRebuilder.ForceRebuildLayoutImmediate(txt_Subdescription.rectTransform);
+       // LayoutRebuilder.ForceRebuildLayoutImmediate(txt_Descripcion.rectTransform);
 
         Canvas.ForceUpdateCanvases();
 

@@ -2,17 +2,16 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
 
 public class UI_CompMision : MonoBehaviour
 {
-    public Text Title;
-    public Text Description;
-    public Text Progesion;
+    public TextMeshProUGUI Title;
+    public TextMeshProUGUI Progesion;
 
-    public void SetData(string title, string description, string progresion)
+    public void SetData(string title, string progresion)
     {
         Title.text = title;
-        Description.text = description;
         Progesion.text = progresion;
     }
 }

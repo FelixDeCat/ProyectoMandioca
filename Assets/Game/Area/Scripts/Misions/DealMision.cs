@@ -12,6 +12,7 @@ public class DealMision : Interactable
     }
     public override void OnExecute(WalkingEntity collector) 
     {
+        Debug.LogWarning("SE EJECUTA");
         MisionManager.instancia.AddMision(mision);
     }
     public override void OnExit() 
