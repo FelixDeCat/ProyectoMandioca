@@ -3,11 +3,13 @@ using System.Collections.Generic;
 using UnityEngine;
 using System;
 
+[Serializable]
 public class CharacterMovement
 {
     Rigidbody _rb;
     Transform rotTransform;
-    float speed;
+    [SerializeField] float speed = 4.5f;
+    float currentSpeed;
 
     float rotX;
     float rotY;
@@ -19,19 +21,19 @@ public class CharacterMovement
     bool canRotate = true;
 
     float timerDash;
-    float maxTimerDash;
-    float dashDistance;
-    float dashCd;
+    [SerializeField] float maxTimerDash = 0.5f;
+    [SerializeField] float dashCd = 0.1f;
+    float currentCD;
     float cdTimer;
-    float dashSpeed;
-    float dashMaxSpeed;
+    float currentDashSpeed;
+    [SerializeField] float dashSpeed = 8;
     bool dashCdOk;
 
     float gravity = -7;
     Func<bool> isGrounded = delegate { return true; };
     float timer_gravity_curve;
     bool begin_gravityCurve;
-    public Func<AnimationCurve> CurveGravityMultiplier;
+    [SerializeField] AnimationCurve gravityCurve;
     float gravity_multiplier = 1f;
 
     CharacterAnimator anim;
@@ -61,8 +63,11 @@ public class CharacterMovement
         set { teleportActive = value; }
     }
 
-    public CharacterMovement(Rigidbody rb, Transform rot, CharacterAnimator a, CharFeedbacks _feedbacks, Func<bool> _isGrounded)
+    public void Initialize(Rigidbody rb, Transform rot, CharacterAnimator a, CharFeedbacks _feedbacks, Func<bool> _isGrounded)
     {
+        currentSpeed = speed;
+        currentCD = dashCd;
+        currentDashSpeed = dashSpeed;
         _rb = rb;
         rotTransform = rot;
         anim = a;
@@ -77,29 +82,14 @@ public class CharacterMovement
     }
 
     #region BUILDER
-    public CharacterMovement SetSpeed(float n)
+    public CharacterMovement SetSpeed(float n = -1)
     {
-        speed = n;
+        currentSpeed = n < 0 ? speed : n;
         return this;
     }
-    public CharacterMovement SetTimerDash(float n)
+    public CharacterMovement SetDashCD(float n = -1)
     {
-        maxTimerDash = n;
-        return this;
-    }
-    public CharacterMovement SetDashDistance(float _speed)
-    {
-        dashMaxSpeed = _speed;
-        return this;
-    }
-    public CharacterMovement SetDashCD(float n)
-    {
-        dashCd = n;
-        return this;
-    }
-    public CharacterMovement SetPushAttack(float n)
-    {
-        pushForce = n;
+        currentCD = n < 0 ? dashCd : n;
         return this;
     }
 
@@ -125,14 +115,6 @@ public class CharacterMovement
         Move();
     }
 
-    float pushForce;
-    Vector3 attackPushDir;
-    Vector3 PushForward { get => rotTransform.transform.forward * pushForce; }
-    public void FrontPushAttack()
-    {
-
-    }
-
     float velY = 0;
 
     void Move()
@@ -141,7 +123,7 @@ public class CharacterMovement
         auxNormalized.Normalize();
 
         if (!forcing)
-            _rb.velocity = new Vector3(auxNormalized.x * speed, velY, auxNormalized.z * speed);
+            _rb.velocity = new Vector3(auxNormalized.x * currentSpeed, velY, auxNormalized.z * currentSpeed);
 
         if (rotX >= 0.3 || rotX <= -0.3 || rotY >= 0.3 || rotY <= -0.3)
         {
@@ -242,7 +224,7 @@ public class CharacterMovement
             if (timer_gravity_curve < 1)
             {
                 timer_gravity_curve = timer_gravity_curve + 1 * Time.deltaTime;
-                gravity_multiplier = CurveGravityMultiplier.Invoke().Evaluate(timer_gravity_curve);
+                gravity_multiplier = gravityCurve.Evaluate(timer_gravity_curve);
             }
             else
             {
@@ -276,11 +258,10 @@ public class CharacterMovement
         if (inDash)
         {
             timerDash += Time.deltaTime;
-            dashSpeed = dashMaxSpeed;
 
             dashDir = new Vector3(dashDir.x, 0, dashDir.z);
 
-            _rb.velocity = dashSpeed * dashDir + new Vector3(0, velY, 0);
+            _rb.velocity = currentDashSpeed * dashDir + new Vector3(0, velY, 0);
 
             if (timerDash >= maxTimerDash)
             {
@@ -293,7 +274,7 @@ public class CharacterMovement
         {
             cdTimer += Time.deltaTime;
 
-            if (cdTimer >= dashCd)
+            if (cdTimer >= currentCD)
             {
                 if (endTeleport)
                 {
@@ -326,11 +307,13 @@ public class CharacterMovement
         //se ejecuta cuando la animacion terminó
         StopRoll();
     }
+
     public void RollForAnim()
     {
         OnBeginRollFeedback_Callback();
         begin_gravityCurve = true;
         inDash = true;
+        currentDashSpeed = dashSpeed;
     }
 
     public void Roll()
@@ -379,15 +362,9 @@ public class CharacterMovement
         RollForAnim();
     }
 
-    public bool IsDash()
-    {
-        return inDash;
-    }
+    public bool IsDash() => inDash;
 
-    public bool InCD()
-    {
-        return dashCdOk;
-    }
+    public bool InCD() => inDash;
 
     //Pulir para que quede mas lindo
     public void Teleport()

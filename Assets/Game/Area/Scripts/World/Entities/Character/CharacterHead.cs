@@ -14,23 +14,17 @@ public class CharacterHead : CharacterControllable
     [SerializeField] CharacterInput _charInput = null;
 
     [Header("Dash Options")]
-    //public AnimationCurve dashCurve;
-    public AnimationCurve gravityCurve;
-    [SerializeField] float dashTiming = 2;
-    [SerializeField] float dashDistance = 5;
-    [SerializeField] float dashCD = 2;
     [SerializeField] float teleportCD = 2;
     public bool Slowed { get; private set; }
     Func<bool> InDash;
 
     [Header("Movement Options")]
-    [SerializeField] float speed = 5;
-    [SerializeField] float slowSpeed = 2;
+    float slowSpeed = 2;
 
     public Transform rayPivot;
 
     [SerializeField] Transform rot = null;
-    CharacterMovement move;
+    [SerializeField] CharacterMovement move = new CharacterMovement();
     public CharacterInput getInput => _charInput;
 
     [SerializeField] CharacterGroundSensor groundSensor = null;
@@ -56,10 +50,7 @@ public class CharacterHead : CharacterControllable
     [SerializeField] float attackRange = 3;
     [SerializeField] float attackAngle = 90;
     [SerializeField] float timeToHeavyAttack = 1.5f;
-    //[SerializeField] float rangeOfPetrified = 5;
     [SerializeField] float attackRecall = 1;
-    //[SerializeField] float onHitRecall = 2;
-    //[SerializeField] Sensor sensorSpin = null;
     float dmg;
     CharacterAttack charAttack;
     [SerializeField] DamageData dmgData = null;
@@ -114,10 +105,8 @@ public class CharacterHead : CharacterControllable
            .ADD_EVENT_OnLoseLife(OnLoseLife)
            .ADD_EVENT_Death(OnDeath)
            .ADD_EVENT_OnChangeValue(OnChangeLife);
-
-        //Set de la velocidad en slow
-        slowSpeed = speed * .6f;
     }
+
     protected override void OnInitialize()
     {
         Main.instance.GetCombatDirector().AddNewTarget(this);
@@ -128,18 +117,12 @@ public class CharacterHead : CharacterControllable
         charanim = new CharacterAnimator(anim_base);
         customCam = FindObjectOfType<CustomCamera>();
 
-        move = new CharacterMovement(GetComponent<Rigidbody>(), rot, charanim, feedbacks, IsGrounded)
-            .SetSpeed(speed)
-            .SetTimerDash(dashTiming)
-            .SetDashCD(dashCD)
-            .SetDashDistance(dashDistance);
-
-      //  move.Curve += () => dashCurve;
-        move.CurveGravityMultiplier += () => gravityCurve;
+        move.Initialize(GetComponent<Rigidbody>(), rot, charanim, feedbacks, IsGrounded);
 
         InDash += move.IsDash;
         ChildrensUpdates += move.OnUpdate;
         move.SetCallbacks(OnBeginRoll, OnEndRoll);
+        slowSpeed = move.GetDefaultSpeed * .6f;
 
         charBlock
             .Initialize()
@@ -316,10 +299,6 @@ public class CharacterHead : CharacterControllable
             .SetTransition(PlayerInputs.DEAD, dead)
             .Done();
 
-        //ConfigureState.Create(spin)
-        //    .SetTransition(PlayerInputs.STUN, stun)
-        //    .Done();
-
         ConfigureState.Create(stun)
             .SetTransition(PlayerInputs.IDLE, idle)
             .SetTransition(PlayerInputs.MOVE, move)
@@ -379,13 +358,6 @@ public class CharacterHead : CharacterControllable
 
         new CharTakeDmg(takeDamage, stateMachine, takeDamageRecall);
 
-        //new CharSpin(spin, stateMachine)
-        //    .Configurate(GetSpinDuration, GetSpinSpeed, go_SpinFeedback, sensorSpin)
-        //    .SetLeftAxis(GetLeftHorizontal, GetLeftVertical)
-        //    //.SetRightAxis(GetRightHorizontal, GetRightVertical)
-        //    .SetMovement(this.move)
-        //    .SetAnimator(charanim);
-
         new CharStun(stun, stateMachine)
             .Configurate(GetStunDuration, go_StunFeedback)
             .SetMovement(this.move)
@@ -416,7 +388,7 @@ public class CharacterHead : CharacterControllable
     }
     public void SetNormalSpeed()
     {
-        move.SetSpeed(speed);
+        move.SetSpeed();
         Slowed = false;
     }
     public void SetFastSpeed()
@@ -639,7 +611,7 @@ public class CharacterHead : CharacterControllable
     }
     public void ChangeTeleportForDash()
     {
-        move.SetDashCD(dashCD);
+        move.SetDashCD();
         move.TeleportActive = false;
         move.Dash -= move.Teleport;
         move.Dash += move.Roll;
@@ -741,7 +713,7 @@ public class CharacterHead : CharacterControllable
         isBuffed = true;
         dmg_normal = originalNormal + damageBuff;
         dmg_heavy = originalHeavy + damageBuff;
-        move.SetSpeed(speed + speedAcceleration);
+        move.SetSpeed(move.GetDefaultSpeed + speedAcceleration);
         dmgReceived = damageReceived;
         Main.instance.GetTimeManager().DoSlowMo(scale);
     }
@@ -751,7 +723,7 @@ public class CharacterHead : CharacterControllable
         isBuffed = false;
         dmg_normal = originalNormal;
         dmg_heavy = originalHeavy;
-        move.SetSpeed(speed);
+        move.SetSpeed();
         dmgReceived = 1;
         Main.instance.GetTimeManager().StopSlowMo();
     }
