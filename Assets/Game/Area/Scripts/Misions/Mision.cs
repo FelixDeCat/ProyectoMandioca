@@ -18,12 +18,13 @@ public abstract class Mision : MonoBehaviour
     bool canupdate;
 
     public Action<Mision> mision_end_callback;
+    public Action Callback_Refresh;
     
     private void Start()
     {
         ConfigureProgresion();
     }
-    public void Begin(Action<Mision> _mision_end_callback)
+    public void Begin(Action<Mision> _mision_end_callback, Action Refresh)
     {
         data.SetItemsMision(GetComponentsInChildren<ItemMision>());
         foreach (var mi in data.MisionItems) mi.SubscribeTo_ItemSelfUpdate(OnRefresh);
@@ -32,6 +33,7 @@ public abstract class Mision : MonoBehaviour
         OnBegin();
         mision_end_callback = _mision_end_callback;
         events.OnStartMission.Invoke();
+        Callback_Refresh = Refresh;
     }
     public void End()
     {
@@ -44,6 +46,8 @@ public abstract class Mision : MonoBehaviour
     public void OnRefresh()
     {
         //un item me avisó que acaba de ser modificado
+        Callback_Refresh.Invoke();
+
     }
     
 
