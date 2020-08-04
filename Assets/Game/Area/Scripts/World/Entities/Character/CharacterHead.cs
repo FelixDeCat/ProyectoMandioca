@@ -64,9 +64,6 @@ public class CharacterHead : CharacterControllable
     CharacterAttack charAttack;
     [SerializeField] DamageData dmgData = null;
     [SerializeField] DamageReceiver dmgReceiver = null;
-
-    public BashDashSensor bashDash;
-
     CustomCamera customCam;
 
     [SerializeField] GameObject go_StunFeedback = null;
@@ -267,17 +264,16 @@ public class CharacterHead : CharacterControllable
              .SetTransition(PlayerInputs.BLOCK, block)
              .SetTransition(PlayerInputs.END_BLOCK, endBlock)
              //.SetTransition(PlayerInputs.CHARGE_ATTACK, attackCharge)
-             .SetTransition(PlayerInputs.ROLL, roll)
+             .SetTransition(PlayerInputs.ROLL, roll, charAttack.ExecuteBashDash)
              .SetTransition(PlayerInputs.TAKE_DAMAGE, takeDamage)
              .SetTransition(PlayerInputs.DEAD, dead)
              .Done();
 
         ConfigureState.Create(block)
             .SetTransition(PlayerInputs.END_BLOCK, endBlock)
-            // .SetTransition(PlayerInputs.ROLL, roll)
+            .SetTransition(PlayerInputs.ROLL, roll, charAttack.ExecuteBashDash)
             //.SetTransition(PlayerInputs.CHARGE_ATTACK, attackCharge)
             .SetTransition(PlayerInputs.TAKE_DAMAGE, takeDamage)
-            .SetTransition(PlayerInputs.ROLL, roll)
             .SetTransition(PlayerInputs.PARRY, parry)
             .SetTransition(PlayerInputs.DEAD, dead)
             .Done();
@@ -363,18 +359,18 @@ public class CharacterHead : CharacterControllable
             .SetMovement(this.move)
             .SetBlock(charBlock);
 
-        new CharRoll(roll, stateMachine, BeginBashDash, StopBashDash)
+        new CharRoll(roll, stateMachine)
             .SetMovement(this.move)
             .SetBlock(charBlock)
             .SetFeedbacks(feedbacks);
 
-        new CharChargeAttack(attackCharge, stateMachine)
+        new CharChargeAttack(attackCharge, stateMachine, anim_base)
             .SetLeftAxis(GetLeftHorizontal, GetLeftVertical)
             .SetRightAxis(GetRightHorizontal, GetRightVertical)
             .SetMovement(this.move)
             .SetAttack(charAttack);
 
-        new CharReleaseAttack(attackRelease, stateMachine, attackRecall, HeavyAttackRealease, ChangeHeavy, anim_base)
+        new CharReleaseAttack(attackRelease, stateMachine, attackRecall, HeavyAttackRealease, ChangeHeavy)
             .SetMovement(this.move)
             .SetLeftAxis(GetLeftHorizontal, GetLeftVertical)
             .SetRightAxis(GetRightHorizontal, GetRightVertical)
@@ -448,11 +444,6 @@ public class CharacterHead : CharacterControllable
     {
         stateMachine.SendInput(PlayerInputs.IDLE);
     }
-    #endregion
-
-    #region Bash Dash
-    public void BeginBashDash() => bashDash.EnableSensor();
-    public void StopBashDash() => bashDash.DisableSensor();
     #endregion
 
     #region Throw Something
@@ -763,6 +754,15 @@ public class CharacterHead : CharacterControllable
         move.SetSpeed(speed);
         dmgReceived = 1;
         Main.instance.GetTimeManager().StopSlowMo();
+    }
+    #endregion
+
+    #region Stun
+    public void GetStunned(float _stunDuration)
+    {
+        stunDuration = _stunDuration;
+        Debug.Log("GetStunned");
+        stateMachine.SendInput(PlayerInputs.STUN);
     }
     #endregion
 

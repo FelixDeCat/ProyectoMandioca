@@ -146,7 +146,7 @@ public class CharacterMovement
         if (rotX >= 0.3 || rotX <= -0.3 || rotY >= 0.3 || rotY <= -0.3)
         {
 
-            if (movX <= 0.3 && movX >= -0.3 && movY <= 0.3 && movY >= -0.3)
+            if (movX <= 0.1 && movX >= -0.1 && movY <= 0.1 && movY >= -0.1)
                 anim.Move(0, 0);
             else
             {
@@ -158,7 +158,7 @@ public class CharacterMovement
         }
         else
         {
-            if (movX >= 0.3 && movX <= -0.3 && movY >= 0.3 && movY <= -0.3)
+            if (movX >= 0.1 || movX <= -0.1 || movY >= 0.1 || movY <= -0.1)
                 anim.Move(0, 1);
             else
                 anim.Move(0, 0);

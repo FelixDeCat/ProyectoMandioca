@@ -6,8 +6,11 @@ namespace Tools.StateMachine
 {
     public class CharChargeAttack : CharacterStates
     {
-        public CharChargeAttack(EState<CharacterHead.PlayerInputs> myState, EventStateMachine<CharacterHead.PlayerInputs> _sm) : base(myState, _sm)
+        Animator anim;
+
+        public CharChargeAttack(EState<CharacterHead.PlayerInputs> myState, EventStateMachine<CharacterHead.PlayerInputs> _sm, Animator _anim) : base(myState, _sm)
         {
+            anim = _anim;
         }
 
         protected override void Enter(EState<CharacterHead.PlayerInputs> input)

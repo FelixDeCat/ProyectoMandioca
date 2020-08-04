@@ -10,18 +10,15 @@ namespace Tools.StateMachine
         float attackRecall;
         Func<bool> IsHeavy;
         Action<bool> ChangeHeavy;
-        Animator anim;
         float timer;
         bool enter;
 
         public CharReleaseAttack(EState<CharacterHead.PlayerInputs> myState, EventStateMachine<CharacterHead.PlayerInputs> _sm, float recall,
-                                 Func<bool> _isHeavy, Action<bool> _ChangeHeavy, Animator _anim) : base(myState, _sm)
+                                 Func<bool> _isHeavy, Action<bool> _ChangeHeavy) : base(myState, _sm)
         {
             attackRecall = recall;
             IsHeavy = _isHeavy;
             ChangeHeavy = _ChangeHeavy;
-            anim = _anim;
-
         }
 
         protected override void Enter(EState<CharacterHead.PlayerInputs> input)
@@ -45,20 +42,6 @@ namespace Tools.StateMachine
                 charMove.RotateVertical(LeftVertical());
                 charMove.MovementHorizontal(0);
                 charMove.MovementVertical(0);
-            }
-
-            var info = anim.GetCurrentAnimatorStateInfo(1);
-
-            if (info.IsName("AntiBug"))
-            {
-                if (LeftHorizontal() == 0 && LeftVertical() == 0)
-                {
-                    sm.SendInput(CharacterHead.PlayerInputs.IDLE);
-                }
-                else
-                {
-                    sm.SendInput(CharacterHead.PlayerInputs.MOVE);
-                }
             }
 
             if (enter)
