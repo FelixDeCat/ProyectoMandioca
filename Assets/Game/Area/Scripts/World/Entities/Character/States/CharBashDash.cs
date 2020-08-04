@@ -2,17 +2,25 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class CharBashDash : MonoBehaviour
-{
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
 
-    // Update is called once per frame
-    void Update()
+namespace Tools.StateMachine
+{
+    public class CharBashDash : CharacterStates
     {
-        
+
+        public CharBashDash(EState<CharacterHead.PlayerInputs> myState, EventStateMachine<CharacterHead.PlayerInputs> _sm) : base(myState, _sm)
+        {
+        }
+
+        protected override void Enter(EState<CharacterHead.PlayerInputs> input)
+        {
+            charMove.StartBashDash();
+        }
+
+        protected override void Update()
+        {
+            if (charAttack.ExecuteBashDash())
+                charMove.StopBashDash();
+        }
     }
 }

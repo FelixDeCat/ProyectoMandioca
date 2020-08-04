@@ -6,27 +6,27 @@ using System;
 [Serializable]
 public class CharacterMovement
 {
-    Rigidbody _rb;
-    Transform rotTransform;
     [SerializeField] float speed = 4.5f;
     float currentSpeed;
-
     float rotX;
     float rotY;
     float movX;
     float movY;
-    private Vector3 dashDir;
-
-    bool inDash;
     bool canRotate = true;
 
-    float timerDash;
+    Rigidbody _rb;
+    Transform rotTransform;
+
     [SerializeField] float maxTimerDash = 0.5f;
     [SerializeField] float dashCd = 0.1f;
+    [SerializeField] float dashSpeed = 8;
+    float currentTimerDash = 0.5f;
+    float timerDash;
     float currentCD;
     float cdTimer;
     float currentDashSpeed;
-    [SerializeField] float dashSpeed = 8;
+    private Vector3 dashDir;
+    bool inDash;
     bool dashCdOk;
 
     float gravity = -7;
@@ -40,8 +40,8 @@ public class CharacterMovement
 
     Action OnBeginRollFeedback_Callback;
     Action OnEndRollFeedback_Callback;
+    Action EndRoll;
     public Action Dash;
-
 
     public Action<float> MovementHorizontal;
     public Action<float> MovementVertical;
@@ -56,6 +56,10 @@ public class CharacterMovement
 
     CharFeedbacks feedbacks;
 
+    [SerializeField] float bashDashDistance;
+    [SerializeField] float bashDashSpeed;
+    [SerializeField] float bashDashCD;
+
     public float GetDefaultSpeed => speed;
     public bool TeleportActive
     {
@@ -68,6 +72,7 @@ public class CharacterMovement
         currentSpeed = speed;
         currentCD = dashCd;
         currentDashSpeed = dashSpeed;
+        currentTimerDash = maxTimerDash;
         _rb = rb;
         rotTransform = rot;
         anim = a;
@@ -92,14 +97,12 @@ public class CharacterMovement
         currentCD = n < 0 ? dashCd : n;
         return this;
     }
-
-    #endregion
-
     public void SetCallbacks(Action _OnBeginRoll, Action _OnEndRoll)
     {
         OnBeginRollFeedback_Callback = _OnBeginRoll;
         OnEndRollFeedback_Callback = _OnEndRoll;
     }
+    #endregion
 
     #region MOVEMENT
     //Joystick Izquierdo, Movimiento
@@ -148,6 +151,7 @@ public class CharacterMovement
 
     }
     #endregion
+
     bool forcing;
 
     public void MovementAddForce(Vector3 dir, float force, ForceMode mode)
@@ -263,9 +267,9 @@ public class CharacterMovement
 
             _rb.velocity = currentDashSpeed * dashDir + new Vector3(0, velY, 0);
 
-            if (timerDash >= maxTimerDash)
+            if (timerDash >= currentTimerDash)
             {
-                StopRoll();
+                EndRoll();
             }
         }
         #endregion
@@ -290,6 +294,7 @@ public class CharacterMovement
 
     public void StopRoll()
     {
+        currentCD = dashCd;
         OnEndRollFeedback_Callback.Invoke();
         inDash = false;
         _rb.velocity = Vector3.zero;
@@ -318,6 +323,7 @@ public class CharacterMovement
 
     public void Roll()
     {
+        EndRoll = StopRoll;
         if (inDash) return;
 
         if (movX != 0 || movY != 0) dashDir = new Vector3(movX, 0, movY).normalized;
@@ -436,20 +442,7 @@ public class CharacterMovement
         }
     }
 
-    public Vector3 GetRotatorDirection()
-    {
-        return rotTransform.forward;
-    }
-
-    //public Vector3 GetLookDirection()
-    //{
-    //    if (movX != 0 || movY != 0)
-    //        dashDir = new Vector3(movX, 0, movY);
-    //    else
-    //        dashDir = rotTransform.forward;
-
-    //    return dashDir;
-    //}
+    public Vector3 GetRotatorDirection() => rotTransform.forward;
 
     public void ConfigureTeleport(float teleportDistance, ParticleSystem intro, ParticleSystem outro, ParticleSystem endCD)
     {
@@ -461,5 +454,31 @@ public class CharacterMovement
 
     #endregion
 
+    #region BASH DASH
+    public void StartBashDash()
+    {
+        dashDir = rotTransform.forward;
+        anim.BashDashAnim();
+        OnBeginRollFeedback_Callback();
+        begin_gravityCurve = true;
+        inDash = true;
+        currentDashSpeed = bashDashSpeed;
+        currentTimerDash = bashDashDistance;
+        EndRoll = StopBashDash;
+    }
 
+    public void StopBashDash()
+    {
+        OnEndRollFeedback_Callback();
+        currentCD = bashDashCD;
+        inDash = false;
+        _rb.velocity = Vector3.zero;
+        timerDash = 0;
+        dashDir = Vector3.zero;
+        dashCdOk = true;
+        timer_gravity_curve = 0;
+        begin_gravityCurve = false;
+    }
+
+    #endregion
 }
