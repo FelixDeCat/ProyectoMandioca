@@ -7,8 +7,8 @@ public class MisionManager : LoadComponent
     public static MisionManager instancia;
     private void Awake() => instancia = this;
 
-    public List<Mision> active_misions;
-    public List<Mision> finished_misions;
+    public List<Mision> active_misions = new List<Mision>();
+    public List<Mision> finished_misions = new List<Mision>();
 
     public UI_MisionManager ui;
 
@@ -60,6 +60,17 @@ public class MisionManager : LoadComponent
         }
     }
 
+    public void AddMisionItem(int Id, int Index)
+    {
+        for (int i = 0; i < active_misions.Count; i++)
+        {
+            if (active_misions[i].id_mision == Id)
+            {
+                var aux = active_misions[i].data.MisionItems[Index];
+                aux.Execute();
+            }
+        }
+    }
 
     public void RefreshInPlace(string place)
     {
@@ -79,7 +90,7 @@ public class MisionManager : LoadComponent
     public void AddMision(Mision m)
     {
         UI_StackMision.instancia.LogearMision(m, "Mision Nueva", 4f);
-        m.Begin(EndMision);
+        m.Begin(EndMision, CheckMision);
         active_misions.Add(m);
         CheckMision();
     }
@@ -87,7 +98,8 @@ public class MisionManager : LoadComponent
 
     public void CheckMision()
     {
-        ui.RefreshUIMisions(active_misions);
+        ui_panel.RefreshCurrentMissions(active_misions);
+        //ui.RefreshUIMisions(active_misions);
     }
 
     public void EndMision(Mision m)

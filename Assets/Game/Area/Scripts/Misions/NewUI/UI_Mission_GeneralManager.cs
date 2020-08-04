@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class UI_Mission_GeneralManager : MonoBehaviour
 {
+
     public UI_MisionCollection currents;
     public UI_MisionCollection finializeds;
     public UI_MissionCompleteInfo completeinfo;
@@ -12,6 +13,7 @@ public class UI_Mission_GeneralManager : MonoBehaviour
     Dictionary<int, Mision> allmissions = new Dictionary<int, Mision>();
 
     bool active = false;
+
     private void Start()
     {
         Enable(false);
