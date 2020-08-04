@@ -139,7 +139,7 @@ public class CharacterHead : CharacterControllable
             .SetParry(charBlock.IsParry, ParryFeedback)
             .Initialize(rot, () => InDash(), Dead, TakeDamageFeedback, rb, lifesystem);
 
-        charAttack = new CharacterAttack(attackRange, attackAngle, timeToHeavyAttack, charanim, rot, ReleaseInNormal, ReleaseInHeavy, dmg, feedbacks, dmgData);
+        charAttack = new CharacterAttack(attackRange, attackAngle, timeToHeavyAttack, charanim, rot, ReleaseInNormal, ReleaseInHeavy, dmg, feedbacks, dmgData, enemyLayer);
         charAttack.FirstAttackReady(true);
 
         charAnimEvent.Add_Callback("CheckAttackType", CheckAttackType);
@@ -201,9 +201,9 @@ public class CharacterHead : CharacterControllable
         var attackRelease = new EState<PlayerInputs>("Release_Attack");
         var takeDamage = new EState<PlayerInputs>("Take_Damage");
         var dead = new EState<PlayerInputs>("Dead");
-        var spin = new EState<PlayerInputs>("Spin");
         var stun = new EState<PlayerInputs>("Stun");
         var onSkill = new EState<PlayerInputs>("OnSkill");
+        var bashDash = new EState<PlayerInputs>("BashDash");
 
         ConfigureState.Create(idle)
             .SetTransition(PlayerInputs.MOVE, move)
@@ -213,7 +213,6 @@ public class CharacterHead : CharacterControllable
             .SetTransition(PlayerInputs.CHARGE_ATTACK, attackCharge)
             .SetTransition(PlayerInputs.TAKE_DAMAGE, takeDamage)
             .SetTransition(PlayerInputs.DEAD, dead)
-            .SetTransition(PlayerInputs.SPIN, spin)
             .SetTransition(PlayerInputs.STUN, stun)
             .SetTransition(PlayerInputs.ON_SKILL, onSkill)
             .Done();
@@ -226,7 +225,6 @@ public class CharacterHead : CharacterControllable
             .SetTransition(PlayerInputs.CHARGE_ATTACK, attackCharge)
             .SetTransition(PlayerInputs.TAKE_DAMAGE, takeDamage)
             .SetTransition(PlayerInputs.DEAD, dead)
-            .SetTransition(PlayerInputs.SPIN, spin)
             .SetTransition(PlayerInputs.ON_SKILL, onSkill)
             .SetTransition(PlayerInputs.STUN, stun)
             .Done();
@@ -247,14 +245,14 @@ public class CharacterHead : CharacterControllable
              .SetTransition(PlayerInputs.BLOCK, block)
              .SetTransition(PlayerInputs.END_BLOCK, endBlock)
              //.SetTransition(PlayerInputs.CHARGE_ATTACK, attackCharge)
-             .SetTransition(PlayerInputs.ROLL, roll, charAttack.ExecuteBashDash)
+             .SetTransition(PlayerInputs.ROLL, bashDash)
              .SetTransition(PlayerInputs.TAKE_DAMAGE, takeDamage)
              .SetTransition(PlayerInputs.DEAD, dead)
              .Done();
 
         ConfigureState.Create(block)
             .SetTransition(PlayerInputs.END_BLOCK, endBlock)
-            .SetTransition(PlayerInputs.ROLL, roll, charAttack.ExecuteBashDash)
+            .SetTransition(PlayerInputs.ROLL, bashDash)
             //.SetTransition(PlayerInputs.CHARGE_ATTACK, attackCharge)
             .SetTransition(PlayerInputs.TAKE_DAMAGE, takeDamage)
             .SetTransition(PlayerInputs.PARRY, parry)
@@ -276,6 +274,12 @@ public class CharacterHead : CharacterControllable
             .Done();
 
         ConfigureState.Create(roll)
+            .SetTransition(PlayerInputs.IDLE, idle)
+            .SetTransition(PlayerInputs.MOVE, move)
+            .SetTransition(PlayerInputs.DEAD, dead)
+            .Done();
+
+        ConfigureState.Create(bashDash)
             .SetTransition(PlayerInputs.IDLE, idle)
             .SetTransition(PlayerInputs.MOVE, move)
             .SetTransition(PlayerInputs.DEAD, dead)
@@ -333,6 +337,8 @@ public class CharacterHead : CharacterControllable
         new CharEndBlock(endBlock, stateMachine)
             .SetLeftAxis(GetLeftHorizontal, GetLeftVertical)
             .SetBlock(charBlock);
+
+        new CharBashDash(bashDash, stateMachine).SetMovement(this.move).SetAttack(charAttack);
 
         new CharParry(parry, stateMachine, parryRecall)
             .SetMovement(this.move)
@@ -548,8 +554,13 @@ public class CharacterHead : CharacterControllable
         Vector3 attackRange_endPoint =
             transform.position + charAttack.forwardPos.forward * charAttack.currentWeapon.GetWpnRange();
 
+        Vector3 initPos = rot.position + Vector3.up;
+
         Gizmos.color = Color.blue;
         Gizmos.DrawLine(transform.position, attackRange_endPoint);
+        Gizmos.DrawLine(initPos, initPos + rot.forward * 2);
+        Gizmos.DrawLine(initPos, initPos + (rot.forward + rot.right) * 2);
+        Gizmos.DrawLine(initPos, initPos + (rot.forward - rot.right) * 2);
         Gizmos.DrawCube(attackRange_endPoint, new Vector3(.6f, .6f, .6f));
     }
 

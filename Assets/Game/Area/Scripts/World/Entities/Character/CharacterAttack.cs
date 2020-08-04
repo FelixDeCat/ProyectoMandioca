@@ -25,7 +25,6 @@ public class CharacterAttack
     List<Weapon> myWeapons;
     public Weapon currentWeapon { get; private set; }
     int currentIndexWeapon;
-    BashDash bashDash;
 
     Action callback_ReceiveEntity = delegate { };
     Action DealSuccesfullNormal;
@@ -40,13 +39,15 @@ public class CharacterAttack
 
     CharFeedbacks feedbacks;
 
+    LayerMask enemyMask;
+
     public CharacterAttack(float _range, float _angle, float _heavyAttackTime, CharacterAnimator _anim, Transform _forward,
-        Action _normalAttack, Action _heavyAttack, float damage, CharFeedbacks _charFeedbacks, DamageData data)
+        Action _normalAttack, Action _heavyAttack, float damage, CharFeedbacks _charFeedbacks, DamageData data, LayerMask _enemyMask)
     {
+        enemyMask = _enemyMask;
         hitstore = new HitStore();
         myWeapons = new List<Weapon>();
         myWeapons.Add(new GenericSword(damage, _range, "Generic Sword", _angle, data).ConfigureCallback(CALLBACK_DealDamage));
-        bashDash = new BashDash(0, _range, "BashDash", _angle, data);
         currentWeapon = myWeapons[0];
         currentDamage = currentWeapon.baseDamage;
 
@@ -101,10 +102,33 @@ public class CharacterAttack
         }
     }
 
-    public void ExecuteBashDash()
+    public bool ExecuteBashDash()
     {
-        anim.BashDashAnim();
-        bashDash?.Attack(forwardPos, 0, 0);
+        RaycastHit hit;
+        bool inHit = false;
+
+        if(Physics.Raycast(forwardPos.position + Vector3.up, forwardPos.forward, out hit,2, enemyMask))
+        {
+            Debug.Log("stuneado");
+            hit.collider.GetComponent<EffectReceiver>()?.TakeEffect(EffectName.OnPetrify, 1.5f);
+            inHit = true;
+        }
+
+        if (Physics.Raycast(forwardPos.position + Vector3.up, forwardPos.forward + forwardPos.right, out hit, 2, enemyMask))
+        {
+            Debug.Log("stuneado");
+            hit.collider.GetComponent<EffectReceiver>()?.TakeEffect(EffectName.OnPetrify, 1.5f);
+            inHit = true;
+        }
+
+        if (Physics.Raycast(forwardPos.position + Vector3.up, forwardPos.forward - forwardPos.right, out hit, 2, enemyMask))
+        {
+            Debug.Log("stuneado");
+            hit.collider.GetComponent<EffectReceiver>()?.TakeEffect(EffectName.OnPetrify, 1.5f);
+            inHit = true;
+        }
+
+        return inHit;
     }
 
     #region PRE-ATTACK
