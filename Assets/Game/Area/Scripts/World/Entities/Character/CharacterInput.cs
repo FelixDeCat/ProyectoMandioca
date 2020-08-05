@@ -49,6 +49,9 @@ public class CharacterInput : MonoBehaviour
     public UnityEvent LockON;
     public UnityEvent NextON;
 
+    public UnityEvent RTrigger;
+    public UnityEvent LTrigger;
+
     public InputControl inputControlCheck;
     bool isJoystick;
 
@@ -280,8 +283,9 @@ public class CharacterInput : MonoBehaviour
     void EV_DPAD_DOWN() {  }
     void EV_DPAD_LEFT() { OnDpad_Left.Invoke(); }
     void EV_DPAD_RIGHT() { OnDpad_Right.Invoke(); }
-    void EV_DPAD_LTRIGGER() { LockON.Invoke(); }
-    void EV_DPAD_RTRIGGER() { NextON.Invoke(); }
+    void EV_DPAD_LTRIGGER() { LTrigger.Invoke(); }
+    void EV_DPAD_RTRIGGER() { RTrigger.Invoke(); }
+
     #endregion
 
 
