@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System;
 
 public class MisionManager : MonoBehaviour
 {
@@ -54,18 +55,36 @@ public class MisionManager : MonoBehaviour
         
     }
 
-    public void AddMision(Mision m)
+    public bool AddMision(Mision m, Action<Mision> callbackToEnd)
     {
         if (!registry.ContainsKey(m.id_mision))
         {
             registry.Add(m.id_mision, m);
             UI_StackMision.instancia.LogearMision(m, false, 4f);
             if (LocalMisionManager.instance) LocalMisionManager.instance.OnMissionsChange();
-            m.Begin(EndMision, CheckMision);
+            m.Begin(CheckMision);
+            m.AddCallbackToEnd(MissionIsEnded);
+            m.AddCallbackToEnd(callbackToEnd);
             active_misions.Add(m);
+            CheckMision();
+            return true;
         }
-        
-        CheckMision();
+        else
+        {
+            CheckMision();
+            return false;
+        }
+    }
+
+    public void LinkEndToCallback(int Id_Mision, Action callbackToEnd)
+    {
+        for (int i = 0; i < active_misions.Count; i++)
+        {
+            if (active_misions[i].id_mision == Id_Mision)
+            {
+                active_misions[i].AddCallbackToEnd(callbackToEnd);
+            }
+        }
     }
 
     public void CheckMision()
@@ -77,7 +96,7 @@ public class MisionManager : MonoBehaviour
         Canvas.ForceUpdateCanvases();
     }
 
-    public void EndMision(Mision m)
+    public void MissionIsEnded(Mision m)
     {
         m.End();
         active_misions.Remove(m);

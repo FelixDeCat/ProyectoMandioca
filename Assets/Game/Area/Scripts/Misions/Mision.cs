@@ -12,16 +12,24 @@ public class Mision
     public Misions.Core.Serializable_Reward rewarding;
     public bool Completed { get { return data.Completed; } }
     public Action<Mision> mision_end_callback;
+    public Action mision_end_callback_simple;
     public Action Callback_Refresh;
-    
 
-    public void Begin(Action<Mision> _mision_end_callback, Action Refresh)
+    public void Begin(Action Refresh)
     {
         foreach (var mi in data.MisionItems) mi.SubscribeTo_ItemSelfUpdate(OnRefresh);
         data.ActivateMision();
-        mision_end_callback = _mision_end_callback;
         Callback_Refresh = Refresh;
     }
+    public void AddCallbackToEnd(Action<Mision> callbackToEnd)
+    {
+        mision_end_callback += callbackToEnd;
+    }
+    public void AddCallbackToEnd(Action callbackToEnd)
+    {
+        mision_end_callback_simple += callbackToEnd;
+    }
+
     public void End() => data.DeactivateMision();
 
     public void OnRefresh()
@@ -40,7 +48,10 @@ public class Mision
         return true;
     }
 
-    protected void Finish() => mision_end_callback.Invoke(this);
+    protected void Finish() { 
+        mision_end_callback.Invoke(this);
+        mision_end_callback_simple.Invoke();
+    }
 }
 
 namespace Misions.Core
