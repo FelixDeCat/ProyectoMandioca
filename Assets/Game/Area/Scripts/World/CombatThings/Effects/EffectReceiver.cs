@@ -4,7 +4,7 @@ using System.Runtime.Remoting.Messaging;
 using UnityEditorInternal;
 using UnityEngine;
 
-public enum EffectName { OnFire, OnPetrify, OnFreeze }
+public enum EffectName { OnFire, OnPetrify, OnFreeze, OnRoot }
 
 public class EffectReceiver : MonoBehaviour
 {
@@ -17,7 +17,7 @@ public class EffectReceiver : MonoBehaviour
     //Función que agrega un posible efecto al diccionario. Por ahora sólo es usado en el start, pero se puede usar para agregar invulnerabilidad momentánea o cosas así
     public void AddEffect(EffectName name, EffectBase effect)
     {
-        if (!myPossibleEffects.ContainsKey(name))
+        if (!myPossibleEffects.ContainsKey(name))    
             myPossibleEffects.Add(name, effect);
         else
             Debug.LogError("Hay dos Efectos del mismo tipo en un mismo entity");

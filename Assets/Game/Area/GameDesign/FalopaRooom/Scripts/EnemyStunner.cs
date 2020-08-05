@@ -23,6 +23,7 @@ public class EnemyStunner : WalkingEntity
     float durationTimer = 0f;
 
     CharacterHead myChar;
+    EffectReceiver charEffect;
 
     void Start()
     {
@@ -37,6 +38,7 @@ public class EnemyStunner : WalkingEntity
     protected override void OnInitialize()
     {
         myChar = Main.instance.GetChar();
+        charEffect = myChar.GetComponent<EffectReceiver>();
         rb = GetComponent<Rigidbody>();
         area = GetComponentInParent<CombatArea>();
         life = GetComponent<EnemyLifeSystem>();
@@ -86,7 +88,7 @@ public class EnemyStunner : WalkingEntity
 
     void StunChar()
     {
-        myChar.GetStunned(stunDuration);
+        charEffect.TakeEffect(EffectName.OnRoot, stunDuration);
         StartStun();
     }
 
