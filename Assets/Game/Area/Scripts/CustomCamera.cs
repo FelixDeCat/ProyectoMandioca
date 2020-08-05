@@ -18,6 +18,12 @@ public class CustomCamera : MonoBehaviour
     public float shakeDuration;
     private bool activeShake;
     public bool active=true;
+    public float horizontalSpeed;
+    public float verticalSpeed;
+
+    public float horizontal;
+    public float vertical;
+
     Collider currentObstacle;
     [SerializeField] float sensitivity;
     [SerializeField] private SkillCloseUp_Camera skillCloseUp_Camera = null;
@@ -32,7 +38,10 @@ public class CustomCamera : MonoBehaviour
     [SerializeField, Range(0,1)] float fade = 0.05f;
     public float speedRot;
     Camera mycam;
+    bool setOverTheSholder;
     public List<CamConfiguration> myCameras = new List<CamConfiguration>();
+    public CamConfiguration overTheSholderCam;
+    public bool activateOverTheSholder;
    public int index;
     JoystickBasicInput _joystick;
 
@@ -62,6 +71,13 @@ public class CustomCamera : MonoBehaviour
     {
         if (!active)
             return;
+        inputToOverTheSholder();
+        if (activateOverTheSholder)
+        {
+            OverTheSholder();
+            return;
+        }
+        
         pingpongZoom.Updatear();
         //ShaderMask();
         transform.forward = Vector3.Lerp(transform.forward, myCameras[index].transform.forward, speedRot * Time.deltaTime);
@@ -73,13 +89,13 @@ public class CustomCamera : MonoBehaviour
     }
     private void FixedUpdate()
     {
-        if (!active)
+        if (!active||activateOverTheSholder)
             return;
         SmoothToTarget();
     }
     private void LateUpdate()
     {
-        if (!active)
+        if (!active || activateOverTheSholder)
             return;
         if (activeShake) Shake();
     }
@@ -236,5 +252,50 @@ public class CustomCamera : MonoBehaviour
         index = 0;
         changeCameraconf(index);
         transform.forward = Vector3.Lerp(transform.forward, myCameras[index].transform.forward, speedRot * Time.deltaTime);
+    }
+    void OverTheSholder()
+    {
+        if (!setOverTheSholder)
+        {
+            target = overTheSholderCam.transform;
+            shakeAmmount = overTheSholderCam.shakeAmmount;
+            shakeDuration = overTheSholderCam.shakeDuration;
+            smooth = overTheSholderCam.smoothTime;
+
+            Camera camera = GetComponent<Camera>();
+            camera.cullingMask = overTheSholderCam.CullingMask;
+            camera.fieldOfView = overTheSholderCam.fieldOfView;
+            setOverTheSholder = true;
+            transform.forward = overTheSholderCam.transform.forward;
+        }
+        transform.position = Vector3.Lerp(transform.position, overTheSholderCam.transform.position, Time.deltaTime * smooth);
+
+        horizontal += horizontalSpeed * Input.GetAxis("Horizontal");
+        horizontal = Mathf.Clamp(horizontal, -45, 45);
+        vertical += verticalSpeed * Input.GetAxis("Vertical");
+        vertical = Mathf.Clamp(vertical, -45, 45);
+
+        transform.localRotation=Quaternion.Euler(-vertical, horizontal, 0);
+
+    }
+
+    void inputToOverTheSholder()
+    {
+        if (Input.GetKeyDown(KeyCode.K))
+        {
+            if (activateOverTheSholder)
+            {
+                activateOverTheSholder = false;
+                setOverTheSholder = false;
+                ChangeToDefaultCamera();
+                horizontal = 0;
+                vertical = 0;
+            }
+            else
+            {
+                activateOverTheSholder = true;
+            }
+                
+        }
     }
 }
