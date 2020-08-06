@@ -186,6 +186,12 @@ public class CharacterMovement
         _rb.velocity = Vector3.zero;
     }
 
+    public void AttackMovement(float moveForce)
+    {
+        if (forcing) return;
+        _rb.AddForce(rotTransform.transform.forward * moveForce, ForceMode.VelocityChange);
+    }
+
     #region ROTATION
     //Joystick Derecho, Rotacion
     void RightHorizontal(float axis)

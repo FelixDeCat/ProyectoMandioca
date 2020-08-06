@@ -142,7 +142,8 @@ public class CharacterHead : CharacterControllable
             .SetParry(charBlock.IsParry, ParryFeedback)
             .Initialize(rot, () => InDash(), Dead, TakeDamageFeedback, rb, lifesystem);
 
-        charAttack = new CharacterAttack(attackRange, attackAngle, timeToHeavyAttack, charanim, rot, ReleaseInNormal, ReleaseInHeavy, dmg, feedbacks, dmgData, enemyLayer);
+        charAttack = new CharacterAttack(attackRange, attackAngle, timeToHeavyAttack, charanim, rot,
+                                         ReleaseInNormal, ReleaseInHeavy, dmg, feedbacks, dmgData, enemyLayer, move);
         charAttack.FirstAttackReady(true);
 
         charAnimEvent.Add_Callback("CheckAttackType", CheckAttackType);
@@ -159,9 +160,6 @@ public class CharacterHead : CharacterControllable
         charAnimEvent.Add_Callback("CloseComboWindow", charAttack.ANIM_EVENT_CloseComboWindow);
 
         charAnimEvent.Add_Callback("OnThrow", ThrowCallback);
-
-        charAttack.SetRigidBody(rb);
-
         debug_options.StartDebug();
 
         //  DevelopTools.UI.Debug_UI_Tools.instance.CreateToogle("Speed for testing", false, ToogleSpeed);
