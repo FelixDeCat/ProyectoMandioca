@@ -8,7 +8,7 @@ using Tools.EventClasses;
 using Tools.StateMachine;
 public class CharacterHead : CharacterControllable
 {
-    public enum PlayerInputs { IDLE, MOVE, BEGIN_BLOCK, BLOCK, END_BLOCK, PARRY, CHARGE_ATTACK, RELEASE_ATTACK, TAKE_DAMAGE, DEAD, ROLL, SPIN, STUN, PLAYER_LOCK_ON, ON_SKILL };
+    public enum PlayerInputs { IDLE, MOVE, BEGIN_BLOCK, BLOCK, END_BLOCK, PARRY, CHARGE_ATTACK, RELEASE_ATTACK, TAKE_DAMAGE, DEAD, ROLL, SPIN, STUN, PLAYER_LOCK_ON, ON_SKILL,ON_LOOK_SHOLDER };
 
     Action ChildrensUpdates;
     [SerializeField] CharacterInput _charInput = null;
@@ -30,7 +30,7 @@ public class CharacterHead : CharacterControllable
     [SerializeField] CharacterGroundSensor groundSensor = null;
 
     //Perdon por esto, pero lo necesito pra la skill del boomeran hasta tener la animacion y el estado "sin escudo"
-    bool canBlock = true;
+    bool canBlock = false;
     public GameObject escudo;
 
     [Header("SlowMotion")]
@@ -100,6 +100,10 @@ public class CharacterHead : CharacterControllable
     private bool blockRoll;
     [HideInInspector] public bool BlockRoll {set { blockRoll = value; } }
 
+
+    [HideInInspector] private bool canAttack = false; 
+    public void ToggleAttack(bool val) => canAttack = val;
+
     private void Start()
     {
         lifesystem
@@ -142,7 +146,8 @@ public class CharacterHead : CharacterControllable
             .SetParry(charBlock.IsParry, ParryFeedback)
             .Initialize(rot, () => InDash(), Dead, TakeDamageFeedback, rb, lifesystem);
 
-        charAttack = new CharacterAttack(attackRange, attackAngle, timeToHeavyAttack, charanim, rot, ReleaseInNormal, ReleaseInHeavy, dmg, feedbacks, dmgData, enemyLayer);
+        charAttack = new CharacterAttack(attackRange, attackAngle, timeToHeavyAttack, charanim, rot,
+                                         ReleaseInNormal, ReleaseInHeavy, dmg, feedbacks, dmgData, enemyLayer, move);
         charAttack.FirstAttackReady(true);
 
         charAnimEvent.Add_Callback("CheckAttackType", CheckAttackType);
@@ -159,9 +164,6 @@ public class CharacterHead : CharacterControllable
         charAnimEvent.Add_Callback("CloseComboWindow", charAttack.ANIM_EVENT_CloseComboWindow);
 
         charAnimEvent.Add_Callback("OnThrow", ThrowCallback);
-
-        charAttack.SetRigidBody(rb);
-
         debug_options.StartDebug();
 
         //  DevelopTools.UI.Debug_UI_Tools.instance.CreateToogle("Speed for testing", false, ToogleSpeed);
@@ -207,6 +209,7 @@ public class CharacterHead : CharacterControllable
         var stun = new EState<PlayerInputs>("Stun");
         var onSkill = new EState<PlayerInputs>("OnSkill");
         var bashDash = new EState<PlayerInputs>("BashDash");
+        var LookAtOverSholder = new EState<PlayerInputs>("LookAtOverSholder");
 
         ConfigureState.Create(idle)
             .SetTransition(PlayerInputs.MOVE, move)
@@ -218,6 +221,18 @@ public class CharacterHead : CharacterControllable
             .SetTransition(PlayerInputs.DEAD, dead)
             .SetTransition(PlayerInputs.STUN, stun)
             .SetTransition(PlayerInputs.ON_SKILL, onSkill)
+            .SetTransition(PlayerInputs.ON_LOOK_SHOLDER,LookAtOverSholder)
+            .Done();
+
+        ConfigureState.Create(LookAtOverSholder)
+            .SetTransition(PlayerInputs.BEGIN_BLOCK, beginBlock)
+            .SetTransition(PlayerInputs.ROLL, roll)
+            .SetTransition(PlayerInputs.TAKE_DAMAGE, takeDamage)
+            .SetTransition(PlayerInputs.CHARGE_ATTACK, attackCharge)
+            .SetTransition(PlayerInputs.DEAD, dead)
+            .SetTransition(PlayerInputs.STUN, stun)
+            .SetTransition(PlayerInputs.ON_SKILL, onSkill)
+            .SetTransition(PlayerInputs.ON_LOOK_SHOLDER,idle)
             .Done();
 
         ConfigureState.Create(move)
@@ -230,6 +245,7 @@ public class CharacterHead : CharacterControllable
             .SetTransition(PlayerInputs.DEAD, dead)
             .SetTransition(PlayerInputs.ON_SKILL, onSkill)
             .SetTransition(PlayerInputs.STUN, stun)
+            .SetTransition(PlayerInputs.ON_LOOK_SHOLDER, LookAtOverSholder)
             .Done();
 
         ConfigureState.Create(onSkill)
@@ -242,6 +258,7 @@ public class CharacterHead : CharacterControllable
             .SetTransition(PlayerInputs.DEAD, dead)
             // .SetTransition(PlayerInputs.SPIN, spin)
             .SetTransition(PlayerInputs.STUN, stun)
+            .SetTransition(PlayerInputs.ON_LOOK_SHOLDER, LookAtOverSholder)
             .Done();
 
         ConfigureState.Create(beginBlock)
@@ -322,6 +339,11 @@ public class CharacterHead : CharacterControllable
             .SetLeftAxis(GetLeftHorizontal, GetLeftVertical)
             .SetRightAxis(GetRightHorizontal, GetRightVertical)
             .SetMovement(this.move);
+
+        new CharLookOverSholder(LookAtOverSholder, stateMachine)
+            .SetLeftAxis(GetLeftHorizontal, GetLeftVertical)
+            .SetRightAxis(GetRightHorizontal, GetRightVertical)
+            .SetCustomCamera(customCam);
 
         new CharMove(move, stateMachine)
             .SetLeftAxis(GetLeftHorizontal, GetLeftVertical)
@@ -478,8 +500,9 @@ public class CharacterHead : CharacterControllable
     void DealRight() { DirAttack = -rot.right; DealAttack(); }
     public void EVENT_OnAttackBegin()
     {
+        if (!canAttack) return;
         //if (stateMachine.Current.Name != "Release_Attack")
-            stateMachine.SendInput(PlayerInputs.CHARGE_ATTACK);
+        stateMachine.SendInput(PlayerInputs.CHARGE_ATTACK);
 
         charAttack.UnfilteredAttack();
     }
@@ -806,4 +829,9 @@ public class CharacterHead : CharacterControllable
     }
     #endregion
     #endregion
+
+    public void UEVENT_ShootOverSholder()
+    {
+        stateMachine.SendInput(PlayerInputs.ON_LOOK_SHOLDER);
+    }
 }

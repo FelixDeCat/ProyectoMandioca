@@ -189,7 +189,7 @@ public class NodeEditor : EditorWindow
                     {
                         currentDialogueTree = CreateInstance<DialogueTree>();
                         currentDialogueTree.treeName = currentName;
-                        AssetDatabase.CreateAsset(currentDialogueTree, "Assets/Game/Scripts/Dialogue/" + currentName + ".asset");
+                        AssetDatabase.CreateAsset(currentDialogueTree, "Assets/Game/Area/Scripts/Dialogue/" + currentName + ".asset");
                         currentName = "";
                     }    
                 }

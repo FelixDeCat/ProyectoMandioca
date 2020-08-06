@@ -34,15 +34,13 @@ public class CharacterAttack
     Action BreakObject;
 
     HitStore hitstore;
-
-    Rigidbody myRig;
-
     CharFeedbacks feedbacks;
-
     LayerMask enemyMask;
 
+    CharacterMovement move;
+
     public CharacterAttack(float _range, float _angle, float _heavyAttackTime, CharacterAnimator _anim, Transform _forward,
-        Action _normalAttack, Action _heavyAttack, float damage, CharFeedbacks _charFeedbacks, DamageData data, LayerMask _enemyMask)
+        Action _normalAttack, Action _heavyAttack, float damage, CharFeedbacks _charFeedbacks, DamageData data, LayerMask _enemyMask, CharacterMovement _move)
     {
         enemyMask = _enemyMask;
         hitstore = new HitStore();
@@ -59,9 +57,9 @@ public class CharacterAttack
 
         NormalAttack = _normalAttack;
         HeavyAttack = _heavyAttack;
-    }
 
-    public void SetRigidBody(Rigidbody _rb) => myRig = _rb;
+        move = _move;
+    }
     public string ChangeName() => currentWeapon.weaponName;
     public void ChangeDamageBase(int dmg) => currentDamage = dmg;
     public void BuffOrNerfDamage(float f) => currentDamage += f;
@@ -123,7 +121,6 @@ public class CharacterAttack
 
         if (Physics.Raycast(forwardPos.position + Vector3.up, forwardPos.forward - forwardPos.right, out hit, 2, enemyMask))
         {
-            Debug.Log("stuneado");
             hit.collider.GetComponent<EffectReceiver>()?.TakeEffect(EffectName.OnPetrify, 1.5f);
             inHit = true;
         }
@@ -163,8 +160,6 @@ public class CharacterAttack
         anim.ForceAttack();
     }
 
-
-
     // Aca es cuando suelto la tecla desde el estado Charge Attack
     // OnPressUp
     public void AttackEnd()
@@ -195,12 +190,12 @@ public class CharacterAttack
         if (buttonPressedTime < heavyAttackTime)
         {
             NormalAttack.Invoke();
-            myRig.AddForce(forwardPos.transform.forward * 7, ForceMode.VelocityChange);
+            move.AttackMovement(7);
         }
         else
         {
             HeavyAttack.Invoke();
-            myRig.AddForce(forwardPos.transform.forward * 10, ForceMode.VelocityChange);
+            move.AttackMovement(10);
         }
         feedbacks.particles.feedbackHeavy.Stop();
         oneshot = false;

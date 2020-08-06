@@ -16,6 +16,7 @@ namespace Tools.StateMachine
         protected CharacterMovement charMove;
         protected CharacterAnimator charAnim;
         protected CharFeedbacks feedbacks;
+        protected CustomCamera _camera;
 
         public CharacterStates(EState<CharacterHead.PlayerInputs> myState, EventStateMachine<CharacterHead.PlayerInputs> _sm) : base(myState, _sm)
         {
@@ -60,6 +61,11 @@ namespace Tools.StateMachine
             this.feedbacks = feedbacks;
             return this;
         }
+        public CharacterStates SetCustomCamera(CustomCamera camera)
+        {
+            this._camera = camera;
+            return this;
+        }
         #endregion
 
         protected override void Enter(EState<CharacterHead.PlayerInputs> input)
@@ -83,5 +89,7 @@ namespace Tools.StateMachine
         protected override void Update()
         {
         }
+
+        
     }
 }
