@@ -15,13 +15,11 @@ public class GrabSwordShield : TestInteractableHold
 
         if (character && isSword)
         {
-            character.ToggleAttack(true);
-            character.currentWeapon.SetActive(true);
+            character.ToggleSword(true);
         }
         else if (character)
         {
-            character.ToggleBlock(true);
-            character.charBlock.shield.SetActive(true);
+            character.ToggleShield(true);
         }
 
     }

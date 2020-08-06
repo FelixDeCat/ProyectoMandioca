@@ -13,6 +13,8 @@ public class CharacterHead : CharacterControllable
     Action ChildrensUpdates;
     [SerializeField] CharacterInput _charInput = null;
 
+    [SerializeField] bool StartWithoutWeapons;
+
     [Header("Dash Options")]
     [SerializeField] float teleportCD = 2;
     public bool Slowed { get; private set; }
@@ -104,6 +106,7 @@ public class CharacterHead : CharacterControllable
     [HideInInspector] private bool canAttack = false; 
     public void ToggleAttack(bool val) => canAttack = val;
 
+
     private void Start()
     {
         lifesystem
@@ -174,6 +177,16 @@ public class CharacterHead : CharacterControllable
         originalNormal = dmg_normal;
         originalHeavy = dmg_heavy;
 
+        if(StartWithoutWeapons)
+        {
+            ToggleShield(false);
+            ToggleSword(false);
+        }
+        else
+        {
+            ToggleShield(true);
+            ToggleSword(true);
+        }
     }
     
     public void StopMovement() { move.MovementHorizontal(0); move.MovementVertical(0); }
@@ -775,6 +788,19 @@ public class CharacterHead : CharacterControllable
         stunDuration = _stunDuration;
         Debug.Log("GetStunned");
         stateMachine.SendInput(PlayerInputs.STUN);
+    }
+    #endregion
+
+    #region ToggleWeapons
+    public void ToggleSword(bool check)
+    {
+        ToggleAttack(check);
+        currentWeapon.SetActive(check);
+    }
+    public void ToggleShield(bool check)
+    {
+        ToggleBlock(check);
+        charBlock.shield.SetActive(check);
     }
     #endregion
 
