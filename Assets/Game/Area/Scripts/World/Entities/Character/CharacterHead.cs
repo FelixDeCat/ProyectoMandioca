@@ -599,6 +599,7 @@ public class CharacterHead : CharacterControllable
     }
     public void RollDash()
     {
+        if (!groundSensor.IsGrounded()) return;
         if (!move.InCD())
         {
             //Chequeo si tengo el teleport activado. Sino, sigo normalmente con el roll
