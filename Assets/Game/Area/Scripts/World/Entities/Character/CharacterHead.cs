@@ -280,6 +280,7 @@ public class CharacterHead : CharacterControllable
             .SetTransition(PlayerInputs.IDLE, idle)
             .SetTransition(PlayerInputs.MOVE, move)
             .SetTransition(PlayerInputs.DEAD, dead)
+            .SetTransition(PlayerInputs.CHARGE_ATTACK, attackCharge)
             .Done();
 
         ConfigureState.Create(bashDash)
@@ -299,6 +300,7 @@ public class CharacterHead : CharacterControllable
             .SetTransition(PlayerInputs.CHARGE_ATTACK, attackCharge)
             .SetTransition(PlayerInputs.BEGIN_BLOCK, beginBlock)
             .SetTransition(PlayerInputs.DEAD, dead)
+            .SetTransition(PlayerInputs.ROLL, roll)
             .Done();
 
         ConfigureState.Create(takeDamage)
