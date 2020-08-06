@@ -29,6 +29,11 @@ public class CharacterMovement
     bool inDash;
     bool dashCdOk;
 
+    public void ForcedCanDash(bool candash)
+    {
+        inDash = candash;
+    }
+
     float gravity = -7;
     Func<bool> isGrounded = delegate { return true; };
     float timer_gravity_curve;
@@ -127,6 +132,12 @@ public class CharacterMovement
 
         if (!forcing)
             _rb.velocity = new Vector3(auxNormalized.x * currentSpeed, velY, auxNormalized.z * currentSpeed);
+
+        if (currentSpeed <= 0)
+        {
+            anim.Move(0, 0);
+            return;
+        }
 
         if (rotX >= 0.3 || rotX <= -0.3 || rotY >= 0.3 || rotY <= -0.3)
         {

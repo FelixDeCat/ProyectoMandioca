@@ -97,6 +97,9 @@ public class CharacterHead : CharacterControllable
 
     public bool Combat { private set; get; }
 
+    private bool blockRoll;
+    [HideInInspector] public bool BlockRoll {set { blockRoll = value; } }
+
     private void Start()
     {
         lifesystem
@@ -599,7 +602,7 @@ public class CharacterHead : CharacterControllable
     }
     public void RollDash()
     {
-        if (!groundSensor.IsGrounded()) return;
+        if (!groundSensor.IsGrounded() || blockRoll) return;
         if (!move.InCD())
         {
             //Chequeo si tengo el teleport activado. Sino, sigo normalmente con el roll
