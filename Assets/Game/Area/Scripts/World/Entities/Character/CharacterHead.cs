@@ -8,7 +8,7 @@ using Tools.EventClasses;
 using Tools.StateMachine;
 public class CharacterHead : CharacterControllable
 {
-    public enum PlayerInputs { IDLE, MOVE, BEGIN_BLOCK, BLOCK, END_BLOCK, PARRY, CHARGE_ATTACK, RELEASE_ATTACK, TAKE_DAMAGE, DEAD, ROLL, SPIN, STUN, PLAYER_LOCK_ON, ON_SKILL };
+    public enum PlayerInputs { IDLE, MOVE, BEGIN_BLOCK, BLOCK, END_BLOCK, PARRY, CHARGE_ATTACK, RELEASE_ATTACK, TAKE_DAMAGE, DEAD, ROLL, SPIN, STUN, PLAYER_LOCK_ON, ON_SKILL,ON_LOOK_SHOLDER };
 
     Action ChildrensUpdates;
     [SerializeField] CharacterInput _charInput = null;
@@ -207,6 +207,7 @@ public class CharacterHead : CharacterControllable
         var stun = new EState<PlayerInputs>("Stun");
         var onSkill = new EState<PlayerInputs>("OnSkill");
         var bashDash = new EState<PlayerInputs>("BashDash");
+        var LookAtOverSholder = new EState<PlayerInputs>("LookAtOverSholder");
 
         ConfigureState.Create(idle)
             .SetTransition(PlayerInputs.MOVE, move)
@@ -218,6 +219,18 @@ public class CharacterHead : CharacterControllable
             .SetTransition(PlayerInputs.DEAD, dead)
             .SetTransition(PlayerInputs.STUN, stun)
             .SetTransition(PlayerInputs.ON_SKILL, onSkill)
+            .SetTransition(PlayerInputs.ON_LOOK_SHOLDER,LookAtOverSholder)
+            .Done();
+
+        ConfigureState.Create(LookAtOverSholder)
+            .SetTransition(PlayerInputs.BEGIN_BLOCK, beginBlock)
+            .SetTransition(PlayerInputs.ROLL, roll)
+            .SetTransition(PlayerInputs.TAKE_DAMAGE, takeDamage)
+            .SetTransition(PlayerInputs.CHARGE_ATTACK, attackCharge)
+            .SetTransition(PlayerInputs.DEAD, dead)
+            .SetTransition(PlayerInputs.STUN, stun)
+            .SetTransition(PlayerInputs.ON_SKILL, onSkill)
+            .SetTransition(PlayerInputs.ON_LOOK_SHOLDER,idle)
             .Done();
 
         ConfigureState.Create(move)
@@ -230,6 +243,7 @@ public class CharacterHead : CharacterControllable
             .SetTransition(PlayerInputs.DEAD, dead)
             .SetTransition(PlayerInputs.ON_SKILL, onSkill)
             .SetTransition(PlayerInputs.STUN, stun)
+            .SetTransition(PlayerInputs.ON_LOOK_SHOLDER, LookAtOverSholder)
             .Done();
 
         ConfigureState.Create(onSkill)
@@ -242,6 +256,7 @@ public class CharacterHead : CharacterControllable
             .SetTransition(PlayerInputs.DEAD, dead)
             // .SetTransition(PlayerInputs.SPIN, spin)
             .SetTransition(PlayerInputs.STUN, stun)
+            .SetTransition(PlayerInputs.ON_LOOK_SHOLDER, LookAtOverSholder)
             .Done();
 
         ConfigureState.Create(beginBlock)
@@ -322,6 +337,11 @@ public class CharacterHead : CharacterControllable
             .SetLeftAxis(GetLeftHorizontal, GetLeftVertical)
             .SetRightAxis(GetRightHorizontal, GetRightVertical)
             .SetMovement(this.move);
+
+        new CharLookOverSholder(LookAtOverSholder, stateMachine)
+            .SetLeftAxis(GetLeftHorizontal, GetLeftVertical)
+            .SetRightAxis(GetRightHorizontal, GetRightVertical)
+            .SetCustomCamera(customCam);
 
         new CharMove(move, stateMachine)
             .SetLeftAxis(GetLeftHorizontal, GetLeftVertical)
@@ -806,4 +826,9 @@ public class CharacterHead : CharacterControllable
     }
     #endregion
     #endregion
+
+    public void UEVENT_ShootOverSholder()
+    {
+        stateMachine.SendInput(PlayerInputs.ON_LOOK_SHOLDER);
+    }
 }

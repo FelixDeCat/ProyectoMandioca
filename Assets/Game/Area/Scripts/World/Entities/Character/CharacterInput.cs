@@ -43,7 +43,7 @@ public class CharacterInput : MonoBehaviour
     public UnityEvent OnDpad_Right;
     public UnityEvent OnUseActive;
     public UnityEvent SwitchActive;
-
+    public UnityEvent OverTheSholder;
     public EventInt SendIndexAlphanumeric;
 
     public UnityEvent LockON;
@@ -176,7 +176,7 @@ public class CharacterInput : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Alpha2)) EV_DPAD_LEFT();
         if (Input.GetKeyDown(KeyCode.Alpha3)) EV_DPAD_DOWN();
         if (Input.GetKeyDown(KeyCode.Alpha4)) EV_DPAD_RIGHT();
-
+        if (Input.GetKeyDown(KeyCode.K)) OverTheSholder.Invoke();
         if (Input.GetButtonDown("Back")) Back.Invoke();
 
         if (Input.GetButtonDown("Skill")) OnUseActive.Invoke();

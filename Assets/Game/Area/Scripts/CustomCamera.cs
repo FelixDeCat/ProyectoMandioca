@@ -17,7 +17,7 @@ public class CustomCamera : MonoBehaviour
     private float shakeDurationCurrent;
     public float shakeDuration;
     private bool activeShake;
-    public bool active=true;
+    public bool active = true;
     public float horizontalSpeed;
     public float verticalSpeed;
 
@@ -35,15 +35,17 @@ public class CustomCamera : MonoBehaviour
     PingPongLerp pingpongZoom = new PingPongLerp();
 
     public LayerMask _layermask_raycast_mask;
-    [SerializeField, Range(0,1)] float fade = 0.05f;
+    [SerializeField, Range(0, 1)] float fade = 0.05f;
     public float speedRot;
     Camera mycam;
     bool setOverTheSholder;
     public List<CamConfiguration> myCameras = new List<CamConfiguration>();
     public CamConfiguration overTheSholderCam;
     public bool activateOverTheSholder;
-   public int index;
+    public int index;
     JoystickBasicInput _joystick;
+    float startHorizontal;
+    float StartVertical;
 
     [SerializeField] EventInt invertAxis;
 
@@ -71,13 +73,12 @@ public class CustomCamera : MonoBehaviour
     {
         if (!active)
             return;
-        inputToOverTheSholder();
         if (activateOverTheSholder)
         {
             OverTheSholder();
             return;
         }
-        
+
         pingpongZoom.Updatear();
         //ShaderMask();
         transform.forward = Vector3.Lerp(transform.forward, myCameras[index].transform.forward, speedRot * Time.deltaTime);
@@ -89,7 +90,7 @@ public class CustomCamera : MonoBehaviour
     }
     private void FixedUpdate()
     {
-        if (!active||activateOverTheSholder)
+        if (!active || activateOverTheSholder)
             return;
         SmoothToTarget();
     }
@@ -106,7 +107,8 @@ public class CustomCamera : MonoBehaviour
         pingpongZoom.Play(_speedanim);
     }
     void Zoom(float valtozoom) => mycam.fieldOfView = Mathf.Lerp(FIELD_OF_VIEW_ORIGINAL, fieldOfView_toZoom, valtozoom);
-    void SmoothToTarget() {
+    void SmoothToTarget()
+    {
         Vector3 desiredposition = target.position + offset;
         float axisX = Input.GetAxis("Horizontal");
         float axisZ = Input.GetAxis("Vertical");
@@ -129,7 +131,7 @@ public class CustomCamera : MonoBehaviour
     }
     //void ShaderMask()
     //{
-        
+
     //    RaycastHit hit;
     //    var dir = Main.instance.GetChar().transform.position - this.transform.transform.position;
     //    dir.Normalize();
@@ -240,12 +242,12 @@ public class CustomCamera : MonoBehaviour
         shakeAmmount = myCameras[i].shakeAmmount;
         shakeDuration = myCameras[i].shakeDuration;
         smooth = myCameras[i].smoothTime;
-       
+
         Camera camera = GetComponent<Camera>();
         camera.cullingMask = myCameras[i].CullingMask;
         camera.fieldOfView = myCameras[i].fieldOfView;
     }
-    
+
     public void ChangeToDefaultCamera()
     {
         active = true;
@@ -267,35 +269,40 @@ public class CustomCamera : MonoBehaviour
             camera.fieldOfView = overTheSholderCam.fieldOfView;
             setOverTheSholder = true;
             transform.forward = overTheSholderCam.transform.forward;
+            horizontal = overTheSholderCam.transform.parent.rotation.y;
+            vertical = overTheSholderCam.transform.parent.rotation.x;
+            Debug.Log(overTheSholderCam.transform.parent.rotation.y);
+            startHorizontal = horizontal;
+            StartVertical = vertical;
         }
+        
         transform.position = Vector3.Lerp(transform.position, overTheSholderCam.transform.position, Time.deltaTime * smooth);
 
         horizontal += horizontalSpeed * Input.GetAxis("Horizontal");
-        horizontal = Mathf.Clamp(horizontal, -45, 45);
+        //horizontal = Mathf.Clamp(horizontal, (startHorizontal - 45), (startHorizontal + 45));
         vertical += verticalSpeed * Input.GetAxis("Vertical");
-        vertical = Mathf.Clamp(vertical, -45, 45);
+        //vertical = Mathf.Clamp(vertical, (StartVertical-45), (StartVertical+45));
 
-        transform.localRotation=Quaternion.Euler(-vertical, horizontal, 0);
+        transform.localRotation = Quaternion.Euler(-vertical, horizontal, 0);
 
     }
 
-    void inputToOverTheSholder()
+    public void inputToOverTheSholder(bool active)
     {
-        if (Input.GetKeyDown(KeyCode.K))
+
+        if (active)
         {
-            if (activateOverTheSholder)
-            {
-                activateOverTheSholder = false;
-                setOverTheSholder = false;
-                ChangeToDefaultCamera();
-                horizontal = 0;
-                vertical = 0;
-            }
-            else
-            {
-                activateOverTheSholder = true;
-            }
-                
+            activateOverTheSholder = false;
+            setOverTheSholder = false;
+            ChangeToDefaultCamera();
+            //horizontal = 0;
+            //vertical = 0;
         }
+        else
+        {
+            activateOverTheSholder = true;
+        }
+
+
     }
 }
