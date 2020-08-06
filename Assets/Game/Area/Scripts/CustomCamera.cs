@@ -269,21 +269,19 @@ public class CustomCamera : MonoBehaviour
             camera.fieldOfView = overTheSholderCam.fieldOfView;
             setOverTheSholder = true;
             transform.forward = overTheSholderCam.transform.forward;
-            horizontal = overTheSholderCam.transform.parent.rotation.y;
-            vertical = overTheSholderCam.transform.parent.rotation.x;
-            Debug.Log(overTheSholderCam.transform.parent.rotation.y);
+            horizontal = overTheSholderCam.transform.parent.eulerAngles.y;
+            vertical = overTheSholderCam.transform.parent.eulerAngles.x;
+            Debug.Log(overTheSholderCam.transform.parent.eulerAngles.y);
             startHorizontal = horizontal;
             StartVertical = vertical;
         }
 
-        Debug.Log("UPDATE Over the shoulder:" + overTheSholderCam.transform.parent.rotation.y);
-
         transform.position = Vector3.Lerp(transform.position, overTheSholderCam.transform.position, Time.deltaTime * smooth);
 
         horizontal += horizontalSpeed * Input.GetAxis("Horizontal");
-        //horizontal = Mathf.Clamp(horizontal, (startHorizontal - 45), (startHorizontal + 45));
+        horizontal = Mathf.Clamp(horizontal, (startHorizontal - 45), (startHorizontal + 45));
         vertical += verticalSpeed * Input.GetAxis("Vertical");
-        //vertical = Mathf.Clamp(vertical, (StartVertical-45), (StartVertical+45));
+        vertical = Mathf.Clamp(vertical, (StartVertical-45), (StartVertical+45));
 
         transform.rotation = Quaternion.Euler(-vertical, horizontal, 0);
 
