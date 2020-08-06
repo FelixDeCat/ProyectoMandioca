@@ -78,7 +78,7 @@ public class DamageReceiver : MonoBehaviour
             InmuneFeedback();
             return Attack_Result.inmune;
         }
-
+            
         Debug.Log("2");
         if (data.damageType != Damagetype.NonBlockAndParry)
         {
