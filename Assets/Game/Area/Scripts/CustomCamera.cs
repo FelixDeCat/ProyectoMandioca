@@ -275,7 +275,9 @@ public class CustomCamera : MonoBehaviour
             startHorizontal = horizontal;
             StartVertical = vertical;
         }
-        
+
+        Debug.Log("UPDATE Over the shoulder:" + overTheSholderCam.transform.parent.rotation.y);
+
         transform.position = Vector3.Lerp(transform.position, overTheSholderCam.transform.position, Time.deltaTime * smooth);
 
         horizontal += horizontalSpeed * Input.GetAxis("Horizontal");
@@ -283,7 +285,7 @@ public class CustomCamera : MonoBehaviour
         vertical += verticalSpeed * Input.GetAxis("Vertical");
         //vertical = Mathf.Clamp(vertical, (StartVertical-45), (StartVertical+45));
 
-        transform.localRotation = Quaternion.Euler(-vertical, horizontal, 0);
+        transform.rotation = Quaternion.Euler(-vertical, horizontal, 0);
 
     }
 
