@@ -30,7 +30,7 @@ public class CharacterHead : CharacterControllable
     [SerializeField] CharacterGroundSensor groundSensor = null;
 
     //Perdon por esto, pero lo necesito pra la skill del boomeran hasta tener la animacion y el estado "sin escudo"
-    bool canBlock = true;
+    bool canBlock = false;
     public GameObject escudo;
 
     [Header("SlowMotion")]
@@ -99,6 +99,10 @@ public class CharacterHead : CharacterControllable
 
     private bool blockRoll;
     [HideInInspector] public bool BlockRoll {set { blockRoll = value; } }
+
+
+    [HideInInspector] private bool canAttack = false; 
+    public void ToggleAttack(bool val) => canAttack = val;
 
     private void Start()
     {
@@ -496,8 +500,9 @@ public class CharacterHead : CharacterControllable
     void DealRight() { DirAttack = -rot.right; DealAttack(); }
     public void EVENT_OnAttackBegin()
     {
+        if (!canAttack) return;
         //if (stateMachine.Current.Name != "Release_Attack")
-            stateMachine.SendInput(PlayerInputs.CHARGE_ATTACK);
+        stateMachine.SendInput(PlayerInputs.CHARGE_ATTACK);
 
         charAttack.UnfilteredAttack();
     }
