@@ -5,7 +5,7 @@ using UnityEngine;
 public class EffectRoot : EffectBase
 {
     CharacterMovement charMove = null;
-    CharacterAnimator anim;
+    CharacterAnimator anim = null;
 
     private void Start()
     {
@@ -18,18 +18,18 @@ public class EffectRoot : EffectBase
     {
         charMove.EnableRotation();
         charMove.SetSpeed();
-        anim.Stun(false);
+        Main.instance.GetChar().BlockRoll = false;
     }
 
     protected override void OnEffect()
     {
         charMove.CancelRotation();
         charMove.SetSpeed(0);
-        anim.Stun(true);
+        Main.instance.GetChar().BlockRoll = true;
     }
   
-
     protected override void OnTickEffect(float cdPercent)
     {
+        charMove.SetSpeed(0);
     }
 }

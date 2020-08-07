@@ -4,7 +4,10 @@ using Tools.StateMachine;
 
 [System.Serializable]
 public class CharacterBlock : EntityBlock
-{ 
+{
+    [Header("Shield Model")]
+    public GameObject shield;
+
     [Header ("Character Block Parameters")]
     [SerializeField] private int maxBlockCharges = 3;
     [SerializeField] private int currentBlockCharges = 3;

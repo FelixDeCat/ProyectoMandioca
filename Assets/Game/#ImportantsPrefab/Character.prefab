@@ -9996,6 +9996,7 @@ GameObject:
   - component: {fileID: 5960508338141535377}
   - component: {fileID: 275604563166786974}
   - component: {fileID: 323389270197568558}
+  - component: {fileID: 6716009240045846199}
   m_Layer: 8
   m_Name: Character
   m_TagString: Untagged
@@ -10070,6 +10071,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   poolname: 
   _charInput: {fileID: 3403020175800544563}
+  StartWithoutWeapons: 0
   teleportCD: 2
   rayPivot: {fileID: 7745805242438169524}
   rot: {fileID: 193108544159708194}
@@ -10139,7 +10141,7 @@ MonoBehaviour:
   dmgData: {fileID: 7266307835747643104}
   dmgReceiver: {fileID: 5067431278247479333}
   go_StunFeedback: {fileID: 7653911160009907935}
-  currentWeapon: {fileID: 0}
+  currentWeapon: {fileID: 5386603111701901199}
   sensor: {fileID: 5509984382699915172}
   big_damage_limit_percent: 0.3
   lifesystem: {fileID: 3415322764738061175}
@@ -10150,6 +10152,7 @@ MonoBehaviour:
   charBlock:
     timeToParry: 0.6
     blockAngle: 0
+    shield: {fileID: 7093507057160681978}
     maxBlockCharges: 3
     currentBlockCharges: 3
     timeToRecuperate: 5
@@ -10462,6 +10465,20 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+  OverTheSholder:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 5645459160619797659}
+        m_MethodName: UEVENT_ShootOverSholder
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   SendIndexAlphanumeric:
     m_PersistentCalls:
       m_Calls: []
@@ -10493,6 +10510,12 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+  RTrigger:
+    m_PersistentCalls:
+      m_Calls: []
+  LTrigger:
+    m_PersistentCalls:
+      m_Calls: []
   inputControlCheck: {fileID: 5960508338141535377}
   joystickMessage: {fileID: 0}
 --- !u!114 &5067431278247479333
@@ -10591,6 +10614,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   offset: 20
+--- !u!114 &6716009240045846199
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1213734274902125731}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 31c654aceed85c84397fac2e8e3003a9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1238918688219846606
 GameObject:
   m_ObjectHideFlags: 0
