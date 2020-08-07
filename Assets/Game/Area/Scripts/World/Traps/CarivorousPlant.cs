@@ -53,11 +53,7 @@ public class CarivorousPlant : EntityBase
             Vector3 att = (centerPoint.position - character.transform.position).normalized;
 
             float prom = Vector3.Distance(centerPoint.position, character.transform.position) - 2f;
-
             float lerp = Mathf.Lerp(100, 0, prom);
-
-            Debug.Log(prom);
-
             if (!inDmg) plant?.SetBlendShapeWeight(0, lerp);
 
             var overlap = Physics.OverlapSphere(centerPoint.position, radious, characterLayer).Select(x => x.GetComponent<DamageReceiver>()).ToList();
@@ -75,6 +71,9 @@ public class CarivorousPlant : EntityBase
                 isZero = false;
                 timer = 0;
             }
+
+            if (!character.GetCharMove().InCD())
+                character.GetCharMove().ActualizeDash(true);
 
             if (!isZero)
                 character.GetCharMove().MovementAddForce(att, attractionForce, mode);
@@ -123,6 +122,7 @@ public class CarivorousPlant : EntityBase
     public void OnOffTrap(bool b)
     {
         on = b;
+        character.GetCharMove().ActualizeDash(false);
 
         if (!b) character?.GetCharMove().StopForceBool();
 
@@ -143,6 +143,7 @@ public class CarivorousPlant : EntityBase
             character = null;
             isZero = false;
             plant?.SetBlendShapeWeight(0, 0);
+            character.GetCharMove().ActualizeDash(false);
         }
     }
 

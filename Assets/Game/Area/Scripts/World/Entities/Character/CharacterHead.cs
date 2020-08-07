@@ -100,7 +100,7 @@ public class CharacterHead : CharacterControllable
     public bool Combat { private set; get; }
 
     private bool blockRoll;
-    [HideInInspector] public bool BlockRoll {set { blockRoll = value; } }
+    public bool BlockRoll {set { blockRoll = value; } }
 
 
     [HideInInspector] private bool canAttack = false; 
@@ -129,7 +129,7 @@ public class CharacterHead : CharacterControllable
 
         move.Initialize(GetComponent<Rigidbody>(), rot, charanim, feedbacks, IsGrounded);
 
-        InDash += move.IsDash;
+        InDash += move.InCD;
         ChildrensUpdates += move.OnUpdate;
         move.SetCallbacks(OnBeginRoll, OnEndRoll);
         slowSpeed = move.GetDefaultSpeed * .6f;
@@ -641,7 +641,7 @@ public class CharacterHead : CharacterControllable
     public void RollDash()
     {
         if (!groundSensor.IsGrounded() || blockRoll) return;
-        if (!move.InCD())
+        if (!InDash())
         {
             //Chequeo si tengo el teleport activado. Sino, sigo normalmente con el roll
             if (move.TeleportActive)
