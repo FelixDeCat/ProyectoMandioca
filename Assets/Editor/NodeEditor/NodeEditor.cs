@@ -7,23 +7,23 @@ using UnityEditor;
 
 public class NodeEditor : EditorWindow
 {
-    
+
     private Vector2 _startMousePosition;
     private List<BaseNode> _allNodes;
     private BaseNode selected;
-    
+
     private string currentName;
 
     public float toolbarHeight = 100;
     public GUIStyle labelStyle;
     public GUIStyle wrapTextFieldStyle;
-    
+
     //Connect settings
     private bool isConnecting;
     private OptionButton currenteOptionButtonSelected;
     private BaseNode currentInitialConectionNode;
     float conectionSpace = 0;
-    
+
     //paneo
     private bool _panning;
     public Vector2 offset;
@@ -36,38 +36,38 @@ public class NodeEditor : EditorWindow
     private int dialogueNodeHeight = 200;
     private int portalNodeWidth = 80;
     private int portalNodeHeight = 80;
-    
+
     //Dialogue Tree
     public DialogueTree currentDialogueTree;
     private bool loadedTree = false;
-    
+
     [MenuItem("CustomTools/Node Editor")]
     public static void ShowWindow()
     {
         var myWindow = GetWindow<NodeEditor>();
         myWindow._allNodes = new List<BaseNode>();
-        
+
         myWindow.labelStyle = new GUIStyle();
         myWindow.labelStyle.fontSize = 20;
         myWindow.labelStyle.alignment = TextAnchor.MiddleCenter;
-        
+
         myWindow.wrapTextFieldStyle = new GUIStyle(EditorStyles.textField);
         myWindow.wrapTextFieldStyle.wordWrap = true;
-        
+
         myWindow.offset = new Vector2(0, myWindow.toolbarHeight);
-        myWindow.graphRect = new Rect(0, myWindow.toolbarHeight,10000000, 10000000 );
+        myWindow.graphRect = new Rect(0, myWindow.toolbarHeight, 10000000, 10000000);
     }
 
     private void OnGUI()
     {
-        
+
         //Dibujo la toolbox
         DrawToolBar();
         //Veo que hace el mouse
         CheckMouseInput(Event.current);
         //Dibujo la mesa de trabajo
         DrawWorkBench();
-        
+
     }
 
     void DrawWorkBench()
@@ -89,36 +89,36 @@ public class NodeEditor : EditorWindow
                 LoadNode(currentDialogueTree.editorNodePos[i].pos,
                         currentDialogueTree.dialogueNodes[i].dialogues, currentDialogueTree.dialogueNodes[i].conected, currentDialogueTree.editorNodePos[i].nodeType);
             }
-        
+
             loadedTree = true;
         }
 
         //Cambio el color de la mesa de trabajo
         graphRect.x = offset.x;
         graphRect.y = offset.y;
-        EditorGUI.DrawRect(new Rect(0, toolbarHeight, position.width, position.height - toolbarHeight), Color.grey );
-       // EditorGUI.DrawRect(graphRect, Color.grey );
-        
+        EditorGUI.DrawRect(new Rect(0, toolbarHeight, position.width, position.height - toolbarHeight), Color.grey);
+        // EditorGUI.DrawRect(graphRect, Color.grey );
+
         GUI.BeginGroup(graphRect);
         {
             BeginWindows();
             {
                 var originalBG = GUI.backgroundColor;
-                
+
                 for (int i = 0; i < _allNodes.Count; i++)
                 {
-                    if(_allNodes[i].GetType() == typeof(EditorPortalNode))
+                    if (_allNodes[i].GetType() == typeof(EditorPortalNode))
                         continue;
-                    
+
                     foreach (var connected in _allNodes[i].connected)
                     {
                         if (connected.destination >= 0) //conecto los nodos con sus opciones con Beziers
                         {
                             if (_allNodes[i].closed)
                             {
-                                var startPosCompress = _allNodes[i].myRect.position + new Vector2(_allNodes[i].myRect.width / 2, _allNodes[i].myRect.height / 2) ;
-                                var endPosCompress = _allNodes[connected.destination].myRect.center - new Vector2(_allNodes[connected.destination].myRect.width / 2, 0) ;
-                                
+                                var startPosCompress = _allNodes[i].myRect.position + new Vector2(_allNodes[i].myRect.width / 2, _allNodes[i].myRect.height / 2);
+                                var endPosCompress = _allNodes[connected.destination].myRect.center - new Vector2(_allNodes[connected.destination].myRect.width / 2, 0);
+
                                 Handles.DrawBezier(startPosCompress, endPosCompress, startPosCompress + new Vector2(200, 0),
                                     endPosCompress + new Vector2(-100, 0),
                                     Color.blue, EditorGUIUtility.whiteTexture, 2);
@@ -126,8 +126,8 @@ public class NodeEditor : EditorWindow
                             else
                             {
                                 var startPosExpanded = connected.myRect.center + new Vector2(connected.myRect.width / 2, 0) + _allNodes[i].myRect.position;
-                                var endPosExpanded = _allNodes[connected.destination].myRect.center - new Vector2(_allNodes[connected.destination].myRect.width / 2, 0) ;
-                                
+                                var endPosExpanded = _allNodes[connected.destination].myRect.center - new Vector2(_allNodes[connected.destination].myRect.width / 2, 0);
+
                                 Handles.DrawBezier(startPosExpanded, endPosExpanded, startPosExpanded + new Vector2(200, 0),
                                     endPosExpanded + new Vector2(-100, 0),
                                     Color.blue, EditorGUIUtility.whiteTexture, 2);
@@ -143,19 +143,19 @@ public class NodeEditor : EditorWindow
                         GUI.backgroundColor = Color.green;
                     }
 
-                                        
+
                     //Le doy su ID al nodo
                     _allNodes[i].id = i;
-                    
-                    _allNodes[i].myRect = GUI.Window(i,_allNodes[i].myRect, DrawNode, _allNodes[i].name);
+
+                    _allNodes[i].myRect = GUI.Window(i, _allNodes[i].myRect, DrawNode, _allNodes[i].name);
                     GUI.backgroundColor = originalBG;
-                    
+
                 }
             }
             EndWindows();
         }
         GUI.EndGroup();
-        
+
     }
 
     void DrawToolBar()
@@ -168,15 +168,15 @@ public class NodeEditor : EditorWindow
             {
                 title += $" currently editing: {currentDialogueTree.treeName}";
             }
-            
+
             EditorGUILayout.LabelField(title, labelStyle);//titulo
 
             if (currentDialogueTree == null)
             {
                 //lugar donde se pone el current tree
                 currentDialogueTree = (DialogueTree)EditorGUILayout.ObjectField(currentDialogueTree, typeof(DialogueTree), false, GUILayout.Width(100));
-                
-                
+
+
                 currentName = EditorGUILayout.TextField("DialogueTreeName", currentName, GUILayout.Width(400));
 
                 if (currentName == "" || currentName == null)
@@ -191,7 +191,7 @@ public class NodeEditor : EditorWindow
                         currentDialogueTree.treeName = currentName;
                         AssetDatabase.CreateAsset(currentDialogueTree, "Assets/Game/Area/Scripts/Dialogue/" + currentName + ".asset");
                         currentName = "";
-                    }    
+                    }
                 }
             }
             else
@@ -206,8 +206,8 @@ public class NodeEditor : EditorWindow
             //Botones de la toolbar
             EditorGUILayout.BeginHorizontal();
             {
-                
-                
+
+
                 if (GUILayout.Button("Crear Dialogue Nodo", GUILayout.Width(140), GUILayout.Height(30)))
                 {
                     AddDialogueNode();
@@ -220,7 +220,7 @@ public class NodeEditor : EditorWindow
                 {
                     DeleteNode();
                 }
-                
+
                 if (GUILayout.Button("Clean Workbench", GUILayout.Width(200), GUILayout.Height(25)))
                 {
                     CleanWorkbench();
@@ -229,7 +229,7 @@ public class NodeEditor : EditorWindow
             EditorGUILayout.EndHorizontal();
         }
         EditorGUILayout.EndVertical();
-        
+
         Repaint();
     }
 
@@ -239,31 +239,31 @@ public class NodeEditor : EditorWindow
         _allNodes.Clear();
         Repaint();
     }
-    
+
     private void SaveDialogueTree()
     {
         currentDialogueTree.dialogueNodes = new List<DialogueNode>();
         currentDialogueTree.editorNodePos = new List<EditorNodeDATA>();
 
         //currentDialogueTree.treeName = currentName;
-        
+
         foreach (BaseNode node in _allNodes)
         {
             var nodeDATA = new EditorNodeDATA();
             nodeDATA.id = node.id;
             nodeDATA.pos = node.myRect.position;
             nodeDATA.nodeType = node.nType.ToString();
-            
+
             currentDialogueTree.editorNodePos.Add(nodeDATA); //guardo la posicion de las ventanas de los nodos
-            
+
             List<Choice> newChoices = new List<Choice>();
-            
+
             for (int i = 0; i < node.connected.Count; i++)
             {
                 Choice nChoice = new Choice(node.connected[i].text, node.connected[i].destination);
                 newChoices.Add(nChoice);
             }
-            
+
             DialogueNode dn = new DialogueNode(node.id, node.dialogues, newChoices);
             currentDialogueTree.dialogueNodes.Add(dn);
         }
@@ -287,7 +287,7 @@ public class NodeEditor : EditorWindow
         }
         //Lo saco del total de nodos
         _allNodes.Remove(selected);
-        
+
         SaveDialogueTree();
     }
 
@@ -297,13 +297,13 @@ public class NodeEditor : EditorWindow
     {
         if (!graphRect.Contains(e.mousePosition) || !(focusedWindow == this) || !(mouseOverWindow == this))
             return;
-        
-        
+
+
         //Node conection
         if (isConnecting && currentInitialConectionNode != null && selected != currentInitialConectionNode)
         {
             isConnecting = false;
-            
+
             for (int i = 0; i < _allNodes.Count; i++)
             {
                 if (selected == _allNodes[i])
@@ -323,7 +323,8 @@ public class NodeEditor : EditorWindow
             _panning = true;
             _prevOffset = new Vector2(graphRect.x, graphRect.y);
             _originalMousePos = e.mousePosition;
-        }else if(e.button == 1 && e.type == EventType.MouseUp)
+        }
+        else if (e.button == 1 && e.type == EventType.MouseUp)
         {
             _panning = false;
         }
@@ -332,14 +333,14 @@ public class NodeEditor : EditorWindow
         {
             var newX = _prevOffset.x + e.mousePosition.x - _originalMousePos.x;
             offset.x = newX > 0 ? 0 : newX;
-            
+
             var newY = _prevOffset.y + e.mousePosition.y - _originalMousePos.y;
             offset.y = newY > toolbarHeight ? toolbarHeight : newY;
-            
+
             Repaint();
         }
 
-        
+
         //node selection
         BaseNode overNode = null;
         for (int i = 0; i < _allNodes.Count; i++)
@@ -358,48 +359,48 @@ public class NodeEditor : EditorWindow
             {
                 selected = null;
             }
-            
-            if(prevSel != selected)
+
+            if (prevSel != selected)
                 Repaint();
         }
-        
-        
+
+
     }
 
     // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // /
     //Este arma un nodo vacio
     void AddDialogueNode()
     {
-        _allNodes.Add(new EditorDialogueNode(-offset.x,-offset.y + toolbarHeight, dialogueNodeWidth, dialogueNodeHeight, currentName, NodeType.Dialogue));
+        _allNodes.Add(new EditorDialogueNode(-offset.x, -offset.y + toolbarHeight, dialogueNodeWidth, dialogueNodeHeight, currentName, NodeType.Dialogue));
         currentName = "";
     }
-    
+
     void AddPortalNode()
     {
-        _allNodes.Add(new EditorPortalNode(-offset.x,-offset.y + toolbarHeight, portalNodeWidth, portalNodeHeight, currentName, NodeType.Portal));
+        _allNodes.Add(new EditorPortalNode(-offset.x, -offset.y + toolbarHeight, portalNodeWidth, portalNodeHeight, currentName, NodeType.Portal));
         currentName = "";
     }
-    
+
     // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // /
     //Lo uso para cargar los nodos de un arbol
     void LoadNode(Vector2 rectPos, List<string> dialogues, List<Choice> conections, string nodeType)
     {
-        BaseNode baseNode; 
-            //Se fija si es un portal o uno de dialogo normal
+        BaseNode baseNode;
+        //Se fija si es un portal o uno de dialogo normal
         if (nodeType == NodeType.Dialogue.ToString())
         {
-            baseNode = new EditorDialogueNode(rectPos.x, rectPos.y, dialogueNodeWidth, dialogueNodeHeight, currentName,NodeType.Dialogue);
+            baseNode = new EditorDialogueNode(rectPos.x, rectPos.y, dialogueNodeWidth, dialogueNodeHeight, currentName, NodeType.Dialogue);
         }
         else
         {
-            var node = new EditorPortalNode(rectPos.x, rectPos.y, portalNodeWidth, portalNodeHeight, currentName,NodeType.Portal);
-            
-            if(node.connected.Any()) node.portalDestination = conections[0].conection.ToString();
-            
+            var node = new EditorPortalNode(rectPos.x, rectPos.y, portalNodeWidth, portalNodeHeight, currentName, NodeType.Portal);
+
+            if (node.connected.Any()) node.portalDestination = conections[0].conection.ToString();
+
             baseNode = node;
 
         }
-        
+
 
         for (int i = 0; i < dialogues.Count; i++)
         {
@@ -416,7 +417,7 @@ public class NodeEditor : EditorWindow
         _allNodes.Add(baseNode);
         Repaint();
     }
-    
+
     // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // /
     //      DIBUJO CADA NODO       // 
     void DrawNode(int id)
@@ -429,18 +430,18 @@ public class NodeEditor : EditorWindow
         {
             DrawPortalNode(id);
         }
-        
+
         //Arrastrar nodo
         if (!_panning)
         {
             GUI.DragWindow();
 
             if (!_allNodes[id].OverNode) return;
-        
+
             //Clamp los valores asi no se va de la ventana
             if (_allNodes[id].myRect.x < 0)
                 _allNodes[id].myRect.x = 0;
-        
+
             if (_allNodes[id].myRect.y < toolbarHeight - offset.y)
                 _allNodes[id].myRect.y = toolbarHeight - offset.y;
 
@@ -451,7 +452,7 @@ public class NodeEditor : EditorWindow
     {
         if (_allNodes[id].GetType() == typeof(EditorPortalNode))
         {
-            var currentNode = (EditorPortalNode) _allNodes[id];
+            var currentNode = (EditorPortalNode)_allNodes[id];
             var aux = currentNode
                 .portalDestination; //me lo guardo para chequear si hubo un cambio en el nodo donde se conecta el portal
             //Le pone el titulo
@@ -477,7 +478,7 @@ public class NodeEditor : EditorWindow
             }
         }
     }
-    
+
     private void DrawEditorDialogueNode(int id)
     {
         //Le pone el titulo
@@ -487,14 +488,14 @@ public class NodeEditor : EditorWindow
             GUILayout.Label($"ID {_allNodes[id].id}");
         }
         EditorGUILayout.EndVertical();
-       
-        
+
+
         //Boton que crea una nueva caja de dialogo
         if (GUILayout.Button("New dialogue", GUILayout.Width(90), GUILayout.Height(20)))
         {
             string newDialogue = "";
             _allNodes[id].dialogues.Add(newDialogue);
-            
+
         }
 
         //Ve la cantidad de dialogos que hay en el nodo y crea texto para cada uno
@@ -511,23 +512,46 @@ public class NodeEditor : EditorWindow
                     _allNodes[id].dialogues.Remove(_allNodes[id].dialogues[i]);
                     SaveDialogueTree();
                 }
-                
+
                 EditorGUILayout.EndHorizontal();
             }
         }
         EditorGUILayout.EndVertical();
+
+        _allNodes[id].hasmision = EditorGUILayout.BeginFoldoutHeaderGroup(_allNodes[id].hasmision, "Has Mision");
+        EditorGUILayout.BeginVertical();
+        {
+            if (_allNodes[id].hasmision)
+            {
+                _allNodes[id].mision = new Mision();
+                _allNodes[id].mision.info = new Misions.Core.Serializable_DescriptiveInfo();
+
+                _allNodes[id].mision.info.mision_name = EditorGUILayout.TextField("mision name", _allNodes[id].mision.info.mision_name);
+                _allNodes[id].mision.id_mision = EditorGUILayout.IntField("id mision", _allNodes[id].mision.id_mision);
+                Repaint();
+            }
+        }
+        EditorGUILayout.EndVertical();
+        EditorGUILayout.EndFoldoutHeaderGroup();
         
+
+        //EditorGUILayout.BeginVertical();
+        //{
+        //    
+        //}
+        //EditorGUILayout.EndVertical();
+
         //Boton que crea una nueva conection
         if (GUILayout.Button("New conection", GUILayout.Width(100), GUILayout.Height(20)))
         {
             OptionButton newChoice = new OptionButton();
             newChoice.destination = -1;
             _allNodes[id].connected.Add(newChoice);
-            
+
         }
-        
-        
-        
+
+
+
         //Ve la cantidad de conections que hay en el nodo y crea texto y boton para cada una
         EditorGUILayout.BeginVertical();
         {
@@ -535,43 +559,43 @@ public class NodeEditor : EditorWindow
             {
                 OptionButton currentOptionButton = _allNodes[id].connected[i]; //referencio la opcion
                 currentOptionButton.id = i; //le doy un id
-                
+
                 EditorGUILayout.BeginHorizontal();
-                    GUILayout.Label("Conection"); //titulo
-                    currentOptionButton.text = EditorGUILayout.TextField(currentOptionButton.text, //cuadro de texto de la opcion
-                                                        wrapTextFieldStyle, GUILayout.Height(20));
+                GUILayout.Label("Conection"); //titulo
+                currentOptionButton.text = EditorGUILayout.TextField(currentOptionButton.text, //cuadro de texto de la opcion
+                                                    wrapTextFieldStyle, GUILayout.Height(20));
 
-                    bool pressedButton = GUILayout.Button("Connect"); // boton para conectar
-                    
-                    if (Event.current.type == EventType.Repaint)
-                    {
-                        currentOptionButton.myRect = GUILayoutUtility.GetLastRect();//guardo el rect del boton
-                        conectionSpace = currentOptionButton.myRect.height;
-                    }
-                    if (pressedButton)
-                    {
-                        if (currenteOptionButtonSelected != null)//si aprete conect y ya habia apretado en otro, cancelo.
-                        {
-                            ResetConections();
-                            return;
-                        }
+                bool pressedButton = GUILayout.Button("Connect"); // boton para conectar
 
-                        //me guardo las settings de esta conexion
-                        currentInitialConectionNode = _allNodes[id];
-                        currenteOptionButtonSelected = currentOptionButton; 
-                        isConnecting = true;
-                        Repaint();    
+                if (Event.current.type == EventType.Repaint)
+                {
+                    currentOptionButton.myRect = GUILayoutUtility.GetLastRect();//guardo el rect del boton
+                    conectionSpace = currentOptionButton.myRect.height;
+                }
+                if (pressedButton)
+                {
+                    if (currenteOptionButtonSelected != null)//si aprete conect y ya habia apretado en otro, cancelo.
+                    {
+                        ResetConections();
+                        return;
                     }
 
-                    if (GUILayout.Button("X"))
-                    {
-                        _allNodes[id].connected.Remove(_allNodes[id].connected[i]);
-                    }
+                    //me guardo las settings de esta conexion
+                    currentInitialConectionNode = _allNodes[id];
+                    currenteOptionButtonSelected = currentOptionButton;
+                    isConnecting = true;
+                    Repaint();
+                }
+
+                if (GUILayout.Button("X"))
+                {
+                    _allNodes[id].connected.Remove(_allNodes[id].connected[i]);
+                }
                 EditorGUILayout.EndHorizontal();
             }
         }
         EditorGUILayout.EndVertical();
-        
+
 
         //Borra todas las conections
         if (GUILayout.Button("Break conections"))
@@ -589,12 +613,14 @@ public class NodeEditor : EditorWindow
         }
         else
         {
+            float misionspace = 0;
+            misionspace = _allNodes[id].hasmision ? 100 : 0;
             _allNodes[id].myRect.width = dialogueNodeWidth;
-            _allNodes[id].myRect.height = dialogueNodeHeight + _allNodes[id].dialogues.Count * 50 + + _allNodes[id].connected.Count * conectionSpace;
-            
+            _allNodes[id].myRect.height = dialogueNodeHeight + _allNodes[id].dialogues.Count * 50 + misionspace + _allNodes[id].connected.Count * conectionSpace;
+
         }
     }
-    
+
     private void ResetConections()
     {
         isConnecting = false;

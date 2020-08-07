@@ -52,6 +52,9 @@ public class CharacterInput : MonoBehaviour
     public UnityEvent RTrigger;
     public UnityEvent LTrigger;
 
+    public UnityEvent R_Stick_Central_Button;
+    public UnityEvent L_Stick_Central_Button;
+
     public InputControl inputControlCheck;
     bool isJoystick;
 
@@ -276,7 +279,10 @@ public class CharacterInput : MonoBehaviour
             .SUBSCRIBE_DPAD_RIGHT(EV_DPAD_RIGHT)
             .SUBSCRIBE_DPAD_LEFT(EV_DPAD_LEFT)
             .SUBSCRIBE_LTRIGGER(EV_DPAD_LTRIGGER)
-            .SUBSCRIBE_RTRIGGER(EV_DPAD_RTRIGGER);
+            .SUBSCRIBE_RTRIGGER(EV_DPAD_RTRIGGER)
+            .SUBSCRIBE_R_STICK_BTN_CENTRAL(R_Stick_Central_Button.Invoke)
+            .SUBSCRIBE_L_STICK_BTN_CENTRAL(L_Stick_Central_Button.Invoke)
+            ;
     }
     void RefreshHelper() => joystickhelper.Refresh();
     void EV_DPAD_UP() {  }

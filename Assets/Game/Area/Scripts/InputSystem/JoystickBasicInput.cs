@@ -19,7 +19,7 @@ public class JoystickBasicInput
 {
     bool[] optimize = new bool[14];
 
-    event Action accept, cancel, square, triangle, lbuttonDown, lbuttonUp, rbuttonDown, rbuttonUp, ltrigger, rtrigger, dpadLeft, dpadRight, dpadUp, dpadDown, back, start = delegate { };
+    event Action accept, cancel, square, triangle, lbuttonDown, lbuttonUp, rbuttonDown, rbuttonUp, ltrigger, rtrigger, dpadLeft, dpadRight, dpadUp, dpadDown, back, start, rstickCentral, lstickCental = delegate { };
     event Action<float> movehorizontal, movevertical, twisthorizontal, twistvertical = delegate { };
 
     bool b_accept, b_cancel, b_square, b_triangle,
@@ -27,7 +27,7 @@ public class JoystickBasicInput
         b_rbuttonUp, b_ltrigger, b_rtrigger, b_dpadLeft,
         b_dpadRight, b_dpadUp, b_dpadDown, b_back, b_start,
         b_movehorizontal, b_movevertical, b_twisthorizontal,
-        b_twistvertical;
+        b_twistvertical, b_rstick_cental, b_lstick_cental;
 
     ClampedAxisButton DPad_Horizontal = new ClampedAxisButton(UnityJoystickInputNames.AXIS_DPAD_HORIZONTAL);
     ClampedAxisButton DPad_Vertical = new ClampedAxisButton(UnityJoystickInputNames.AXIS_DPAD_VERTICAL);
@@ -50,6 +50,8 @@ public class JoystickBasicInput
     public JoystickBasicInput SUBSCRIBE_DPAD_DOWN(Action a) { DPad_Vertical.AddEvent_Negative(a); b_dpadDown = true; return this; }
     public JoystickBasicInput SUBSCRIBE_BACK(Action a) { back += a; b_back = true; return this; }
     public JoystickBasicInput SUBSCRIBE_START(Action a) { start += a; b_start = true;  return this; }
+    public JoystickBasicInput SUBSCRIBE_R_STICK_BTN_CENTRAL(Action a) { rstickCentral += a; b_rstick_cental = true; return this; }
+    public JoystickBasicInput SUBSCRIBE_L_STICK_BTN_CENTRAL(Action a) { lstickCental += a; b_lstick_cental = true; return this; }
     public JoystickBasicInput SUBSCRIBE_MOVE_HORIZONTAL(Action<float> a) { movehorizontal += a; b_movehorizontal = true; return this; }
     public JoystickBasicInput SUBSCRIBE_MOVE_VERTICAL(Action<float> a) { movevertical += a; b_movevertical = true; return this; }
     public JoystickBasicInput SUBSCRIBE_TWIST_HORIZONTAL(Action<float> a) { twisthorizontal += a; b_twisthorizontal = true; return this; }
@@ -67,6 +69,9 @@ public class JoystickBasicInput
 
         if (b_rbuttonDown) if (Input.GetButtonDown(UnityJoystickInputNames.BUTTON_RB)) rbuttonDown.Invoke();
         if (b_rbuttonUp) if (Input.GetButtonUp(UnityJoystickInputNames.BUTTON_RB)) rbuttonUp.Invoke();
+
+        if (b_rstick_cental) if (Input.GetButtonDown(UnityJoystickInputNames.BUTTON_RIGHT_STICKCENTER)) rstickCentral.Invoke();
+        if (b_lstick_cental) if (Input.GetButtonUp(UnityJoystickInputNames.BUTTON_LEFT_STICKCENTER)) lstickCental.Invoke();
 
         if (b_movehorizontal) movehorizontal.Invoke(Input.GetAxis(UnityJoystickInputNames.AXIS_LEFT_HORIZONTAL));
         if (b_movevertical) movevertical.Invoke(Input.GetAxis(UnityJoystickInputNames.AXIS_LEFT_VERTICAL));
