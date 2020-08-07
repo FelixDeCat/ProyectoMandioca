@@ -975,7 +975,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b7c2b42a8f24bc94d81f33cfcf13ceb4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  executeAllTheTime: 0
   distance:
     m_PersistentCalls:
       m_Calls:
@@ -1041,9 +1040,6 @@ MonoBehaviour:
   poolname: 
   attacking: 0
   death: 0
-  expToDrop: 1
-  target: 0
-  targetFeedBack: {fileID: 0}
   Invinsible: 0
   combatDistance: 20
   combat: 0
@@ -1059,6 +1055,9 @@ MonoBehaviour:
   fastSubscriber: {fileID: 4206187329583890622}
   feedbackManager: {fileID: 1314980442666227801}
   TakeDamageHandler: {fileID: 4563030485821299496}
+  EntityDeath:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!1 &1909525048760699112
 GameObject:
   m_ObjectHideFlags: 0
@@ -2051,7 +2050,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ff75dc29d3fc49948a4cd32e471d0274, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  distancePos: 1.5
   CanAttack:
     m_PersistentCalls:
       m_Calls:
@@ -2364,8 +2362,8 @@ SkinnedMeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: c8edd3f9e520d7243b7b53c32d27465b, type: 2}
-  - {fileID: 2100000, guid: dc0803dd6ebef1541adad7c4601cb49a, type: 2}
+  - {fileID: 0}
+  - {fileID: 2100000, guid: debb4e87c11712848b06ca38aa38925b, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -2976,10 +2974,6 @@ MonoBehaviour:
   avoidMask:
     serializedVersion: 2
     m_Bits: 34305
-  mySensorPos: {x: 0, y: 0.2, z: 0.5}
-  drawLines: 1
-  mySideSensorPos: 0.3
-  mySideSensorAngle: 30
 --- !u!1 &4608290203684413386
 GameObject:
   m_ObjectHideFlags: 0
@@ -8907,8 +8901,8 @@ SkinnedMeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: c8edd3f9e520d7243b7b53c32d27465b, type: 2}
-  - {fileID: 2100000, guid: dc0803dd6ebef1541adad7c4601cb49a, type: 2}
+  - {fileID: 0}
+  - {fileID: 2100000, guid: debb4e87c11712848b06ca38aa38925b, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -8933,7 +8927,7 @@ SkinnedMeshRenderer:
   m_Quality: 0
   m_UpdateWhenOffscreen: 0
   m_SkinnedMotionVectors: 1
-  m_Mesh: {fileID: 4300000, guid: 09a3a6484fdf9e4479e493cf5b5ce070, type: 2}
+  m_Mesh: {fileID: 2441571706872791581, guid: 959c123f2b5616c4794e8776af995640, type: 3}
   m_Bones:
   - {fileID: 7827538051211960729}
   - {fileID: 3132200900528881762}
