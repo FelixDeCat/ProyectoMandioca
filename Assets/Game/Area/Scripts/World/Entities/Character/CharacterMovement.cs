@@ -385,7 +385,7 @@ public class CharacterMovement
         RollForAnim();
     }
 
-    public bool IsDash() => inDash;
+    public void ActualizeDash(bool b) => inDash = b;
 
     public bool InCD() => inDash;
 
