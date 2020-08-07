@@ -7,15 +7,10 @@ public class PoolParticle : SingleObjectPool<ParticleSystem>
 {
 
     [SerializeField] private ParticleSystem particle;
-    [SerializeField] private bool _loop = false;
     public bool soundPoolPlaying = false;
-    private Transform trackingTransform;
 
-    public void Configure(ParticleSystem audioClip, bool loop = false)
-    {
-        particle = audioClip;
-        _loop = loop;
-    }
+    public void Configure(ParticleSystem _particle) => particle = _particle;
+
     protected override void AddObject(int prewarm = 3)
     {
         var newParticle = Instantiate(particle);
@@ -24,7 +19,7 @@ public class PoolParticle : SingleObjectPool<ParticleSystem>
         objects.Enqueue(newParticle);
     }
 
-    public void StopAllSounds()
+    public void StopAllParticles()
     {
         for (int i = currentlyUsingObj.Count - 1; i >= 0; i--)
         {
@@ -38,4 +33,10 @@ public class PoolParticle : SingleObjectPool<ParticleSystem>
         soundPoolPlaying = false;
     }
 
+    public void ReturnParticle(ParticleSystem particle)
+    {
+        particle.transform.SetParent(transform);
+        particle.Stop();
+        ReturnToPool(particle);
+    }
 }

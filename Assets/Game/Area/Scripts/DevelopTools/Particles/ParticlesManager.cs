@@ -7,7 +7,7 @@ public class ParticlesManager : MonoBehaviour
 {
     public ParticlesManager Instance { get; private set; }
 
-    private Dictionary<string, PoolParticle> _soundRegistry = new Dictionary<string, PoolParticle>();
+    private Dictionary<string, PoolParticle> particleRegistry = new Dictionary<string, PoolParticle>();
 
     Action OnEnd;
 
@@ -17,13 +17,6 @@ public class ParticlesManager : MonoBehaviour
     }
 
     #region SlowMO
-    //te puse estas dos funciones aca solo para estructurar... tal vez nisiquiera
-    //irian acá... la idea es que cuando entras al Buff o cuando entras a slowMO
-    //mande todos los sonidos con el pitch mas grave, a parte de que ejecutaria
-    //un sonido de SlowMoEnter, SlowMoLoop y SlowMoExit... tambien haria que el resto
-    //de los sonidos tambien tengan este modificador... nunca lo use pero cuando vi que agregaste
-    //audiomixergroup supuse que eso lo hacia... te dejo en la carpeta de Sonidos en la carpeta
-    //de editados los tres sonidos de slowMO
     public void GoToSlowMo()
     {
 
@@ -34,22 +27,19 @@ public class ParticlesManager : MonoBehaviour
     }
     #endregion
 
-    /// <summary>
-    /// Si el soundpool existe, va a reproducir el sonido que llamaron, sino va a tirar un warning
-    /// </summary>
-    /// <param name="soundPoolName"></param>
-    public void PlaySound(string soundPoolName, Transform trackingTransform = null)
+    public void PlayParticle(string particleName, Vector3 spawnPos, Transform trackingTransform = null)
     {
-        if (_soundRegistry.ContainsKey(soundPoolName))
+        if (particleRegistry.ContainsKey(particleName))
         {
-            var soundPool = _soundRegistry[soundPoolName];
-            soundPool.soundPoolPlaying = true;
-            ParticleSystem aS = soundPool.Get();
-            if (trackingTransform != null) aS.transform.position = trackingTransform.position;
+            var particlePool = particleRegistry[particleName];
+            particlePool.soundPoolPlaying = true;
+            ParticleSystem aS = particlePool.Get();
+            aS.transform.position = spawnPos;
+            if (trackingTransform != null) aS.transform.SetParent(trackingTransform);
             aS.Play();
 
             if (!aS.main.loop)
-                StartCoroutine(ReturnSoundToPool(aS, soundPoolName));
+                StartCoroutine(ReturnSoundToPool(aS, particleName));
         }
         else
         {
@@ -57,20 +47,21 @@ public class ParticlesManager : MonoBehaviour
         }
     }
 
-    public void PlaySound(string soundPoolName, Action callbackEnd, Transform trackingTransform = null)
+    public void PlayParticle(string particleName, Vector3 spawnPos, Action callbackEnd, Transform trackingTransform = null)
     {
-        if (_soundRegistry.ContainsKey(soundPoolName))
+        if (particleRegistry.ContainsKey(particleName))
         {
             OnEnd = callbackEnd;
-            var soundPool = _soundRegistry[soundPoolName];
-            soundPool.soundPoolPlaying = true;
-            ParticleSystem aS = soundPool.Get();
-            if (trackingTransform != null) aS.transform.position = trackingTransform.position;
+            var particlePool = particleRegistry[particleName];
+            particlePool.soundPoolPlaying = true;
+            ParticleSystem aS = particlePool.Get();
+            aS.transform.position = spawnPos;
+            if (trackingTransform != null) aS.transform.SetParent(trackingTransform);
 
             aS.Play();
 
-            //if (!aS.loop)
-            //    StartCoroutine(ReturnSoundToPool(aS, soundPoolName));
+            if (!aS.main.loop)
+                StartCoroutine(ReturnSoundToPool(aS, particleName));
         }
         else
         {
@@ -78,11 +69,11 @@ public class ParticlesManager : MonoBehaviour
         }
     }
 
-    public void StopAllSounds(string soundPoolName)
+    public void StopAllParticles(string particleName)
     {
-        if (_soundRegistry.ContainsKey(soundPoolName))
+        if (particleRegistry.ContainsKey(particleName))
         {
-            _soundRegistry[soundPoolName].StopAllSounds();
+            particleRegistry[particleName].StopAllParticles();
         }
         else
         {
@@ -90,56 +81,38 @@ public class ParticlesManager : MonoBehaviour
         }
     }
 
-    /// <summary>
-    /// Les devuelve el pool de sonido que pidieron. Si ese pool no existe, crea uno con el audioclip que mandaron
-    /// </summary>
-    /// <param name="soundPoolName"></param>
-    /// <param name="audioClip"></param>
-    /// <returns></returns>
-    public PoolParticle GetSoundPool(string soundPoolName, AudioGroups audioGroups = AudioGroups.MISC,
-        ParticleSystem audioClip = null, bool loop = false, int prewarmAmount = 2)
+    public PoolParticle GetParticlePool(string particleName, ParticleSystem particle = null, int prewarmAmount = 2)
     {
-        if (_soundRegistry.ContainsKey(soundPoolName)) return _soundRegistry[soundPoolName];
-        else if (audioClip != null) return CreateNewSoundPool(audioClip, soundPoolName, audioGroups, loop, prewarmAmount);
+        if (particleRegistry.ContainsKey(particleName)) return particleRegistry[particleName];
+        else if (particle != null) return CreateNewParticlePool(particle, particleName, prewarmAmount);
         else return null;
     }
 
-    /// <summary>
-    /// Crea el soundpool con el audioclip que manden y lo hace hijo del manager
-    /// </summary>
-    /// <param name="audioClip"></param>
-    /// <param name="soundPoolName"></param>
-    /// <returns></returns>
-    private PoolParticle CreateNewSoundPool(ParticleSystem audioClip, string soundPoolName, AudioGroups audioGroups = AudioGroups.MISC,
-        bool loop = false, int prewarmAmount = 2)
+    public void DeleteParticlePool(string particleName)
     {
-        var soundPool = new GameObject($"{soundPoolName} soundPool").AddComponent<PoolParticle>();
-        soundPool.transform.SetParent(transform);
-        soundPool.Configure(audioClip, loop);
-        soundPool.Initialize(prewarmAmount);
-        _soundRegistry.Add(soundPoolName, soundPool);
-        return soundPool;
-    }
-    /// <summary>
-    /// Borra un soundpool
-    /// </summary>
-    /// <param name="soundPoolName"></param>
-    public void DeleteSoundPool(string soundPoolName)
-    {
-        Destroy(_soundRegistry[soundPoolName].gameObject);
-        _soundRegistry.Remove(soundPoolName);
+        if (particleRegistry.ContainsKey(particleName))
+        {
+            Destroy(particleRegistry[particleName].gameObject);
+            particleRegistry.Remove(particleName);
+        }
     }
 
-    /// <summary>
-    /// Corutina que devuelve el sonido al pool 
-    /// </summary>
-    /// <param name="aS"></param>
-    /// <param name="sT"></param>
-    /// <returns></returns>
+    #region Internal
+    private PoolParticle CreateNewParticlePool(ParticleSystem particle, string particleName, int prewarmAmount = 2)
+    {
+        var particlePool = new GameObject($"{particleName} soundPool").AddComponent<PoolParticle>();
+        particlePool.transform.SetParent(transform);
+        particlePool.Configure(particle);
+        particlePool.Initialize(prewarmAmount);
+        particleRegistry.Add(particleName, particlePool);
+        return particlePool;
+    }
+
     private IEnumerator ReturnSoundToPool(ParticleSystem aS, string sT)
     {
-        yield return new WaitForSeconds(2);
+        yield return new WaitForSeconds(aS.main.duration);
 
-        _soundRegistry[sT].ReturnToPool(aS);
+        particleRegistry[sT].ReturnParticle(aS);
     }
+    #endregion
 }
