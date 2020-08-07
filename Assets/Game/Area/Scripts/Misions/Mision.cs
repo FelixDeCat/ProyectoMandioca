@@ -50,7 +50,12 @@ public class Mision
 
     protected void Finish() { 
         mision_end_callback.Invoke(this);
-        mision_end_callback_simple.Invoke();
+        try
+        {
+            mision_end_callback_simple.Invoke();
+        }
+        catch (System.NullReferenceException ex) { Debug.LogWarning("No tiene linkeado un Fase Handler"); }
+        
     }
 }
 
