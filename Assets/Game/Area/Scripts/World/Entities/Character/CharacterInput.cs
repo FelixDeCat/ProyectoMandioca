@@ -146,7 +146,6 @@ public class CharacterInput : MonoBehaviour
     }
     private void Update()
     {
-        Debug.Log("HORIZONTAL NAME: " + dirConfigs[currentAxisIndex].H_name);
 
         var HorizontalAux = Input.GetAxis(dirConfigs[currentAxisIndex].H_name);
         var VerticalAux = Input.GetAxis(dirConfigs[currentAxisIndex].V_name);

@@ -1472,7 +1472,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2125231247}
-  - component: {fileID: 2125231246}
+  - component: {fileID: 2125231248}
   m_Layer: 0
   m_Name: Mision dealer
   m_TagString: Untagged
@@ -1480,56 +1480,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &2125231246
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2125231245}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1244458034cf97446ac19d4d075a2ac6, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  distancetoInteract: 1
-  autoexecute: 0
-  pointToMessage: {fileID: 44974796}
-  feedback:
-  - {fileID: 1308500525}
-  _withDelay: 0
-  delayTime: 0
-  mision:
-    id_mision: 0
-    info:
-      mision_name: Mision de Ejemplo
-      description: esta es la descripcion larga de la mision de ejemplo que entrega
-        el dealer de misiones de la escena FlowTest2
-    data:
-      progression: 
-      completed: 0
-      isactive: 0
-      mision_item:
-      - iscompleted: 0
-        currentvalue: 0
-        maxvalue: 10
-        itemType: 1
-        description: recolecta oro en la otra escena
-      - iscompleted: 0
-        currentvalue: 0
-        maxvalue: 0
-        itemType: 0
-        description: Destruye el totem en esta escena
-      regions_to_enable: []
-    rewarding:
-      items_rewarding: []
-  OnStartMision:
-    m_PersistentCalls:
-      m_Calls: []
-  OnEndMision:
-    m_PersistentCalls:
-      m_Calls: []
-  linker: {fileID: 404903102}
 --- !u!4 &2125231247
 Transform:
   m_ObjectHideFlags: 0
@@ -1548,6 +1498,26 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2125231248
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2125231245}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e6ebbc43fbf19b44e9bd02fe5b6d104d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  distancetoInteract: 1
+  autoexecute: 0
+  pointToMessage: {fileID: 44974796}
+  feedback: []
+  _withDelay: 0
+  delayTime: 0
+  nombre_NPC: 
+  dialogue: {fileID: 11400000, guid: a73325b7be997ab4c87afc62866bc91e, type: 2}
 --- !u!114 &427001318577188984
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -7,11 +7,11 @@ using UnityEngine;
 public class Choice
 {
     public string text;
-    public int conection;
+    public int connectionID;
 
     public Choice(string t, int c)
     {
         text = t;
-        conection = c;
+        connectionID = c;
     }
 }
