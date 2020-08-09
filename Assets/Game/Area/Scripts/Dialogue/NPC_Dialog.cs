@@ -9,7 +9,7 @@ public class NPC_Dialog : Interactable
 
     public override void OnEnter(WalkingEntity entity)
     {
-        WorldItemInfo.instance.Show(pointToMessage.position, nombre_NPC, "asd", "hablar", true);
+        WorldItemInfo.instance.Show(pointToMessage.position, nombre_NPC, "", "hablar", false, false);
     }
     public override void OnExecute(WalkingEntity collector)
     {

@@ -10,6 +10,9 @@ public class ClampedAxisButton
     bool active_positive, active_negative; //optimization
     bool ispressed = false;
     string axis;
+    bool oneshotfix;
+
+    bool begin;
 
     public ClampedAxisButton(string axis) { this.axis = axis; }
     public void AddEvent_Positive(Action ev_positive) { PositiveEvent += ev_positive; active_positive = true; ispressed = false; }
@@ -17,6 +20,7 @@ public class ClampedAxisButton
 
     public void Refresh()
     {
+
         if (Input.GetAxisRaw(axis) != 0)
         {
             if (Input.GetAxisRaw(axis) == 1)
@@ -42,6 +46,7 @@ public class ClampedAxisButton
         }
         else
         {
+
             ispressed = false;
         }
     }

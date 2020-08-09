@@ -21,10 +21,11 @@ public class DialogueManager : MonoBehaviour
 
     public void StartDialogue(DialogueTree treedialog)
     {
-        Debug.Log("entra");
         frontend.Open();
         tree = treedialog;
         ShowInScreen(0,0);
+
+        //bloquear el movimiento al character
     }
 
     public void OnClose()
@@ -33,6 +34,8 @@ public class DialogueManager : MonoBehaviour
         currentdialogue = 0;
         currentNode = 0;
         frontend.Close();
+
+        // desbloquear el movimiento al character
     }
     public void OnNext()
     {

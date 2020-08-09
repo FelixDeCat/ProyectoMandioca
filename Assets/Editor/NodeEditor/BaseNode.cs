@@ -10,13 +10,18 @@ public abstract class BaseNode
     public string name;
     public List<string> dialogues;
     public bool closed = false;
-    public bool hasmision =false;
+
+    public bool misionViewEditor = true;
+    public bool Hasmision = false;
+
     public int id;
     public NodeType nType;
     public Mision mision;
     
     private bool _overNode;
     public bool OverNode => _overNode;
+
+   
 
     public List<OptionButton> connected;
 

@@ -489,7 +489,6 @@ public class NodeEditor : EditorWindow
         }
         EditorGUILayout.EndVertical();
 
-
         //Boton que crea una nueva caja de dialogo
         if (GUILayout.Button("New dialogue", GUILayout.Width(90), GUILayout.Height(20)))
         {
@@ -518,28 +517,37 @@ public class NodeEditor : EditorWindow
         }
         EditorGUILayout.EndVertical();
 
-        _allNodes[id].hasmision = EditorGUILayout.BeginFoldoutHeaderGroup(_allNodes[id].hasmision, "Has Mision");
-        EditorGUILayout.BeginVertical();
+        EditorGUILayout.BeginHorizontal();
+        if (GUILayout.Button(_allNodes[id].Hasmision ? "remove mision" : "add mision"))
         {
-            if (_allNodes[id].hasmision)
+            if (!_allNodes[id].Hasmision)
             {
                 _allNodes[id].mision = new Mision();
                 _allNodes[id].mision.info = new Misions.Core.Serializable_DescriptiveInfo();
-
-                _allNodes[id].mision.info.mision_name = EditorGUILayout.TextField("mision name", _allNodes[id].mision.info.mision_name);
-                _allNodes[id].mision.id_mision = EditorGUILayout.IntField("id mision", _allNodes[id].mision.id_mision);
-                Repaint();
+                _allNodes[id].mision.data = new Misions.Core.Serializable_MisionData();
+                _allNodes[id].Hasmision = true;
+            }
+            else
+            {
+                _allNodes[id].mision = null;
+                _allNodes[id].Hasmision = false;
             }
         }
-        EditorGUILayout.EndVertical();
-        EditorGUILayout.EndFoldoutHeaderGroup();
-        
+        if (_allNodes[id].Hasmision)
+            if (GUILayout.Button(_allNodes[id].misionViewEditor ? "[ - ]" : "[ ▼ ]"))
+                _allNodes[id].misionViewEditor = !_allNodes[id].misionViewEditor;
 
-        //EditorGUILayout.BeginVertical();
-        //{
-        //    
-        //}
-        //EditorGUILayout.EndVertical();
+        EditorGUILayout.EndHorizontal();
+
+        if (_allNodes[id].Hasmision && _allNodes[id].misionViewEditor)
+        {
+            _allNodes[id].mision.id_mision = EditorGUILayout.IntField("id mision", _allNodes[id].mision.id_mision);
+            _allNodes[id].mision.info.mision_name = EditorGUILayout.TextField("mision name", _allNodes[id].mision.info.mision_name);
+            EditorGUILayout.LabelField("description");
+            _allNodes[id].mision.info.description = EditorGUILayout.TextField(_allNodes[id].mision.info.description, wrapTextFieldStyle, GUILayout.Height(50));
+
+            Repaint();
+        }
 
         //Boton que crea una nueva conection
         if (GUILayout.Button("New conection", GUILayout.Width(100), GUILayout.Height(20)))
@@ -549,8 +557,6 @@ public class NodeEditor : EditorWindow
             _allNodes[id].connected.Add(newChoice);
 
         }
-
-
 
         //Ve la cantidad de conections que hay en el nodo y crea texto y boton para cada una
         EditorGUILayout.BeginVertical();
@@ -614,11 +620,16 @@ public class NodeEditor : EditorWindow
         else
         {
             float misionspace = 0;
-            misionspace = _allNodes[id].hasmision ? 100 : 0;
+            misionspace = _allNodes[id].Hasmision ? 100 : 0;
             _allNodes[id].myRect.width = dialogueNodeWidth;
             _allNodes[id].myRect.height = dialogueNodeHeight + _allNodes[id].dialogues.Count * 50 + misionspace + _allNodes[id].connected.Count * conectionSpace;
 
         }
+    }
+
+    void CallbackFoldUot(Rect r)
+    {
+        Debug.Log("debug: " + r);
     }
 
     private void ResetConections()
