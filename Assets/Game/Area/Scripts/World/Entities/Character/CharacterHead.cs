@@ -310,7 +310,7 @@ public class CharacterHead : CharacterControllable
             .SetTransition(PlayerInputs.IDLE, idle)
             .SetTransition(PlayerInputs.MOVE, move)
             .SetTransition(PlayerInputs.DEAD, dead)
-            .SetTransition(PlayerInputs.CHARGE_ATTACK, attackCharge)
+            //.SetTransition(PlayerInputs.CHARGE_ATTACK, attackCharge)
             .Done();
 
         ConfigureState.Create(bashDash)
