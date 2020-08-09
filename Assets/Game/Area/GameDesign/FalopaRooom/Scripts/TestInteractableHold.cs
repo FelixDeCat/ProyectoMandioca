@@ -1,10 +1,13 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.UI;
 
 public class TestInteractableHold : Interactable
 {
+    [SerializeField] UnityEvent execute;
+
     [SerializeField] Image _loadBar;
     private void Start()
     {
@@ -32,6 +35,7 @@ public class TestInteractableHold : Interactable
     }
     void DestroyGameObject()
     {
+        execute?.Invoke();
         Destroy(this.gameObject);
     }
 
