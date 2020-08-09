@@ -395,7 +395,7 @@ public class NodeEditor : EditorWindow
         {
             var node = new EditorPortalNode(rectPos.x, rectPos.y, portalNodeWidth, portalNodeHeight, currentName, NodeType.Portal);
 
-            if (node.connected.Any()) node.portalDestination = conections[0].conection.ToString();
+            if (node.connected.Any()) node.portalDestination = conections[0].connectionID.ToString();
 
             baseNode = node;
 
@@ -410,7 +410,7 @@ public class NodeEditor : EditorWindow
         for (int i = 0; i < conections.Count; i++)
         {
             OptionButton oButton = new OptionButton();
-            oButton.destination = conections[i].conection;
+            oButton.destination = conections[i].connectionID;
             oButton.text = conections[i].text;
             baseNode.connected.Add(oButton);
         }

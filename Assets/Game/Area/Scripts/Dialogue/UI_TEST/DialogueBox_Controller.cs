@@ -93,7 +93,7 @@ public class DialogueBox_Controller : MonoBehaviour
         {
             ChoiceUI_Template newChoice = Instantiate(choiceTemplate_pf, choicesContainer);
             _choices.Add(newChoice.gameObject);
-            newChoice.Configure(choice.text, () => LoadDialogues(GetNode(choice.conection)));
+            newChoice.Configure(choice.text, () => LoadDialogues(GetNode(choice.connectionID)));
         }
     }
 
@@ -111,7 +111,7 @@ public class DialogueBox_Controller : MonoBehaviour
                 if (!_currentDialogueTree.dialogueNodes[i].dialogues.Any() && //aca pregunta si no tiene dialogos pero si conexiones
                     _currentDialogueTree.dialogueNodes[i].conected.Any()) // lo hace para darse cuenta que es un portal node
                 {
-                    var portalConection = _currentDialogueTree.dialogueNodes[i].conected[0].conection;//y aca se "saltea" el portal, yendo directo al siguiente
+                    var portalConection = _currentDialogueTree.dialogueNodes[i].conected[0].connectionID;//y aca se "saltea" el portal, yendo directo al siguiente
                     
                     currentNode = _currentDialogueTree.dialogueNodes[portalConection];
                     return _currentDialogueTree.dialogueNodes[portalConection];
