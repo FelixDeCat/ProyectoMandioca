@@ -23,7 +23,7 @@ public class DialogueManager : MonoBehaviour
     {
         frontend.Open();
         tree = treedialog;
-        ShowInScreen(0,0);
+        ShowInScreen();
 
         //bloquear el movimiento al character
     }
@@ -44,7 +44,7 @@ public class DialogueManager : MonoBehaviour
         frontend.TurnOn_ButtonNext(false);
         frontend.TurnOn_ButtonExit(false);
 
-        if (currentdialogue >= tree.dialogueNodes[currentdialogue].dialogues.Count)//si es el dialogo final
+        if (currentdialogue >= tree.dialogueNodes[currentNode].dialogues.Count - 1)//si es el dialogo final
         {
             //currentdialogue = 0;//de todas maneras si es el final lo reseteo
 
@@ -59,7 +59,7 @@ public class DialogueManager : MonoBehaviour
                         currentNode = i;
                         currentdialogue = 0;
 
-                        ShowInScreen(currentNode, currentdialogue);
+                        ShowInScreen();
                     }
                 }
             }
@@ -73,7 +73,7 @@ public class DialogueManager : MonoBehaviour
         else
         {
             currentdialogue++;
-            ShowInScreen(currentNode, currentdialogue);
+            ShowInScreen();
         }
     }
     public void OnOptionSelected(int index)
@@ -81,26 +81,26 @@ public class DialogueManager : MonoBehaviour
         Debug.Log("OnOptionSelected");
         currentNode = tree.dialogueNodes[currentNode].conected[index].connectionID;
         currentdialogue = 0;
-        ShowInScreen(currentNode, currentdialogue);
+        ShowInScreen();
     }
 
-    public void ShowInScreen(int node, int dialogue)
+    public void ShowInScreen()
     {
         frontend.TurnOn_ButtonNext(false);
         frontend.TurnOn_ButtonExit(false);
 
-        Debug.Log("debug Node index: " + node + " dialogue index: " + dialogue );
-        frontend.SetDialogue(tree.dialogueNodes[node].dialogues[dialogue]);
+        Debug.Log("debug Node index: " + currentNode + " dialogue index: " + currentdialogue);
+        frontend.SetDialogue(tree.dialogueNodes[currentNode].dialogues[currentdialogue]);
 
-        if (dialogue >= tree.dialogueNodes[node].dialogues.Count - 1)//si es el dialogo final
+        if (currentdialogue >= tree.dialogueNodes[currentNode].dialogues.Count -1)//si es el dialogo final
         {
-            if(tree.dialogueNodes[node].ID_Mision != -1) MisionManager.instancia.AddMision(MisionsDataBase.instance.GetMision(tree.dialogueNodes[node].ID_Mision), EndMision);
+            if(tree.dialogueNodes[currentNode].ID_Mision != -1) MisionManager.instancia.AddMision(MisionsDataBase.instance.GetMision(tree.dialogueNodes[currentNode].ID_Mision), EndMision);
 
-            if (tree.dialogueNodes[node].conected.Count > 0)//me fijo si tengo opciones
+            if (tree.dialogueNodes[currentNode].conected.Count > 0)//me fijo si tengo opciones
             {
-                for (int i = 0; i < tree.dialogueNodes[node].conected.Count; i++)
+                for (int i = 0; i < tree.dialogueNodes[currentNode].conected.Count; i++)
                 {
-                    frontend.SetOption(i, tree.dialogueNodes[node].conected[i].text);
+                    frontend.SetOption(i, tree.dialogueNodes[currentNode].conected[i].text);
                 }
             }
             else
