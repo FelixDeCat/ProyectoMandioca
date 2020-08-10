@@ -42,4 +42,11 @@ public class WorldItemInfo : MonoBehaviour
     {
         transform.position = new Vector3(10000,0,0);
     }
+
+    private void Update()
+    {
+        Vector3 dir = Main.instance.GetMyCamera().transform.forward;
+
+        transform.forward = dir;
+    }
 }
