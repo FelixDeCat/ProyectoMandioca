@@ -26,7 +26,7 @@ Shader "Effects/Terrain/TrapFoot"
 
 		void surf( Input i , inout SurfaceOutputStandard o )
 		{
-			float4 color26 = IsGammaSpace() ? float4(0.4901961,0.2159991,0,0) : float4(0.2050787,0.03831043,0,0);
+			float4 color26 = IsGammaSpace() ? float4(0.4901961,0.2159991,0,0) : float4(0.2050788,0.03831042,0,0);
 			o.Albedo = color26.rgb;
 			o.Alpha = step( ( i.uv_texcoord.y + ( 1.0 - _Opacity ) ) , 1.0 );
 		}
@@ -110,14 +110,13 @@ Shader "Effects/Terrain/TrapFoot"
 }
 /*ASEBEGIN
 Version=17200
-0;416;955;273;1278.689;-202.1551;1;True;False
-Node;AmplifyShaderEditor.RangedFloatNode;22;-1218.793,409.8524;Inherit;False;Property;_Opacity;Opacity;0;0;Create;True;0;0;False;0;0;1;0;1;0;1;FLOAT;0
-Node;AmplifyShaderEditor.TextureCoordinatesNode;19;-1253.899,151.9203;Inherit;True;0;-1;2;3;2;SAMPLER2D;;False;0;FLOAT2;1,1;False;1;FLOAT2;0,0;False;5;FLOAT2;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
-Node;AmplifyShaderEditor.OneMinusNode;32;-922.689,361.1551;Inherit;False;1;0;FLOAT;0;False;1;FLOAT;0
-Node;AmplifyShaderEditor.SimpleAddOpNode;20;-786.0327,272.434;Inherit;False;2;2;0;FLOAT;0;False;1;FLOAT;-0.04;False;1;FLOAT;0
+0;416;955;273;930.5563;-139.3654;1;True;False
+Node;AmplifyShaderEditor.RangedFloatNode;22;-810.7637,335.869;Inherit;False;Property;_Opacity;Opacity;0;0;Create;True;0;0;False;0;0;1;0;1;0;1;FLOAT;0
+Node;AmplifyShaderEditor.OneMinusNode;32;-514.6598,287.1717;Inherit;False;1;0;FLOAT;0;False;1;FLOAT;0
+Node;AmplifyShaderEditor.TextureCoordinatesNode;19;-641.855,122.7752;Inherit;False;0;-1;2;3;2;SAMPLER2D;;False;0;FLOAT2;1,1;False;1;FLOAT2;0,0;False;5;FLOAT2;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
+Node;AmplifyShaderEditor.SimpleAddOpNode;20;-378.0033,198.4506;Inherit;False;2;2;0;FLOAT;0;False;1;FLOAT;-0.04;False;1;FLOAT;0
 Node;AmplifyShaderEditor.ColorNode;26;-375.9333,-126.8679;Inherit;False;Constant;_Color0;Color 0;1;0;Create;True;0;0;False;0;0.4901961,0.2159991,0,0;0,0,0,0;True;0;5;COLOR;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
-Node;AmplifyShaderEditor.StepOpNode;23;-677.7693,271.735;Inherit;False;2;0;FLOAT;0;False;1;FLOAT;1;False;1;FLOAT;0
-Node;AmplifyShaderEditor.OneMinusNode;25;-918.0826,139.465;Inherit;False;1;0;FLOAT;0;False;1;FLOAT;0
+Node;AmplifyShaderEditor.StepOpNode;23;-269.7398,197.7516;Inherit;False;2;0;FLOAT;0;False;1;FLOAT;1;False;1;FLOAT;0
 Node;AmplifyShaderEditor.StandardSurfaceOutputNode;0;0,0;Float;False;True;2;ASEMaterialInspector;0;0;Standard;Effects/Terrain/TrapFoot;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;False;False;False;False;False;False;Back;0;False;-1;0;False;-1;False;0;False;-1;0;False;-1;False;0;Transparent;0.5;True;True;0;False;Transparent;;Transparent;All;14;all;True;True;True;True;0;False;-1;False;0;False;-1;255;False;-1;255;False;-1;0;False;-1;0;False;-1;0;False;-1;0;False;-1;0;False;-1;0;False;-1;0;False;-1;0;False;-1;False;2;15;10;25;False;0.5;True;2;5;False;-1;10;False;-1;0;0;False;-1;0;False;-1;0;False;-1;0;False;-1;0;False;0;0,0,0,0;VertexOffset;True;False;Cylindrical;False;Relative;0;;-1;-1;-1;-1;0;False;0;0;False;-1;-1;0;False;-1;0;0;0;False;0.1;False;-1;0;False;-1;16;0;FLOAT3;0,0,0;False;1;FLOAT3;0,0,0;False;2;FLOAT3;0,0,0;False;3;FLOAT;0;False;4;FLOAT;0;False;5;FLOAT;0;False;6;FLOAT3;0,0,0;False;7;FLOAT3;0,0,0;False;8;FLOAT;0;False;9;FLOAT;0;False;10;FLOAT;0;False;13;FLOAT3;0,0,0;False;11;FLOAT3;0,0,0;False;12;FLOAT3;0,0,0;False;14;FLOAT4;0,0,0,0;False;15;FLOAT3;0,0,0;False;0
 WireConnection;32;0;22;0
 WireConnection;20;0;19;2
@@ -126,4 +125,4 @@ WireConnection;23;0;20;0
 WireConnection;0;0;26;0
 WireConnection;0;9;23;0
 ASEEND*/
-//CHKSM=DEA526E65FA01D7E6D5AA04302270555AFECA4EC
+//CHKSM=4A1F049223C2EE46AD184643BE5E2D7929113EE4
