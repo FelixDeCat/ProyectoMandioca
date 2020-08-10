@@ -31,7 +31,7 @@ public class JoystickBasicInput
 
     ClampedAxisButton DPad_Horizontal = new ClampedAxisButton(UnityJoystickInputNames.AXIS_DPAD_HORIZONTAL);
     ClampedAxisButton DPad_Vertical = new ClampedAxisButton(UnityJoystickInputNames.AXIS_DPAD_VERTICAL);
-    ClampedAxisButton Triggers = new ClampedAxisButton(UnityJoystickInputNames.AXIS_TRIGGERS);
+    ClampedAxisButton Triggers = new ClampedAxisButton(UnityJoystickInputNames.AXIS_TRIGGERS, true);
 
     public JoystickBasicInput SUBSCRIBE_ACCEPT(Action a) { accept += a; b_accept = true; return this; }
     public JoystickBasicInput SUBSCRIBE_CANCEL(Action a) { cancel += a; b_cancel = true;  return this; }

@@ -10,44 +10,75 @@ public class ClampedAxisButton
     bool active_positive, active_negative; //optimization
     bool ispressed = false;
     string axis;
-    bool oneshotfix;
+    bool fix;
 
-    bool begin;
-
-    public ClampedAxisButton(string axis) { this.axis = axis; }
+    public ClampedAxisButton(string axis, bool _fix = false) { this.axis = axis; fix = _fix; }
     public void AddEvent_Positive(Action ev_positive) { PositiveEvent += ev_positive; active_positive = true; ispressed = false; }
     public void AddEvent_Negative(Action ev_negative) { NegativeEvent += ev_negative; active_negative = true; ispressed = false; }
 
     public void Refresh()
     {
-
-        if (Input.GetAxisRaw(axis) != 0)
+        if (!fix)
         {
-            if (Input.GetAxisRaw(axis) == 1)
+            if (Input.GetAxisRaw(axis) != 0)
             {
-                if (!active_positive) return;
-                if (!ispressed)
+                if (Input.GetAxisRaw(axis) == 1)
                 {
-                    Debug.Log("POSITIVE");
-                    PositiveEvent.Invoke();
-                    ispressed = true;
+                    if (!active_positive) return;
+                    if (!ispressed)
+                    {
+                        Debug.Log("POSITIVE");
+                        PositiveEvent.Invoke();
+                        ispressed = true;
+                    }
+                }
+                else
+                {
+                    if (!active_negative) return;
+                    if (!ispressed)
+                    {
+                        Debug.Log("NEGATIVE");
+                        NegativeEvent.Invoke();
+                        ispressed = true;
+                    }
                 }
             }
             else
             {
-                if (!active_negative) return;
-                if (!ispressed)
-                {
-                    Debug.Log("NEGATIVE");
-                    NegativeEvent.Invoke();
-                    ispressed = true;
-                }
+
+                ispressed = false;
             }
         }
         else
         {
+            if (Mathf.Abs(Input.GetAxis(axis)) >= 0.1f)
+            {
+                if (Input.GetAxisRaw(axis) > 0.1f)
+                {
+                    if (!active_positive) return;
+                    if (!ispressed)
+                    {
+                        Debug.Log("POSITIVE");
+                        PositiveEvent.Invoke();
+                        ispressed = true;
+                    }
+                }
+                else
+                {
+                    if (!active_negative) return;
+                    if (!ispressed)
+                    {
+                        Debug.Log("NEGATIVE");
+                        NegativeEvent.Invoke();
+                        ispressed = true;
+                    }
+                }
+            }
+            else
+            {
 
-            ispressed = false;
+                ispressed = false;
+            }
         }
     }
 }

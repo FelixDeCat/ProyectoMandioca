@@ -277,8 +277,8 @@ public class CharacterInput : MonoBehaviour
             .SUBSCRIBE_DPAD_DOWN(EV_DPAD_DOWN)
             .SUBSCRIBE_DPAD_RIGHT(EV_DPAD_RIGHT)
             .SUBSCRIBE_DPAD_LEFT(EV_DPAD_LEFT)
-            .SUBSCRIBE_LTRIGGER(EV_DPAD_LTRIGGER)
-            .SUBSCRIBE_RTRIGGER(EV_DPAD_RTRIGGER)
+            .SUBSCRIBE_LTRIGGER(EV_DPAD_RTRIGGER)
+            .SUBSCRIBE_RTRIGGER(EV_DPAD_LTRIGGER)
             .SUBSCRIBE_R_STICK_BTN_CENTRAL(R_Stick_Central_Button.Invoke)
             .SUBSCRIBE_L_STICK_BTN_CENTRAL(L_Stick_Central_Button.Invoke)
             ;
