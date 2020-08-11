@@ -18,7 +18,7 @@ public class AnimControllerHandler : MonoBehaviour
         public AnimHelper(Animator animator, string _name) => gen_animscript = new GenericAnim(animator, _name);
         public override void Play() => gen_animscript.Play();
     }
-    [System.Serializable]
+    [System.Serializable] 
     public class AnimHelper<T> : AnimHelperBase where T : ANIM_SCRIPT_Base
     {
         GenericAnim<T> animscript;
