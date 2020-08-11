@@ -15,6 +15,11 @@ public class ButtonOption : MonoBehaviour
     int index;
     public int Index { set => index = value; }
 
+    public void Select()
+    {
+        button.Select();
+    }
+
     public void SetIndex(int index, string _string_option)
     {
         this.index = index;

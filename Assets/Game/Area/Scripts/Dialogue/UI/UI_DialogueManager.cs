@@ -11,8 +11,12 @@ public class UI_DialogueManager : UI_Base
     public GameObject[] buttonOptionsGos;
     public ButtonOption[] buttonOptions;
 
+    public Image photo;
+
     public Button buttonNext;
     public Button buttonExit;
+
+    public ReconfigureNavigateButtons reconfigure;
 
     public void Init_Configuration(Action OnNextCallback, Action OnExitCallback, Action<int> optionSelected)
     {
@@ -30,6 +34,11 @@ public class UI_DialogueManager : UI_Base
         buttonExit.gameObject.SetActive(false);
     }
 
+    public void SetPhoto(Sprite sp)
+    {
+        photo.sprite = sp;
+    }
+
     public void SetDialogue(string s)
     {
         dialogue.text = s;
@@ -38,12 +47,21 @@ public class UI_DialogueManager : UI_Base
 
     public void SetOption(int index, string option)
     {
+        if (index == 0)
+        {
+            buttonOptions[0].Select();
+            ForceDirectConfigurateFirst(buttonOptions[0].gameObject);
+        }
         buttonOptionsGos[index].gameObject.SetActive(true);
         buttonOptions[index].SetIndex(index, option);
+        
+        reconfigure.Reconfigure();
+
+
     }
 
-    public void TurnOn_ButtonNext(bool val) => buttonNext.gameObject.SetActive(val);
-    public void TurnOn_ButtonExit(bool val) => buttonExit.gameObject.SetActive(val);
+    public void TurnOn_ButtonNext(bool val) { buttonNext.gameObject.SetActive(val); buttonNext.Select(); reconfigure.Reconfigure(); ForceDirectConfigurateFirst(buttonNext.gameObject); }
+    public void TurnOn_ButtonExit(bool val) { buttonExit.gameObject.SetActive(val); buttonExit.Select(); reconfigure.Reconfigure(); ForceDirectConfigurateFirst(buttonExit.gameObject); }
     void ShutDownOptions() { for (int i = 0; i < buttonOptionsGos.Length; i++) buttonOptionsGos[i].gameObject.SetActive(false); }
 
 

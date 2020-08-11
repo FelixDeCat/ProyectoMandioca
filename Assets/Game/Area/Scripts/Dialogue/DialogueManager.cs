@@ -99,6 +99,7 @@ public class DialogueManager : MonoBehaviour
         frontend.TurnOn_ButtonExit(false);
 
         Debug.Log("debug Node index: " + currentNode + " dialogue index: " + currentdialogue);
+
         frontend.SetDialogue(tree.dialogueNodes[currentNode].dialogues[currentdialogue]);
 
         if (currentdialogue >= tree.dialogueNodes[currentNode].dialogues.Count -1)//si es el dialogo final

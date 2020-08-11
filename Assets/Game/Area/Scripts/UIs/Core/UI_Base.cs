@@ -32,6 +32,7 @@ public abstract class UI_Base : MonoBehaviour
     protected abstract void OnUpdate();
     public abstract void Refresh();
     public void ConfigurateFirst(GameObject go) => firstToOpenMenu = go;
+    public void ForceDirectConfigurateFirst(GameObject go) =>  Main.instance.GetMyEventSystem().Set_First(go);
 
     public bool IsActive { get { return isActive; } }
     public virtual void Open()

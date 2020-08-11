@@ -11,7 +11,7 @@ namespace Tools
         public static MyEventSystem instance;
         EventSystem own;
 
-        GameObject current;
+        [SerializeField] GameObject current;
         StandaloneInputModule inputmodule;
 
         private void Awake()
