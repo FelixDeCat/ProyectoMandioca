@@ -51,7 +51,11 @@ public class GlobalFaseData
 
     public GlobalFaseData(int ID, int _max, Action _refresh) { idfase = ID; max = _max; refresh = _refresh; }
 
-    public void SetLevelFase(int fase) { currentindex = fase;  refresh.Invoke(); }
+    public void SetLevelFase(int fase) 
+    { 
+        currentindex = fase;  
+        refresh.Invoke(); 
+    }
     public void AddLevelFase() { 
 
         currentindex++;

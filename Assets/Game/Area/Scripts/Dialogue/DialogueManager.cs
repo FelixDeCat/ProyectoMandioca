@@ -30,6 +30,14 @@ public class DialogueManager : MonoBehaviour
 
     public void OnClose()
     {
+        if (tree.dialogueNodes[currentNode].fasesToChange.Count > 0)
+        {
+            for (int i = 0; i < tree.dialogueNodes[currentNode].fasesToChange.Count; i++)
+            {
+                ManagerGlobalFases.instance.ModifyFase(tree.dialogueNodes[currentNode].fasesToChange[i].IDFase, tree.dialogueNodes[currentNode].fasesToChange[i].IndexToChange);
+            }
+        }
+
         tree = null;
         currentdialogue = 0;
         currentNode = 0;
@@ -65,6 +73,7 @@ public class DialogueManager : MonoBehaviour
             }
             else
             {
+                
                 currentNode = -1;
                 currentdialogue = -1;
                 OnClose();

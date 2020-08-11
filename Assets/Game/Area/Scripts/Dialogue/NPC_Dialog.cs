@@ -9,8 +9,6 @@ public class NPC_Dialog : Interactable
     public DialogueTree[] dialogues;
     public DialogueTree currentDialoge;
 
-    public int ID_NPC = 0;
-
     private void Awake()
     {
         if(dialogues.Length > 0)

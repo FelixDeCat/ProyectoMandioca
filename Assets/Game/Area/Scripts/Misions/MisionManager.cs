@@ -50,11 +50,6 @@ public class MisionManager : MonoBehaviour
         }
     }
 
-    public void RemoveMision(Mision m)
-    {
-        
-    }
-
     public bool AddMision(Mision m, Action<Mision> callbackToEnd)
     {
         if (!registry.ContainsKey(m.id_mision))
@@ -101,6 +96,14 @@ public class MisionManager : MonoBehaviour
         m.End();
         active_misions.Remove(m);
         finalizedMisions.Add(m);
+        if (m.data.FasesToChange.Length > 0)
+        {
+            Debug.Log("Tengo fases por cambiar");
+            for (int i = 0; i < m.data.FasesToChange.Length; i++)
+            {
+                ManagerGlobalFases.instance.ModifyFase(m.data.FasesToChange[i].IDFase, m.data.FasesToChange[i].IndexToChange);
+            }
+        }
         UI_StackMision.instancia.LogearMision(m, true, 8f); 
     }
 }

@@ -8,6 +8,8 @@ public class DialogueNode
 {
     public int id;
     public int ID_Mision = -1;
+    public List<FaseChangerData> fasesToChange;
+
     public List<string> dialogues = new List<string>();
     public List<Choice> conected = new List<Choice>();
 

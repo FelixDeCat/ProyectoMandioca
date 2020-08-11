@@ -15,6 +15,8 @@ public class Mision
     public Action mision_end_callback_simple;
     public Action Callback_Refresh;
 
+
+
     public void Begin(Action Refresh)
     {
         foreach (var mi in data.MisionItems) mi.SubscribeTo_ItemSelfUpdate(OnRefresh);
@@ -76,16 +78,16 @@ namespace Misions.Core
     [System.Serializable]
     public class Serializable_MisionData
     {
-        [SerializeField] int[] progression = new int[0];
+        [SerializeField] FaseChangerData[] fasesToChange;
         [SerializeField] bool completed = false;
         [SerializeField] bool isactive = false;
         [SerializeField] ItemMision[] mision_item = new ItemMision[0];
         [SerializeField] string[] regions_to_enable;
-        internal int[] Progression { get { return progression; } }
         internal bool Completed { get { return completed; } }
         internal bool IsActive { get { return isactive; } }
         internal string[] Regions { get { return regions_to_enable; } }
         internal ItemMision[] MisionItems { get { return mision_item; } }
+        internal FaseChangerData[] FasesToChange { get { return fasesToChange; } }
         internal string ItemsCompleteString()
         {
             string aux = "";
