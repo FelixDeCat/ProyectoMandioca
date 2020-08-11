@@ -259,6 +259,7 @@ public class CustomCamera : MonoBehaviour
         active = true;
         index = 0;
         changeCameraconf(index);
+        invertAxis.Invoke(index);
         transform.forward = Vector3.Lerp(transform.forward, myCameras[index].transform.forward, speedRot * Time.deltaTime);
     }
     void OverTheSholder()
