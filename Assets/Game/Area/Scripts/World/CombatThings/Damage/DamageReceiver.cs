@@ -100,7 +100,7 @@ public class DamageReceiver : MonoBehaviour
             }
         }
 
-        Debug.Log("3");
+        Debug.Log(data.damage);
 
         int dmg = data.damage;
 

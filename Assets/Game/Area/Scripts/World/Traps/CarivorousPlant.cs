@@ -5,7 +5,7 @@ using System.Linq;
 
 public class CarivorousPlant : EntityBase
 {
-    CharacterHead character;
+    public CharacterHead character;
     [SerializeField] float attractionForce = 500;
     [SerializeField] SkinnedMeshRenderer plant = null;
     [SerializeField] Transform centerPoint = null;
@@ -27,6 +27,7 @@ public class CarivorousPlant : EntityBase
     bool on;
     bool isZero;
     bool inDmg;
+    bool antibug;
 
     protected void Awake() => Initialize();
 
@@ -50,7 +51,7 @@ public class CarivorousPlant : EntityBase
 
         if (character)
         {
-            Vector3 att = (centerPoint.position - character.transform.position).normalized;
+            Vector3 att = centerPoint.position - character.transform.position;
 
             float prom = Vector3.Distance(centerPoint.position, character.transform.position) - 2f;
             float lerp = Mathf.Lerp(100, 0, prom);
@@ -73,10 +74,10 @@ public class CarivorousPlant : EntityBase
             }
 
             if (!character.GetCharMove().InCD())
-                character.GetCharMove().ActualizeDash(true);
+                character.GetCharMove().ActualizeDash(false);
 
             if (!isZero)
-                character.GetCharMove().MovementAddForce(att, attractionForce, mode);
+                character.GetCharMove().MovementAddForce(att.normalized, attractionForce, mode);
         }
 
         if(isZero && !inDmg)
@@ -122,7 +123,7 @@ public class CarivorousPlant : EntityBase
     public void OnOffTrap(bool b)
     {
         on = b;
-        character.GetCharMove().ActualizeDash(false);
+        character.GetCharMove().ActualizeDash(true);
 
         if (!b) character?.GetCharMove().StopForceBool();
 
@@ -132,18 +133,27 @@ public class CarivorousPlant : EntityBase
     private void OnTriggerEnter(Collider other)
     {
         if (other.GetComponent<CharacterHead>())
-            character = other.GetComponent<CharacterHead>();
+        {
+            if (character) antibug = true;
+            else character = other.GetComponent<CharacterHead>();
+        }
     }
 
     private void OnTriggerExit(Collider other)
     {
         if (other.GetComponent<CharacterHead>())
         {
+            if (antibug)
+            {
+                antibug = false;
+                return;
+            }
+
             character?.GetCharMove().StopForceBool();
-            character = null;
             isZero = false;
             plant?.SetBlendShapeWeight(0, 0);
-            character.GetCharMove().ActualizeDash(false);
+            character?.GetCharMove().ActualizeDash(true);
+            character = null;
         }
     }
 
