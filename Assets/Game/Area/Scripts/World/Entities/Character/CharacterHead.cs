@@ -147,7 +147,7 @@ public class CharacterHead : CharacterControllable
         dmgReceiver
             .SetBlock(charBlock.IsBlock, BlockFeedback)
             .SetParry(charBlock.IsParry, ParryFeedback)
-            .Initialize(rot, () => InDash(), Dead, TakeDamageFeedback, rb, lifesystem);
+            .Initialize(rot, () => move.InDash, Dead, TakeDamageFeedback, rb, lifesystem);
 
         charAttack = new CharacterAttack(attackRange, attackAngle, timeToHeavyAttack, charanim, rot,
                                          ReleaseInNormal, ReleaseInHeavy, dmg, feedbacks, dmgData, enemyLayer, move);
@@ -641,7 +641,7 @@ public class CharacterHead : CharacterControllable
     public void RollDash()
     {
         if (!groundSensor.IsGrounded() || blockRoll) return;
-        if (!InDash())
+        if (!InDash() && move.CanUseDash)
         {
             //Chequeo si tengo el teleport activado. Sino, sigo normalmente con el roll
             if (move.TeleportActive)

@@ -26,12 +26,12 @@ public class CharacterMovement
     float cdTimer;
     float currentDashSpeed;
     private Vector3 dashDir;
-    bool inDash;
+    public bool InDash { get; private set; }
     bool dashCdOk;
 
     public void ForcedCanDash(bool candash)
     {
-        inDash = candash;
+        InDash = candash;
     }
 
     float gravity = -7;
@@ -89,6 +89,8 @@ public class CharacterMovement
         feedbacks = _feedbacks;
         isGrounded = _isGrounded;
         AudioManager.instance.GetSoundPool("DashSounds", AudioGroups.GAME_FX);
+
+        ActualizeDash(true);
     }
 
     #region BUILDER
@@ -276,7 +278,7 @@ public class CharacterMovement
         }
         #endregion
         #region el dash fisico mero mero
-        if (inDash)
+        if (InDash)
         {
             timerDash += Time.deltaTime;
 
@@ -313,7 +315,7 @@ public class CharacterMovement
     {
         currentCD = dashCd;
         OnEndRollFeedback_Callback.Invoke();
-        inDash = false;
+        InDash = false;
         _rb.velocity = Vector3.zero;
         timerDash = 0;
         dashDir = Vector3.zero;
@@ -334,14 +336,14 @@ public class CharacterMovement
     {
         OnBeginRollFeedback_Callback();
         begin_gravityCurve = true;
-        inDash = true;
+        InDash = true;
         currentDashSpeed = dashSpeed;
     }
 
     public void Roll()
     {
         EndRoll = StopRoll;
-        if (inDash) return;
+        if (InDash) return;
 
         if (movX != 0 || movY != 0) dashDir = new Vector3(movX, 0, movY).normalized;
         else dashDir = rotTransform.forward;
@@ -384,10 +386,11 @@ public class CharacterMovement
 
         RollForAnim();
     }
+    public bool CanUseDash { get; private set; }
 
-    public void ActualizeDash(bool b) => inDash = b;
+    public void ActualizeDash(bool b) => CanUseDash = b;
 
-    public bool InCD() => inDash;
+    public bool InCD() => InDash || dashCdOk ? true : false;
 
     //Pulir para que quede mas lindo
     public void Teleport()
@@ -397,7 +400,7 @@ public class CharacterMovement
         introTeleport_ps.transform.position = _rb.position;
         introTeleport_ps.Play();
 
-        inDash = true;
+        InDash = true;
         dashCdOk = true;
         if (movX != 0 || movY != 0)
             dashDir = new Vector3(movX, 0, movY);
@@ -419,7 +422,7 @@ public class CharacterMovement
         introTeleport_ps.transform.position = _rb.position;
         introTeleport_ps.Play();
 
-        inDash = true;
+        InDash = true;
         dashCdOk = true;
 
         _rb.position = _rb.position + (dashDir * distance);
@@ -478,7 +481,7 @@ public class CharacterMovement
         anim.BashDashAnim();
         OnBeginRollFeedback_Callback();
         begin_gravityCurve = true;
-        inDash = true;
+        InDash = true;
         currentDashSpeed = bashDashSpeed;
         currentTimerDash = bashDashDistance;
         EndRoll = StopBashDash;
@@ -488,7 +491,7 @@ public class CharacterMovement
     {
         OnEndRollFeedback_Callback();
         currentCD = bashDashCD;
-        inDash = false;
+        InDash = false;
         _rb.velocity = Vector3.zero;
         timerDash = 0;
         dashDir = Vector3.zero;
