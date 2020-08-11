@@ -8,7 +8,11 @@ using Tools.EventClasses;
 using Tools.StateMachine;
 public class CharacterHead : CharacterControllable
 {
-    public enum PlayerInputs { IDLE, MOVE, BEGIN_BLOCK, BLOCK, END_BLOCK, PARRY, CHARGE_ATTACK, RELEASE_ATTACK, TAKE_DAMAGE, DEAD, ROLL, SPIN, STUN, PLAYER_LOCK_ON, ON_SKILL,ON_LOOK_SHOLDER };
+    public enum PlayerInputs { 
+        IDLE, MOVE, BEGIN_BLOCK, BLOCK, END_BLOCK, PARRY, CHARGE_ATTACK, RELEASE_ATTACK, 
+        TAKE_DAMAGE, DEAD, ROLL, SPIN, STUN, PLAYER_LOCK_ON, ON_SKILL,ON_LOOK_SHOLDER,
+        ON_MENU_ENTER, ON_MENU_EXIT
+    };
 
     Action ChildrensUpdates;
     [SerializeField] CharacterInput _charInput = null;
@@ -223,9 +227,11 @@ public class CharacterHead : CharacterControllable
         var onSkill = new EState<PlayerInputs>("OnSkill");
         var bashDash = new EState<PlayerInputs>("BashDash");
         var LookAtOverSholder = new EState<PlayerInputs>("LookAtOverSholder");
+        var onMenues = new EState<PlayerInputs>("OnMenues");
 
         ConfigureState.Create(idle)
             .SetTransition(PlayerInputs.MOVE, move)
+            .SetTransition(PlayerInputs.ON_MENU_ENTER, onMenues)
             .SetTransition(PlayerInputs.BEGIN_BLOCK, beginBlock)
             //.SetTransition(PlayerInputs.PARRY, parry)
             .SetTransition(PlayerInputs.ROLL, roll)
@@ -239,6 +245,7 @@ public class CharacterHead : CharacterControllable
 
         ConfigureState.Create(LookAtOverSholder)
             .SetTransition(PlayerInputs.BEGIN_BLOCK, beginBlock)
+            .SetTransition(PlayerInputs.ON_MENU_ENTER, onMenues)
             .SetTransition(PlayerInputs.ROLL, roll)
             .SetTransition(PlayerInputs.TAKE_DAMAGE, takeDamage)
             .SetTransition(PlayerInputs.CHARGE_ATTACK, attackCharge)
@@ -250,6 +257,7 @@ public class CharacterHead : CharacterControllable
 
         ConfigureState.Create(move)
             .SetTransition(PlayerInputs.IDLE, idle)
+            .SetTransition(PlayerInputs.ON_MENU_ENTER, onMenues)
             .SetTransition(PlayerInputs.BEGIN_BLOCK, beginBlock)
             //.SetTransition(PlayerInputs.PARRY, parry)
             .SetTransition(PlayerInputs.ROLL, roll)
@@ -319,6 +327,12 @@ public class CharacterHead : CharacterControllable
             .SetTransition(PlayerInputs.DEAD, dead)
             .Done();
 
+        ConfigureState.Create(onMenues)
+            .SetTransition(PlayerInputs.ON_MENU_EXIT, idle)
+            .SetTransition(PlayerInputs.DEAD, dead)
+            .Done();
+
+
         ConfigureState.Create(attackCharge)
             .SetTransition(PlayerInputs.RELEASE_ATTACK, attackRelease)
             .SetTransition(PlayerInputs.DEAD, dead)
@@ -357,6 +371,11 @@ public class CharacterHead : CharacterControllable
             .SetLeftAxis(GetLeftHorizontal, GetLeftVertical)
             .SetRightAxis(GetRightHorizontal, GetRightVertical)
             .SetCustomCamera(customCam);
+
+        new CharOnMenues(onMenues, stateMachine)
+            .SetLeftAxis(GetLeftHorizontal, GetLeftVertical)
+            .SetRightAxis(GetRightHorizontal, GetRightVertical)
+            .SetMovement(this.move);
 
         new CharMove(move, stateMachine)
             .SetLeftAxis(GetLeftHorizontal, GetLeftVertical)
@@ -424,6 +443,13 @@ public class CharacterHead : CharacterControllable
     float GetStunDuration() => stunDuration;
 
 
+    #endregion
+
+    #region Menues
+    public void InputGoToMenues(bool enter)
+    {
+        stateMachine.SendInput(enter ? PlayerInputs.ON_MENU_ENTER : PlayerInputs.ON_MENU_EXIT);
+    }
     #endregion
 
     #region Status Effect

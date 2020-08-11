@@ -27,6 +27,7 @@ public class CharacterAttack
     int currentIndexWeapon;
 
     Action callback_ReceiveEntity = delegate { };
+
     Action DealSuccesfullNormal;
     Action DealSuccesfullHeavy;
     Action KillSuccesfullNormal;

@@ -22,6 +22,7 @@ public class DialogueManager : MonoBehaviour
     public void StartDialogue(DialogueTree treedialog)
     {
         frontend.Open();
+        Main.instance.GetChar().InputGoToMenues(true);
         tree = treedialog;
         ShowInScreen();
 
@@ -42,7 +43,7 @@ public class DialogueManager : MonoBehaviour
         currentdialogue = 0;
         currentNode = 0;
         frontend.Close();
-
+        Main.instance.GetChar().InputGoToMenues(false);
         // desbloquear el movimiento al character
     }
     public void OnNext()

@@ -29,6 +29,8 @@ public class Berseker : MonoBehaviour
 
     private void Update()
     {
+        try { stayBerserk.GetFloat("_Value"); } catch (MissingReferenceException ex) { return; };
+
         if (myChar.isBuffed == true)
         {
             if (oneTime) StartCoroutine(fadeShaderOut());
