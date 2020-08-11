@@ -11,8 +11,8 @@ GameObject:
   - component: {fileID: 6204527686467606468}
   - component: {fileID: 6093979689258276424}
   - component: {fileID: 9195275027745882361}
-  - component: {fileID: 5097863850583747690}
   - component: {fileID: 1896471745921522205}
+  - component: {fileID: 720408511453576585}
   m_Layer: 0
   m_Name: big-dead-tree 1
   m_TagString: Untagged
@@ -41,7 +41,7 @@ MeshFilter:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1094050462187247382}
-  m_Mesh: {fileID: 4300000, guid: d377f0cc70ba9dd499a8d74ee480e7f4, type: 2}
+  m_Mesh: {fileID: -1354052351536759296, guid: 99ddbae094d36624ab48501769f8ef23, type: 3}
 --- !u!23 &9195275027745882361
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -59,7 +59,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: fcea3bee040062f40b1ff8f034a5f6be, type: 2}
+  - {fileID: 2100000, guid: ca27bacf6fb2f3e49ac8f191ec96a294, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -80,19 +80,6 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
---- !u!65 &5097863850583747690
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1094050462187247382}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 0.93058145, y: 3.2894835, z: 1.2431998}
-  m_Center: {x: -0.09445208, y: 1.6456983, z: -0.09797591}
 --- !u!205 &1896471745921522205
 LODGroup:
   m_ObjectHideFlags: 0
@@ -112,3 +99,17 @@ LODGroup:
     renderers:
     - renderer: {fileID: 9195275027745882361}
   m_Enabled: 1
+--- !u!64 &720408511453576585
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1094050462187247382}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Convex: 1
+  m_CookingOptions: 14
+  m_Mesh: {fileID: -1354052351536759296, guid: 99ddbae094d36624ab48501769f8ef23, type: 3}
