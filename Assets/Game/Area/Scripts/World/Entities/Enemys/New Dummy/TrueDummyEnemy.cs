@@ -7,14 +7,6 @@ using UnityEngine.Serialization;
 
 public class TrueDummyEnemy : EnemyBase
 {
-    //PARA FRANCISCO (o el que tome la activa)
-    //podés ir directamente a la region STATE MACHINE THINGS, ahí dejé algunas cosas que podés modificar y cosas que deberías agregar para que funcione.
-    //La lógica de la habilidad podes tenerla donde quieras, pero deberías ejecutarla en el estado que te dejé creado. También si querés hacerlo de otra
-    //manera o modificar cierto comportamiento, podés hacerlo, pero es un re quilombo, así que lo dejo a tu criterio. Con lo que te dejé armado, en teoría
-    //debería de funcionar si sólo agregas la lógica de la activa y hacés lo que te dejé comentado. Dejo alto comentario acá, pero lo más seguro es que esté
-    //en las reuniones del viernes, sábado y domingo, pero por las dudas. 
-
-
     [Header("Move Options")]
     [SerializeField] GenericEnemyMove movement = null;
 
@@ -27,11 +19,6 @@ public class TrueDummyEnemy : EnemyBase
     [SerializeField] float cdToAttack = 1;
     [SerializeField] float parriedTime = 2;
     [SerializeField] float knockback = 20;
-    //[SerializeField] private bool hasSpecialAttack;
-    //[SerializeField] public bool isSpecialInCD;
-    //[SerializeField] private CorruptedVine specialAttack_pf;
-    //[SerializeField] private float _specialAttackCount_CD;
-    //[SerializeField] private float specialAttack_CD;
     public DummySpecialAttack dummySpecialAttack;
 
     private CombatDirector director;

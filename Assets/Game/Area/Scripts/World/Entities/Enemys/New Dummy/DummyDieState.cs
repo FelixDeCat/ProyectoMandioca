@@ -17,7 +17,7 @@ namespace Tools.StateMachine
         }
         protected override void Enter(EState<TrueDummyEnemy.DummyEnemyInputs> input)
         {
-            particle.gameObject.SetActive(false);
+            particle?.gameObject.SetActive(false);
             combatDirector.DeadEntity(ragdoll.GetComponent<EnemyBase>(), ragdoll.GetComponent<EnemyBase>().CurrentTarget());
         }
 
