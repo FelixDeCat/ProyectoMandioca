@@ -25,6 +25,7 @@ public class AttractionHole : MonoBehaviour
         if (character)
         {
             Vector3 att = (centerPoint.position - character.transform.position) * forceDirection;
+            att.y = 0.5f;
 
             if (att.x > -0.3f && att.x < 0.3f && att.z > -0.3f && att.z < 0.3f)
             {

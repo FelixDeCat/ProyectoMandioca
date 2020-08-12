@@ -20,7 +20,7 @@ public class CustomSpawner : PlayObject
     [SerializeField] private int waveAmount = 5;
     [SerializeField] private bool infiniteSpawner = false;
     [SerializeField] private Transform spawnSpot;
-    
+    [SerializeField] LayerMask floorMask = 1 << 21;
 
     [Header("***--Wave Settings--***")]
     [SerializeField] private int totalAmount = 20;
@@ -124,11 +124,11 @@ public class CustomSpawner : PlayObject
     Vector3 GetSurfacePos()
     {
         var pos = GetPosRandom(spawnRadius, spawnSpot);
-        pos += Vector3.up * 30;
+        pos.y += 100;
 
         RaycastHit hit;
       
-        if (Physics.Raycast(pos, Vector3.down, out hit, Mathf.Infinity, 1 << 21))
+        if (Physics.Raycast(pos, Vector3.down, out hit, Mathf.Infinity, floorMask, QueryTriggerInteraction.Ignore))
         {
             pos = hit.point;
         }
@@ -146,7 +146,7 @@ public class CustomSpawner : PlayObject
     {
         Vector3 min = new Vector3(t.position.x - radio, 0, t.position.z - radio);
         Vector3 max = new Vector3(t.position.x + radio, t.position.y, t.position.z + radio);
-        return new Vector3(Random.Range(min.x, max.x), Random.Range(min.y, max.y), Random.Range(min.z, max.z));
+        return new Vector3(Random.Range(min.x, max.x), 0, Random.Range(min.z, max.z));
     }
 
     protected override void OnInitialize()

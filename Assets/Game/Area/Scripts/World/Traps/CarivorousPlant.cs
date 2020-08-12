@@ -52,7 +52,7 @@ public class CarivorousPlant : EntityBase
         if (character)
         {
             Vector3 att = centerPoint.position - character.transform.position;
-
+            att.y = 0.5f;
             float prom = Vector3.Distance(centerPoint.position, character.transform.position) - 2f;
             float lerp = Mathf.Lerp(100, 0, prom);
             if (!inDmg) plant?.SetBlendShapeWeight(0, lerp);
