@@ -11,6 +11,8 @@ public class UI_DialogueManager : UI_Base
     public GameObject[] buttonOptionsGos;
     public ButtonOption[] buttonOptions;
 
+    public TextAnimCharXChar animation;
+
     public Image photo;
 
     public Button buttonNext;
@@ -39,11 +41,23 @@ public class UI_DialogueManager : UI_Base
         photo.sprite = sp;
     }
 
-    public void SetDialogue(string s)
+    public void SetDialogue(string s, Action OnFinishCarret , bool force = false)
     {
-        dialogue.text = s;
         ShutDownOptions();
+
+        Debug.Log(force);
+
+        if (force)
+        {
+            animation.Force(s);
+            OnFinishCarret.Invoke();
+        }
+        else
+        {
+            animation.BeginAnim(s, OnFinishCarret);
+        }
     }
+
 
     public void SetOption(int index, string option)
     {
@@ -71,6 +85,6 @@ public class UI_DialogueManager : UI_Base
     protected override void OnEndCloseAnimation() { }
     protected override void OnEndOpenAnimation() { }
     protected override void OnStart() { }
-    protected override void OnUpdate() { }
+    protected override void OnUpdate() {  }
     #endregion
 }

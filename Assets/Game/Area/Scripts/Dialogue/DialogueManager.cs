@@ -13,10 +13,18 @@ public class DialogueManager : MonoBehaviour
     int currentNode = 0;
     int currentdialogue = 0;
 
+    JoystickBasicInput joystick;
+
     private void Awake()
     {
         instance = this;
         frontend.Init_Configuration(OnNext, OnClose, OnOptionSelected);
+        joystick = new JoystickBasicInput();
+        joystick.SUBSCRIBE_ACCEPT(ForceCarret);
+    }
+    private void Update()
+    {
+        joystick.Refresh();
     }
 
     public void StartDialogue(DialogueTree treedialog)
@@ -94,6 +102,8 @@ public class DialogueManager : MonoBehaviour
         ShowInScreen();
     }
 
+    
+
     public void ShowInScreen()
     {
         frontend.TurnOn_ButtonNext(false);
@@ -101,11 +111,24 @@ public class DialogueManager : MonoBehaviour
 
         Debug.Log("debug Node index: " + currentNode + " dialogue index: " + currentdialogue);
 
-        frontend.SetDialogue(tree.dialogueNodes[currentNode].dialogues[currentdialogue]);
+        frontend.SetDialogue(tree.dialogueNodes[currentNode].dialogues[currentdialogue], OnTextFinishCarret, false);
+    }
 
-        if (currentdialogue >= tree.dialogueNodes[currentNode].dialogues.Count -1)//si es el dialogo final
+    public void ForceCarret()
+    {
+        if (frontend.animation.inAnimation)
         {
-            if(tree.dialogueNodes[currentNode].ID_Mision != -1) MisionManager.instancia.AddMision(MisionsDataBase.instance.GetMision(tree.dialogueNodes[currentNode].ID_Mision), EndMision);
+            Debug.Log("entra a force");
+            frontend.SetDialogue(tree.dialogueNodes[currentNode].dialogues[currentdialogue], OnTextFinishCarret, true);
+        }
+        
+    }
+
+    void OnTextFinishCarret()
+    {
+        if (currentdialogue >= tree.dialogueNodes[currentNode].dialogues.Count - 1)//si es el dialogo final
+        {
+            if (tree.dialogueNodes[currentNode].ID_Mision != -1) MisionManager.instancia.AddMision(MisionsDataBase.instance.GetMision(tree.dialogueNodes[currentNode].ID_Mision), EndMision);
 
             if (tree.dialogueNodes[currentNode].conected.Count > 0)//me fijo si tengo opciones
             {
