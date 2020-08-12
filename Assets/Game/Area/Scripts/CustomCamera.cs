@@ -8,6 +8,7 @@ using Tools.EventClasses;
 public class CustomCamera : MonoBehaviour
 {
     public Transform target;
+    public Transform charTransform;
     private Vector3 velocity = Vector3.zero;
     public float smooth = 1f;
     public Vector3 offset;
@@ -51,13 +52,14 @@ public class CustomCamera : MonoBehaviour
 
     private void Start()
     {
-        _joystick = new JoystickBasicInput();
-        _joystick.SUBSCRIBE_START(ChangeCamera);
+        //_joystick = new JoystickBasicInput();
+        //_joystick.SUBSCRIBE_START(ChangeCamera);
         shakeDurationCurrent = shakeDuration;
         mycam = GetComponent<Camera>();
         pingpongZoom.Configure(Zoom, false);
         changeCameraconf(0);
         original_shake_amount = shakeAmmount;
+        charTransform = Main.instance.GetChar().transform;
         //skillCloseUp_Camera.SubscribeOnTurnOnCamera(CloseToCharacter);
         //skillCloseUp_Camera.SubscribeOnTurnOnCamera(ExitToCharacte);
     }
@@ -81,12 +83,13 @@ public class CustomCamera : MonoBehaviour
 
         pingpongZoom.Updatear();
         ShaderMask();
+        if(!lookAt)
         transform.forward = Vector3.Lerp(transform.forward, myCameras[index].transform.forward, speedRot * Time.deltaTime);
-        _joystick.Refresh();
-        if (Input.GetKeyDown(KeyCode.C))
-        {
-            NextCamera();
-        }
+       // _joystick.Refresh();
+        //if (Input.GetKeyDown(KeyCode.C))
+        //{
+        //    NextCamera();
+        //}
     }
     private void FixedUpdate()
     {
@@ -123,7 +126,7 @@ public class CustomCamera : MonoBehaviour
         }
         Vector3 smoothedposition = Vector3.Lerp(transform.position, moveOffset, smooth * Time.deltaTime);
         transform.position = smoothedposition;
-        if (lookAt) transform.LookAt(target);
+        if (lookAt) transform.LookAt(charTransform);
     }
     public void InstantPosition()
     {
@@ -260,6 +263,7 @@ public class CustomCamera : MonoBehaviour
         index = 0;
         changeCameraconf(index);
         invertAxis.Invoke(index);
+        if(!lookAt)
         transform.forward = Vector3.Lerp(transform.forward, myCameras[index].transform.forward, speedRot * Time.deltaTime);
     }
     void OverTheSholder()
