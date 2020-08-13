@@ -29,18 +29,18 @@ public class Berseker : MonoBehaviour
 
     private void Update()
     {
-        try { stayBerserk.GetFloat("_Value"); } catch (MissingReferenceException ex) { return; };
+        //try { stayBerserk.GetFloat("_Value"); } catch (MissingReferenceException ex) { return; };
 
-        if (myChar.isBuffed == true)
-        {
-            if (oneTime) StartCoroutine(fadeShaderOut());
-            stayBerserk.SetFloat("_Value", 1);
-        }
-        else
-        {
-            if (!oneTime) oneTime = true;
-            stayBerserk.SetFloat("_Value", 0);
-        }
+        //if (myChar.isBuffed == true)
+        //{
+        //    if (oneTime) StartCoroutine(fadeShaderOut());
+        //    stayBerserk.SetFloat("_Value", 1);
+        //}
+        //else
+        //{
+        //    if (!oneTime) oneTime = true;
+        //    stayBerserk.SetFloat("_Value", 0);
+        //}
     }
 
     IEnumerator fadeShaderOut()
