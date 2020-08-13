@@ -14,6 +14,8 @@ public class OutlineFeedback : FeedbackInteractBase
     const string mainOpacity = "_MainOpacity";
     const string borderOpacity = "_OpacityOutline";
 
+    public string shader_name;
+
     private void Start()
     {
         myMat = parentWithMaterials.GetComponentInChildren<Renderer>().materials;
@@ -21,14 +23,26 @@ public class OutlineFeedback : FeedbackInteractBase
 
     protected override void OnShow()
     {
-        myMat[1].SetFloat(mainOpacity, mainOpacityOn);
-        myMat[1].SetFloat(borderOpacity, borderOpacityOn);
+        for(int i = 0; i < myMat.Length; i++)
+        {
+            if (myMat[i].shader.name == shader_name)
+            {
+                myMat[i].SetFloat(mainOpacity, mainOpacityOn);
+                myMat[i].SetFloat(borderOpacity, borderOpacityOn);
+            }
+        }
     }
 
     protected override void OnHide()
     {
-        myMat[1].SetFloat(mainOpacity, 0);
-        myMat[1].SetFloat(borderOpacity, 0);
+        for (int i = 0; i < myMat.Length; i++)
+        {
+            if (myMat[i].shader.name == shader_name)
+            {
+                myMat[i].SetFloat(mainOpacity, 0);
+                myMat[i].SetFloat(borderOpacity, 0);
+            }
+        }
     }
 
 
