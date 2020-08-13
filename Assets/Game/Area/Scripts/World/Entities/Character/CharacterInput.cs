@@ -196,8 +196,8 @@ public class CharacterInput : MonoBehaviour
 
         //RightHorizontal.Invoke(HorizontalAux * HMult);
         //RightVertical.Invoke(VerticalAux * VMult);
-        RightHorizontal.Invoke(Input.GetAxis("Horizontal"));
-        RightVertical.Invoke(Input.GetAxis("Vertical"));
+        RightHorizontal.Invoke(Input.GetAxis("RightHorizontal"));
+        RightVertical.Invoke(Input.GetAxis("RightVertical"));
 
     }
 
