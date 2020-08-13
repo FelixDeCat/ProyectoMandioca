@@ -60,7 +60,7 @@ public class CustomCamera : MonoBehaviour
         pingpongZoom.Configure(Zoom, false);
         changeCameraconf(0);
         original_shake_amount = shakeAmmount;
-        charTransform = Main.instance.GetChar().transform;
+        charTransform = Main.instance.GetChar().GetLookatPosition();
         //skillCloseUp_Camera.SubscribeOnTurnOnCamera(CloseToCharacter);
         //skillCloseUp_Camera.SubscribeOnTurnOnCamera(ExitToCharacte);
     }

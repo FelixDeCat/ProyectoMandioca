@@ -90,8 +90,7 @@ public class CharacterInput : MonoBehaviour
     private void Start()
     {
         DevelopTools.UI.Debug_UI_Tools.instance.CreateToogle("Input de Rotacion", false, ChangeRotation);
-        ConfigureAxis();
-        ConfigureAxisRotations();
+
     }
     private void Update()
     {
