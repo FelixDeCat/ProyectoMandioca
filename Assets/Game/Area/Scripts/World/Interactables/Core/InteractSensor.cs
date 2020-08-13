@@ -26,6 +26,8 @@ public class InteractSensor : MonoBehaviour
 
     public void OnInteractDown()
     {
+        if (!can_interact) return;
+
         if (isclose && most_close != null)
         {
             most_close.Execute(collector);
@@ -51,9 +53,13 @@ public class InteractSensor : MonoBehaviour
     }
 
     bool can_show_info;
+    bool can_interact = true;
+
+    public void CanInteract(bool val) => can_interact = val;
 
     private void Update()
     {
+        if (!can_interact) return;
         isclose = false;
         Update_CheckFastRecollection();
         Update_CooldownNextRecollection();

@@ -56,7 +56,6 @@ public class DialogueManager : MonoBehaviour
     }
     public void OnNext()
     {
-        Debug.Log("OnOptionSelected");
 
         frontend.TurnOn_ButtonNext(false);
         frontend.TurnOn_ButtonExit(false);

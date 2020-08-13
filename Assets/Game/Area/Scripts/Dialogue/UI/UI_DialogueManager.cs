@@ -45,8 +45,6 @@ public class UI_DialogueManager : UI_Base
     {
         ShutDownOptions();
 
-        Debug.Log(force);
-
         if (force)
         {
             animation.Force(s);

@@ -71,7 +71,6 @@ public class SkillManager_ActivasNueva : LoadComponent
     }
     public void EV_UseSkill()
     {
-        Debug.Log("use skill");
         if (equip[0] != null)
             equip[0].Execute();
     }

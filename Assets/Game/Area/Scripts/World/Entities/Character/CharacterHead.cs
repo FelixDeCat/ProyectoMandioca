@@ -379,6 +379,7 @@ public class CharacterHead : CharacterControllable
         new CharOnMenues(onMenues, stateMachine)
             .SetLeftAxis(GetLeftHorizontal, GetLeftVertical)
             .SetRightAxis(GetRightHorizontal, GetRightVertical)
+            .SetSensor(sensor)
             .SetMovement(this.move);
 
         new CharMove(move, stateMachine)

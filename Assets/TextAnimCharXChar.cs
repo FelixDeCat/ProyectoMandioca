@@ -14,11 +14,15 @@ public class TextAnimCharXChar : MonoBehaviour
 
     public bool inAnimation;
 
-    public void BeginAnim(string _txt, Action _OnEnd, float _timeSpacing = 0.07f)
+    public void BeginAnim(string _txt, Action _OnEnd, float _timeSpacing = 0.04f)
     {
         txtmesh.text = "";
+        completeText = new char[0];
+
         timeSpacing = _timeSpacing;
         completeText = _txt.ToCharArray();
+
+        StopAllCoroutines();
         StartCoroutine(Animate());
         EndAnimationCallback = _OnEnd;
         inAnimation = true;
