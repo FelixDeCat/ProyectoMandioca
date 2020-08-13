@@ -13,6 +13,8 @@ public class DialogueNode
     public List<string> dialogues = new List<string>();
     public List<Choice> conected = new List<Choice>();
 
+    public Sprite exep_photo;
+
     public DialogueNode(int id, List<string> dialogues, List<Choice> conected)
     {
         this.id = id;

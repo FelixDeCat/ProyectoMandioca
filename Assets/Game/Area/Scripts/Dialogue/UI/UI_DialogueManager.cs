@@ -13,6 +13,9 @@ public class UI_DialogueManager : UI_Base
 
     public TextAnimCharXChar animation;
 
+    public RectTransform parent_to_force_rebuild;
+
+    public GameObject photo_go;
     public Image photo;
 
     public Button buttonNext;
@@ -38,10 +41,16 @@ public class UI_DialogueManager : UI_Base
 
     public void SetPhoto(Sprite sp)
     {
+        photo_go.SetActive(true);
         photo.sprite = sp;
     }
 
-    public void SetDialogue(string s, Action OnFinishCarret , bool force = false)
+    public void NoUsePhoto()
+    {
+        photo_go.SetActive(false);
+    }
+
+    public void SetDialogue(string s, Action OnFinishCarret, bool force = false)
     {
         ShutDownOptions();
 
@@ -66,14 +75,35 @@ public class UI_DialogueManager : UI_Base
         }
         buttonOptionsGos[index].gameObject.SetActive(true);
         buttonOptions[index].SetIndex(index, option);
-        
+
         reconfigure.Reconfigure();
 
+        Repaint();
 
     }
 
-    public void TurnOn_ButtonNext(bool val) { buttonNext.gameObject.SetActive(val); buttonNext.Select(); reconfigure.Reconfigure(); ForceDirectConfigurateFirst(buttonNext.gameObject); }
-    public void TurnOn_ButtonExit(bool val) { buttonExit.gameObject.SetActive(val); buttonExit.Select(); reconfigure.Reconfigure(); ForceDirectConfigurateFirst(buttonExit.gameObject); }
+    void Repaint()
+    {
+        Canvas.ForceUpdateCanvases();
+        LayoutRebuilder.ForceRebuildLayoutImmediate(parent_to_force_rebuild);
+    }
+
+    public void TurnOn_ButtonNext(bool val)
+    {
+        buttonNext.gameObject.SetActive(val);
+        buttonNext.Select();
+        reconfigure.Reconfigure();
+        ForceDirectConfigurateFirst(buttonNext.gameObject);
+        Repaint();
+    }
+    public void TurnOn_ButtonExit(bool val)
+    {
+        buttonExit.gameObject.SetActive(val);
+        buttonExit.Select();
+        reconfigure.Reconfigure();
+        ForceDirectConfigurateFirst(buttonExit.gameObject);
+        Repaint();
+    }
     void ShutDownOptions() { for (int i = 0; i < buttonOptionsGos.Length; i++) buttonOptionsGos[i].gameObject.SetActive(false); }
 
 
@@ -83,6 +113,6 @@ public class UI_DialogueManager : UI_Base
     protected override void OnEndCloseAnimation() { }
     protected override void OnEndOpenAnimation() { }
     protected override void OnStart() { }
-    protected override void OnUpdate() {  }
+    protected override void OnUpdate() { }
     #endregion
 }
