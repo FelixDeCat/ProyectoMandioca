@@ -40,9 +40,6 @@ namespace Tools.StateMachine
 
         protected override void Update()
         {
-            charMove.RotateHorizontal(RightHorizontal());
-            charMove.RotateVertical(RightVertical());
-
             charMove.MovementHorizontal(LeftHorizontal() * _speedPenalty);
             charMove.MovementVertical(LeftVertical() * _speedPenalty);
         }

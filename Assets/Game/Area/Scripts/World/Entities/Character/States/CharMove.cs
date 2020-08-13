@@ -19,8 +19,6 @@ namespace Tools.StateMachine
 
         protected override void Update()
         {
-            charMove.RotateHorizontal(RightHorizontal());
-            charMove.RotateVertical(RightVertical());
             charMove.MovementHorizontal(LeftHorizontal());
             charMove.MovementVertical(LeftVertical());
 

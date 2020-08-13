@@ -36,10 +36,8 @@ namespace Tools.StateMachine
         {
             if (!IsHeavy())
             {
-                charMove.RotateHorizontal(RightHorizontal());
-                charMove.RotateVertical(RightVertical());
-                //charMove.RotateHorizontal(LeftHorizontal());
-                //charMove.RotateVertical(LeftVertical());
+                charMove.RotateHorizontal(LeftHorizontal());
+                charMove.RotateVertical(LeftVertical());
                 //charMove.MovementHorizontal(LeftHorizontal());
                 //charMove.MovementVertical(LeftVertical());
             }

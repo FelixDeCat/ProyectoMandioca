@@ -73,9 +73,6 @@ public class CarivorousPlant : EntityBase
                 timer = 0;
             }
 
-            if (!character.GetCharMove().InCD())
-                character.GetCharMove().ActualizeDash(false);
-
             if (!isZero)
                 character.GetCharMove().MovementAddForce(att.normalized, attractionForce, mode);
         }
@@ -123,7 +120,6 @@ public class CarivorousPlant : EntityBase
     public void OnOffTrap(bool b)
     {
         on = b;
-        character.GetCharMove().ActualizeDash(true);
 
         if (!b) character?.GetCharMove().StopForceBool();
 
@@ -152,7 +148,6 @@ public class CarivorousPlant : EntityBase
             character?.GetCharMove().StopForceBool();
             isZero = false;
             plant?.SetBlendShapeWeight(0, 0);
-            character?.GetCharMove().ActualizeDash(true);
             character = null;
         }
     }
