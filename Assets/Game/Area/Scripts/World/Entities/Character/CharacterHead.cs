@@ -368,33 +368,27 @@ public class CharacterHead : CharacterControllable
 
         new CharIdle(idle, stateMachine)
             .SetLeftAxis(GetLeftHorizontal, GetLeftVertical)
-            .SetRightAxis(GetRightHorizontal, GetRightVertical)
             .SetMovement(this.move);
 
         new CharLookOverSholder(LookAtOverSholder, stateMachine)
             .SetLeftAxis(GetLeftHorizontal, GetLeftVertical)
-            .SetRightAxis(GetRightHorizontal, GetRightVertical)
             .SetCustomCamera(customCam);
 
         new CharOnMenues(onMenues, stateMachine)
             .SetLeftAxis(GetLeftHorizontal, GetLeftVertical)
-            .SetRightAxis(GetRightHorizontal, GetRightVertical)
             .SetSensor(sensor)
             .SetMovement(this.move);
 
         new CharMove(move, stateMachine)
             .SetLeftAxis(GetLeftHorizontal, GetLeftVertical)
-            .SetRightAxis(GetRightHorizontal, GetRightVertical)
             .SetMovement(this.move);
 
         new CharBeginBlock(beginBlock, stateMachine, anim_base)
             .SetLeftAxis(GetLeftHorizontal, GetLeftVertical)
-            .SetRightAxis(GetRightHorizontal, GetRightVertical)
             .SetMovement(this.move).SetBlock(charBlock);
 
         new CharBlock(block, stateMachine)
             .SetLeftAxis(GetLeftHorizontal, GetLeftVertical)
-            .SetRightAxis(GetRightHorizontal, GetRightVertical)
             .SetMovement(this.move)
             .SetBlock(charBlock);
 
@@ -415,14 +409,12 @@ public class CharacterHead : CharacterControllable
 
         new CharChargeAttack(attackCharge, stateMachine, anim_base)
             .SetLeftAxis(GetLeftHorizontal, GetLeftVertical)
-            .SetRightAxis(GetRightHorizontal, GetRightVertical)
             .SetMovement(this.move)
             .SetAttack(charAttack);
 
         new CharReleaseAttack(attackRelease, stateMachine, attackRecall, HeavyAttackRealease, ChangeHeavy)
             .SetMovement(this.move)
             .SetLeftAxis(GetLeftHorizontal, GetLeftVertical)
-            .SetRightAxis(GetRightHorizontal, GetRightVertical)
             .SetAttack(charAttack)
             .SetLeftAxis(GetLeftHorizontal, GetLeftVertical).SetFeedbacks(feedbacks);
 

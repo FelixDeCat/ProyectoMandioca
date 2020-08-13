@@ -19,9 +19,6 @@ namespace Tools.StateMachine
 
         protected override void Update()
         {
-            charMove.RotateHorizontal(RightHorizontal());
-            charMove.RotateVertical(RightVertical());
-
             if (LeftHorizontal()!=0 || LeftVertical() != 0)
             {
                 sm.SendInput(CharacterHead.PlayerInputs.MOVE);

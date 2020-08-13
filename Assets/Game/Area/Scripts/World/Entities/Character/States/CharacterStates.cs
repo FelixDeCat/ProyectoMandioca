@@ -9,8 +9,6 @@ namespace Tools.StateMachine
     {
         protected Func<float> LeftHorizontal;
         protected Func<float> LeftVertical;
-        protected Func<float> RightHorizontal;
-        protected Func<float> RightVertical;
         protected CharacterAttack charAttack;
         protected CharacterBlock charBlock;
         protected CharacterMovement charMove;
@@ -39,12 +37,6 @@ namespace Tools.StateMachine
         {
             LeftHorizontal += h;
             LeftVertical += v;
-            return this;
-        }
-        public CharacterStates SetRightAxis(Func<float> h, Func<float> v)
-        {
-            RightHorizontal += h;
-            RightVertical += v;
             return this;
         }
         public CharacterStates SetAttack(CharacterAttack attack)
