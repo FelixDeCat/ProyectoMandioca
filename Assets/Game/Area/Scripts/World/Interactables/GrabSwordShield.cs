@@ -6,8 +6,7 @@ public class GrabSwordShield : TestInteractableHold
 {
     CharacterHead character;
     [SerializeField] bool isSword;
-
-
+    
     public override void OnExecute(WalkingEntity collector)
     {
         base.OnExecute(collector);
@@ -21,7 +20,5 @@ public class GrabSwordShield : TestInteractableHold
         {
             character.ToggleShield(true);
         }
-
     }
-
 }
