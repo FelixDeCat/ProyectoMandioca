@@ -96,7 +96,6 @@ public class CharacterAttack
                     
                     oneshot = true;
                 }
-
             }
         }
     }

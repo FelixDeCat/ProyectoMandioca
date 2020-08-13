@@ -56,7 +56,6 @@ public class DialogueManager : MonoBehaviour
     }
     public void OnNext()
     {
-        Debug.Log("OnOptionSelected");
 
         frontend.TurnOn_ButtonNext(false);
         frontend.TurnOn_ButtonExit(false);
@@ -111,7 +110,28 @@ public class DialogueManager : MonoBehaviour
 
         Debug.Log("debug Node index: " + currentNode + " dialogue index: " + currentdialogue);
 
+        SetPhoto();
+
         frontend.SetDialogue(tree.dialogueNodes[currentNode].dialogues[currentdialogue], OnTextFinishCarret, false);
+    }
+
+    void SetPhoto()
+    {
+        if (tree.dialogueNodes[currentNode].exep_photo != null)
+        {
+            frontend.SetPhoto(tree.dialogueNodes[currentNode].exep_photo);
+        }
+        else
+        {
+            if (tree.general_photo != null)
+            {
+                frontend.SetPhoto(tree.general_photo);
+            }
+            else
+            {
+                frontend.NoUsePhoto();
+            }
+        }
     }
 
     public void ForceCarret()

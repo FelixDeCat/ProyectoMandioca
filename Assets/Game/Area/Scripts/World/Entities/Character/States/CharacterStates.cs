@@ -17,6 +17,7 @@ namespace Tools.StateMachine
         protected CharacterAnimator charAnim;
         protected CharFeedbacks feedbacks;
         protected CustomCamera _camera;
+        protected InteractSensor interactSensor;
 
         public CharacterStates(EState<CharacterHead.PlayerInputs> myState, EventStateMachine<CharacterHead.PlayerInputs> _sm) : base(myState, _sm)
         {
@@ -24,6 +25,11 @@ namespace Tools.StateMachine
         }
 
         #region Builder
+        public CharacterStates SetSensor(InteractSensor _interactSensor)
+        {
+            interactSensor = _interactSensor;
+            return this;
+        }
         public CharacterStates SetAnimator(CharacterAnimator anim)
         {
             charAnim = anim;

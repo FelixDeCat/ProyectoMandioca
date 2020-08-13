@@ -13,10 +13,14 @@ namespace Tools.StateMachine
             charMove.MovementHorizontal(0);
             charMove.RotateHorizontal(0);
             charMove.RotateVertical(0);
+            interactSensor.CanInteract(false);
         }
         protected override void Update() { }
         protected override void FixedUpdate() => base.FixedUpdate();
         protected override void LateUpdate() => base.LateUpdate();
-        protected override void Exit(CharacterHead.PlayerInputs input) => base.Exit(input);
+        protected override void Exit(CharacterHead.PlayerInputs input) {
+            base.Exit(input);
+            interactSensor.CanInteract(true);
+        }
     }
 }

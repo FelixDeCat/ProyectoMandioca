@@ -14,6 +14,8 @@ public class DialogueTree : ScriptableObject
     //Game settings    
     public List<DialogueNode> dialogueNodes = new List<DialogueNode>();
     public string treeName;
+
+    public Sprite general_photo;
 }
 
 [Serializable]

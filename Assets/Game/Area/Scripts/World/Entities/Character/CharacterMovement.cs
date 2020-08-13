@@ -60,6 +60,7 @@ public class CharacterMovement
     private bool teleportActive;
 
     CharFeedbacks feedbacks;
+    [SerializeField] Transform myCamera;
 
     [SerializeField] float bashDashDistance;
     [SerializeField] float bashDashSpeed;
@@ -89,7 +90,6 @@ public class CharacterMovement
         feedbacks = _feedbacks;
         isGrounded = _isGrounded;
         AudioManager.instance.GetSoundPool("DashSounds", AudioGroups.GAME_FX);
-
         ActualizeDash(true);
     }
 
@@ -129,11 +129,16 @@ public class CharacterMovement
 
     void Move()
     {
-        Vector3 auxNormalized = new Vector3(movX, 0, movY);
-        auxNormalized.Normalize();
+        Vector3 auxNormalized = Vector3.zero;
+
+        Vector3 right = Vector3.Cross(Vector3.up, myCamera.forward);
+        Vector3 forward = Vector3.Cross(right, Vector3.up);
+
+        auxNormalized += right * (movX * currentSpeed);
+        auxNormalized += forward * (movY * currentSpeed);
 
         if (!forcing)
-            _rb.velocity = new Vector3(auxNormalized.x * currentSpeed, velY, auxNormalized.z * currentSpeed);
+            _rb.velocity = new Vector3(auxNormalized.x, velY, auxNormalized.z);
 
         if (currentSpeed <= 0)
         {
@@ -141,26 +146,33 @@ public class CharacterMovement
             return;
         }
 
-        if (rotX >= 0.3 || rotX <= -0.3 || rotY >= 0.3 || rotY <= -0.3)
-        {
-
-            if (movX <= 0.1 && movX >= -0.1 && movY <= 0.1 && movY >= -0.1)
-                anim.Move(0, 0);
-            else
-            {
-                if (Mathf.Abs(rotTransform.forward.z) >= Mathf.Abs(rotTransform.forward.x))
-                    anim.Move(-movX * rotTransform.right.x, movY * rotTransform.forward.z);
-                else
-                    anim.Move(-movY * rotTransform.right.z, movX * rotTransform.forward.x);
-            }
-        }
+        if (movX >= 0.1 || movX <= -0.1 || movY >= 0.1 || movY <= -0.1)
+            anim.Move(0, 1);
         else
-        {
-            if (movX >= 0.1 || movX <= -0.1 || movY >= 0.1 || movY <= -0.1)
-                anim.Move(0, 1);
-            else
-                anim.Move(0, 0);
-        }
+            anim.Move(0, 0);
+
+        Rotation(auxNormalized.x, auxNormalized.z);
+
+        //if (rotX >= 0.3 || rotX <= -0.3 || rotY >= 0.3 || rotY <= -0.3)
+        //{
+
+        //    if (movX <= 0.1 && movX >= -0.1 && movY <= 0.1 && movY >= -0.1)
+        //        anim.Move(0, 0);
+        //    else
+        //    {
+        //        if (Mathf.Abs(rotTransform.forward.z) >= Mathf.Abs(rotTransform.forward.x))
+        //            anim.Move(-movX * rotTransform.right.x, movY * rotTransform.forward.z);
+        //        else
+        //            anim.Move(-movY * rotTransform.right.z, movX * rotTransform.forward.x);
+        //    }
+        //}
+        //else
+        //{
+        //    if (movX >= 0.1 || movX <= -0.1 || movY >= 0.1 || movY <= -0.1)
+        //        anim.Move(0, 1);
+        //    else
+        //        anim.Move(0, 0);
+        //}
 
     }
     #endregion
@@ -198,18 +210,18 @@ public class CharacterMovement
     //Joystick Derecho, Rotacion
     void RightHorizontal(float axis)
     {
-        rotX = axis;
-        Rotation();
+        //rotX = axis;
+        //Rotation();
     }
     public void EnableRotation() => canRotate = true;
     public void CancelRotation() => canRotate = false;
 
     void RightVerical(float axis)
     {
-        rotY = axis;
-        Rotation();
+        //rotY = axis;
+        //Rotation();
     }
-    void Rotation()
+    void Rotation(float x, float z)
     {
         if (canRotate)
         {
@@ -220,7 +232,7 @@ public class CharacterMovement
             }
             else
             {
-                dir = new Vector3(movX, 0, movY);
+                dir = new Vector3(x, 0, z);
                 if (dir == Vector3.zero)
                     dir = rotTransform.forward;
             }
@@ -345,8 +357,7 @@ public class CharacterMovement
         EndRoll = StopRoll;
         if (InDash) return;
 
-        if (movX != 0 || movY != 0) dashDir = new Vector3(movX, 0, movY).normalized;
-        else dashDir = rotTransform.forward;
+        dashDir = rotTransform.forward;
 
         float dotX = Vector3.Dot(rotTransform.forward, dashDir);
         float dotY = Vector3.Dot(rotTransform.right, dashDir);

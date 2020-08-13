@@ -58,82 +58,31 @@ public class CharacterInput : MonoBehaviour
     public InputControl inputControlCheck;
     bool isJoystick;
 
-    DirConfig[] dirConfigs = new DirConfig[4];
-    DirConfig[] dirConfigsRotation = new DirConfig[4];
-    struct DirConfig
-    {
-        public string H_name;
-        public int H_Multiplier;
-        public string V_name;
-        public int V_Multiplier;
-    }
+    //DirConfig dirConfig = new DirConfig();
+    //struct DirConfig
+    //{
+    //    public string H_name;
+    //    public int H_Multiplier;
+    //    public string V_name;
+    //    public int V_Multiplier;
+    //}
 
     private void Awake() => ConfigureJoystickHelper();
 
-    void ConfigureAxis()
-    {
-        //arriba abajo
-        DirConfig down = new DirConfig();
-        down.H_name = "Horizontal";
-        down.H_Multiplier = 1;
-        down.V_name = "Vertical";
-        down.V_Multiplier = 1;
-        dirConfigs[0] = down;
-
-        DirConfig up = new DirConfig();
-        up.H_name = "Horizontal";
-        up.H_Multiplier = -1;
-        up.V_name = "Vertical";
-        up.V_Multiplier = -1;
-        dirConfigs[2] = up;
-
-        //derecha izquierda
-        DirConfig right = new DirConfig();
-        right.H_name = "Vertical";
-        right.H_Multiplier = -1;
-        right.V_name = "Horizontal";
-        right.V_Multiplier = 1;
-        dirConfigs[1] = right;
-
-        DirConfig left = new DirConfig();
-        left.H_name = "Vertical";
-        left.H_Multiplier = 1;
-        left.V_name = "Horizontal";
-        left.V_Multiplier = -1;
-        dirConfigs[3] = left;
-    }
-    void ConfigureAxisRotations()
-    {
-        //arriba abajo
-        DirConfig down = new DirConfig();
-        down.H_name = "RightHorizontal";
-        down.H_Multiplier = 1;
-        down.V_name = "RightVertical";
-        down.V_Multiplier = 1;
-        dirConfigsRotation[0] = down;
-
-        DirConfig up = new DirConfig();
-        up.H_name = "RightHorizontal";
-        up.H_Multiplier = -1;
-        up.V_name = "RightVertical";
-        up.V_Multiplier = -1;
-        dirConfigsRotation[2] = up;
-
-        //derecha izquierda
-        DirConfig right = new DirConfig();
-        right.H_name = "RightVertical";
-        right.H_Multiplier = -1;
-        right.V_name = "RightHorizontal";
-        right.V_Multiplier = 1;
-        dirConfigsRotation[1] = right;
-
-        DirConfig left = new DirConfig();
-        left.H_name = "RightVertical";
-        left.H_Multiplier = 1;
-        left.V_name = "RightHorizontal";
-        left.V_Multiplier = -1;
-        dirConfigsRotation[3] = left;
-    }
+    //void ConfigureAxis()
+    //{
+    //    dirConfig.H_name = "Horizontal";
+    //    dirConfig.H_Multiplier = 1;
+    //    dirConfig.V_name = "Vertical";
+    //    dirConfig.V_Multiplier = 1;
+    //}
+    //void ConfigureAxisRotations()
+    //{
+    //    dirConfig.H_name = "RightHorizontal";
+    //    dirConfig.H_Multiplier = 1;
+    //    dirConfig.V_name = "RightVertical";
+    //    dirConfig.V_Multiplier = 1;     
+    //}
 
     int currentAxisIndex = 0;
     public void ChangeCameraIndex(int index) => currentAxisIndex = index;
@@ -141,22 +90,20 @@ public class CharacterInput : MonoBehaviour
     private void Start()
     {
         DevelopTools.UI.Debug_UI_Tools.instance.CreateToogle("Input de Rotacion", false, ChangeRotation);
-        ConfigureAxis();
-        ConfigureAxisRotations();
+
     }
     private void Update()
     {
+        //var HorizontalAux = Input.GetAxis(dirConfig.H_name);
+        //var VerticalAux = Input.GetAxis(dirConfig.V_name);
+        //var HMult = dirConfig.H_Multiplier;
+        //var VMult = dirConfig.V_Multiplier;
 
-        var HorizontalAux = Input.GetAxis(dirConfigs[currentAxisIndex].H_name);
-        var VerticalAux = Input.GetAxis(dirConfigs[currentAxisIndex].V_name);
-        var HMult = dirConfigs[currentAxisIndex].H_Multiplier;
-        var VMult = dirConfigs[currentAxisIndex].V_Multiplier;
+        //LeftHorizontal.Invoke( HorizontalAux * HMult);
+        //LeftVertical.Invoke(VerticalAux  * VMult);
 
-        LeftHorizontal.Invoke( HorizontalAux * HMult);
-        LeftVertical.Invoke(VerticalAux  * VMult);
-
-        //LeftHorizontal.Invoke(Input.GetAxis("Horizontal"));
-        //LeftVertical.Invoke(Input.GetAxis("Vertical"));
+        LeftHorizontal.Invoke(Input.GetAxis("Horizontal"));
+        LeftVertical.Invoke(Input.GetAxis("Vertical"));
 
         if (input_type == InputType.Joystick) JoystickInputs();
         else if (input_type == InputType.Mouse) MouseInputs();
@@ -229,22 +176,29 @@ public class CharacterInput : MonoBehaviour
 
     public void MouseInputs()
     {
-        Vector2 positionOnScreen = Camera.main.WorldToViewportPoint(transform.position);
-        Vector2 mouseOnScreen = (Vector2)Camera.main.ScreenToViewportPoint(Input.mousePosition);
-        Vector2 mousePos = (mouseOnScreen - positionOnScreen).normalized;
-        RightHorizontal.Invoke(mousePos.x);
-        RightVertical.Invoke(mousePos.y);
+        //Vector2 positionOnScreen = Camera.main.WorldToViewportPoint(transform.position);
+        //Vector2 mouseOnScreen = (Vector2)Camera.main.ScreenToViewportPoint(Input.mousePosition);
+        //Vector2 mousePos = (mouseOnScreen - positionOnScreen).normalized;
+        //RightHorizontal.Invoke(mousePos.x);
+        //RightVertical.Invoke(mousePos.y);
+
+        RightHorizontal.Invoke(Input.GetAxis("Mouse X"));
+        RightVertical.Invoke(Input.GetAxis("Mouse Y"));
+
     }
 
     public void JoystickInputs()
     {
-        var HorizontalAux = Input.GetAxis(dirConfigsRotation[currentAxisIndex].H_name);
-        var VerticalAux = Input.GetAxis(dirConfigsRotation[currentAxisIndex].V_name);
-        var HMult = dirConfigsRotation[currentAxisIndex].H_Multiplier;
-        var VMult = dirConfigsRotation[currentAxisIndex].V_Multiplier;
+        //var HorizontalAux = Input.GetAxis(dirConfigsRotation[currentAxisIndex].H_name);
+        //var VerticalAux = Input.GetAxis(dirConfigsRotation[currentAxisIndex].V_name);
+        //var HMult = dirConfigsRotation[currentAxisIndex].H_Multiplier;
+        //var VMult = dirConfigsRotation[currentAxisIndex].V_Multiplier;
 
-        RightHorizontal.Invoke(HorizontalAux * HMult);
-        RightVertical.Invoke(VerticalAux * VMult);
+        //RightHorizontal.Invoke(HorizontalAux * HMult);
+        //RightVertical.Invoke(VerticalAux * VMult);
+        RightHorizontal.Invoke(Input.GetAxis("RightHorizontal"));
+        RightVertical.Invoke(Input.GetAxis("RightVertical"));
+
     }
 
     /// <summary>

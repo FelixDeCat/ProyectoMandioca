@@ -35,6 +35,8 @@ public class CharacterHead : CharacterControllable
 
     [SerializeField] CharacterGroundSensor groundSensor = null;
 
+    public Transform lookatPosition;
+
     //Perdon por esto, pero lo necesito pra la skill del boomeran hasta tener la animacion y el estado "sin escudo"
     bool canBlock = false;
     public GameObject escudo;
@@ -210,6 +212,8 @@ public class CharacterHead : CharacterControllable
     #region SET STATES
     EventStateMachine<PlayerInputs> stateMachine;
 
+
+    public Transform GetLookatPosition() { return lookatPosition; }
     void SetStates()
     {
         var idle = new EState<PlayerInputs>("Idle");
@@ -375,6 +379,7 @@ public class CharacterHead : CharacterControllable
         new CharOnMenues(onMenues, stateMachine)
             .SetLeftAxis(GetLeftHorizontal, GetLeftVertical)
             .SetRightAxis(GetRightHorizontal, GetRightVertical)
+            .SetSensor(sensor)
             .SetMovement(this.move);
 
         new CharMove(move, stateMachine)

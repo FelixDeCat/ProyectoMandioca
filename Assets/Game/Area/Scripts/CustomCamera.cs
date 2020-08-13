@@ -21,7 +21,7 @@ public class CustomCamera : MonoBehaviour
     public bool active = true;
     public float horizontalSpeed;
     public float verticalSpeed;
-
+    [SerializeField] float _speedAwayOfMesh;
     public float horizontal;
     public float vertical;
 
@@ -47,6 +47,7 @@ public class CustomCamera : MonoBehaviour
     JoystickBasicInput _joystick;
     float startHorizontal;
     float StartVertical;
+    [SerializeField] RotateTheCamera _rotOfCamera;
 
     [SerializeField] EventInt invertAxis;
 
@@ -59,7 +60,7 @@ public class CustomCamera : MonoBehaviour
         pingpongZoom.Configure(Zoom, false);
         changeCameraconf(0);
         original_shake_amount = shakeAmmount;
-        charTransform = Main.instance.GetChar().transform;
+        charTransform = Main.instance.GetChar().GetLookatPosition();
         //skillCloseUp_Camera.SubscribeOnTurnOnCamera(CloseToCharacter);
         //skillCloseUp_Camera.SubscribeOnTurnOnCamera(ExitToCharacte);
     }
@@ -315,5 +316,10 @@ public class CustomCamera : MonoBehaviour
         }
 
 
+    }
+    private void OnTriggerStay(Collider other)
+    {
+        if (other.gameObject.layer == 21)
+            _rotOfCamera.RotationOfCamera(_speedAwayOfMesh);
     }
 }
