@@ -21,6 +21,9 @@ public class CustomSpawner : PlayObject
     [SerializeField] private bool infiniteSpawner = false;
     [SerializeField] private Transform spawnSpot;
     [SerializeField] LayerMask floorMask = 1 << 21;
+    [SerializeField] private int maxSpawn = 10;
+    private int currentSpawn;
+
 
     [Header("***--Wave Settings--***")]
     [SerializeField] private int totalAmount = 20;
@@ -40,6 +43,8 @@ public class CustomSpawner : PlayObject
     //Una state machine XD
     protected override void OnUpdate()
     {
+        if (currentSpawn >= maxSpawn) return;
+
         switch (mode)
         {
             case SpawnMode.Time:
@@ -72,6 +77,7 @@ public class CustomSpawner : PlayObject
             
             for (int i = 0; i < waveAmount; i++)
             {
+                if (currentSpawn >= maxSpawn || _amountSpawned >= totalAmount) break;
                 SpawnPrefab();
                 if(!infiniteSpawner)
                     _amountSpawned++;
@@ -99,6 +105,7 @@ public class CustomSpawner : PlayObject
             
             for (int i = 0; i < waveAmount; i++)
             {
+                if (currentSpawn >= maxSpawn) break;
                 SpawnPrefab();
             }
         }
@@ -118,6 +125,8 @@ public class CustomSpawner : PlayObject
         //newObject.GetComponent<EnemyBase>()?.AddCallbackFinishFeedbackDeath(ResetObject);
         newObject.GetComponent<EnemyBase>()?.Initialize();
         newObject.transform.position = GetSurfacePos();
+        newObject.Spawner = this;
+        currentSpawn += 1;
         return newObject;
     }
 
@@ -136,10 +145,10 @@ public class CustomSpawner : PlayObject
     }
 
 
-    void ResetObject(EnemyBase newobject)
+    public void ReturnObject(PlayObject newobject)
     {
-        newobject?.ResetEntity();
-        _poolPlayObject.ReturnToPool(newobject);
+        //_poolPlayObject.ReturnToPool(newobject);
+        currentSpawn -= 1;
     }
 
     Vector3 GetPosRandom(float radio, Transform t)

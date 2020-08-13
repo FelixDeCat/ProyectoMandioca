@@ -24,6 +24,6 @@ public class RotateTheCamera : MonoBehaviour
     }
     public void RotationOfCamera(float axis)
     {
-        transform.RotateAround(target.transform.position, Vector3.up, (axis *_speed* Time.deltaTime));
+        transform.RotateAround(target.transform.position, Vector3.up, -axis *_speed* Time.deltaTime);
     }
 }
