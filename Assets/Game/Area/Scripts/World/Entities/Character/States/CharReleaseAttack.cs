@@ -38,10 +38,10 @@ namespace Tools.StateMachine
             {
                 charMove.RotateHorizontal(RightHorizontal());
                 charMove.RotateVertical(RightVertical());
-                charMove.RotateHorizontal(LeftHorizontal());
-                charMove.RotateVertical(LeftVertical());
-                charMove.MovementHorizontal(0);
-                charMove.MovementVertical(0);
+                //charMove.RotateHorizontal(LeftHorizontal());
+                //charMove.RotateVertical(LeftVertical());
+                //charMove.MovementHorizontal(LeftHorizontal());
+                //charMove.MovementVertical(LeftVertical());
             }
 
             if (enter)
@@ -75,6 +75,8 @@ namespace Tools.StateMachine
             timer = 0;
             ChangeHeavy(false);
             feedbacks.particles.feedbackDashHeavy.Stop();
+
+            
         }
     }
 }
