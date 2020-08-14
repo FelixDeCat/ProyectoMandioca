@@ -11,7 +11,7 @@ public class ShakeTransformS : MonoBehaviour
     private Vector3 _randomPos;
  
     [Header("Settings")]
-    [Range(0f, 2f)]
+    [Range(0f, 4f)]
     public float _time = 0.2f;
     [Range(0f, 2f)]
     public float _distance = 0.1f;
