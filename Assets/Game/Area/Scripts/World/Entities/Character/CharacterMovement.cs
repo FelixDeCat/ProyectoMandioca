@@ -137,6 +137,11 @@ public class CharacterMovement
         auxNormalized += right * (movX * currentSpeed);
         auxNormalized += forward * (movY * currentSpeed);
 
+        rotX = auxNormalized.normalized.x;
+        rotY = auxNormalized.normalized.z;
+
+        Rotation();
+
         if (!forcing)
             _rb.velocity = new Vector3(auxNormalized.x, velY, auxNormalized.z);
 
@@ -150,11 +155,6 @@ public class CharacterMovement
             anim.Move(0, 1);
         else
             anim.Move(0, 0);
-
-        rotX = auxNormalized.normalized.x;
-        rotY = auxNormalized.normalized.z;
-
-        Rotation();
 
         //if (rotX >= 0.3 || rotX <= -0.3 || rotY >= 0.3 || rotY <= -0.3)
         //{
@@ -216,8 +216,9 @@ public class CharacterMovement
         Vector3 auxNormalized = Vector3.zero;
 
         Vector3 right = Vector3.Cross(Vector3.up, myCamera.forward);
-
-        auxNormalized += right * (axis);
+        Vector3 forward = Vector3.Cross(right, Vector3.up);
+        auxNormalized += forward * rotY;
+        auxNormalized += right * axis;
 
         rotX = auxNormalized.normalized.x;
         Rotation();
@@ -232,7 +233,8 @@ public class CharacterMovement
 
         Vector3 right = Vector3.Cross(Vector3.up, myCamera.forward);
         Vector3 forward = Vector3.Cross(right, Vector3.up);
-        auxNormalized += forward * (axis);
+        auxNormalized += forward * axis;
+        auxNormalized += right * rotX;
 
         rotY = auxNormalized.normalized.z;
 
