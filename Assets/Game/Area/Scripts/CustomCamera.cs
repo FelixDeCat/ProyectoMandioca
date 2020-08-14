@@ -85,17 +85,16 @@ public class CustomCamera : MonoBehaviour
         pingpongZoom.Updatear();
         ShaderMask();
         if(!lookAt)
-        transform.forward = Vector3.Lerp(transform.forward, myCameras[index].transform.forward, speedRot * Time.deltaTime);
-       // _joystick.Refresh();
-        //if (Input.GetKeyDown(KeyCode.C))
-        //{
-        //    NextCamera();
-        //}
+        transform.forward = Vector3.Slerp(transform.forward, myCameras[index].transform.forward, speedRot * Time.deltaTime);
+
+        
     }
+
     private void FixedUpdate()
     {
         if (!active || activateOverTheSholder)
             return;
+
         SmoothToTarget();
     }
     private void LateUpdate()
@@ -103,6 +102,9 @@ public class CustomCamera : MonoBehaviour
         if (!active || activateOverTheSholder)
             return;
         if (activeShake) Shake();
+
+        
+
     }
 
     public void DoFastZoom(float _speedanim, float _fieldOfViewToZoom = 55)
@@ -125,7 +127,7 @@ public class CustomCamera : MonoBehaviour
         {
             moveOffset += transform.up * axisZ * sensitivity;
         }
-        Vector3 smoothedposition = Vector3.Lerp(transform.position, moveOffset, smooth * Time.deltaTime);
+        Vector3 smoothedposition = Vector3.Slerp(transform.position, moveOffset, smooth * Time.deltaTime);
         transform.position = smoothedposition;
         if (lookAt) transform.LookAt(charTransform);
     }
@@ -251,7 +253,6 @@ public class CustomCamera : MonoBehaviour
         target = myCameras[i].transform;
         shakeAmmount = myCameras[i].shakeAmmount;
         shakeDuration = myCameras[i].shakeDuration;
-        smooth = myCameras[i].smoothTime;
 
         Camera camera = GetComponent<Camera>();
         camera.cullingMask = myCameras[i].CullingMask;
@@ -274,7 +275,6 @@ public class CustomCamera : MonoBehaviour
             target = overTheSholderCam.transform;
             shakeAmmount = overTheSholderCam.shakeAmmount;
             shakeDuration = overTheSholderCam.shakeDuration;
-            smooth = overTheSholderCam.smoothTime;
 
             Camera camera = GetComponent<Camera>();
             camera.cullingMask = overTheSholderCam.CullingMask;

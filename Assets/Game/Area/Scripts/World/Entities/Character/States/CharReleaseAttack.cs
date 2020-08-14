@@ -38,6 +38,7 @@ namespace Tools.StateMachine
             {
                 charMove.RotateHorizontal(LeftHorizontal());
                 charMove.RotateVertical(LeftVertical());
+                
                 //charMove.MovementHorizontal(LeftHorizontal());
                 //charMove.MovementVertical(LeftVertical());
             }
