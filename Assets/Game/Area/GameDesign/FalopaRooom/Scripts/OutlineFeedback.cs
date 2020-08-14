@@ -1,6 +1,7 @@
 ﻿    using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System.Linq;
 
 public class OutlineFeedback : FeedbackInteractBase
 {
@@ -18,7 +19,7 @@ public class OutlineFeedback : FeedbackInteractBase
 
     private void Start()
     {
-        myMat = parentWithMaterials.GetComponentInChildren<Renderer>().materials;
+        myMat = parentWithMaterials.GetComponentsInChildren<Renderer>().Select(x => x.materials[1]).ToArray();
     }
 
     protected override void OnShow()

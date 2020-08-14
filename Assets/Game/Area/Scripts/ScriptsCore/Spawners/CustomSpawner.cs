@@ -135,7 +135,7 @@ public class CustomSpawner : PlayObject
     Vector3 GetSurfacePos()
     {
         var pos = GetPosRandom(spawnRadius, spawnSpot);
-        pos.y += 100;
+        pos.y += 20;
 
         RaycastHit hit;
       

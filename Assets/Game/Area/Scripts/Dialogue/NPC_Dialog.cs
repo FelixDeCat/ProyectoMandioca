@@ -2,12 +2,14 @@
 using System.Collections.Generic;
 using UnityEngine;
 using Tools.Extensions;
+using UnityEngine.Events;
 
 public class NPC_Dialog : Interactable
 {
     public string nombre_NPC;
     public DialogueTree[] dialogues;
     public DialogueTree currentDialoge;
+    public UnityEvent OnBeginMission;
 
     private void Awake()
     {
