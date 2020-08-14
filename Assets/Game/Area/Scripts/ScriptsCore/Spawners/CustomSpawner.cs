@@ -63,6 +63,8 @@ public class CustomSpawner : PlayObject
     //Tira enemigos cada cierto tiempo hasta que llega al total que le diste.
     void WaveMode()
     {
+        Debug.Log("_amountSpawned: "+ _amountSpawned + " totalAmount: " + totalAmount);
+
         if (_amountSpawned >= totalAmount)
         {
             canupdate = false;
@@ -155,7 +157,7 @@ public class CustomSpawner : PlayObject
     {
         Vector3 min = new Vector3(t.position.x - radio, 0, t.position.z - radio);
         Vector3 max = new Vector3(t.position.x + radio, t.position.y, t.position.z + radio);
-        return new Vector3(Random.Range(min.x, max.x), 0, Random.Range(min.z, max.z));
+        return new Vector3(Random.Range(min.x, max.x), t.position.y, Random.Range(min.z, max.z));
     }
 
     protected override void OnInitialize()
