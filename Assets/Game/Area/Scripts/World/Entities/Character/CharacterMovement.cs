@@ -193,9 +193,9 @@ public class CharacterMovement
         _rb.AddForce(dir * force, mode);
     }
 
-    public void StopForceBool()
+    public void StopForceBool(bool move = false)
     {
-        forcing = false;
+        forcing = move;
     }
 
     public void StopForce()

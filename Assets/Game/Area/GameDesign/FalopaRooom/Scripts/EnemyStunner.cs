@@ -11,6 +11,10 @@ public class EnemyStunner : WalkingEntity
     [SerializeField] private float stunDuration;
     [SerializeField] private float castTime;
 
+    [SerializeField] private float rootDuration;
+    [SerializeField] Vector3 particleOffset = new Vector3(0.25f, 0, 0.065f);
+    [SerializeField] ParticleSystem onRootParticles;
+
     [SerializeField] CombatArea spawneablePosition;
     CombatArea area;
 
@@ -95,6 +99,10 @@ public class EnemyStunner : WalkingEntity
     void StunChar()
     {
         charEffect.TakeEffect(EffectName.OnRoot, stunDuration);
+
+        onRootParticles.transform.position = myChar.transform.position + particleOffset.x * myChar.transform.forward + particleOffset.z * myChar.transform.right;
+        onRootParticles.Play();
+
         StartStun();
     }
 

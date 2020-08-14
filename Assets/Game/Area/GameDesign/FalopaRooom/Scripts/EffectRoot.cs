@@ -7,9 +7,9 @@ public class EffectRoot : EffectBase
     CharacterMovement charMove = null;
     CharacterAnimator anim = null;
 
-    private void Start()
+    protected override void OnInitialize()
     {
-        base.Start();
+        base.OnInitialize();
         charMove = Main.instance.GetChar().GetCharMove();
         anim = Main.instance.GetChar().charanim;
     }
@@ -17,6 +17,7 @@ public class EffectRoot : EffectBase
     protected override void OffEffect()
     {
         charMove.EnableRotation();
+        charMove.StopForceBool();
         charMove.SetSpeed();
         Main.instance.GetChar().BlockRoll = false;
     }
@@ -25,6 +26,8 @@ public class EffectRoot : EffectBase
     {
         charMove.CancelRotation();
         charMove.SetSpeed(0);
+        charMove.StopForce();
+        charMove.StopForceBool(true);
         Main.instance.GetChar().BlockRoll = true;
     }
   
