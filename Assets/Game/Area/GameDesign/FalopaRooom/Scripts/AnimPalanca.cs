@@ -4,26 +4,17 @@ using UnityEngine;
 
 public class AnimPalanca : MonoBehaviour
 {
-    PingPongLerp pingpong;
+
+    Animator myAnim;
+
 
     private void Awake()
     {
-        pingpong = new PingPongLerp();
-        pingpong.Configure(Animate, false);
-    }
-
-    private void Update()
-    {
-        pingpong.Updatear();
-    }
-
-    void Animate(float val)
-    {
-
+        myAnim = GetComponent<Animator>();
     }
 
     public void Anim()
     {
-        pingpong.Play(1);
+        myAnim.Play("Palanca");
     }
 }
