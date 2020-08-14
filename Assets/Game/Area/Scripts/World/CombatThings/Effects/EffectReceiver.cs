@@ -1,7 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using System.Runtime.Remoting.Messaging;
-using UnityEditorInternal;
+﻿using System.Collections.Generic;
 using UnityEngine;
 
 public enum EffectName { OnFire, OnPetrify, OnFreeze, OnRoot }
