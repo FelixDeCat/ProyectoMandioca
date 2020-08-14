@@ -27,6 +27,13 @@ public class PingPongLerp
     float time_to_stop = 0;
     bool anim_time_stop = false;
 
+    float goSpeed;
+    float backSpeed;
+
+    bool isConstant;
+    float time_stop_go;
+    float time_stop_back;
+
     public void Configure(Action<float> _callback, bool _loop, bool _overload = true, float _time_stop = -1f)
     {
         callback = _callback;
@@ -34,6 +41,18 @@ public class PingPongLerp
         overload = _overload;
         hastimestop = _time_stop > 0;
         if (hastimestop) time_to_stop = _time_stop;
+    }
+    public void ConfigureSpeedsMovements(float _goSpeedMultiplier = 1, float _backSpeedMultiplier = 1)
+    {
+        if (_goSpeedMultiplier == 1 && time_stop_back == 1) isConstant = true;
+        goSpeed = _goSpeedMultiplier;
+        backSpeed = _backSpeedMultiplier;
+    }
+
+    public void ConfigueTimeStopsSides(float _time_stop_go = 1, float _time_stop_back = 1)
+    {
+        time_stop_go = _time_stop_go;
+        time_stop_back = _time_stop_back;
     }
 
     public void Play(float _cantspeed)
@@ -75,7 +94,7 @@ public class PingPongLerp
             {
                 if (go)
                 {
-                    if (timer < 1) { timer = timer + cantspeed * Time.deltaTime; callback(timer); }
+                    if (timer < 1) { timer = timer + cantspeed* goSpeed * Time.deltaTime; callback(timer); }
                     else
                     {
                         timer = 1;
@@ -90,7 +109,7 @@ public class PingPongLerp
                 }
                 else
                 {
-                    if (timer > 0) { timer = timer - cantspeed * Time.deltaTime; callback(timer); }
+                    if (timer > 0) { timer = timer - cantspeed * backSpeed * Time.deltaTime; callback(timer); }
                     else
                     {
                         anim = loop;
@@ -112,14 +131,45 @@ public class PingPongLerp
         }
         else
         {
-            if (timer_stop < time_to_stop)
+            if (isConstant)
             {
-                timer_stop = timer_stop + 1 * Time.deltaTime;
+                if (timer_stop < time_to_stop)
+                {
+                    timer_stop = timer_stop + 1 * Time.deltaTime;
+                }
+                else
+                {
+                    timer_stop = 0;
+                    anim_time_stop = false;
+                }
             }
             else
             {
-                timer_stop = 0;
-                anim_time_stop = false;
+                if (go)
+                {
+                    if (timer_stop < time_stop_go)
+                    {
+                        timer_stop = timer_stop + 1 * Time.deltaTime;
+                    }
+                    else
+                    {
+                        timer_stop = 0;
+                        anim_time_stop = false;
+                    }
+                }
+                else
+                {
+                    if (timer_stop < time_stop_back)
+                    {
+                        timer_stop = timer_stop + 1 * Time.deltaTime;
+                    }
+                    else
+                    {
+                        timer_stop = 0;
+                        anim_time_stop = false;
+                    }
+                }
+            
             }
         }
     }
