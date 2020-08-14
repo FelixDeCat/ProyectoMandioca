@@ -29,6 +29,7 @@ public class DialogueManager : MonoBehaviour
 
     public void StartDialogue(DialogueTree treedialog)
     {
+        
         frontend.Open();
         Main.instance.GetChar().InputGoToMenues(true);
         tree = treedialog;

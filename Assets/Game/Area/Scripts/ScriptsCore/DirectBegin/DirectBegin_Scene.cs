@@ -21,6 +21,8 @@ namespace Tools.Testing
             }
             else
             {
+                Cursor.visible = false;
+                Cursor.lockState = CursorLockMode.Locked;
                 Destroy(this.gameObject);
             }
         }

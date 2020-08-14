@@ -54,6 +54,10 @@ public class Main : MonoBehaviour
     {
         StartCoroutine(InitCorroutine());
         Invoke("EndLoad", 0.1f);
+
+        Cursor.lockState = CursorLockMode.Confined;
+        
+        
     }
 
     void EndLoad()
