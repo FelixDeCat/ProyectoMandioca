@@ -7,9 +7,17 @@ public class CharTest : MonoBehaviour
 
     public int offset = 20;
 
+    public bool hyperJump;
+
     void Start()
     {
-        DevelopTools.UI.Debug_UI_Tools.instance.CreateToogle("speed fast", false, ChangeSpeed);
+        DevelopTools.UI.Debug_UI_Tools.instance.CreateToogle("Hyper Jump", false, HyperJump);
+    }
+
+    public string HyperJump(bool active)
+    {
+        hyperJump = active;
+        return "HYperjump";
     }
 
     public string ChangeSpeed(bool active)
@@ -25,11 +33,14 @@ public class CharTest : MonoBehaviour
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Space))
+        if (hyperJump)
         {
-            var character = GetComponentInChildren<CharacterHead>();
-            var posaux = new Vector3(character.gameObject.transform.position.x, character.gameObject.transform.position.y + offset, character.gameObject.transform.position.z);
-            character.gameObject.transform.position = posaux;
+            if (Input.GetKeyDown(KeyCode.Space))
+            {
+                var character = GetComponentInChildren<CharacterHead>();
+                var posaux = new Vector3(character.gameObject.transform.position.x, character.gameObject.transform.position.y + offset, character.gameObject.transform.position.z);
+                character.gameObject.transform.position = posaux;
+            }
         }
     }
 

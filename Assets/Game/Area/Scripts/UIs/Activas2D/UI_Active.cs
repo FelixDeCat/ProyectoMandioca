@@ -29,7 +29,7 @@ public class UI_Active : MonoBehaviour, ISubmitHandler
 
     public void SetColor(Color color)
     {
-        img.color = color; 
+        //img.color = color; 
         //bkg.color = color;
     }
 
