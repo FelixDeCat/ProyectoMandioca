@@ -11,6 +11,7 @@ namespace Tools.Testing
     public class DirectBegin_Scene : MonoBehaviour
     {
         public JumpData data;
+        public bool LockMouse;
         public void Awake()
         {
             if (Main.instance == null) // si entra acá es porque nunca entro a la escena de carga
@@ -21,8 +22,11 @@ namespace Tools.Testing
             }
             else
             {
-                Cursor.visible = false;
-                Cursor.lockState = CursorLockMode.Locked;
+                if (LockMouse)
+                {
+                    Cursor.visible = false;
+                    Cursor.lockState = CursorLockMode.Locked;
+                }
                 Destroy(this.gameObject);
             }
         }

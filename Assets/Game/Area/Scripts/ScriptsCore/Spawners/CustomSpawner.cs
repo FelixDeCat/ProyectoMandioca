@@ -36,7 +36,7 @@ public class CustomSpawner : PlayObject
     private void Start(){_poolPlayObject = PoolManager.instance.GetObjectPool(gameObject.name, prefab);}
 
     //Se activa el spawner
-    public void ActivateSpawner(){canupdate = true;}
+    public void ActivateSpawner(){ Debug.Log("Entra al Active Spawner;"); canupdate = true; }
     public void StopSpawner() { canupdate = false;  Debug.Log("frena spawner"); }
     public void DestroySpawner() { Destroy(gameObject); }
 
