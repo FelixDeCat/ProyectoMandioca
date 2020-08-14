@@ -190,7 +190,7 @@ public class CharacterAttack
         if (buttonPressedTime < heavyAttackTime)
         {
             NormalAttack.Invoke();
-            move.AttackMovement(7);
+            move.AttackMovement(4);
         }
         else
         {

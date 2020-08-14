@@ -143,7 +143,7 @@ public class EnemyStunner : WalkingEntity
 
         ChangeState(EnemyStunnerStates.Idle);
         castingBar.InterruptCasting();
-        Teleport();          
+        Teleport();
     }
 
     void Die()
