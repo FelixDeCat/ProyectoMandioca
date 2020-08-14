@@ -13,13 +13,13 @@ public class RotateTheCamera : MonoBehaviour
 
     private void Start()
     {
-        PosY = transform.position.y;
+        PosY = transform.localPosition.y;
     }
 
     private void Update()
     {
         if (_returnToPos)
-            transform.position = Vector3.Lerp(transform.position, new Vector3(transform.position.x, PosY, transform.position.z), _speedToReturn * Time.deltaTime);
+            transform.localPosition = Vector3.Lerp(transform.localPosition, new Vector3(transform.localPosition.x, PosY, transform.localPosition.z), _speedToReturn * Time.deltaTime);
     }
     public void RotationOfCamera(float axis)
     {

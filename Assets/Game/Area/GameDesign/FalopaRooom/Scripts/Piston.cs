@@ -1,79 +1,26 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-
+﻿using UnityEngine;
 public class Piston : MonoBehaviour
 {
+    [Header("Posiciones")]
     [SerializeField] Transform _startPos = null;
     [SerializeField] Transform _EndPos = null;
-    [SerializeField] float _speed = 5;
-    [SerializeField] float _speedUp = 2;
-    [SerializeField] bool _goBack = false;
-    [SerializeField] float _delayStart;
-    private float _timeToStart;
-    public bool active;
-    [SerializeField] float _transitionTimeDown = 0.5f;
-    [SerializeField] float _transitionTimeUp = 0.5f;
-    float _currentTimer;
-    [SerializeField] TriggerOfPiston trigger = null;
+    [SerializeField] Transform ToMove;
 
-
-    
-    // Start is called before the first frame update
+    [Header("Posiciones")]
+    [SerializeField] float speed = 1f;
+    [SerializeField] float stay_position_time = 1f;
+    PingPongLerp pingponglerp;
     void Start()
     {
-        if(!_goBack)
-            transform.position = _startPos.position;
-        else
-            transform.position = _EndPos.position;
-
-
-        trigger.getPiston(this);
+        pingponglerp = new PingPongLerp();
+        pingponglerp.Configure(AnimationResult, true, true, stay_position_time);
+        pingponglerp.Play(speed);
     }
-
-    // Update is called once per frame
-    void Update()
+    public void AnimationResult(float val_anim) => ToMove.position = Vector3.Lerp(_startPos.position, _EndPos.position, val_anim);
+    void Update() => pingponglerp.Updatear();
+    private void OnDrawGizmos()
     {
-        if (!active)
-            return;
-        if (_timeToStart < _delayStart)
-        {
-            _timeToStart += Time.deltaTime;
-        }
-        else
-        {
-            if (!_goBack)
-            {
-                transform.position = Vector3.Lerp(transform.position, _EndPos.position, Time.deltaTime * _speed);
-                _currentTimer += Time.deltaTime;
-                if (_currentTimer >= _transitionTimeDown)
-                {
-                    _currentTimer = 0;
-                    _goBack = true;
-                }
-            }
-            else
-            {
-                transform.position = Vector3.Lerp(transform.position, _startPos.position, Time.deltaTime * _speedUp);
-                _currentTimer += Time.deltaTime;
-                if (_currentTimer >= _transitionTimeUp)
-                {
-                    _currentTimer = 0;
-                    _goBack = false;
-                }
-            }
-        }
-
-      
-
+        Gizmos.color = Color.blue;
+        Gizmos.DrawLine(_startPos.position, _EndPos.position);
     }
-
-    private void OnTriggerEnter(Collider other)
-    {
-        if (other.gameObject.GetComponent<CharacterHead>())
-        {
-            active = true;
-        }
-    }
-
 }

@@ -4,17 +4,19 @@ using UnityEngine;
 
 public class TriggerOfPiston : MonoBehaviour
 {
-    Piston _myPiston;
-    public void getPiston(Piston piston)
-    {
-        _myPiston = piston;
-    }
-
+    public Transform parentToParent;
     private void OnTriggerEnter(Collider other)
     {
         if (other.gameObject.GetComponent<CharacterHead>())
         {
-            _myPiston.active = true;
+            other.gameObject.GetComponent<CharacterHead>().transform.parent = parentToParent.transform;
+        }
+    }
+    private void OnTriggerExit(Collider collision)
+    {
+        if (collision.gameObject.GetComponent<CharacterHead>())
+        {
+            collision.gameObject.GetComponent<CharacterHead>().transform.parent = null;
         }
     }
 }

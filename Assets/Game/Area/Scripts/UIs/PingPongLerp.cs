@@ -21,11 +21,19 @@ public class PingPongLerp
 
     public Action<float> callback;
 
-    public void Configure(Action<float> _callback, bool _loop, bool _overload = true)
+    bool hastimestop;
+
+    float timer_stop;
+    float time_to_stop = 0;
+    bool anim_time_stop = false;
+
+    public void Configure(Action<float> _callback, bool _loop, bool _overload = true, float _time_stop = -1f)
     {
         callback = _callback;
         loop = _loop;
         overload = _overload;
+        hastimestop = _time_stop > 0;
+        if (hastimestop) time_to_stop = _time_stop;
     }
 
     public void Play(float _cantspeed)
@@ -61,31 +69,58 @@ public class PingPongLerp
 
     public void Updatear()
     {
-        if (anim)
+        if (!anim_time_stop)
         {
-            if (go)
+            if (anim)
             {
-                if (timer < 1) { timer = timer + cantspeed * Time.deltaTime; callback(timer); }
+                if (go)
+                {
+                    if (timer < 1) { timer = timer + cantspeed * Time.deltaTime; callback(timer); }
+                    else
+                    {
+                        timer = 1;
+                        go = false;
+
+                        if (hastimestop)
+                        {
+                            timer_stop = 0;
+                            anim_time_stop = true;
+                        }
+                    }
+                }
                 else
                 {
-                    timer = 1;
-                    go = false;
+                    if (timer > 0) { timer = timer - cantspeed * Time.deltaTime; callback(timer); }
+                    else
+                    {
+                        anim = loop;
+                        go = true;
+
+                        if (hastimestop)
+                        {
+                            timer_stop = 0;
+                            anim_time_stop = true;
+                        }
+                    }
                 }
             }
             else
             {
-                if (timer > 0) { timer = timer - cantspeed * Time.deltaTime; callback(timer); }
-                else
-                {
-                    anim = loop;
-                    go = true;
-                }
+                go = true;
+                timer = 0;
             }
         }
         else
         {
-            go = true;
-            timer = 0;
+            if (timer_stop < time_to_stop)
+            {
+                timer_stop = timer_stop + 1 * Time.deltaTime;
+            }
+            else
+            {
+                timer_stop = 0;
+                anim_time_stop = false;
+            }
         }
     }
 }
