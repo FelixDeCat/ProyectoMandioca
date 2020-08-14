@@ -17,18 +17,24 @@ public class Piston : MonoBehaviour
     [SerializeField] float staypositiontime_back = 1f;
     [SerializeField] float speed_back_multiplier = 1f;
 
+    [Header("Anim by Code")]
+    public bool Anim = true;
+
 
 
     PingPongLerp pingponglerp;
     void Start()
     {
-        pingponglerp = new PingPongLerp();
-        pingponglerp.Configure(AnimationResult, true, true, stay_position_time);
+        if (Anim)
+        {
+            pingponglerp = new PingPongLerp();
+            pingponglerp.Configure(AnimationResult, true, true, stay_position_time);
 
-        pingponglerp.ConfigureSpeedsMovements(speed_go_multiplier, speed_back_multiplier);
-        pingponglerp.ConfigueTimeStopsSides(staypositiontime_go, staypositiontime_back);
-        
-        Invoke("BeginAnimation", delayToBegin);
+            pingponglerp.ConfigureSpeedsMovements(speed_go_multiplier, speed_back_multiplier);
+            pingponglerp.ConfigueTimeStopsSides(staypositiontime_go, staypositiontime_back);
+
+            Invoke("BeginAnimation", delayToBegin);
+        }
     }
 
     void BeginAnimation()
