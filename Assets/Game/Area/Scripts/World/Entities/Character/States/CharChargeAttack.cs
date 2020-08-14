@@ -17,9 +17,6 @@ namespace Tools.StateMachine
         {
             charAttack.AttackBegin();
 
-            charMove.MovementHorizontal(LeftHorizontal());
-            charMove.MovementVertical(LeftVertical());
-
             charMove.MovementHorizontal(0);
             charMove.MovementVertical(0);
         }

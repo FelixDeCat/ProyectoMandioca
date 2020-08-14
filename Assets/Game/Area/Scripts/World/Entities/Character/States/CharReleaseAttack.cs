@@ -25,8 +25,6 @@ namespace Tools.StateMachine
         {
             if (IsHeavy())
             {
-                charMove.MovementHorizontal(LeftHorizontal());
-                charMove.MovementVertical(LeftVertical());
                 charMove.MovementHorizontal(0);
                 charMove.MovementVertical(0);
                 feedbacks.particles.feedbackDashHeavy.Play();
@@ -37,9 +35,9 @@ namespace Tools.StateMachine
         protected override void Update()
         {
             if (!IsHeavy())
-            {                
-                //charMove.MovementHorizontal(LeftHorizontal());
-                //charMove.MovementVertical(LeftVertical());
+            {
+                charMove.RotateHorizontal(LeftHorizontal());
+                charMove.RotateVertical(LeftVertical());
             }
 
             if (enter)
