@@ -24,6 +24,8 @@ public class CarivorousPlant : EntityBase
     [SerializeField] Damagetype dmgType = Damagetype.Normal;
     float timer;
 
+    [SerializeField] ParticleSystem attFeedback = null;
+
     bool on;
     bool isZero;
     bool inDmg;
@@ -41,6 +43,10 @@ public class CarivorousPlant : EntityBase
         lifeSystem.Initialize();
         lifeSystem.CreateADummyLifeSystem();
         if (!inDmg) plant?.SetBlendShapeWeight(0, 0);
+
+        var go = Instantiate(attFeedback);
+        go.gameObject.SetActive(false);
+        attFeedback = go;
     }
 
     private void Update() => OnUpdate();
@@ -124,14 +130,28 @@ public class CarivorousPlant : EntityBase
         if (!b) character?.GetCharMove().StopForceBool();
 
         gameObject.SetActive(false);
+
+        if (attFeedback)
+        {
+            attFeedback.Stop();
+            attFeedback.gameObject.SetActive(false);
+        }
     }
 
     private void OnTriggerEnter(Collider other)
     {
         if (other.GetComponent<CharacterHead>())
         {
-            if (character) antibug = true;
+            if (character) { antibug = true; return; }
             else character = other.GetComponent<CharacterHead>();
+
+            if (attFeedback)
+            {
+                attFeedback.gameObject.SetActive(true);
+                attFeedback.transform.position = character.transform.position;
+                attFeedback.transform.SetParent(character.transform);
+                attFeedback.Play();
+            }
         }
     }
 
@@ -149,6 +169,12 @@ public class CarivorousPlant : EntityBase
             isZero = false;
             plant?.SetBlendShapeWeight(0, 0);
             character = null;
+
+            if (attFeedback)
+            {
+                attFeedback.Stop();
+                attFeedback.gameObject.SetActive(false);
+            }
         }
     }
 

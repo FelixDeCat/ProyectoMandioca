@@ -10,12 +10,17 @@ public class AttractionHole : MonoBehaviour
     [SerializeField] Transform centerPoint = null;
     [SerializeField] ForceMode mode = ForceMode.Acceleration;
     [SerializeField, Range(-1, 1)] int forceDirection = 1;
+
+    [SerializeField] ParticleSystem attFeedback = null;
     bool on;
     bool isZero;
 
     protected void Awake()
     {
         on = true;
+        var go = Instantiate(attFeedback);
+        go.gameObject.SetActive(false);
+        attFeedback = go;
     }
 
     private void Update()
@@ -60,7 +65,16 @@ public class AttractionHole : MonoBehaviour
     private void OnTriggerEnter(Collider other)
     {
         if (other.GetComponent<CharacterHead>())
+        {
             character = other.GetComponent<CharacterHead>();
+            if (attFeedback)
+            {
+                attFeedback.gameObject.SetActive(true);
+                attFeedback.transform.position = character.transform.position;
+                attFeedback.transform.SetParent(character.transform);
+                attFeedback.Play();
+            }
+        }
     }
 
     private void OnTriggerExit(Collider other)
@@ -70,6 +84,12 @@ public class AttractionHole : MonoBehaviour
             character?.GetCharMove().StopForceBool();
             character = null;
             isZero = false;
+
+            if (attFeedback)
+            {
+                attFeedback.Stop();
+                attFeedback.gameObject.SetActive(false);
+            }
         }
     }
 }

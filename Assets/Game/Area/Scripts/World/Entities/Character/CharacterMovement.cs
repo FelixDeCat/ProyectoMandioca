@@ -134,8 +134,8 @@ public class CharacterMovement
         Vector3 right = Vector3.Cross(Vector3.up, myCamera.forward);
         Vector3 forward = Vector3.Cross(right, Vector3.up);
 
-        auxNormalized += right * (movX * currentSpeed);
-        auxNormalized += forward * (movY * currentSpeed);
+        auxNormalized += right.normalized * (movX * currentSpeed);
+        auxNormalized += forward.normalized * (movY * currentSpeed);
 
         rotX = auxNormalized.normalized.x;
         rotY = auxNormalized.normalized.z;
