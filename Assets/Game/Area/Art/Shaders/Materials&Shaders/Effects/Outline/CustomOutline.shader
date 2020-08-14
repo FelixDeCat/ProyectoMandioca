@@ -6,13 +6,36 @@ Shader "Effects/Interactuables/CustomOutline"
 	{
 		_MainColor("Main Color", Color) = (0.6226415,0.6226415,0.6226415,0)
 		_EmissionColor("EmissionColor", Color) = (0,0,0,0)
+		_OutlineColor("Outline Color", Color) = (0,0.2204757,1,0)
 		_MainOpacity("MainOpacity", Range( 0 , 1)) = 0
+		_OutlineWitdh("Outline Witdh", Range( 0 , 1)) = 0
+		_OpacityOutline("OpacityOutline", Range( 0 , 1)) = 0
 		_Float0("Float 0", Float) = 0
 		[HideInInspector] __dirty( "", Int ) = 1
 	}
 
 	SubShader
 	{
+		Tags{ "RenderType" = "Transparent"  "Queue" = "Transparent+0"}
+		Cull Front
+		CGPROGRAM
+		#pragma target 3.0
+		#pragma surface outlineSurf Outline nofog alpha:fade  keepalpha noshadow noambient novertexlights nolightmap nodynlightmap nodirlightmap nometa noforwardadd vertex:outlineVertexDataFunc 
+		void outlineVertexDataFunc( inout appdata_full v, out Input o )
+		{
+			UNITY_INITIALIZE_OUTPUT( Input, o );
+			float outlineVar = _OutlineWitdh;
+			v.vertex.xyz *= ( 1 + outlineVar);
+		}
+		inline half4 LightingOutline( SurfaceOutput s, half3 lightDir, half atten ) { return half4 ( 0,0,0, s.Alpha); }
+		void outlineSurf( Input i, inout SurfaceOutput o )
+		{
+			o.Emission = _OutlineColor.rgb;
+			o.Alpha = _OpacityOutline;
+		}
+		ENDCG
+		
+
 		Tags{ "RenderType" = "Transparent"  "Queue" = "Transparent+0" "IgnoreProjector" = "True" "IsEmissive" = "true"  }
 		Cull Back
 		CGINCLUDE
@@ -28,6 +51,15 @@ Shader "Effects/Interactuables/CustomOutline"
 		uniform float4 _EmissionColor;
 		uniform float _Float0;
 		uniform float _MainOpacity;
+		uniform float _OutlineWitdh;
+		uniform float4 _OutlineColor;
+		uniform float _OpacityOutline;
+
+		void vertexDataFunc( inout appdata_full v, out Input o )
+		{
+			UNITY_INITIALIZE_OUTPUT( Input, o );
+			v.vertex.xyz += 0;
+		}
 
 		void surf( Input i , inout SurfaceOutputStandard o )
 		{
@@ -38,7 +70,7 @@ Shader "Effects/Interactuables/CustomOutline"
 
 		ENDCG
 		CGPROGRAM
-		#pragma surface surf Standard alpha:fade keepalpha fullforwardshadows 
+		#pragma surface surf Standard alpha:fade keepalpha fullforwardshadows vertex:vertexDataFunc 
 
 		ENDCG
 		Pass
@@ -75,6 +107,8 @@ Shader "Effects/Interactuables/CustomOutline"
 				UNITY_INITIALIZE_OUTPUT( v2f, o );
 				UNITY_INITIALIZE_VERTEX_OUTPUT_STEREO( o );
 				UNITY_TRANSFER_INSTANCE_ID( v, o );
+				Input customInputData;
+				vertexDataFunc( v, customInputData );
 				float3 worldPos = mul( unity_ObjectToWorld, v.vertex ).xyz;
 				half3 worldNormal = UnityObjectToWorldNormal( v.normal );
 				o.worldPos = worldPos;
@@ -110,17 +144,17 @@ Shader "Effects/Interactuables/CustomOutline"
 }
 /*ASEBEGIN
 Version=17200
-0;408;968;281;676.3207;-148.695;1.081462;True;False
-Node;AmplifyShaderEditor.ColorNode;8;-334.3628,-98.05403;Inherit;False;Property;_EmissionColor;EmissionColor;1;0;Create;True;0;0;False;0;0,0,0,0;0.1376237,0,1,0;True;0;5;COLOR;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
-Node;AmplifyShaderEditor.RangedFloatNode;36;-300.7001,65.46892;Inherit;False;Property;_Float0;Float 0;7;0;Create;True;0;0;False;0;0;0.81;0;0;0;1;FLOAT;0
-Node;AmplifyShaderEditor.RangedFloatNode;2;-898.2636,352.7805;Inherit;False;Property;_OutlineWitdh;Outline Witdh;4;0;Create;True;0;0;False;0;0;0.568;0;1;0;1;FLOAT;0
+0;408;979;281;454.3066;163.677;1;True;False
+Node;AmplifyShaderEditor.ColorNode;8;-334.3628,-98.05403;Inherit;False;Property;_EmissionColor;EmissionColor;1;0;Create;True;0;0;False;0;0,0,0,0;0.1921569,0.1568627,1,1;True;0;5;COLOR;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
+Node;AmplifyShaderEditor.RangedFloatNode;36;-300.7001,65.46892;Inherit;False;Property;_Float0;Float 0;7;0;Create;True;0;0;False;0;0;0.62;0;0;0;1;FLOAT;0
+Node;AmplifyShaderEditor.RangedFloatNode;2;-898.2636,352.7805;Inherit;False;Property;_OutlineWitdh;Outline Witdh;4;0;Create;True;0;0;False;0;0;0.153;0;1;0;1;FLOAT;0
+Node;AmplifyShaderEditor.ColorNode;4;-891.5121,-16.07732;Inherit;False;Property;_OutlineColor;Outline Color;2;0;Create;True;0;0;False;0;0,0.2204757,1,0;0.6839622,0.7533666,1,0;True;0;5;COLOR;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
+Node;AmplifyShaderEditor.RangedFloatNode;3;-952.8076,147.9241;Inherit;False;Property;_OpacityOutline;OpacityOutline;5;0;Create;True;0;0;False;0;0;0;0;1;0;1;FLOAT;0
 Node;AmplifyShaderEditor.WorldPosInputsNode;37;-323.5804,253.2038;Inherit;False;0;4;FLOAT3;0;FLOAT;1;FLOAT;2;FLOAT;3
-Node;AmplifyShaderEditor.ColorNode;4;-891.5121,-16.07732;Inherit;False;Property;_OutlineColor;Outline Color;2;0;Create;True;0;0;False;0;0,0.2204757,1,0;0,0.2204756,1,0;True;0;5;COLOR;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
-Node;AmplifyShaderEditor.RangedFloatNode;3;-952.8076,147.9241;Inherit;False;Property;_OpacityOutline;OpacityOutline;5;0;Create;True;0;0;False;0;0;1;0;1;0;1;FLOAT;0
 Node;AmplifyShaderEditor.SimpleMultiplyOpNode;29;-87.75424,295.6885;Inherit;False;3;3;0;FLOAT3;0,0,0;False;1;FLOAT;0;False;2;FLOAT3;0,0,0;False;1;FLOAT3;0
 Node;AmplifyShaderEditor.RangedFloatNode;7;-134.3017,182.661;Inherit;False;Property;_MainOpacity;MainOpacity;3;0;Create;True;0;0;False;0;0;1;0;1;0;1;FLOAT;0
 Node;AmplifyShaderEditor.SimpleMultiplyOpNode;35;-95.32873,7.816049;Inherit;False;2;2;0;COLOR;0,0,0,0;False;1;FLOAT;0;False;1;COLOR;0
-Node;AmplifyShaderEditor.ColorNode;9;-335.3755,-261.1065;Inherit;False;Property;_MainColor;Main Color;0;0;Create;True;0;0;False;0;0.6226415,0.6226415,0.6226415,0;0.6024972,0.5896226,1,0;True;0;5;COLOR;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
+Node;AmplifyShaderEditor.ColorNode;9;-335.3755,-261.1065;Inherit;False;Property;_MainColor;Main Color;0;0;Create;True;0;0;False;0;0.6226415,0.6226415,0.6226415,0;0.1905186,0.1556604,1,0;True;0;5;COLOR;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
 Node;AmplifyShaderEditor.OutlineNode;6;-659.0412,107.3941;Inherit;False;1;True;Transparent;0;0;Front;3;0;FLOAT3;0,0,0;False;2;FLOAT;0;False;1;FLOAT;0;False;1;FLOAT3;0
 Node;AmplifyShaderEditor.PosVertexDataNode;31;-458.0429,196.6416;Inherit;False;0;0;5;FLOAT3;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
 Node;AmplifyShaderEditor.Vector3Node;34;-396.9534,474.7566;Inherit;False;Property;_Vector0;Vector 0;6;0;Create;True;0;0;False;0;0,1,0;-3.13,-0.06,0.05;0;4;FLOAT3;0;FLOAT;1;FLOAT;2;FLOAT;3
@@ -136,5 +170,6 @@ WireConnection;6;1;2;0
 WireConnection;0;0;9;0
 WireConnection;0;2;35;0
 WireConnection;0;9;7;0
+WireConnection;0;11;6;0
 ASEEND*/
-//CHKSM=927582750F2D74CCE24F5A0391890C4FDB00992A
+//CHKSM=68D4E56D48D03D1E81E1116745CD03DA4422C22E
