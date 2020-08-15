@@ -5,6 +5,7 @@ using UnityEngine;
 public class DetectorOfCamera : MonoBehaviour
 {
     [SerializeField]RotateTheCamera _myCamera;
+    [SerializeField] float _speed;
     bool colliding;
     private void Start()
     {
@@ -14,8 +15,8 @@ public class DetectorOfCamera : MonoBehaviour
     {
         if (other.gameObject.layer == 21)
         {
-            _myCamera.ReturnToPos(true);
-
+            _myCamera.ReturnToPos(_speed);
+            _myCamera.colliding = false;
 
         }
             
@@ -24,12 +25,12 @@ public class DetectorOfCamera : MonoBehaviour
     private void OnTriggerStay(Collider other)
     {
         if (other.gameObject.layer == 21)
-            _myCamera.ReturnToPos(false);
+            _myCamera.colliding = true;
     }
     private void OnTriggerEnter(Collider other)
     {
         if (other.gameObject.layer == 21)
-            _myCamera.ReturnToPos(false);
+            _myCamera.colliding = true;
 
     }
 }
