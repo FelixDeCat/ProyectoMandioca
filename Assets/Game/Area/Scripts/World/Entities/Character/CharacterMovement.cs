@@ -137,10 +137,7 @@ public class CharacterMovement
         auxNormalized += right.normalized * (movX * currentSpeed);
         auxNormalized += forward.normalized * (movY * currentSpeed);
 
-        rotX = auxNormalized.normalized.x;
-        rotY = auxNormalized.normalized.z;
-
-        Rotation();
+        Rotation(auxNormalized.normalized.x, auxNormalized.normalized.z);
 
         if (!forcing)
             _rb.velocity = new Vector3(auxNormalized.x, velY, auxNormalized.z);
@@ -213,14 +210,8 @@ public class CharacterMovement
     //Joystick Derecho, Rotacion
     void RightHorizontal(float axis)
     {
-        Vector3 auxNormalized = Vector3.zero;
+        rotX = axis;
 
-        Vector3 right = Vector3.Cross(Vector3.up, myCamera.forward);
-        Vector3 forward = Vector3.Cross(right, Vector3.up);
-        auxNormalized += forward * rotY;
-        auxNormalized += right * axis;
-
-        rotX = auxNormalized.normalized.x;
         Rotation();
     }
     public void EnableRotation() => canRotate = true;
@@ -228,43 +219,34 @@ public class CharacterMovement
 
     void RightVerical(float axis)
     {
-
-        Vector3 auxNormalized = Vector3.zero;
-
-        Vector3 right = Vector3.Cross(Vector3.up, myCamera.forward);
-        Vector3 forward = Vector3.Cross(right, Vector3.up);
-        auxNormalized += forward * axis;
-        auxNormalized += right * rotX;
-
-        rotY = auxNormalized.normalized.z;
+        rotY = axis;
 
         Rotation();
     }
-    void Rotation()
+
+    void Rotation(float x = 800, float z = 800)
     {
         if (canRotate)
         {
             Vector3 dir;
 
-            dir = new Vector3(rotX, 0, rotY);
+            if (x == 800 && z == 800)
+            {
+                Vector3 auxNormalized = Vector3.zero;
+
+                Vector3 right = Vector3.Cross(Vector3.up, myCamera.forward);
+                Vector3 forward = Vector3.Cross(right, Vector3.up);
+
+                auxNormalized += right.normalized * rotX;
+                auxNormalized += forward.normalized * rotY;
+
+                x = auxNormalized.normalized.x;
+                z = auxNormalized.normalized.z;
+            }
+
+            dir = new Vector3(x, 0, z);
             if (dir == Vector3.zero)
                 dir = rotTransform.forward;
-
-            //if (rotX >= 0.3 || rotX <= -0.3 || rotY >= 0.3 || rotY <= -0.3)
-            //{
-            //    dir = rotTransform.forward + new Vector3(rotX, 0, rotY);
-            //}
-            //else
-            //{
-            //    dir = new Vector3(rotX, 0, rotY);
-            //    if (dir == Vector3.zero)
-            //        dir = rotTransform.forward;
-            //}
-
-            //if (dir == Vector3.zero)
-            //    rotTransform.forward = new Vector3(rotY, 0, rotX);
-            //else
-            //    dir = new Vector3(movY, 0, movX);
 
             rotTransform.forward = dir;
         }
