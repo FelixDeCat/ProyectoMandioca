@@ -12,10 +12,8 @@ public class Item : ScriptableObject
     public string description = "default_description";
 
     [Header("Comportamiento")]
-    //public BehaviurComponent[] behavoiurs;
     public bool unique = false;
     public bool noconsumible;
-    
     public bool can_not_place_inventory;
 
     [Header("para equipar")]
@@ -26,14 +24,14 @@ public class Item : ScriptableObject
     public GameObject model;
     public Sprite img;
 
-    //[Header("Compra venta craft")]
-    //public bool canSell;
-    //public int price;
-    //public BuyRequieriments[] buyrequieriments;
-    //[System.Serializable]
-    //public class BuyRequieriments
-    //{
-    //    public Item item;
-    //    public int cant;
-    //}
+    [Header("Compra venta craft")]
+    public bool canSell;
+    public int price;
+    public BuyRequieriments[] buyrequieriments;
+    [System.Serializable]
+    public class BuyRequieriments
+    {
+        public Item item;
+        public int cant;
+    }
 }

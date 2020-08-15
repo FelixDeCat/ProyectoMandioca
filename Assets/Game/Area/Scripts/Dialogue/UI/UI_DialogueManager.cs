@@ -65,7 +65,6 @@ public class UI_DialogueManager : UI_Base
         }
     }
 
-
     public void SetOption(int index, string option)
     {
         if (index == 0)
@@ -79,7 +78,6 @@ public class UI_DialogueManager : UI_Base
         reconfigure.Reconfigure();
 
         Repaint();
-
     }
 
     void Repaint()
