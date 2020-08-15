@@ -43,7 +43,11 @@ public class TotemFeedback
         chargeParticle?.Play();
     }
 
-    public void InterruptCharge() => StopCoroutine(StartToCharge(0));
+    public void InterruptCharge()
+    {
+        chargeParticle?.Stop();
+        StopCoroutine(StartToCharge(0));
+    }
 
     public void StartGoToFeedback(Vector3 finalPos, Action<Vector3> OnEndGo) => StartCoroutine(GoToFeedback(startPos.position, finalPos, OnEndGo));
 

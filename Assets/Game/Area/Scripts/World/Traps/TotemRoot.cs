@@ -10,6 +10,7 @@ public class TotemRoot : Totem
 
     [SerializeField] ParticleSystem onRootParticles;
     [SerializeField] CombatArea spawneablePosition;
+    [SerializeField] EffectName effectOwner = EffectName.OnRoot;
 
     CharacterHead myChar;
 
@@ -43,7 +44,7 @@ public class TotemRoot : Totem
 
     void StunChar()
     {
-        myChar.GetComponent<EffectReceiver>().TakeEffect(EffectName.OnRoot, effectDuration);
+        myChar.GetComponent<EffectReceiver>().TakeEffect(effectOwner, effectDuration);
 
         onRootParticles.transform.position = myChar.transform.position;
         onRootParticles.Play();
