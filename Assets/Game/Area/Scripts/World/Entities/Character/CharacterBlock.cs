@@ -1,33 +1,25 @@
 ﻿using UnityEngine;
 using System;
-using Tools.StateMachine;
 
 [System.Serializable]
 public class CharacterBlock : EntityBlock
 {
     [Header("Shield Model")]
     public GameObject shield;
-
     [Header ("Character Block Parameters")]
     [SerializeField] private int maxBlockCharges = 3;
     [SerializeField] private int currentBlockCharges = 3;
     [SerializeField] private float timeToRecuperate = 5f;
     [SerializeField] private float parryForceToKnockBack = 650;
     [SerializeField] ParticleSystem parryParticles = null;
-
+    public float ParryForce { get => parryForceToKnockBack; }
+    public int CurrentBlockCharges { get => currentBlockCharges; }
     public Action callback_OnBlock;
     public Action callback_UpBlock;
     public Action callback_OnParry;
     public Action callback_EndBlock;
-
     private CharacterAnimator anim;
-
     CharFeedbacks feedbacks;
-
-    public float ParryForce { get => parryForceToKnockBack; }
-
-    public int CurrentBlockCharges { get => currentBlockCharges; }
-
     float timerCharges;
 
     #region Set
