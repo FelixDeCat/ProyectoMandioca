@@ -58,6 +58,7 @@ public class SpatialGrid : MonoBehaviour
             UpdateEntity(e);
         }
 
+        SpatialGrid_handler.instance.SetCurrentSpatial(this);
     }
 
     private void RefreshGrid()
@@ -70,8 +71,7 @@ public class SpatialGrid : MonoBehaviour
         foreach (var e in ents)
         {
             UpdateEntity(e);
-        }            
-     
+        }
     }
 
     public void UpdateEntity(GridEntity entity)
@@ -80,33 +80,42 @@ public class SpatialGrid : MonoBehaviour
         var lastPos = lastPositions.ContainsKey(entity) ? lastPositions[entity] : Outside;
         var currentPos = GetPositionInGrid(entity.gameObject.transform.position);
 
-        //Misma posición, no necesito hacer nada
+        //si la ultima posicion almacenada es igual a la nueva
+        //no hago nada
         if (lastPos.Equals(currentPos))
             return;
 
+        //ahora, si me da una posicion nueva hay que actualizar las cosas
         
-        //Lo "sacamos" de la posición anterior
+        //si la almacenada esta dentro de la grilla
+        //la quito del bucket
         if (IsInsideGrid(lastPos))
             buckets[lastPos.Item1, lastPos.Item2].Remove(entity);
 
-        
-        //Lo "metemos" a la celda nueva, o lo sacamos si salio de la grilla
+        //entonces...
+
+        //una vez quitada la vieja
+        //metemos la nueva al bucket
+        //y piso la almacenada con la nueva
         if (IsInsideGrid(currentPos))
         {
             
             buckets[currentPos.Item1, currentPos.Item2].Add(entity);
             lastPositions[entity] = currentPos;
         }
-        else
+        else //si la nueva esta fuera de la grid, directamente quito del registro la entidad
             lastPositions.Remove(entity);
         
     }
 
     public IEnumerable<GridEntity> Query(Vector3 aabbFrom, Vector3 aabbTo, Func<Vector3, bool> filterByPosition)
     {
+        //como no sabemos cual de las dos posiciones es cada esquina,
+        //obtengo con los min y max cual el es From y cual el To
         var from = new Vector3(Mathf.Min(aabbFrom.x, aabbTo.x), 0, Mathf.Min(aabbFrom.z, aabbTo.z));
         var to = new Vector3(Mathf.Max(aabbFrom.x, aabbTo.x), 0, Mathf.Max(aabbFrom.z, aabbTo.z));
 
+        //traduzco el from y to a posicion de grilla
         var fromCoord = GetPositionInGrid(from);
         var toCoord = GetPositionInGrid(to);
 
@@ -162,8 +171,10 @@ public class SpatialGrid : MonoBehaviour
     void OnDestroy()
     {
         var ents = RecursiveWalker(transform).Select(x => x.GetComponent<GridEntity>()).Where(x => x != null);
+
+        SpatialGrid_handler.instance.StopSpatialGrid();
         //foreach (var e in ents)
-            //e.OnMove -= UpdateEntity;
+        //e.OnMove -= UpdateEntity;
     }
 
     #region GENERATORS
