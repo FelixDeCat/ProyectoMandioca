@@ -17,9 +17,9 @@ public class CustomSpawner : PlayObject
     [SerializeField] private PlayObject prefab = null;
     [SerializeField] private float spawnRadius = 5;
     [SerializeField] private float waveFrec = 1;
-    [SerializeField] private int waveAmount = 5;
+    public int waveAmount = 5;
     [SerializeField] private bool infiniteSpawner = false;
-    [SerializeField] private Transform spawnSpot;
+    [SerializeField] private Transform spawnSpot = null;
     [SerializeField] LayerMask floorMask = 1 << 21;
     [SerializeField] private int maxSpawn = 10;
     private int currentSpawn;
@@ -37,7 +37,7 @@ public class CustomSpawner : PlayObject
 
     //Se activa el spawner
     public void ActivateSpawner(){ Debug.Log("Entra al Active Spawner;"); canupdate = true; }
-    public void StopSpawner() { canupdate = false;  Debug.Log("frena spawner"); }
+    public void StopSpawner() { canupdate = false; ; }
     public void DestroySpawner() { Destroy(gameObject); }
 
     //Una state machine XD
@@ -60,11 +60,11 @@ public class CustomSpawner : PlayObject
         }
     }
 
+    public bool ReachMaxSpawn() => currentSpawn >= maxSpawn ? true : false;
+
     //Tira enemigos cada cierto tiempo hasta que llega al total que le diste.
     void WaveMode()
     {
-        Debug.Log("_amountSpawned: "+ _amountSpawned + " totalAmount: " + totalAmount);
-
         if (_amountSpawned >= totalAmount)
         {
             canupdate = false;
@@ -80,7 +80,7 @@ public class CustomSpawner : PlayObject
             for (int i = 0; i < waveAmount; i++)
             {
                 if (currentSpawn >= maxSpawn || _amountSpawned >= totalAmount) break;
-                SpawnPrefab();
+                SpawnPrefab(GetSurfacePos());
                 if(!infiniteSpawner)
                     _amountSpawned++;
             }
@@ -108,7 +108,7 @@ public class CustomSpawner : PlayObject
             for (int i = 0; i < waveAmount; i++)
             {
                 if (currentSpawn >= maxSpawn) break;
-                SpawnPrefab();
+                SpawnPrefab(GetSurfacePos());
             }
         }
     }
@@ -121,18 +121,17 @@ public class CustomSpawner : PlayObject
 
     public void ToggleInfiniteSpawner(){ infiniteSpawner = !infiniteSpawner; }
 
-    PlayObject SpawnPrefab()
+    public PlayObject SpawnPrefab(Vector3 pos)
     {
         var newObject = _poolPlayObject.Get();
-        //newObject.GetComponent<EnemyBase>()?.AddCallbackFinishFeedbackDeath(ResetObject);
         newObject.GetComponent<EnemyBase>()?.Initialize();
-        newObject.transform.position = GetSurfacePos();
+        newObject.transform.position = pos;
         newObject.Spawner = this;
         currentSpawn += 1;
         return newObject;
     }
 
-    Vector3 GetSurfacePos()
+    public Vector3 GetSurfacePos()
     {
         var pos = GetPosRandom(spawnRadius, spawnSpot);
         pos.y += 20;

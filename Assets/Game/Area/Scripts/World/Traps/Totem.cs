@@ -9,21 +9,36 @@ public abstract class Totem : MonoBehaviour
     [SerializeField] protected EffectStunnerStunned effectStun = null;
     [SerializeField] protected float timeToCast = 5f;
     [SerializeField] protected TotemFeedback feedback = null;
+    [SerializeField] DamageReceiver damageReceiver = null;
+    [SerializeField] _Base_Life_System life = null;
 
     float timer;
-    bool onUpdate;
+    protected bool onUpdate;
     bool casting;
-    bool stuned;
+    protected bool stuned;
 
-    private void Start()
+    protected virtual void Start()
     {
         myCastingBar.AddEventListener_OnFinishCasting(EndCast);
         effectStun.AddStartCallback(GetStunned);
         effectStun.AddEndCallback(StunOver);
+        feedback.Initialize(StartCoroutine, StopCoroutine);
+
+        life.Initialize(life.life, () => { }, () => { }, () => { });
+        damageReceiver.Initialize(
+            transform,
+            () => { return false; },
+            (x) => { },
+            (x) => { TakeDamage(); },
+            null,
+            life
+            );
     }
 
     public void OnTotemEnter()
     {
+        if (onUpdate) return;
+
         onUpdate = true;
         OnStartCast();
         InternalTotemEnter();
@@ -33,6 +48,8 @@ public abstract class Totem : MonoBehaviour
 
     public void OnTotemExit()
     {
+        if (!onUpdate) return;
+
         onUpdate = false;
         myCastingBar.InterruptCasting();
         casting = false;
@@ -42,14 +59,17 @@ public abstract class Totem : MonoBehaviour
 
     protected virtual void InternalTotemExit() { }
 
-    void OnStartCast()
+    protected void OnStartCast()
     {
-        if(!stuned && !casting && onUpdate)
+        if(!stuned && !casting && onUpdate && InternalCondition())
         {
             myCastingBar.StartCasting();
             InternalStartCast();
+            feedback.StartChargeFeedback(myCastingBar.castingTime);
         }
     }
+
+    protected abstract bool InternalCondition();
 
     protected virtual void InternalStartCast() { }
 
@@ -70,9 +90,12 @@ public abstract class Totem : MonoBehaviour
                     OnStartCast();
                 }
             }
+
+            UpdateTotem();
         }
     }
 
+    protected virtual void UpdateTotem() { }
 
     void EndCast()
     {
@@ -86,7 +109,15 @@ public abstract class Totem : MonoBehaviour
     {
         stuned = true;
         myCastingBar.InterruptCasting();
+        feedback.InterruptCharge();
         InternalGetStunned();
+    }
+
+    protected void InterruptCast()
+    {
+        myCastingBar.InterruptCasting();
+        feedback.InterruptCharge();
+        casting = true;
     }
 
     protected virtual void InternalGetStunned() { }
@@ -99,4 +130,6 @@ public abstract class Totem : MonoBehaviour
     }
 
     protected virtual void InternalStunOver() { }
+
+    protected abstract void TakeDamage();
 }
