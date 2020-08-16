@@ -8,6 +8,7 @@
 namespace Tools.Testing
 {
     using UnityEngine;
+    using System.Linq;
     public class DirectBegin_Scene : MonoBehaviour
     {
         public JumpData data;
@@ -27,6 +28,7 @@ namespace Tools.Testing
                     Cursor.visible = false;
                     Cursor.lockState = CursorLockMode.Locked;
                 }
+                FindObjectsOfType<PlayObject>().ToList().ForEach(x => x.Initialize());
                 Destroy(this.gameObject);
             }
         }

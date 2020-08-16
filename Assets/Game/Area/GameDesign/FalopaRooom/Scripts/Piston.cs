@@ -43,7 +43,7 @@ public class Piston : MonoBehaviour
     }
 
     public void AnimationResult(float val_anim) => ToMove.position = Vector3.Lerp(_startPos.position, _EndPos.position, val_anim);
-    void Update() => pingponglerp.Updatear();
+    void Update() =>  pingponglerp?.Updatear();
     private void OnDrawGizmos()
     {
         Gizmos.color = Color.blue;

@@ -46,7 +46,7 @@ public class ColapsingFloor : PlayObject
 
     protected override void OnInitialize()
     {
-        throw new NotImplementedException();
+        
     }
 
     protected override void OnTurnOn()
