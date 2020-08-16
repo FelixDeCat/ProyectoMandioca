@@ -5,7 +5,7 @@ using System;
 
 public class ParticlesManager : MonoBehaviour
 {
-    public ParticlesManager Instance { get; private set; }
+    public static ParticlesManager Instance { get; private set; }
 
     private Dictionary<string, PoolParticle> particleRegistry = new Dictionary<string, PoolParticle>();
 
@@ -27,7 +27,7 @@ public class ParticlesManager : MonoBehaviour
     }
     #endregion
 
-    public void PlayParticle(string particleName, Vector3 spawnPos, Transform trackingTransform = null)
+    public ParticleSystem PlayParticle(string particleName, Vector3 spawnPos, Transform trackingTransform = null)
     {
         if (particleRegistry.ContainsKey(particleName))
         {
@@ -40,14 +40,17 @@ public class ParticlesManager : MonoBehaviour
 
             if (!aS.main.loop)
                 StartCoroutine(ReturnSoundToPool(aS, particleName));
+
+            return aS;
         }
         else
         {
-            Debug.LogWarning("No tenes ese sonido en en pool");
+            Debug.LogWarning("No tenes ese sonido en el pool");
+            return null;
         }
     }
 
-    public void PlayParticle(string particleName, Vector3 spawnPos, Action callbackEnd, Transform trackingTransform = null)
+    public ParticleSystem PlayParticle(string particleName, Vector3 spawnPos, Action callbackEnd, Transform trackingTransform = null)
     {
         if (particleRegistry.ContainsKey(particleName))
         {
@@ -62,6 +65,22 @@ public class ParticlesManager : MonoBehaviour
 
             if (!aS.main.loop)
                 StartCoroutine(ReturnSoundToPool(aS, particleName));
+
+            return aS;
+        }
+        else
+        {
+            Debug.LogWarning("No tenes ese sonido en en pool");
+            return null;
+        }
+    }
+
+    public void StopParticle(string particleName, ParticleSystem particle)
+    {
+        if (particleRegistry.ContainsKey(particleName))
+        {
+            var particlePool = particleRegistry[particleName];
+            particlePool.ReturnParticle(particle);
         }
         else
         {

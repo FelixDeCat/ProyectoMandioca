@@ -10,6 +10,7 @@ public class TotemFeedback
     [SerializeField] float timeToGoPos = 1f;
 
     [SerializeField] ParticleSystem chargeParticle;
+    ParticleSystem chargeParticleTemp;
     [SerializeField, Range(0, 1)] float percentToAppear = 0.5f;
 
     [SerializeField] Transform startPos;
@@ -22,11 +23,7 @@ public class TotemFeedback
         StartCoroutine = _StartCoroutine;
         StopCoroutine = _StopCoroutine;
 
-        var go = MonoBehaviour.Instantiate(chargeParticle);
-
-        go.transform.position = startPos.position;
-
-        chargeParticle = go;
+        ParticlesManager.Instance.GetParticlePool(chargeParticle.name, chargeParticle, 3);
     }
 
     public void StartChargeFeedback(float timeToCast)
@@ -39,13 +36,13 @@ public class TotemFeedback
     IEnumerator StartToCharge(float timeToCast)
     {
         yield return new WaitForSeconds(timeToCast);
-        chargeParticle.transform.position = startPos.position;
-        chargeParticle?.Play();
+
+        chargeParticleTemp = ParticlesManager.Instance.PlayParticle(chargeParticle.name, startPos.position, startPos);
     }
 
     public void InterruptCharge()
     {
-        chargeParticle?.Stop();
+        if(chargeParticleTemp.gameObject.activeSelf) ParticlesManager.Instance.StopParticle(chargeParticle.name, chargeParticleTemp);
         StopCoroutine(StartToCharge(0));
     }
 
