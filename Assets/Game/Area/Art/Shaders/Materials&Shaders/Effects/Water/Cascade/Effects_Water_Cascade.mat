@@ -23,6 +23,14 @@ Material:
         m_Texture: {fileID: 2800000, guid: a3322b07ed43da646a1b1fca4e72fac1, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
+    - _LinesEffect:
+        m_Texture: {fileID: 2800000, guid: 671297aebe98f464c81da4f30e50f2b8, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _Mask:
+        m_Texture: {fileID: 2800000, guid: 3837b64206d01424897f36a0653db7ee, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     - _TextureSample0:
         m_Texture: {fileID: 2800000, guid: f039d4efae7db944d8ed64056cb2363b, type: 3}
         m_Scale: {x: 1, y: 1}
@@ -36,11 +44,11 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _TextureSample3:
-        m_Texture: {fileID: 2800000, guid: a3322b07ed43da646a1b1fca4e72fac1, type: 3}
+        m_Texture: {fileID: 2800000, guid: 671297aebe98f464c81da4f30e50f2b8, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _TextureSample4:
-        m_Texture: {fileID: 2800000, guid: f039d4efae7db944d8ed64056cb2363b, type: 3}
+        m_Texture: {fileID: 2800000, guid: 3837b64206d01424897f36a0653db7ee, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _WavesNormal:
@@ -52,51 +60,60 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     m_Floats:
-    - _CascadeIntensity: 4.76
+    - _CascadeIntensity: 20
     - _CascadeIntensity1: 4.76
-    - _CascadeSpeed: 0.2352941
+    - _CascadeSpeed: 0.15
     - _CascadeSpeed1: 0.2352941
     - _Cutoff: 0.5
-    - _EdgeLength: 2
+    - _EdgeLength: 50
     - _FacetIntensity: 0.5
-    - _Float0: 2
-    - _Float1: -0.1
+    - _FallOFF: -0.27
+    - _FallOFF1: -0.44
+    - _Float0: 0
+    - _Float1: 0
     - _Float2: 1.44
     - _Float3: 24.58
     - _Float4: 0.72410816
     - _Float5: 0.97573674
     - _FoamMask: -15
     - _FoamMask1: -15
-    - _FoamScale: 34.4
-    - _FoamSize: 0.639
+    - _FoamScale: 50
+    - _FoamSize: 0.109092064
+    - _FreqBigWave1: 24.34
+    - _IntensityBigWave1: 45.19
     - _IntensityMask: 6.42
     - _IntensityNoise: 1.4
     - _Mask: -0.46
     - _MaskFlowmap: 0.8864931
     - _MaskFlowmap1: 0.8864931
-    - _NormalWavesScale: 0.092899814
-    - _Smoothness: 0.7647059
+    - _NormalWavesScale: 0.067
+    - _Smoothness: 1
     - _Smoothness1: 0.6520824
     - _SpeedWavesX: 0
-    - _SpeedWavesY: 0.26144585
+    - _SpeedWavesY: 0.07600241
     - _TessMaxDisp: 25
-    - _TessPhongStrength: 0.67
-    - _TessValue: 1
+    - _TessPhongStrength: 0
+    - _TessValue: 3
+    - _TileDefault: 1
+    - _TileDefault1: 1
+    - _Timer: 0.8
+    - _Timer1: 0.8
     - _X: 1
     - _Y: 0
-    - __dirty: 1
+    - __dirty: 0
     m_Colors:
-    - _Color0: {r: 0.2688672, g: 0.9256109, b: 1, a: 0}
+    - _Color0: {r: 0.7783019, g: 0.9456938, b: 1, a: 0}
     - _Color1: {r: 0.6933962, g: 0.9310361, b: 1, a: 0}
     - _Color2: {r: 1, g: 1, b: 1, a: 0}
     - _Color3: {r: 1, g: 1, b: 1, a: 0}
     - _Color4: {r: 0.9716981, g: 0, b: 0, a: 0}
-    - _FoamAreaColor: {r: 0.8117648, g: 0.8117648, b: 0.8117648, a: 0}
+    - _Dir: {r: 0, g: 1, b: 0, a: 0}
+    - _FoamAreaColor: {r: 1, g: 1, b: 1, a: 0}
     - _FoamAreaColor1: {r: 0.8117648, g: 0.8117648, b: 0.8117648, a: 0}
     - _FoamColor: {r: 1.411765, g: 1.411765, b: 1.411765, a: 0}
     - _FoamColor1: {r: 1.411765, g: 1.411765, b: 1.411765, a: 0}
     - _FresnelColor: {r: 0.42408377, g: 0.79581153, b: 1, a: 1}
-    - _MainColor: {r: 0.41981092, g: 0.7929521, b: 1, a: 0}
+    - _MainColor: {r: 0.4198098, g: 0.7929521, b: 1, a: 0}
     - _MainColor1: {r: 0.4198111, g: 0.7929521, b: 1, a: 0}
-    - _Vector0: {r: 0, g: -0.1, b: 0, a: 0}
+    - _Vector0: {r: 0, g: 1, b: 0, a: 0}
     - _WaterColor: {r: 0.026943685, g: 0, b: 1, a: 0}
