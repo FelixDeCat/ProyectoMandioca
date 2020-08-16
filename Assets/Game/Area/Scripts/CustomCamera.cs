@@ -121,11 +121,11 @@ public class CustomCamera : MonoBehaviour
         Vector3 moveOffset = desiredposition;
         if (axisX != 0)
         {
-            moveOffset += transform.right * axisX * sensitivity;
+            moveOffset -= transform.right * axisX * sensitivity;
         }
         if (axisZ != 0)
         {
-            moveOffset += transform.up * axisZ * sensitivity;
+            moveOffset -= transform.up * axisZ * sensitivity;
         }
         Vector3 smoothedposition = Vector3.Slerp(transform.position, moveOffset, smooth * Time.deltaTime);
         transform.position = smoothedposition;

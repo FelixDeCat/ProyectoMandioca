@@ -29,6 +29,7 @@ public class RotateTheCamera : MonoBehaviour
     {
         //if (_returnToPos)
         //    transform.localPosition = Vector3.Lerp(transform.localPosition, new Vector3(transform.localPosition.x, PosY, transform.localPosition.z), _speedToReturn * Time.deltaTime);
+         if(!colliding) ShootRaycast();
     }
     public void RotationOfCamera(float axis)
     {
@@ -42,7 +43,8 @@ public class RotateTheCamera : MonoBehaviour
     public void MovementFromMesh(float speed)
     {
         Vector3 direction = (target.transform.position - transform.position).normalized;
-        transform.position += direction * speed * Time.deltaTime;
+        if(Vector3.Distance(target.transform.position, transform.position) > 0.5f)
+            transform.position += direction * speed * Time.deltaTime;
     }
 
     public void ReturnToPos(float speed)
@@ -61,12 +63,11 @@ public class RotateTheCamera : MonoBehaviour
         {
             if (hit.collider.gameObject.GetComponent<CharacterHead>())
             {
-                if (!colliding)
-                    ReturnToPos(_speedToReturn);
+                ReturnToPos(_speedToReturn);
+
             }
             else
             {
-
                 MovementFromMesh(_speedAwayFromMesh);
             }
         }
