@@ -38,10 +38,10 @@ public class DamageReceiver : MonoBehaviour
         Rigidbody _rb,_Base_Life_System lifeSystem, Action _InmuneFeedback = default)
     {
         ownerRoot = _ownerRoot;
-        takeDmg = _takeDmg;
-        OnDead = _OnDead;
-        IsDmg = _IsDmg;
-        InmuneFeedback = _InmuneFeedback;
+        takeDmg += _takeDmg;
+        OnDead += _OnDead;
+        IsDmg += _IsDmg;
+        InmuneFeedback += _InmuneFeedback;
         rb = _rb;
         _LifeSystem = lifeSystem;
     }

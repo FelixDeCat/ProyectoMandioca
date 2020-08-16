@@ -35,6 +35,8 @@ public class PoolParticle : SingleObjectPool<ParticleSystem>
 
     public void ReturnParticle(ParticleSystem particle)
     {
+        if (particle == null) return;
+
         particle.transform.SetParent(transform);
         particle.Stop();
         ReturnToPool(particle);

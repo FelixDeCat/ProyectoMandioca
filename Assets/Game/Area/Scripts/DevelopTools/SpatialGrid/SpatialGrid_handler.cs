@@ -6,21 +6,35 @@ using UnityEngine;
 
 public class SpatialGrid_handler : MonoBehaviour
 {
+    public static SpatialGrid_handler instance;
     private SpatialGrid _grid;
     private CharacterHead _hero;
 
     public float width = 15f;
     public float height = 30f;
 
+    private void Awake() => instance = this;
+
     public IEnumerable<GridEntity> selected = new List<GridEntity>();
 
-    void Start()
+    //void Start()
+    //{
+    //    _grid = GetComponent<SpatialGrid>();
+    //    _hero = Main.instance.GetChar();
+    //    StartCoroutine(CheckGrid());
+    //}
+
+    public void SetCurrentSpatial(SpatialGrid _current)
     {
-        _grid = GetComponent<SpatialGrid>();
+        _grid = _current;
         _hero = Main.instance.GetChar();
-
         StartCoroutine(CheckGrid());
+    }
 
+    public void  StopSpatialGrid()
+    {
+        _grid = null;
+        StopAllCoroutines();
     }
 
     private IEnumerator CheckGrid()

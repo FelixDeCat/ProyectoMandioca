@@ -34,11 +34,11 @@ public class SpatialGrid_TEST_PROP : PlayObject
 
     protected override void OnPause()
     {
-        throw new System.NotImplementedException();
+        
     }
 
     protected override void OnResume()
     {
-        throw new System.NotImplementedException();
+        
     }
 }

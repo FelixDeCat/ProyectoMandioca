@@ -320,6 +320,6 @@ public class CustomCamera : MonoBehaviour
     private void OnTriggerStay(Collider other)
     {
         if (other.gameObject.layer == 21)
-            _rotOfCamera.transform.position += Vector3.up * _speedAwayOfMesh * Time.deltaTime;
+            _rotOfCamera.MovementFromMesh(_speedAwayOfMesh);
     }
 }
