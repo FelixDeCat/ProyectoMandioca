@@ -12,15 +12,14 @@ public class AttractionHole : MonoBehaviour
     [SerializeField, Range(-1, 1)] int forceDirection = 1;
 
     [SerializeField] ParticleSystem attFeedback = null;
+    ParticleSystem attFXTemp;
     bool on;
     bool isZero;
 
-    protected void Awake()
+    protected void Start()
     {
         on = true;
-        var go = Instantiate(attFeedback);
-        go.gameObject.SetActive(false);
-        attFeedback = go;
+        ParticlesManager.Instance?.GetParticlePool(attFeedback.name, attFeedback);
     }
 
     private void Update()
@@ -67,13 +66,7 @@ public class AttractionHole : MonoBehaviour
         if (other.GetComponent<CharacterHead>())
         {
             character = other.GetComponent<CharacterHead>();
-            if (attFeedback)
-            {
-                attFeedback.gameObject.SetActive(true);
-                attFeedback.transform.position = character.transform.position;
-                attFeedback.transform.SetParent(character.transform);
-                attFeedback.Play();
-            }
+            attFXTemp = ParticlesManager.Instance.PlayParticle(attFeedback.name, character.transform.position, character.transform);
         }
     }
 
@@ -85,11 +78,8 @@ public class AttractionHole : MonoBehaviour
             character = null;
             isZero = false;
 
-            if (attFeedback)
-            {
-                attFeedback.Stop();
-                attFeedback.gameObject.SetActive(false);
-            }
+            if (attFXTemp)
+                ParticlesManager.Instance.StopParticle(attFeedback.name, attFXTemp);
         }
     }
 }
