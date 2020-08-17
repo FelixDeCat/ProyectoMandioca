@@ -21,9 +21,9 @@ public class CastingBar : MonoBehaviour
 
     private void Start()
     {
-        AddEventListener_OnStartCasting(() => Debug.Log("StartCasting"));
-        AddEventListener_OnInterruptCasting(() => Debug.Log("InterruptCasting"));
-        AddEventListener_OnFinishCasting(() => Debug.Log("FinishCasting"));
+        //AddEventListener_OnStartCasting(() => Debug.Log("StartCasting"));
+        //AddEventListener_OnInterruptCasting(() => Debug.Log("InterruptCasting"));
+        //AddEventListener_OnFinishCasting(() => Debug.Log("FinishCasting"));
     }
 
     /// <summary>

@@ -6,7 +6,7 @@ public class Altar : MonoBehaviour
 {
     public Transform spawnposition;
     public ItemWorld item;
-    private void Awake()
+    private void Start()
     {
         Main.instance.SpawnItem(item, spawnposition);
     }

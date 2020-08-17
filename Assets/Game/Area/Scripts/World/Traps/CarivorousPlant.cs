@@ -25,13 +25,14 @@ public class CarivorousPlant : EntityBase
     float timer;
 
     [SerializeField] ParticleSystem attFeedback = null;
+    ParticleSystem attFXTemp;
 
     bool on;
     bool isZero;
     bool inDmg;
     bool antibug;
 
-    protected void Awake() => Initialize();
+    protected void Start() => Initialize();
 
     protected override void OnInitialize()
     {
@@ -44,9 +45,7 @@ public class CarivorousPlant : EntityBase
         lifeSystem.CreateADummyLifeSystem();
         if (!inDmg) plant?.SetBlendShapeWeight(0, 0);
 
-        var go = Instantiate(attFeedback);
-        go.gameObject.SetActive(false);
-        attFeedback = go;
+        ParticlesManager.Instance.GetParticlePool(attFeedback.name, attFeedback);
     }
 
     private void Update() => OnUpdate();
@@ -145,13 +144,7 @@ public class CarivorousPlant : EntityBase
             if (character) { antibug = true; return; }
             else character = other.GetComponent<CharacterHead>();
 
-            if (attFeedback)
-            {
-                attFeedback.gameObject.SetActive(true);
-                attFeedback.transform.position = character.transform.position;
-                attFeedback.transform.SetParent(character.transform);
-                attFeedback.Play();
-            }
+            attFXTemp = ParticlesManager.Instance.PlayParticle(attFeedback.name, character.transform.position, character.transform);
         }
     }
 
@@ -170,11 +163,8 @@ public class CarivorousPlant : EntityBase
             plant?.SetBlendShapeWeight(0, 0);
             character = null;
 
-            if (attFeedback)
-            {
-                attFeedback.Stop();
-                attFeedback.gameObject.SetActive(false);
-            }
+            if (attFXTemp)
+                ParticlesManager.Instance.StopParticle(attFeedback.name, attFXTemp);
         }
     }
 

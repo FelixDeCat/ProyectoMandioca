@@ -36,7 +36,7 @@ public class CustomSpawner : PlayObject
     private void Start(){_poolPlayObject = PoolManager.instance.GetObjectPool(gameObject.name, prefab);}
 
     //Se activa el spawner
-    public void ActivateSpawner(){ Debug.Log("Entra al Active Spawner;"); canupdate = true; }
+    public void ActivateSpawner(){ canupdate = true; }
     public void StopSpawner() { canupdate = false; ; }
     public void DestroySpawner() { Destroy(gameObject); }
 
@@ -161,17 +161,17 @@ public class CustomSpawner : PlayObject
 
     protected override void OnInitialize()
     {
-        Debug.Log("spawn init");
+
     }
 
     protected override void OnTurnOn()
     {
-        Debug.Log("turn on");
+
     }
 
     protected override void OnTurnOff()
     {
-        Debug.Log("turn off");
+
     }
 
     private void OnDrawGizmos()

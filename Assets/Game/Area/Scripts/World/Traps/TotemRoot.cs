@@ -21,6 +21,8 @@ public class TotemRoot : Totem
         myChar = Main.instance.GetChar();
 
         StartCoroutine(CheckDistance());
+
+        ParticlesManager.Instance.GetParticlePool(onRootParticles.name, onRootParticles);
     }
 
     IEnumerator CheckDistance()
@@ -46,8 +48,7 @@ public class TotemRoot : Totem
     {
         myChar.GetComponent<EffectReceiver>().TakeEffect(effectOwner, effectDuration);
 
-        onRootParticles.transform.position = myChar.transform.position;
-        onRootParticles.Play();
+        ParticlesManager.Instance.PlayParticle(onRootParticles.name, myChar.transform.position);
     }
 
     protected override void InternalStunOver()

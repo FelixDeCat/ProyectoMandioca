@@ -18,12 +18,15 @@ public class TotemFeedback
     Func<IEnumerator, Coroutine> StartCoroutine;
     Action<IEnumerator> StopCoroutine;
 
+    List<ParticleSystem> particlesGoTo = new List<ParticleSystem>();
+
     public void Initialize(Func<IEnumerator, Coroutine> _StartCoroutine, Action<IEnumerator> _StopCoroutine)
     {
         StartCoroutine = _StartCoroutine;
         StopCoroutine = _StopCoroutine;
 
         ParticlesManager.Instance.GetParticlePool(chargeParticle.name, chargeParticle, 3);
+        ParticlesManager.Instance.GetParticlePool(goToPos.name, goToPos, 6);
     }
 
     public void StartChargeFeedback(float timeToCast)
@@ -50,10 +53,9 @@ public class TotemFeedback
 
     IEnumerator GoToFeedback(Vector3 initPos, Vector3 finalPos, Action<Vector3> OnEndGo)
     {
-        var go = MonoBehaviour.Instantiate(goToPos);
+        var go = ParticlesManager.Instance.PlayParticle(goToPos.name, initPos);
 
-        go.transform.position = initPos;
-        go.Play();
+        particlesGoTo.Add(go);
 
         float timer = 0;
 
@@ -68,18 +70,17 @@ public class TotemFeedback
 
         OnEndGo?.Invoke(finalPos);
 
-        go.Stop();
-        go.gameObject.SetActive(false);
+        particlesGoTo.Remove(go);
+        ParticlesManager.Instance.StopParticle(goToPos.name, go);
     }
 
     public void StartGoToFeedback(Transform finalPos, Action<Vector3> OnEndGo) => StartCoroutine(GoToFeedback(startPos.position, finalPos, OnEndGo));
 
     IEnumerator GoToFeedback(Vector3 initPos, Transform finalPos, Action<Vector3> OnEndGo)
     {
-        var go = MonoBehaviour.Instantiate(goToPos);
+        var go = ParticlesManager.Instance.PlayParticle(goToPos.name, initPos);
 
-        go.transform.position = initPos;
-        go.Play();
+        particlesGoTo.Add(go);
 
         float timer = 0;
 
@@ -94,7 +95,16 @@ public class TotemFeedback
 
         OnEndGo?.Invoke(finalPos.position);
 
-        go.Stop();
-        go.gameObject.SetActive(false);
+        particlesGoTo.Remove(go);
+        ParticlesManager.Instance.StopParticle(goToPos.name, go);
+    }
+
+   
+    public void StopAll()
+    {
+        for (int i = 0; i < particlesGoTo.Count; i++)
+            ParticlesManager.Instance.StopParticle(goToPos.name, particlesGoTo[i]);
+
+        if (chargeParticleTemp.gameObject.activeSelf) ParticlesManager.Instance.StopParticle(chargeParticle.name, chargeParticleTemp);
     }
 }
