@@ -117,7 +117,7 @@ public abstract class Totem : MonoBehaviour
     {
         myCastingBar.InterruptCasting();
         feedback.InterruptCharge();
-        casting = true;
+        OnStartCast();
     }
 
     protected virtual void InternalGetStunned() { }

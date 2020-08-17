@@ -24,6 +24,7 @@ public class TotemFeedback
         StopCoroutine = _StopCoroutine;
 
         ParticlesManager.Instance.GetParticlePool(chargeParticle.name, chargeParticle, 3);
+        ParticlesManager.Instance.GetParticlePool(goToPos.name, goToPos, 6);
     }
 
     public void StartChargeFeedback(float timeToCast)
@@ -42,7 +43,7 @@ public class TotemFeedback
 
     public void InterruptCharge()
     {
-        if(chargeParticleTemp.gameObject.activeSelf) ParticlesManager.Instance.StopParticle(chargeParticle.name, chargeParticleTemp);
+        if(chargeParticleTemp != null && chargeParticleTemp.gameObject.activeSelf) ParticlesManager.Instance.StopParticle(chargeParticle.name, chargeParticleTemp);
         StopCoroutine(StartToCharge(0));
     }
 
@@ -50,10 +51,7 @@ public class TotemFeedback
 
     IEnumerator GoToFeedback(Vector3 initPos, Vector3 finalPos, Action<Vector3> OnEndGo)
     {
-        var go = MonoBehaviour.Instantiate(goToPos);
-
-        go.transform.position = initPos;
-        go.Play();
+        var go = ParticlesManager.Instance.PlayParticle(goToPos.name, initPos);
 
         float timer = 0;
 
@@ -68,18 +66,14 @@ public class TotemFeedback
 
         OnEndGo?.Invoke(finalPos);
 
-        go.Stop();
-        go.gameObject.SetActive(false);
+        ParticlesManager.Instance.StopParticle(goToPos.name, go);
     }
 
     public void StartGoToFeedback(Transform finalPos, Action<Vector3> OnEndGo) => StartCoroutine(GoToFeedback(startPos.position, finalPos, OnEndGo));
 
     IEnumerator GoToFeedback(Vector3 initPos, Transform finalPos, Action<Vector3> OnEndGo)
     {
-        var go = MonoBehaviour.Instantiate(goToPos);
-
-        go.transform.position = initPos;
-        go.Play();
+        var go = ParticlesManager.Instance.PlayParticle(goToPos.name, initPos);
 
         float timer = 0;
 
@@ -94,7 +88,6 @@ public class TotemFeedback
 
         OnEndGo?.Invoke(finalPos.position);
 
-        go.Stop();
-        go.gameObject.SetActive(false);
+        ParticlesManager.Instance.StopParticle(goToPos.name, go);
     }
 }
