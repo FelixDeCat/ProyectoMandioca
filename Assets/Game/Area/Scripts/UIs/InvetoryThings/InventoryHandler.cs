@@ -139,7 +139,7 @@ public class InventoryHandler
 [System.Serializable]
 public class ItemInInventory
 {
-    public Item item;
+    public Item item = ScriptableObject.CreateInstance<Item>();
     public int cant;
 
     public ItemInInventory(Item _item, int _cant = -1)

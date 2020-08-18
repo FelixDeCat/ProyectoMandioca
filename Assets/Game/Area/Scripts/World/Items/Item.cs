@@ -13,7 +13,7 @@ public class Item : ScriptableObject
 
     [Header("Comportamiento")]
     public bool unique = false;
-    public bool noconsumible;
+    public bool consumible;
     public bool can_not_place_inventory;
 
     [Header("para equipar")]
@@ -23,6 +23,7 @@ public class Item : ScriptableObject
     [Header("La parte visual")]
     public GameObject model;
     public Sprite img;
+    public SpotType spot;
 
     [Header("Compra venta craft")]
     public bool canSell;

@@ -76,6 +76,8 @@ public class Spawner : MonoBehaviour
         List<GameObject> aux = new List<GameObject>();
         for (int i = 0; i < quantity; i++)
         {
+            var aux2 = aux[i].GetComponent<ItemVersion>();
+            if (aux2 != null) aux2.Activate_WorldVersion();
             aux.Add(SpawnItem(obj, pos));
         }
         return aux;
@@ -84,12 +86,16 @@ public class Spawner : MonoBehaviour
     public GameObject SpawnItem(Item item, Transform position)
     {
         GameObject myItem = GameObject.Instantiate(item.model, parent_items);
+        var aux = myItem.GetComponent<ItemVersion>();
+        if (aux != null) aux.Activate_WorldVersion();
         myItem.transform.position = position.position;
         return myItem;
     }
     public GameObject SpawnItem(Item item, Vector3 position)
     {
         GameObject myItem = GameObject.Instantiate(item.model, parent_items);
+        var aux = myItem.GetComponent<ItemVersion>();
+        if (aux != null) aux.Activate_WorldVersion();
         myItem.transform.position = position;
         return myItem;
     }

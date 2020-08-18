@@ -2,17 +2,10 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ItemReceiver : MonoBehaviour
+public class ItemReceiver : ItemInterceptor
 {
-    // Start is called before the first frame update
-    void Start()
+    protected override bool OnCollect()
     {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
+        return EquipedManager.instance.EquipItem(myitemworld);
     }
 }
