@@ -90,7 +90,12 @@ public class TrueDummyEnemy : EnemyBase
     {
         base.OnInitialize();
         Main.instance.eventManager.TriggerEvent(GameEvents.ENEMY_SPAWN, new object[] { this });
-        particles._spawnParticules.Play();
+        ParticlesManager.Instance.GetParticlePool(particles._spawnParticules.name, particles._spawnParticules, 5);
+        ParticlesManager.Instance.GetParticlePool(particles.greenblood.name, particles.greenblood, 8);
+
+
+        ParticlesManager.Instance.PlayParticle(particles._spawnParticules.name, transform.position);
+
         var smr = GetComponentInChildren<SkinnedMeshRenderer>();
         if (smr != null)
             myMat = smr.materials;
@@ -240,7 +245,7 @@ public class TrueDummyEnemy : EnemyBase
 
         sm.SendInput(DummyEnemyInputs.TAKE_DAMAGE);
 
-        particles.greenblood.Play();
+        ParticlesManager.Instance.PlayParticle(particles.greenblood.name, transform.position + Vector3.up);
         cooldown = true;
 
         StartCoroutine(OnHitted(myMat, onHitFlashTime, onHitColor));

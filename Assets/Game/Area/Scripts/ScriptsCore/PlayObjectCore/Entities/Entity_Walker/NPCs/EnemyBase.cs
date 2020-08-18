@@ -121,11 +121,11 @@ public abstract class EnemyBase : NPCBase, ICombatDirector
             {
                 if (i < (onHitFlashTime / 2f))
                 {
-                    mats[0].SetColor("_EmissionColor", Color.Lerp(Color.black, onHitColor, i / (onHitFlashTime / 2f)));
+                    mats[1].SetColor("_EmissionColor", Color.Lerp(Color.black, onHitColor, i / (onHitFlashTime / 2f)));
                 }
                 else
                 {
-                    mats[0].SetColor("_EmissionColor", Color.Lerp(onHitColor, Color.black, (i - (onHitFlashTime / 2f)) / (onHitFlashTime / 2f)));
+                    mats[1].SetColor("_EmissionColor", Color.Lerp(onHitColor, Color.black, (i - (onHitFlashTime / 2f)) / (onHitFlashTime / 2f)));
                 }
                 yield return new WaitForSeconds(0.01f);
             }

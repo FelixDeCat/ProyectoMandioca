@@ -6,10 +6,9 @@ public class Altar : MonoBehaviour
 {
     public Transform spawnposition;
     public ItemWorld item;
-    private void Awake()
+    private void Start()
     {
-        if(item != null && spawnposition != null)
-            Main.instance.SpawnItem(item, spawnposition);
+        Main.instance.SpawnItem(item, spawnposition);
     }
     public Vector3 GetPosition() => spawnposition.position;
 }

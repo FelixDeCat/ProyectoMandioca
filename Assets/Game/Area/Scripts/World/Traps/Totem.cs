@@ -28,7 +28,7 @@ public abstract class Totem : MonoBehaviour
         damageReceiver.Initialize(
             transform,
             () => { return false; },
-            (x) => { },
+            (x) => { Dead(); },
             (x) => { TakeDamage(); },
             null,
             life
@@ -132,4 +132,9 @@ public abstract class Totem : MonoBehaviour
     protected virtual void InternalStunOver() { }
 
     protected abstract void TakeDamage();
+
+    void Dead()
+    {
+        feedback.StopAll();
+    }
 }
