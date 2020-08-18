@@ -16,13 +16,14 @@ namespace Tools.StateMachine
         Func<bool> IsSpecialAttack;
 
         public DummyFollowState(EState<TrueDummyEnemy.DummyEnemyInputs> myState, EventStateMachine<TrueDummyEnemy.DummyEnemyInputs> _sm, GenericEnemyMove _move,
-                                float distance, float _minDistance, EnemyBase me, Func<bool> _IsSpecialAttack) : base(myState, _sm)
+                                float distance, float _minDistance, EnemyBase me, Func<bool> _IsSpecialAttack = null) : base(myState, _sm)
         {
             move = _move;
             normalDistance = distance;
             minDistance = _minDistance;
             noObs = me;
-            IsSpecialAttack = _IsSpecialAttack;
+
+            if (_IsSpecialAttack != null) IsSpecialAttack = _IsSpecialAttack; else IsSpecialAttack = () => false;
         }
 
         protected override void Enter(EState<TrueDummyEnemy.DummyEnemyInputs> input)

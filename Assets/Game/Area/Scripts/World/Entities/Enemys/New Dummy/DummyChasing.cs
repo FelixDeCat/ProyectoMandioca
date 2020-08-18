@@ -14,13 +14,13 @@ namespace Tools.StateMachine
         EnemyBase enemy;
 
         public DummyChasing(EState<TrueDummyEnemy.DummyEnemyInputs> myState, EventStateMachine<TrueDummyEnemy.DummyEnemyInputs> _sm, Func<bool> _IsAttack,
-                            float _distanceToAttack, GenericEnemyMove _move, EnemyBase _enemy, Func<bool> _IsSpecialAttack) : base(myState, _sm)
+                            float _distanceToAttack, GenericEnemyMove _move, EnemyBase _enemy, Func<bool> _IsSpecialAttack = null) : base(myState, _sm)
         {
             IsAttack = _IsAttack;
             distanceToNormalAttack = _distanceToAttack;
             move = _move;
             enemy = _enemy;
-            IsSpecialAttack = _IsSpecialAttack;
+            if (_IsSpecialAttack != null) IsSpecialAttack = _IsSpecialAttack; else IsSpecialAttack = () => false;
         }
 
         protected override void Enter(EState<TrueDummyEnemy.DummyEnemyInputs> last)

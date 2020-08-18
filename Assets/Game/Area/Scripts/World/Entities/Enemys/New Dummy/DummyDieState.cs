@@ -10,7 +10,7 @@ namespace Tools.StateMachine
         bool desactive;
 
         public DummyDieState(EState<TrueDummyEnemy.DummyEnemyInputs> myState, EventStateMachine<TrueDummyEnemy.DummyEnemyInputs> _sm, RagdollComponent _ragdoll,
-                             ParticleSystem _particle) : base(myState, _sm)
+                             ParticleSystem _particle = null) : base(myState, _sm)
         {
             particle = _particle;
             ragdoll = _ragdoll;

@@ -10,7 +10,7 @@ public class TotemSpawner : Totem
     {
         for (int i = 0; i < spawner.waveAmount; i++)
         {
-            Vector3 pos = spawner.GetSurfacePos();
+            Vector3 pos = spawner.spot.GetSurfacePos();
 
             feedback.StartGoToFeedback(pos, (x) => spawner.SpawnPrefab(pos));
         }

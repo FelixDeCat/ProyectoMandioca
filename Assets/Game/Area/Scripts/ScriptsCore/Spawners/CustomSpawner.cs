@@ -20,7 +20,7 @@ public class CustomSpawner : PlayObject
     public int waveAmount = 5;
     [SerializeField] private bool infiniteSpawner = false;
     [SerializeField] private Transform spawnSpot = null;
-    [SerializeField] LayerMask floorMask = 1 << 21;
+    public SpawnerSpot spot = new SpawnerSpot();
     [SerializeField] private int maxSpawn = 10;
     private int currentSpawn;
 
@@ -33,7 +33,11 @@ public class CustomSpawner : PlayObject
 
     private enum SpawnMode{Time, Waves}
 
-    private void Start(){_poolPlayObject = PoolManager.instance.GetObjectPool(gameObject.name, prefab);}
+    private void Start()
+    {
+        _poolPlayObject = PoolManager.instance.GetObjectPool(gameObject.name, prefab);
+        spot.Initialize(spawnSpot, spawnRadius);
+    }
 
     //Se activa el spawner
     public void ActivateSpawner(){ canupdate = true; }
@@ -80,7 +84,7 @@ public class CustomSpawner : PlayObject
             for (int i = 0; i < waveAmount; i++)
             {
                 if (currentSpawn >= maxSpawn || _amountSpawned >= totalAmount) break;
-                SpawnPrefab(GetSurfacePos());
+                SpawnPrefab(spot.GetSurfacePos());
                 if(!infiniteSpawner)
                     _amountSpawned++;
             }
@@ -108,7 +112,7 @@ public class CustomSpawner : PlayObject
             for (int i = 0; i < waveAmount; i++)
             {
                 if (currentSpawn >= maxSpawn) break;
-                SpawnPrefab(GetSurfacePos());
+                SpawnPrefab(spot.GetSurfacePos());
             }
         }
     }
@@ -121,43 +125,13 @@ public class CustomSpawner : PlayObject
 
     public void ToggleInfiniteSpawner(){ infiniteSpawner = !infiniteSpawner; }
 
-    public PlayObject SpawnPrefab(Vector3 pos)
-    {
-        var newObject = _poolPlayObject.Get();
-        newObject.GetComponent<EnemyBase>()?.Initialize();
-        newObject.transform.position = pos;
-        newObject.Spawner = this;
-        currentSpawn += 1;
-        return newObject;
-    }
-
-    public Vector3 GetSurfacePos()
-    {
-        var pos = GetPosRandom(spawnRadius, spawnSpot);
-        pos.y += 20;
-
-        RaycastHit hit;
-      
-        if (Physics.Raycast(pos, Vector3.down, out hit, Mathf.Infinity, floorMask, QueryTriggerInteraction.Ignore))
-        {
-            pos = hit.point;
-        }
-        return pos;
-    }
-
-
     public void ReturnObject(PlayObject newobject)
     {
         //_poolPlayObject.ReturnToPool(newobject);
         currentSpawn -= 1;
     }
 
-    Vector3 GetPosRandom(float radio, Transform t)
-    {
-        Vector3 min = new Vector3(t.position.x - radio, 0, t.position.z - radio);
-        Vector3 max = new Vector3(t.position.x + radio, t.position.y, t.position.z + radio);
-        return new Vector3(Random.Range(min.x, max.x), t.position.y, Random.Range(min.z, max.z));
-    }
+    public void SpawnPrefab(Vector3 pos) => spot.SpawnPrefab(pos, _poolPlayObject, this);
 
     protected override void OnInitialize()
     {

@@ -4,6 +4,7 @@ using UnityEngine;
 
 namespace Tools.StateMachine
 {
+
     public class CharDead : CharacterStates
     {
         public CharDead(EState<CharacterHead.PlayerInputs> myState, EventStateMachine<CharacterHead.PlayerInputs> _sm) : base(myState, _sm)
