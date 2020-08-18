@@ -17,5 +17,8 @@
     BackPack,
     FloorAura,
     RightCompanion,
-    LeftCompanion
+    LeftCompanion,
+    Waist1,
+    Waist2,
+    Waist3
 }

@@ -30,6 +30,7 @@ public class CharacterHead : CharacterControllable
     public Transform rayPivot;
 
     [SerializeField] Transform rot = null;
+    public Transform Root { get { return rot; } }
     [SerializeField] CharacterMovement move = new CharacterMovement();
     public CharacterInput getInput => _charInput;
 
