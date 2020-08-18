@@ -275,7 +275,7 @@ public class TrueDummyEnemy : EnemyBase
     protected override void OnTurnOn() { }
 
     #region STATE MACHINE THINGS
-    public enum DummyEnemyInputs { IDLE, BEGIN_ATTACK,ATTACK, GO_TO_POS, DIE, DISABLE, TAKE_DAMAGE, PETRIFIED, PARRIED, CHASING, SPECIAL_ATTACK };
+    public enum DummyEnemyInputs { AWAKE, IDLE, BEGIN_ATTACK,ATTACK, GO_TO_POS, DIE, DISABLE, TAKE_DAMAGE, PETRIFIED, PARRIED, CHASING, SPECIAL_ATTACK };
     void SetStates()
     {
         var idle = new EState<DummyEnemyInputs>("Idle");

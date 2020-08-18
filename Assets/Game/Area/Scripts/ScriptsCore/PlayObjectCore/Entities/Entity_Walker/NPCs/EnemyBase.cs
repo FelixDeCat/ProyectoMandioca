@@ -131,4 +131,6 @@ public abstract class EnemyBase : NPCBase, ICombatDirector
             }
         }
     }
+
+    protected virtual void SpawnEnemy() => OnInitialize();
 }

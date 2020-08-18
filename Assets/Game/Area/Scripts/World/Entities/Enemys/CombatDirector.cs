@@ -28,10 +28,7 @@ public class CombatDirector : LoadComponent, IZoneElement
     #region Entrada
     protected override IEnumerator LoadMe()
     {
-
         run = true;
-        Main.instance.eventManager.SubscribeToEvent(GameEvents.COMBAT_ENTER, RunCheck);
-        Main.instance.eventManager.SubscribeToEvent(GameEvents.COMBAT_EXIT, RunCheck);
 
         yield return null;
     }
@@ -222,7 +219,6 @@ public class CombatDirector : LoadComponent, IZoneElement
                 waitToAttack[target].Add(e);
             }
         }
-
 
         if (target == head)
         {

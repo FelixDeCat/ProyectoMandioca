@@ -20,7 +20,6 @@ public class MandragoraEnemy : EnemyBase
     [SerializeField] float cdToAttack = 1;
     [SerializeField] float parriedTime = 2;
     [SerializeField] float knockback = 20;
-    public DummySpecialAttack dummySpecialAttack;
 
     private CombatDirector director;
 
@@ -34,6 +33,9 @@ public class MandragoraEnemy : EnemyBase
     [SerializeField] List<EnemyBase> enemiesTypes = new List<EnemyBase>();
     [SerializeField, Range(1, 25)] float enemiesToSpawn = 5;
     [SerializeField] PlayObject trapToDie = null;
+    [SerializeField] bool mandragoraIsTrap = false;
+    [SerializeField] TriggerDispatcher trigger = null;
+    [SerializeField] SpawnerSpot spawnerSpot;
 
     [Header("Feedback")]
     [SerializeField] AnimEvent anim = null;
@@ -71,9 +73,6 @@ public class MandragoraEnemy : EnemyBase
         ParticlesManager.Instance.GetParticlePool(particles._spawnParticules.name, particles._spawnParticules, 5);
         ParticlesManager.Instance.GetParticlePool(particles.greenblood.name, particles.greenblood, 8);
 
-
-        ParticlesManager.Instance.PlayParticle(particles._spawnParticules.name, transform.position);
-
         var smr = GetComponentInChildren<SkinnedMeshRenderer>();
         if (smr != null)
             myMat = smr.materials;
@@ -97,6 +96,21 @@ public class MandragoraEnemy : EnemyBase
         petrifyEffect?.AddStartCallback(() => sm.SendInput(MandragoraInputs.PETRIFIED));
         petrifyEffect?.AddEndCallback(() => sm.SendInput(MandragoraInputs.IDLE));
     }
+
+    protected override void SpawnEnemy()
+    {
+        animator.SetBool("entry", true);
+        mandragoraIsTrap = false;
+
+        base.SpawnEnemy();
+    }
+
+    public void AwakeMandragora()
+    {
+        animator.SetBool("entry", true);
+        sm.SendInput(MandragoraInputs.AWAKE);
+    }
+
     protected override void OnReset()
     {
         ragdoll.Ragdoll(false, Vector3.zero);
@@ -116,9 +130,7 @@ public class MandragoraEnemy : EnemyBase
         if (sm == null)
             SetStates();
         else
-        {
             sm.SendInput(MandragoraInputs.IDLE);
-        }
 
         director.AddNewTarget(this);
 
@@ -249,6 +261,7 @@ public class MandragoraEnemy : EnemyBase
 
     void SetStates()
     {
+        var sleeping = new EState<MandragoraInputs>("Sleeping");
         var idle = new EState<MandragoraInputs>("Idle");
         var goToPos = new EState<MandragoraInputs>("Follow");
         var chasing = new EState<MandragoraInputs>("Chasing");

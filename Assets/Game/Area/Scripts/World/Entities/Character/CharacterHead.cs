@@ -103,7 +103,16 @@ public class CharacterHead : CharacterControllable
 
     [SerializeField] CharFeedbacks feedbacks = null;
 
-    public bool Combat { private set; get; }
+    public bool Combat
+    {
+        set
+        {
+            if (value != Combat)
+            {
+
+            }
+        } get => Combat;
+    }
 
     private bool blockRoll;
     public bool BlockRoll {set { blockRoll = value; } }
@@ -588,7 +597,6 @@ public class CharacterHead : CharacterControllable
         ChangeRangeAttack(attackRange);
         charanim.NormalAttack();
     }
-    public void SetCombat(bool b) => Combat = b;
 
     bool isHeavyRelease;
     void ReleaseInHeavy()
