@@ -15,4 +15,6 @@ public class ItemVersion : MonoBehaviour
         worldVersion.SetActive(false);
         equipedVersion.SetActive(true);
     }
+
+    public GameObject GetEquipedVersion() => equipedVersion;
 }

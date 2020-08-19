@@ -18,7 +18,6 @@ public class Item : ScriptableObject
 
     [Header("para equipar")]
     public bool equipable;
-    public GameObject model_versionEquipable;
 
     [Header("La parte visual")]
     public GameObject model;

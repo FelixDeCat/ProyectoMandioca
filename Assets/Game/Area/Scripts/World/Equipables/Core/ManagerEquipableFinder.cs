@@ -41,7 +41,7 @@ public class ManagerEquipableFinder : MonoBehaviour
 
     public bool EquipItem(Item item)
     {
-        var equipable = item.model_versionEquipable.GetComponent<Equipable>();
+        var equipable = item.model.GetComponent<Equipable>();
         if (!equipable) { throw new System.Exception("No se encontró el equipable, tal vez no este seteado en las configuraciones del Item"); }
 
         var spotype = equipable.spot_type;

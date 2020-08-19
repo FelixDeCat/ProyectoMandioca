@@ -19,7 +19,7 @@ public abstract class ManagerEquipableBase : MonoBehaviour
 
     public void EquipItem(Item item)
     {
-        GameObject go = GameObject.Instantiate(item.model_versionEquipable);
+        GameObject go = GameObject.Instantiate(item.model);
         go.transform.SetParent(spot.spotparent);
         go.transform.position = spot.spotparent.position;
         go.transform.rotation = spot.spotparent.rotation;
