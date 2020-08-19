@@ -69,6 +69,8 @@ public class CharLifeSystem: _Base_Life_System
     //////////////////////////////////////////////////////////////////////////////////
     public void Heal(int _val) => lifesystem.AddHealth(_val);
 
+    public bool CanHeal() { return lifesystem.CanHealth(); }
+
     public void Heal_AllHealth()
     {
         Main.instance.gameUiController.ResetYellowHeart();

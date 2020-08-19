@@ -40,16 +40,18 @@ public class EquipedManager : MonoBehaviour
     {
         if (current.item.consumible)
         {
-            if (current.cant > 0)
+            if (behaviours[_spottype].CanUse())
             {
-                behaviours[_spottype].BeginUse();
-                current.cant--;
-            }
-
-            if (current.cant <= 0)
-            {
-                UnEquipByItem(current);
-                Clean();
+                if (current.cant > 0)
+                {
+                    behaviours[_spottype].BeginUse();
+                    current.cant--;
+                }
+                if (current.cant <= 0)
+                {
+                    UnEquipByItem(current);
+                    Clean();
+                }
             }
         }
         else
@@ -123,10 +125,10 @@ public class EquipedManager : MonoBehaviour
                 Debug.Log("add behaviour to dictionary: " + _item.item.name);
                 behaviours.Add(spot, behaviour);
             }
-            else 
+            else
             {
                 Debug.Log("update behaviour to dictionary: " + _item.item.name);
-                behaviours[spot] = behaviour; 
+                behaviours[spot] = behaviour;
             }
             if (!behaviour.Equiped) behaviour.Equip();
         }
@@ -156,7 +158,7 @@ public class EquipedManager : MonoBehaviour
         else Debug.LogWarning("Me estan pasando un spot fuera de mi jurisdiccion");
     }
 
-    void Create(Item _itm) => current = new ItemInInventory(_itm, 1) ;
+    void Create(Item _itm) => current = new ItemInInventory(_itm, 1);
     void Clean() => current = new ItemInInventory(ScriptableObject.CreateInstance<Item>(), -1);
 
     bool SpotsEnables => current.item.spot == SpotType.Waist1 || current.item.spot == SpotType.Waist2 || current.item.spot == SpotType.Waist3;
