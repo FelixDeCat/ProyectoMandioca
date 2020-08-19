@@ -33,6 +33,7 @@ public class MandragoraEnemy : EnemyBase
     [SerializeField] List<EnemyBase> enemiesTypes = new List<EnemyBase>();
     [SerializeField, Range(1, 25)] float enemiesToSpawn = 5;
     [SerializeField] PlayObject trapToDie = null;
+    [SerializeField] Transform rootToTrap = null;
     [SerializeField] bool mandragoraIsTrap = false;
     [SerializeField] TriggerDispatcher trigger = null;
     [SerializeField] SpawnerSpot spawnerSpot;
@@ -55,7 +56,6 @@ public class MandragoraEnemy : EnemyBase
     public class MandragoraParticles
     {
         public ParticleSystem _spawnParticules = null;
-        public ParticleSystem myGroundParticle = null;
         public ParticleSystem greenblood = null;
     }
 
@@ -83,6 +83,7 @@ public class MandragoraEnemy : EnemyBase
         rb = GetComponent<Rigidbody>();
         combatComponent.Configure(AttackEntity);
         anim.Add_Callback("DealDamage", DealDamage);
+        anim.Add_Callback("SpawnEnemy", SpawnBrothers);
         movement.Configure(rootTransform, rb);
 
         StartDebug();
@@ -90,14 +91,17 @@ public class MandragoraEnemy : EnemyBase
         Main.instance.AddEntity(this);
 
         IAInitialize(Main.instance.GetCombatDirector());
-
-        //PoolManager.instance.GetObjectPool("CorruptedVines", dummySpecialAttack.specialAttack_pf);
-
         petrifyEffect?.AddStartCallback(() => sm.SendInput(MandragoraInputs.PETRIFIED));
         petrifyEffect?.AddEndCallback(() => sm.SendInput(MandragoraInputs.IDLE));
+        PoolManager.instance.GetObjectPool(trapToDie.name, trapToDie);
+
+        if (!mandragoraIsTrap) return;
+        spawnerSpot.Initialize(transform);
+        for (int i = 0; i < enemiesTypes.Count; i++)
+            PoolManager.instance.GetObjectPool(enemiesTypes[i].name, enemiesTypes[i]);
     }
 
-    protected override void SpawnEnemy()
+    public override void SpawnEnemy()
     {
         animator.SetBool("entry", true);
         mandragoraIsTrap = false;
@@ -108,22 +112,47 @@ public class MandragoraEnemy : EnemyBase
     public void AwakeMandragora()
     {
         animator.SetBool("entry", true);
-        sm.SendInput(MandragoraInputs.AWAKE);
+        trigger.gameObject.SetActive(false);
+    }
+
+    void SpawnBrothers()
+    {
+        if (!mandragoraIsTrap) return;
+
+        for (int i = 0; i < enemiesToSpawn; i++)
+        {
+            int index = UnityEngine.Random.Range(0, enemiesTypes.Count);
+            var enemy = spawnerSpot.SpawnPrefab(spawnerSpot.GetSurfacePos(), PoolManager.instance.GetObjectPool(enemiesTypes[i].name));
+            enemy.GetComponent<EnemyBase>().SpawnEnemy();
+        }
+
+        mandragoraIsTrap = false;
+        sm.SendInput(MandragoraInputs.IDLE);
+    }
+
+    void OnDead()
+    {
+        var pool = PoolManager.instance.GetObjectPool(trapToDie.name, trapToDie);
+        var trap = pool.Get();
+        trap.Pool = pool;
     }
 
     protected override void OnReset()
     {
         ragdoll.Ragdoll(false, Vector3.zero);
     }
+
     public override void Zone_OnPlayerExitInThisRoom()
     {
         //Debug.Log("Player enter the room");
         IAInitialize(Main.instance.GetCombatDirector());
     }
+
     public override void Zone_OnPlayerEnterInThisRoom(Transform who)
     {
         sm.SendInput(MandragoraInputs.DISABLE);
     }
+
     public override void IAInitialize(CombatDirector _director)
     {
         director = _director;
@@ -136,9 +165,10 @@ public class MandragoraEnemy : EnemyBase
 
         canupdate = true;
     }
+
     protected override void OnUpdateEntity()
     {
-        if (canupdate)
+        if (canupdate && !mandragoraIsTrap)
         {
             if (!death)
             {
@@ -209,11 +239,6 @@ public class MandragoraEnemy : EnemyBase
     #region Life Things
 
     public GenericLifeSystem Life() => lifesystem;
-
-    public override void Bashed()
-    {
-        sm.SendInput(MandragoraInputs.PARRIED);
-    }
 
     protected override void TakeDamageFeedback(DamageData data)
     {
@@ -365,7 +390,7 @@ public class MandragoraEnemy : EnemyBase
 
         new DummyStunState(petrified, sm);
 
-        new DummyDieState(die, sm, ragdoll).SetAnimator(animator).SetDirector(director).SetRigidbody(rb);
+        new DummyDieState(die, sm, ragdoll, OnDead).SetAnimator(animator).SetDirector(director).SetRigidbody(rb);
 
         new DummyDisableState(disable, sm, EnableObject, DisableObject);
     }
@@ -380,6 +405,11 @@ public class MandragoraEnemy : EnemyBase
     void EnableObject() => Initialize();
 
     #endregion
+
+    private void OnDrawGizmos()
+    {
+        Gizmos.DrawWireSphere(transform.position, spawnerSpot.radious);
+    }
 
     #region Debuggin
     UnityEngine.UI.Text txt_debug = null;

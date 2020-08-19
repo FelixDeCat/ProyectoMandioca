@@ -228,11 +228,6 @@ public class TrueDummyEnemy : EnemyBase
 
     public GenericLifeSystem Life() => lifesystem;
 
-    public override void Bashed()
-    {
-        sm.SendInput(DummyEnemyInputs.PARRIED);
-    }
-
     protected override void TakeDamageFeedback(DamageData data)
     {
         if (sm.Current.Name == "Idle" || sm.Current.Name == "Persuit")

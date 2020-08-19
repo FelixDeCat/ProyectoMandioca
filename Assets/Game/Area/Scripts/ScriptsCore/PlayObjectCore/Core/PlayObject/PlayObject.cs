@@ -11,6 +11,7 @@ public abstract class PlayObject : MonoBehaviour,IZoneElement
     public string poolname;
 
     public CustomSpawner Spawner { private get; set; }
+    public ObjectPool_PlayObject Pool { private get; set; }
 
     bool alreadyInitialized = false;
     public void Initialize() { if (!alreadyInitialized) { OnInitialize(); alreadyInitialized = true; } }
@@ -37,5 +38,5 @@ public abstract class PlayObject : MonoBehaviour,IZoneElement
     public virtual void Zone_OnUpdateInThisRoom() { }
     public virtual void Zone_OnPlayerDeath() { }
 
-    protected void ReturnToSpawner() => Spawner?.ReturnObject(this);
+    protected void ReturnToSpawner() { Spawner?.ReturnObject(this); Pool?.ReturnToPool(this); Spawner = null; Pool = null; }
 }

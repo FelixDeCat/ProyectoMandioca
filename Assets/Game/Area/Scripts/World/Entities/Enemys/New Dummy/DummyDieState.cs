@@ -1,16 +1,26 @@
 ﻿using UnityEngine;
+using System;
 
 namespace Tools.StateMachine
 {
     public class DummyDieState : DummyEnemyStates
     {
         RagdollComponent ragdoll;
-        ParticleSystem particle;
+        Action OnDead;
         float timer;
         bool desactive;
+        ParticleSystem particle;
+
 
         public DummyDieState(EState<TrueDummyEnemy.DummyEnemyInputs> myState, EventStateMachine<TrueDummyEnemy.DummyEnemyInputs> _sm, RagdollComponent _ragdoll,
-                             ParticleSystem _particle = null) : base(myState, _sm)
+                             Action _OnDead) : base(myState, _sm)
+        {
+            OnDead = _OnDead;
+            ragdoll = _ragdoll;
+        }
+
+        public DummyDieState(EState<TrueDummyEnemy.DummyEnemyInputs> myState, EventStateMachine<TrueDummyEnemy.DummyEnemyInputs> _sm, RagdollComponent _ragdoll,
+                     ParticleSystem _particle) : base(myState, _sm)
         {
             particle = _particle;
             ragdoll = _ragdoll;
@@ -31,6 +41,7 @@ namespace Tools.StateMachine
             {
                 if (!desactive)
                 {
+                    OnDead?.Invoke();
                     ragdoll.DesactiveBones();
                     desactive = true;
                 }

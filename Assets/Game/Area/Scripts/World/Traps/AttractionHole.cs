@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class AttractionHole : MonoBehaviour
+public class AttractionHole : PlayObject
 {
     CharacterHead character;
     [SerializeField] float attractionForce = 500;
@@ -16,13 +16,14 @@ public class AttractionHole : MonoBehaviour
     bool on;
     bool isZero;
 
-    protected void Start()
+    protected override void OnInitialize()
     {
         on = true;
         ParticlesManager.Instance?.GetParticlePool(attFeedback.name, attFeedback);
+        On();
     }
 
-    private void Update()
+    protected override void OnUpdate()
     {
         if (!on) return;
 
@@ -33,7 +34,7 @@ public class AttractionHole : MonoBehaviour
 
             if (att.x > -0.3f && att.x < 0.3f && att.z > -0.3f && att.z < 0.3f)
             {
-                if(forceDirection == 1 && !isZero)
+                if (forceDirection == 1 && !isZero)
                 {
                     character.GetCharMove().StopForce();
                     isZero = true;
@@ -46,7 +47,7 @@ public class AttractionHole : MonoBehaviour
             else
                 isZero = false;
 
-            if(!isZero)
+            if (!isZero)
                 character.GetCharMove().MovementAddForce(att.normalized, attractionForce, mode);
         }
     }
@@ -82,4 +83,14 @@ public class AttractionHole : MonoBehaviour
                 ParticlesManager.Instance.StopParticle(attFeedback.name, attFXTemp);
         }
     }
+
+    protected override void OnTurnOn() { }
+
+    protected override void OnTurnOff() { }
+
+    protected override void OnFixedUpdate() { }
+
+    protected override void OnPause() { }
+
+    protected override void OnResume() { }
 }

@@ -33,8 +33,6 @@ public class CarivorousPlant : EntityBase
     bool inDmg;
     bool antibug;
 
-    protected void Start() => Initialize();
-
     protected override void OnInitialize()
     {
         on = true;
@@ -48,9 +46,8 @@ public class CarivorousPlant : EntityBase
 
         ParticlesManager.Instance.GetParticlePool(attFeedback.name, attFeedback);
         ParticlesManager.Instance.GetParticlePool(hitParticle.name, hitParticle);
+        On();
     }
-
-    private void Update() => OnUpdate();
 
     protected override void OnUpdate()
     {
