@@ -11,6 +11,8 @@ public class EquipedManager : MonoBehaviour
 
     public ItemInInventory current;
 
+    Dictionary<SpotType, equipdata> data = new Dictionary<SpotType, equipdata>();
+
     Dictionary<SpotType, Transform> positions = new Dictionary<SpotType, Transform>();
     Dictionary<SpotType, EquipedItem> behaviours = new Dictionary<SpotType, EquipedItem>();
 
@@ -162,5 +164,13 @@ public class EquipedManager : MonoBehaviour
     void Clean() => current = new ItemInInventory(ScriptableObject.CreateInstance<Item>(), -1);
 
     bool SpotsEnables => current.item.spot == SpotType.Waist1 || current.item.spot == SpotType.Waist2 || current.item.spot == SpotType.Waist3;
+
+
+    public struct equipdata
+    {
+        Transform parent;
+        EquipedItem itemBehaviour;
+        ItemInInventory item;
+    }
 
 }
