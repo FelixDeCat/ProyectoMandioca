@@ -7,7 +7,8 @@ public abstract class UI_Base : MonoBehaviour
     [Header("UI_Base")]
     public GameObject firstToOpenMenu;
     [System.NonSerialized] public int idfinder;
-    [System.NonSerialized] public bool isActive;
+    [System.NonSerialized] bool isActive;
+    public bool IsActive { get { return isActive; } }
 
     UI_Anim_Code anim;
     [SerializeField] protected GameObject parent;
@@ -34,7 +35,7 @@ public abstract class UI_Base : MonoBehaviour
     public void ConfigurateFirst(GameObject go) => firstToOpenMenu = go;
     public void ForceDirectConfigurateFirst(GameObject go) =>  Main.instance.GetMyEventSystem().Set_First(go);
 
-    public bool IsActive { get { return isActive; } }
+    
     public virtual void Open()
     {
         anim.Open();

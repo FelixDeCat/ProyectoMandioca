@@ -11,8 +11,11 @@ public abstract class Equipable : MonoBehaviour
     [Header("Aca va el scriptable object")]
     public Item item;
 
-    public virtual void Equip() => OnEquip();
-    public virtual void UnEquip() => OnUnequip();
+    bool equiped;
+    public bool Equiped { get { return equiped; } }
+
+    public virtual void Equip() { OnEquip(); equiped = true; }
+    public virtual void UnEquip() { OnUnequip(); equiped = false; }
 
     protected abstract void OnEquip();
     protected abstract void OnUnequip();

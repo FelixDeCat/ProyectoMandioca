@@ -35,7 +35,7 @@ public class ManagerInventories : MonoBehaviour
         {
             current_ui.feedbackSelectedInventory.SetActive(false);
 
-            if (current_ui.isActive)
+            if (current_ui.IsActive)
             {
                 Main.instance.GetMyEventSystem().DeselectGameObject();
             }
@@ -85,7 +85,7 @@ public class ManagerInventories : MonoBehaviour
         {
             foreach (var ui in ui_inventories)
             {
-                if (ui.isActive)
+                if (ui.IsActive)
                 {
                     ui.Refresh(itmAction);
                 }
