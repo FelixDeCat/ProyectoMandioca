@@ -105,17 +105,29 @@ public class EquipedManager : MonoBehaviour
 
     void EquipByItem(ItemInInventory _item, Transform _parent)
     {
-        var go = Instantiate(_item.item.model_versionEquipable, _parent);
+
+        Debug.Log("equipando item: " + _item.item.name);
+        var go = Instantiate(_item.item.model, _parent);
+        go.transform.localPosition = Vector3.zero;
         var spot = _item.item.spot;
         //
         var aux = go.GetComponent<ItemVersion>();
         if (aux != null) aux.Activate_EquipedVersion();
         //
-        var behaviour = go.GetComponentInChildren<EquipedItem>();
+        var behaviour = aux.GetEquipedVersion().GetComponent<EquipedItem>();
+        Debug.Log("Bahviour is: " + behaviour != null);
         if (behaviour != null)
         {
-            if (!behaviours.ContainsKey(spot)) behaviours.Add(spot, behaviour);
-            else behaviours[spot] = behaviour;
+            if (!behaviours.ContainsKey(spot))
+            {
+                Debug.Log("add behaviour to dictionary: " + _item.item.name);
+                behaviours.Add(spot, behaviour);
+            }
+            else 
+            {
+                Debug.Log("update behaviour to dictionary: " + _item.item.name);
+                behaviours[spot] = behaviour; 
+            }
             if (!behaviour.Equiped) behaviour.Equip();
         }
     }
@@ -132,7 +144,7 @@ public class EquipedManager : MonoBehaviour
         var parent = positions[spot];
         var behaviour = parent.GetComponentInChildren<EquipedItem>();
         if (behaviour != null) behaviour.UnEquip();
-        for (int i = 0; i < parent.childCount; i++) Destroy(parent.GetChild(i));
+        for (int i = 0; i < parent.childCount; i++) Destroy(parent.GetChild(i).gameObject);
     }
 
     void TryEquipInSpot(ItemInInventory _itm)
