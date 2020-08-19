@@ -119,14 +119,14 @@ public class CustomCamera : MonoBehaviour
         float axisX = Input.GetAxis("Horizontal");
         float axisZ = Input.GetAxis("Vertical");
         Vector3 moveOffset = desiredposition;
-        if (axisX != 0)
-        {
-            moveOffset -= transform.right * axisX * sensitivity;
-        }
-        if (axisZ != 0)
-        {
-            moveOffset -= transform.up * axisZ * sensitivity;
-        }
+        //if (axisX != 0)
+        //{
+        //    moveOffset -= transform.right * axisX * sensitivity;
+        //}
+        //if (axisZ != 0)
+        //{
+        //    moveOffset -= transform.up * axisZ * sensitivity;
+        //}
         Vector3 smoothedposition = Vector3.Slerp(transform.position, moveOffset, smooth * Time.deltaTime);
         transform.position = smoothedposition;
         if (lookAt) transform.LookAt(charTransform);
