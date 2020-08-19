@@ -16,9 +16,8 @@ public class TriggerDispatcher : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        OnExecute( OnTriggerEnterEvent,other);
-
         StartCoroutine(LateEnter(other));
+        OnExecute( OnTriggerEnterEvent,other);
     }
 
     IEnumerator LateEnter(Collider other)

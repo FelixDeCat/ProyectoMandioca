@@ -99,6 +99,7 @@ public class MandragoraEnemy : EnemyBase
         spawnerSpot.Initialize(transform);
         for (int i = 0; i < enemiesTypes.Count; i++)
             PoolManager.instance.GetObjectPool(enemiesTypes[i].name, enemiesTypes[i]);
+        On();
     }
 
     public override void SpawnEnemy()
@@ -112,6 +113,7 @@ public class MandragoraEnemy : EnemyBase
     public void AwakeMandragora()
     {
         animator.SetBool("entry", true);
+        trigger.StopAllCoroutines();
         trigger.gameObject.SetActive(false);
     }
 
@@ -122,7 +124,7 @@ public class MandragoraEnemy : EnemyBase
         for (int i = 0; i < enemiesToSpawn; i++)
         {
             int index = UnityEngine.Random.Range(0, enemiesTypes.Count);
-            var enemy = spawnerSpot.SpawnPrefab(spawnerSpot.GetSurfacePos(), PoolManager.instance.GetObjectPool(enemiesTypes[i].name));
+            var enemy = spawnerSpot.SpawnPrefab(spawnerSpot.GetSurfacePos(), PoolManager.instance.GetObjectPool(enemiesTypes[index].name));
             enemy.GetComponent<EnemyBase>().SpawnEnemy();
         }
 
@@ -132,8 +134,11 @@ public class MandragoraEnemy : EnemyBase
 
     void OnDead()
     {
-        var pool = PoolManager.instance.GetObjectPool(trapToDie.name, trapToDie);
+        var pool = PoolManager.instance.GetObjectPool(trapToDie.name);
+        Debug.Log("venga chavalin");
         var trap = pool.Get();
+        trap.transform.position = rootToTrap.position;
+        trap.Initialize();
         trap.Pool = pool;
     }
 
