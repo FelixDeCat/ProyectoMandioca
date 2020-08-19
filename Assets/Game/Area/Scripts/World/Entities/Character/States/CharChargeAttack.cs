@@ -1,5 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System;
 using UnityEngine;
 
 namespace Tools.StateMachine
@@ -7,10 +6,12 @@ namespace Tools.StateMachine
     public class CharChargeAttack : CharacterStates
     {
         Animator anim;
+        Action<bool> ChangeAttacking;
 
-        public CharChargeAttack(EState<CharacterHead.PlayerInputs> myState, EventStateMachine<CharacterHead.PlayerInputs> _sm, Animator _anim) : base(myState, _sm)
+        public CharChargeAttack(EState<CharacterHead.PlayerInputs> myState, EventStateMachine<CharacterHead.PlayerInputs> _sm, Animator _anim, Action<bool> _ChangeAttacking) : base(myState, _sm)
         {
             anim = _anim;
+            ChangeAttacking = _ChangeAttacking;
         }
 
         protected override void Enter(EState<CharacterHead.PlayerInputs> input)
@@ -19,6 +20,8 @@ namespace Tools.StateMachine
 
             charMove.MovementHorizontal(0);
             charMove.MovementVertical(0);
+
+            ChangeAttacking?.Invoke(true);
         }
 
         protected override void Update()

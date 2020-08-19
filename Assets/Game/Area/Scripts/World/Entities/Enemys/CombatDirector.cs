@@ -66,9 +66,9 @@ public class CombatDirector : LoadComponent, IZoneElement
         }
 
         #region Checkea si no hay mas entities subscriptos y le dice al character que ya no esta en combate
-        if (target==head)
-            if (attackingTarget[target].Count + listAttackTarget[target].Count + waitToAttack[target].Count <= 0 && head.Combat)
-                Main.instance.eventManager.TriggerEvent(GameEvents.COMBAT_EXIT);
+        if (target == head)
+            if (attackingTarget[target].Count + listAttackTarget[target].Count + waitToAttack[target].Count <= 0)
+                head.Combat = false;
         #endregion
     }
     void Attack(ICombatDirector e, EntityBase target)
@@ -223,7 +223,7 @@ public class CombatDirector : LoadComponent, IZoneElement
         if (target == head)
         {
             if (attackingTarget[target].Count + listAttackTarget[target].Count + waitToAttack[target].Count > 0 && !head.Combat)
-                Main.instance.eventManager.TriggerEvent(GameEvents.COMBAT_ENTER);
+                head.Combat = true;
         }
         //RunCheck();
     }

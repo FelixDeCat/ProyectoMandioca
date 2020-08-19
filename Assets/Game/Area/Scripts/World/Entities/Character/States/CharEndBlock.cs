@@ -1,20 +1,22 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using System;
 
 
 namespace Tools.StateMachine
 {
     public class CharEndBlock : CharacterStates
     {
-        public CharEndBlock(EState<CharacterHead.PlayerInputs> myState, EventStateMachine<CharacterHead.PlayerInputs> _sm) : base(myState, _sm)
+        Action<bool> ChangeAttacking;
+
+        public CharEndBlock(EState<CharacterHead.PlayerInputs> myState, EventStateMachine<CharacterHead.PlayerInputs> _sm, Action<bool> _ChangeAttacking) : base(myState, _sm)
         {
+            ChangeAttacking = _ChangeAttacking;
         }
 
         protected override void Enter(EState<CharacterHead.PlayerInputs> input)
         {
             charBlock.callback_UpBlock();
             charBlock.SetOnBlock(false);
+            ChangeAttacking?.Invoke(false);
         }
 
         protected override void Update()
@@ -27,21 +29,6 @@ namespace Tools.StateMachine
             {
                 sm.SendInput(CharacterHead.PlayerInputs.MOVE);
             }
-        }
-
-        protected override void FixedUpdate()
-        {
-            base.FixedUpdate();
-        }
-
-        protected override void LateUpdate()
-        {
-            base.LateUpdate();
-        }
-
-        protected override void Exit(CharacterHead.PlayerInputs input)
-        {
-
         }
     }
 }

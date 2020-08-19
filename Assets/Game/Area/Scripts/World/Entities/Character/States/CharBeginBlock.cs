@@ -1,16 +1,17 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System;
 using UnityEngine;
 
 namespace Tools.StateMachine
 {
     public class CharBeginBlock : CharacterStates
     {
+        Action<bool> ChangeAttacking;
         Animator anim;
         private float initSpeed;
-        public CharBeginBlock(EState<CharacterHead.PlayerInputs> myState, EventStateMachine<CharacterHead.PlayerInputs> _sm, Animator _anim) : base(myState, _sm)
+        public CharBeginBlock(EState<CharacterHead.PlayerInputs> myState, EventStateMachine<CharacterHead.PlayerInputs> _sm, Animator _anim, Action<bool> _ChangeAttacking) : base(myState, _sm)
         {
             anim = _anim;
+            ChangeAttacking = _ChangeAttacking;
         }
 
         protected override void Enter(EState<CharacterHead.PlayerInputs> input)
@@ -25,7 +26,7 @@ namespace Tools.StateMachine
             charMove.MovementHorizontal(LeftHorizontal());
             charMove.MovementVertical(LeftVertical());
 
-            
+            ChangeAttacking?.Invoke(true);
             
             var info = anim.GetCurrentAnimatorStateInfo(1);
             if (info.IsName("BlockStay"))

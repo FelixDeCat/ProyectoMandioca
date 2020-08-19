@@ -10,15 +10,17 @@ namespace Tools.StateMachine
         float attackRecall;
         Func<bool> IsHeavy;
         Action<bool> ChangeHeavy;
+        Action<bool> ChangeAttacking;
         float timer;
         bool enter;
 
         public CharReleaseAttack(EState<CharacterHead.PlayerInputs> myState, EventStateMachine<CharacterHead.PlayerInputs> _sm, float recall,
-                                 Func<bool> _isHeavy, Action<bool> _ChangeHeavy) : base(myState, _sm)
+                                 Func<bool> _isHeavy, Action<bool> _ChangeHeavy, Action<bool> _ChangeAttacking) : base(myState, _sm)
         {
             attackRecall = recall;
             IsHeavy = _isHeavy;
             ChangeHeavy = _ChangeHeavy;
+            ChangeAttacking = _ChangeAttacking;
         }
 
         protected override void Enter(EState<CharacterHead.PlayerInputs> input)
@@ -72,7 +74,7 @@ namespace Tools.StateMachine
             ChangeHeavy(false);
             feedbacks.particles.feedbackDashHeavy.Stop();
 
-            
+            ChangeAttacking?.Invoke(false);
         }
     }
 }
