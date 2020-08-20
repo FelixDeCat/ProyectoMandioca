@@ -29,7 +29,7 @@ public class DialogueManager : MonoBehaviour
 
     public void StartDialogue(DialogueTree treedialog)
     {
-        
+
         frontend.Open();
         Main.instance.GetChar().InputGoToMenues(true);
         tree = treedialog;
@@ -82,7 +82,7 @@ public class DialogueManager : MonoBehaviour
             }
             else
             {
-                
+
                 currentNode = -1;
                 currentdialogue = -1;
                 OnClose();
@@ -97,12 +97,38 @@ public class DialogueManager : MonoBehaviour
     public void OnOptionSelected(int index)
     {
         Debug.Log("OnOptionSelected");
-        currentNode = tree.dialogueNodes[currentNode].conected[index].connectionID;
-        currentdialogue = 0;
-        ShowInScreen();
+
+        var executions = tree.dialogueNodes[currentNode].linkExecutions;
+
+        int id_selected = -1;
+        for (int i = 0; i < executions.Count; i++)
+        {
+            if (executions[i].option_index == index)
+            {
+                id_selected = executions[i].execution_id;
+            }
+        }
+
+        if (id_selected != -1)
+        {
+            if (ExecutionManager.instance.CanExecute(id_selected))
+            {
+                ExecutionManager.instance.Execute(id_selected);
+
+                currentNode = tree.dialogueNodes[currentNode].conected[index].connectionID;
+                currentdialogue = 0;
+                ShowInScreen();
+            }
+        }
+        else
+        {
+            currentNode = tree.dialogueNodes[currentNode].conected[index].connectionID;
+            currentdialogue = 0;
+            ShowInScreen();
+        }
     }
 
-    
+
 
     public void ShowInScreen()
     {
@@ -142,7 +168,6 @@ public class DialogueManager : MonoBehaviour
             Debug.Log("entra a force");
             frontend.SetDialogue(tree.dialogueNodes[currentNode].dialogues[currentdialogue], OnTextFinishCarret, true);
         }
-        
     }
 
     void OnTextFinishCarret()
@@ -155,7 +180,31 @@ public class DialogueManager : MonoBehaviour
             {
                 for (int i = 0; i < tree.dialogueNodes[currentNode].conected.Count; i++)
                 {
-                    frontend.SetOption(i, tree.dialogueNodes[currentNode].conected[i].text);
+                    var executions = tree.dialogueNodes[currentNode].linkExecutions;
+                    int id_selected = -1;
+                    for (int j = 0; j < executions.Count; j++)
+                    {
+                        if (executions[j].option_index == i)
+                        {
+                            id_selected = executions[j].execution_id;
+                        }
+                    }
+
+                    if (id_selected != -1)
+                    {
+                        if (ExecutionManager.instance.CanExecute(id_selected))
+                        {
+                           frontend.SetOption(i, tree.dialogueNodes[currentNode].conected[i].text, false);
+                        }
+                        else
+                        {
+                           frontend.SetOption(i, tree.dialogueNodes[currentNode].conected[i].text, true);
+                        }
+                    }
+                    else
+                    {
+                        frontend.SetOption(i, tree.dialogueNodes[currentNode].conected[i].text);
+                    }
                 }
             }
             else

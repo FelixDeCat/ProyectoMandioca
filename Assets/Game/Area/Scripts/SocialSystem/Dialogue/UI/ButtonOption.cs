@@ -20,6 +20,11 @@ public class ButtonOption : MonoBehaviour
         button.Select();
     }
 
+    public void SetInteractable(bool val)
+    {
+        button.interactable = val;
+    }
+
     public void SetIndex(int index, string _string_option)
     {
         this.index = index;

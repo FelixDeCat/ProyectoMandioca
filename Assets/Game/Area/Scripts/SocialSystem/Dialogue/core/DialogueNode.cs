@@ -12,6 +12,7 @@ public class DialogueNode
 
     public List<string> dialogues = new List<string>();
     public List<Choice> conected = new List<Choice>();
+    public List<LinkOptionWithExecution> linkExecutions = new List<LinkOptionWithExecution>();
 
     public Sprite exep_photo;
 
@@ -27,6 +28,12 @@ public class DialogueNode
         {
             this.conected.Add(conected[i]);
         }
+    }
+
+    public struct LinkOptionWithExecution
+    {
+        public int option_index;
+        public int execution_id;
     }
 }
 

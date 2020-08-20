@@ -65,7 +65,7 @@ public class UI_DialogueManager : UI_Base
         }
     }
 
-    public void SetOption(int index, string option)
+    public void SetOption(int index, string option, bool disable = false)
     {
         if (index == 0)
         {
@@ -74,6 +74,7 @@ public class UI_DialogueManager : UI_Base
         }
         buttonOptionsGos[index].gameObject.SetActive(true);
         buttonOptions[index].SetIndex(index, option);
+        buttonOptions[index].SetInteractable(!disable);
 
         reconfigure.Reconfigure();
 
