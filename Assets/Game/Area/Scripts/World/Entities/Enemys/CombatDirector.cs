@@ -29,6 +29,7 @@ public class CombatDirector : LoadComponent, IZoneElement
     protected override IEnumerator LoadMe()
     {
         run = true;
+        head = Main.instance.GetChar();
 
         yield return null;
     }
@@ -203,6 +204,7 @@ public class CombatDirector : LoadComponent, IZoneElement
     {
         if (!target || !listAttackTarget.ContainsKey(target))
             return;
+
 
         if (attackingTarget[target].Count + listAttackTarget[target].Count < maxEnemies)
         {

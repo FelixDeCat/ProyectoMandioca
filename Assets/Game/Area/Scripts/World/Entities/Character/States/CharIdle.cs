@@ -6,9 +6,13 @@ namespace Tools.StateMachine
 {
     public class CharIdle : CharacterStates
     {
-        public CharIdle(EState<CharacterHead.PlayerInputs> myState, EventStateMachine<CharacterHead.PlayerInputs> _sm) : base(myState, _sm)
+        float timer;
+        float timeToAnim = 4;
+        CharacterAnimator anim;
+
+        public CharIdle(EState<CharacterHead.PlayerInputs> myState, EventStateMachine<CharacterHead.PlayerInputs> _sm, CharacterAnimator _anim) : base(myState, _sm)
         {
-            
+            anim = _anim;
         }
 
         protected override void Enter(EState<CharacterHead.PlayerInputs> input)
@@ -22,6 +26,14 @@ namespace Tools.StateMachine
             if (LeftHorizontal()!=0 || LeftVertical() != 0)
             {
                 sm.SendInput(CharacterHead.PlayerInputs.MOVE);
+            }
+
+            timer += Time.deltaTime;
+
+            if(timer >= timeToAnim)
+            {
+                anim.IdleFancy();
+                timer = 0;
             }
         }
 
@@ -38,6 +50,7 @@ namespace Tools.StateMachine
         protected override void Exit(CharacterHead.PlayerInputs input)
         {
             base.Exit(input);
+            timer = 0;
         }
     }
 }

@@ -6,6 +6,8 @@ using UnityEngine.Events;
 using DevelopTools;
 using Tools.EventClasses;
 using Tools.StateMachine;
+using System.Runtime.ExceptionServices;
+
 public class CharacterHead : CharacterControllable
 {
     public enum PlayerInputs { 
@@ -366,7 +368,7 @@ public class CharacterHead : CharacterControllable
 
         stateMachine = new EventStateMachine<PlayerInputs>(idle, debug_options.DebugState);
 
-        new CharIdle(idle, stateMachine)
+        new CharIdle(idle, stateMachine, charanim)
             .SetLeftAxis(GetLeftHorizontal, GetLeftVertical)
             .SetMovement(this.move);
 
@@ -493,17 +495,26 @@ public class CharacterHead : CharacterControllable
     IEnumerator DownWeaponsCoroutine()
     {
         float timer = 0;
-        while (timer < timeToDownWeapons)
+        bool isOver = false;
+        while (!isOver)
         {
             if (attacking || inTrap || combat) yield break;
 
             timer += Time.deltaTime;
+
             yield return new WaitForEndOfFrame();
+
+            if (timer >= timeToDownWeapons)
+            {
+                if (stateMachine.Current.Name != "Roll")
+                    isOver = true;
+            }
         }
 
         charanim.InCombat(0);
         UpWeapons = false;
-        Debug.Log("down weapon");
+
+        Debug.Log(combat.ToString() + attacking.ToString() + inTrap.ToString());
     }
 
     void UpWeaponsFunction()

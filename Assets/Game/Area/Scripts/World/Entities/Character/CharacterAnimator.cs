@@ -19,8 +19,6 @@ public class CharacterAnimator : BaseAnimator
     public void OnAttackBegin(bool b) => myAnim.SetBool("CheckHeavy", b);
     public void NormalAttack() => myAnim.SetTrigger("NormalAttack");
     public void HeavyAttack() => myAnim.SetTrigger("HeavyAttack");
-    public void AttackAntiBug(){ myAnim.ResetTrigger("HeavyAttack"); myAnim.ResetTrigger("NormalAttack"); }
-    public void ForceAnimation(string s) { myAnim.Play(s); }
     public void Dead() => myAnim.SetTrigger("Death");
 
     public void BashDashAnim() => myAnim.SetTrigger("BashDash");
@@ -28,7 +26,15 @@ public class CharacterAnimator : BaseAnimator
 
     public void Combo(bool val) => myAnim.SetBool("IsCombo", val);
 
-    public void InCombat(int val) => myAnim.SetFloat("InCombat", val);
+    public void InCombat(int val)
+    {
+        if(val == 0) myAnim.SetTrigger("Env");
+        else myAnim.ResetTrigger("Env");
+
+        myAnim.SetFloat("InCombat", val);
+    }
+
+    public void IdleFancy() => myAnim.SetTrigger("IdleTwo");
 
     public void StartThrow() { myAnim.SetTrigger("ThrowShield"); }
     public void BeginSpin(Action callbackEndAnimation) { myAnim.SetTrigger("BeginSpin"); myAnim.GetBehaviour<ANIM_SCRIPT_BeginSpin>().ConfigureCallback(callbackEndAnimation); }
