@@ -102,9 +102,6 @@ public class CustomCamera : MonoBehaviour
         if (!active || activateOverTheSholder)
             return;
         if (activeShake) Shake();
-
-        
-
     }
 
     public void DoFastZoom(float _speedanim, float _fieldOfViewToZoom = 55)

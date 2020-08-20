@@ -47,6 +47,8 @@ public class CameraRotate : MonoBehaviour
 
         Debug_UI_Tools.instance.CreateSlider("HorSens", sensitivityHorizontal, minHorSens, maxHorSens, ChangeSensitivityHor);
         Debug_UI_Tools.instance.CreateSlider("VertSens", sensitivityVertical, minVertSens, maxVertSens, ChangeSensitivityVer);
+        Debug_UI_Tools.instance.CreateToogle("Invert Horizontal", false, InvertAxisHor);
+        Debug_UI_Tools.instance.CreateToogle("Invert Vertical", false, InvertAxisVert);
     }
 
     private void Update()
@@ -78,10 +80,25 @@ public class CameraRotate : MonoBehaviour
         sensitivityVertical = val;
         return val.ToString();
     }
+    int vertAxis = 1;
+    string InvertAxisVert(bool val)
+    {
+        if (val) vertAxis = -1;
+        else vertAxis = 1;
+        return "";
+    }
+    int horAxis = 1;
+    string InvertAxisHor(bool val)
+    {
+        if (val) horAxis = -1;
+        else horAxis = 1;
+        return "";
+    }
+
 
     public void RotateHorizontal(float axis)
     {
-        rotatorX.transform.RotateAround(myChar.transform.position, Vector3.up, axis * sensitivityHorizontal * Time.deltaTime);
+        rotatorX.transform.RotateAround(myChar.transform.position, Vector3.up, axis * sensitivityHorizontal * Time.deltaTime * horAxis);
     }
     public void RotateVertical(float vertical)
     {
@@ -95,8 +112,8 @@ public class CameraRotate : MonoBehaviour
         float newAngle = Mathf.Clamp(angleBetween + rotateDegrees, -clampYUp, clampYDown);
         rotateDegrees = newAngle - angleBetween;
 
-        transform.RotateAround(myChar.transform.position, Vector3.right, rotateDegrees * sensitivityVertical * Time.deltaTime);
+        transform.RotateAround(myChar.transform.position, Vector3.right, rotateDegrees * sensitivityVertical * Time.deltaTime * vertAxis);
 
-        rotatorX.transform.RotateAround(myChar.transform.position, rotatorX.transform.right, rotateDegrees * sensitivityVertical * Time.deltaTime);
+        rotatorX.transform.RotateAround(myChar.transform.position, rotatorX.transform.right, rotateDegrees * sensitivityVertical * Time.deltaTime * vertAxis);
     }
 }
