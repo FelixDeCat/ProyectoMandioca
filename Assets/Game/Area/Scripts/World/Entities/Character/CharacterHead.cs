@@ -56,14 +56,8 @@ public class CharacterHead : CharacterControllable
     public CharacterAnimator charanim;
 
     [Header("Attack Options")]
-    [SerializeField] float dmg_normal = 5;
-    [SerializeField] float dmg_heavy = 20;
-    [SerializeField] float attackRange = 3;
-    [SerializeField] float attackAngle = 90;
-    [SerializeField] float timeToHeavyAttack = 1.5f;
+    [SerializeField] CharacterAttack charAttack;
     [SerializeField] float attackRecall = 1;
-    float dmg;
-    CharacterAttack charAttack;
     [SerializeField] DamageData dmgData = null;
     [SerializeField] DamageReceiver dmgReceiver = null;
     CustomCamera customCam;
@@ -90,7 +84,6 @@ public class CharacterHead : CharacterControllable
     public CharLifeSystem Life => lifesystem;
 
     Rigidbody rb;
-    public LayerMask enemyLayer;
 
     [HideInInspector]
     public bool isBuffed = false;
@@ -150,15 +143,22 @@ public class CharacterHead : CharacterControllable
         charBlock.callback_EndBlock += UNITYEVENT_PressUp_UpBlocking;
         ChildrensUpdates += charBlock.OnUpdate;
 
-        dmg = dmg_normal;
         dmgData.Initialize(this);
         dmgReceiver
             .SetBlock(charBlock.IsBlock, BlockFeedback)
             .SetParry(charBlock.IsParry, ParryFeedback)
             .Initialize(rot, () => move.InDash, Dead, TakeDamageFeedback, rb, lifesystem);
 
-        charAttack = new CharacterAttack(attackRange, attackAngle, timeToHeavyAttack, charanim, rot,
-                                         ReleaseInNormal, ReleaseInHeavy, dmg, feedbacks, dmgData, enemyLayer, move);
+        charAttack.Initialize()
+            .SetAnimator(charanim)
+            .SetCharMove(move)
+            .SetDamageData(dmgData)
+            .SetFeedbacks(feedbacks)
+            .SetForward(rot);
+
+        charAttack.Add_callback_Normal_attack(ReleaseInNormal);
+        charAttack.Add_callback_Heavy_attack(ReleaseInHeavy);
+
         charAttack.FirstAttackReady(true);
 
         charAnimEvent.Add_Callback("CheckAttackType", CheckAttackType);
@@ -182,8 +182,8 @@ public class CharacterHead : CharacterControllable
 
         SetStates();
 
-        originalNormal = dmg_normal;
-        originalHeavy = dmg_heavy;
+        originalNormal = charAttack.Dmg_normal;
+        originalHeavy = charAttack.Dmg_Heavy;
 
         if(StartWithoutWeapons)
         {
@@ -667,9 +667,9 @@ public class CharacterHead : CharacterControllable
     #endregion
     void ReleaseInNormal()
     {
-        ChangeDamageAttack((int)dmg_normal);
-        ChangeAngleAttack(attackAngle);
-        ChangeRangeAttack(attackRange);
+        ChangeDamageAttack((int)charAttack.Dmg_normal);
+        ChangeAngleAttack(charAttack.AttackAngle);
+        ChangeRangeAttack(charAttack.AttackRange);
         charanim.NormalAttack();
     }
 
@@ -677,9 +677,9 @@ public class CharacterHead : CharacterControllable
     void ReleaseInHeavy()
     {
         ChangeHeavy(true);
-        ChangeDamageAttack((int)dmg_heavy);
-        ChangeAngleAttack(attackAngle * 2);
-        ChangeRangeAttack(attackRange + 1);
+        ChangeDamageAttack((int)charAttack.Dmg_Heavy);
+        ChangeAngleAttack(charAttack.AttackAngle * 2);
+        ChangeRangeAttack(charAttack.AttackRange + 1);
         charanim.HeavyAttack();
         Debug.Log("IsHeavyAttacking");
     }
@@ -690,25 +690,20 @@ public class CharacterHead : CharacterControllable
     ///////////BigWeaponSkill
 
     public void ChangeDamageAttack(int newDamageValue) => charAttack.ChangeDamageBase(newDamageValue);
-    public float ChangeRangeAttack(float newRangeValue = -1) => charAttack.currentWeapon.ModifyAttackrange(newRangeValue);
-    public float ChangeAngleAttack(float newAngleValue = -1) => charAttack.currentWeapon.ModifyAttackAngle(newAngleValue);
+    public float ChangeRangeAttack(float newRangeValue = -1) => charAttack.CurrentWeapon.ModifyAttackrange(newRangeValue);
+    public float ChangeAngleAttack(float newAngleValue = -1) => charAttack.CurrentWeapon.ModifyAttackAngle(newAngleValue);
     public CharacterAttack GetCharacterAttack() => charAttack;
     private void OnDrawGizmos()
     {
         if (charAttack == null)
             return;
-
-        Vector3 attackRange_endPoint =
-            transform.position + charAttack.forwardPos.forward * charAttack.currentWeapon.GetWpnRange();
-
+        
         Vector3 initPos = rot.position + Vector3.up;
 
         Gizmos.color = Color.blue;
-        Gizmos.DrawLine(transform.position, attackRange_endPoint);
         Gizmos.DrawLine(initPos, initPos + rot.forward * 2);
         Gizmos.DrawLine(initPos, initPos + (rot.forward + rot.right) * 2);
         Gizmos.DrawLine(initPos, initPos + (rot.forward - rot.right) * 2);
-        Gizmos.DrawCube(attackRange_endPoint, new Vector3(.6f, .6f, .6f));
     }
 
     /////////////////////////////////////////////////////////////////
@@ -870,8 +865,8 @@ public class CharacterHead : CharacterControllable
     {
         charanim.SetUpdateMode(AnimatorUpdateMode.UnscaledTime);
         isBuffed = true;
-        dmg_normal = originalNormal + damageBuff;
-        dmg_heavy = originalHeavy + damageBuff;
+       // dmg_normal = originalNormal + damageBuff;
+       // dmg_heavy = originalHeavy + damageBuff;
         move.SetSpeed(move.GetDefaultSpeed + speedAcceleration);
         dmgReceived = damageReceived;
         Main.instance.GetTimeManager().DoSlowMo(scale);
@@ -880,8 +875,8 @@ public class CharacterHead : CharacterControllable
     {
         charanim.SetUpdateMode(AnimatorUpdateMode.Normal);
         isBuffed = false;
-        dmg_normal = originalNormal;
-        dmg_heavy = originalHeavy;
+        //dmg_normal = originalNormal;
+       // dmg_heavy = originalHeavy;
         move.SetSpeed();
         dmgReceived = 1;
         Main.instance.GetTimeManager().StopSlowMo();

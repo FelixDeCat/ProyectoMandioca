@@ -3,10 +3,25 @@ using System.Collections.Generic;
 using UnityEngine;
 using System;
 
-public class CharacterAttack
+[Serializable]
+public class CharacterAttack 
 {
-    public Transform forwardPos { get; private set; }
-    float heavyAttackTime = 1f;
+    float damage;
+    [Header("Attack Parameters")]
+    [SerializeField] float dmg_normal = 12;
+    [SerializeField] float dmg_heavy = 50;
+    [SerializeField] float attackRange = 3;
+    [SerializeField] float attackAngle = 90;
+    [SerializeField] float heavyAttackTime = 1f;
+    [SerializeField] LayerMask enemyLayer;
+    
+    public float Dmg_normal { get => dmg_normal; }
+    public float Dmg_Heavy { get => dmg_heavy; }
+    public float AttackRange { get => attackRange; }
+    public float AttackAngle { get => attackAngle; }
+    public Transform ForwardPos { get => forwardPos; }
+    Transform forwardPos = null ;
+
     float buttonPressedTime;
     float currentDamage;
 
@@ -23,7 +38,8 @@ public class CharacterAttack
     private bool firstAttack;
 
     List<Weapon> myWeapons;
-    public Weapon currentWeapon { get; private set; }
+    Weapon currentWeapon;
+    public Weapon CurrentWeapon { get => currentWeapon; }
     int currentIndexWeapon;
 
     Action callback_ReceiveEntity = delegate { };
@@ -37,30 +53,32 @@ public class CharacterAttack
     HitStore hitstore;
     CharFeedbacks feedbacks;
     LayerMask enemyMask;
-
     CharacterMovement move;
+    DamageData data;
 
-    public CharacterAttack(float _range, float _angle, float _heavyAttackTime, CharacterAnimator _anim, Transform _forward,
-        Action _normalAttack, Action _heavyAttack, float damage, CharFeedbacks _charFeedbacks, DamageData data, LayerMask _enemyMask, CharacterMovement _move)
+    public CharacterAttack Initialize()
     {
-        enemyMask = _enemyMask;
+        damage = dmg_normal;
         hitstore = new HitStore();
         myWeapons = new List<Weapon>();
-        myWeapons.Add(new GenericSword(damage, _range, "Generic Sword", _angle, data).ConfigureCallback(CALLBACK_DealDamage));
+        myWeapons.Add(new GenericSword(damage, attackRange, "Generic Sword", attackAngle, data).ConfigureCallback(CALLBACK_DealDamage));
         currentWeapon = myWeapons[0];
         currentDamage = currentWeapon.baseDamage;
 
-        heavyAttackTime = _heavyAttackTime;
-        anim = _anim;
-        forwardPos = _forward;
-
-        feedbacks = _charFeedbacks;
-
-        NormalAttack = _normalAttack;
-        HeavyAttack = _heavyAttack;
-
-        move = _move;
+        return this;
     }
+
+    public CharacterAttack SetFeedbacks(CharFeedbacks _feedbacks) { feedbacks = _feedbacks; return this; }
+    public CharacterAttack SetDamageData(DamageData _data) { data = _data; return this; }
+    public CharacterAttack SetAnimator(CharacterAnimator _anim) { anim = _anim; return this; }
+    public CharacterAttack SetForward (Transform _forward) { forwardPos = _forward; return this; }
+    public CharacterAttack SetCharMove(CharacterMovement _move) { move = _move; return this; }
+
+    public void Add_callback_Normal_attack(Action callback ) { NormalAttack += callback; }
+    public void Add_callback_Heavy_attack(Action callback) { HeavyAttack += callback; }
+    public void Remove_callback_Normal_attack(Action callback) { NormalAttack -= callback; }
+    public void Remove_callback_Heavy_attack(Action callback) { HeavyAttack -= callback; }
+    
     public string ChangeName() => currentWeapon.weaponName;
     public void ChangeDamageBase(int dmg) => currentDamage = dmg;
     public void BuffOrNerfDamage(float f) => currentDamage += f;

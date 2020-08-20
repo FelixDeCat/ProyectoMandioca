@@ -59,6 +59,8 @@ public class CameraRotate : MonoBehaviour
 
     private void Update()
     {
+        if (Input.GetKeyDown(KeyCode.Y)) Cursor.lockState = CursorLockMode.Locked;
+        if (Input.GetKeyDown(KeyCode.U)) Cursor.lockState = CursorLockMode.None;
         if (!UseBezier)
         {
             RaycastHit hit;
@@ -145,7 +147,7 @@ public class CameraRotate : MonoBehaviour
     public void RotateVerticalByBezier(float vertical)
     {
         if (!UseBezier) return;
-        sliderTime = Mathf.Clamp(sliderTime + vertical /100, 0, 1);
+        sliderTime = Mathf.Clamp(sliderTime + (vertical * vertAxis) /100, 0, 1);
     }
 
     Vector3 GetPointOnBezierCurve(BezierPoint ini, BezierPoint final)

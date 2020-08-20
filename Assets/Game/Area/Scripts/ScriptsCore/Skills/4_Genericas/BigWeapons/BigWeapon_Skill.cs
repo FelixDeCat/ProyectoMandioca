@@ -35,8 +35,8 @@ public class BigWeapon_Skill : SkillBase
         //_characterAttack.currentWeapon.AttackResult += OnSuccesAttack;
 
 
-        _characterAttack.currentWeapon.BeginOverrideRange(NO_OVERRIDE_VALUE, RangeMultiplier);
-        _characterAttack.currentWeapon.BeginOverrideAngle(NO_OVERRIDE_VALUE, AngleMultiplier);
+        _characterAttack.CurrentWeapon.BeginOverrideRange(NO_OVERRIDE_VALUE, RangeMultiplier);
+        _characterAttack.CurrentWeapon.BeginOverrideAngle(NO_OVERRIDE_VALUE, AngleMultiplier);
 
     }
     private void OnSuccesAttack(Attack_Result result, Damagetype dmg_type, DamageReceiver ent) // recibe el resultado del ataque y suma uno al contador. Si llega al ncesario, activa el skill
@@ -73,9 +73,9 @@ public class BigWeapon_Skill : SkillBase
 
     protected override void OnEndSkill()
     {
-        _characterAttack.currentWeapon.AttackResult -= OnSuccesAttack;
-        _characterAttack.currentWeapon.EndOverrideAngle();
-        _characterAttack.currentWeapon.EndOverrideRange();
+        _characterAttack.CurrentWeapon.AttackResult -= OnSuccesAttack;
+        _characterAttack.CurrentWeapon.EndOverrideAngle();
+        _characterAttack.CurrentWeapon.EndOverrideRange();
     }
 
     protected override void OnUpdateSkill()
