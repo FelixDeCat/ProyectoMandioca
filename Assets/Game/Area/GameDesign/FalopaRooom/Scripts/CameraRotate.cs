@@ -106,10 +106,10 @@ public class CameraRotate : MonoBehaviour
 
         rotateDegrees += vertical * vertAxis;
         
-        Vector3 currentVector = transform.position -  (myChar.transform.position + offsetVec);
+        Vector3 currentVector = transform.position - (myChar.transform.position + offsetVec);
         currentVector.x = 0;
         float angleBetween = Vector3.Angle(initialVector, currentVector) * (Vector3.Cross(initialVector, currentVector).x > 0 ? 1 : -1);
-        float newAngle = Mathf.Clamp(angleBetween + rotateDegrees, -clampYUp, clampYDown);
+        float newAngle = Mathf.Clamp(angleBetween + rotateDegrees, -clampYDown, clampYUp);
         rotateDegrees = newAngle - angleBetween;
 
         transform.RotateAround(myChar.transform.position, Vector3.right, rotateDegrees * sensitivityVertical * Time.deltaTime);
