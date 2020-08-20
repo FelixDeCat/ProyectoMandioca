@@ -74,7 +74,8 @@ namespace Tools.StateMachine
             ChangeHeavy(false);
             feedbacks.particles.feedbackDashHeavy.Stop();
 
-            ChangeAttacking?.Invoke(false);
+            if (input != CharacterHead.PlayerInputs.CHARGE_ATTACK)
+                ChangeAttacking?.Invoke(false);
         }
     }
 }

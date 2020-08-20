@@ -451,11 +451,11 @@ public class CharacterHead : CharacterControllable
         set
         {
             if (value == combat) return;
+            combat = value;
             if (value == true && !attacking && !inTrap)
                 UpWeaponsFunction();
             else if (value == false && !attacking && !inTrap)
                 StartCoroutine(DownWeaponsCoroutine());
-            combat = value;
         }
         get => combat;
     }
@@ -465,11 +465,11 @@ public class CharacterHead : CharacterControllable
         set
         {
             if (value == inTrap) return;
+            inTrap = value;
             if (value == true && !attacking && !combat)
                 UpWeaponsFunction();
             else if (value == false && !attacking && !combat)
                 StartCoroutine(DownWeaponsCoroutine());
-            inTrap = value;
         }
         get => inTrap;
     }
@@ -479,13 +479,11 @@ public class CharacterHead : CharacterControllable
         set
         {
             if (value == attacking) return;
-
-            Debug.Log("me entra");
+            attacking = value;
             if (value == true && !inTrap && !combat)
                 UpWeaponsFunction();
             else if (value == false && !inTrap && !combat)
                 StartCoroutine(DownWeaponsCoroutine());
-            attacking = value;
         }
         get => attacking;
     }
@@ -494,18 +492,26 @@ public class CharacterHead : CharacterControllable
 
     IEnumerator DownWeaponsCoroutine()
     {
-        yield return new WaitForSeconds(timeToDownWeapons);
+        float timer = 0;
+        while (timer < timeToDownWeapons)
+        {
+            if (attacking || inTrap || combat) yield break;
+
+            timer += Time.deltaTime;
+            yield return new WaitForEndOfFrame();
+        }
 
         charanim.InCombat(0);
         UpWeapons = false;
+        Debug.Log("down weapon");
     }
 
     void UpWeaponsFunction()
     {
-        StopCoroutine(DownWeaponsCoroutine());
         charanim.InCombat(1);
 
         UpWeapons = true;
+        Debug.Log("up weapon");
     }
     #endregion
 
