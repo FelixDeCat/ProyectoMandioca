@@ -55,8 +55,4 @@ public class MoveCamera : MonoBehaviour
         }
     }
 
-    public void RotateVert(float vertical)
-    {
-
-    }
 }

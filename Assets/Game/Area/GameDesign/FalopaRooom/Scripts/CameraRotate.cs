@@ -5,8 +5,13 @@ using DevelopTools.UI;
 
 public class CameraRotate : MonoBehaviour
 {
-    [SerializeField] float _speedToReturn;
-    [SerializeField] float _speedAwayFromMesh;
+    [Header("General Settings")]
+    [SerializeField] bool UseBezier = false;
+    [SerializeField] public List<BezierPoint> bezierPoints;
+    [SerializeField] float sliderTime = 1;
+
+    //[SerializeField] float _speedToReturn;
+    //[SerializeField] float _speedAwayFromMesh;
     [SerializeField] float minDistance = 2.5f;
 
     [Header("Horizontal")]
@@ -35,6 +40,7 @@ public class CameraRotate : MonoBehaviour
     [SerializeField] Transform camConfig;
 
     Vector3 offsetVec = new Vector3(0, 1f, 0);
+    
 
     private void Start()
     {
@@ -52,21 +58,29 @@ public class CameraRotate : MonoBehaviour
     }
 
     private void Update()
-    {        
-        RaycastHit hit;
-        Vector3 direction = rotatorX.transform.position - (myChar.transform.position + offsetVec);
-        if (Physics.Raycast(myChar.transform.position +  offsetVec, direction, out hit, raycastDist, _mask))
+    {
+        if (!UseBezier)
         {
-            if (hit.distance > minDistance)
+            RaycastHit hit;
+            Vector3 direction = rotatorX.transform.position - (myChar.transform.position + offsetVec);
+            if (Physics.Raycast(myChar.transform.position + offsetVec, direction, out hit, raycastDist, _mask))
             {
-                Vector3 dir = hit.point - direction.normalized;
-                camConfig.position = dir;
-                return;
+                if (hit.distance > minDistance)
+                {
+                    Vector3 dir = hit.point - direction.normalized;
+                    camConfig.position = dir;
+                    return;
+                }
+            }
+            else if (Vector3.Distance(myChar.transform.position, camConfig.position) < raycastDist)
+            {
+                camConfig.transform.position = rotatorX.transform.position;
             }
         }
-        else if(Vector3.Distance(myChar.transform.position, camConfig.position) < raycastDist)
+        else
         {
-            camConfig.transform.position = rotatorX.transform.position;
+            rotatorX.transform.position = GetPointOnBezierCurve(bezierPoints[0], bezierPoints[1]);
+            rotatorX.transform.rotation = bezierPoints[0].transform.rotation;
         }
     }
 
@@ -98,10 +112,12 @@ public class CameraRotate : MonoBehaviour
 
     public void RotateHorizontal(float axis)
     {
+        if (UseBezier) return;
         rotatorX.transform.RotateAround(myChar.transform.position, Vector3.up, axis * sensitivityHorizontal * Time.deltaTime * horAxis);
     }
     public void RotateVertical(float vertical)
     {
+        if (UseBezier) return;
         float rotateDegrees = 0f;
 
         rotateDegrees += vertical * vertAxis;
@@ -115,5 +131,33 @@ public class CameraRotate : MonoBehaviour
         transform.RotateAround(myChar.transform.position, Vector3.right, rotateDegrees * sensitivityVertical * Time.deltaTime);
 
         rotatorX.transform.RotateAround(myChar.transform.position, rotatorX.transform.right, rotateDegrees * sensitivityVertical * Time.deltaTime);
+    }
+       
+    public void RotateHorizontalByBezier(float axis)
+    {
+        if (!UseBezier) return;
+        foreach (var item in bezierPoints)
+        {
+            item.transform.RotateAround(myChar.transform.position, Vector3.up, axis * sensitivityHorizontal * Time.deltaTime * horAxis);
+        }
+    }
+
+    public void RotateVerticalByBezier(float vertical)
+    {
+        if (!UseBezier) return;
+        sliderTime = Mathf.Clamp(sliderTime + vertical /100, 0, 1);
+    }
+
+    Vector3 GetPointOnBezierCurve(BezierPoint ini, BezierPoint final)
+    {
+        Vector3 a = Vector3.Lerp(ini.transform.position, ini.son.transform.position, sliderTime);
+        Vector3 b = Vector3.Lerp(ini.son.transform.position, final.son.transform.position, sliderTime);
+        Vector3 c = Vector3.Lerp(final.son.transform.position, final.transform.position, sliderTime);
+
+        Vector3 d = Vector3.Lerp(a, b, sliderTime);
+        Vector3 e = Vector3.Lerp(b, c, sliderTime);
+        Vector3 pointOnCurve = Vector3.Lerp(d, e, sliderTime);
+
+        return pointOnCurve;
     }
 }
