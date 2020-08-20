@@ -13,7 +13,8 @@ public class EXE_GetMision : ExecutableBase
 
     protected override void OnExecute()
     {
-        MisionManager.instancia.AddMision(MisionsDataBase.instance.GetMision(ID_Mision), EndMision);
+        var mision = MisionsDataBase.instance.GetMision(ID_Mision);
+        MisionManager.instancia.AddMision(mision, EndMision);
     }
 
     void EndMision(Mision m)

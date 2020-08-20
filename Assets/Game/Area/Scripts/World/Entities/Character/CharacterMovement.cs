@@ -329,7 +329,6 @@ public class CharacterMovement
         }
         #endregion
 
-        Debug.Log(_rb.velocity);
     }
 
     public void StopRoll()

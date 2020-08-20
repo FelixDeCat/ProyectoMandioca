@@ -30,6 +30,7 @@ public class DialogueNode
         }
     }
 
+    [System.Serializable]
     public struct LinkOptionWithExecution
     {
         public int option_index;

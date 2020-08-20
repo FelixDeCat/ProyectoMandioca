@@ -9,7 +9,7 @@ public abstract class ExecutableBase : MonoBehaviour
     [SerializeField] string info;
     public int ID { get { return id; } }
     public void SetID(int id) { this.id = id; }
-    public string GetInfo() => info;
+    public virtual string GetInfo() { return ""; }
     public void Execute() => OnExecute();
     public bool CanExecute => OnCanExecute();
     protected abstract void OnExecute();

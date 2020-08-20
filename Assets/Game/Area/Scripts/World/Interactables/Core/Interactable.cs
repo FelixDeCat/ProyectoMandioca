@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using System;
+using UnityEngine.Events;
 
 [SerializeField]
 public abstract class Interactable : MonoBehaviour
@@ -16,15 +17,20 @@ public abstract class Interactable : MonoBehaviour
     protected Action _executeAction;
     public float delayTime;
     protected bool updateDelay;
+    public UnityEvent UE_OnEnter;
+    public UnityEvent UE_OnExit;
+
     public void Enter(WalkingEntity entity)
     {
         if (!autoexecute) if (feedback.Length > 0) foreach (var fdbck in feedback) fdbck.Show();
         OnEnter(entity);
+        UE_OnEnter.Invoke();
     }
     public void Exit()
     {
         if (feedback.Length > 0) foreach (var fdbck in feedback) fdbck.Hide();
         OnExit();
+        UE_OnExit.Invoke();
         currentTime = 0;
         updateDelay = false;
     }

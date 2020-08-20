@@ -42,13 +42,18 @@ MonoBehaviour:
       que va al sudoeste
     - Rapido, no hay tiempo que perder!
     conected:
-    - text: Esta bien
+    - text: Esta bien [empezar mision]
       connectionID: 1
-    - text: Estas por tu cuenta
+    - text: Estas por tu cuenta [dar pota]
       connectionID: 2
+    linkExecutions:
+    - option_index: 0
+      execution_id: 0
+    - option_index: 1
+      execution_id: 1
     exep_photo: {fileID: 0}
   - id: 1
-    ID_Mision: 3
+    ID_Mision: -1
     fasesToChange:
     - iDFase: 3
       indexFase: 2
@@ -56,6 +61,7 @@ MonoBehaviour:
     - Oh Melemaco, hijo de Ulises, divino como Zeus
     - Muchas gracias
     conected: []
+    linkExecutions: []
     exep_photo: {fileID: 21300000, guid: 5538a14954ab5ca42abf9f36177592d3, type: 3}
   - id: 2
     ID_Mision: -1
@@ -63,6 +69,7 @@ MonoBehaviour:
     dialogues:
     - Maldigo a Zeus y todos los inmortales
     conected: []
+    linkExecutions: []
     exep_photo: {fileID: 21300000, guid: ed38e5375c8c7b54485e4a729303b494, type: 3}
   treeName: Jacinta
   general_photo: {fileID: 21300000, guid: a3bb0fb9383da104b9b92562e514d42a, type: 3}

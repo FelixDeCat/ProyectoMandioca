@@ -88,7 +88,7 @@ public class ItemWorld : Interactable
                     pointToMessage != null ? pointToMessage.position: this.transform.position, 
                     item.name, 
                     item.description, 
-                    "Agarrar", 
+                    "agarrar", 
                     false, 
                     false);
             }

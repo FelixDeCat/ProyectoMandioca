@@ -192,14 +192,8 @@ public class DialogueManager : MonoBehaviour
 
                     if (id_selected != -1)
                     {
-                        if (ExecutionManager.instance.CanExecute(id_selected))
-                        {
-                           frontend.SetOption(i, tree.dialogueNodes[currentNode].conected[i].text, false);
-                        }
-                        else
-                        {
-                           frontend.SetOption(i, tree.dialogueNodes[currentNode].conected[i].text, true);
-                        }
+                        string text = ExecutionManager.instance.GetInfo(id_selected);
+                        frontend.SetOption(i, text, !ExecutionManager.instance.CanExecute(id_selected) );
                     }
                     else
                     {
