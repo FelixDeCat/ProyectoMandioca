@@ -14,7 +14,8 @@ public class CharacterAttack
     [SerializeField] float attackAngle = 90;
     [SerializeField] float heavyAttackTime = 1f;
     [SerializeField] LayerMask enemyLayer;
-    
+    [SerializeField] DamageData data;
+
     public float Dmg_normal { get => dmg_normal; }
     public float Dmg_Heavy { get => dmg_heavy; }
     public float AttackRange { get => attackRange; }
@@ -54,10 +55,10 @@ public class CharacterAttack
     CharFeedbacks feedbacks;
     LayerMask enemyMask;
     CharacterMovement move;
-    DamageData data;
-
-    public CharacterAttack Initialize()
+   
+    public CharacterAttack Initialize(EntityBase entity)
     {
+        data.Initialize(entity);
         damage = dmg_normal;
         hitstore = new HitStore();
         myWeapons = new List<Weapon>();
@@ -69,7 +70,6 @@ public class CharacterAttack
     }
 
     public CharacterAttack SetFeedbacks(CharFeedbacks _feedbacks) { feedbacks = _feedbacks; return this; }
-    public CharacterAttack SetDamageData(DamageData _data) { data = _data; return this; }
     public CharacterAttack SetAnimator(CharacterAnimator _anim) { anim = _anim; return this; }
     public CharacterAttack SetForward (Transform _forward) { forwardPos = _forward; return this; }
     public CharacterAttack SetCharMove(CharacterMovement _move) { move = _move; return this; }

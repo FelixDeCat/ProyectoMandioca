@@ -58,7 +58,6 @@ public class CharacterHead : CharacterControllable
     [Header("Attack Options")]
     [SerializeField] CharacterAttack charAttack;
     [SerializeField] float attackRecall = 1;
-    [SerializeField] DamageData dmgData = null;
     [SerializeField] DamageReceiver dmgReceiver = null;
     CustomCamera customCam;
     [SerializeField] float timeToDownWeapons = 5;
@@ -143,18 +142,17 @@ public class CharacterHead : CharacterControllable
         charBlock.callback_EndBlock += UNITYEVENT_PressUp_UpBlocking;
         ChildrensUpdates += charBlock.OnUpdate;
 
-        dmgData.Initialize(this);
         dmgReceiver
             .SetBlock(charBlock.IsBlock, BlockFeedback)
             .SetParry(charBlock.IsParry, ParryFeedback)
             .Initialize(rot, () => move.InDash, Dead, TakeDamageFeedback, rb, lifesystem);
 
-        charAttack.Initialize()
+        charAttack
             .SetAnimator(charanim)
             .SetCharMove(move)
-            .SetDamageData(dmgData)
             .SetFeedbacks(feedbacks)
-            .SetForward(rot);
+            .SetForward(rot)
+            .Initialize(this);
 
         charAttack.Add_callback_Normal_attack(ReleaseInNormal);
         charAttack.Add_callback_Heavy_attack(ReleaseInHeavy);
