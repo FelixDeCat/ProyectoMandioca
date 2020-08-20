@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 8697729264707728270}
   - component: {fileID: 8697729264707728268}
   - component: {fileID: 7717666947142472638}
-  - component: {fileID: 7409258685841707813}
+  - component: {fileID: 7005550699430418189}
   - component: {fileID: 8626980898835463722}
   - component: {fileID: 7118674528389731852}
   m_Layer: 0
@@ -59,13 +59,19 @@ MonoBehaviour:
   - {fileID: 8697729265575932405}
   _withDelay: 0
   delayTime: 0
-  item: {fileID: 11400000, guid: 510b34f739835d5428195b8e1c2f658c, type: 2}
+  UE_OnEnter:
+    m_PersistentCalls:
+      m_Calls: []
+  UE_OnExit:
+    m_PersistentCalls:
+      m_Calls: []
+  item: {fileID: 11400000, guid: 2cb2386992471064da49ece54142e09a, type: 2}
   canrecolectoranim: 0
   to_collect:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 7409258685841707813}
-        m_MethodName: Collect
+      - m_Target: {fileID: 7005550699430418189}
+        m_MethodName: OnCollectItem
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -93,7 +99,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: 10
   distance_to_collect: 0.1
---- !u!114 &7409258685841707813
+--- !u!114 &7005550699430418189
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -102,9 +108,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 8697729264707728258}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: bd4ee154f13181f48a4a13433f80d87c, type: 3}
+  m_Script: {fileID: 11500000, guid: 4c028cc701541d84c987dafdf1e10b4f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  item: {fileID: 11400000, guid: 2cb2386992471064da49ece54142e09a, type: 2}
 --- !u!54 &8626980898835463722
 Rigidbody:
   m_ObjectHideFlags: 0

@@ -104,8 +104,12 @@ public class CharacterInput : MonoBehaviour
 
         LeftHorizontal.Invoke(Input.GetAxis("Horizontal"));
         LeftVertical.Invoke(Input.GetAxis("Vertical"));
-        LeftHorizontal.Invoke(Input.GetAxis(InputControl.HORIZONTAL));
-        LeftVertical.Invoke(Input.GetAxis(InputControl.VERTICAL));
+        if (Mathf.Abs(Input.GetAxis(InputControl.HORIZONTAL)) > 0 || Mathf.Abs(Input.GetAxis(InputControl.VERTICAL)) > 0)
+        {
+            LeftHorizontal.Invoke(Input.GetAxis(InputControl.HORIZONTAL));
+            LeftVertical.Invoke(Input.GetAxis(InputControl.VERTICAL));
+        }
+        
         if (input_type == InputType.Joystick) JoystickInputs();
         else if (input_type == InputType.Mouse) MouseInputs();
         if (Input.GetButtonDown("Dash")) Dash.Invoke();
