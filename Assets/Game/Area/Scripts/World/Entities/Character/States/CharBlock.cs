@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using System;
 
 namespace Tools.StateMachine
 {
@@ -8,10 +6,9 @@ namespace Tools.StateMachine
     {
         float _speedPenalty = .75f;
         private float initSpeed;
-        
+
         public CharBlock(EState<CharacterHead.PlayerInputs> myState, EventStateMachine<CharacterHead.PlayerInputs> _sm) : base(myState, _sm)
         {
-            
         }
 
         protected override void Enter(EState<CharacterHead.PlayerInputs> input)

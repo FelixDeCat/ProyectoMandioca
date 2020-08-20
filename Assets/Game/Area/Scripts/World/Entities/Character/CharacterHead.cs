@@ -65,6 +65,7 @@ public class CharacterHead : CharacterControllable
     [SerializeField] DamageData dmgData = null;
     [SerializeField] DamageReceiver dmgReceiver = null;
     CustomCamera customCam;
+    [SerializeField] float timeToDownWeapons = 5;
 
     [SerializeField] GameObject go_StunFeedback = null;
     float spinDuration;
@@ -103,17 +104,6 @@ public class CharacterHead : CharacterControllable
     public Transform ShieldForward;
 
     [SerializeField] CharFeedbacks feedbacks = null;
-
-    public bool Combat
-    {
-        set
-        {
-            if (value != Combat)
-            {
-
-            }
-        } get => Combat;
-    }
 
     private bool blockRoll;
     public bool BlockRoll {set { blockRoll = value; } }
@@ -393,7 +383,9 @@ public class CharacterHead : CharacterControllable
             .SetLeftAxis(GetLeftHorizontal, GetLeftVertical)
             .SetMovement(this.move);
 
-        new CharBeginBlock(beginBlock, stateMachine, anim_base)
+        Action<bool> ChangeAttack = (x) => Attacking = x;
+
+        new CharBeginBlock(beginBlock, stateMachine, anim_base, ChangeAttack)
             .SetLeftAxis(GetLeftHorizontal, GetLeftVertical)
             .SetMovement(this.move).SetBlock(charBlock);
 
@@ -402,13 +394,13 @@ public class CharacterHead : CharacterControllable
             .SetMovement(this.move)
             .SetBlock(charBlock);
 
-        new CharEndBlock(endBlock, stateMachine)
+        new CharEndBlock(endBlock, stateMachine, ChangeAttack)
             .SetLeftAxis(GetLeftHorizontal, GetLeftVertical)
             .SetBlock(charBlock);
 
         new CharBashDash(bashDash, stateMachine).SetMovement(this.move).SetAttack(charAttack);
 
-        new CharParry(parry, stateMachine, parryRecall)
+        new CharParry(parry, stateMachine, parryRecall, ChangeAttack)
             .SetMovement(this.move)
             .SetBlock(charBlock);
 
@@ -417,12 +409,12 @@ public class CharacterHead : CharacterControllable
             .SetBlock(charBlock)
             .SetFeedbacks(feedbacks);
 
-        new CharChargeAttack(attackCharge, stateMachine, anim_base)
+        new CharChargeAttack(attackCharge, stateMachine, anim_base, ChangeAttack)
             .SetLeftAxis(GetLeftHorizontal, GetLeftVertical)
             .SetMovement(this.move)
             .SetAttack(charAttack);
 
-        new CharReleaseAttack(attackRelease, stateMachine, attackRecall, HeavyAttackRealease, ChangeHeavy)
+        new CharReleaseAttack(attackRelease, stateMachine, attackRecall, HeavyAttackRealease, ChangeHeavy, ChangeAttack)
             .SetMovement(this.move)
             .SetLeftAxis(GetLeftHorizontal, GetLeftVertical)
             .SetAttack(charAttack)
@@ -450,6 +442,68 @@ public class CharacterHead : CharacterControllable
     float GetStunDuration() => stunDuration;
 
 
+    #endregion
+
+    #region Combat Check
+    public bool Combat
+    {
+        set
+        {
+            if (value == Combat) return;
+            if (value == true && !Attacking && !InTrap)
+                UpWeaponsFunction();
+            else if (value == false && !Attacking && !InTrap)
+                StartCoroutine(DownWeaponsCoroutine());
+            Combat = true;
+        }
+        get => Combat;
+    }
+
+    public bool InTrap
+    {
+        set
+        {
+            if (value == InTrap) return;
+            if (value == true && !Attacking && !Combat)
+                UpWeaponsFunction();
+            else if (value == false && !Attacking && !Combat)
+                StartCoroutine(DownWeaponsCoroutine());
+            InTrap = true;
+        }
+        get => InTrap;
+    }
+
+    public bool Attacking
+    {
+        set
+        {
+            if (value == Attacking) return;
+            if (value == true && !InTrap && !Combat)
+                UpWeaponsFunction();
+            else if (value == false && !InTrap && !Combat)
+                StartCoroutine(DownWeaponsCoroutine());
+            Attacking = true;
+        }
+        get => Attacking;
+    }
+
+    public bool UpWeapons { private set; get; }
+
+    IEnumerator DownWeaponsCoroutine()
+    {
+        yield return new WaitForSeconds(timeToDownWeapons);
+
+        charanim.InCombat(0);
+        UpWeapons = false;
+    }
+
+    void UpWeaponsFunction()
+    {
+        StopCoroutine(DownWeaponsCoroutine());
+        charanim.InCombat(1);
+
+        UpWeapons = true;
+    }
     #endregion
 
     #region Menues

@@ -1,5 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System;
 using UnityEngine;
 
 namespace Tools.StateMachine
@@ -8,11 +7,12 @@ namespace Tools.StateMachine
     {
         float timer;
         float parryRecall;
+        Action<bool> ChangeAttacking;
 
-
-        public CharParry(EState<CharacterHead.PlayerInputs> myState, EventStateMachine<CharacterHead.PlayerInputs> _sm, float recall) : base(myState, _sm)
+        public CharParry(EState<CharacterHead.PlayerInputs> myState, EventStateMachine<CharacterHead.PlayerInputs> _sm, float recall, Action<bool> _ChangeAttacking) : base(myState, _sm)
         {
             parryRecall = recall;
+            ChangeAttacking = _ChangeAttacking;
         }
 
         protected override void Enter(EState<CharacterHead.PlayerInputs> input)
@@ -45,6 +45,7 @@ namespace Tools.StateMachine
         {
             timer = 0;
             charBlock.callback_UpBlock();
+            ChangeAttacking?.Invoke(false);
         }
     }
 }
