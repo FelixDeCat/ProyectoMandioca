@@ -104,7 +104,7 @@ public class CameraRotate : MonoBehaviour
     {
         float rotateDegrees = 0f;
 
-        rotateDegrees += vertical;
+        rotateDegrees += vertical * vertAxis;
         
         Vector3 currentVector = transform.position -  (myChar.transform.position + offsetVec);
         currentVector.x = 0;
@@ -112,8 +112,8 @@ public class CameraRotate : MonoBehaviour
         float newAngle = Mathf.Clamp(angleBetween + rotateDegrees, -clampYUp, clampYDown);
         rotateDegrees = newAngle - angleBetween;
 
-        transform.RotateAround(myChar.transform.position, Vector3.right, rotateDegrees * sensitivityVertical * Time.deltaTime * vertAxis);
+        transform.RotateAround(myChar.transform.position, Vector3.right, rotateDegrees * sensitivityVertical * Time.deltaTime);
 
-        rotatorX.transform.RotateAround(myChar.transform.position, rotatorX.transform.right, rotateDegrees * sensitivityVertical * Time.deltaTime * vertAxis);
+        rotatorX.transform.RotateAround(myChar.transform.position, rotatorX.transform.right, rotateDegrees * sensitivityVertical * Time.deltaTime);
     }
 }
