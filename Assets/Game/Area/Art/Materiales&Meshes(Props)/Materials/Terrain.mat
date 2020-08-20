@@ -7,9 +7,9 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Flora
-  m_Shader: {fileID: 4800000, guid: a9b8ed4018fa27746973e3f1b6e2c906, type: 3}
-  m_ShaderKeywords: 
+  m_Name: Terrain
+  m_Shader: {fileID: 4800000, guid: 65126c7a3dbc521459308a8d6ead7e08, type: 3}
+  m_ShaderKeywords: _USESMOOTHNESS1_ON _USESMOOTHNESS_ON
   m_LightmapFlags: 0
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
@@ -19,12 +19,20 @@ Material:
   m_SavedProperties:
     serializedVersion: 3
     m_TexEnvs:
+    - _AO:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     - _AO1:
-        m_Texture: {fileID: 2800000, guid: ac535c93e414a6342a8537e7a4410c55, type: 3}
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _Albedo:
+        m_Texture: {fileID: 2800000, guid: 1cc66cf75bdaa8243b57df74fce77a6f, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _Albedo1:
-        m_Texture: {fileID: 2800000, guid: ea0df798c05fd2843be63b8f8a64f437, type: 3}
+        m_Texture: {fileID: 2800000, guid: 1cc66cf75bdaa8243b57df74fce77a6f, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _BumpMap:
@@ -40,6 +48,10 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _DetailNormalMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _Emission:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
@@ -59,6 +71,10 @@ Material:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
+    - _Normal:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     - _Normal1:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
@@ -71,12 +87,20 @@ Material:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
+    - _Smoothness:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     - _Smoothness1:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
-    - _WindMask1:
-        m_Texture: {fileID: 2800000, guid: 2f1a39ad6cf064441964ed1dfbd026ed, type: 3}
+    - _TextureSample2:
+        m_Texture: {fileID: 2800000, guid: f333fcbaf7bbce64384a71aa3f465624, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _TextureSample3:
+        m_Texture: {fileID: 2800000, guid: 8924b77d0a1395341bc1c94847d00723, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _texcoord:
@@ -84,35 +108,39 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     m_Floats:
+    - _AOIntensity: 0
+    - _AOIntensity1: 0
     - _BumpScale: 1
-    - _ColorSaturation: 1.5
+    - _ColorSaturation: 1
+    - _ColorSaturation1: 1.2
     - _Cutoff: 0.5
     - _DetailNormalMapScale: 1
     - _DstBlend: 0
+    - _EmissionIntensity: 0
     - _EmissionIntensity1: 0
-    - _FreqWind1: 1.21
     - _GlossMapScale: 1
     - _Glossiness: 0.5
     - _GlossyReflections: 1
-    - _IntensityWind1: 0.105
-    - _MaskWind1: 0.645
-    - _MetalicIntensity1: 0
     - _Metallic: 0
     - _Mode: 0
     - _OcclusionStrength: 1
     - _Parallax: 0.02
+    - _Size1: 2.54
     - _SmoothnessTextureChannel: 0
-    - _SmoothnessValue1: -0.52
+    - _SmoothnessValue: -1
+    - _SmoothnessValue1: -1
     - _SpecularHighlights: 1
-    - _SpeedWind1: 0.3
     - _SrcBlend: 1
     - _UVSec: 0
+    - _UseEmission: 0
     - _UseEmission1: 0
-    - _UseSmoothness1: 0
+    - _UseSmoothness: 1
+    - _UseSmoothness1: 1
     - _ZWrite: 1
     - __dirty: 0
     m_Colors:
     - _Color: {r: 1, g: 1, b: 1, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
-    - _EmissionColor1: {r: 0, g: 0, b: 0, a: 0}
+    - _EmissionColor1: {r: 0, g: 0, b: 0, a: 1}
+    - _TintColor: {r: 1, g: 1, b: 1, a: 0}
     - _TintColor1: {r: 1, g: 1, b: 1, a: 0}
