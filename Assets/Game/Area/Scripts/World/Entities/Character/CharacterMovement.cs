@@ -72,6 +72,7 @@ public class CharacterMovement
         get => teleportActive;
         set { teleportActive = value; }
     }
+    
 
     public void Initialize(Rigidbody rb, Transform rot, CharacterAnimator a, CharFeedbacks _feedbacks, Func<bool> _isGrounded)
     {
@@ -327,6 +328,8 @@ public class CharacterMovement
             }
         }
         #endregion
+
+        Debug.Log(_rb.velocity);
     }
 
     public void StopRoll()
