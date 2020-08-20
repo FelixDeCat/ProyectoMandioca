@@ -445,46 +445,49 @@ public class CharacterHead : CharacterControllable
     #endregion
 
     #region Combat Check
+    bool combat;
     public bool Combat
     {
         set
         {
-            if (value == Combat) return;
-            if (value == true && !Attacking && !InTrap)
+            if (value == combat) return;
+            if (value == true && !attacking && !inTrap)
                 UpWeaponsFunction();
-            else if (value == false && !Attacking && !InTrap)
+            else if (value == false && !attacking && !inTrap)
                 StartCoroutine(DownWeaponsCoroutine());
-            Combat = true;
+            combat = value;
         }
-        get => Combat;
+        get => combat;
     }
-
+    bool inTrap;
     public bool InTrap
     {
         set
         {
-            if (value == InTrap) return;
-            if (value == true && !Attacking && !Combat)
+            if (value == inTrap) return;
+            if (value == true && !attacking && !combat)
                 UpWeaponsFunction();
-            else if (value == false && !Attacking && !Combat)
+            else if (value == false && !attacking && !combat)
                 StartCoroutine(DownWeaponsCoroutine());
-            InTrap = true;
+            inTrap = value;
         }
-        get => InTrap;
+        get => inTrap;
     }
-
+    bool attacking;
     public bool Attacking
     {
         set
         {
-            if (value == Attacking) return;
-            if (value == true && !InTrap && !Combat)
+            if (value == attacking) return;
+
+            Debug.Log("me entra");
+            if (value == true && !inTrap && !combat)
                 UpWeaponsFunction();
-            else if (value == false && !InTrap && !Combat)
+            else if (value == false && !inTrap && !combat)
                 StartCoroutine(DownWeaponsCoroutine());
-            Attacking = true;
+            attacking = value;
         }
-        get => Attacking;
+        get => attacking;
     }
 
     public bool UpWeapons { private set; get; }
