@@ -4,8 +4,8 @@ using System.Collections;
 public class InputControl : MonoBehaviour
 {
     public const string TRIGGERS = "XBOX360_Trigger";
-    public const string HORIZONTAL = "Horizontal";
-    public const string VERTICAL = "Vertical";
+    public const string HORIZONTAL = "Horizontal_Joystick";
+    public const string VERTICAL = "Vertical_Joystick";
 
     public enum eInputState { MouseKeyboard, Controler };
     private eInputState m_State = eInputState.MouseKeyboard;
@@ -70,11 +70,9 @@ public class InputControl : MonoBehaviour
         }
 
         // joystick axis
-        if (/*Input.GetAxis(HORIZONTAL) != 0.0f ||
-           Input.GetAxis(VERTICAL) != 0.0f ||*/
-           Input.GetAxis(TRIGGERS) != 0.0f
-           
-           )
+        if (Input.GetAxis(HORIZONTAL) != 0.0f ||
+           Input.GetAxis(VERTICAL) != 0.0f ||
+           Input.GetAxis(TRIGGERS) != 0.0f)
         {
             return true;
         }
