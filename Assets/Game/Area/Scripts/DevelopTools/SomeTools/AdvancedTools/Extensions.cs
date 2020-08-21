@@ -421,8 +421,31 @@ namespace Tools.Extensions
 
             return angle;
         }
-        
-        
+
+        public static Vector3 GetPointOnBezierCurve(BezierPoint ini, BezierPoint final, float value)
+        {
+            Vector3 a = Vector3.Lerp(ini.transform.position, ini.son.transform.position, value);
+            Vector3 b = Vector3.Lerp(ini.son.transform.position, final.son.transform.position, value);
+            Vector3 c = Vector3.Lerp(final.son.transform.position, final.transform.position, value);
+
+            Vector3 d = Vector3.Lerp(a, b, value);
+            Vector3 e = Vector3.Lerp(b, c, value);
+            Vector3 pointOnCurve = Vector3.Lerp(d, e, value);
+
+            return pointOnCurve;
+        }
+        public static Vector3 GetRotatioOnBezierCurve(BezierPoint ini, BezierPoint final, float value)
+        {
+            Vector3 a = Vector3.Lerp(ini.transform.eulerAngles, ini.son.transform.eulerAngles, value);
+            Vector3 b = Vector3.Lerp(ini.son.transform.eulerAngles, final.son.transform.eulerAngles, value);
+            Vector3 c = Vector3.Lerp(final.son.transform.eulerAngles, final.transform.eulerAngles, value);
+
+            Vector3 d = Vector3.Lerp(a, b, value);
+            Vector3 e = Vector3.Lerp(b, c, value);
+            Vector3 pointOnCurve = Vector3.Lerp(d, e, value);
+
+            return pointOnCurve;
+        }
     }
 }
 
