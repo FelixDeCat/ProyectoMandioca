@@ -20,15 +20,14 @@ public class EXE_GetItem : ExecutableBase
             aux += "["+requeriments[i].cant + " " + requeriments[i].item.name + "" + GetSToS(requeriments[i].item.id) + "]" + (i >= requeriments.Length - 1 ? "" : "+ ");
         }
 
-        return aux + " = " + cant +" "+ item.name;
+        return aux + " = [" + cant +" "+ item.name + GetSToS(item.id) + "]";
     }
 
     string GetSToS(int index) => "<sprite name=\"" + "itm_" + index.ToString() + "\">";
 
     protected override bool OnCanExecute()
     {
-        //aca va la logica de requeriments
-        return true;
+        return FastInventory.instance.Have(requeriments) ;
     }
 
     protected override void OnExecute()

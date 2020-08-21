@@ -19,7 +19,24 @@ public class FastInventory : UI_Base
 
     bool begintimer;
     float timer;
-    
+
+    public bool Have(ItemInInventory[] col)
+    {
+        bool aux = true;
+
+        for (int i = 0; i < col.Length; i++)
+        {
+            if (!inventory.ContainsKey(col[i].item.id)) return false;
+
+            var item = inventory[col[i].item.id];
+
+            if (inventory[col[i].item.id].cant < item.cant )
+            {
+                return false;
+            }
+        }
+        return true;
+    }
 
     public void Add(Item item)
     {
