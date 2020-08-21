@@ -63,26 +63,29 @@ public class CameraRotate : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Y)) Cursor.lockState = CursorLockMode.Locked;
         if (Input.GetKeyDown(KeyCode.U)) Cursor.lockState = CursorLockMode.None;
 
-        RaycastHit hit;
-        Vector3 direction = rotatorX.transform.position - (myChar.transform.position + offsetVec);
-        if (Physics.Raycast(myChar.transform.position + offsetVec, direction, out hit, raycastDist, _mask))
-        {
-            if (hit.distance > minDistance)
-            {
-                Vector3 dir = hit.point - direction.normalized;
-                camConfig.position = dir;
-                return;
-            }
-        }
-        else if (!UseBezier && Vector3.Distance(myChar.transform.position, camConfig.position) < raycastDist)
-        {
-            camConfig.transform.position = rotatorX.transform.position;
-        }
-        else if(UseBezier)
-        {
-            rotatorX.transform.position = Extensions.GetPointOnBezierCurve(bezierPoints[0], bezierPoints[1], sliderTime);
-            rotatorX.transform.rotation = bezierPoints[0].transform.rotation;
-        }
+        //RaycastHit hit;
+        //Vector3 direction = rotatorX.transform.position - (myChar.transform.position + offsetVec);
+        //if (Physics.Raycast(myChar.transform.position + offsetVec, direction, out hit, raycastDist, _mask))
+        //{
+        //    if (hit.distance > minDistance)
+        //    {
+        //        Vector3 dir = hit.point - direction.normalized;
+        //        //camConfig.position = dir;// descomento esto xq me esta lockeando feo
+        //        return;
+        //    }
+        //}
+        //else if (!UseBezier && Vector3.Distance(myChar.transform.position, camConfig.position) < raycastDist)
+        //{
+        //    camConfig.transform.position = rotatorX.transform.position;
+        //}
+        //else if(UseBezier)
+        //{
+        //    rotatorX.transform.position = Extensions.GetPointOnBezierCurve(bezierPoints[0], bezierPoints[1], sliderTime);
+        //    rotatorX.transform.rotation = bezierPoints[0].transform.rotation;
+        //}
+
+        rotatorX.transform.position = Extensions.GetPointOnBezierCurve(bezierPoints[0], bezierPoints[1], sliderTime);
+        rotatorX.transform.rotation = bezierPoints[0].transform.rotation;
     }
 
     string ChangeSensitivityHor(float val)
