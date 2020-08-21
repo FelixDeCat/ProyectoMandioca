@@ -27,12 +27,17 @@ public class EXE_GetItem : ExecutableBase
 
     protected override bool OnCanExecute()
     {
-        return FastInventory.instance.Have(requeriments) ;
+        return FastInventory.instance.Have(requeriments);
     }
 
     protected override void OnExecute()
     {
-        for (int i = 0; i < cant; i++)
-            EquipedManager.instance.EquipItem(item);
+        if (FastInventory.instance.Remove(requeriments))
+        {
+            for (int i = 0; i < cant; i++)
+            {
+                EquipedManager.instance.EquipItem(item);
+            }
+        }
     }
 }

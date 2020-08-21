@@ -38,7 +38,7 @@ public abstract class UI_Base : MonoBehaviour
     
     public virtual void Open()
     {
-        anim.Open();
+        if(!isActive) anim.Open();
         parent.SetActive(true);
         Refresh();
         isActive = true;

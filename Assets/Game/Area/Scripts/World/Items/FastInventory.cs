@@ -22,15 +22,14 @@ public class FastInventory : UI_Base
 
     public bool Have(ItemInInventory[] col)
     {
-        bool aux = true;
-
         for (int i = 0; i < col.Length; i++)
         {
-            if (!inventory.ContainsKey(col[i].item.id)) return false;
+            int id = col[i].item.id;
+            if (!inventory.ContainsKey(id)) return false;
+            var my_cant = inventory[id].cant;
+            var requested_cant = col[i].cant;
 
-            var item = inventory[col[i].item.id];
-
-            if (inventory[col[i].item.id].cant < item.cant )
+            if (my_cant < requested_cant)
             {
                 return false;
             }
@@ -40,9 +39,7 @@ public class FastInventory : UI_Base
 
     public void Add(Item item)
     {
-        Open();
-        begintimer = true;
-        timer = 0;
+        
         if (!inventory.ContainsKey(item.id))
         {
             ItemInInventory newSlot = new ItemInInventory(item, 1);
@@ -54,11 +51,11 @@ public class FastInventory : UI_Base
         }
         RefreshScreen();
     }
-    public void Remove(Item item)
+    public void Remove(Item item, int cant = 1)
     {
         if (inventory.ContainsKey(item.id))
         {
-            inventory[item.id].cant--;
+            inventory[item.id].cant -= cant;
             if (inventory[item.id].cant <= 0)
             {
                 inventory.Remove(item.id);
@@ -67,8 +64,34 @@ public class FastInventory : UI_Base
         RefreshScreen();
     }
 
+    public bool Remove(ItemInInventory[] col)
+    {
+        for (int i = 0; i < col.Length; i++)
+        {
+            if (!inventory.ContainsKey(col[i].item.id)) return false;
+
+            var cant_to_remove = col[i].cant;
+            var my_cant = inventory[col[i].item.id].cant;
+            var itm = col[i].item;
+
+            if (my_cant >= cant_to_remove)
+            {
+                Remove(itm, cant_to_remove);
+            }
+            else
+            {
+                return false;
+            }
+        }
+        return true;
+    }
+
     void RefreshScreen()
     {
+        Open();
+        begintimer = true;
+        timer = 0;
+
         var childs = parent_inventoryObjects.GetComponentsInChildren<Transform>().Where( x => x != parent_inventoryObjects).ToArray();
 
         for (int i = 0; i < childs.Length; i++)
