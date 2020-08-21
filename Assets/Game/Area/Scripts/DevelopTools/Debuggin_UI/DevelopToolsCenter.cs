@@ -18,6 +18,15 @@ public class DevelopToolsCenter : MonoBehaviour
         DevelopTools.UI.Debug_UI_Tools.instance.CreateToogle("Dummy Enemy State Machine Debug", false, ToogleDebug);
        // DevelopTools.UI.Debug_UI_Tools.instance.CreateToogle("Range Enemy State Machine Debug", false, ToogleDebugRange);
         DevelopTools.UI.Debug_UI_Tools.instance.CreateToogle("Jabalies State Machine Debug", false, ToogleDebugJabali);
+
+        DevelopTools.UI.Debug_UI_Tools.instance.CreateToogle("Cubitos Render", false, CubitosRender);
+    }
+
+    string CubitosRender(bool val)
+    {
+        var cubits = FindObjectsOfType<EnableCubitos>();
+        foreach(var c in cubits) c.EnableCubitosBoool(val);
+        return "C:=> " + (val ? "ON" : "OFF");
     }
     public void UIBUTTON_WrenchDebug()
     {
