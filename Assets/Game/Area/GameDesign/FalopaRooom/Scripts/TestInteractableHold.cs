@@ -15,7 +15,7 @@ public class TestInteractableHold : Interactable
     }
     public override void OnEnter(WalkingEntity entity)
     {
-        WorldItemInfo.instance.Show(pointToMessage.position, "Object", "Hold to grab object");
+        WorldItemInfo.instance.Show(pointToMessage.position, "Object", "Hold to grab object", "Hold to grab", false, false);
     }
 
     public override void OnExecute(WalkingEntity collector)
@@ -26,6 +26,7 @@ public class TestInteractableHold : Interactable
     public override void OnExit()
     {
         WorldItemInfo.instance.Hide();
+        _loadBar.fillAmount = 0;
     }
     public override void DelayExecute(float loadTime)
     {
