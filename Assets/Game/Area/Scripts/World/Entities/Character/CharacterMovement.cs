@@ -28,7 +28,19 @@ public class CharacterMovement
     private Vector3 dashDir;
     public bool InDash { get; private set; }
     bool dashCdOk;
-
+    bool _falling;
+    float _DMGMultiplier;
+    public void Set_DMGMultiplier(float multiplier)
+    {
+        _DMGMultiplier = multiplier;
+    }
+    int _fallDMG;
+    float _currentTime;
+    float _maxTimer;
+    public void SetFallTimer(float _time)
+    {
+        _maxTimer = _time;
+    }
     public void ForcedCanDash(bool candash)
     {
         InDash = candash;
@@ -288,11 +300,24 @@ public class CharacterMovement
             {
                 velY = gravity;
             }
+            _currentTime += Time.deltaTime;
+            if (_currentTime >= _maxTimer)
+            {
+                _falling = true;
+                _fallDMG = (int)((_currentTime * _DMGMultiplier) - _maxTimer);
+            }
             DebugCustom.Log("Gravity", "Gravity", "TRUE");
         }
         else
         {
             velY = 0;
+            if (_falling)
+            {
+                Main.instance.GetChar().Life.Hit(_fallDMG);
+                _fallDMG = 0;
+                _currentTime = 0;
+                _falling = false;
+            }
             DebugCustom.Log("Gravity", "Gravity", "false");
         }
         #endregion

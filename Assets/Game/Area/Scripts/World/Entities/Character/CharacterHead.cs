@@ -105,6 +105,9 @@ public class CharacterHead : CharacterControllable
 
     [HideInInspector] private bool canAttack = false; 
     public void ToggleAttack(bool val) => canAttack = val;
+    [Header("Falling damage Options")]
+    [SerializeField] float _multiplierFallDMG;
+    [SerializeField] float _TimeToFallDamage;
 
 
     private void Start()
@@ -128,7 +131,8 @@ public class CharacterHead : CharacterControllable
         customCam = FindObjectOfType<CustomCamera>();
 
         move.Initialize(GetComponent<Rigidbody>(), rot, charanim, feedbacks, IsGrounded);
-
+        move.Set_DMGMultiplier(_multiplierFallDMG);
+        move.SetFallTimer(_TimeToFallDamage);
         InDash += move.InCD;
         ChildrensUpdates += move.OnUpdate;
         move.SetCallbacks(OnBeginRoll, OnEndRoll);
