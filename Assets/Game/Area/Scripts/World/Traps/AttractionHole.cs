@@ -86,7 +86,15 @@ public class AttractionHole : PlayObject
 
     protected override void OnTurnOn() { }
 
-    protected override void OnTurnOff() { }
+    protected override void OnTurnOff()
+    {
+        character?.GetCharMove().StopForceBool();
+        character = null;
+        isZero = false;
+
+        if (attFXTemp)
+            ParticlesManager.Instance.StopParticle(attFeedback.name, attFXTemp);
+    }
 
     protected override void OnFixedUpdate() { }
 
