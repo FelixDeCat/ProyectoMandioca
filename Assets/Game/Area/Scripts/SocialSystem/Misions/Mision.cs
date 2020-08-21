@@ -95,11 +95,11 @@ namespace Misions.Core
             {
                 if (i < mision_item.Length - 1)
                 {
-                    aux += i + ". "+  mision_item[i].ToString() + "\n";
+                    aux += mision_item[i].ToString() + "\n";
                 }
                 else
                 {
-                    aux += i + ". " + mision_item[i].ToString();
+                    aux += mision_item[i].ToString();
                 }
             }
             return aux;

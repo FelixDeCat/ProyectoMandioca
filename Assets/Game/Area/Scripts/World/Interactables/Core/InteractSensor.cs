@@ -123,7 +123,7 @@ public class InteractSensor : MonoBehaviour
                 return;
             }
 
-            if (!cooldown_to_next_recollection)
+            if (!cooldown_to_next_recollection && !most_close._withDelay)
             {
                 if (most_close.autoexecute || can_fast_recollecion)
                 {
