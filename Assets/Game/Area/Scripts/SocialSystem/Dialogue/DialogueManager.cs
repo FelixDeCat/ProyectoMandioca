@@ -193,6 +193,10 @@ public class DialogueManager : MonoBehaviour
                     if (id_selected != -1)
                     {
                         string text = ExecutionManager.instance.GetInfo(id_selected);
+                        if (text == "")
+                        {
+                            text = tree.dialogueNodes[currentNode].conected[i].text;
+                        }
                         frontend.SetOption(i, text, !ExecutionManager.instance.CanExecute(id_selected) );
                     }
                     else
