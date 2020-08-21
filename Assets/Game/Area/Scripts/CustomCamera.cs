@@ -148,14 +148,14 @@ public class CustomCamera : MonoBehaviour
             {
                 if (currentObstacle != hit.collider)
                 {
-                    currentObstacle?.GetComponent<MeshRenderer>().material.SetFloat("_Intensity", 1);
+                    //currentObstacle?.GetComponent<MeshRenderer>().material.SetFloat("_Intensity", 1);
                     currentObstacle = hit.collider;
                     StartCoroutine(ShaderFade());
                 }
             }
             else
             {
-                currentObstacle?.GetComponent<MeshRenderer>()?.material.SetFloat("_Intensity", 1);
+             //   currentObstacle?.GetComponent<MeshRenderer>()?.material.SetFloat("_Intensity", 1);
                 currentObstacle = null;
                 StopCoroutine(ShaderFade());
             }
@@ -167,7 +167,7 @@ public class CustomCamera : MonoBehaviour
         }
         else
         {
-            currentObstacle?.GetComponent<MeshRenderer>().material.SetFloat("_Intensity", 1);
+          //  currentObstacle?.GetComponent<MeshRenderer>().material.SetFloat("_Intensity", 1);
             currentObstacle = null;
             StopCoroutine(ShaderFade());
         }

@@ -29,7 +29,10 @@ public class PosDecals : MonoBehaviour
         {
             vectorPositions[i] = new Vector4(positions[i].position.x, positions[i].position.y, positions[i].position.z, 0);
         }
-        materialProperty.SetVectorArray("positionsArray", vectorPositions);
+        if (vectorPositions.Length > 0)
+        {
+            materialProperty.SetVectorArray("positionsArray", vectorPositions);
+        }
         myRenderer.SetPropertyBlock(materialProperty);
     }
 }
