@@ -9,7 +9,7 @@ public class ButtonOption : MonoBehaviour
 {
     [SerializeField] public Button button;
     Action<int> callbackSendInput;
-    [SerializeField] TextMeshProUGUI txt_number;
+   // [SerializeField] TextMeshProUGUI txt_number;
     [SerializeField] TextMeshProUGUI txt_option;
 
     int index;
@@ -28,7 +28,7 @@ public class ButtonOption : MonoBehaviour
     public void SetIndex(int index, string _string_option)
     {
         this.index = index;
-        txt_number.text = (index + 1).ToString();
+        //txt_number.text = (index + 1).ToString() + ")";
         txt_option.text = _string_option;
     }
     public void ConfigureCallbacks(Action<int> _callback_send_input)

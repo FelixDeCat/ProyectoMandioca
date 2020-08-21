@@ -17,10 +17,10 @@ public class EXE_GetItem : ExecutableBase
 
         for (int i = 0; i < requeriments.Length; i++)
         {
-            aux += requeriments[i].cant + " " + /*requeriments[i].item.name +*/ "" + GetSToS(requeriments[i].item.id) + "" + (i >= requeriments.Length - 1 ? "" : ", ");
+            aux += "["+requeriments[i].cant + " " + requeriments[i].item.name + "" + GetSToS(requeriments[i].item.id) + "]" + (i >= requeriments.Length - 1 ? "" : "+ ");
         }
 
-        return aux + " >>> " + cant +" "/*+ item.name*/;
+        return aux + " = " + cant +" "+ item.name;
     }
 
     string GetSToS(int index) => "<sprite name=\"" + "itm_" + index.ToString() + "\">";

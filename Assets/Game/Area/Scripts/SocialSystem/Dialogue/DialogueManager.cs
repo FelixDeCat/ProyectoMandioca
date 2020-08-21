@@ -221,8 +221,6 @@ public class DialogueManager : MonoBehaviour
 
     }
 
-
-
     public int DialoguesCount { get { return GetNode(currentNode).dialogues.Count; } }
     public DialogueNode GetNode(int indexNode) => tree.dialogueNodes[indexNode];
 
