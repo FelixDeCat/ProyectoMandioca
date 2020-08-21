@@ -30,12 +30,10 @@ public class EquipedManager : MonoBehaviour
         current = new ItemInInventory(ScriptableObject.CreateInstance<Item>(), -1);
     }
 
-    private void Update()
+    public void UseWaist1()
     {
-        if (Input.GetKeyDown(KeyCode.T))
-        {
-            UseItem(SpotType.Waist1);
-        }
+        Debug.Log("use waist");
+        UseItem(SpotType.Waist1);
     }
 
     public void UseItem(SpotType _spottype)

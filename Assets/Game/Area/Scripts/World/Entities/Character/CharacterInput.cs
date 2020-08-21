@@ -243,8 +243,8 @@ public class CharacterInput : MonoBehaviour
             ;
     }
     void RefreshHelper() => joystickhelper.Refresh();
-    void EV_DPAD_UP() {  }
-    void EV_DPAD_DOWN() {  }
+    void EV_DPAD_UP() { OnDpad_Up.Invoke(); }
+    void EV_DPAD_DOWN() { OnDpad_Down.Invoke(); }
     void EV_DPAD_LEFT() { OnDpad_Left.Invoke(); }
     void EV_DPAD_RIGHT() { OnDpad_Right.Invoke(); }
     void EV_DPAD_LTRIGGER() { LTrigger.Invoke(); }
