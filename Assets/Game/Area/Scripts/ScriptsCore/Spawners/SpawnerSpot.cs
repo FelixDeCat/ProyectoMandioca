@@ -7,13 +7,13 @@ public class SpawnerSpot
 {
     public float radious = 4;
     [SerializeField] LayerMask mask = 1 << 21;
-    Transform spawnSpot;
+    [SerializeField] public Transform spawnSpot;
 
-    public void Initialize(Transform _spawnSpot, float _radious = -1)
+    public void Initialize(Transform _spawnSpot = null, float _radious = -1)
     {
         if (_radious > 0) radious = _radious;
 
-        spawnSpot = _spawnSpot;
+        if(_spawnSpot) spawnSpot = _spawnSpot;
     }
 
     public PlayObject SpawnPrefab(Vector3 pos, ObjectPool_PlayObject _poolObject, CustomSpawner spawner = null)

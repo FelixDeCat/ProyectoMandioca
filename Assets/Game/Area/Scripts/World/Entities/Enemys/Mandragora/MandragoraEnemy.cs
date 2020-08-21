@@ -33,6 +33,7 @@ public class MandragoraEnemy : EnemyBase
     [SerializeField] List<EnemyBase> enemiesTypes = new List<EnemyBase>();
     [SerializeField, Range(1, 25)] float enemiesToSpawn = 5;
     [SerializeField] PlayObject trapToDie = null;
+    [SerializeField] float trapDuration = 5;
     [SerializeField] Transform rootToTrap = null;
     [SerializeField] bool mandragoraIsTrap = false;
     [SerializeField] TriggerDispatcher trigger = null;
@@ -96,7 +97,7 @@ public class MandragoraEnemy : EnemyBase
         PoolManager.instance.GetObjectPool(trapToDie.name, trapToDie);
 
         if (!mandragoraIsTrap) return;
-        spawnerSpot.Initialize(transform);
+        spawnerSpot.Initialize();
         for (int i = 0; i < enemiesTypes.Count; i++)
             PoolManager.instance.GetObjectPool(enemiesTypes[i].name, enemiesTypes[i]);
         On();
@@ -135,11 +136,8 @@ public class MandragoraEnemy : EnemyBase
     void OnDead()
     {
         var pool = PoolManager.instance.GetObjectPool(trapToDie.name);
-        Debug.Log("venga chavalin");
-        var trap = pool.Get();
+        var trap = pool.GetPlayObject(trapDuration);
         trap.transform.position = rootToTrap.position;
-        trap.Initialize();
-        trap.Pool = pool;
     }
 
     protected override void OnReset()
@@ -413,7 +411,7 @@ public class MandragoraEnemy : EnemyBase
 
     private void OnDrawGizmos()
     {
-        Gizmos.DrawWireSphere(transform.position, spawnerSpot.radious);
+        Gizmos.DrawWireSphere(spawnerSpot.spawnSpot.position, spawnerSpot.radious);
     }
 
     #region Debuggin
