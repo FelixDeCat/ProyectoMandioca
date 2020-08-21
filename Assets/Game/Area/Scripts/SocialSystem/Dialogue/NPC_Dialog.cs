@@ -11,6 +11,9 @@ public class NPC_Dialog : Interactable
     public DialogueTree currentDialoge;
     public UnityEvent OnBeginMission;
 
+    public bool useOneShot;
+    bool oneshot = false;
+
     private void Awake()
     {
         if(dialogues.Length > 0)
@@ -25,8 +28,22 @@ public class NPC_Dialog : Interactable
     }
     public override void OnExecute(WalkingEntity collector)
     {
-        if(currentDialoge) DialogueManager.instance.StartDialogue(currentDialoge);
-        WorldItemInfo.instance.Hide();
+        if (useOneShot)
+        {
+            if (!oneshot)
+            {
+                if (currentDialoge) DialogueManager.instance.StartDialogue(currentDialoge);
+                WorldItemInfo.instance.Hide();
+            }
+            oneshot = true;
+        }
+        else
+        {
+            if (currentDialoge) DialogueManager.instance.StartDialogue(currentDialoge);
+            WorldItemInfo.instance.Hide();
+        }
+
+        
     }
     public override void OnExit()
     {
