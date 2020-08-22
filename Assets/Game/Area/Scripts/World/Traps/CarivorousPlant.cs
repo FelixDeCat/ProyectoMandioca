@@ -7,16 +7,18 @@ public class CarivorousPlant : EntityBase
 {
     public CharacterHead character;
     [SerializeField] float attractionForce = 500;
-    [SerializeField] SkinnedMeshRenderer plant = null;
+    //[SerializeField] SkinnedMeshRenderer plant = null;
     [SerializeField] Transform centerPoint = null;
     [SerializeField] ForceMode mode = ForceMode.Acceleration;
     [SerializeField] DamageReceiver damageReceiver = null;
     [SerializeField] DamageData data = null;
     [SerializeField] _Base_Life_System lifeSystem = null;
+    [SerializeField] Animator anim = null;
+    [SerializeField] AnimEvent animEvent = null;
     [SerializeField] LayerMask characterLayer = 0;
 
-    [SerializeField] float closeMouth = 10;
-    [SerializeField] float openMouth = 6;
+    //[SerializeField] float closeMouth = 10;
+    //[SerializeField] float openMouth = 6;
 
     [SerializeField] float radious = 3f;
     [SerializeField] int dmg = 5;
@@ -37,15 +39,19 @@ public class CarivorousPlant : EntityBase
     {
         on = true;
 
-        damageReceiver.Initialize(centerPoint, () => false, (x) => OnOffTrap(false), (x) => TakeDamage(), null, lifeSystem);
+        damageReceiver.Initialize(centerPoint, () => false, DeadPlant, (x) => TakeDamage(), null, lifeSystem);
 
         data.SetDamage(dmg).SetDamageType(dmgType).Initialize(this);
         lifeSystem.Initialize();
         lifeSystem.CreateADummyLifeSystem();
-        if (!inDmg) plant?.SetBlendShapeWeight(0, 0);
+        //if (!inDmg) plant?.SetBlendShapeWeight(0, 0);
 
         ParticlesManager.Instance.GetParticlePool(attFeedback.name, attFeedback);
         ParticlesManager.Instance.GetParticlePool(hitParticle.name, hitParticle);
+
+        animEvent.Add_Callback("DealDamage", DamageCharacter);
+        animEvent.Add_Callback("DissapearPlant", DissappearPlant);
+
         On();
     }
 
@@ -57,9 +63,9 @@ public class CarivorousPlant : EntityBase
         {
             Vector3 att = centerPoint.position - character.transform.position;
             att.y = 0.5f;
-            float prom = Vector3.Distance(centerPoint.position, character.transform.position) - 2f;
-            float lerp = Mathf.Lerp(100, 0, prom);
-            if (!inDmg) plant?.SetBlendShapeWeight(0, lerp);
+            //float prom = Vector3.Distance(centerPoint.position, character.transform.position) - 2f;
+            //float lerp = Mathf.Lerp(100, 0, prom);
+            //if (!inDmg) plant?.SetBlendShapeWeight(0, lerp);
 
             var overlap = Physics.OverlapSphere(centerPoint.position, radious, characterLayer).Select(x => x.GetComponent<DamageReceiver>()).ToList();
 
@@ -86,53 +92,71 @@ public class CarivorousPlant : EntityBase
             timer += Time.deltaTime;
 
             if (timer >= timeToDamage)
-                StartCoroutine(DamageCoroutine());
+            {
+                anim.SetTrigger("Attack");
+                inDmg = false;
+            }
         }    
     }
 
-    IEnumerator DamageCoroutine()
+    void DamageCharacter()
     {
-        inDmg = true;
-        float startAmount = plant.GetBlendShapeWeight(0);
-
-        while(startAmount > 0)
-        {
-            startAmount -= closeMouth;
-            plant.SetBlendShapeWeight(0, startAmount);
-            yield return new WaitForSeconds(0.01f);
-        }
-
         character?.GetComponent<DamageReceiver>().TakeDamage(data.SetPositionAndDirection(centerPoint.position, Vector3.zero));
-        StartCoroutine(OpenMouth());
+        inDmg = true;
     }
 
-    IEnumerator OpenMouth()
-    {
-        float startAmount = plant.GetBlendShapeWeight(0);
+    //IEnumerator DamageCoroutine()
+    //{
+    //    inDmg = true;
+    //    float startAmount = plant.GetBlendShapeWeight(0);
 
-        while (startAmount < 70)
-        {
-            startAmount += openMouth;
-            plant.SetBlendShapeWeight(0, startAmount);
-            yield return new WaitForSeconds(0.01f);
-        }
+    //    while(startAmount > 0)
+    //    {
+    //        startAmount -= closeMouth;
+    //        plant.SetBlendShapeWeight(0, startAmount);
+    //        yield return new WaitForSeconds(0.01f);
+    //    }
 
-        timer = 0;
-        inDmg = false;
-    }
+    //    character?.GetComponent<DamageReceiver>().TakeDamage(data.SetPositionAndDirection(centerPoint.position, Vector3.zero));
+    //    StartCoroutine(OpenMouth());
+    //}
+
+    //IEnumerator OpenMouth()
+    //{
+    //    float startAmount = plant.GetBlendShapeWeight(0);
+
+    //    while (startAmount < 70)
+    //    {
+    //        startAmount += openMouth;
+    //        plant.SetBlendShapeWeight(0, startAmount);
+    //        yield return new WaitForSeconds(0.01f);
+    //    }
+
+    //    timer = 0;
+    //    inDmg = false;
+    //}
 
     void TakeDamage()
     {
+        anim.SetBool("Hit", true);
+
         ParticlesManager.Instance.PlayParticle(hitParticle.name, centerPoint.position + Vector3.up);
     }
+
+    void DeadPlant(Vector3 dir)
+    {
+        anim.SetTrigger("Dead");
+
+        OnOffTrap(false);
+    }
+
+    void DissappearPlant() => gameObject.SetActive(false);
 
     public void OnOffTrap(bool b)
     {
         on = b;
 
         if (!b) character?.GetCharMove().StopForceBool();
-
-        gameObject.SetActive(false);
 
         if (attFXTemp)
         {
@@ -143,6 +167,8 @@ public class CarivorousPlant : EntityBase
 
     private void OnTriggerEnter(Collider other)
     {
+        if (!on) return;
+
         if (other.GetComponent<CharacterHead>())
         {
             if (character) { antibug = true; return; }
@@ -154,6 +180,8 @@ public class CarivorousPlant : EntityBase
 
     private void OnTriggerExit(Collider other)
     {
+        if (!on) return;
+
         if (other.GetComponent<CharacterHead>())
         {
             if (antibug)
@@ -164,7 +192,7 @@ public class CarivorousPlant : EntityBase
 
             character?.GetCharMove().StopForceBool();
             isZero = false;
-            plant?.SetBlendShapeWeight(0, 0);
+            //plant?.SetBlendShapeWeight(0, 0);
             character = null;
 
             if (attFXTemp)

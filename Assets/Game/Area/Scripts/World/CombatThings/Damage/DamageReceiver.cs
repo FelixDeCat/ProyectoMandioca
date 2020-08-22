@@ -66,6 +66,8 @@ public class DamageReceiver : MonoBehaviour
     {
         if (IsDmg()) return Attack_Result.inmune;
 
+        if (_LifeSystem != null && _LifeSystem.life <= 0) return Attack_Result.inmune;
+
         if (IsNotDestructible)
         {
             InmuneFeedback();

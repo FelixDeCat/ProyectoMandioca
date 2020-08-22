@@ -14,13 +14,14 @@ public class PropHittable : Environment
 
     private void Start()
     {
-        damageReceiver = GetComponent<DamageReceiver>();
-        _lifeSytstem = GetComponent<_Base_Life_System>();
         OnInitialize();
     }
 
     protected override void OnInitialize()
     {
+        damageReceiver = GetComponent<DamageReceiver>();
+        _lifeSytstem = GetComponent<_Base_Life_System>();
+
         _lifeSytstem.Initialize(_lifeSytstem.life, () => { }, () => { }, () => { });
 
         damageReceiver.ChangeIndestructibility(true);
