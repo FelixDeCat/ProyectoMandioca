@@ -27,6 +27,7 @@ public class Main : MonoBehaviour
     [SerializeField] CharacterHead character = null;
     //[SerializeField] LoadSceneHandler loader = null;
     [SerializeField] List<PlayObject> allentities = new List<PlayObject>();
+    public List<PlayObject> AllEntities { get { return allentities; } }
     //[SerializeField] SkillManager_Pasivas pasives = null; 
     [SerializeField] SkillManager_PasivasNoBranches pasives_nobranches = null;
     [SerializeField] SkillManager_ActivasNueva actives = null;
@@ -100,6 +101,8 @@ public class Main : MonoBehaviour
         }
         return aux;
     }
+
+
     public void AddEntity(EntityBase b) { if (!allentities.Contains(b)) allentities.Add(b); }
     public void RemoveEntity(EntityBase b) { if (allentities.Contains(b)) allentities.Remove(b); }
     public List<T> GetListOfComponent<T>() where T : PlayObject

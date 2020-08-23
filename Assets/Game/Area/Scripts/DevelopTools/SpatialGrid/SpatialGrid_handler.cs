@@ -47,24 +47,17 @@ public class SpatialGrid_handler : MonoBehaviour
                 var temp = FindObjectsOfType<GridEntity>().Where(x=>!selected.Contains(x));
                 foreach (var item in temp)
                 {
-                    
                     if (item.gameObject.activeInHierarchy)
                     {
-                        Debug.Log("NO SELECCIONADOS");
-
                         item.Initialize();
                         item.Off();
                     }
-                
                     item.onGrid = false;
                 }
                 foreach (var item in selected)
                 {
-                    
                     if (item.gameObject.activeInHierarchy)
                     {
-                        Debug.Log("ENTRA: " + item.gameObject.name);
-
                         item.Initialize();
                         item.On();
                     }

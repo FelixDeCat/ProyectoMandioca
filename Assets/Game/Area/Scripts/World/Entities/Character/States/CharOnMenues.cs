@@ -16,6 +16,12 @@ namespace Tools.StateMachine
             charMove.RotateHorizontal(0);
             charMove.RotateVertical(0);
             interactSensor.CanInteract(false);
+
+            var entities = Main.instance.AllEntities;
+            foreach (var e in entities)
+            {
+                e.Off();
+            }
         }
         protected override void Update() { }
         protected override void FixedUpdate() => base.FixedUpdate();
@@ -25,6 +31,11 @@ namespace Tools.StateMachine
             Cursor.visible = false;
             Cursor.lockState = CursorLockMode.Locked;
             interactSensor.CanInteract(true);
+            var entities = Main.instance.AllEntities;
+            foreach (var e in entities)
+            {
+                e.On();
+            }
         }
     }
 }

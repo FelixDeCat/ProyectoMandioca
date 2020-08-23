@@ -24,6 +24,8 @@ public class ABossGenericClean : EnemyBase
         feedbackManager.SetRoot(rootTransform);
         stateMachineHandler.Initialize(sensors_and_behaviours, fastSubscriber, inputSender, feedbackManager);
 
+        Main.instance.AddEntity(this);
+
         TakeDamageHandler.Initialize(
             life,
             OnDeath,
@@ -56,6 +58,7 @@ public class ABossGenericClean : EnemyBase
     void OnDeath()
     {
         inputSender.OnDeath();
+        Main.instance.RemoveEntity(this);
     }
     void OnHit()
     {

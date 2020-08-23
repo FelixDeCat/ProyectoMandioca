@@ -266,8 +266,8 @@ public class TrueDummyEnemy : EnemyBase
     #endregion
 
     protected override void OnFixedUpdate() { }
-    protected override void OnTurnOff() { }
-    protected override void OnTurnOn() { }
+    protected override void OnTurnOff() { sm.SendInput(DummyEnemyInputs.DISABLE); }
+    protected override void OnTurnOn() { sm.SendInput(DummyEnemyInputs.IDLE); }
 
     #region STATE MACHINE THINGS
     public enum DummyEnemyInputs { AWAKE, IDLE, BEGIN_ATTACK,ATTACK, GO_TO_POS, DIE, DISABLE, TAKE_DAMAGE, PETRIFIED, PARRIED, CHASING, SPECIAL_ATTACK };

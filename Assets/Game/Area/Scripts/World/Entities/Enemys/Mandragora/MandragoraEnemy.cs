@@ -281,11 +281,11 @@ public class MandragoraEnemy : EnemyBase
     #endregion
 
     protected override void OnFixedUpdate() { }
-    protected override void OnTurnOff() { }
-    protected override void OnTurnOn() { }
+    protected override void OnTurnOff() { sm.SendInput(MandragoraInputs.DISABLE); }
+    protected override void OnTurnOn() { sm.SendInput(MandragoraInputs.IDLE); }
 
     #region STATE MACHINE THINGS
-    
+
 
     void SetStates()
     {
