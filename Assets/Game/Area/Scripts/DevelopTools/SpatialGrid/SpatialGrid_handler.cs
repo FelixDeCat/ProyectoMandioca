@@ -31,7 +31,12 @@ public class SpatialGrid_handler : MonoBehaviour
         StartCoroutine(CheckGrid());
     }
 
-    public void  StopSpatialGrid()
+    public void ResumeCheck()
+    {
+        StartCoroutine(CheckGrid());
+    }
+
+    public void StopSpatialGrid()
     {
         _grid = null;
         StopAllCoroutines();

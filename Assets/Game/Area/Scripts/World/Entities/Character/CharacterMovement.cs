@@ -314,10 +314,12 @@ public class CharacterMovement
             if (_falling)
             {
                 Main.instance.GetChar().Life.Hit(_fallDMG);
-                _fallDMG = 0;
-                _currentTime = 0;
-                _falling = false;
+                
             }
+
+            _fallDMG = 0;
+            _currentTime = 0;
+            _falling = false;
             DebugCustom.Log("Gravity", "Gravity", "false");
         }
         #endregion

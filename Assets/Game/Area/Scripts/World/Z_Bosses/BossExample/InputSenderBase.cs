@@ -10,6 +10,11 @@ public class InputSenderBase : MonoBehaviour
     public void SendTrigger(string parameter) => animator.SetTrigger(parameter);
     public void SendFloat(string parameter, float val) => animator.SetFloat(parameter, val);
 
+    public void Execute(bool val) {
+
+        animator.speed = val ? 1 : 0;
+    }
+
     public void StartStateMachine() => SendBool("On", true);
     public void StopStateMachine() => SendBool("On", false);
     public void Distance(float dist) => SendFloat("distance", dist);

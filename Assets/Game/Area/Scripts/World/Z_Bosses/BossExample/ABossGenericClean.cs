@@ -37,8 +37,18 @@ public class ABossGenericClean : EnemyBase
             DeathVector);
     }
 
-    protected override void OnTurnOff() { sensors_and_behaviours.Sensor.StartSensors(); }
-    protected override void OnTurnOn() { sensors_and_behaviours.Sensor.StopSensors(); }
+    protected override void OnTurnOff() 
+    {
+        Debug.LogWarning("se esta apagando");
+        sensors_and_behaviours.Sensor.StartSensors(); 
+        inputSender.Execute(false); 
+    }
+    protected override void OnTurnOn() 
+    { 
+        Debug.LogWarning("se esta prendiendo"); 
+        sensors_and_behaviours.Sensor.StopSensors(); 
+        inputSender.Execute(true); 
+    }
 
     void DeathVector(Vector3 dir)
     {
