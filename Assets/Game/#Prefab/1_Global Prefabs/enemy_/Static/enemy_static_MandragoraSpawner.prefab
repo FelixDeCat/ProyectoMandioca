@@ -10,8 +10,9 @@ GameObject:
   m_Component:
   - component: {fileID: 7468751178515958837}
   - component: {fileID: 7468751178515958835}
+  - component: {fileID: 7900567296495266962}
   m_Layer: 0
-  m_Name: MandragoraSpawner
+  m_Name: enemy_static_MandragoraSpawner
   m_TagString: Untagged
   m_Icon: {fileID: 419385456094870383, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
@@ -54,12 +55,31 @@ MonoBehaviour:
   waveAmount: 4
   infiniteSpawner: 0
   spawnSpot: {fileID: 5826923259539452652}
-  floorMask:
-    serializedVersion: 2
-    m_Bits: 2097152
+  spot:
+    radious: 4
+    mask:
+      serializedVersion: 2
+      m_Bits: 2097152
+    spawnSpot: {fileID: 0}
   maxSpawn: 10
   totalAmount: 8
   totalTime: 20
+--- !u!114 &7900567296495266962
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7468751178515958838}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 172985c39e39d4596bf38b7def010e52, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  myPlayObjects: []
+  debug: 0
+  acty: 0
+  onGrid: 0
 --- !u!1 &7773658157720943272
 GameObject:
   m_ObjectHideFlags: 0

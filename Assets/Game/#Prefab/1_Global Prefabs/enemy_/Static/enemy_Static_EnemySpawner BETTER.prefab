@@ -40,8 +40,9 @@ GameObject:
   m_Component:
   - component: {fileID: 615179186395022213}
   - component: {fileID: 615179186395022211}
+  - component: {fileID: 4647186768388963426}
   m_Layer: 0
-  m_Name: EnemySpawner BETTER
+  m_Name: enemy_Static_EnemySpawner BETTER
   m_TagString: Untagged
   m_Icon: {fileID: 419385456094870383, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
@@ -84,8 +85,31 @@ MonoBehaviour:
   waveAmount: 3
   infiniteSpawner: 0
   spawnSpot: {fileID: 4607947957180579164}
+  spot:
+    radious: 4
+    mask:
+      serializedVersion: 2
+      m_Bits: 2097152
+    spawnSpot: {fileID: 0}
+  maxSpawn: 10
   totalAmount: 0
   totalTime: 20
+--- !u!114 &4647186768388963426
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 615179186395022214}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 172985c39e39d4596bf38b7def010e52, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  myPlayObjects: []
+  debug: 0
+  acty: 0
+  onGrid: 0
 --- !u!1001 &392468533919453365
 PrefabInstance:
   m_ObjectHideFlags: 0
