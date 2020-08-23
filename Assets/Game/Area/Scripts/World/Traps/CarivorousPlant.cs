@@ -94,7 +94,8 @@ public class CarivorousPlant : EntityBase
             if (timer >= timeToDamage)
             {
                 anim.SetTrigger("Attack");
-                inDmg = false;
+                inDmg = true;
+                timer = 0;
             }
         }    
     }
@@ -102,7 +103,7 @@ public class CarivorousPlant : EntityBase
     void DamageCharacter()
     {
         character?.GetComponent<DamageReceiver>().TakeDamage(data.SetPositionAndDirection(centerPoint.position, Vector3.zero));
-        inDmg = true;
+        inDmg = false;
     }
 
     //IEnumerator DamageCoroutine()
