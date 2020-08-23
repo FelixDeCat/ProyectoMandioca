@@ -524,7 +524,6 @@ public class CharacterHead : CharacterControllable
         charanim.InCombat(1);
 
         UpWeapons = true;
-        Debug.Log("up weapon");
     }
     #endregion
 

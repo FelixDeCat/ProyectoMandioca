@@ -1000,8 +1000,9 @@ GameObject:
   m_Component:
   - component: {fileID: 1909525048331572221}
   - component: {fileID: 4538564803568822472}
+  - component: {fileID: 4647271573819466779}
   m_Layer: 10
-  m_Name: Wendigo
+  m_Name: enemy_Wendigo
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1058,6 +1059,21 @@ MonoBehaviour:
   EntityDeath:
     m_PersistentCalls:
       m_Calls: []
+--- !u!114 &4647271573819466779
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1909525048331572220}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 172985c39e39d4596bf38b7def010e52, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  myPlayObjects: []
+  debug: 1
+  onGrid: 0
 --- !u!1 &1909525048760699112
 GameObject:
   m_ObjectHideFlags: 0
@@ -10854,15 +10870,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ace1cd278b819e448aba728e3cfdb713, type: 3}
---- !u!4 &9050685023072019318 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 8350030616839089269, guid: ace1cd278b819e448aba728e3cfdb713,
-    type: 3}
-  m_PrefabInstance: {fileID: 1043492096108105475}
-  m_PrefabAsset: {fileID: 0}
 --- !u!198 &9050685023072019317 stripped
 ParticleSystem:
   m_CorrespondingSourceObject: {fileID: 8350030616839089270, guid: ace1cd278b819e448aba728e3cfdb713,
+    type: 3}
+  m_PrefabInstance: {fileID: 1043492096108105475}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &9050685023072019318 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 8350030616839089269, guid: ace1cd278b819e448aba728e3cfdb713,
     type: 3}
   m_PrefabInstance: {fileID: 1043492096108105475}
   m_PrefabAsset: {fileID: 0}

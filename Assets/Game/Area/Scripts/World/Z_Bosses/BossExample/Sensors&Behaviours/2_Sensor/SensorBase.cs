@@ -16,7 +16,7 @@ public abstract class SensorBase : MonoBehaviour
     public SensorBase Configure_CallBack_TriggerSensor(Action onshotcallback) { CallbackSensor_TRIGGER = onshotcallback; return this; }
     public SensorBase Configure_CallBack_FloatSensor(Action<float> onshotcallback) { CallbackSensor_FLOAT = onshotcallback; return this; }
     public void StartSensor() { canupdate = true; OnStartSensor(); }
-    public void StopSensor() { canupdate = true; OnStopSensor(); }
+    public void StopSensor() { canupdate = false; OnStopSensor(); }
     private void Update() { if (canupdate) OnUpdateSensor(); }
     protected abstract void OnStartSensor();
     protected abstract void OnStopSensor();

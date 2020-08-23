@@ -35,6 +35,9 @@ public class ABossGenericClean : EnemyBase
             DeathVector);
     }
 
+    protected override void OnTurnOff() { sensors_and_behaviours.Sensor.StartSensors(); }
+    protected override void OnTurnOn() { sensors_and_behaviours.Sensor.StopSensors(); }
+
     void DeathVector(Vector3 dir)
     {
         inputSender.OnDeath();
@@ -88,8 +91,7 @@ public class ABossGenericClean : EnemyBase
     protected override void OnFixedUpdate() { }
     protected override void OnPause() { }
     protected override void OnResume() { }
-    protected override void OnTurnOff() { }
-    protected override void OnTurnOn() { }
+    
     public override void ToAttack() => attacking = true;
     protected override void OnUpdateEntity() { }
     protected override void TakeDamageFeedback(DamageData data) { }

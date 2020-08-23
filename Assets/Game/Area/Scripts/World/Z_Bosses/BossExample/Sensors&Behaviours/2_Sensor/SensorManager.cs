@@ -15,4 +15,13 @@ public class SensorManager : MonoBehaviour
         own = root;
         sensor_distance.Configure_Transforms(own, Main.instance.GetChar().transform);
     }
+
+    public void  StartSensors()
+    {
+        sensor_distance.StartSensor();
+    }
+    public void StopSensors()
+    {
+        sensor_distance.StopSensor();
+    }
 }

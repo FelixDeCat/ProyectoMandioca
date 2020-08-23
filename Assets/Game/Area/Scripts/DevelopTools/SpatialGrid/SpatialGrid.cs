@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
 using System;
+using Tools.Extensions;
 
 public class SpatialGrid : MonoBehaviour
 {
@@ -141,7 +142,7 @@ public class SpatialGrid : MonoBehaviour
 
         var entities = cells.SelectMany(cell => buckets[cell.Item1, cell.Item2])
             .Where(e => e.gameObject != null);
-        
+
         Debug.Log(entities.Count() + "entes");
 
         // Iteramos las que queden dentro del criterio
