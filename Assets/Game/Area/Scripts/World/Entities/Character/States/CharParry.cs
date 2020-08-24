@@ -19,16 +19,15 @@ namespace Tools.StateMachine
         {
             charMove.MovementHorizontal(0);
             charMove.MovementVertical(0);
-            charBlock.SetOnBlock(false);
             charBlock.callback_OnParry();
+            Debug.Log("parriadisimo men");
         }
 
         protected override void Update()
         {
             timer += Time.deltaTime;
-
             if (timer >= parryRecall)
-                sm.SendInput(CharacterHead.PlayerInputs.IDLE);
+                sm.SendInput(CharacterHead.PlayerInputs.END_BLOCK);
         }
 
         protected override void FixedUpdate()
@@ -43,6 +42,7 @@ namespace Tools.StateMachine
 
         protected override void Exit(CharacterHead.PlayerInputs input)
         {
+            Debug.Log("no sé men");
             timer = 0;
             charBlock.callback_UpBlock();
             ChangeAttacking?.Invoke(false);

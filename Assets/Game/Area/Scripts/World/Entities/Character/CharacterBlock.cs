@@ -96,6 +96,5 @@ public class CharacterBlock : EntityBlock
     {
         base.FinishParry();
         parryParticles.Stop();
-        anim.Parry(false);
     }
 }

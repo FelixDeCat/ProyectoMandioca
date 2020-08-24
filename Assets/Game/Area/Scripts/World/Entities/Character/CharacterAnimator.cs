@@ -15,7 +15,7 @@ public class CharacterAnimator : BaseAnimator
     public void SetHorizontalRoll(float y) => myAnim.SetFloat("dirY", y);
     public void Block(bool _block) => myAnim.SetBool("BeginBlock", _block);
     public void BlockSomething() => myAnim.SetTrigger("BlockSomething");
-    public void Parry(bool b) => myAnim.SetBool("IsParry", b);
+    public void Parry() => myAnim.SetTrigger("IsParry");
     public void OnAttackBegin(bool b) => myAnim.SetBool("CheckHeavy", b);
     public void NormalAttack() => myAnim.SetTrigger("NormalAttack");
     public void HeavyAttack() => myAnim.SetTrigger("HeavyAttack");

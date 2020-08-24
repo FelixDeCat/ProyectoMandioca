@@ -142,7 +142,7 @@ public class CharacterHead : CharacterControllable
             .Initialize()
             .SetFeedbacks(feedbacks)
             .SetAnimator(charanim);
-        charBlock.callback_OnParry += () => charanim.Parry(true);
+        charBlock.callback_OnParry += () => charanim.Parry();
         charBlock.callback_EndBlock += UNITYEVENT_PressUp_UpBlocking;
         ChildrensUpdates += charBlock.OnUpdate;
 
@@ -295,6 +295,7 @@ public class CharacterHead : CharacterControllable
              .SetTransition(PlayerInputs.END_BLOCK, endBlock)
              //.SetTransition(PlayerInputs.CHARGE_ATTACK, attackCharge)
              .SetTransition(PlayerInputs.ROLL, bashDash)
+             .SetTransition(PlayerInputs.PARRY, parry)
              .SetTransition(PlayerInputs.TAKE_DAMAGE, takeDamage)
              .SetTransition(PlayerInputs.DEAD, dead)
              .Done();
@@ -320,6 +321,7 @@ public class CharacterHead : CharacterControllable
         ConfigureState.Create(parry)
             .SetTransition(PlayerInputs.IDLE, idle)
             .SetTransition(PlayerInputs.DEAD, dead)
+            .SetTransition(PlayerInputs.END_BLOCK, endBlock)
             .Done();
 
         ConfigureState.Create(roll)
@@ -723,7 +725,6 @@ public class CharacterHead : CharacterControllable
     public void ToggleBlock(bool val) => canBlock = val;
     public void UNITYEVENT_PressUp_UpBlocking() => stateMachine.SendInput(PlayerInputs.END_BLOCK);
     public EntityBlock GetCharBlock() => charBlock;
-    public void EVENT_Parry() => stateMachine.SendInput(PlayerInputs.PARRY);
     public void AddParry(Action listener) => charBlock.callback_OnParry += listener;
     public void RemoveParry(Action listener) => charBlock.callback_OnParry -= listener;
     public void PerfectParry() { feedbacks.particles.parryParticle.Play(); stateMachine.SendInput(PlayerInputs.PARRY); }
