@@ -92,7 +92,7 @@ public class SpatialGrid_handler : MonoBehaviour
 
     void OnDrawGizmos()
     {
-        if (_grid == null)
+        if (_grid == null || _hero == null)
             return;
 
         //Flatten the sphere we're going to draw

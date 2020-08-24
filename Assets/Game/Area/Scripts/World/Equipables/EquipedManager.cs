@@ -38,6 +38,8 @@ public class EquipedManager : MonoBehaviour
 
     public void UseItem(SpotType _spottype)
     {
+        if (!behaviours.ContainsKey(_spottype)) return;
+
         if (current.item.consumible)
         {
             if (behaviours[_spottype].CanUse())

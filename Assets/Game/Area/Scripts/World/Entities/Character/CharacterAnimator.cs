@@ -34,6 +34,10 @@ public class CharacterAnimator : BaseAnimator
         myAnim.SetFloat("InCombat", val);
     }
 
+    public void SetTypeDamge(int val) => myAnim.SetFloat("DamageType", val);
+
+    public void OnHit() => myAnim.SetTrigger("Hit");
+
     public void IdleFancy() => myAnim.SetTrigger("IdleTwo");
 
     public void StartThrow() { myAnim.SetTrigger("ThrowShield"); }

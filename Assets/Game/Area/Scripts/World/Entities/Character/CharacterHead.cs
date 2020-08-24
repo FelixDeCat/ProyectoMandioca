@@ -7,6 +7,7 @@ using DevelopTools;
 using Tools.EventClasses;
 using Tools.StateMachine;
 using System.Runtime.ExceptionServices;
+using UnityEditorInternal;
 
 public class CharacterHead : CharacterControllable
 {
@@ -283,7 +284,7 @@ public class CharacterHead : CharacterControllable
             //.SetTransition(PlayerInputs.PARRY, parry)
             .SetTransition(PlayerInputs.ROLL, roll)
             .SetTransition(PlayerInputs.CHARGE_ATTACK, attackCharge)
-            .SetTransition(PlayerInputs.TAKE_DAMAGE, takeDamage)
+            //.SetTransition(PlayerInputs.TAKE_DAMAGE, takeDamage)
             .SetTransition(PlayerInputs.DEAD, dead)
             // .SetTransition(PlayerInputs.SPIN, spin)
             .SetTransition(PlayerInputs.STUN, stun)
@@ -296,7 +297,7 @@ public class CharacterHead : CharacterControllable
              //.SetTransition(PlayerInputs.CHARGE_ATTACK, attackCharge)
              .SetTransition(PlayerInputs.ROLL, bashDash)
              .SetTransition(PlayerInputs.PARRY, parry)
-             .SetTransition(PlayerInputs.TAKE_DAMAGE, takeDamage)
+             //.SetTransition(PlayerInputs.TAKE_DAMAGE, takeDamage)
              .SetTransition(PlayerInputs.DEAD, dead)
              .Done();
 
@@ -304,7 +305,7 @@ public class CharacterHead : CharacterControllable
             .SetTransition(PlayerInputs.END_BLOCK, endBlock)
             .SetTransition(PlayerInputs.ROLL, bashDash)
             //.SetTransition(PlayerInputs.CHARGE_ATTACK, attackCharge)
-            .SetTransition(PlayerInputs.TAKE_DAMAGE, takeDamage)
+            //.SetTransition(PlayerInputs.TAKE_DAMAGE, takeDamage)
             .SetTransition(PlayerInputs.PARRY, parry)
             .SetTransition(PlayerInputs.DEAD, dead)
             .Done();
@@ -426,7 +427,7 @@ public class CharacterHead : CharacterControllable
             .SetAttack(charAttack)
             .SetLeftAxis(GetLeftHorizontal, GetLeftVertical).SetFeedbacks(feedbacks);
 
-        new CharTakeDmg(takeDamage, stateMachine, takeDamageRecall);
+        new CharTakeDmg(takeDamage, stateMachine, takeDamageRecall, charanim);
 
         new CharStun(stun, stateMachine)
             .Configurate(GetStunDuration, go_StunFeedback)
@@ -821,13 +822,15 @@ public class CharacterHead : CharacterControllable
         {
             feedbacks.sounds.Play_TakeBigDamage();
             customCam.BeginShakeCamera(0.5f);
+            charanim.SetTypeDamge(1);
         }
         else
         {
             feedbacks.sounds.Play_TakeNormalDamage();
             customCam.BeginShakeCamera();
+            charanim.SetTypeDamge(0);
         }
-
+        stateMachine.SendInput(PlayerInputs.TAKE_DAMAGE);
 
         feedbacks.particles.hitParticle.Play();
         Main.instance.Vibrate();

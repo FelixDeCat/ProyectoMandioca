@@ -8,15 +8,18 @@ namespace Tools.StateMachine
     {
         float timer;
         float takeDamageRecall;
+        CharacterAnimator anim;
 
-        public CharTakeDmg(EState<CharacterHead.PlayerInputs> myState, EventStateMachine<CharacterHead.PlayerInputs> _sm, float recall) : base(myState, _sm)
+        public CharTakeDmg(EState<CharacterHead.PlayerInputs> myState, EventStateMachine<CharacterHead.PlayerInputs> _sm, float recall, CharacterAnimator _anim) : base(myState, _sm)
         {
             takeDamageRecall = recall;
+            anim = _anim;
         }
 
         protected override void Enter(EState<CharacterHead.PlayerInputs> input)
         {
             //Tambien podría haber una rica animación, why not
+            anim.OnHit();
         }
 
         protected override void Update()
