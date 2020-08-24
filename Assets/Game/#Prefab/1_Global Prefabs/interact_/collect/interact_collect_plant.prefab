@@ -230,8 +230,9 @@ GameObject:
   - component: {fileID: 6227705847276008050}
   - component: {fileID: 6227705847276008062}
   - component: {fileID: 1464196867322136082}
+  - component: {fileID: -3954915085197154340}
   m_Layer: 0
-  m_Name: collectable_plant
+  m_Name: interact_collect_plant
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -318,6 +319,17 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: -3954915085197154340}
+        m_MethodName: OnExecute
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   _loadBar: {fileID: 6227705845685646520}
 --- !u!114 &1464196867322136082
 MonoBehaviour:
@@ -332,6 +344,51 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   item: {fileID: 11400000, guid: f1df2d399ac352949bd082f517873d91, type: 2}
+--- !u!114 &-3954915085197154340
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6227705847276008061}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1244458034cf97446ac19d4d075a2ac6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  distancetoInteract: 1
+  autoexecute: 0
+  pointToMessage: {fileID: 0}
+  feedback: []
+  _withDelay: 0
+  delayTime: 0
+  UE_OnEnter:
+    m_PersistentCalls:
+      m_Calls: []
+  UE_OnExit:
+    m_PersistentCalls:
+      m_Calls: []
+  mision:
+    id_mision: 0
+    info:
+      mision_name: 
+      description: 
+    data:
+      fasesToChange: []
+      completed: 0
+      isactive: 0
+      mision_item: []
+      regions_to_enable: []
+    rewarding:
+      items_rewarding: []
+  ID: 4
+  OnStartMision:
+    m_PersistentCalls:
+      m_Calls: []
+  OnEndMision:
+    m_PersistentCalls:
+      m_Calls: []
+  linker: {fileID: 0}
 --- !u!1 &7363406723308840993
 GameObject:
   m_ObjectHideFlags: 0
