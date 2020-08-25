@@ -40,14 +40,6 @@ public class DialogueManager : MonoBehaviour
 
     public void OnClose()
     {
-        if (tree.dialogueNodes[currentNode].fasesToChange.Count > 0)
-        {
-            for (int i = 0; i < tree.dialogueNodes[currentNode].fasesToChange.Count; i++)
-            {
-                ManagerGlobalFases.instance.ModifyFase(tree.dialogueNodes[currentNode].fasesToChange[i].IDFase, tree.dialogueNodes[currentNode].fasesToChange[i].IndexToChange);
-            }
-        }
-
         tree = null;
         currentdialogue = 0;
         currentNode = 0;
@@ -174,9 +166,6 @@ public class DialogueManager : MonoBehaviour
     {
         if (currentdialogue >= tree.dialogueNodes[currentNode].dialogues.Count - 1)//si es el dialogo final
         {
-            //esto va a volar
-            if (tree.dialogueNodes[currentNode].ID_Mision != -1) MisionManager.instancia.AddMision(MisionsDataBase.instance.GetMision(tree.dialogueNodes[currentNode].ID_Mision), EndMision);
-
             if (tree.dialogueNodes[currentNode].conected.Count > 0)//me fijo si tengo opciones
             {
                 for (int i = 0; i < tree.dialogueNodes[currentNode].conected.Count; i++)
