@@ -205,11 +205,13 @@ public class CharacterAttack
         if (buttonPressedTime < heavyAttackTime)
         {
             NormalAttack.Invoke();
+            data.SetDamageType(Damagetype.Normal);
             move.AttackMovement(4);
         }
         else
         {
             HeavyAttack.Invoke();
+            data.SetDamageType(Damagetype.Heavy);
             move.AttackMovement(10);
         }
         feedbacks.particles.feedbackHeavy.Stop();

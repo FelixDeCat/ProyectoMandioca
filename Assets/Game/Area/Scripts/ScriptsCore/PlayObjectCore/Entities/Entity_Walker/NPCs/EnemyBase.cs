@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 using System;
 
 public abstract class EnemyBase : NPCBase, ICombatDirector
@@ -20,6 +21,8 @@ public abstract class EnemyBase : NPCBase, ICombatDirector
 
     public abstract float ChangeSpeed(float newSpeed);
     protected bool IsAttack() => attacking;
+
+    public UnityEvent OnDeath;
 
     Action<EnemyBase> OnFinishFeedbackDeath;
     public void AddCallbackFinishFeedbackDeath(Action<EnemyBase> _callback) => OnFinishFeedbackDeath = _callback;
@@ -85,7 +88,7 @@ public abstract class EnemyBase : NPCBase, ICombatDirector
     protected abstract void OnReset();
 
     protected abstract void TakeDamageFeedback(DamageData data);
-    void Death(Vector3 dir) { Die(dir); ReturnToSpawner(); }
+    void Death(Vector3 dir) { Die(dir); ReturnToSpawner(); OnDeath?.Invoke(); }
     void FinishDeath() { 
         //OnFinishFeedbackDeath.Invoke(this);
         //OnFinishFeedbackDeath = delegate { };

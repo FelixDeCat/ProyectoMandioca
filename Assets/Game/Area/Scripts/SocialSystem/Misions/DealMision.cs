@@ -6,6 +6,7 @@ using UnityEngine.Events;
 public class DealMision : Interactable
 {
     public Mision mision;
+    public int ID;
 
     public UnityEvent OnStartMision;
     public UnityEvent OnEndMision;
@@ -19,16 +20,23 @@ public class DealMision : Interactable
     }
     public override void OnExecute(WalkingEntity collector) 
     {
-        if (MisionManager.instancia.AddMision(mision, EndMision))
-        {
-            OnStartMision.Invoke();
-            linker.BeginLink();
-        }
+        //if (MisionManager.instancia.AddMision(mision, EndMision))
+        //{
+        //    OnStartMision.Invoke();
+        //    linker.BeginLink();
+        //}
+
+        MisionManager.instancia.AddMision(MisionsDataBase.instance.GetMision(ID), EndMision);
+    }
+
+    public void OnExecute()
+    {
+        MisionManager.instancia.AddMision(MisionsDataBase.instance.GetMision(ID), EndMision);
     }
 
     void EndMision(Mision m)
     {
-        Debug.Log("endmision");
+        //Debug.Log("endmision");
         OnEndMision.Invoke();
     }
     public override void OnExit() 

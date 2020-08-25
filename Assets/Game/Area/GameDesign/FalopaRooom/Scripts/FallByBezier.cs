@@ -16,7 +16,6 @@ public class FallByBezier : MonoBehaviour
     public void FallOnHit()
     {
         StartCoroutine(Fall());
-
     }
 
     IEnumerator Fall()

@@ -73,7 +73,6 @@ public class DamageReceiver : MonoBehaviour
             InmuneFeedback();
             return Attack_Result.inmune;
         }
-
         if (invulnerability.Contains(data.damageType))
         {
             InmuneFeedback();

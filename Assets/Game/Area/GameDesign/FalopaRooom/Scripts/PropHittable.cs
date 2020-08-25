@@ -6,6 +6,7 @@ using UnityEngine.Events;
 [RequireComponent(typeof(DamageReceiver), typeof(_Base_Life_System))]
 public class PropHittable : Environment
 {
+    [SerializeField] bool isIndestructible = true;
     [SerializeField] UnityEvent OnTakeDamage = null;
 
     protected DamageReceiver damageReceiver = null;
@@ -24,7 +25,7 @@ public class PropHittable : Environment
 
         _lifeSytstem.Initialize(_lifeSytstem.life, () => { }, () => { }, () => { });
 
-        damageReceiver.ChangeIndestructibility(true);
+        damageReceiver.ChangeIndestructibility(isIndestructible);
         damageReceiver.Initialize(transform,
             () => { return false; },
             (x) => { },

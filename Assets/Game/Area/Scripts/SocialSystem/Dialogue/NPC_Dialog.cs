@@ -10,6 +10,7 @@ public class NPC_Dialog : Interactable
     public DialogueTree[] dialogues;
     public DialogueTree currentDialoge;
     public UnityEvent OnBeginMission;
+    public UnityEvent OnInteract;
 
     public bool useOneShot;
     bool oneshot = false;
@@ -34,6 +35,7 @@ public class NPC_Dialog : Interactable
             {
                 if (currentDialoge) DialogueManager.instance.StartDialogue(currentDialoge);
                 WorldItemInfo.instance.Hide();
+                OnInteract?.Invoke();
             }
             oneshot = true;
         }
@@ -41,6 +43,7 @@ public class NPC_Dialog : Interactable
         {
             if (currentDialoge) DialogueManager.instance.StartDialogue(currentDialoge);
             WorldItemInfo.instance.Hide();
+            OnInteract?.Invoke();
         }
 
         
