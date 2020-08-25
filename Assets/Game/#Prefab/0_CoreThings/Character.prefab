@@ -16015,7 +16015,7 @@ MonoBehaviour:
     dmg_heavy: 80
     attackRange: 3
     attackAngle: 90
-    heavyAttackTime: 1
+    heavyAttackTime: 1.2
     enemyLayer:
       serializedVersion: 2
       m_Bits: 1024
@@ -16024,9 +16024,11 @@ MonoBehaviour:
   attackRecall: 0.5
   dmgReceiver: {fileID: 5067431278247479333}
   timeToDownWeapons: 7
-  IsComboWomboActive: 0
+  IsComboWomboActive: 1
   combo_system:
     hitsNeededToCombo: 5
+    cdToAddHit: 0.4
+    timeToCombo: 3
   go_StunFeedback: {fileID: 7653911160009907935}
   currentWeapon: {fileID: 6557872238151913233}
   sensor: {fileID: 5509984382699915172}
@@ -16068,8 +16070,8 @@ MonoBehaviour:
       blockParticle: {fileID: 5729505282119117267}
       hitParticle: {fileID: 8435121996802986414}
     customCam: {fileID: 0}
-  _multiplierFallDMG: 5
-  _TimeToFallDamage: 1
+  _multiplierFallDMG: 2
+  _TimeToFallDamage: 2
   debug_options:
     txt_debug: {fileID: 981212012071996506}
 --- !u!114 &3403020175800544563

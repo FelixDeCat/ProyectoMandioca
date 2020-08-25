@@ -166,6 +166,7 @@ public class CharacterHead : CharacterControllable
         //COMBOWOMBO
         if(IsComboWomboActive)
             combo_system.AddCallback_OnComboready(ActiveCombo);
+        
         //COMBOWOMBO
 
         charAttack.Add_callback_Normal_attack(ReleaseInNormal);
@@ -221,6 +222,7 @@ public class CharacterHead : CharacterControllable
         stateMachine.Update();
         ChildrensUpdates();
         charAttack.Refresh();
+        combo_system.OnUpdate();
     }
 
     #region SET STATES
@@ -654,12 +656,13 @@ public class CharacterHead : CharacterControllable
         Main.instance.Vibrate(0.7f, 0.1f);
         Main.instance.CameraShake();
 
-        if (canAddComboHit)
-        {
-            canAddComboHit = false;
-            combo_system.AddHit();
-            StartCoroutine(CDToAddComboHit());
-        } 
+            if (canAddComboHit)
+            {               
+                canAddComboHit = false;
+                combo_system.AddHit();
+                StartCoroutine(CDToAddComboHit());
+            }
+      
     }
     void DealSucessfullHeavy()
     {
@@ -698,8 +701,14 @@ public class CharacterHead : CharacterControllable
 
     IEnumerator CDToAddComboHit()
     {
-        yield return new WaitForSeconds(.6f);
+        yield return new WaitForSeconds(combo_system.cdToAddHit);
         canAddComboHit = true;
+    }
+
+    IEnumerator ComboDurationAvaliableProc()
+    {
+        yield return new WaitForSeconds(combo_system.timeToCombo);
+        ResetCombo();
     }
     #endregion
     void ReleaseInNormal()
@@ -707,7 +716,7 @@ public class CharacterHead : CharacterControllable
         ChangeDamageAttack((int)charAttack.Dmg_normal);
         ChangeAngleAttack(charAttack.AttackAngle);
         ChangeRangeAttack(charAttack.AttackRange);
-        charanim.NormalAttack();
+        charanim.NormalAttack();       
     }
 
     bool isHeavyRelease;
