@@ -28,6 +28,8 @@ public class UI_DialogueManager : UI_Base
         buttonNext.gameObject.SetActive(true);
         buttonExit.gameObject.SetActive(true);
 
+        textAnim = GetComponentInChildren<TextAnimCharXChar>();
+
         buttonNext.onClick.AddListener(OnNextCallback.Invoke);
         buttonExit.onClick.AddListener(OnExitCallback.Invoke);
         for (int i = 0; i < buttonOptions.Length; i++)
@@ -53,6 +55,9 @@ public class UI_DialogueManager : UI_Base
     public void SetDialogue(string s, Action OnFinishCarret, bool force = false)
     {
         ShutDownOptions();
+
+        Debug.Log("El texto es: " + s);
+        Debug.Log("finish carret es: " + OnFinishCarret == null ? "null" : "no null");
 
         if (force)
         {
