@@ -11,6 +11,11 @@ public class ComboWomboSystem
 
     int hitCount;
     public int hitsNeededToCombo;
+    public float cdToAddHit;
+    public float timeToCombo;
+
+    float _count;
+    bool comboRunning;
 
     public void AddCallback_OnComboready(Action callback) => OnComboReady += callback;
     public void RemoveCallback_OnComboready(Action callback) => OnComboReady -= callback;
@@ -20,9 +25,28 @@ public class ComboWomboSystem
         hitsNeededToCombo = hitsNeeded;
     }
 
+    public void OnUpdate()
+    {
+        if(comboRunning)
+        {
+            _count += Time.deltaTime;
+           
+            if (_count >= timeToCombo)
+            {
+                Debug.Log("Clear combo");
+                ClearCombo();
+            }
+        }
+        
+    }
+
     public void AddHit()
     {
         hitCount++;
+        comboRunning = true;
+        _count = 0;
+        if (hitCount >= hitsNeededToCombo)
+            hitCount = hitsNeededToCombo;
 
         if(ComboReady())
         {
@@ -39,6 +63,8 @@ public class ComboWomboSystem
     void ClearCombo()
     {
         hitCount = 0;
+        _count = 0;
+        comboRunning = false;
     }
 
     
