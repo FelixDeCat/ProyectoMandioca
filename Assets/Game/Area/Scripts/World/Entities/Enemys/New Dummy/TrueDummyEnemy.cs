@@ -266,7 +266,16 @@ public class TrueDummyEnemy : EnemyBase
     #endregion
 
     protected override void OnFixedUpdate() { }
-    protected override void OnTurnOff() { sm.SendInput(DummyEnemyInputs.DISABLE); }
+    protected override void OnTurnOff()
+    {
+        sm.SendInput(DummyEnemyInputs.DISABLE);
+        if (combat)
+        {
+            director.DeadEntity(this, entityTarget);
+            entityTarget = null;
+            combat = false;
+        }
+    }
     protected override void OnTurnOn() { sm.SendInput(DummyEnemyInputs.IDLE); }
 
     #region STATE MACHINE THINGS

@@ -281,7 +281,16 @@ public class MandragoraEnemy : EnemyBase
     #endregion
 
     protected override void OnFixedUpdate() { }
-    protected override void OnTurnOff() { sm.SendInput(MandragoraInputs.DISABLE); }
+    protected override void OnTurnOff()
+    {
+        sm.SendInput(MandragoraInputs.DISABLE);
+        if (combat)
+        {
+            director.DeadEntity(this, entityTarget);
+            entityTarget = null;
+            combat = false;
+        }
+    }
     protected override void OnTurnOn() { sm.SendInput(MandragoraInputs.IDLE); }
 
     #region STATE MACHINE THINGS
