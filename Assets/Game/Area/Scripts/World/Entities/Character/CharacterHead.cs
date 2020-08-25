@@ -11,9 +11,9 @@ using UnityEditorInternal;
 
 public class CharacterHead : CharacterControllable
 {
-    public enum PlayerInputs { 
-        IDLE, MOVE, BEGIN_BLOCK, BLOCK, END_BLOCK, PARRY, CHARGE_ATTACK, RELEASE_ATTACK, 
-        TAKE_DAMAGE, DEAD, ROLL, SPIN, STUN, PLAYER_LOCK_ON, ON_SKILL,ON_LOOK_SHOLDER,
+    public enum PlayerInputs {
+        IDLE, MOVE, BEGIN_BLOCK, BLOCK, END_BLOCK, PARRY, CHARGE_ATTACK, RELEASE_ATTACK,
+        TAKE_DAMAGE, DEAD, ROLL, SPIN, STUN, PLAYER_LOCK_ON, ON_SKILL, ON_LOOK_SHOLDER,
         ON_MENU_ENTER, ON_MENU_EXIT
     };
 
@@ -62,6 +62,9 @@ public class CharacterHead : CharacterControllable
     [SerializeField] DamageReceiver dmgReceiver = null;
     CustomCamera customCam;
     [SerializeField] float timeToDownWeapons = 5;
+    public bool IsComboWomboActive;
+    [SerializeField] ComboWomboSystem combo_system = new ComboWomboSystem();
+
 
     [SerializeField] GameObject go_StunFeedback = null;
     float spinDuration;
@@ -158,6 +161,11 @@ public class CharacterHead : CharacterControllable
             .SetFeedbacks(feedbacks)
             .SetForward(rot)
             .Initialize(this);
+
+        //COMBOWOMBO
+        if(IsComboWomboActive)
+            combo_system.AddCallback_OnComboready(ActiveCombo);
+        //COMBOWOMBO
 
         charAttack.Add_callback_Normal_attack(ReleaseInNormal);
         charAttack.Add_callback_Heavy_attack(ReleaseInHeavy);
@@ -644,6 +652,9 @@ public class CharacterHead : CharacterControllable
         //Main.instance.GetTimeManager().DoHitStop();
         Main.instance.Vibrate(0.7f, 0.1f);
         Main.instance.CameraShake();
+
+
+        combo_system.AddHit();
     }
     void DealSucessfullHeavy()
     {
@@ -668,6 +679,17 @@ public class CharacterHead : CharacterControllable
     {
         Main.instance.CameraShake();
     }
+
+    void ActiveCombo()
+    {
+        feedbacks.particles.HeavyLoaded.Play();
+        charAttack.ChangeHeavyAttackTime(0.1f);
+    }
+
+    void ResetCombo()
+    {
+        charAttack.ResetHeavyAttackTime();
+    }
     #endregion
     void ReleaseInNormal()
     {
@@ -686,6 +708,7 @@ public class CharacterHead : CharacterControllable
         ChangeRangeAttack(charAttack.AttackRange + 1);
         charanim.HeavyAttack();
         Debug.Log("IsHeavyAttacking");
+        ResetCombo();
     }
     void ChangeHeavy(bool y) { isHeavyRelease = y; }
 

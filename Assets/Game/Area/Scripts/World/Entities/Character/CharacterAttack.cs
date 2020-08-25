@@ -25,6 +25,7 @@ public class CharacterAttack
 
     float buttonPressedTime;
     float currentDamage;
+    float currentHeavyAttackTime;
 
     CharacterAnimator anim;
 
@@ -64,6 +65,7 @@ public class CharacterAttack
         myWeapons.Add(new GenericSword(damage, attackRange, "Generic Sword", attackAngle, data).ConfigureCallback(CALLBACK_DealDamage));
         currentWeapon = myWeapons[0];
         currentDamage = currentWeapon.baseDamage;
+        currentHeavyAttackTime = heavyAttackTime;
 
         return this;
     }
@@ -77,7 +79,9 @@ public class CharacterAttack
     public void Add_callback_Heavy_attack(Action callback) { HeavyAttack += callback; }
     public void Remove_callback_Normal_attack(Action callback) { NormalAttack -= callback; }
     public void Remove_callback_Heavy_attack(Action callback) { HeavyAttack -= callback; }
-    
+
+    public void ChangeHeavyAttackTime(float newTime) => currentHeavyAttackTime = newTime; 
+
     public string ChangeName() => currentWeapon.weaponName;
     public void ChangeDamageBase(int dmg) => currentDamage = dmg;
     public void BuffOrNerfDamage(float f) => currentDamage += f;
@@ -105,7 +109,7 @@ public class CharacterAttack
         {
             buttonPressedTime += Time.deltaTime;
 
-            if (buttonPressedTime >= heavyAttackTime)
+            if (buttonPressedTime >= currentHeavyAttackTime)
             {
                 if (!oneshot)
                 {
@@ -115,6 +119,11 @@ public class CharacterAttack
                 }
             }
         }
+    }
+
+    public void ResetHeavyAttackTime()
+    {
+        currentHeavyAttackTime = heavyAttackTime;
     }
 
     public bool ExecuteBashDash()
@@ -202,7 +211,7 @@ public class CharacterAttack
         inCheck = false;
 
 
-        if (buttonPressedTime < heavyAttackTime)
+        if (buttonPressedTime < currentHeavyAttackTime)
         {
             NormalAttack.Invoke();
             data.SetDamageType(Damagetype.Normal);

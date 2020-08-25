@@ -22,8 +22,6 @@ public class PropDestructible : BaseDestructible
 
     protected override void OnDestroyDestructible()
     {
-        Debug.Log("asdasdsa");
-
         if (savedDestroyedVersion)
         {
             savedDestroyedVersion.gameObject.SetActive(true);
