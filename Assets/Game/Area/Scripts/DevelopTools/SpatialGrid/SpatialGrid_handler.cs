@@ -8,7 +8,6 @@ public class SpatialGrid_handler : MonoBehaviour
 {
     public static SpatialGrid_handler instance;
     private SpatialGrid _grid;
-    private CharacterHead _hero;
 
     public float width = 15f;
     public float height = 30f;
@@ -27,7 +26,6 @@ public class SpatialGrid_handler : MonoBehaviour
     public void SetCurrentSpatial(SpatialGrid _current)
     {
         _grid = _current;
-        _hero = Main.instance.GetChar();
         StartCoroutine(CheckGrid());
     }
 
@@ -48,7 +46,7 @@ public class SpatialGrid_handler : MonoBehaviour
         {
             if (Application.isPlaying)
             {
-                selected = Query(_hero);
+                selected = Query(Main.instance.GetChar());
                 var temp = FindObjectsOfType<GridEntity>().Where(x=>!selected.Contains(x));
                 foreach (var item in temp)
                 {
@@ -57,7 +55,6 @@ public class SpatialGrid_handler : MonoBehaviour
                         item.Initialize();
                         item.Off();
                     }
-                    item.onGrid = false;
                 }
                 foreach (var item in selected)
                 {
@@ -66,8 +63,6 @@ public class SpatialGrid_handler : MonoBehaviour
                         item.Initialize();
                         item.On();
                     }
-                
-                    item.onGrid = true;
                 }
             }  
             yield return new WaitForSeconds(.2f);
@@ -92,12 +87,12 @@ public class SpatialGrid_handler : MonoBehaviour
 
     void OnDrawGizmos()
     {
-        if (_grid == null || _hero == null)
+        if (_grid == null || Main.instance.GetChar() == null)
             return;
 
         //Flatten the sphere we're going to draw
         Gizmos.color = Color.cyan;
-        Gizmos.DrawWireCube(_hero.transform.position, new Vector3(width, 0, height));
+        Gizmos.DrawWireCube(Main.instance.GetChar().transform.position, new Vector3(width, 0, height));
     }
     
     

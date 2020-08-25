@@ -35,6 +35,9 @@ public class ABossGenericClean : EnemyBase
             rb,
             TakeDamageFeedback,
             DeathVector);
+
+        //quitar esto de aca... cuando tenga la grilla esto tiene que volar
+        sensors_and_behaviours.Sensor.StartSensors();
     }
 
     protected override void OnTurnOff() 

@@ -90,7 +90,7 @@ GameObject:
   - component: {fileID: 7384994373284001984}
   - component: {fileID: 7253753330908280916}
   m_Layer: 17
-  m_Name: Carnivorous Plant
+  m_Name: enemy_static_Carnivorous Plant
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -127,7 +127,6 @@ MonoBehaviour:
   poolname: 
   character: {fileID: 0}
   attractionForce: 9
-  plant: {fileID: 3640139172418237637}
   centerPoint: {fileID: 5638167172917921641}
   mode: 5
   damageReceiver: {fileID: 6803443857249916529}
@@ -207,7 +206,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 172985c39e39d4596bf38b7def010e52, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  onGrid: 0
+  myPlayObjects: []
+  debug: 1
+  acty: 0
 --- !u!1001 &5199149664008546764
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -317,12 +318,6 @@ Transform:
 --- !u!95 &7194394978693361580 stripped
 Animator:
   m_CorrespondingSourceObject: {fileID: -6057140222963153312, guid: fa38a81737aa15a4cb2f3974dd4d69b0,
-    type: 3}
-  m_PrefabInstance: {fileID: 5199149664008546764}
-  m_PrefabAsset: {fileID: 0}
---- !u!137 &3640139172418237637 stripped
-SkinnedMeshRenderer:
-  m_CorrespondingSourceObject: {fileID: -386385599261893367, guid: fa38a81737aa15a4cb2f3974dd4d69b0,
     type: 3}
   m_PrefabInstance: {fileID: 5199149664008546764}
   m_PrefabAsset: {fileID: 0}

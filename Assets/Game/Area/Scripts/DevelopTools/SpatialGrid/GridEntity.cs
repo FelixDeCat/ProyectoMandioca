@@ -40,8 +40,6 @@ public class GridEntity : MonoBehaviour
             myPlayObjects[i].Off();
         }
     }
-    public bool onGrid;
-
 
     private void OnDrawGizmos()
     {
