@@ -174,6 +174,7 @@ public class DialogueManager : MonoBehaviour
     {
         if (currentdialogue >= tree.dialogueNodes[currentNode].dialogues.Count - 1)//si es el dialogo final
         {
+            //esto va a volar
             if (tree.dialogueNodes[currentNode].ID_Mision != -1) MisionManager.instancia.AddMision(MisionsDataBase.instance.GetMision(tree.dialogueNodes[currentNode].ID_Mision), EndMision);
 
             if (tree.dialogueNodes[currentNode].conected.Count > 0)//me fijo si tengo opciones
