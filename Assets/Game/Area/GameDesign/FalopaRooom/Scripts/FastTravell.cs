@@ -6,7 +6,6 @@ public class FastTravell : MonoBehaviour
 {
     [SerializeField]CustomCamera _myCamera = null;
      public Transform _myTransform;
-    [SerializeField] Transform _originalTransform = null;
     bool _inFastTravell;
     [SerializeField] float _speedOfTravell = 2;
     [SerializeField] LayerMask _mask = 0;

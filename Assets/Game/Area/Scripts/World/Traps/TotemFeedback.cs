@@ -6,14 +6,14 @@ using System;
 [Serializable]
 public class TotemFeedback
 {
-    [SerializeField] ParticleSystem goToPos;
+    [SerializeField] ParticleSystem goToPos = null;
     [SerializeField] float timeToGoPos = 1f;
 
-    [SerializeField] ParticleSystem chargeParticle;
+    [SerializeField] ParticleSystem chargeParticle = null;
     ParticleSystem chargeParticleTemp;
     [SerializeField, Range(0, 1)] float percentToAppear = 0.5f;
 
-    [SerializeField] Transform startPos;
+    [SerializeField] Transform startPos = null;
 
     Func<IEnumerator, Coroutine> StartCoroutine;
     Action<IEnumerator> StopCoroutine;

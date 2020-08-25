@@ -10,7 +10,7 @@ public class FallByBezier : MonoBehaviour
     [Range(1,100)]
     [SerializeField] float fallSpeed = 10;
 
-    [SerializeField] GameObject objToFall;
+    [SerializeField] GameObject objToFall = null;
 
 
     public void FallOnHit()

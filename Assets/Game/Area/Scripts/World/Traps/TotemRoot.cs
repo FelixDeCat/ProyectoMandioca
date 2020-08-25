@@ -4,12 +4,12 @@ using UnityEngine;
 
 public class TotemRoot : Totem
 {
-    [SerializeField] private float range;
+    [SerializeField] private float range = 20;
 
-    [SerializeField] private float effectDuration;
+    [SerializeField] private float effectDuration = 10;
 
-    [SerializeField] ParticleSystem onRootParticles;
-    [SerializeField] CombatArea spawneablePosition;
+    [SerializeField] ParticleSystem onRootParticles = null;
+    [SerializeField] CombatArea spawneablePosition = null;
     [SerializeField] EffectName effectOwner = EffectName.OnRoot;
 
     CharacterHead myChar;

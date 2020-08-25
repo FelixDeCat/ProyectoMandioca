@@ -6,9 +6,9 @@ using System;
 [System.Serializable]
 public class ItemMision 
 {
-    [SerializeField] protected bool iscompleted;
-    [SerializeField] private byte currentvalue;
-    [SerializeField] private byte maxvalue;
+    [SerializeField] protected bool iscompleted = false;
+    [SerializeField] private byte currentvalue = 1;
+    [SerializeField] private byte maxvalue = 1;
 
     public enum ItemType { one_objective_Bool, multiple_int }
     public ItemType itemType;

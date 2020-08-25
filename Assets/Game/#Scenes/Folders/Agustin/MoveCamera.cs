@@ -9,8 +9,6 @@ public class MoveCamera : MonoBehaviour
     public CharacterHead myPlayer;
     public Transform look;
     
-    bool frontCam = true;
-    int currentPoint = 0;
     public float sliderTime = 1;
 
     void Start()

@@ -20,7 +20,7 @@ public class CharacterHead : CharacterControllable
     Action ChildrensUpdates;
     [SerializeField] CharacterInput _charInput = null;
 
-    [SerializeField] bool StartWithoutWeapons;
+    [SerializeField] bool StartWithoutWeapons = false;
 
     [Header("Dash Options")]
     [SerializeField] float teleportCD = 2;
@@ -57,7 +57,7 @@ public class CharacterHead : CharacterControllable
     public CharacterAnimator charanim;
 
     [Header("Attack Options")]
-    [SerializeField] CharacterAttack charAttack;
+    [SerializeField] CharacterAttack charAttack = new CharacterAttack();
     [SerializeField] float attackRecall = 1;
     [SerializeField] DamageReceiver dmgReceiver = null;
     CustomCamera customCam;
@@ -107,8 +107,8 @@ public class CharacterHead : CharacterControllable
     [HideInInspector] private bool canAttack = false; 
     public void ToggleAttack(bool val) => canAttack = val;
     [Header("Falling damage Options")]
-    [SerializeField] float _multiplierFallDMG;
-    [SerializeField] float _TimeToFallDamage;
+    [SerializeField] float _multiplierFallDMG = 2;
+    [SerializeField] float _TimeToFallDamage = 5;
 
 
     private void Start()

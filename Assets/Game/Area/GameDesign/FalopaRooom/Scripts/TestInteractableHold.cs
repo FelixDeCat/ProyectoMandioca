@@ -6,9 +6,9 @@ using UnityEngine.UI;
 
 public class TestInteractableHold : Interactable
 {
-    [SerializeField] UnityEvent execute;
+    [SerializeField] UnityEvent execute = null;
 
-    [SerializeField] Image _loadBar;
+    [SerializeField] Image _loadBar = null;
     private void Start()
     {
         _executeAction += DestroyGameObject;

@@ -10,7 +10,7 @@ public class CameraRotate : MonoBehaviour
     [SerializeField] bool UseBezier = false;
     [SerializeField] bool IgnoreCollisionsBezier = true;
 
-    [SerializeField] public List<BezierPoint> bezierPoints;
+    [SerializeField] public List<BezierPoint> bezierPoints = new List<BezierPoint>();
     [SerializeField] float sliderTime = 1;
 
     //[SerializeField] float _speedToReturn;
@@ -18,29 +18,29 @@ public class CameraRotate : MonoBehaviour
     [SerializeField] float minDistance = 2.5f;
 
     [Header("Horizontal")]
-    [SerializeField] GameObject rotatorX;
-    [SerializeField] float sensitivityHorizontal;
+    [SerializeField] GameObject rotatorX = null;
+    [SerializeField] float sensitivityHorizontal = 0.5f;
 
     float _distance;
     CharacterHead myChar;
 
-    [SerializeField] LayerMask _mask;
+    [SerializeField] LayerMask _mask = 0<<21;
     public bool colliding;
     float raycastDist;
 
     [Header("Vertical")]
-    [SerializeField] float sensitivityVertical;
-    [SerializeField] float clampYUp;
-    [SerializeField] float clampYDown;
+    [SerializeField] float sensitivityVertical = 0.5f;
+    [SerializeField] float clampYUp = 0.1f;
+    [SerializeField] float clampYDown = 0;
     Vector3 initialVector;
 
     [Header("DebugOptions")]
-    [SerializeField] float minHorSens;
-    [SerializeField] float maxHorSens;
-    [SerializeField] float minVertSens;
-    [SerializeField] float maxVertSens;
+    [SerializeField] float minHorSens = 80;
+    [SerializeField] float maxHorSens = 90;
+    [SerializeField] float minVertSens = 20;
+    [SerializeField] float maxVertSens = 10;
 
-    [SerializeField] Transform camConfig;
+    [SerializeField] Transform camConfig = null;
 
     Vector3 offsetVec = new Vector3(0, 1f, 0);
 

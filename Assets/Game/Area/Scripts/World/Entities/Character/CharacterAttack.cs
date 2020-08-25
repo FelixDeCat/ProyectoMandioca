@@ -13,8 +13,8 @@ public class CharacterAttack
     [SerializeField] float attackRange = 3;
     [SerializeField] float attackAngle = 90;
     [SerializeField] float heavyAttackTime = 1f;
-    [SerializeField] LayerMask enemyLayer;
-    [SerializeField] DamageData data;
+    [SerializeField] LayerMask enemyLayer = 1 << 10;
+    [SerializeField] DamageData data = null;
 
     public float Dmg_normal { get => dmg_normal; }
     public float Dmg_Heavy { get => dmg_heavy; }

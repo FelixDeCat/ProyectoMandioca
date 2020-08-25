@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class LocalGlobalFase : MonoBehaviour
 {
-    [SerializeField] int ID;
+    [SerializeField] int ID = 0;
     public int CurrentID { get => ID; }
 
     int currentfase = 0;

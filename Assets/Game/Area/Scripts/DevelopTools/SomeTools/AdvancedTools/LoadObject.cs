@@ -6,7 +6,7 @@ using System;
 public class LoadObject : MonoBehaviour
 {
     Action endload;
-    [SerializeField] string prefabname;
+    [SerializeField] string prefabname = "asd";
 
     GameObject go;
 

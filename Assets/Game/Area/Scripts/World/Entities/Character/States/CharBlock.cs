@@ -4,8 +4,8 @@ namespace Tools.StateMachine
 {
     public class CharBlock : CharacterStates
     {
-        float _speedPenalty = .75f;
-        private float initSpeed;
+        ////float _speedPenalty = .75f;
+        //private float initSpeed;
 
         public CharBlock(EState<CharacterHead.PlayerInputs> myState, EventStateMachine<CharacterHead.PlayerInputs> _sm) : base(myState, _sm)
         {
@@ -59,9 +59,9 @@ namespace Tools.StateMachine
             //ResetSpeed();
         }
         
-        void ResetSpeed()
-        {
-            charMove.SetSpeed(initSpeed);
-        }
+        //void ResetSpeed()
+        //{
+        //    charMove.SetSpeed(initSpeed);
+        //}
     }
 }

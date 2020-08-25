@@ -27,7 +27,9 @@ public class LocalScene : SceneMainBase //  --->>  / SceneMainBase > PlayableSce
     }
 
     //para los events de Fade... esto no me convence mucho que este aca... tal vez haga un component para Fade
+    [System.Obsolete("luego se va a armar un handler para fades, esto tiene que estar en un component")]
     protected override void OnFade_GoBlack() { }
+    [System.Obsolete("luego se va a armar un handler para fades, esto tiene que estar en un component")]
     protected override void OnFade_GoTransparent() { }
 
 

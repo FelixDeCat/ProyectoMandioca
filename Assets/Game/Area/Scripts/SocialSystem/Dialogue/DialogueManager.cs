@@ -7,7 +7,7 @@ public class DialogueManager : MonoBehaviour
 {
     public static DialogueManager instance;
 
-    [SerializeField] UI_DialogueManager frontend;
+    [SerializeField] UI_DialogueManager frontend = null;
 
     DialogueTree tree;
     int currentNode = 0;
@@ -163,7 +163,7 @@ public class DialogueManager : MonoBehaviour
 
     public void ForceCarret()
     {
-        if (frontend.animation.inAnimation)
+        if (frontend.textAnim.inAnimation)
         {
             Debug.Log("entra a force");
             frontend.SetDialogue(tree.dialogueNodes[currentNode].dialogues[currentdialogue], OnTextFinishCarret, true);

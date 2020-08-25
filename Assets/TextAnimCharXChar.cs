@@ -7,7 +7,7 @@ using System;
 
 public class TextAnimCharXChar : MonoBehaviour
 {
-    [SerializeField] TextMeshProUGUI txtmesh;
+    [SerializeField] TextMeshProUGUI txtmesh = null;
     float timeSpacing = 0.1f;
     char[] completeText = new char[0];
     Action EndAnimationCallback = delegate { };

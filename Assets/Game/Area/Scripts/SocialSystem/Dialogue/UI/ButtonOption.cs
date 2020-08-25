@@ -7,10 +7,10 @@ using TMPro;
 
 public class ButtonOption : MonoBehaviour
 {
-    [SerializeField] public Button button;
+    [SerializeField] public Button button = null;
     Action<int> callbackSendInput;
    // [SerializeField] TextMeshProUGUI txt_number;
-    [SerializeField] TextMeshProUGUI txt_option;
+    [SerializeField] TextMeshProUGUI txt_option = null;
 
     int index;
     public int Index { set => index = value; }
