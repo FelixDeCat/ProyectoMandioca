@@ -15,8 +15,8 @@ namespace Tools.StateMachine
         {
             charBlock.SetOnBlock(true);
             
-            initSpeed = charMove.GetDefaultSpeed;
-            charMove.SetSpeed(charMove.GetDefaultSpeed * _speedPenalty);
+            //initSpeed = charMove.GetDefaultSpeed;
+            //charMove.SetSpeed(charMove.GetDefaultSpeed * _speedPenalty);
 
             //if (_myLockOn.isLockOn())
             //{
@@ -37,8 +37,11 @@ namespace Tools.StateMachine
 
         protected override void Update()
         {
-            charMove.MovementHorizontal(LeftHorizontal() * _speedPenalty);
-            charMove.MovementVertical(LeftVertical() * _speedPenalty);
+            //charMove.MovementHorizontal(LeftHorizontal() * _speedPenalty);
+            //charMove.MovementVertical(LeftVertical() * _speedPenalty);
+
+            charMove.RotateHorizontal(LeftHorizontal());
+            charMove.RotateVertical(LeftVertical());
         }
 
         protected override void FixedUpdate()
@@ -53,7 +56,7 @@ namespace Tools.StateMachine
 
         protected override void Exit(CharacterHead.PlayerInputs input)
         {
-            ResetSpeed();
+            //ResetSpeed();
         }
         
         void ResetSpeed()

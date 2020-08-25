@@ -362,6 +362,7 @@ public class CharacterMovement
     {
         currentCD = dashCd;
         OnEndRollFeedback_Callback.Invoke();
+        anim.Dash(false);
         InDash = false;
         _rb.velocity = Vector3.zero;
         timerDash = 0;
@@ -425,7 +426,7 @@ public class CharacterMovement
         }
         #endregion
 
-        anim.Dash();
+        anim.Dash(true);
 
         //feedback... luego ponerselo a un ANIM EVENT para que suene cuando tocas el suelo
         feedbacks.sounds.Play_Dash();

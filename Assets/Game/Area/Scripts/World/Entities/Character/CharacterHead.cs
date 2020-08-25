@@ -405,7 +405,7 @@ public class CharacterHead : CharacterControllable
             .SetLeftAxis(GetLeftHorizontal, GetLeftVertical)
             .SetBlock(charBlock);
 
-        new CharBashDash(bashDash, stateMachine).SetMovement(this.move).SetAttack(charAttack);
+        new CharBashDash(bashDash, stateMachine, ChangeAttack, charanim).SetMovement(this.move).SetAttack(charAttack).SetBlock(charBlock);
 
         new CharParry(parry, stateMachine, parryRecall, ChangeAttack)
             .SetMovement(this.move)

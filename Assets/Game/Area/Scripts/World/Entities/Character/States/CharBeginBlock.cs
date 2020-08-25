@@ -17,14 +17,19 @@ namespace Tools.StateMachine
         protected override void Enter(EState<CharacterHead.PlayerInputs> input)
         {
             charBlock.callback_OnBlock();
-            initSpeed = charMove.GetDefaultSpeed;
-            charMove.SetSpeed(charMove.GetDefaultSpeed * .5f);
+            charMove.MovementHorizontal(0);
+            charMove.MovementVertical(0);
+            //initSpeed = charMove.GetDefaultSpeed;
+            //charMove.SetSpeed(charMove.GetDefaultSpeed * .5f);
         }
 
         protected override void Update()
         {
-            charMove.MovementHorizontal(LeftHorizontal());
-            charMove.MovementVertical(LeftVertical());
+            //charMove.MovementHorizontal(LeftHorizontal());
+            //charMove.MovementVertical(LeftVertical());
+
+            charMove.RotateHorizontal(LeftHorizontal());
+            charMove.RotateVertical(LeftVertical());
 
             ChangeAttacking?.Invoke(true);
             
@@ -55,12 +60,12 @@ namespace Tools.StateMachine
             else
                 charBlock.OnBlockSuccessful();
             
-            ResetSpeed();
+            //ResetSpeed();
         }
 
-        void ResetSpeed()
-        {
-            charMove.SetSpeed(initSpeed);
-        }
+        //void ResetSpeed()
+        //{
+        //    charMove.SetSpeed(initSpeed);
+        //}
     }
 }

@@ -53,7 +53,6 @@ public class CharacterAttack
 
     HitStore hitstore;
     CharFeedbacks feedbacks;
-    LayerMask enemyMask;
     CharacterMovement move;
    
     public CharacterAttack Initialize(EntityBase entity)
@@ -123,21 +122,19 @@ public class CharacterAttack
         RaycastHit hit;
         bool inHit = false;
 
-        if(Physics.Raycast(forwardPos.position + Vector3.up, forwardPos.forward, out hit,2, enemyMask))
+        if(Physics.Raycast(forwardPos.position + Vector3.up, forwardPos.forward, out hit, 2, enemyLayer))
         {
-            Debug.Log("stuneado");
             hit.collider.GetComponent<EffectReceiver>()?.TakeEffect(EffectName.OnPetrify, 1.5f);
             inHit = true;
         }
 
-        if (Physics.Raycast(forwardPos.position + Vector3.up, forwardPos.forward + forwardPos.right, out hit, 2, enemyMask))
+        if (Physics.Raycast(forwardPos.position + Vector3.up, forwardPos.forward + forwardPos.right, out hit, 2, enemyLayer))
         {
-            Debug.Log("stuneado");
             hit.collider.GetComponent<EffectReceiver>()?.TakeEffect(EffectName.OnPetrify, 1.5f);
             inHit = true;
         }
 
-        if (Physics.Raycast(forwardPos.position + Vector3.up, forwardPos.forward - forwardPos.right, out hit, 2, enemyMask))
+        if (Physics.Raycast(forwardPos.position + Vector3.up, forwardPos.forward - forwardPos.right, out hit, 2, enemyLayer))
         {
             hit.collider.GetComponent<EffectReceiver>()?.TakeEffect(EffectName.OnPetrify, 1.5f);
             inHit = true;
@@ -269,8 +266,6 @@ public class CharacterAttack
         }
     }
     #endregion
-
-    
 
     //estos callbacks creo que estan solo funcionando para lo de obligacion...
     //hay que unificar las cosas

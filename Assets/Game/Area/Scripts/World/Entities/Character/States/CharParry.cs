@@ -20,7 +20,6 @@ namespace Tools.StateMachine
             charMove.MovementHorizontal(0);
             charMove.MovementVertical(0);
             charBlock.callback_OnParry();
-            Debug.Log("parriadisimo men");
         }
 
         protected override void Update()
@@ -42,7 +41,6 @@ namespace Tools.StateMachine
 
         protected override void Exit(CharacterHead.PlayerInputs input)
         {
-            Debug.Log("no sé men");
             timer = 0;
             charBlock.callback_UpBlock();
             ChangeAttacking?.Invoke(false);

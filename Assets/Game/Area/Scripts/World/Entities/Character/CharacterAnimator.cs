@@ -9,7 +9,7 @@ public class CharacterAnimator : BaseAnimator
         myAnim.SetFloat("moveY", dirY);
     }
 
-    public void Dash() => myAnim.SetTrigger("Dash");
+    public void Dash(bool b) => myAnim.SetBool("Dash", b);
     public void CatchProp() => myAnim.SetTrigger("catchProp");
     public void SetVerticalRoll(float x) => myAnim.SetFloat("dirX", x);
     public void SetHorizontalRoll(float y) => myAnim.SetFloat("dirY", y);
