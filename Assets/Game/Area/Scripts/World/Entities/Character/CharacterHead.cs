@@ -63,6 +63,7 @@ public class CharacterHead : CharacterControllable
     CustomCamera customCam;
     [SerializeField] float timeToDownWeapons = 5;
     public bool IsComboWomboActive;
+    bool canAddComboHit = true;
     [SerializeField] ComboWomboSystem combo_system = new ComboWomboSystem();
 
 
@@ -653,8 +654,12 @@ public class CharacterHead : CharacterControllable
         Main.instance.Vibrate(0.7f, 0.1f);
         Main.instance.CameraShake();
 
-
-        combo_system.AddHit();
+        if (canAddComboHit)
+        {
+            canAddComboHit = false;
+            combo_system.AddHit();
+            StartCoroutine(CDToAddComboHit());
+        } 
     }
     void DealSucessfullHeavy()
     {
@@ -683,12 +688,18 @@ public class CharacterHead : CharacterControllable
     void ActiveCombo()
     {
         feedbacks.particles.HeavyLoaded.Play();
-        charAttack.ChangeHeavyAttackTime(0.1f);
+        charAttack.ChangeHeavyAttackTime(0f);
     }
 
     void ResetCombo()
     {
         charAttack.ResetHeavyAttackTime();
+    }
+
+    IEnumerator CDToAddComboHit()
+    {
+        yield return new WaitForSeconds(.6f);
+        canAddComboHit = true;
     }
     #endregion
     void ReleaseInNormal()
