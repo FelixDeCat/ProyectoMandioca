@@ -6,8 +6,8 @@ public class DamageFloor : PlayObject
 {
     DamageData dmgDATA;
 
-    [SerializeField] ParticleSystem telegraphAttack;
-    [SerializeField] ParticleSystem fireAttack;
+    [SerializeField] ParticleSystem telegraphAttack = null;
+    [SerializeField] ParticleSystem fireAttack = null;
 
     void Start()
     {

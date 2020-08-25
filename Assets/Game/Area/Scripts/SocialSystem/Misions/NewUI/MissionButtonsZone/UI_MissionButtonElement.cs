@@ -16,7 +16,7 @@ using UnityEngine.EventSystems;
 ///////////////////////////////////////////////////////////////////////////////////////
 public class UI_MissionButtonElement : MonoBehaviour, ISelectHandler, IPointerDownHandler
 {
-    [SerializeField] Text title;
+    [SerializeField] Text title = null;
     Action<int> callbackselected;
     int misionID;
     

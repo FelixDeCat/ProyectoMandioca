@@ -11,7 +11,7 @@ public class UI_DialogueManager : UI_Base
     public GameObject[] buttonOptionsGos;
     public ButtonOption[] buttonOptions;
 
-    public TextAnimCharXChar animation;
+    public TextAnimCharXChar textAnim;
 
     public RectTransform parent_to_force_rebuild;
 
@@ -56,12 +56,12 @@ public class UI_DialogueManager : UI_Base
 
         if (force)
         {
-            animation.Force(s);
+            textAnim.Force(s);
             OnFinishCarret.Invoke();
         }
         else
         {
-            animation.BeginAnim(s, OnFinishCarret);
+            textAnim.BeginAnim(s, OnFinishCarret);
         }
     }
 

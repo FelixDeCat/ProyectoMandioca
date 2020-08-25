@@ -37,7 +37,7 @@ public class MandragoraEnemy : EnemyBase
     [SerializeField] Transform rootToTrap = null;
     [SerializeField] bool mandragoraIsTrap = false;
     [SerializeField] TriggerDispatcher trigger = null;
-    [SerializeField] SpawnerSpot spawnerSpot;
+    [SerializeField] SpawnerSpot spawnerSpot = null;
 
     [Header("Feedback")]
     [SerializeField] AnimEvent anim = null;

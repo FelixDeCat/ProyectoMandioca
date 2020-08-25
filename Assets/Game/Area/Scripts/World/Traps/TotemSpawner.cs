@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class TotemSpawner : Totem
 {
-    [SerializeField] CustomSpawner spawner;
+    [SerializeField] CustomSpawner spawner = null;
 
     protected override void InternalEndCast()
     {

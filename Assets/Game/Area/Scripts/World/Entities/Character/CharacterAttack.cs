@@ -13,8 +13,8 @@ public class CharacterAttack
     [SerializeField] float attackRange = 3;
     [SerializeField] float attackAngle = 90;
     [SerializeField] float heavyAttackTime = 1f;
-    [SerializeField] LayerMask enemyLayer;
-    [SerializeField] DamageData data;
+    [SerializeField] LayerMask enemyLayer = 1 << 10;
+    [SerializeField] DamageData data = null;
 
     public float Dmg_normal { get => dmg_normal; }
     public float Dmg_Heavy { get => dmg_heavy; }
@@ -53,7 +53,6 @@ public class CharacterAttack
 
     HitStore hitstore;
     CharFeedbacks feedbacks;
-    LayerMask enemyMask;
     CharacterMovement move;
    
     public CharacterAttack Initialize(EntityBase entity)
@@ -123,21 +122,19 @@ public class CharacterAttack
         RaycastHit hit;
         bool inHit = false;
 
-        if(Physics.Raycast(forwardPos.position + Vector3.up, forwardPos.forward, out hit,2, enemyMask))
+        if(Physics.Raycast(forwardPos.position + Vector3.up, forwardPos.forward, out hit, 2, enemyLayer))
         {
-            Debug.Log("stuneado");
             hit.collider.GetComponent<EffectReceiver>()?.TakeEffect(EffectName.OnPetrify, 1.5f);
             inHit = true;
         }
 
-        if (Physics.Raycast(forwardPos.position + Vector3.up, forwardPos.forward + forwardPos.right, out hit, 2, enemyMask))
+        if (Physics.Raycast(forwardPos.position + Vector3.up, forwardPos.forward + forwardPos.right, out hit, 2, enemyLayer))
         {
-            Debug.Log("stuneado");
             hit.collider.GetComponent<EffectReceiver>()?.TakeEffect(EffectName.OnPetrify, 1.5f);
             inHit = true;
         }
 
-        if (Physics.Raycast(forwardPos.position + Vector3.up, forwardPos.forward - forwardPos.right, out hit, 2, enemyMask))
+        if (Physics.Raycast(forwardPos.position + Vector3.up, forwardPos.forward - forwardPos.right, out hit, 2, enemyLayer))
         {
             hit.collider.GetComponent<EffectReceiver>()?.TakeEffect(EffectName.OnPetrify, 1.5f);
             inHit = true;
@@ -208,11 +205,13 @@ public class CharacterAttack
         if (buttonPressedTime < heavyAttackTime)
         {
             NormalAttack.Invoke();
+            data.SetDamageType(Damagetype.Normal);
             move.AttackMovement(4);
         }
         else
         {
             HeavyAttack.Invoke();
+            data.SetDamageType(Damagetype.Heavy);
             move.AttackMovement(10);
         }
         feedbacks.particles.feedbackHeavy.Stop();
@@ -269,8 +268,6 @@ public class CharacterAttack
         }
     }
     #endregion
-
-    
 
     //estos callbacks creo que estan solo funcionando para lo de obligacion...
     //hay que unificar las cosas

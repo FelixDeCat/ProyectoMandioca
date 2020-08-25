@@ -5,8 +5,8 @@ using UnityEngine;
 public class FallenPillar : MonoBehaviour
 {
     DamageReceiver dmg;
-    [SerializeField] GameObject pillarFallen;
-    [SerializeField] GameObject originPillar;
+    [SerializeField] GameObject pillarFallen = null;
+    [SerializeField] GameObject originPillar = null;
     _Base_Life_System _BLS;
     // Start is called before the first frame update
     void Start()

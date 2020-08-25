@@ -50,7 +50,7 @@ public class CharacterMovement
     Func<bool> isGrounded = delegate { return true; };
     float timer_gravity_curve;
     bool begin_gravityCurve;
-    [SerializeField] AnimationCurve gravityCurve;
+    [SerializeField] AnimationCurve gravityCurve = null;
     float gravity_multiplier = 1f;
 
     CharacterAnimator anim;
@@ -72,11 +72,11 @@ public class CharacterMovement
     private bool teleportActive;
 
     CharFeedbacks feedbacks;
-    [SerializeField] Transform myCamera;
+    [SerializeField] Transform myCamera = null;
 
-    [SerializeField] float bashDashDistance;
-    [SerializeField] float bashDashSpeed;
-    [SerializeField] float bashDashCD;
+    [SerializeField] float bashDashDistance = 1;
+    [SerializeField] float bashDashSpeed = 90;
+    [SerializeField] float bashDashCD = 2;
 
     public float GetDefaultSpeed => speed;
     public bool TeleportActive
@@ -362,6 +362,7 @@ public class CharacterMovement
     {
         currentCD = dashCd;
         OnEndRollFeedback_Callback.Invoke();
+        anim.Dash(false);
         InDash = false;
         _rb.velocity = Vector3.zero;
         timerDash = 0;
@@ -425,7 +426,7 @@ public class CharacterMovement
         }
         #endregion
 
-        anim.Dash();
+        anim.Dash(true);
 
         //feedback... luego ponerselo a un ANIM EVENT para que suene cuando tocas el suelo
         feedbacks.sounds.Play_Dash();

@@ -21,7 +21,7 @@ public class CustomCamera : MonoBehaviour
     public bool active = true;
     public float horizontalSpeed;
     public float verticalSpeed;
-    [SerializeField] float _speedAwayOfMesh;
+    [SerializeField] float _speedAwayOfMesh = 0.5f;
     public float horizontal;
     public float vertical;
 
@@ -47,9 +47,9 @@ public class CustomCamera : MonoBehaviour
     JoystickBasicInput _joystick;
     float startHorizontal;
     float StartVertical;
-    [SerializeField] RotateTheCamera _rotOfCamera;
+    [SerializeField] RotateTheCamera _rotOfCamera = null;
 
-    [SerializeField] EventInt invertAxis;
+    [SerializeField] EventInt invertAxis = null;
 
     private void Start()
     {

@@ -7,11 +7,11 @@ public class GoldHandler : MonoBehaviour
 {
     public static GoldHandler instance;
 
-    [SerializeField] Gold gold;
+    [SerializeField] Gold gold = null;
 
-    [SerializeField] ContextualMenu contextual;
-    [SerializeField] UI_Gold ui_gold;
-    [SerializeField] Animator MyAnim;
+    [SerializeField] ContextualMenu contextual = null;
+    [SerializeField] UI_Gold ui_gold = null;
+    [SerializeField] Animator MyAnim = null;
 
     SimpleTimer timer;
 

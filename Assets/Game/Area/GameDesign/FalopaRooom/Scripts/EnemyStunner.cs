@@ -4,32 +4,24 @@ using UnityEngine;
 
 public class EnemyStunner : WalkingEntity
 {
-    [SerializeField] private float TimeBetweenCasts;
+    [SerializeField] private float TimeBetweenCasts = 0.5f;
 
-    [SerializeField] private float range;
+    [SerializeField] private float range = 40;
 
-    [SerializeField] private float stunDuration;
-    [SerializeField] private float castTime;
+    [SerializeField] private float stunDuration = 10;
 
-    [SerializeField] private float rootDuration;
     [SerializeField] Vector3 particleOffset = new Vector3(0.25f, 0, 0.065f);
-    [SerializeField] ParticleSystem onRootParticles;
+    [SerializeField] ParticleSystem onRootParticles = null;
 
-    [SerializeField] CombatArea spawneablePosition;
-    CombatArea area;
+    [SerializeField] CombatArea spawneablePosition = null;
 
     CastingBar castingBar;
     EnemyLifeSystem life;
     DamageReceiver damageReceiver;
     Rigidbody rb;
 
-    float castTimer = 0f;
-    float durationTimer = 0f;
-
     CharacterHead myChar;
     EffectReceiver charEffect;
-
-    EffectReceiver myEffects;
 
     EnemyStunnerStates currentState = EnemyStunnerStates.Idle;
 
@@ -50,12 +42,9 @@ public class EnemyStunner : WalkingEntity
         myChar = Main.instance.GetChar();
         charEffect = myChar.GetComponent<EffectReceiver>();
         rb = GetComponent<Rigidbody>();
-        area = GetComponentInParent<CombatArea>();
         life = GetComponent<EnemyLifeSystem>();
         castingBar = GetComponent<CastingBar>();
         damageReceiver = GetComponent<DamageReceiver>();
-        myEffects = GetComponent<EffectReceiver>();
-        castTimer = TimeBetweenCasts;
 
         life.Initialize(life.life, () => { }, () => { }, () => { });
 

@@ -5,10 +5,10 @@ using System.Linq;
 
 public class OutlineFeedback : FeedbackInteractBase
 {
-    [SerializeField] GameObject parentWithMaterials;
+    [SerializeField] GameObject parentWithMaterials = null;
 
 
-    [SerializeField] Material[] myMat;
+    [SerializeField] Material[] myMat = new Material[1];
     [SerializeField] float mainOpacityOn = 0.3f;
     [SerializeField] float borderOpacityOn = 1;
 

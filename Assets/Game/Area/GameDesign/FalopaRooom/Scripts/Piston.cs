@@ -4,7 +4,7 @@ public class Piston : MonoBehaviour
     [Header("Posiciones")]
     [SerializeField] Transform _startPos = null;
     [SerializeField] Transform _EndPos = null;
-    [SerializeField] Transform ToMove;
+    [SerializeField] Transform ToMove = null;
     [Header("General configs")]
     [SerializeField] float delayToBegin = 1f;
     [Header("General configs")]

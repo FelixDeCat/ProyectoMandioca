@@ -4,12 +4,12 @@ using UnityEngine;
 
 public class TurretController : MonoBehaviour
 {
-    [SerializeField] List<GameObject> turretsGroups;
-    [SerializeField] bool active;
+    [SerializeField] List<GameObject> turretsGroups = new List<GameObject>();
+    [SerializeField] bool active = false;
 
-    [SerializeField] float shootingTime;
+    [SerializeField] float shootingTime = 20;
 
-    [SerializeField] bool InitByCode; 
+    [SerializeField] bool InitByCode = false; 
 
     GameObject current;
 

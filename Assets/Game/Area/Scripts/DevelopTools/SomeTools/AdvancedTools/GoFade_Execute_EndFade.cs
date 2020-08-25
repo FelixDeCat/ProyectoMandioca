@@ -6,8 +6,8 @@ using Tools.EventClasses;
 
 public class GoFade_Execute_EndFade : MonoBehaviour
 {
-    [SerializeField] EventAction ActionCallback;
-    [SerializeField] UnityEvent EndFade;
+    [SerializeField] EventAction ActionCallback = null;
+    [SerializeField] UnityEvent EndFade = null;
     public bool noload;
 
     public void GoFade()

@@ -28,7 +28,7 @@ public class ABossGenericClean : EnemyBase
 
         TakeDamageHandler.Initialize(
             life,
-            OnDeath,
+            DeathBoss,
             delegate { },
             OnHit,
             rootTransform,
@@ -65,7 +65,7 @@ public class ABossGenericClean : EnemyBase
         EntityDeath.Invoke();
     }
 
-    void OnDeath()
+    void DeathBoss()
     {
         inputSender.OnDeath();
         Main.instance.RemoveEntity(this);

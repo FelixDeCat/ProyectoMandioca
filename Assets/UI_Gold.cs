@@ -5,7 +5,7 @@ using UnityEngine.UI;
 
 public class UI_Gold : MonoBehaviour
 {
-    [SerializeField] Text txt_gold_cant;
+    [SerializeField] Text txt_gold_cant = null;
 
     public void SetGold(int cant)
     {

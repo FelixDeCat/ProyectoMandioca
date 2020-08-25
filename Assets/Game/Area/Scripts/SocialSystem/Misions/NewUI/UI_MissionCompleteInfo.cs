@@ -12,14 +12,14 @@ using UnityEngine.UI;
 ///////////////////////////////////////////////////////////////////////////////////////
 public class UI_MissionCompleteInfo : MonoBehaviour
 {
-    [SerializeField] Text mision_name;
-    [SerializeField] Text description;
+    [SerializeField] Text mision_name = null;
+    [SerializeField] Text description = null;
 
-    [SerializeField] Text mision_state;//finalizado o en curso
+    [SerializeField] Text mision_state = null;//finalizado o en curso
 
-    [SerializeField] Text items;// esto luego hacerle un sub panel con las cosas que hay que hacer
-    [SerializeField] Text regions_to_enable;
-    [SerializeField] Text recompensa; // esto luego hacerle un sub panel con los objetos, su imagen y descripcion
+    [SerializeField] Text items = null;// esto luego hacerle un sub panel con las cosas que hay que hacer
+    [SerializeField] Text regions_to_enable = null;
+    [SerializeField] Text recompensa = null; // esto luego hacerle un sub panel con los objetos, su imagen y descripcion
 
     public void ClearInfo()
     {

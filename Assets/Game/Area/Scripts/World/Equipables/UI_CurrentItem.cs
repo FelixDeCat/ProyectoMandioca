@@ -6,8 +6,8 @@ using UnityEngine.UI;
 
 public class UI_CurrentItem : UI_Base
 {
-    [SerializeField] TextMeshProUGUI txt_cant;
-    [SerializeField] Image img;
+    [SerializeField] TextMeshProUGUI txt_cant = null;
+    [SerializeField] Image img = null;
 
     public void SetItem(string _cant, Sprite _img)
     {

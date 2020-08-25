@@ -9,12 +9,12 @@ public class RotateTheCamera : MonoBehaviour
     float _distance;
     Transform _playerTrans;
     bool _returnToPos;
-    [SerializeField] float _speed;
-    [SerializeField] float _speedToReturn;
-    [SerializeField] float _speedAwayFromMesh;
+    [SerializeField] float _speed = 20;
+    [SerializeField] float _speedToReturn = 10;
+    [SerializeField] float _speedAwayFromMesh = 20;
     private float PosY;
-    [SerializeField] LayerMask _mask;
-    [SerializeField]float _range;
+    [SerializeField] LayerMask _mask = 1<<21;
+    [SerializeField]float _range = 10;
     public bool colliding;
 
     private void Start()

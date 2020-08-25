@@ -5,7 +5,7 @@ using UnityEngine;
 public class GrabSwordShield : TestInteractableHold
 {
     CharacterHead character;
-    [SerializeField] bool isSword;
+    [SerializeField] bool isSword = false;
     
     public override void OnExecute(WalkingEntity collector)
     {

@@ -78,11 +78,11 @@ namespace Misions.Core
     [System.Serializable]
     public class Serializable_MisionData
     {
-        [SerializeField] FaseChangerData[] fasesToChange;
+        [SerializeField] FaseChangerData[] fasesToChange = new FaseChangerData[1];
         [SerializeField] bool completed = false;
         [SerializeField] bool isactive = false;
         [SerializeField] ItemMision[] mision_item = new ItemMision[0];
-        [SerializeField] string[] regions_to_enable;
+        [SerializeField] string[] regions_to_enable =  new string[1];
         internal bool Completed { get { return completed; } }
         internal bool IsActive { get { return isactive; } }
         internal string[] Regions { get { return regions_to_enable; } }
@@ -126,7 +126,7 @@ namespace Misions.Core
     [System.Serializable]
     public class Serializable_Reward
     {
-        [SerializeField] internal ItemInInventory[] items_rewarding;
+        [SerializeField] internal ItemInInventory[] items_rewarding = new ItemInInventory[1];
 
     }
     #endregion

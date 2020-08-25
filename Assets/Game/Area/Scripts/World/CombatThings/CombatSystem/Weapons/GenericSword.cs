@@ -26,7 +26,6 @@ public class GenericSword : Weapon
             {
                 data.SetDamage((int)damage)
                     .SetDamageTick(false)
-                    .SetDamageType(Damagetype.Normal)
                     .SetKnockback(500)
                     .SetPositionAndDirection(_head.transform.position, _head.DirAttack);
 

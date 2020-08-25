@@ -5,8 +5,8 @@ using UnityEngine;
 [ExecuteInEditMode]
 public class EditModeGoToPosition : MonoBehaviour
 {
-    [SerializeField] bool Run;
-    [SerializeField] Transform blockposition;
+    [SerializeField] bool Run = false;
+    [SerializeField] Transform blockposition = null;
 
     void Update()
     {

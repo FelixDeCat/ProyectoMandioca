@@ -22,7 +22,7 @@ public class CustomSpawner : PlayObject
     [SerializeField] private Transform spawnSpot = null;
     public SpawnerSpot spot = new SpawnerSpot();
     [SerializeField] private int maxSpawn = 10;
-    private int currentSpawn;
+    int currentSpawn;
 
 
     [Header("***--Wave Settings--***")]
@@ -131,7 +131,7 @@ public class CustomSpawner : PlayObject
         currentSpawn -= 1;
     }
 
-    public void SpawnPrefab(Vector3 pos) => spot.SpawnPrefab(pos, _poolPlayObject, this);
+    public void SpawnPrefab(Vector3 pos) { spot.SpawnPrefab(pos, _poolPlayObject, this); currentSpawn += 1; }
 
     protected override void OnInitialize()
     {

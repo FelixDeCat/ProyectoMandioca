@@ -19,7 +19,7 @@ public class JoystickBasicInput
 {
     bool[] optimize = new bool[14];
 
-    event Action accept, cancel, square, triangle, lbuttonDown, lbuttonUp, rbuttonDown, rbuttonUp, ltrigger, rtrigger, dpadLeft, dpadRight, dpadUp, dpadDown, back, start, rstickCentral, lstickCental = delegate { };
+    event Action accept, cancel, square, triangle, lbuttonDown, lbuttonUp, rbuttonDown, rbuttonUp, /*ltrigger, rtrigger, dpadLeft, dpadRight, dpadUp, dpadDown,*/ back, start, rstickCentral, lstickCental = delegate { };
     event Action<float> movehorizontal, movevertical, twisthorizontal, twistvertical = delegate { };
 
     bool b_accept, b_cancel, b_square, b_triangle,
