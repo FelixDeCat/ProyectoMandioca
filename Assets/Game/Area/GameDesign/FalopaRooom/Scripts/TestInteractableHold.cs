@@ -9,6 +9,7 @@ public class TestInteractableHold : Interactable
     [SerializeField] UnityEvent execute = null;
     public bool destroy = true;
     public UnityEvent customDestroy;
+    public UnityEvent UE_EndDelayExecute;
 
     public string actionName = "hold to grab";
 
@@ -16,6 +17,7 @@ public class TestInteractableHold : Interactable
     private void Start()
     {
         _executeAction += DestroyGameObject;
+        _executeAction += UE_EndDelayExecute.Invoke;
     }
     public override void OnEnter(WalkingEntity entity)
     {

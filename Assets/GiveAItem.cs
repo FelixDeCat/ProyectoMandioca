@@ -10,6 +10,7 @@ public class GiveAItem : MonoBehaviour
     public ItemInInventory[] item;
 
     public bool isEquiped = false;
+    bool oneshot;
 
     private void Start()
     {
@@ -37,14 +38,19 @@ public class GiveAItem : MonoBehaviour
 
     public void GiveItem()
     {
-        if (isEquiped)
+        if (!oneshot)
         {
-            EquipedManager.instance.RemoveAItem(SpotType.Waist1);
+            oneshot = true;
+            if (isEquiped)
+            {
+                EquipedManager.instance.RemoveAItem(SpotType.Waist1);
+            }
+            else
+            {
+                FastInventory.instance.Remove(item);
+            }
         }
-        else
-        {
-            FastInventory.instance.Remove(item);
-        }
+        
         
     }
 
