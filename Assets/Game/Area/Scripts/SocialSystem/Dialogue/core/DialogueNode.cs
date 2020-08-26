@@ -6,6 +6,7 @@ using UnityEngine;
 [System.Serializable]
 public class DialogueNode
 {
+    public string fastdesc;
     public int id;
     public List<string> dialogues = new List<string>();
     public List<Choice> conected = new List<Choice>();

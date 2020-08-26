@@ -47,7 +47,7 @@ public class SpatialGrid_handler : MonoBehaviour
             if (Application.isPlaying)
             {
                 selected = Query(Main.instance.GetChar());
-                var temp = FindObjectsOfType<GridEntity>().Where(x=>!selected.Contains(x));
+                var temp = FindObjectsOfType<GridEntity>().Where(x => !selected.Contains(x));
                 foreach (var item in temp)
                 {
                     if (item.gameObject.activeInHierarchy)
@@ -64,7 +64,7 @@ public class SpatialGrid_handler : MonoBehaviour
                         item.On();
                     }
                 }
-            }  
+            }
             yield return new WaitForSeconds(.2f);
         }
     }
@@ -76,7 +76,12 @@ public class SpatialGrid_handler : MonoBehaviour
         //posicion inicial --> esquina superior izquierda de la "caja"
         //posición final --> esquina inferior derecha de la "caja"
         //como funcion para filtrar le damos una que siempre devuelve true, para que no filtre nada.
-        
+
+        if (centerObject == null)
+            Debug.LogError("el centerObject es Null");
+
+        if (_grid == null) Debug.LogError("La grid es nula");
+
         var q = _grid.Query(
             centerObject.transform.position + new Vector3(-w, 0, -h),
             centerObject.transform.position + new Vector3(w, 0, h),
@@ -94,6 +99,6 @@ public class SpatialGrid_handler : MonoBehaviour
         Gizmos.color = Color.cyan;
         Gizmos.DrawWireCube(Main.instance.GetChar().transform.position, new Vector3(width, 0, height));
     }
-    
-    
+
+
 }

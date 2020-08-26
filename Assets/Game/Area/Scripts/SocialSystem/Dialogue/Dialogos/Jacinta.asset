@@ -32,7 +32,8 @@ MonoBehaviour:
     pos: {x: 870, y: 487}
     nodeType: Dialogue
   dialogueNodes:
-  - id: 0
+  - fastdesc: '[0] presentacion del problema con 2 opciones'
+    id: 0
     dialogues:
     - Oh tu, Melemaco, descendiente de lo divino
     - Imploro tu ayuda! Mi casa, mi familia, lo destruyeron todo!
@@ -48,18 +49,30 @@ MonoBehaviour:
     - option_index: 0
       execution_id: 5
     exep_photo: {fileID: 0}
-  - id: 1
+  - fastdesc: '[1] opcion de mision'
+    id: 1
     dialogues:
     - Oh Melemaco, hijo de Ulises, divino como Zeus
-    - Muchas gracias
-    conected: []
-    linkExecutions: []
+    conected:
+    - text: Adios
+      connectionID: 3
+    linkExecutions:
+    - option_index: 0
+      execution_id: 8
     exep_photo: {fileID: 21300000, guid: 5538a14954ab5ca42abf9f36177592d3, type: 3}
-  - id: 2
+  - fastdesc: '[2] opcion de ignorar la misiion'
+    id: 2
     dialogues:
     - Maldigo a Zeus y todos los inmortales
     conected: []
     linkExecutions: []
     exep_photo: {fileID: 21300000, guid: ed38e5375c8c7b54485e4a729303b494, type: 3}
+  - fastdesc: '[3] saludo'
+    id: 3
+    dialogues:
+    - Adios
+    conected: []
+    linkExecutions: []
+    exep_photo: {fileID: 0}
   treeName: Jacinta
   general_photo: {fileID: 21300000, guid: a3bb0fb9383da104b9b92562e514d42a, type: 3}

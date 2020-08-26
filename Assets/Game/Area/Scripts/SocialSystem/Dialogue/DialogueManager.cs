@@ -105,6 +105,8 @@ public class DialogueManager : MonoBehaviour
         {
             if (ExecutionManager.instance.CanExecute(id_selected))
             {
+                Debug.Log("Ejecuto el ID: " + id_selected);
+
                 ExecutionManager.instance.Execute(id_selected);
 
                 currentNode = tree.dialogueNodes[currentNode].conected[index].connectionID;
@@ -126,8 +128,6 @@ public class DialogueManager : MonoBehaviour
     {
         frontend.TurnOn_ButtonNext(false);
         frontend.TurnOn_ButtonExit(false);
-
-        Debug.Log("debug Node index: " + currentNode + " dialogue index: " + currentdialogue);
 
         SetPhoto();
 

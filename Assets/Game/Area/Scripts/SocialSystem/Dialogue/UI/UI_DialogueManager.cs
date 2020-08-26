@@ -56,8 +56,8 @@ public class UI_DialogueManager : UI_Base
     {
         ShutDownOptions();
 
-        Debug.Log("El texto es: " + s);
-        Debug.Log("finish carret es: " + OnFinishCarret == null ? "null" : "no null");
+        //Debug.Log("El texto es: " + s);
+        //Debug.Log("finish carret es: " + (OnFinishCarret == null ? "null" : "no null"));
 
         if (force)
         {

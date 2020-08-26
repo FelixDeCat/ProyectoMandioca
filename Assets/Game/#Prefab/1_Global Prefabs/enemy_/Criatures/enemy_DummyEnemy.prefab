@@ -41341,6 +41341,7 @@ GameObject:
   - component: {fileID: 4206374051379906606}
   - component: {fileID: 3371125276018704027}
   - component: {fileID: 4886692671898417351}
+  - component: {fileID: 8036547211585392554}
   m_Layer: 10
   m_Name: enemy_DummyEnemy
   m_TagString: Untagged
@@ -41397,7 +41398,18 @@ MonoBehaviour:
   death: 0
   OnDeath:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 8036547211585392554}
+        m_MethodName: Execute
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   Invinsible: 0
   combatDistance: 18
   combat: 0
@@ -41561,10 +41573,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   invulnerability: 
-  resistances: 
-  debilities: 
-  debilityAddDmg: 0
-  resistanceRestDmg: 0
+  resistances:
+    m_keys: 
+    m_values: []
+  debilities:
+    m_keys: 
+    m_values: []
   knockbackMultiplier: 1.2
 --- !u!136 &3371125276018704027
 CapsuleCollider:
@@ -41595,7 +41609,20 @@ MonoBehaviour:
   myPlayObjects: []
   debug: 0
   acty: 0
-  onGrid: 0
+--- !u!114 &8036547211585392554
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3901963547881250308}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b22abedad8456a042b43d141d9da6e1a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ID: 4
+  IndexLocalItem: 0
 --- !u!1 &3909154650993246213
 GameObject:
   m_ObjectHideFlags: 0
