@@ -21,7 +21,7 @@ public class SpawnWaves : MonoBehaviour
         var wave = Instantiate(_wave);
         wave.transform.position = transform.position;
         wave.transform.forward = (center - transform.position).normalized;
-        wave = wave.setSpeed(speed).SetLifeTime(lifeTime);
+        wave = wave.SetSpeed(speed).SetLifeTime(lifeTime);
     }
 
     [SerializeField] bool onlyBorders = false;
