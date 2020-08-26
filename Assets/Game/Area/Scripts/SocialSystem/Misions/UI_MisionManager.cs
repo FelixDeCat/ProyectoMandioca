@@ -41,7 +41,7 @@ public class UI_MisionManager : MonoBehaviour
         {
             UI_CompMision m = GameObject.Instantiate(model, parent);
             m.SetData(
-                misions[i].info.mision_name,
+                misions[i].mision_name,
                 misions[i].data.ItemsCompleteString());
 
             ui_misions.Add(m);

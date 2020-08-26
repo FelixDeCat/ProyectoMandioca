@@ -6,6 +6,7 @@ using System;
 [System.Serializable]
 public class ItemMision 
 {
+    [SerializeField] string name = "";
     [SerializeField] protected bool iscompleted = false;
     [SerializeField] private byte currentvalue = 1;
     [SerializeField] private byte maxvalue = 1;

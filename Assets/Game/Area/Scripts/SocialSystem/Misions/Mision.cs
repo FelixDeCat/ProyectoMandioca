@@ -6,6 +6,7 @@ using System;
 [System.Serializable]
 public class Mision
 {
+    [Multiline(2)] public string mision_name;
     public int id_mision;
     public Misions.Core.Serializable_DescriptiveInfo info;
     public Misions.Core.Serializable_MisionData data;
@@ -15,6 +16,10 @@ public class Mision
     public Action mision_end_callback_simple;
     public Action Callback_Refresh;
 
+    public override string ToString()
+    {
+        return "chacha";
+    }
 
 
     public void Begin(Action Refresh)
@@ -70,7 +75,7 @@ namespace Misions.Core
     [System.Serializable]
     public class Serializable_DescriptiveInfo
     {
-        [Multiline(3)] public string mision_name;
+        
         [Multiline(10)] public string description;
     }
     #endregion
@@ -82,7 +87,7 @@ namespace Misions.Core
         [SerializeField] bool completed = false;
         [SerializeField] bool isactive = false;
         [SerializeField] ItemMision[] mision_item = new ItemMision[0];
-        [SerializeField] string[] regions_to_enable =  new string[1];
+        string[] regions_to_enable =  new string[1];
         internal bool Completed { get { return completed; } }
         internal bool IsActive { get { return isactive; } }
         internal string[] Regions { get { return regions_to_enable; } }

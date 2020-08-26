@@ -29,7 +29,7 @@ public class UI_MissionCompleteInfo : MonoBehaviour
 
     public void SetInfo(Mision mision)
     {
-        mision_name.text = mision.info.mision_name;
+        mision_name.text = mision.mision_name;
         description.text = mision.info.description;
 
         mision_state.text = mision.data.Completed ? "Finalizado" : "En curso";

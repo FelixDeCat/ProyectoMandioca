@@ -25,7 +25,7 @@ public class UI_MisionMensaje : UI_Base
 
 
         txt_tipodemensaje.text = estado ? "mision finalizada" : "nueva mision";
-        txt_Titulo.text = (estado ? "<s>" : "") + mision.info.mision_name + (estado ? "</s>" : "");
+        txt_Titulo.text = (estado ? "<s>" : "") + mision.mision_name + (estado ? "</s>" : "");
         // txt_Descripcion.text = mision.info.description;
 
         LayoutRebuilder.ForceRebuildLayoutImmediate(txt_Titulo.rectTransform);
