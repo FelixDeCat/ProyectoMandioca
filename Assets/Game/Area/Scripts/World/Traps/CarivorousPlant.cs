@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
+using UnityEngine.Events;
 
 public class CarivorousPlant : EntityBase
 {
@@ -34,6 +35,8 @@ public class CarivorousPlant : EntityBase
     bool isZero;
     bool inDmg;
     bool antibug;
+
+    public UnityEvent OnDeath;
 
     protected override void OnInitialize()
     {
@@ -147,7 +150,7 @@ public class CarivorousPlant : EntityBase
     void DeadPlant(Vector3 dir)
     {
         anim.SetTrigger("Dead");
-
+        OnDeath.Invoke();
         OnOffTrap(false);
     }
 

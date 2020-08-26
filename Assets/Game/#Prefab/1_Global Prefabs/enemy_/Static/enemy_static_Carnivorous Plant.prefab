@@ -70,10 +70,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   invulnerability: 
-  resistances: 
-  debilities: 
-  debilityAddDmg: 5
-  resistanceRestDmg: 3
+  resistances:
+    m_keys: 
+    m_values: []
+  debilities:
+    m_keys: 
+    m_values: []
   knockbackMultiplier: 1
 --- !u!1 &7384994373284001855
 GameObject:
@@ -89,6 +91,7 @@ GameObject:
   - component: {fileID: 7384994373284001985}
   - component: {fileID: 7384994373284001984}
   - component: {fileID: 7253753330908280916}
+  - component: {fileID: 8107034145267565807}
   m_Layer: 17
   m_Name: enemy_static_Carnivorous Plant
   m_TagString: Untagged
@@ -145,6 +148,20 @@ MonoBehaviour:
     type: 3}
   hitParticle: {fileID: 3632140750100566763, guid: 48fe3e230b37f29449856c4f0dc77ca3,
     type: 3}
+  OnDeath:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 8107034145267565807}
+        m_MethodName: Execute
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &7384994373284001986
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -209,6 +226,20 @@ MonoBehaviour:
   myPlayObjects: []
   debug: 1
   acty: 0
+--- !u!114 &8107034145267565807
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7384994373284001855}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b22abedad8456a042b43d141d9da6e1a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ID: 4
+  IndexLocalItem: 1
 --- !u!1001 &5199149664008546764
 PrefabInstance:
   m_ObjectHideFlags: 0
