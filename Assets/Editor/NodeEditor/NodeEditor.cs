@@ -542,7 +542,7 @@ public class NodeEditor : EditorWindow
         if (_allNodes[id].Hasmision && _allNodes[id].misionViewEditor)
         {
             _allNodes[id].mision.id_mision = EditorGUILayout.IntField("id mision", _allNodes[id].mision.id_mision);
-            _allNodes[id].mision.info.mision_name = EditorGUILayout.TextField("mision name", _allNodes[id].mision.info.mision_name);
+            _allNodes[id].mision.mision_name = EditorGUILayout.TextField("mision name", _allNodes[id].mision.mision_name);
             EditorGUILayout.LabelField("description");
             _allNodes[id].mision.info.description = EditorGUILayout.TextField(_allNodes[id].mision.info.description, wrapTextFieldStyle, GUILayout.Height(50));
 

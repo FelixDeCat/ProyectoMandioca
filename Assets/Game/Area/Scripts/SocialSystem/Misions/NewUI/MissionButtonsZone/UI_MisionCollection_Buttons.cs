@@ -13,7 +13,7 @@ public class UI_MisionCollection_Buttons : UI_MisionCollection
         foreach (var m in _misions)
         {
             var newmision = Instantiate(model, parent);
-            newmision.Configure(m.info.mision_name, m.id_mision, callbackSelection);
+            newmision.Configure(m.mision_name, m.id_mision, callbackSelection);
             elements.Add(newmision);
         }
     }
