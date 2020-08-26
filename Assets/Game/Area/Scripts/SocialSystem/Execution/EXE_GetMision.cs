@@ -2,12 +2,15 @@
 using System.Collections.Generic;
 using UnityEngine;
 using System;
+using UnityEngine.Events;
 
 public class EXE_GetMision : ExecutableBase
 {
     public int ID_Mision;
 
     Func<bool> predicate = delegate { return true; };
+
+    public UnityEvent UE_OnEndMission;
 
     protected override bool OnCanExecute()
     {
@@ -27,6 +30,6 @@ public class EXE_GetMision : ExecutableBase
 
     void EndMision(Mision m)
     {
-
+        UE_OnEndMission.Invoke();
     }
 }

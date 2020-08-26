@@ -7,6 +7,8 @@ using UnityEngine.UI;
 public class TestInteractableHold : Interactable
 {
     [SerializeField] UnityEvent execute = null;
+    public bool destroy = true;
+    public UnityEvent customDestroy;
 
     [SerializeField] Image _loadBar = null;
     private void Start()
@@ -37,7 +39,11 @@ public class TestInteractableHold : Interactable
     void DestroyGameObject()
     {
         execute?.Invoke();
-        Destroy(this.gameObject);
+        if (destroy) Destroy(this.gameObject);
+        else
+        {
+            customDestroy.Invoke();
+        }
     }
 
 }

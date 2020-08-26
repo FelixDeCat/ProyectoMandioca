@@ -36,9 +36,12 @@ public class SpatialGrid_handler : MonoBehaviour
 
     public void StopSpatialGrid()
     {
-        _grid = null;
+        //_grid = null;
         StopAllCoroutines();
     }
+
+    private void OnDisable() => StopAllCoroutines();
+    private void OnDestroy() => StopAllCoroutines();
 
     private IEnumerator CheckGrid()
     {

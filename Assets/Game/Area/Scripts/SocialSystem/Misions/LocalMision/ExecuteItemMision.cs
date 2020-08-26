@@ -9,6 +9,7 @@ public class ExecuteItemMision : MonoBehaviour
 
     public void Execute()
     {
+        
         MisionManager.instancia.AddMisionItem(ID, IndexLocalItem);
     }
 }

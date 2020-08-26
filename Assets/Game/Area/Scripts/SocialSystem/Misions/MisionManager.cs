@@ -30,6 +30,7 @@ public class MisionManager : MonoBehaviour
 
     public void AddMisionItem(int Id, int Index)
     {
+        Debug.Log("ME LLEGA EL ID: " + Id + " Index: " + Index);
         for (int i = 0; i < active_misions.Count; i++)
         {
             if (active_misions[i].id_mision == Id)
