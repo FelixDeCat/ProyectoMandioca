@@ -6,12 +6,9 @@ using System;
 public class DamageReceiver : MonoBehaviour
 {
     [SerializeField] List<Damagetype> invulnerability = new List<Damagetype>();
-    [SerializeField] List<Damagetype> resistances = new List<Damagetype>();
-    [SerializeField] List<Damagetype> debilities = new List<Damagetype>();
+    [SerializeField] DmgType_FloatDictionary resistances = new DmgType_FloatDictionary();
+    [SerializeField] DmgType_FloatDictionary debilities = new DmgType_FloatDictionary();
 
-
-    [SerializeField] int debilityAddDmg = 5;
-    [SerializeField] int resistanceRestDmg = 3;
     [SerializeField] float knockbackMultiplier = 1;
 
     bool blockEntity;
@@ -99,10 +96,12 @@ public class DamageReceiver : MonoBehaviour
             }
         }
 
-        int dmg = data.damage;
+        float tempDmg = data.damage;
 
-        if (resistances.Contains(data.damageType)) dmg -= resistanceRestDmg;
-        else if (debilities.Contains(data.damageType)) dmg += debilityAddDmg;
+        if (resistances.ContainsKey(data.damageType)) tempDmg *= resistances[data.damageType];
+        else if (debilities.ContainsKey(data.damageType)) tempDmg *= debilities[data.damageType];
+
+        int dmg = (int)tempDmg;
 
         Vector3 aux = (ownerRoot.position - data.owner_position).normalized;
 
@@ -112,7 +111,6 @@ public class DamageReceiver : MonoBehaviour
             rb.AddForce(knockbackForce * knockbackMultiplier, ForceMode.Impulse);
         }
 
-        
         bool death = _LifeSystem.Hit(dmg);
        
         if (death) OnDead(data.attackDir);
@@ -126,13 +124,13 @@ public class DamageReceiver : MonoBehaviour
 
     public void RemoveInvulnerability(Damagetype inv) { if (invulnerability.Contains(inv)) invulnerability.Remove(inv); }
 
-    public void AddResistance(Damagetype inv) { if (!resistances.Contains(inv)) resistances.Add(inv); }
+    public void AddResistance(Damagetype inv, float resistanceMultiplier) { if (!resistances.ContainsKey(inv)) resistances.Add(inv, resistanceMultiplier); }
 
-    public void RemoveResistance(Damagetype inv) { if (resistances.Contains(inv)) resistances.Remove(inv); }
+    public void RemoveResistance(Damagetype inv) { if (resistances.ContainsKey(inv)) resistances.Remove(inv); }
 
-    public void AddDebility(Damagetype inv) { if (!debilities.Contains(inv)) debilities.Add(inv); }
+    public void AddDebility(Damagetype inv, float debilityMultiplier) { if (!debilities.ContainsKey(inv)) debilities.Add(inv, debilityMultiplier); }
 
-    public void RemoveDebility(Damagetype inv) { if (debilities.Contains(inv)) debilities.Remove(inv); }
+    public void RemoveDebility(Damagetype inv) { if (debilities.ContainsKey(inv)) debilities.Remove(inv); }
 
     public void ChangeIndestructibility(bool isIndestructible) { IsNotDestructible = isIndestructible; }
  }
