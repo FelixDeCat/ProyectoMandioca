@@ -10,6 +10,8 @@ public class TestInteractableHold : Interactable
     public bool destroy = true;
     public UnityEvent customDestroy;
 
+    public string actionName = "hold to grab";
+
     [SerializeField] Image _loadBar = null;
     private void Start()
     {
@@ -17,7 +19,7 @@ public class TestInteractableHold : Interactable
     }
     public override void OnEnter(WalkingEntity entity)
     {
-        WorldItemInfo.instance.Show(pointToMessage.position, "Object", "Hold to grab object", "Hold to grab", false, false);
+        WorldItemInfo.instance.Show(pointToMessage.position, "Object", "Hold to grab object", actionName, false, false);
     }
 
     public override void OnExecute(WalkingEntity collector)

@@ -63,6 +63,22 @@ public class EquipedManager : MonoBehaviour
         RefreshUI();
     }
 
+    public void RemoveAItem(SpotType _spottype)
+    {
+        if (!behaviours.ContainsKey(_spottype)) return;
+        if (current.cant > 0)
+        {
+            current.cant--;
+        }
+        if (current.cant <= 0)
+        {
+            UnEquipByItem(current);
+            Clean();
+        }
+        RefreshUI();
+    }
+
+
     public bool EquipItem(Item item)
     {
         // aca tendria que obtener todos los spots que tengo realmente
