@@ -5,6 +5,8 @@ using UnityEngine;
 public class SpikeCorruptedVine : MonoBehaviour
 {
     DamageData damageData;
+    DamageReceiver character;
+    bool isClose;
 
     private void Start()
     {
@@ -15,11 +17,36 @@ public class SpikeCorruptedVine : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
+        
         if (other.gameObject.GetComponent<CharacterHead>())
         {
-            DamageReceiver character = other.gameObject.GetComponent<DamageReceiver>();
-
-            character.TakeDamage(damageData);
+            character = other.gameObject.GetComponent<DamageReceiver>();
+            isClose = true;
+            StartCoroutine(DelayedDamage());
+           
         }
+
+
+    }
+
+    private void OnTriggerExit(Collider other)
+    {
+        if (other.gameObject.GetComponent<CharacterHead>())
+        {
+            isClose = false;
+        }
+    }
+
+    void DoDamage()
+    {
+        character.TakeDamage(damageData);
+    }
+
+    IEnumerator DelayedDamage()
+    {
+        yield return new WaitForSeconds(.4f);
+
+        if (isClose)
+            DoDamage();
     }
 }
