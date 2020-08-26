@@ -44,6 +44,7 @@ public class Checkpoint_Manager : MonoBehaviour
         GameLoop.instance.SubscribeCheckpoint(this);
         Fades_Screens.instance.Black();
         Fades_Screens.instance.FadeOff(() => { });
+        SpawnChar();
     }
 
     void UpdateCurrentCheckpoint(Checkpoint_Spot cp)

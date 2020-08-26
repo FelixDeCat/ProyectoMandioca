@@ -55,7 +55,7 @@ public class MisionManager : MonoBehaviour
         if (!registry.ContainsKey(m.id_mision))
         {
             registry.Add(m.id_mision, m);
-            UI_StackMision.instancia.LogearMision(m, false, 4f);
+            if(!m.data.IsHided) UI_StackMision.instancia.LogearMision(m, false, 4f);
             if (LocalMisionManager.instance) LocalMisionManager.instance.OnMissionsChange();
             m.Begin(CheckMision);
             m.AddCallbackToEnd(MissionIsEnded);

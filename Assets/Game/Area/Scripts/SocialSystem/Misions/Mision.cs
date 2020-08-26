@@ -86,10 +86,12 @@ namespace Misions.Core
         [SerializeField] FaseChangerData[] fasesToChange = new FaseChangerData[1];
         [SerializeField] bool completed = false;
         [SerializeField] bool isactive = false;
+        [SerializeField] bool isHided = false;
         [SerializeField] ItemMision[] mision_item = new ItemMision[0];
         string[] regions_to_enable =  new string[1];
         internal bool Completed { get { return completed; } }
         internal bool IsActive { get { return isactive; } }
+        internal bool IsHided { get { return isHided; } }
         internal string[] Regions { get { return regions_to_enable; } }
         internal ItemMision[] MisionItems { get { return mision_item; } }
         internal FaseChangerData[] FasesToChange { get { return fasesToChange; } }

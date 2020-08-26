@@ -11,6 +11,8 @@ public class ExecutionManager : MonoBehaviour
 
     private void Start()
     {
+        executables = GetComponentsInChildren<ExecutableBase>();
+
         for (int i = 0; i < executables.Length; i++)
         {
             executables[i].SetID(i);

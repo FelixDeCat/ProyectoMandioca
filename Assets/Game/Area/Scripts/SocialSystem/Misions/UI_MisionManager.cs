@@ -39,6 +39,7 @@ public class UI_MisionManager : MonoBehaviour
 
         for (int i = 0; i < misions.Count; i++)
         {
+            if (misions[i].data.IsHided) continue;
             UI_CompMision m = GameObject.Instantiate(model, parent);
             m.SetData(
                 misions[i].mision_name,
