@@ -58,7 +58,6 @@ public class ClampedAxisButton
                     if (!active_positive) return;
                     if (!ispressed)
                     {
-                        Debug.Log("POSITIVE");
                         PositiveEvent.Invoke();
                         ispressed = true;
                     }
@@ -68,7 +67,6 @@ public class ClampedAxisButton
                     if (!active_negative) return;
                     if (!ispressed)
                     {
-                        Debug.Log("NEGATIVE");
                         NegativeEvent.Invoke();
                         ispressed = true;
                     }

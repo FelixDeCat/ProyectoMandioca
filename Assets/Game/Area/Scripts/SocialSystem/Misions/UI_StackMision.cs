@@ -31,7 +31,6 @@ public class UI_StackMision : MonoBehaviour
             {
                 if (!oneshot)
                 {
-                    Debug.LogWarning("Obtengo y muestro");
                     current = misionesencola.Dequeue();
                     oneshot = true;
                     mensaje.MostrarMensaje(current.m, current.finalized);

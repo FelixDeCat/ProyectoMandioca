@@ -18,7 +18,6 @@ public class GridEntity : MonoBehaviour
             myPlayObjects = this.gameObject.GetComponentsInChildren<PlayObject>();
             for (int i = 0; i < myPlayObjects.Length; i++)
             {
-                Debug.Log("TENGO UNA ENTIDAD");
                 myPlayObjects[i].Initialize();
             }
         }

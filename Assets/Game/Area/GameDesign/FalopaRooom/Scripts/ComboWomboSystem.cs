@@ -33,7 +33,6 @@ public class ComboWomboSystem
            
             if (_count >= timeToCombo)
             {
-                Debug.Log("Clear combo");
                 ClearCombo();
             }
         }

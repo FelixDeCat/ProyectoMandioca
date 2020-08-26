@@ -143,7 +143,6 @@ public class SpatialGrid : MonoBehaviour
         var entities = cells.SelectMany(cell => buckets[cell.Item1, cell.Item2])
             .Where(e => e.gameObject != null);
 
-        Debug.Log(entities.Count() + "entes");
 
         // Iteramos las que queden dentro del criterio
         var c = entities

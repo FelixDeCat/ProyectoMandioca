@@ -88,7 +88,6 @@ public class DialogueManager : MonoBehaviour
     }
     public void OnOptionSelected(int index)
     {
-        Debug.Log("OnOptionSelected");
 
         var executions = tree.dialogueNodes[currentNode].linkExecutions;
 
@@ -105,7 +104,6 @@ public class DialogueManager : MonoBehaviour
         {
             if (ExecutionManager.instance.CanExecute(id_selected))
             {
-                Debug.Log("Ejecuto el ID: " + id_selected);
 
                 ExecutionManager.instance.Execute(id_selected);
 
@@ -157,7 +155,6 @@ public class DialogueManager : MonoBehaviour
     {
         if (frontend.textAnim.inAnimation)
         {
-            Debug.Log("entra a force");
             frontend.SetDialogue(tree.dialogueNodes[currentNode].dialogues[currentdialogue], OnTextFinishCarret, true);
         }
     }

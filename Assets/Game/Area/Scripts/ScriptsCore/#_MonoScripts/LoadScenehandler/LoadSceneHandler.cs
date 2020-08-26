@@ -96,7 +96,6 @@ public class LoadSceneHandler : MonoBehaviour
     }
     void PLAY()
     {
-        Debug.Log("IsPlay");
     }
     #endregion
 

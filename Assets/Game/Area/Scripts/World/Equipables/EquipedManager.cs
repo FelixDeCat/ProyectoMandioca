@@ -32,7 +32,6 @@ public class EquipedManager : MonoBehaviour
 
     public void UseWaist1()
     {
-        Debug.Log("use waist");
         UseItem(SpotType.Waist1);
     }
 
@@ -110,7 +109,6 @@ public class EquipedManager : MonoBehaviour
     void EquipByItem(ItemInInventory _item, Transform _parent)
     {
 
-        Debug.Log("equipando item: " + _item.item.name);
         var go = Instantiate(_item.item.model, _parent);
         go.transform.localPosition = Vector3.zero;
         var spot = _item.item.spot;
@@ -119,17 +117,14 @@ public class EquipedManager : MonoBehaviour
         if (aux != null) aux.Activate_EquipedVersion();
         //
         var behaviour = aux.GetEquipedVersion().GetComponent<EquipedItem>();
-        Debug.Log("Bahviour is: " + behaviour != null);
         if (behaviour != null)
         {
             if (!behaviours.ContainsKey(spot))
             {
-                Debug.Log("add behaviour to dictionary: " + _item.item.name);
                 behaviours.Add(spot, behaviour);
             }
             else
             {
-                Debug.Log("update behaviour to dictionary: " + _item.item.name);
                 behaviours[spot] = behaviour;
             }
             if (!behaviour.Equiped) behaviour.Equip();

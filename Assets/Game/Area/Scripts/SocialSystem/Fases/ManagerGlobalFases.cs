@@ -24,7 +24,6 @@ public class ManagerGlobalFases : MonoBehaviour
 
     public void ModifyFase(int ID, int newLevelFase)
     {
-        Debug.Log("estoy cambiando la fase: ID: " + ID + " faselevel: " + newLevelFase);
         if (fases.ContainsKey(ID))
         {
             fases[ID].SetLevelFase(newLevelFase);

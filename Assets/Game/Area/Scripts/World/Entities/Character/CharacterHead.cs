@@ -524,7 +524,7 @@ public class CharacterHead : CharacterControllable
         charanim.InCombat(0);
         UpWeapons = false;
 
-        Debug.Log(combat.ToString() + attacking.ToString() + inTrap.ToString());
+       // Debug.Log(combat.ToString() + attacking.ToString() + inTrap.ToString());
     }
 
     void UpWeaponsFunction()
@@ -721,7 +721,6 @@ public class CharacterHead : CharacterControllable
         ChangeAngleAttack(charAttack.AttackAngle * 2);
         ChangeRangeAttack(charAttack.AttackRange + 1);
         charanim.HeavyAttack();
-        Debug.Log("IsHeavyAttacking");
         ResetCombo();
     }
     void ChangeHeavy(bool y) { isHeavyRelease = y; }
