@@ -43,6 +43,8 @@ public class ComboWomboSystem
     public void AddHit()
     {
         hitCount++;
+        Debug.LogWarning("!!!!!! deal susceful--- hitcout : " + hitCount);
+        
         comboRunning = true;
         _count = 0;
         if (hitCount >= hitsNeededToCombo)
@@ -62,6 +64,7 @@ public class ComboWomboSystem
 
     void ClearCombo()
     {
+      
         hitCount = 0;
         _count = 0;
         comboRunning = false;

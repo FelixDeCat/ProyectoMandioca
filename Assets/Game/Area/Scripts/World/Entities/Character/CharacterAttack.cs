@@ -4,7 +4,7 @@ using UnityEngine;
 using System;
 
 [Serializable]
-public class CharacterAttack 
+public class CharacterAttack
 {
     float damage;
     [Header("Attack Parameters")]
@@ -21,7 +21,7 @@ public class CharacterAttack
     public float AttackRange { get => attackRange; }
     public float AttackAngle { get => attackAngle; }
     public Transform ForwardPos { get => forwardPos; }
-    Transform forwardPos = null ;
+    Transform forwardPos = null;
 
     float buttonPressedTime;
     float currentDamage;
@@ -33,7 +33,7 @@ public class CharacterAttack
 
     Action NormalAttack;
     Action HeavyAttack;
-    
+
     bool oneshot;
 
     public bool inAttack;
@@ -55,7 +55,7 @@ public class CharacterAttack
     HitStore hitstore;
     CharFeedbacks feedbacks;
     CharacterMovement move;
-   
+
     public CharacterAttack Initialize(EntityBase entity)
     {
         data.Initialize(entity);
@@ -72,15 +72,26 @@ public class CharacterAttack
 
     public CharacterAttack SetFeedbacks(CharFeedbacks _feedbacks) { feedbacks = _feedbacks; return this; }
     public CharacterAttack SetAnimator(CharacterAnimator _anim) { anim = _anim; return this; }
-    public CharacterAttack SetForward (Transform _forward) { forwardPos = _forward; return this; }
+    public CharacterAttack SetForward(Transform _forward) { forwardPos = _forward; return this; }
     public CharacterAttack SetCharMove(CharacterMovement _move) { move = _move; return this; }
 
-    public void Add_callback_Normal_attack(Action callback ) { NormalAttack += callback; }
+    public void Add_callback_Normal_attack(Action callback) { NormalAttack += callback; }
     public void Add_callback_Heavy_attack(Action callback) { HeavyAttack += callback; }
     public void Remove_callback_Normal_attack(Action callback) { NormalAttack -= callback; }
     public void Remove_callback_Heavy_attack(Action callback) { HeavyAttack -= callback; }
 
-    public void ChangeHeavyAttackTime(float newTime) => currentHeavyAttackTime = newTime; 
+    public void ChangeHeavyAttackTime(float newTime) => currentHeavyAttackTime = newTime;
+
+    public void ForceHeavy()
+    {
+        HeavyAttack.Invoke();
+        data.SetDamageType(Damagetype.Heavy);
+        move.AttackMovement(10);
+        feedbacks.particles.feedbackHeavy.Stop();
+        oneshot = false;
+        buttonPressedTime = 0f;
+        anim.OnAttackBegin(false);
+    }
 
     public string ChangeName() => currentWeapon.weaponName;
     public void ChangeDamageBase(int dmg) => currentDamage = dmg;
@@ -114,7 +125,7 @@ public class CharacterAttack
                 if (!oneshot)
                 {
                     feedbacks.particles.HeavyLoaded.Play();
-                    
+
                     oneshot = true;
                 }
             }
@@ -131,7 +142,7 @@ public class CharacterAttack
         RaycastHit hit;
         bool inHit = false;
 
-        if(Physics.Raycast(forwardPos.position + Vector3.up, forwardPos.forward, out hit, 2, enemyLayer))
+        if (Physics.Raycast(forwardPos.position + Vector3.up, forwardPos.forward, out hit, 2, enemyLayer))
         {
             hit.collider.GetComponent<EffectReceiver>()?.TakeEffect(EffectName.OnPetrify, 1.5f);
             inHit = true;
@@ -153,10 +164,10 @@ public class CharacterAttack
     }
 
     #region PRE-ATTACK
-    public void ANIM_EVENT_OpenComboWindow() 
+    public void ANIM_EVENT_OpenComboWindow()
     {
         //DebugCustom.Log("Attack", "Combo Window", "open");
-        hitstore.OpenWindow(); 
+        hitstore.OpenWindow();
     }
     public void ANIM_EVENT_CloseComboWindow()
     {
@@ -174,7 +185,7 @@ public class CharacterAttack
 
     // Aca es cuando hundo la tecla desde el estado Charge Attack
     // OnPressDOWN
-    
+
     public void AttackBegin()
     {
         feedbacks.particles.feedbackHeavy.Play();
@@ -228,7 +239,7 @@ public class CharacterAttack
         buttonPressedTime = 0f;
         anim.OnAttackBegin(false);
     }
-    
+
 
     #endregion
 
@@ -258,22 +269,22 @@ public class CharacterAttack
             return;
         }
 
-        switch (attack_result) 
+        switch (attack_result)
         {
             case Attack_Result.sucessful:
                 if (damage_type == Damagetype.Heavy) DealSuccesfullHeavy();
                 else DealSuccesfullNormal(); break;
             case Attack_Result.blocked:
-            {
-                
-                break;
-            }
+                {
+
+                    break;
+                }
             case Attack_Result.parried: break;
             case Attack_Result.reflexed: break;
             case Attack_Result.inmune: break;
             case Attack_Result.death:
                 if (damage_type == Damagetype.Heavy) KillSuccesfullHeavy();
-                else KillSuccesfullNormal(); break; 
+                else KillSuccesfullNormal(); break;
         }
     }
     #endregion
@@ -303,7 +314,7 @@ public class HitStore
     public bool Use()
     {
         if (!stored) return false;
-        else 
+        else
         {
             stored = false;
             return true;
@@ -314,10 +325,10 @@ public class HitStore
     {
         if (openWindow)
         {
-           // DebugCustom.Log("Attack", "STORED", "ALAMACENO");
+            // DebugCustom.Log("Attack", "STORED", "ALAMACENO");
 
             if (stored) return false;
-            else 
+            else
             {
                 DebugCustom.Log("Attack", "STORED", "ALAMACENO");
                 stored = true;
@@ -328,7 +339,7 @@ public class HitStore
         {
             return false;
         }
-        
+
     }
     public void OpenWindow() => openWindow = true;
     public void CloseWindow() => openWindow = false;
