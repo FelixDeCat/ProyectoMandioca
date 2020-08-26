@@ -59,6 +59,7 @@ public class CharacterHead : CharacterControllable
     public bool IsComboWomboActive;
     bool canAddComboHit = true;
     [SerializeField] ComboWomboSystem combo_system = new ComboWomboSystem();
+    Action callbackOnComboIsLoaded = delegate { };
 
 
     [SerializeField] GameObject go_StunFeedback = null;
@@ -643,6 +644,9 @@ public class CharacterHead : CharacterControllable
         charAttack.Attack(isHeavyRelease);
     }
 
+    bool combo;
+    void OnComboIsLoaded() => combo = true;
+
     #region Resultados de los ataques
     void DealSucessfullNormal()
     {
@@ -681,11 +685,13 @@ public class CharacterHead : CharacterControllable
     {
         Main.instance.CameraShake();
     }
-
     void ActiveCombo()
     {
+        Debug.Log("");
+        IsComboWomboActive = true;
+        callbackOnComboIsLoaded.Invoke();
         feedbacks.particles.HeavyLoaded.Play();
-        charAttack.ChangeHeavyAttackTime(0f);
+        //charAttack.ChangeHeavyAttackTime(0f);
     }
 
     void ResetCombo()
@@ -880,6 +886,15 @@ public class CharacterHead : CharacterControllable
     public void UNITY_EVENT_OnInteractDown()
     {
         sensor.OnInteractDown();
+        if (IsComboWomboActive)
+        {
+            Debug.Log("asdasdas");
+            charanim.SetForceHeavy();
+            charanim.ForceAttack();
+            //charAttack.AttackBegin();
+            IsComboWomboActive = false;
+           
+        }
     }
     public void UNITY_EVENT_OnInteractUp()
     {
