@@ -67,12 +67,12 @@ public class DamageReceiver : MonoBehaviour
 
         if (IsNotDestructible)
         {
-            InmuneFeedback();
+            InmuneFeedback?.Invoke();
             return Attack_Result.inmune;
         }
         if (invulnerability.Contains(data.damageType))
         {
-            InmuneFeedback();
+            InmuneFeedback?.Invoke();
             return Attack_Result.inmune;
         }
 
