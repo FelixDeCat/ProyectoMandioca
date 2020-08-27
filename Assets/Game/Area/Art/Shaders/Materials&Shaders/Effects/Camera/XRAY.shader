@@ -67,11 +67,9 @@ Shader "Test/XRAY"
 }
 /*ASEBEGIN
 Version=17200
-0;416;899;273;676.6924;54.27892;1;True;False
-Node;AmplifyShaderEditor.RangedFloatNode;7;-171.6371,231.354;Inherit;False;Property;_Float0;Float 0;0;0;Create;True;0;0;False;0;0;1.06;0;0;0;1;FLOAT;0
-Node;AmplifyShaderEditor.ColorNode;8;-414.9619,-90.88669;Inherit;False;Constant;_Color0;Color 0;1;0;Create;True;0;0;False;0;0.578609,0.4386792,1,0;0,0,0,0;True;0;5;COLOR;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
-Node;AmplifyShaderEditor.DitheringNode;6;-291.1898,100.5435;Inherit;False;1;False;3;0;FLOAT;0;False;1;SAMPLER2D;;False;2;FLOAT4;0,0,0,0;False;1;FLOAT;0
+0;416;974;273;1241.163;13.30172;1.937012;True;False
+Node;AmplifyShaderEditor.DitheringNode;6;-196.5495,1.406567;Inherit;False;1;False;3;0;FLOAT;0;False;1;SAMPLER2D;;False;2;FLOAT4;0,0,0,0;False;1;FLOAT;0
 Node;AmplifyShaderEditor.StandardSurfaceOutputNode;0;-1.3,1.315268;Float;False;True;2;ASEMaterialInspector;0;0;Standard;Test/XRAY;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;False;False;False;False;False;False;Back;2;False;-1;2;False;-1;False;1;False;-1;2;False;-1;False;7;Opaque;0.5;True;True;0;False;Opaque;;Geometry;All;14;all;True;True;True;True;0;False;-1;False;7;False;-1;255;False;-1;255;False;-1;6;False;-1;0;False;-1;0;False;-1;8;False;-1;0;False;-1;0;False;-1;0;False;-1;0;False;-1;False;2;15;10;25;False;0.5;True;2;5;False;-1;10;False;-1;0;0;False;-1;0;False;-1;0;False;-1;0;False;-1;0;False;0;0,0,0,0;VertexOffset;True;False;Cylindrical;False;Relative;0;;-1;-1;-1;-1;1;Custom=Test;False;0;0;False;-1;-1;0;False;-1;0;0;0;False;0.1;False;-1;0;False;-1;16;0;FLOAT3;0,0,0;False;1;FLOAT3;0,0,0;False;2;FLOAT3;0,0,0;False;3;FLOAT;0;False;4;FLOAT;0;False;5;FLOAT;0;False;6;FLOAT3;0,0,0;False;7;FLOAT3;0,0,0;False;8;FLOAT;0;False;9;FLOAT;0;False;10;FLOAT;0;False;13;FLOAT3;0,0,0;False;11;FLOAT3;0,0,0;False;12;FLOAT3;0,0,0;False;14;FLOAT4;0,0,0,0;False;15;FLOAT3;0,0,0;False;0
 WireConnection;0;0;6;0
 ASEEND*/
-//CHKSM=62D870A70894182365CBFFDF03E6F4A645B3411F
+//CHKSM=903119723AACE87B5461AEE1492F37D0EEDB70D8

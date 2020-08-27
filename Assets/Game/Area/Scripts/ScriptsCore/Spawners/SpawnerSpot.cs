@@ -19,7 +19,7 @@ public class SpawnerSpot
     public PlayObject SpawnPrefab(Vector3 pos, ObjectPool_PlayObject _poolObject, CustomSpawner spawner = null)
     {
         var newObject = _poolObject.Get();
-        newObject.GetComponent<EnemyBase>()?.Initialize();
+        newObject.Initialize();
         newObject.transform.position = pos;
         newObject.Spawner = spawner;
         return newObject;

@@ -129,5 +129,5 @@ public abstract class EnemyBase : NPCBase, ICombatDirector
         }
     }
 
-    public virtual void SpawnEnemy() => OnInitialize();
+    public virtual void SpawnEnemy() { }
 }

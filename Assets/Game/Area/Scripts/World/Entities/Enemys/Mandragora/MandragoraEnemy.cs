@@ -96,11 +96,13 @@ public class MandragoraEnemy : EnemyBase
         petrifyEffect?.AddEndCallback(() => sm.SendInput(MandragoraInputs.IDLE));
         PoolManager.instance.GetObjectPool(trapToDie.name, trapToDie);
 
+        Debug.Log("Me inicializo");
+
         if (!mandragoraIsTrap) return;
         spawnerSpot.Initialize();
         for (int i = 0; i < enemiesTypes.Count; i++)
             PoolManager.instance.GetObjectPool(enemiesTypes[i].name, enemiesTypes[i]);
-        On();
+
     }
 
     public override void SpawnEnemy()
@@ -195,7 +197,6 @@ public class MandragoraEnemy : EnemyBase
                     }
                 }
             }
-
             sm?.Update();
 
             if (cooldown)
@@ -269,6 +270,7 @@ public class MandragoraEnemy : EnemyBase
         else
             ragdoll.Ragdoll(true, dir);
         death = true;
+        mandragoraIsTrap = false;
         director.RemoveTarget(this);
         Main.instance.RemoveEntity(this);
     }

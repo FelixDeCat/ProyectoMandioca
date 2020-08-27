@@ -37,6 +37,7 @@ public class CastingBar : MonoBehaviour
 
     public void StartCasting(float time)
     {
+        
         castingTime = time;
         OnStartCasting?.Invoke();
         StartCoroutine(Casting());
@@ -44,11 +45,11 @@ public class CastingBar : MonoBehaviour
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.I))
-            StartCasting();
+        //if (Input.GetKeyDown(KeyCode.I))
+        //    StartCasting();
 
-        if (Input.GetKeyDown(KeyCode.K))
-            InterruptCasting();
+        //if (Input.GetKeyDown(KeyCode.K))
+        //    InterruptCasting();
     }
     /// <summary>
     /// Se encarga del proceso de casteo. Es un timer con el fill de la barra(no creo que usemos barra igual, sino una animacion clara)
@@ -68,7 +69,7 @@ public class CastingBar : MonoBehaviour
             castingBar_img.fillAmount = percent;
             yield return null;
         }
-
+        
         OnFinishCasting?.Invoke();
         isCasting = false;
         castingBar.SetActive(false);

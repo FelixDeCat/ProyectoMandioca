@@ -15,11 +15,11 @@ public abstract class PlayObject : MonoBehaviour,IZoneElement
 
     bool alreadyInitialized = false;
     public void Initialize() { if (!alreadyInitialized) { OnInitialize(); alreadyInitialized = true; } }
-    public void On() { canupdate = true; OnTurnOn(); }
-    public void Off() { canupdate = false; OnTurnOff(); }
+    public void On() { canupdate = true; OnTurnOn(); /*Debug.Log("me prendo" + name);*/ }
+    public void Off() { canupdate = false; OnTurnOff();/* Debug.Log("me apago" + name);*/ }
     public void Pause() { canupdate = false; OnPause(); }
     public void Resume() { canupdate = true; OnResume(); }
-    private void Update() { if (canupdate) OnUpdate(); }
+    private void Update() { if (canupdate) OnUpdate();  }
     private void FixedUpdate() { if (canupdate) OnFixedUpdate(); }
 
     /////////////////////////////////////////////////////////////

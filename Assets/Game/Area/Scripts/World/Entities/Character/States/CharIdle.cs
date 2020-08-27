@@ -27,6 +27,8 @@ namespace Tools.StateMachine
             {
                 sm.SendInput(CharacterHead.PlayerInputs.MOVE);
             }
+            charMove.MovementHorizontal(0);
+            charMove.MovementVertical(0);
 
             timer += Time.deltaTime;
 

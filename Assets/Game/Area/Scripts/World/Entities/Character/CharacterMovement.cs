@@ -46,7 +46,7 @@ public class CharacterMovement
         InDash = candash;
     }
 
-    float gravity = -7;
+    float gravity = -2f;
     Func<bool> isGrounded = delegate { return true; };
     float timer_gravity_curve;
     bool begin_gravityCurve;
@@ -270,36 +270,35 @@ public class CharacterMovement
     #endregion
 
     #region ROLL
+
+
+    float timer = 1;
+    bool initgravity;
     public void OnUpdate()
     {
         #region toda la parte de calculos relacionados a la curva de gravedad
-        if (begin_gravityCurve)
-        {
-            if (timer_gravity_curve < 1)
-            {
-                timer_gravity_curve = timer_gravity_curve + 1 * Time.deltaTime;
-                gravity_multiplier = gravityCurve.Evaluate(timer_gravity_curve);
-            }
-            else
-            {
-                timer_gravity_curve = 0;
-                begin_gravityCurve = false;
-            }
-        }
+        //if (begin_gravityCurve)
+        //{
+        //    if (timer_gravity_curve < 1)
+        //    {
+        //        timer_gravity_curve = timer_gravity_curve + 1 * Time.deltaTime;
+        //        gravity_multiplier = gravityCurve.Evaluate(timer_gravity_curve);
+        //    }
+        //    else
+        //    {
+        //        timer_gravity_curve = 0;
+        //        begin_gravityCurve = false;
+        //    }
+        //}
 
-        velY = 0;
         if (!isGrounded.Invoke())
         {
-            velY = gravity;
+            velY = velY + timer * gravity;//-7
 
-            if (begin_gravityCurve)
-            {
-                velY = gravity * gravity_multiplier;
-            }
-            else
-            {
-                velY = gravity;
-            }
+            initgravity = true;
+
+            timer += Time.deltaTime;
+
             _currentTime += Time.deltaTime;
             if (_currentTime >= _maxTimer)
             {
@@ -310,11 +309,16 @@ public class CharacterMovement
         }
         else
         {
-            velY = 0;
+            timer = 1;
+
+            if (!begin_gravityCurve)
+            {
+                velY = 0;
+            }
+
             if (_falling)
             {
                 Main.instance.GetChar().Life.Hit(_fallDMG);
-                
             }
 
             _fallDMG = 0;
@@ -382,16 +386,24 @@ public class CharacterMovement
 
     public void RollForAnim()
     {
+
         OnBeginRollFeedback_Callback();
         begin_gravityCurve = true;
         InDash = true;
         currentDashSpeed = dashSpeed;
+
+        if (!Main.instance.GetChar().UpWeapons)
+        {
+            velY += 15;
+            Debug.Log("vely: " + velY);
+        }
     }
 
     public void Roll()
     {
         EndRoll = StopRoll;
         if (InDash) return;
+
 
         dashDir = rotTransform.forward;
 
@@ -442,23 +454,23 @@ public class CharacterMovement
     //Pulir para que quede mas lindo
     public void Teleport()
     {
-        RollForAnim();
-        AudioManager.instance.PlaySound("TeleportAudio", rotTransform);
-        introTeleport_ps.transform.position = _rb.position;
-        introTeleport_ps.Play();
+        //RollForAnim();
+        //AudioManager.instance.PlaySound("TeleportAudio", rotTransform);
+        //introTeleport_ps.transform.position = _rb.position;
+        //introTeleport_ps.Play();
 
-        InDash = true;
-        dashCdOk = true;
-        if (movX != 0 || movY != 0)
-            dashDir = new Vector3(movX, 0, movY);
-        else
-            dashDir = rotTransform.forward;
+        //InDash = true;
+        //dashCdOk = true;
+        //if (movX != 0 || movY != 0)
+        //    dashDir = new Vector3(movX, 0, movY);
+        //else
+        //    dashDir = rotTransform.forward;
 
-        dashDir.Normalize();
+        //dashDir.Normalize();
 
-        _rb.position = _rb.position + (dashDir * _teleportDistance);
-        outroTeleport_ps.transform.position = _rb.position + dashDir * _teleportDistance - dashDir * 1.5f;
-        outroTeleport_ps.Play();
+        //_rb.position = _rb.position + (dashDir * _teleportDistance);
+        //outroTeleport_ps.transform.position = _rb.position + dashDir * _teleportDistance - dashDir * 1.5f;
+        //outroTeleport_ps.Play();
     }
 
     //Puli esto Fran

@@ -5,7 +5,8 @@ using Tools.StateMachine;
 
 public class CharacterHead : CharacterControllable
 {
-    public enum PlayerInputs {
+    public enum PlayerInputs
+    {
         IDLE, MOVE, BEGIN_BLOCK, BLOCK, END_BLOCK, PARRY, CHARGE_ATTACK, RELEASE_ATTACK,
         TAKE_DAMAGE, DEAD, ROLL, SPIN, STUN, PLAYER_LOCK_ON, ON_SKILL, ON_LOOK_SHOLDER,
         ON_MENU_ENTER, ON_MENU_EXIT
@@ -99,10 +100,10 @@ public class CharacterHead : CharacterControllable
     [SerializeField] CharFeedbacks feedbacks = null;
 
     private bool blockRoll;
-    public bool BlockRoll {set { blockRoll = value; } }
+    public bool BlockRoll { set { blockRoll = value; } }
 
 
-    [HideInInspector] private bool canAttack = false; 
+    [HideInInspector] private bool canAttack = false;
     public void ToggleAttack(bool val) => canAttack = val;
     [Header("Falling damage Options")]
     [SerializeField] float _multiplierFallDMG = 2;
@@ -158,9 +159,9 @@ public class CharacterHead : CharacterControllable
             .Initialize(this);
 
         //COMBOWOMBO
-        if(IsComboWomboActive)
+        if (IsComboWomboActive)
             combo_system.AddCallback_OnComboready(ActiveCombo);
-        
+
         //COMBOWOMBO
 
         charAttack.Add_callback_Normal_attack(ReleaseInNormal);
@@ -192,7 +193,7 @@ public class CharacterHead : CharacterControllable
         originalNormal = charAttack.Dmg_normal;
         originalHeavy = charAttack.Dmg_Heavy;
 
-        if(StartWithoutWeapons)
+        if (StartWithoutWeapons)
         {
             ToggleShield(false);
             ToggleSword(false);
@@ -203,7 +204,7 @@ public class CharacterHead : CharacterControllable
             ToggleSword(true);
         }
     }
-    
+
     public void StopMovement() { move.MovementHorizontal(0); move.MovementVertical(0); }
     void SlowMO()
     {
@@ -254,7 +255,7 @@ public class CharacterHead : CharacterControllable
             .SetTransition(PlayerInputs.DEAD, dead)
             .SetTransition(PlayerInputs.STUN, stun)
             .SetTransition(PlayerInputs.ON_SKILL, onSkill)
-            .SetTransition(PlayerInputs.ON_LOOK_SHOLDER,LookAtOverSholder)
+            .SetTransition(PlayerInputs.ON_LOOK_SHOLDER, LookAtOverSholder)
             .Done();
 
         ConfigureState.Create(LookAtOverSholder)
@@ -266,7 +267,7 @@ public class CharacterHead : CharacterControllable
             .SetTransition(PlayerInputs.DEAD, dead)
             .SetTransition(PlayerInputs.STUN, stun)
             .SetTransition(PlayerInputs.ON_SKILL, onSkill)
-            .SetTransition(PlayerInputs.ON_LOOK_SHOLDER,idle)
+            .SetTransition(PlayerInputs.ON_LOOK_SHOLDER, idle)
             .Done();
 
         ConfigureState.Create(move)
@@ -286,6 +287,7 @@ public class CharacterHead : CharacterControllable
         ConfigureState.Create(onSkill)
             .SetTransition(PlayerInputs.IDLE, idle)
             .SetTransition(PlayerInputs.BEGIN_BLOCK, beginBlock)
+            .SetTransition(PlayerInputs.ON_MENU_ENTER, onMenues)
             //.SetTransition(PlayerInputs.PARRY, parry)
             .SetTransition(PlayerInputs.ROLL, roll)
             .SetTransition(PlayerInputs.CHARGE_ATTACK, attackCharge)
@@ -299,6 +301,7 @@ public class CharacterHead : CharacterControllable
         ConfigureState.Create(beginBlock)
              .SetTransition(PlayerInputs.BLOCK, block)
              .SetTransition(PlayerInputs.END_BLOCK, endBlock)
+             .SetTransition(PlayerInputs.ON_MENU_ENTER, onMenues)
              //.SetTransition(PlayerInputs.CHARGE_ATTACK, attackCharge)
              .SetTransition(PlayerInputs.ROLL, bashDash)
              .SetTransition(PlayerInputs.PARRY, parry)
@@ -309,6 +312,7 @@ public class CharacterHead : CharacterControllable
         ConfigureState.Create(block)
             .SetTransition(PlayerInputs.END_BLOCK, endBlock)
             .SetTransition(PlayerInputs.ROLL, bashDash)
+            .SetTransition(PlayerInputs.ON_MENU_ENTER, onMenues)
             //.SetTransition(PlayerInputs.CHARGE_ATTACK, attackCharge)
             //.SetTransition(PlayerInputs.TAKE_DAMAGE, takeDamage)
             .SetTransition(PlayerInputs.PARRY, parry)
@@ -318,6 +322,7 @@ public class CharacterHead : CharacterControllable
         ConfigureState.Create(endBlock)
             .SetTransition(PlayerInputs.IDLE, idle)
             .SetTransition(PlayerInputs.MOVE, move)
+            .SetTransition(PlayerInputs.ON_MENU_ENTER, onMenues)
             .SetTransition(PlayerInputs.ROLL, roll)
             .SetTransition(PlayerInputs.TAKE_DAMAGE, takeDamage)
             .SetTransition(PlayerInputs.BEGIN_BLOCK, beginBlock)
@@ -326,12 +331,14 @@ public class CharacterHead : CharacterControllable
 
         ConfigureState.Create(parry)
             .SetTransition(PlayerInputs.IDLE, idle)
+            .SetTransition(PlayerInputs.ON_MENU_ENTER, onMenues)
             .SetTransition(PlayerInputs.DEAD, dead)
             .SetTransition(PlayerInputs.END_BLOCK, endBlock)
             .Done();
 
         ConfigureState.Create(roll)
             .SetTransition(PlayerInputs.IDLE, idle)
+            .SetTransition(PlayerInputs.ON_MENU_ENTER, onMenues)
             .SetTransition(PlayerInputs.MOVE, move)
             .SetTransition(PlayerInputs.DEAD, dead)
             //.SetTransition(PlayerInputs.CHARGE_ATTACK, attackCharge)
@@ -339,6 +346,7 @@ public class CharacterHead : CharacterControllable
 
         ConfigureState.Create(bashDash)
             .SetTransition(PlayerInputs.IDLE, idle)
+            .SetTransition(PlayerInputs.ON_MENU_ENTER, onMenues)
             .SetTransition(PlayerInputs.MOVE, move)
             .SetTransition(PlayerInputs.DEAD, dead)
             .Done();
@@ -351,11 +359,13 @@ public class CharacterHead : CharacterControllable
 
         ConfigureState.Create(attackCharge)
             .SetTransition(PlayerInputs.RELEASE_ATTACK, attackRelease)
+            .SetTransition(PlayerInputs.ON_MENU_ENTER, onMenues)
             .SetTransition(PlayerInputs.DEAD, dead)
             .Done();
 
         ConfigureState.Create(attackRelease)
             .SetTransition(PlayerInputs.IDLE, idle)
+            .SetTransition(PlayerInputs.ON_MENU_ENTER, onMenues)
             .SetTransition(PlayerInputs.MOVE, move)
             .SetTransition(PlayerInputs.CHARGE_ATTACK, attackCharge)
             .SetTransition(PlayerInputs.BEGIN_BLOCK, beginBlock)
@@ -365,11 +375,13 @@ public class CharacterHead : CharacterControllable
 
         ConfigureState.Create(takeDamage)
             .SetTransition(PlayerInputs.IDLE, idle)
+            .SetTransition(PlayerInputs.ON_MENU_ENTER, onMenues)
             .SetTransition(PlayerInputs.DEAD, dead)
             .Done();
 
         ConfigureState.Create(stun)
             .SetTransition(PlayerInputs.IDLE, idle)
+            .SetTransition(PlayerInputs.ON_MENU_ENTER, onMenues)
             .SetTransition(PlayerInputs.MOVE, move)
             .Done();
 
@@ -524,7 +536,7 @@ public class CharacterHead : CharacterControllable
         charanim.InCombat(0);
         UpWeapons = false;
 
-       // Debug.Log(combat.ToString() + attacking.ToString() + inTrap.ToString());
+        // Debug.Log(combat.ToString() + attacking.ToString() + inTrap.ToString());
     }
 
     void UpWeaponsFunction()
@@ -643,6 +655,9 @@ public class CharacterHead : CharacterControllable
         charAttack.Attack(isHeavyRelease);
     }
 
+    bool combo;
+    void OnComboIsLoaded() => combo = true;
+
     #region Resultados de los ataques
     void DealSucessfullNormal()
     {
@@ -650,13 +665,18 @@ public class CharacterHead : CharacterControllable
         Main.instance.Vibrate(0.7f, 0.1f);
         Main.instance.CameraShake();
 
-            if (canAddComboHit)
-            {               
-                canAddComboHit = false;
-                combo_system.AddHit();
-                StartCoroutine(CDToAddComboHit());
-            }
-      
+        
+
+
+        if (canAddComboHit)
+        {
+            
+
+            canAddComboHit = false;
+            combo_system.AddHit();
+            StartCoroutine(CDToAddComboHit());
+        }
+
     }
     void DealSucessfullHeavy()
     {
@@ -681,11 +701,10 @@ public class CharacterHead : CharacterControllable
     {
         Main.instance.CameraShake();
     }
-
     void ActiveCombo()
     {
+        IsComboWomboActive = true;
         feedbacks.particles.HeavyLoaded.Play();
-        charAttack.ChangeHeavyAttackTime(0f);
     }
 
     void ResetCombo()
@@ -710,7 +729,7 @@ public class CharacterHead : CharacterControllable
         ChangeDamageAttack((int)charAttack.Dmg_normal);
         ChangeAngleAttack(charAttack.AttackAngle);
         ChangeRangeAttack(charAttack.AttackRange);
-        charanim.NormalAttack();       
+        charanim.NormalAttack();
     }
 
     bool isHeavyRelease;
@@ -737,7 +756,7 @@ public class CharacterHead : CharacterControllable
     {
         if (charAttack == null)
             return;
-        
+
         Vector3 initPos = rot.position + Vector3.up;
 
         Gizmos.color = Color.blue;
@@ -880,6 +899,12 @@ public class CharacterHead : CharacterControllable
     public void UNITY_EVENT_OnInteractDown()
     {
         sensor.OnInteractDown();
+        if (IsComboWomboActive)
+        {
+            charAttack.ForceHeavy();
+            charanim.HeavyAttack();
+            IsComboWomboActive = false;
+        }
     }
     public void UNITY_EVENT_OnInteractUp()
     {
@@ -906,8 +931,8 @@ public class CharacterHead : CharacterControllable
     {
         charanim.SetUpdateMode(AnimatorUpdateMode.UnscaledTime);
         isBuffed = true;
-       // dmg_normal = originalNormal + damageBuff;
-       // dmg_heavy = originalHeavy + damageBuff;
+        // dmg_normal = originalNormal + damageBuff;
+        // dmg_heavy = originalHeavy + damageBuff;
         move.SetSpeed(move.GetDefaultSpeed + speedAcceleration);
         dmgReceived = damageReceived;
         Main.instance.GetTimeManager().DoSlowMo(scale);
@@ -917,7 +942,7 @@ public class CharacterHead : CharacterControllable
         charanim.SetUpdateMode(AnimatorUpdateMode.Normal);
         isBuffed = false;
         //dmg_normal = originalNormal;
-       // dmg_heavy = originalHeavy;
+        // dmg_heavy = originalHeavy;
         move.SetSpeed();
         dmgReceived = 1;
         Main.instance.GetTimeManager().StopSlowMo();
