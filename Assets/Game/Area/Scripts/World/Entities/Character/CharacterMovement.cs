@@ -46,13 +46,7 @@ public class CharacterMovement
         InDash = candash;
     }
 
-    float gravity = -2f;
-    Func<bool> isGrounded = delegate { return true; };
-    float timer_gravity_curve;
-    bool begin_gravityCurve;
-    [SerializeField] AnimationCurve gravityCurve = null;
-    float gravity_multiplier = 1f;
-
+    CharacterGroundSensor isGrounded;
     CharacterAnimator anim;
 
     Action OnBeginRollFeedback_Callback;
@@ -86,7 +80,7 @@ public class CharacterMovement
     }
     
 
-    public void Initialize(Rigidbody rb, Transform rot, CharacterAnimator a, CharFeedbacks _feedbacks, Func<bool> _isGrounded)
+    public void Initialize(Rigidbody rb, Transform rot, CharacterAnimator a, CharFeedbacks _feedbacks, CharacterGroundSensor _isGrounded)
     {
         currentSpeed = speed;
         currentCD = dashCd;
@@ -104,6 +98,7 @@ public class CharacterMovement
         isGrounded = _isGrounded;
         AudioManager.instance.GetSoundPool("DashSounds", AudioGroups.GAME_FX);
         ActualizeDash(true);
+        isGrounded.TurnOn();
     }
 
     #region BUILDER
@@ -137,9 +132,6 @@ public class CharacterMovement
         movY = axis;
         Move();
     }
-
-    float velY = 0;
-
     void Move()
     {
         Vector3 auxNormalized = Vector3.zero;
@@ -153,7 +145,7 @@ public class CharacterMovement
         Rotation(auxNormalized.normalized.x, auxNormalized.normalized.z);
 
         if (!forcing)
-            _rb.velocity = new Vector3(auxNormalized.x, velY, auxNormalized.z);
+            _rb.velocity = new Vector3(auxNormalized.x, isGrounded.VelY, auxNormalized.z);
 
         if (currentSpeed <= 0)
         {
@@ -276,57 +268,25 @@ public class CharacterMovement
     bool initgravity;
     public void OnUpdate()
     {
-        #region toda la parte de calculos relacionados a la curva de gravedad
-        //if (begin_gravityCurve)
-        //{
-        //    if (timer_gravity_curve < 1)
-        //    {
-        //        timer_gravity_curve = timer_gravity_curve + 1 * Time.deltaTime;
-        //        gravity_multiplier = gravityCurve.Evaluate(timer_gravity_curve);
-        //    }
-        //    else
-        //    {
-        //        timer_gravity_curve = 0;
-        //        begin_gravityCurve = false;
-        //    }
-        //}
-
-        if (!isGrounded.Invoke())
+        if (isGrounded.IsInGround)
         {
-            velY = velY + timer * gravity;//-7
+            if (_falling)
+                Main.instance.GetChar().Life.Hit(_fallDMG);
 
-            initgravity = true;
-
-            timer += Time.deltaTime;
-
+            _fallDMG = 0;
+            _currentTime = 0;
+            _falling = false;
+        }
+        else
+        {
             _currentTime += Time.deltaTime;
             if (_currentTime >= _maxTimer)
             {
                 _falling = true;
                 _fallDMG = (int)((_currentTime * _DMGMultiplier) - _maxTimer);
             }
-            DebugCustom.Log("Gravity", "Gravity", "TRUE");
         }
-        else
-        {
-            timer = 1;
 
-            if (!begin_gravityCurve)
-            {
-                velY = 0;
-            }
-
-            if (_falling)
-            {
-                Main.instance.GetChar().Life.Hit(_fallDMG);
-            }
-
-            _fallDMG = 0;
-            _currentTime = 0;
-            _falling = false;
-            DebugCustom.Log("Gravity", "Gravity", "false");
-        }
-        #endregion
         #region el dash fisico mero mero
         if (InDash)
         {
@@ -334,7 +294,7 @@ public class CharacterMovement
 
             dashDir = new Vector3(dashDir.x, 0, dashDir.z);
 
-            _rb.velocity = currentDashSpeed * dashDir + new Vector3(0, velY, 0);
+            _rb.velocity = currentDashSpeed * dashDir + new Vector3(0, isGrounded.VelY, 0);
 
             if (timerDash >= currentTimerDash)
             {
@@ -359,7 +319,6 @@ public class CharacterMovement
             }
         }
         #endregion
-
     }
 
     public void StopRoll()
@@ -372,8 +331,6 @@ public class CharacterMovement
         timerDash = 0;
         dashDir = Vector3.zero;
         dashCdOk = true;
-        timer_gravity_curve = 0;
-        begin_gravityCurve = false;
     }
 
 
@@ -386,17 +343,9 @@ public class CharacterMovement
 
     public void RollForAnim()
     {
-
         OnBeginRollFeedback_Callback();
-        begin_gravityCurve = true;
         InDash = true;
         currentDashSpeed = dashSpeed;
-
-        if (!Main.instance.GetChar().UpWeapons)
-        {
-            velY += 15;
-            Debug.Log("vely: " + velY);
-        }
     }
 
     public void Roll()
@@ -539,7 +488,6 @@ public class CharacterMovement
         dashDir = rotTransform.forward;
         anim.BashDashAnim();
         OnBeginRollFeedback_Callback();
-        begin_gravityCurve = true;
         InDash = true;
         currentDashSpeed = bashDashSpeed;
         currentTimerDash = bashDashDistance;
@@ -555,8 +503,6 @@ public class CharacterMovement
         timerDash = 0;
         dashDir = Vector3.zero;
         dashCdOk = true;
-        timer_gravity_curve = 0;
-        begin_gravityCurve = false;
     }
 
     #endregion

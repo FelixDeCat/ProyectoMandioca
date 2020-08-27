@@ -130,7 +130,7 @@ public class CharacterHead : CharacterControllable
         charanim = new CharacterAnimator(anim_base);
         customCam = FindObjectOfType<CustomCamera>();
 
-        move.Initialize(GetComponent<Rigidbody>(), rot, charanim, feedbacks, IsGrounded);
+        move.Initialize(GetComponent<Rigidbody>(), rot, charanim, feedbacks, groundSensor);
         move.Set_DMGMultiplier(_multiplierFallDMG);
         move.SetFallTimer(_TimeToFallDamage);
         InDash += move.InCD;
@@ -211,7 +211,6 @@ public class CharacterHead : CharacterControllable
         Main.instance.GetTimeManager().DoSlowMotion(timeScale, slowDuration);
         customCam.DoFastZoom(speedAnim);
     }
-    bool IsGrounded() => groundSensor.IsGrounded();
     protected override void OnUpdateEntity()
     {
         stateMachine.Update();
@@ -799,7 +798,7 @@ public class CharacterHead : CharacterControllable
     }
     public void RollDash()
     {
-        if (!groundSensor.IsGrounded() || blockRoll) return;
+        if (!groundSensor.IsInGround || blockRoll) return;
         if (!InDash() && move.CanUseDash)
         {
             //Chequeo si tengo el teleport activado. Sino, sigo normalmente con el roll

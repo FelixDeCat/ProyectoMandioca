@@ -6308,48 +6308,6 @@ MonoBehaviour:
     maxTimerDash: 0.5
     dashCd: 0.1
     dashSpeed: 8
-    gravityCurve:
-      serializedVersion: 2
-      m_Curve:
-      - serializedVersion: 3
-        time: -0.007118225
-        value: 0.2782898
-        inSlope: 0.648648
-        outSlope: 0.648648
-        tangentMode: 34
-        weightedMode: 0
-        inWeight: 0
-        outWeight: 0.33333334
-      - serializedVersion: 3
-        time: 0.23947805
-        value: 0.438244
-        inSlope: 0.47750765
-        outSlope: 0.47750765
-        tangentMode: 0
-        weightedMode: 0
-        inWeight: 0.30626604
-        outWeight: 0.33333334
-      - serializedVersion: 3
-        time: 0.64092594
-        value: 0.5036806
-        inSlope: 0.9277005
-        outSlope: 0.9277005
-        tangentMode: 0
-        weightedMode: 0
-        inWeight: 0.17569225
-        outWeight: 0.33333334
-      - serializedVersion: 3
-        time: 0.99554443
-        value: 0.5999069
-        inSlope: 0.27135172
-        outSlope: 0.27135172
-        tangentMode: 34
-        weightedMode: 0
-        inWeight: 0.33333334
-        outWeight: 0
-      m_PreInfinity: 2
-      m_PostInfinity: 2
-      m_RotationOrder: 4
     myCamera: {fileID: 176876684156188066}
     bashDashDistance: 0.5
     bashDashSpeed: 3.5
@@ -12572,7 +12530,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4304400310090707077}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: -0.0159, z: 0}
+  m_LocalPosition: {x: 0, y: 0.03, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 7636500804837496558}
@@ -12590,10 +12548,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bc9c473c0a3d9d848a4e1c9638f0fd1a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ground:
+  widht: 0.17
+  lenght: 0.19
+  height: 0.1
+  floorMask:
     serializedVersion: 2
     m_Bits: 2097152
-  radius: 0.44
+  gravityMultiplier: 0.5
+  minAceleration: 1
+  maxAceleration: 15
 --- !u!1 &4486850366730348248
 GameObject:
   m_ObjectHideFlags: 0
@@ -38427,8 +38390,8 @@ SkinnedMeshRenderer:
   m_BlendShapeWeights: []
   m_RootBone: {fileID: 0}
   m_AABB:
-    m_Center: {x: 0.000000029802322, y: 0.000000014901161, z: 0}
-    m_Extent: {x: 0.2614373, y: 0.08391313, z: 0.23976207}
+    m_Center: {x: 0.000000029802322, y: 0.020846047, z: -0.00095802546}
+    m_Extent: {x: 0.2614373, y: 0.104759164, z: 0.2407201}
   m_DirtyAABB: 0
 --- !u!183 &7347897041836385100
 Cloth:

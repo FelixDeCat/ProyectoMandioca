@@ -4,38 +4,81 @@ using UnityEngine;
 
 public class CharacterGroundSensor : MonoBehaviour
 {
-    [SerializeField] LayerMask ground;
-    bool isGronded;
-   // public bool IsGrounded => isGronded;
+    [SerializeField] float widht = 1;
+    [SerializeField] float lenght = 1;
+    [SerializeField] float height = 1;
+    [SerializeField] LayerMask floorMask = 1 << 21;
 
-    public float radius;
+    [SerializeField] float gravityMultiplier = 9.81f;
+    [SerializeField] float minAceleration = 1;
+    [SerializeField] float maxAceleration = 20;
 
-    public bool IsGrounded()
+    bool isGrounded;
+    float timer;
+
+    public float VelY { get; private set; }
+    public bool IsInGround { get => isGrounded; private set { } }
+    bool on;
+
+    public void TurnOn()
     {
-        var cols = Physics.OverlapSphere(this.transform.position, radius, ground.value);
-        foreach (var c in cols) return true;
-        return false;
+        on = true;
+    }
+
+    public void TurnOff()
+    {
+        on = false;
+        VelY = 0;
+    }
+
+    private void Update()
+    {
+        if (!on) return;
+
+        IsGrounded();
+
+        if (!isGrounded)
+        {
+            VelY = Mathf.Clamp(VelY - timer * gravityMultiplier, -maxAceleration, - minAceleration);
+            timer += Time.deltaTime;
+
+            Debug.Log(VelY);
+
+            DebugCustom.Log("Gravity", "Gravity", "TRUE");
+        }
+        else
+        {
+            timer = 1;
+
+            VelY = 0;
+            DebugCustom.Log("Gravity", "Gravity", "false");
+        }
+    }
+
+    public void IsGrounded()
+    {
+        isGrounded = false;
+
+        if (Physics.Raycast(transform.position, Vector3.down, height, floorMask))
+            isGrounded = true;
+        else if(Physics.Raycast(transform.position + Vector3.right * widht, Vector3.down, height, floorMask))
+            isGrounded = true;
+        else if (Physics.Raycast(transform.position + Vector3.left * widht, Vector3.down, height, floorMask))
+            isGrounded = true;
+        else if (Physics.Raycast(transform.position + Vector3.forward * lenght, Vector3.down, height, floorMask))
+            isGrounded = true;
+        else if (Physics.Raycast(transform.position + Vector3.back * lenght, Vector3.down, height, floorMask))
+            isGrounded = true;
+
+        Debug.Log(isGrounded);
     }
 
     private void OnDrawGizmos()
     {
-        Gizmos.DrawWireSphere(this.transform.position, radius);
-    }
-
-    public void OnTriggerEnter(Collider other)
-    {
-        if ((1 << other.gameObject.layer & ground) != 0)
-        {
-            isGronded = true;
-            DebugCustom.Log("GroundSensor", "Sensor", isGronded);
-        }
-    }
-    public void OnTriggerExit(Collider other)
-    {
-        if ((1 << other.gameObject.layer & ground) != 0)
-        {
-            isGronded = false;
-            DebugCustom.Log("GroundSensor", "Sensor", isGronded);
-        }
+        Gizmos.DrawLine(transform.position, transform.position + Vector3.down * height);
+        Gizmos.DrawLine(transform.position + Vector3.right * widht, transform.position + Vector3.right * widht + (transform.position + Vector3.down * height));
+        Gizmos.DrawLine(transform.position + Vector3.left * widht, transform.position + Vector3.left * widht + (transform.position + Vector3.down * height));
+        Gizmos.DrawLine(transform.position + Vector3.forward * lenght, transform.position + Vector3.forward * lenght + (transform.position + Vector3.down * height));
+        Gizmos.DrawLine(transform.position + Vector3.back * lenght, transform.position + Vector3.back * lenght + (transform.position + Vector3.down * height));
     }
 }
