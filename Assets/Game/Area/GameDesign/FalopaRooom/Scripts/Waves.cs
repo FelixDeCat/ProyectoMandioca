@@ -30,7 +30,7 @@ public class Waves : MonoBehaviour
             Destroy(this.gameObject);
         }
     }
-    public Waves SetSpeed(int speed)
+    public Waves SetSpeed(float speed)
     {
         _speed = speed;
         return this;

@@ -9,6 +9,7 @@ public class MagicCrow : MonoBehaviour
     [SerializeField]  Waves magicBullet_pf;
     [SerializeField] CastingBar castingbar;
     [SerializeField] Transform shooter;
+    [SerializeField] float bulletSpeed;
 
     [SerializeField] ParticleSystem hit;
 
@@ -28,7 +29,7 @@ public class MagicCrow : MonoBehaviour
         Vector3 currentPlayerPos = myHero.transform.position;
         shooter.LookAt(currentPlayerPos + Vector3.up*0.25f);
         var b = Instantiate<Waves>(magicBullet_pf);
-        b.SetLifeTime(5).SetSpeed(2).SetSpeed(3).SetSpawner(shooter.gameObject);
+        b.SetLifeTime(5).SetSpeed(bulletSpeed).SetSpawner(shooter.gameObject);
         b.transform.position = shooter.transform.position;
         b.transform.rotation = shooter.transform.rotation;
        
