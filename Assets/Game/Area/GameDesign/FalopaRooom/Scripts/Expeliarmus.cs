@@ -13,7 +13,7 @@ public class Expeliarmus : Waves
         if (other.gameObject.GetComponent<CharacterHead>() && !parried)
         {
             DamageReceiver character = other.gameObject.GetComponent<DamageReceiver>();
-            //spawner = character.gameObject;
+      
             if(character.TakeDamage(dmgDATA) == Attack_Result.parried)
             {
                 Debug.Log("Parried");

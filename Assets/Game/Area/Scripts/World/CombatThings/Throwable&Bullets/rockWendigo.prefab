@@ -92,7 +92,7 @@ GameObject:
   - component: {fileID: 7744332779966298613}
   - component: {fileID: -6985174493653873851}
   m_Layer: 0
-  m_Name: rock
+  m_Name: rockWendigo
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -156,8 +156,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 147e032a7e34fc647b8024b7dcebcced, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  local_force_multiplier: 5
+  local_force_multiplier: 2
   sensor: {fileID: 7744332780351284322}
+  damage: 5
+  inParryDamage: 10
   time_to_disapear: 3
   layermask_player:
     serializedVersion: 2
@@ -166,7 +168,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 1024
   damageData: {fileID: -6985174493653873851}
-  _crushBoulder: {fileID: 8300000, guid: f48d66c7eb9746d4eb6f4808820e5ce1, type: 3}
+  _crushBoulder: {fileID: 8300000, guid: 460586061a5434487858c661ce5c4d74, type: 3}
 --- !u!114 &-6985174493653873851
 MonoBehaviour:
   m_ObjectHideFlags: 0

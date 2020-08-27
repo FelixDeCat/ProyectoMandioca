@@ -12,7 +12,7 @@ public class SpikeCorruptedVine : MonoBehaviour
     {
         damageData = GetComponent<DamageData>();
 
-        damageData.SetDamage(2).SetDamageType(Damagetype.NonBlockAndParry);
+        damageData.SetDamage(1).SetDamageType(Damagetype.NonBlockAndParry);
     }
 
     private void OnTriggerEnter(Collider other)
@@ -44,7 +44,7 @@ public class SpikeCorruptedVine : MonoBehaviour
 
     IEnumerator DelayedDamage()
     {
-        yield return new WaitForSeconds(.4f);
+        yield return new WaitForSeconds(.6f);
 
         if (isClose)
             DoDamage();

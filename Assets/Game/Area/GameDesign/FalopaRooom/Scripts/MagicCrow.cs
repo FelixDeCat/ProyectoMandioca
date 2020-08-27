@@ -5,11 +5,15 @@ using UnityEngine;
 public class MagicCrow : MonoBehaviour
 {
 
-    [SerializeField] CharacterHead myHero;
-    [SerializeField]  Waves magicBullet_pf;
+    CharacterHead myHero;
+    [SerializeField]  Throwable magicBullet_pf;
     [SerializeField] CastingBar castingbar;
     [SerializeField] Transform shooter;
+    [SerializeField] Transform model;
     [SerializeField] float bulletSpeed;
+    [SerializeField] ParticleSystem feedbackCast;
+
+    ThrowData tData;
 
     [SerializeField] ParticleSystem hit;
 
@@ -21,18 +25,19 @@ public class MagicCrow : MonoBehaviour
         castingbar.AddEventListener_OnFinishCasting(() => StartCoroutine(CDtoCast()));
         castingbar.AddEventListener_OnFinishCasting(OnFinishCast);
 
+        
+        ThrowablePoolsManager.instance.CreateAPool("bala magica", magicBullet_pf); 
     }
 
     void OnFinishCast()
     {
-        
+        feedbackCast.Stop();
+        tData = new ThrowData();
         Vector3 currentPlayerPos = myHero.transform.position;
-        shooter.LookAt(currentPlayerPos + Vector3.up*0.25f);
-        var b = Instantiate<Waves>(magicBullet_pf);
-        b.SetLifeTime(5).SetSpeed(bulletSpeed).SetSpawner(shooter.gameObject);
-        b.transform.position = shooter.transform.position;
-        b.transform.rotation = shooter.transform.rotation;
-       
+        tData.Configure(shooter.transform.position, (currentPlayerPos - shooter.transform.position).normalized, bulletSpeed, 2, transform);
+
+        ThrowablePoolsManager.instance.Throw("bala magica", tData);
+
     }
 
     IEnumerator CDtoCast()
@@ -44,6 +49,13 @@ public class MagicCrow : MonoBehaviour
     public void Activate()
     {
         castingbar.StartCasting(3);
+        feedbackCast.Play();
+
+    }
+
+    public void LookPlayer()
+    {
+        model.LookAt(new Vector3(myHero.transform.position.x, 0, myHero.transform.position.z));
     }
 
     public void DeathFeedback()
