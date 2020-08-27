@@ -64,7 +64,7 @@ Shader "Effects/Interactuables/CustomOutline"
 			float3 ase_worldViewDir = normalize( UnityWorldSpaceViewDir( ase_worldPos ) );
 			float3 ase_worldNormal = i.worldNormal;
 			float fresnelNdotV38 = dot( ase_worldNormal, ase_worldViewDir );
-			float fresnelNode38 = ( 0.0 + 1.0 * pow( 1.0 - fresnelNdotV38, 0.75 ) );
+			float fresnelNode38 = ( 0.0 + 1.0 * pow( 1.0 - fresnelNdotV38, 1.93 ) );
 			o.Emission = ( _FresnelColor * fresnelNode38 ).rgb;
 			o.Alpha = _MainOpacity;
 		}
@@ -149,12 +149,12 @@ Shader "Effects/Interactuables/CustomOutline"
 }
 /*ASEBEGIN
 Version=17200
-0;416;974;273;902.7291;-341.5162;1;True;False
+0;416;974;273;1023.193;-556.3152;1;True;False
 Node;AmplifyShaderEditor.ColorNode;4;-891.5121,-16.07732;Inherit;False;Property;_OutlineColor;Outline Color;2;0;Create;True;0;0;False;0;0,0.2204757,1,0;0,0,0,0;True;0;5;COLOR;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
 Node;AmplifyShaderEditor.RangedFloatNode;3;-952.8076,147.9241;Inherit;False;Property;_OpacityOutline;OpacityOutline;5;0;Create;True;0;0;False;0;0;0;0;1;0;1;FLOAT;0
 Node;AmplifyShaderEditor.RangedFloatNode;2;-962.283,227.5869;Inherit;False;Property;_OutlineWitdh;Outline Witdh;4;0;Create;True;0;0;False;0;0;0.016;0;1;0;1;FLOAT;0
-Node;AmplifyShaderEditor.FresnelNode;38;-520.53,599.6339;Inherit;True;Standard;WorldNormal;ViewDir;False;5;0;FLOAT3;0,0,1;False;4;FLOAT3;0,0,0;False;1;FLOAT;0;False;2;FLOAT;1;False;3;FLOAT;0.75;False;1;FLOAT;0
 Node;AmplifyShaderEditor.ColorNode;40;-495.6822,409.0379;Inherit;False;Property;_FresnelColor;Fresnel Color;7;0;Create;True;0;0;False;0;1,1,1,0;1,1,1,0;True;0;5;COLOR;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
+Node;AmplifyShaderEditor.FresnelNode;38;-520.53,599.6339;Inherit;True;Standard;WorldNormal;ViewDir;False;5;0;FLOAT3;0,0,1;False;4;FLOAT3;0,0,0;False;1;FLOAT;0;False;2;FLOAT;1;False;3;FLOAT;1.93;False;1;FLOAT;0
 Node;AmplifyShaderEditor.ColorNode;8;-334.3628,-98.05403;Inherit;False;Property;_EmissionColor;EmissionColor;1;0;Create;True;0;0;False;0;0,0,0,0;1,0.1568627,0.944837,1;True;0;5;COLOR;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
 Node;AmplifyShaderEditor.RangedFloatNode;36;-300.7001,65.46892;Inherit;False;Property;_Float0;Float 0;6;0;Create;True;0;0;False;0;0;0.62;0;0;0;1;FLOAT;0
 Node;AmplifyShaderEditor.RangedFloatNode;7;-134.3017,182.661;Inherit;False;Property;_MainOpacity;MainOpacity;3;0;Create;True;0;0;False;0;0;0;0;1;0;1;FLOAT;0
@@ -174,4 +174,4 @@ WireConnection;0;2;39;0
 WireConnection;0;9;7;0
 WireConnection;0;11;6;0
 ASEEND*/
-//CHKSM=3CA882667B43450BD751EA422F40F73239059969
+//CHKSM=4198D56C808E310F1AD952C105E476778CCE9E5E
