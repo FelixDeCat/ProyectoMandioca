@@ -75,7 +75,8 @@ public class CombatDirector : LoadComponent, IZoneElement
     void Attack(ICombatDirector e, EntityBase target)
     {
         listAttackTarget[target].Remove(e);
-        attackingTarget[target].Add(e);
+        if(!attackingTarget[target].Contains(e))
+            attackingTarget[target].Add(e);
     }
     void CalculateTimer(EntityBase target) => timeToAttacks[target] = UnityEngine.Random.Range(timerMin, timerMax);
     void Update()
@@ -166,7 +167,7 @@ public class CombatDirector : LoadComponent, IZoneElement
         }
         else
         {
-            prepareToAttack[target].Add(e);
+            if(!prepareToAttack[target].Contains(e)) prepareToAttack[target].Add(e);
         }
     }
     ///<summary> Esta función elemina de la consideración para la orden de ataque, ya fuese si stunean al enemigo, no está en posición de ataque o incluso, si se le acaba de dar la orden de atacar.</summary>
