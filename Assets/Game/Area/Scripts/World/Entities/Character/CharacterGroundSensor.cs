@@ -69,8 +69,11 @@ public class CharacterGroundSensor : MonoBehaviour
             isGrounded = true;
         else if (Physics.Raycast(transform.position + Vector3.back * lenght, Vector3.down, height, floorMask))
             isGrounded = true;
+    }
 
-        Debug.Log(isGrounded);
+    public void AddForce(float force)
+    {
+
     }
 
     private void OnDrawGizmos()
@@ -81,4 +84,5 @@ public class CharacterGroundSensor : MonoBehaviour
         Gizmos.DrawLine(transform.position + Vector3.forward * lenght, transform.position + Vector3.forward * lenght + (transform.position + Vector3.down * height));
         Gizmos.DrawLine(transform.position + Vector3.back * lenght, transform.position + Vector3.back * lenght + (transform.position + Vector3.down * height));
     }
+
 }
