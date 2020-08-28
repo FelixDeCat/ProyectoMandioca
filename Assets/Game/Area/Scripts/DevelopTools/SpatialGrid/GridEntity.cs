@@ -28,7 +28,7 @@ public class GridEntity : MonoBehaviour
         acty = true;
         for (int i = 0; i < myPlayObjects.Length; i++)
         {
-            myPlayObjects[i].On();
+            myPlayObjects[i]?.On();
         }
     }
     public void Off()
@@ -36,7 +36,7 @@ public class GridEntity : MonoBehaviour
         acty = false;
         for (int i = 0; i < myPlayObjects.Length; i++)
         {
-            myPlayObjects[i].Off();
+            myPlayObjects[i]?.Off();
         }
     }
 

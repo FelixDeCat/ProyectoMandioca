@@ -107,13 +107,19 @@ public class MisionManager : MonoBehaviour
     public void AddMisionItem(int Id, int Index)
     {
         bool notfount = false;
+
+        if (!active_misions.Contains(MisionsDataBase.instance.GetMision(Id))) return;
         for (int i = 0; i < active_misions.Count; i++)
         {
             if (active_misions[i].id_mision == Id)
             {
-                var aux = active_misions[i].data.MisionItems[Index];
-                aux.Execute();
-                notfount = true;
+                if (Index < active_misions[i].data.MisionItems.Length)
+                {
+                    var aux = active_misions[i].data.MisionItems[Index];
+                    aux.Execute();
+                    notfount = true;
+                }
+                else Debug.LogError("El Index que me pasaron es Mayor al la cantidad que tengo");
             }
         }
 
