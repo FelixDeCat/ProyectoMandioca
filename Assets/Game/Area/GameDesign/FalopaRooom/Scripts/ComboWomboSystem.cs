@@ -43,7 +43,6 @@ public class ComboWomboSystem
     public void AddHit()
     {
         hitCount++;
-        Debug.LogWarning("!!!!!! deal susceful--- hitcout : " + hitCount);
         
         comboRunning = true;
         _count = 0;
