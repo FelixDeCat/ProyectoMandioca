@@ -739,7 +739,7 @@ MonoBehaviour:
       - item: {fileID: 11400000, guid: 2cb2386992471064da49ece54142e09a, type: 2}
         cant: 10
   - mision_name: busca las plantas curativas
-    id_mision: 5
+    id_mision: 6
     info:
       description: busca unas cuantas hojas de la planta curativa
     data:
@@ -785,7 +785,9 @@ MonoBehaviour:
         itemType: 0
         description: chispitas curado
     rewarding:
-      items_rewarding: []
+      items_rewarding:
+      - item: {fileID: 11400000, guid: 2cb2386992471064da49ece54142e09a, type: 2}
+        cant: 20
 --- !u!1 &246039033884425386
 GameObject:
   m_ObjectHideFlags: 0
@@ -10208,7 +10210,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -13.000275, y: 6}
+  m_AnchoredPosition: {x: -13.000244, y: 6}
   m_SizeDelta: {x: -285.27902, y: -12}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1798907325918399843
@@ -11916,9 +11918,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   info: 
   item: {fileID: 11400000, guid: c3ff1acc92f0717449942d732855378c, type: 2}
-  cant: 3
+  cant: 2
   requeriments: []
   useNativeRequeriments: 0
+  usedialogue: 1
 --- !u!1 &4460354023198121009
 GameObject:
   m_ObjectHideFlags: 0
@@ -14641,6 +14644,7 @@ MonoBehaviour:
   - item: {fileID: 11400000, guid: f1df2d399ac352949bd082f517873d91, type: 2}
     cant: 2
   useNativeRequeriments: 0
+  usedialogue: 0
 --- !u!1 &5924577991320334009
 GameObject:
   m_ObjectHideFlags: 0
@@ -34277,6 +34281,11 @@ PrefabInstance:
       propertyPath: m_SizeDelta.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 631026606075233872, guid: 0744b3472fb1fad4094ba8e3642fba93,
+        type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 744540940936833696, guid: 0744b3472fb1fad4094ba8e3642fba93,
         type: 3}
       propertyPath: m_AnchorMax.x
@@ -34470,7 +34479,7 @@ PrefabInstance:
     - target: {fileID: 3110807289349141715, guid: 0744b3472fb1fad4094ba8e3642fba93,
         type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 0.000030517578
+      value: 0.000012866734
       objectReference: {fileID: 0}
     - target: {fileID: 3545704932325076390, guid: 0744b3472fb1fad4094ba8e3642fba93,
         type: 3}
@@ -34685,7 +34694,7 @@ PrefabInstance:
     - target: {fileID: 7883311754827844918, guid: 0744b3472fb1fad4094ba8e3642fba93,
         type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -0.000015258789
+      value: -0.000034290308
       objectReference: {fileID: 0}
     - target: {fileID: 8201637650986915566, guid: 0744b3472fb1fad4094ba8e3642fba93,
         type: 3}
@@ -35002,6 +35011,11 @@ PrefabInstance:
       propertyPath: lookatPosition
       value: 
       objectReference: {fileID: 2482535234886049617}
+    - target: {fileID: 5645459160619797659, guid: 029dc3dd56303c843a8e78d8defd325a,
+        type: 3}
+      propertyPath: StartWithoutWeapons
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 7500288156852493740, guid: 029dc3dd56303c843a8e78d8defd325a,
         type: 3}
       propertyPath: m_AABB.m_Center.x
