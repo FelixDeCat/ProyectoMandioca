@@ -23,6 +23,7 @@ public class CharacterGroundSensor : MonoBehaviour
     public void TurnOn()
     {
         on = true;
+        StartCoroutine(OnUpdate());
     }
 
     public void TurnOff()
@@ -31,42 +32,51 @@ public class CharacterGroundSensor : MonoBehaviour
         VelY = 0;
     }
 
-    private void Update()
+
+    IEnumerator OnUpdate()
     {
-        if (!on) return;
-
-        IsGrounded();
-
-        if (!isGrounded)
+        while (on)
         {
-            VelY = Mathf.Clamp(VelY - timer * gravityMultiplier, -maxAceleration, - minAceleration);
-            timer += Time.deltaTime;
+            IsGrounded();
 
-            DebugCustom.Log("Gravity", "Gravity", "TRUE");
-        }
-        else
-        {
-            timer = 1;
+            if (!isGrounded)
+            {
+                VelY = Mathf.Clamp(VelY - timer * gravityMultiplier, -maxAceleration, -minAceleration);
+                timer += Time.deltaTime;
 
-            VelY = 0;
-            DebugCustom.Log("Gravity", "Gravity", "false");
+                DebugCustom.Log("Gravity", "Gravity", "TRUE");
+            }
+
+            yield return new WaitForSeconds(0.05f);
         }
     }
 
     public void IsGrounded()
     {
-        isGrounded = false;
-
         if (Physics.Raycast(transform.position, -transform.up, height, floorMask))
-            isGrounded = true;
+            InGroundOneShot();
         else if(Physics.Raycast(transform.position + Vector3.right * widht, -transform.up, height, floorMask))
-            isGrounded = true;
+            InGroundOneShot();
         else if (Physics.Raycast(transform.position + Vector3.left * widht, -transform.up, height, floorMask))
-            isGrounded = true;
+            InGroundOneShot();
         else if (Physics.Raycast(transform.position + Vector3.forward * lenght, -transform.up, height, floorMask))
-            isGrounded = true;
+            InGroundOneShot();
         else if (Physics.Raycast(transform.position + Vector3.back * lenght, -transform.up, height, floorMask))
+            InGroundOneShot();
+        else
+            isGrounded = false;
+    }
+
+    void InGroundOneShot()
+    {
+        if (!isGrounded)
+        {
+            timer = 1;
+
+            VelY = 0;
+            DebugCustom.Log("Gravity", "Gravity", "false");
             isGrounded = true;
+        }
     }
 
     public void AddForce(float force)
