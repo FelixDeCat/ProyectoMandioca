@@ -10,6 +10,7 @@ public class MandragoraEnemy : EnemyBase
 {
     [Header("Move Options")]
     [SerializeField] GenericEnemyMove movement = null;
+    [SerializeField] CharacterGroundSensor groundSensor = null;
 
     public AnimationCurve animEmisive;
 
@@ -85,7 +86,7 @@ public class MandragoraEnemy : EnemyBase
         combatComponent.Configure(AttackEntity);
         anim.Add_Callback("DealDamage", DealDamage);
         anim.Add_Callback("SpawnEnemy", SpawnBrothers);
-        movement.Configure(rootTransform, rb);
+        movement.Configure(rootTransform, rb, groundSensor);
 
         StartDebug();
 
@@ -264,6 +265,7 @@ public class MandragoraEnemy : EnemyBase
 
     protected override void Die(Vector3 dir)
     {
+        groundSensor?.TurnOff();
         sm.SendInput(MandragoraInputs.DIE);
         if (dir == Vector3.zero)
             ragdoll.Ragdoll(true, -rootTransform.forward);
@@ -292,8 +294,10 @@ public class MandragoraEnemy : EnemyBase
             entityTarget = null;
             combat = false;
         }
+
+        groundSensor?.TurnOff();
     }
-    protected override void OnTurnOn() { sm.SendInput(MandragoraInputs.IDLE); }
+    protected override void OnTurnOn() { sm.SendInput(MandragoraInputs.IDLE); groundSensor?.TurnOn(); }
 
     #region STATE MACHINE THINGS
 

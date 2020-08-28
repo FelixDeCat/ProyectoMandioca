@@ -9,6 +9,7 @@ public class TrueDummyEnemy : EnemyBase
 {
     [Header("Move Options")]
     [SerializeField] GenericEnemyMove movement = null;
+    [SerializeField] CharacterGroundSensor groundSensor = null;
 
     public AnimationCurve animEmisive;
 
@@ -106,7 +107,7 @@ public class TrueDummyEnemy : EnemyBase
         rb = GetComponent<Rigidbody>();
         combatComponent.Configure(AttackEntity);
         anim.Add_Callback("DealDamage", DealDamage);
-        movement.Configure(rootTransform, rb);
+        movement.Configure(rootTransform, rb, groundSensor);
 
         StartDebug();
 
@@ -248,6 +249,7 @@ public class TrueDummyEnemy : EnemyBase
 
     protected override void Die(Vector3 dir)
     {
+        groundSensor?.TurnOff();
         sm.SendInput(DummyEnemyInputs.DIE);
         if (dir == Vector3.zero)
             ragdoll.Ragdoll(true, -rootTransform.forward);
@@ -275,8 +277,13 @@ public class TrueDummyEnemy : EnemyBase
             entityTarget = null;
             combat = false;
         }
+        groundSensor?.TurnOff();
     }
-    protected override void OnTurnOn() { sm.SendInput(DummyEnemyInputs.IDLE); }
+    protected override void OnTurnOn()
+    {
+        sm.SendInput(DummyEnemyInputs.IDLE);
+        groundSensor?.TurnOn();
+    }
 
     #region STATE MACHINE THINGS
     public enum DummyEnemyInputs { AWAKE, IDLE, BEGIN_ATTACK,ATTACK, GO_TO_POS, DIE, DISABLE, TAKE_DAMAGE, PETRIFIED, PARRIED, CHASING, SPECIAL_ATTACK };

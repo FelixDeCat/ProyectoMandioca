@@ -12,8 +12,15 @@ public class GenericEnemyMove : MonoBehaviour
     [SerializeField] LayerMask avoidMask = 0;
     float currentSpeed;
 
-    public void Configure(Transform _root, Rigidbody _rb) { rb = _rb; Configure(_root); }
-    public void Configure(Transform _root) { root = _root; currentSpeed = initialSpeed; }
+    CharacterGroundSensor groundSensor;
+
+    public void Configure(Transform _root, Rigidbody _rb = null, CharacterGroundSensor _groundSensor = null)
+    {
+        root = _root;
+        rb = _rb;
+        groundSensor = _groundSensor;
+        currentSpeed = initialSpeed;
+    }
     public float GetCurrentSpeed() => currentSpeed;
     public float GetInitSpeed() => initialSpeed;
     public void SetCurrentSpeed(float _speed) => currentSpeed = _speed;
@@ -26,7 +33,7 @@ public class GenericEnemyMove : MonoBehaviour
     ///<summary> Movement with Rigidbody. Returns a promedy with the values of the vector result (for animations or rotation). </summary>
     public float MoveWRigidbodyF(Vector3 dir)
     {
-        float y = rb.velocity.y;
+        float y = groundSensor != null ? groundSensor.VelY : rb.velocity.y;
         rb.velocity = new Vector3(dir.x * currentSpeed, y, dir.z * currentSpeed);
         return dir.normalized.x + dir.normalized.z;
     }
@@ -34,8 +41,9 @@ public class GenericEnemyMove : MonoBehaviour
     ///<summary> Movement with Rigidbody. Returns the vector result normalized (for animations or rotation). </summary>
     public Vector3 MoveWRigidbodyV(Vector3 dir)
     {
-        float y = rb.velocity.y;
+        float y = groundSensor != null ? groundSensor.VelY : rb.velocity.y;
         rb.velocity = new Vector3(dir.x * currentSpeed, y, dir.z * currentSpeed);
+
         return dir.normalized;
     }
 

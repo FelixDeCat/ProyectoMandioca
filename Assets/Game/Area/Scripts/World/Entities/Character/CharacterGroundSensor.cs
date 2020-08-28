@@ -4,14 +4,14 @@ using UnityEngine;
 
 public class CharacterGroundSensor : MonoBehaviour
 {
-    [SerializeField] float widht = 1;
-    [SerializeField] float lenght = 1;
-    [SerializeField] float height = 1;
+    [SerializeField] float widht = 0.2f;
+    [SerializeField] float lenght = 0.2f;
+    [SerializeField] float height = 0.3f;
     [SerializeField] LayerMask floorMask = 1 << 21;
 
-    [SerializeField] float gravityMultiplier = 9.81f;
+    [SerializeField] float gravityMultiplier = 0.2f;
     [SerializeField] float minAceleration = 1;
-    [SerializeField] float maxAceleration = 20;
+    [SerializeField] float maxAceleration = 15;
 
     bool isGrounded;
     float timer;
@@ -42,8 +42,6 @@ public class CharacterGroundSensor : MonoBehaviour
             VelY = Mathf.Clamp(VelY - timer * gravityMultiplier, -maxAceleration, - minAceleration);
             timer += Time.deltaTime;
 
-            Debug.Log(VelY);
-
             DebugCustom.Log("Gravity", "Gravity", "TRUE");
         }
         else
@@ -59,15 +57,15 @@ public class CharacterGroundSensor : MonoBehaviour
     {
         isGrounded = false;
 
-        if (Physics.Raycast(transform.position, Vector3.down, height, floorMask))
+        if (Physics.Raycast(transform.position, -transform.up, height, floorMask))
             isGrounded = true;
-        else if(Physics.Raycast(transform.position + Vector3.right * widht, Vector3.down, height, floorMask))
+        else if(Physics.Raycast(transform.position + Vector3.right * widht, -transform.up, height, floorMask))
             isGrounded = true;
-        else if (Physics.Raycast(transform.position + Vector3.left * widht, Vector3.down, height, floorMask))
+        else if (Physics.Raycast(transform.position + Vector3.left * widht, -transform.up, height, floorMask))
             isGrounded = true;
-        else if (Physics.Raycast(transform.position + Vector3.forward * lenght, Vector3.down, height, floorMask))
+        else if (Physics.Raycast(transform.position + Vector3.forward * lenght, -transform.up, height, floorMask))
             isGrounded = true;
-        else if (Physics.Raycast(transform.position + Vector3.back * lenght, Vector3.down, height, floorMask))
+        else if (Physics.Raycast(transform.position + Vector3.back * lenght, -transform.up, height, floorMask))
             isGrounded = true;
     }
 
@@ -78,11 +76,11 @@ public class CharacterGroundSensor : MonoBehaviour
 
     private void OnDrawGizmos()
     {
-        Gizmos.DrawLine(transform.position, transform.position + Vector3.down * height);
-        Gizmos.DrawLine(transform.position + Vector3.right * widht, transform.position + Vector3.right * widht + (transform.position + Vector3.down * height));
-        Gizmos.DrawLine(transform.position + Vector3.left * widht, transform.position + Vector3.left * widht + (transform.position + Vector3.down * height));
-        Gizmos.DrawLine(transform.position + Vector3.forward * lenght, transform.position + Vector3.forward * lenght + (transform.position + Vector3.down * height));
-        Gizmos.DrawLine(transform.position + Vector3.back * lenght, transform.position + Vector3.back * lenght + (transform.position + Vector3.down * height));
+        Gizmos.DrawLine(transform.position, transform.position + -transform.up * height);
+        Gizmos.DrawLine(transform.position + transform.right * widht, transform.position + transform.right * widht + ( -transform.up * height));
+        Gizmos.DrawLine(transform.position - transform.right * widht, transform.position - transform.right * widht + ( -transform.up * height));
+        Gizmos.DrawLine(transform.position + transform.forward * lenght, transform.position + transform.forward * lenght + (-transform.up * height));
+        Gizmos.DrawLine(transform.position - transform.forward * lenght, transform.position - transform.forward * lenght + ( -transform.up * height));
     }
 
 }

@@ -20,6 +20,7 @@ public class SpawnerSpot
     {
         var newObject = _poolObject.Get();
         newObject.Initialize();
+        newObject.On();
         newObject.transform.position = pos;
         newObject.Spawner = spawner;
         return newObject;

@@ -105,7 +105,9 @@ public class CarivorousPlant : EntityBase
 
     void DamageCharacter()
     {
-        character?.GetComponent<DamageReceiver>().TakeDamage(data.SetPositionAndDirection(centerPoint.position, Vector3.zero));
+        if(isZero)
+            character?.GetComponent<DamageReceiver>().TakeDamage(data.SetPositionAndDirection(centerPoint.position, Vector3.zero));
+
         inDmg = false;
     }
 
