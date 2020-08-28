@@ -47,15 +47,18 @@ public class Mision
 
     bool AllItemsFinished()
     {
-        foreach (var mi in data.MisionItems)
+        for (int i = 0; i < data.MisionItems.Length; i++)
         {
-            if (!mi.IsCompleted) return false;
+            data.MisionItems[i].CheckMemory(id_mision, i);
+
+            if (!data.MisionItems[i].IsCompleted) return false;
             else continue;
         }
         return true;
     }
 
-    protected void Finish() { 
+    protected void Finish()
+    { 
         mision_end_callback.Invoke(this);
         try
         {
@@ -133,8 +136,7 @@ namespace Misions.Core
     [System.Serializable]
     public class Serializable_Reward
     {
-        [SerializeField] internal ItemInInventory[] items_rewarding = new ItemInInventory[1];
-
+        [SerializeField] internal ItemInInventory[] items_rewarding = new ItemInInventory[0];
     }
     #endregion
     #endregion

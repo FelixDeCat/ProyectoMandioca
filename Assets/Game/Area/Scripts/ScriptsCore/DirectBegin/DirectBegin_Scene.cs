@@ -24,7 +24,7 @@ namespace Tools.Testing
             }
             else
             {
-                Debug.Log("entro mas veces aca");
+                //Debug.Log("entro mas veces aca");
                 if (LockMouse)
                 {
                     Cursor.visible = false;

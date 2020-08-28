@@ -30,13 +30,20 @@ public class MisionManager : MonoBehaviour
 
     public void AddMisionItem(int Id, int Index)
     {
+        bool notfount = false;
         for (int i = 0; i < active_misions.Count; i++)
         {
             if (active_misions[i].id_mision == Id)
             {
                 var aux = active_misions[i].data.MisionItems[Index];
                 aux.Execute();
+                notfount = true;
             }
+        }
+
+        if (notfount)
+        {
+            MissionMemory.instance.AddToMemory(Id, Index);
         }
 
         CheckMision();
@@ -62,10 +69,12 @@ public class MisionManager : MonoBehaviour
             m.AddCallbackToEnd(callbackToEnd);
             active_misions.Add(m);
             CheckMision();
+            m.OnRefresh();
             return true;
         }
         else
         {
+            m.OnRefresh();
             CheckMision();
             return false;
         }
@@ -80,11 +89,13 @@ public class MisionManager : MonoBehaviour
             m.Begin(CheckMision);
             m.AddCallbackToEnd(MissionIsEnded);
             active_misions.Add(m);
+            m.OnRefresh();
             CheckMision();
             return true;
         }
         else
         {
+            m.OnRefresh();
             CheckMision();
             return false;
         }
@@ -113,6 +124,27 @@ public class MisionManager : MonoBehaviour
     public void MissionIsEnded(Mision m)
     {
         m.End();
+
+        if (m.rewarding.items_rewarding.Length > 0)
+        {
+            for (int i = 0; i < m.rewarding.items_rewarding.Length; i++)
+            {
+                var itm = m.rewarding.items_rewarding[i].item;
+
+                if (itm.equipable)
+                {
+                    EquipedManager.instance.EquipItem(itm);
+                }
+                else
+                {
+                    FastInventory.instance.Add(m.rewarding.items_rewarding[i].item, m.rewarding.items_rewarding[i].cant);
+                }
+
+                //for con todos las entregas
+
+            }
+        }
+
         active_misions.Remove(m);
         finalizedMisions.Add(m);
         if (m.data.FasesToChange.Length > 0)

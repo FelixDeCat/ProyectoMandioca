@@ -97,7 +97,7 @@ public class MandragoraEnemy : EnemyBase
         petrifyEffect?.AddEndCallback(() => sm.SendInput(MandragoraInputs.IDLE));
         PoolManager.instance.GetObjectPool(trapToDie.name, trapToDie);
 
-        Debug.Log("Me inicializo");
+       // Debug.Log("Me inicializo");
 
         if (!mandragoraIsTrap) return;
         spawnerSpot.Initialize();

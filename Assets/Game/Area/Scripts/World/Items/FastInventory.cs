@@ -51,6 +51,19 @@ public class FastInventory : UI_Base
         }
         RefreshScreen();
     }
+    public void Add(Item item, int cant)
+    {
+        if (!inventory.ContainsKey(item.id))
+        {
+            ItemInInventory newSlot = new ItemInInventory(item, cant);
+            inventory.Add(item.id, newSlot);
+        }
+        else
+        {
+            inventory[item.id].cant = cant;
+        }
+        RefreshScreen();
+    }
     public void Remove(Item item, int cant = 1)
     {
         if (inventory.ContainsKey(item.id))

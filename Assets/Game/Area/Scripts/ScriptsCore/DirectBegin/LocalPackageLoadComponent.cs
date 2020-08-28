@@ -11,7 +11,7 @@ public class LocalPackageLoadComponent : MonoBehaviour
     {
         Fades_Screens.instance.Black();
         componentsToLoad = GetComponentsInChildren<LoadComponent>();
-        for (int i = 0; i < componentsToLoad.Length; i++) Debug.Log("Component Load: " + componentsToLoad[i].gameObject.name);
+        //for (int i = 0; i < componentsToLoad.Length; i++) Debug.Log("Component Load: " + componentsToLoad[i].gameObject.name);
         StartCoroutine(LoadSceneHandler.instance.LoadComponents(componentsToLoad, EndCoroutine).GetEnumerator());
     }
 

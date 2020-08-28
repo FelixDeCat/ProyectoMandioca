@@ -9,7 +9,7 @@ public class ExecuteItemMision : MonoBehaviour
 
     public void Execute()
     {
-        
+        Debug.Log("EJECUTO ESTO... tantas veces");
         MisionManager.instancia.AddMisionItem(ID, IndexLocalItem);
     }
 }

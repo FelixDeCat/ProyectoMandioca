@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using System;
+using UnityEngine.Events;
 
 [System.Serializable]
 public class ItemMision 
@@ -42,6 +43,32 @@ public class ItemMision
     string RematchString(string s) => iscompleted ? "<s>" + s + "</s>" : s;
 
     public void SubscribeTo_ItemSelfUpdate(Action Callback_Refresh) => OnRefresh = Callback_Refresh;
+
+    internal void CheckMemory(int id, int index)
+    {
+        MissionMemory.instance.CheckFromMemory(id,index, AddItemFromMemory);
+    }
+
+    void AddItemFromMemory()
+    {
+        if (iscompleted) return;
+
+        if (itemType == ItemType.one_objective_Bool)
+        {
+            iscompleted = true;
+
+        }
+        else
+        {
+            currentvalue++;
+            if (currentvalue >= maxvalue)
+            {
+                currentvalue = maxvalue;
+                iscompleted = true;
+            }
+        }
+    }
+
     public void Execute() 
     {
         if (iscompleted) return;

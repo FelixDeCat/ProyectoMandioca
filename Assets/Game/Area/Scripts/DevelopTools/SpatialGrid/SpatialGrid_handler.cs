@@ -54,7 +54,7 @@ public class SpatialGrid_handler : MonoBehaviour
                 var temp = FindObjectsOfType<GridEntity>().Where(x => !selected.Contains(x));
 
                 var mandrag = temp.Select(x => x.GetComponent<MandragoraEnemy>());
-                Debug.Log("Mandragora spawned count= " + mandrag.Count());
+                //Debug.Log("Mandragora spawned count= " + mandrag.Count());
 
                 foreach (var item in temp)
                 {
