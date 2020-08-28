@@ -50,7 +50,12 @@ public class SpatialGrid_handler : MonoBehaviour
             if (Application.isPlaying)
             {
                 selected = Query(Main.instance.GetChar());
+                //var temp = PlayObjectManagerBase.instance.GetGridEntities().Where(x => !selected.Contains(x));
                 var temp = FindObjectsOfType<GridEntity>().Where(x => !selected.Contains(x));
+
+                var mandrag = temp.Select(x => x.GetComponent<MandragoraEnemy>());
+                Debug.Log("Mandragora spawned count= " + mandrag.Count());
+
                 foreach (var item in temp)
                 {
                     if (item.gameObject.activeInHierarchy)

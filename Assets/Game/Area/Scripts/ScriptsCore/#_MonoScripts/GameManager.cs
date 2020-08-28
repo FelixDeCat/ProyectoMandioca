@@ -6,11 +6,10 @@ public class GameManager : MonoBehaviour
 {
     public static GameManager instance;
     private void Awake() { instance = this; }
-    public PlayableScene currentScene;
 
-    private void Update()
+    public void StartGame()
     {
-        
+        Debug.LogWarning("STARTGAME");
     }
 
     public void Pause()
@@ -18,6 +17,12 @@ public class GameManager : MonoBehaviour
 
     }
     public void Resume()
+    {
+
+    }
+
+
+    private void Update()
     {
 
     }

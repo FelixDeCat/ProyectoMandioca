@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using System;
+using System.Linq;
 
 /////////////////////////////////////////////////////////////
 /// LOAD COMPONENT, NO OLVIDAR
@@ -10,8 +11,12 @@ using System;
 
 public class PlayObjectManagerBase : LoadComponent
 {
+    public static PlayObjectManagerBase instance;
+    private void Awake() => instance = this;
+
     [SerializeField] Transform parent;
     [SerializeField] List<PlayObject> playobjects = new List<PlayObject>();
+    public List<PlayObject> PlayObjects { get { return playobjects; } }
     Action callbackSubscribeNewChanges;
 
     protected override IEnumerator LoadMe()
@@ -39,6 +44,7 @@ public class PlayObjectManagerBase : LoadComponent
     {
         if (!playobjects.Contains(_obj))
         {
+            //hay que agregarle filtros de colecciones para que los getters sean mas livianos
             playobjects.Add(_obj);
             callbackSubscribeNewChanges.Invoke();
         }
@@ -50,5 +56,11 @@ public class PlayObjectManagerBase : LoadComponent
             playobjects.Remove(_obj);
             callbackSubscribeNewChanges.Invoke();
         }
+    }
+
+    //cuando en los AddPlayObject tengan filtros de varias collections, esta funcion va a ser mas liviana
+    public IEnumerable<GridEntity> GetGridEntities()
+    {
+        return playobjects.Select(x => x.gameObject.GetComponent<GridEntity>());
     }
 }

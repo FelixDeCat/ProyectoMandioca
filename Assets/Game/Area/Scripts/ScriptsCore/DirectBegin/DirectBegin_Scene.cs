@@ -13,6 +13,7 @@ namespace Tools.Testing
     {
         public JumpData data;
         public bool LockMouse;
+        [SerializeField] LocalPackageLoadComponent packageToLoad;
         public void Awake()
         {
             if (Main.instance == null) // si entra acá es porque nunca entro a la escena de carga
@@ -23,16 +24,17 @@ namespace Tools.Testing
             }
             else
             {
+                Debug.Log("entro mas veces aca");
                 if (LockMouse)
                 {
                     Cursor.visible = false;
                     Cursor.lockState = CursorLockMode.Locked;
                 }
-
+                packageToLoad.LoadComponents();
                 
-
-                Destroy(this.gameObject);
             }
+
+            Destroy(this.gameObject);
         }
     }
 

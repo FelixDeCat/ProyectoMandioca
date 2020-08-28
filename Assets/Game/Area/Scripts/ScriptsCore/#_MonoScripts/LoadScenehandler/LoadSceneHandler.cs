@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using System;
 using UnityEngine.SceneManagement;
+using System.Linq;
 
 public class LoadSceneHandler : MonoBehaviour
 {
@@ -40,7 +41,7 @@ public class LoadSceneHandler : MonoBehaviour
     void LoadTime()
     {
         master_genbar_Scene.gameObject.SetActive(true);
-        master_genbar_Scene.Configure(1f,0.01f);
+        master_genbar_Scene.Configure(1f, 0.01f);
         master_genbar_Scene.SetValue(0);
         master_genbar_localLoader.gameObject.SetActive(true);
         master_genbar_localLoader.Configure(1f, 0.01f);
@@ -49,11 +50,19 @@ public class LoadSceneHandler : MonoBehaviour
         StartCoroutine(Load().GetEnumerator());
     }
 
-    IEnumerable Load()
+    IEnumerable Load(bool loadScene = true)
     {
         yield return ComponentsToLoad().GetEnumerator();
-        if (!stayHere) yield return LoadAsyncScene();
+        if(loadScene) if (!stayHere) yield return LoadAsyncScene();
         loadscreen.SetActive(false);
+    }
+
+    public IEnumerable LoadComponents(LoadComponent[] newLoadComponents, Action endCoroutine)
+    {
+        loadCOmponents.Clear();
+        loadCOmponents = newLoadComponents.ToList();
+        yield return StartCoroutine(Load(false).GetEnumerator());
+        endCoroutine.Invoke();
     }
 
     #region LocalLoaders

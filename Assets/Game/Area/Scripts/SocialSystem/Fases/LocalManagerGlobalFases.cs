@@ -2,14 +2,15 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class LocalManagerGlobalFases : MonoBehaviour
+public class LocalManagerGlobalFases : LoadComponent
 {
     public static LocalManagerGlobalFases instance;
     private void Awake() => instance = this;
 
     public LocalGlobalFase[] localfases = new LocalGlobalFase[0];
 
-    private void Start()
+
+    protected override IEnumerator LoadMe()
     {
         localfases = GetComponentsInChildren<LocalGlobalFase>();
 
@@ -17,5 +18,7 @@ public class LocalManagerGlobalFases : MonoBehaviour
         {
             aux.AutoRefresh();
         }
+
+        yield return null;
     }
 }
