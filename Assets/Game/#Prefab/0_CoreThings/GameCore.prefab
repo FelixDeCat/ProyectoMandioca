@@ -698,26 +698,16 @@ MonoBehaviour:
       isactive: 0
       isHided: 1
       mision_item:
-      - name: '[oculto] ents suicidados'
-        iscompleted: 0
-        currentvalue: 0
-        maxvalue: 2
-        itemType: 1
-        description: ents suicidados
       - name: '[oculto] plantas rompidas'
         iscompleted: 0
         currentvalue: 0
         maxvalue: 5
         itemType: 1
-        description: plantas rompidas
-      - name: '[oculto] mandragoras hechas ensalada'
-        iscompleted: 0
-        currentvalue: 0
-        maxvalue: 3
-        itemType: 1
-        description: mandragoras hechas ensalada
+        description: plantas carnivoras killed
     rewarding:
-      items_rewarding: []
+      items_rewarding:
+      - item: {fileID: 11400000, guid: c3ff1acc92f0717449942d732855378c, type: 2}
+        cant: 1
   - mision_name: Salva a la villa
     id_mision: 5
     info:
@@ -728,24 +718,30 @@ MonoBehaviour:
       isactive: 0
       isHided: 0
       mision_item:
-      - name: 3 mandragoras
+      - name: 12 mandragoras
         iscompleted: 0
         currentvalue: 0
-        maxvalue: 3
+        maxvalue: 12
         itemType: 1
         description: mandragoras eliminadas
-      - name: 3 ents
+      - name: 8 ents
+        iscompleted: 0
+        currentvalue: 0
+        maxvalue: 8
+        itemType: 1
+        description: ents eliminados
+      - name: 3 carnivoras
         iscompleted: 0
         currentvalue: 0
         maxvalue: 3
         itemType: 1
-        description: ents eliminados
+        description: plantas carnivoras eliminados
     rewarding:
       items_rewarding:
       - item: {fileID: 11400000, guid: 2cb2386992471064da49ece54142e09a, type: 2}
         cant: 10
   - mision_name: busca las plantas curativas
-    id_mision: 6
+    id_mision: 5
     info:
       description: busca unas cuantas hojas de la planta curativa
     data:
@@ -8670,7 +8666,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 3664901699888802731}
   m_HandleRect: {fileID: 5778087264159085864}
   m_Direction: 2
-  m_Value: 0
+  m_Value: 1
   m_Size: 1
   m_NumberOfSteps: 0
   m_OnValueChanged:
@@ -8822,7 +8818,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -205.99988, y: -54.169006}
+  m_AnchoredPosition: {x: -205.99985, y: -54.16899}
   m_SizeDelta: {x: -521.99994, y: -116.240845}
   m_Pivot: {x: 0.5, y: 1}
 --- !u!114 &4751541374051697899
@@ -9659,7 +9655,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.06875, y: 0.13789253}
   m_AnchorMax: {x: 0.41625002, y: 0.8796645}
-  m_AnchoredPosition: {x: -180.25368, y: 3.0737305}
+  m_AnchoredPosition: {x: -180.25371, y: 3.0737305}
   m_SizeDelta: {x: 243.25, y: 259.73004}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &3197645352195459780
@@ -34252,17 +34248,17 @@ PrefabInstance:
     - target: {fileID: 781098091450233219, guid: 0744b3472fb1fad4094ba8e3642fba93,
         type: 3}
       propertyPath: m_Value
-      value: 0.500001
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 781098091450233219, guid: 0744b3472fb1fad4094ba8e3642fba93,
         type: 3}
       propertyPath: m_Size
-      value: 0.89872074
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 795585170604269018, guid: 0744b3472fb1fad4094ba8e3642fba93,
         type: 3}
       propertyPath: m_Value
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 795585170604269018, guid: 0744b3472fb1fad4094ba8e3642fba93,
         type: 3}
@@ -34272,12 +34268,12 @@ PrefabInstance:
     - target: {fileID: 1649809472117781835, guid: 0744b3472fb1fad4094ba8e3642fba93,
         type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 93.52974
+      value: 93.52975
       objectReference: {fileID: 0}
     - target: {fileID: 1649809472117781835, guid: 0744b3472fb1fad4094ba8e3642fba93,
         type: 3}
       propertyPath: m_SizeDelta.x
-      value: 187.05948
+      value: 187.0595
       objectReference: {fileID: 0}
     - target: {fileID: 1649809472117781835, guid: 0744b3472fb1fad4094ba8e3642fba93,
         type: 3}
@@ -34497,12 +34493,12 @@ PrefabInstance:
     - target: {fileID: 4876563149115987430, guid: 0744b3472fb1fad4094ba8e3642fba93,
         type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 93.52974
+      value: 93.52975
       objectReference: {fileID: 0}
     - target: {fileID: 4876563149115987430, guid: 0744b3472fb1fad4094ba8e3642fba93,
         type: 3}
       propertyPath: m_SizeDelta.x
-      value: 177.05948
+      value: 177.0595
       objectReference: {fileID: 0}
     - target: {fileID: 4876563149115987430, guid: 0744b3472fb1fad4094ba8e3642fba93,
         type: 3}
@@ -34527,22 +34523,22 @@ PrefabInstance:
     - target: {fileID: 5420579717001533888, guid: 0744b3472fb1fad4094ba8e3642fba93,
         type: 3}
       propertyPath: m_Value
-      value: 1
+      value: 1.0000006
       objectReference: {fileID: 0}
     - target: {fileID: 5420579717001533888, guid: 0744b3472fb1fad4094ba8e3642fba93,
         type: 3}
       propertyPath: m_Size
-      value: 0.4135938
+      value: 0.5265485
       objectReference: {fileID: 0}
     - target: {fileID: 6772628560874556691, guid: 0744b3472fb1fad4094ba8e3642fba93,
         type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 102.09889
+      value: 102.0989
       objectReference: {fileID: 0}
     - target: {fileID: 6772628560874556691, guid: 0744b3472fb1fad4094ba8e3642fba93,
         type: 3}
       propertyPath: m_SizeDelta.x
-      value: 204.19778
+      value: 204.1978
       objectReference: {fileID: 0}
     - target: {fileID: 6772628560874556691, guid: 0744b3472fb1fad4094ba8e3642fba93,
         type: 3}
@@ -34677,7 +34673,7 @@ PrefabInstance:
     - target: {fileID: 8799206453975053602, guid: 0744b3472fb1fad4094ba8e3642fba93,
         type: 3}
       propertyPath: m_Value
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 9122003995456987442, guid: 0744b3472fb1fad4094ba8e3642fba93,
         type: 3}
