@@ -8,8 +8,10 @@ public class Mision
 {
     [Multiline(2)] public string mision_name;
     public int id_mision;
+    public bool AutoEnd = true;
     public Misions.Core.Serializable_DescriptiveInfo info;
     public Misions.Core.Serializable_MisionData data;
+    
     public Misions.Core.Serializable_Reward rewarding;
     public bool Completed { get { return data.Completed; } }
     public Action<Mision> mision_end_callback;
@@ -43,6 +45,11 @@ public class Mision
     {
         if (AllItemsFinished()) Finish();
         Callback_Refresh.Invoke();
+    }
+
+    public bool CanFinishMision()
+    {
+        return AllItemsFinished();
     }
 
     bool AllItemsFinished()
