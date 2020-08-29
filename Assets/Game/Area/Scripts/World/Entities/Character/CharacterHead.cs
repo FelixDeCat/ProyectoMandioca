@@ -469,6 +469,8 @@ public class CharacterHead : CharacterControllable
 
     #region Combat Check
     bool combat;
+    public Action UpWeaponsAction = delegate { };
+    public Action DownWeaponsAction = delegate { };
     public bool Combat
     {
         set
@@ -534,7 +536,7 @@ public class CharacterHead : CharacterControllable
 
         charanim.InCombat(0);
         UpWeapons = false;
-
+        DownWeaponsAction?.Invoke();
         // Debug.Log(combat.ToString() + attacking.ToString() + inTrap.ToString());
     }
 
@@ -543,6 +545,8 @@ public class CharacterHead : CharacterControllable
         charanim.InCombat(1);
 
         UpWeapons = true;
+
+        UpWeaponsAction?.Invoke();
     }
     #endregion
 

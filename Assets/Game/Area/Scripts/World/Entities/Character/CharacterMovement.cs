@@ -18,8 +18,8 @@ public class CharacterMovement
     Transform rotTransform;
 
     [SerializeField] float maxTimerDash = 0.5f;
-    [SerializeField] float dashCd = 0.1f;
-    [SerializeField] float dashSpeed = 8;
+    [SerializeField] float rollCD = 0.1f;
+    [SerializeField] float rollSpeed = 8;
     float currentTimerDash = 0.5f;
     float timerDash;
     float currentCD;
@@ -72,6 +72,10 @@ public class CharacterMovement
     [SerializeField] float bashDashSpeed = 90;
     [SerializeField] float bashDashCD = 2;
 
+    [SerializeField, Range(0, 5)] float jumpForce = 5;
+    [SerializeField] float jumpSpeed = 9;
+    [SerializeField] float jumpCD = 1;
+
     public float GetDefaultSpeed => speed;
     public bool TeleportActive
     {
@@ -83,8 +87,8 @@ public class CharacterMovement
     public void Initialize(Rigidbody rb, Transform rot, CharacterAnimator a, CharFeedbacks _feedbacks, CharacterGroundSensor _isGrounded)
     {
         currentSpeed = speed;
-        currentCD = dashCd;
-        currentDashSpeed = dashSpeed;
+        currentCD = rollCD;
+        currentDashSpeed = jumpSpeed;
         currentTimerDash = maxTimerDash;
         _rb = rb;
         rotTransform = rot;
@@ -109,7 +113,7 @@ public class CharacterMovement
     }
     public CharacterMovement SetDashCD(float n = -1)
     {
-        currentCD = n < 0 ? dashCd : n;
+        currentCD = n < 0 ? rollCD : n;
         return this;
     }
     public void SetCallbacks(Action _OnBeginRoll, Action _OnEndRoll)
@@ -263,9 +267,6 @@ public class CharacterMovement
 
     #region ROLL
 
-
-    float timer = 1;
-    bool initgravity;
     public void OnUpdate()
     {
         if (isGrounded.IsInGround)
@@ -323,7 +324,6 @@ public class CharacterMovement
 
     public void StopRoll()
     {
-        currentCD = dashCd;
         OnEndRollFeedback_Callback.Invoke();
         anim.Dash(false);
         InDash = false;
@@ -345,7 +345,18 @@ public class CharacterMovement
     {
         OnBeginRollFeedback_Callback();
         InDash = true;
-        currentDashSpeed = dashSpeed;
+
+        if (!Main.instance.GetChar().UpWeapons)
+        {
+            currentCD = jumpCD;
+            isGrounded.AddForce(jumpForce);
+            currentDashSpeed = jumpSpeed;
+        }
+        else
+        {
+            currentDashSpeed = rollSpeed;
+            currentCD = rollCD;
+        }
     }
 
     public void Roll()

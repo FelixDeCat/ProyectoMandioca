@@ -1,16 +1,18 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class CharacterGroundSensor : MonoBehaviour
 {
+    public Action<float> GroundOneShot;
+
     [SerializeField] float widht = 0.2f;
     [SerializeField] float lenght = 0.2f;
     [SerializeField] float height = 0.3f;
     [SerializeField] LayerMask floorMask = 1 << 21;
 
     [SerializeField] float gravityMultiplier = 0.2f;
-    [SerializeField] float minAceleration = 1;
     [SerializeField] float maxAceleration = 15;
 
     bool isGrounded;
@@ -19,6 +21,11 @@ public class CharacterGroundSensor : MonoBehaviour
     public float VelY { get; private set; }
     public bool IsInGround { get => isGrounded; private set { } }
     bool on;
+
+    private void Start()
+    {
+        GroundOneShot += InGroundOneShot;
+    }
 
     public void TurnOn()
     {
@@ -41,7 +48,7 @@ public class CharacterGroundSensor : MonoBehaviour
 
             if (!isGrounded)
             {
-                VelY = Mathf.Clamp(VelY - timer * gravityMultiplier, -maxAceleration, -minAceleration);
+                VelY = Mathf.Clamp(VelY - timer * gravityMultiplier, -maxAceleration, 15);
                 timer += Time.deltaTime;
 
                 DebugCustom.Log("Gravity", "Gravity", "TRUE");
@@ -53,21 +60,31 @@ public class CharacterGroundSensor : MonoBehaviour
 
     public void IsGrounded()
     {
-        if (Physics.Raycast(transform.position, -transform.up, height, floorMask))
-            InGroundOneShot();
-        else if(Physics.Raycast(transform.position + Vector3.right * widht, -transform.up, height, floorMask))
-            InGroundOneShot();
-        else if (Physics.Raycast(transform.position + Vector3.left * widht, -transform.up, height, floorMask))
-            InGroundOneShot();
-        else if (Physics.Raycast(transform.position + Vector3.forward * lenght, -transform.up, height, floorMask))
-            InGroundOneShot();
-        else if (Physics.Raycast(transform.position + Vector3.back * lenght, -transform.up, height, floorMask))
-            InGroundOneShot();
+        RaycastHit hit;
+
+        if (Physics.Raycast(transform.position, -transform.up, out hit, height, floorMask))
+            GroundOneShot(hit.transform.position.y);
+        else if(Physics.Raycast(transform.position + Vector3.right * widht, -transform.up, out hit, height, floorMask))
+            GroundOneShot(hit.transform.position.y);
+        else if (Physics.Raycast(transform.position + Vector3.left * widht, -transform.up, out hit, height, floorMask))
+            GroundOneShot(hit.transform.position.y);
+        else if (Physics.Raycast(transform.position + Vector3.forward * lenght, -transform.up, out hit, height, floorMask))
+            GroundOneShot(hit.transform.position.y);
+        else if (Physics.Raycast(transform.position + Vector3.back * lenght, -transform.up, out hit, height, floorMask))
+            GroundOneShot(hit.transform.position.y);
+        else if (Physics.Raycast(transform.position + Vector3.back * lenght + Vector3.right * widht, -transform.up, out hit, height, floorMask))
+            GroundOneShot(hit.transform.position.y);
+        else if (Physics.Raycast(transform.position + Vector3.back * lenght + Vector3.left * widht, -transform.up, out hit, height, floorMask))
+            GroundOneShot(hit.transform.position.y);
+        else if (Physics.Raycast(transform.position + Vector3.forward * lenght + Vector3.left * widht, -transform.up, out hit, height, floorMask))
+            GroundOneShot(hit.transform.position.y);
+        else if (Physics.Raycast(transform.position + Vector3.forward * lenght + Vector3.right * widht, -transform.up, out hit, height, floorMask))
+            GroundOneShot(hit.transform.position.y);
         else
             isGrounded = false;
     }
 
-    void InGroundOneShot()
+    void InGroundOneShot(float y)
     {
         if (!isGrounded)
         {
@@ -81,7 +98,7 @@ public class CharacterGroundSensor : MonoBehaviour
 
     public void AddForce(float force)
     {
-
+        VelY += force;
     }
 
     private void OnDrawGizmos()
