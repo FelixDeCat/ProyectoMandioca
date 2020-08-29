@@ -4,6 +4,8 @@ using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.UI;
 using Tools.EventClasses;
+using UnityEditor.SceneManagement;
+using UnityEngine.SceneManagement;
 
 public class CharacterInput : MonoBehaviour
 {
@@ -144,6 +146,8 @@ public class CharacterInput : MonoBehaviour
 
         if(Input.GetKeyDown(KeyCode.E)) RTrigger.Invoke();
         if (Input.GetKeyDown(KeyCode.Q)) LTrigger.Invoke();
+
+        if (Input.GetKeyDown(KeyCode.R)) SceneManager.LoadScene(SceneManager.GetActiveScene().name);
 
         if (Input.GetKeyDown(KeyCode.LeftControl) || Input.GetKeyDown(KeyCode.RightControl)) SwitchActive.Invoke();
 

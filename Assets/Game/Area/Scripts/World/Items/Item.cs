@@ -23,15 +23,4 @@ public class Item : ScriptableObject
     public GameObject model;
     public Sprite img;
     public SpotType spot;
-
-    [Header("Compra venta craft")]
-    public bool canSell;
-    public int price;
-    public BuyRequieriments[] buyrequieriments;
-    [System.Serializable]
-    public class BuyRequieriments
-    {
-        public Item item;
-        public int cant;
-    }
 }
