@@ -12,6 +12,7 @@ public class DialogueTree : ScriptableObject
     public List<EditorNodeDATA> editorNodePos = new List<EditorNodeDATA>();
      
     //Game settings    
+    [Header("-------------------")]
     public List<DialogueNode> dialogueNodes = new List<DialogueNode>();
     public string treeName;
 

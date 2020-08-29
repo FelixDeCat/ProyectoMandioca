@@ -3,6 +3,10 @@ using System.Collections.Generic;
 using UnityEngine;
 using Tools.Extensions;
 
+/// <summary>
+/// los choices tienen que tener adentro un command place
+/// </summary>
+
 public class DialogueManager : MonoBehaviour
 {
     public static DialogueManager instance;
@@ -53,11 +57,15 @@ public class DialogueManager : MonoBehaviour
         frontend.TurnOn_ButtonNext(false);
         frontend.TurnOn_ButtonExit(false);
 
+        /////// deberiamos cambiar la List<string> por una List<Phrase>
+        /////// este Phrase tendria que tener el String y el command place
+
+
         if (currentdialogue >= tree.dialogueNodes[currentNode].dialogues.Count - 1)//si es el dialogo final
         {
             //currentdialogue = 0;//de todas maneras si es el final lo reseteo
 
-            if (tree.dialogueNodes[currentNode].conected.Count > 0)//me fijo si tengo opciones
+            if (tree.dialogueNodes[currentNode].conected.Count > 0) /* [ tiene opciones ] */
             {
                 int idFirstNode = tree.dialogueNodes[currentNode].conected[0].connectionID;
 
@@ -72,20 +80,22 @@ public class DialogueManager : MonoBehaviour
                     }
                 }
             }
-            else
+            else /* [ Es el ultimo nodo ] */
             {
-
+                //aca ejecuto un command si es que lo tiene
                 currentNode = -1;
                 currentdialogue = -1;
                 OnClose();
             }
         }
-        else
+        else /* [ tiene un siguiente nodo ] */
         {
+            //aca ejecuto un command si es que lo tiene
             currentdialogue++;
             ShowInScreen();
         }
     }
+
     public void OnOptionSelected(int index)
     {
 
