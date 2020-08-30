@@ -30,7 +30,7 @@ public class AttractionHole : PlayObject
         if (character)
         {
             Vector3 att = (centerPoint.position - character.transform.position) * forceDirection;
-            att.y = 0.5f;
+            att.y = 0.1f;
 
             if (att.x > -0.3f && att.x < 0.3f && att.z > -0.3f && att.z < 0.3f)
             {

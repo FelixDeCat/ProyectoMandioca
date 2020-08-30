@@ -12,6 +12,8 @@ public abstract class Totem : MonoBehaviour
     [SerializeField] DamageReceiver damageReceiver = null;
     [SerializeField] _Base_Life_System life = null;
 
+    [SerializeField] bool instantStart = false;
+
     float timer;
     protected bool onUpdate;
     bool casting;
@@ -40,7 +42,12 @@ public abstract class Totem : MonoBehaviour
         if (onUpdate) return;
 
         onUpdate = true;
-        OnStartCast();
+
+        if (instantStart)
+            EndCast();
+        else
+            OnStartCast();
+
         InternalTotemEnter();
     }
 

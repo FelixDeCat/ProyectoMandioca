@@ -75,6 +75,7 @@ public class CharacterMovement
     [SerializeField, Range(0, 5)] float jumpForce = 5;
     [SerializeField] float jumpSpeed = 9;
     [SerializeField] float jumpCD = 1;
+    [SerializeField] float jumpTime = 0.5f;
 
     float original_angular_drag = 0.05f;
     const float snorlax_angular_drag = 1000f;
@@ -212,7 +213,7 @@ public class CharacterMovement
 
     public void StopForce()
     {
-        _rb.velocity = Vector3.zero;
+        _rb.velocity = new Vector3(0, _rb.velocity.y, 0);
     }
 
     public void AttackMovement(float moveForce)
@@ -357,11 +358,13 @@ public class CharacterMovement
             currentCD = jumpCD;
             isGrounded.AddForce(jumpForce);
             currentDashSpeed = jumpSpeed;
+            currentTimerDash = jumpTime;
         }
         else
         {
             currentDashSpeed = rollSpeed;
             currentCD = rollCD;
+            currentTimerDash = maxTimerDash;
         }
     }
 

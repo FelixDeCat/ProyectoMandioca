@@ -16,17 +16,13 @@ public class SpikeCorruptedVine : MonoBehaviour
     }
 
     private void OnTriggerEnter(Collider other)
-    {
-        
+    {  
         if (other.gameObject.GetComponent<CharacterHead>())
         {
             character = other.gameObject.GetComponent<DamageReceiver>();
             isClose = true;
             StartCoroutine(DelayedDamage());
-           
         }
-
-
     }
 
     private void OnTriggerExit(Collider other)
@@ -39,7 +35,7 @@ public class SpikeCorruptedVine : MonoBehaviour
 
     void DoDamage()
     {
-        character.TakeDamage(damageData);
+        //character.TakeDamage(damageData);
     }
 
     IEnumerator DelayedDamage()
