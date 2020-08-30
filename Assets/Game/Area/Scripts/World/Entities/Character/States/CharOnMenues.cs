@@ -15,6 +15,7 @@ namespace Tools.StateMachine
             charMove.MovementHorizontal(0);
             charMove.RotateHorizontal(0);
             charMove.RotateVertical(0);
+            charMove.SnorlaxateCharacter(true);
             interactSensor.CanInteract(false);
             SpatialGrid_handler.instance.StopSpatialGrid();
             var entities = Main.instance.AllEntities;
@@ -30,6 +31,7 @@ namespace Tools.StateMachine
             base.Exit(input);
             Cursor.visible = false;
             Cursor.lockState = CursorLockMode.Locked;
+            charMove.SnorlaxateCharacter(false);
             interactSensor.CanInteract(true);
             SpatialGrid_handler.instance.ResumeCheck();
             var entities = Main.instance.AllEntities;

@@ -76,21 +76,27 @@ public class CharacterMovement
     [SerializeField] float jumpSpeed = 9;
     [SerializeField] float jumpCD = 1;
 
+    float original_angular_drag = 0.05f;
+    const float snorlax_angular_drag = 1000f;
+
     public float GetDefaultSpeed => speed;
     public bool TeleportActive
     {
         get => teleportActive;
         set { teleportActive = value; }
     }
-    
+
+    public void SnorlaxateCharacter(bool val) => _rb.angularDrag = val ? snorlax_angular_drag : original_angular_drag;
 
     public void Initialize(Rigidbody rb, Transform rot, CharacterAnimator a, CharFeedbacks _feedbacks, CharacterGroundSensor _isGrounded)
     {
+
         currentSpeed = speed;
         currentCD = rollCD;
         currentDashSpeed = jumpSpeed;
         currentTimerDash = maxTimerDash;
         _rb = rb;
+        original_angular_drag = _rb.angularDrag;
         rotTransform = rot;
         anim = a;
         MovementHorizontal += LeftHorizontal;
