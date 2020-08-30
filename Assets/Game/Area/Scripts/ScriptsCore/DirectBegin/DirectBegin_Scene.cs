@@ -31,10 +31,10 @@ namespace Tools.Testing
                     Cursor.lockState = CursorLockMode.Locked;
                 }
                 packageToLoad.LoadComponents();
-                
+                Destroy(this.gameObject);
             }
 
-            Destroy(this.gameObject);
+            
         }
     }
 
