@@ -6,7 +6,7 @@ public class MagicCrow : MonoBehaviour
 {
 
     CharacterHead myHero;
-    [SerializeField]  Throwable magicBullet_pf;
+    [SerializeField] Throwable magicBullet_pf;
     [SerializeField] CastingBar castingbar;
     [SerializeField] Transform shooter;
     [SerializeField] Transform model;

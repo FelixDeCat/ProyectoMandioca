@@ -22,19 +22,20 @@ public class CharacterGroundSensor : MonoBehaviour
     public bool IsInGround { get => isGrounded; private set { } }
     bool on;
 
-    private void Start()
-    {
-        GroundOneShot += InGroundOneShot;
-    }
+    private void Awake() => GroundOneShot += InGroundOneShot;
 
     public void TurnOn()
     {
+        if (on) return;
+
         on = true;
         StartCoroutine(OnUpdate());
     }
 
     public void TurnOff()
     {
+        if (!on) return;
+
         on = false;
         VelY = 0;
     }
@@ -61,8 +62,6 @@ public class CharacterGroundSensor : MonoBehaviour
     public void IsGrounded()
     {
         RaycastHit hit;
-
-        if (GroundOneShot == null) { Debug.LogWarning("perdon, no se quien esta con esto, pero le puse esto rapido para que no tire errores para zafar por ahora, firma. Felito el más piola XD. pdta: cuando las mandragoras salen tira null referece el GroundOneShot"); return; }
 
         if (Physics.Raycast(transform.position, -transform.up, out hit, height, floorMask))
             GroundOneShot(hit.transform.position.y);

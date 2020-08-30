@@ -31,7 +31,7 @@ namespace Tools.StateMachine
 				current.Exit(input);
 				var oldState = current;
 				current = newState;
-				debug(current.Name);
+				debug?.Invoke(current.Name);
 				current.Enter(oldState);
 			}
 		}

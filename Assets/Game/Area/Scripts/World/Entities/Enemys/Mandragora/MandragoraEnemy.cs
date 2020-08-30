@@ -406,11 +406,11 @@ public class MandragoraEnemy : EnemyBase
 
         new DummyTDState(takeDamage, sm, recallTime).SetAnimator(animator);
 
-        new DummyStunState(petrified, sm);
+        new DummyStunState<MandragoraInputs>(petrified, sm);
 
         new DummyDieState(die, sm, ragdoll, OnDead).SetAnimator(animator).SetDirector(director).SetRigidbody(rb);
 
-        new DummyDisableState(disable, sm, EnableObject, DisableObject);
+        new DummyDisableState<MandragoraInputs>(disable, sm, EnableObject, DisableObject);
     }
 
     void DisableObject()

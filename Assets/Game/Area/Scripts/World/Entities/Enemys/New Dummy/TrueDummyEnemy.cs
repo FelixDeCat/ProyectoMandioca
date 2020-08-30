@@ -270,6 +270,8 @@ public class TrueDummyEnemy : EnemyBase
     protected override void OnFixedUpdate() { }
     protected override void OnTurnOff()
     {
+        if (sm.Current.Name == "Die") gameObject.SetActive(false);
+
         sm.SendInput(DummyEnemyInputs.DISABLE);
         if (combat)
         {
@@ -404,11 +406,11 @@ public class TrueDummyEnemy : EnemyBase
 
         new DummyTDState(takeDamage, sm, recallTime).SetAnimator(animator);
 
-        new DummyStunState(petrified, sm);
+        new DummyStunState<DummyEnemyInputs>(petrified, sm);
 
         new DummyDieState(die, sm, ragdoll, particles.myGroundParticle).SetAnimator(animator).SetDirector(director).SetRigidbody(rb);
 
-        new DummyDisableState(disable, sm, EnableObject, DisableObject);
+        new DummyDisableState<DummyEnemyInputs>(disable, sm, EnableObject, DisableObject);
     }
 
     bool CanDoSpecialAttack()

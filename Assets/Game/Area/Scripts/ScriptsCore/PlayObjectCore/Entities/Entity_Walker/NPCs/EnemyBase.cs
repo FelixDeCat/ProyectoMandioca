@@ -19,7 +19,7 @@ public abstract class EnemyBase : NPCBase, ICombatDirector
 
     #endregion
 
-    public abstract float ChangeSpeed(float newSpeed);
+    public virtual float ChangeSpeed(float newSpeed) => 0;
     protected bool IsAttack() => attacking;
 
     public UnityEvent OnDeath;
