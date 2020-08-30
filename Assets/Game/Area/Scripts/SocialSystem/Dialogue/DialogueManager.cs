@@ -17,6 +17,8 @@ public class DialogueManager : MonoBehaviour
     int currentNode = 0;
     int currentdialogue = 0;
 
+    public float cooldownSpamforcedialog = 0.1f;
+
     JoystickBasicInput joystick;
 
     private void Awake()
@@ -134,12 +136,15 @@ public class DialogueManager : MonoBehaviour
 
     public void ShowInScreen()
     {
+
         frontend.TurnOn_ButtonNext(false);
         frontend.TurnOn_ButtonExit(false);
 
         SetPhoto();
 
         frontend.SetDialogue(tree.dialogueNodes[currentNode].dialogues[currentdialogue], OnTextFinishCarret, false);
+
+        Invoke("CanForceDialog", cooldownSpamforcedialog);
     }
 
     void SetPhoto()
@@ -160,12 +165,17 @@ public class DialogueManager : MonoBehaviour
             }
         }
     }
-
+    bool canForce = false;
+    void CanForceDialog() => canForce = true;
     public void ForceCarret()
     {
-        if (frontend.textAnim.inAnimation)
+        if (canForce)
         {
-            frontend.SetDialogue(tree.dialogueNodes[currentNode].dialogues[currentdialogue], OnTextFinishCarret, true);
+            canForce = false;
+            if (frontend.textAnim.inAnimation)
+            {
+                frontend.SetDialogue(tree.dialogueNodes[currentNode].dialogues[currentdialogue], OnTextFinishCarret, true);
+            }
         }
     }
 

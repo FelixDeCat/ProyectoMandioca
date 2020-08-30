@@ -14,6 +14,10 @@ public class TextAnimCharXChar : MonoBehaviour
 
     public bool inAnimation;
 
+    //new 
+    bool anim = false;
+    float timer;
+
     public void BeginAnim(string _txt, Action _OnEnd, float _timeSpacing = 0.04f)
     {
         txtmesh.text = "";
@@ -26,6 +30,11 @@ public class TextAnimCharXChar : MonoBehaviour
         StartCoroutine(Animate());
         EndAnimationCallback = _OnEnd;
         inAnimation = true;
+    }
+
+    private void Update()
+    {
+        DebugCustom.Log("Dialogue debug", "InAnim", inAnimation);
     }
 
     public void Force(string s)

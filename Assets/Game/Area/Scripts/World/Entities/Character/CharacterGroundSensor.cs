@@ -62,6 +62,8 @@ public class CharacterGroundSensor : MonoBehaviour
     {
         RaycastHit hit;
 
+        if (GroundOneShot == null) { Debug.LogWarning("perdon, no se quien esta con esto, pero le puse esto rapido para que no tire errores para zafar por ahora, firma. Felito el más piola XD. pdta: cuando las mandragoras salen tira null referece el GroundOneShot"); return; }
+
         if (Physics.Raycast(transform.position, -transform.up, out hit, height, floorMask))
             GroundOneShot(hit.transform.position.y);
         else if(Physics.Raycast(transform.position + Vector3.right * widht, -transform.up, out hit, height, floorMask))

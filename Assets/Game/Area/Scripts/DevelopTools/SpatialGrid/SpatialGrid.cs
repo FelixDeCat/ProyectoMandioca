@@ -59,7 +59,7 @@ public class SpatialGrid : MonoBehaviour
             UpdateEntity(e);
         }
 
-        SpatialGrid_handler.instance.SetCurrentSpatial(this);
+        SpatialGrid_handler.instance?.SetCurrentSpatial(this);
     }
 
     private void RefreshGrid()
@@ -172,7 +172,8 @@ public class SpatialGrid : MonoBehaviour
     {
         var ents = RecursiveWalker(transform).Select(x => x.GetComponent<GridEntity>()).Where(x => x != null);
 
-        SpatialGrid_handler.instance.StopSpatialGrid();
+        
+        SpatialGrid_handler.instance?.StopSpatialGrid();
         //foreach (var e in ents)
         //e.OnMove -= UpdateEntity;
     }
