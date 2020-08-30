@@ -6,24 +6,22 @@ public class Piston : MonoBehaviour
     [SerializeField] Transform _EndPos = null;
     [SerializeField] Transform ToMove = null;
     [Header("General configs")]
-    [SerializeField] float delayToBegin = 1f;
+    [SerializeField] protected float delayToBegin = 1f;
     [Header("General configs")]
     [SerializeField] float speed = 1f;
-    [SerializeField] float stay_position_time = 1f;
+    [SerializeField] protected float stay_position_time = 1f;
     [Header("Go configs")]
-    [SerializeField] float staypositiontime_go = 1f;
-    [SerializeField] float speed_go_multiplier = 1f;
+    [SerializeField] protected float staypositiontime_go = 1f;
+    [SerializeField] protected float speed_go_multiplier = 1f;
     [Header("Back configs")]
-    [SerializeField] float staypositiontime_back = 1f;
-    [SerializeField] float speed_back_multiplier = 1f;
+    [SerializeField] protected float staypositiontime_back = 1f;
+    [SerializeField] protected float speed_back_multiplier = 1f;
 
     [Header("Anim by Code")]
     public bool Anim = true;
-
-
-
-    PingPongLerp pingponglerp;
-    void Start()
+       
+    protected PingPongLerp pingponglerp;
+    public virtual void Start()
     {
         if (Anim)
         {
@@ -43,7 +41,7 @@ public class Piston : MonoBehaviour
     }
 
     public void AnimationResult(float val_anim) => ToMove.position = Vector3.Lerp(_startPos.position, _EndPos.position, val_anim);
-    void Update() =>  pingponglerp?.Updatear();
+    protected virtual void Update() =>  pingponglerp?.Updatear();
     private void OnDrawGizmos()
     {
         Gizmos.color = Color.blue;

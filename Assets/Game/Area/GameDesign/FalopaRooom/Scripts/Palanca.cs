@@ -6,7 +6,7 @@ using UnityEngine.Events;
 public class Palanca : Interactable
 {
     public UnityEvent Excecute;
-
+    
     public override void OnEnter(WalkingEntity entity)
     {
         WorldItemInfo.instance.Show(pointToMessage.position, "", "", "Empujar", false, false);

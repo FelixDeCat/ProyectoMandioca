@@ -85,6 +85,29 @@ public class PingPongLerp
         timer = 0;
     }
 
+    public IEnumerator stopAfter(float num, Action act)
+    {
+        Play(num);
+        float aux = 0;
+        anim = true;
+        while(aux < 2 * cantspeed * goSpeed + time_stop_back)
+        {
+            Updatear();
+            if (!anim_time_stop)
+            {
+                aux += cantspeed * goSpeed * Time.deltaTime;
+            }
+            else
+            {
+                aux += Time.deltaTime;
+            }
+            yield return new WaitForEndOfFrame();
+        }
+        anim = false;
+        Stop();
+        act.Invoke();
+    }
+
 
     public void Updatear()
     {
