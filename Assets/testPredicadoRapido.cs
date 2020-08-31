@@ -12,6 +12,11 @@ public class testPredicadoRapido : MonoBehaviour
         pred.Invoke(MyPred);
     }
 
+    public void YaMeUsaron()
+    {
+
+    }
+
     bool MyPred()
     {
         return true;
