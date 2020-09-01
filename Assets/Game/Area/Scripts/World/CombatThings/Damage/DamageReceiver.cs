@@ -115,7 +115,10 @@ public class DamageReceiver : MonoBehaviour
 
         if (death) OnDead(data.attackDir);
 
+        
+
        takeDmg(data);
+
 
         return death ? Attack_Result.death : Attack_Result.sucessful;
     }

@@ -1,6 +1,7 @@
 ﻿using System;
 using DevelopTools.UI;
 using UnityEngine;
+using System.Linq;
 
 [System.Serializable]
 public class CharLifeSystem: _Base_Life_System
@@ -14,6 +15,9 @@ public class CharLifeSystem: _Base_Life_System
     public event Action loselife = delegate { };
     public event Action gainlife = delegate { };
     public event Action death = delegate { };
+
+    [SerializeField] bool caronteActivation = false;
+    bool oneShotCaronte = false;
 
     CharFeedbacks feedbacks = null;
 
@@ -50,7 +54,7 @@ public class CharLifeSystem: _Base_Life_System
     {
         lifechange.Invoke(current, max);
     }
-    void EVENT_OnLoseLife() { loselife.Invoke(); }
+    void EVENT_OnLoseLife() { loselife.Invoke();}
 
     void EVENT_OnGainLife()
     {
@@ -60,7 +64,14 @@ public class CharLifeSystem: _Base_Life_System
 
     void EVENT_OnDeath()
     {
-        if(!godMode)
+        if(caronteActivation && !oneShotCaronte)
+        {
+            oneShotCaronte = true;
+            GetComponent<CharacterHead>().CaronteDeathEvent().TurnOnCarontePP();
+            return;
+        }
+
+        if (!godMode)
             death.Invoke();
     }
 

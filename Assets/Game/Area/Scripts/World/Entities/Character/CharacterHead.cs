@@ -81,6 +81,9 @@ public class CharacterHead : CharacterControllable
 
     [SerializeField] CharLifeSystem lifesystem = null;
     public CharLifeSystem Life => lifesystem;
+    [SerializeField] CaronteEvent caronteSystem;
+    public CaronteEvent CaronteDeathEvent() => caronteSystem;
+    public bool caronteActive;
 
     Rigidbody rb;
 
@@ -158,6 +161,10 @@ public class CharacterHead : CharacterControllable
 
         //COMBOWOMBO
 
+        //Caronte
+        caronteSystem.Init();
+
+        //Caronte
         charAttack.Add_callback_Normal_attack(ReleaseInNormal);
         charAttack.Add_callback_Heavy_attack(ReleaseInHeavy);
 
@@ -888,7 +895,7 @@ public class CharacterHead : CharacterControllable
         Main.instance.Vibrate();
     }
 
-    void Dead(Vector3 dir) { }
+    void Dead(Vector3 dir) {     }
 
     #endregion
 
