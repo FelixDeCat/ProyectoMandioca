@@ -65,8 +65,8 @@ public class CameraRotate : MonoBehaviour
 
     private void LateUpdate()
     {
-        if (Input.GetKeyDown(KeyCode.Y)) Cursor.lockState = CursorLockMode.Locked;
-        if (Input.GetKeyDown(KeyCode.U)) Cursor.lockState = CursorLockMode.None;
+        if (Input.GetKeyDown(KeyCode.Y)) { Cursor.lockState = CursorLockMode.Locked; Cursor.visible = false; }
+        if (Input.GetKeyDown(KeyCode.U)) { Cursor.lockState = CursorLockMode.None; Cursor.visible = true; }
 
         RaycastHit hit;
         Vector3 direction;
@@ -116,8 +116,8 @@ public class CameraRotate : MonoBehaviour
     //Dejo esto aca por si se rompe algo
     void CALCULODEDIST()
     {
-        if (Input.GetKeyDown(KeyCode.Y)) Cursor.lockState = CursorLockMode.Locked;
-        if (Input.GetKeyDown(KeyCode.U)) Cursor.lockState = CursorLockMode.None;
+        if (Input.GetKeyDown(KeyCode.Y)) { Cursor.lockState = CursorLockMode.Locked; Cursor.visible = false; }
+        if (Input.GetKeyDown(KeyCode.U)) { Cursor.lockState = CursorLockMode.None; Cursor.visible = true; }
 
         RaycastHit hit;
 

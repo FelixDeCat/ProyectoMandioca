@@ -40,7 +40,7 @@ public class DamageReceiver : MonoBehaviour
         IsDmg += _IsDmg;
         InmuneFeedback += _InmuneFeedback;
         rb = _rb;
-        _LifeSystem = lifeSystem;
+        if (lifeSystem != null) _LifeSystem = lifeSystem;
     }
     public DamageReceiver SetBlock(Func<Vector3, Vector3, Vector3, bool> _IsBlock, Action<EntityBase> _Block)
     {
@@ -112,7 +112,7 @@ public class DamageReceiver : MonoBehaviour
         }
 
         bool death = _LifeSystem.Hit(dmg);
-       
+
         if (death) OnDead(data.attackDir);
 
        takeDmg(data);
