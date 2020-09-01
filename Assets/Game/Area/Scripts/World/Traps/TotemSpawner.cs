@@ -33,8 +33,8 @@ public class TotemSpawner : Totem
         OnStartCast();
     }
 
-    protected override void TakeDamage()
+    protected override void InternalTakeDamage()
     {
-
+        TakeDamageFeedback();
     }
 }

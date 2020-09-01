@@ -45,7 +45,7 @@ public class TotemFeedback
 
     public void InterruptCharge()
     {
-        if(chargeParticleTemp.gameObject.activeSelf) ParticlesManager.Instance.StopParticle(chargeParticle.name, chargeParticleTemp);
+        if(chargeParticleTemp != null && chargeParticleTemp.gameObject.activeSelf) ParticlesManager.Instance.StopParticle(chargeParticle.name, chargeParticleTemp);
         StopCoroutine(StartToCharge(0));
     }
 
@@ -105,6 +105,6 @@ public class TotemFeedback
         for (int i = 0; i < particlesGoTo.Count; i++)
             ParticlesManager.Instance.StopParticle(goToPos.name, particlesGoTo[i]);
 
-        if (chargeParticleTemp.gameObject.activeSelf) ParticlesManager.Instance.StopParticle(chargeParticle.name, chargeParticleTemp);
+        if (chargeParticleTemp != null && chargeParticleTemp.gameObject.activeSelf) ParticlesManager.Instance.StopParticle(chargeParticle.name, chargeParticleTemp);
     }
 }

@@ -5,6 +5,7 @@ using UnityEngine.Events;
 
 public abstract class Totem : MonoBehaviour
 {
+
     [SerializeField] protected CastingBar myCastingBar = null;
     [SerializeField] protected EffectStunnerStunned effectStun = null;
     [SerializeField] protected float timeToCast = 5f;
@@ -13,6 +14,9 @@ public abstract class Totem : MonoBehaviour
     [SerializeField] _Base_Life_System life = null;
 
     [SerializeField] bool instantStart = false;
+
+    [SerializeField] ParticleSystem ps_TakeDamage = null;
+    [SerializeField] AudioClip ac_TakeDamage = null;
 
     float timer;
     protected bool onUpdate;
@@ -31,10 +35,13 @@ public abstract class Totem : MonoBehaviour
             transform,
             () => { return false; },
             (x) => { Dead(); },
-            (x) => { TakeDamage(); },
+            (x) => { InternalTakeDamage(); },
             null,
             life
             );
+
+        AudioManager.instance.GetSoundPool(ac_TakeDamage.name, AudioGroups.GAME_FX, ac_TakeDamage);
+        ParticlesManager.Instance.GetParticlePool(ps_TakeDamage.name, ps_TakeDamage);
     }
 
     public void OnTotemEnter()
@@ -138,9 +145,15 @@ public abstract class Totem : MonoBehaviour
 
     protected virtual void InternalStunOver() { }
 
-    protected abstract void TakeDamage();
+    protected void TakeDamageFeedback()
+    {
+        ParticlesManager.Instance.PlayParticle(ps_TakeDamage.name, myCastingBar.transform.position);
+        AudioManager.instance.PlaySound(ac_TakeDamage.name);
+    }
 
-    void Dead()
+    protected abstract void InternalTakeDamage();
+
+    protected virtual void Dead()
     {
         feedback.StopAll();
     }

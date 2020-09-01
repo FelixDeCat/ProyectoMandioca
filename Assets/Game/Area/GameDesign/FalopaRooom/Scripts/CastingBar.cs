@@ -9,10 +9,11 @@ public class CastingBar : MonoBehaviour
     //Settings
     [SerializeField] Image castingBar_img = null;
     [SerializeField] GameObject castingBar = null;
-    bool isCasting;
 
     //Setters
     public float castingTime;
+    public bool InCasting { get; private set; }
+
 
     //Events
     Action OnStartCasting = delegate { };
@@ -37,42 +38,33 @@ public class CastingBar : MonoBehaviour
 
     public void StartCasting(float time)
     {
-        
         castingTime = time;
         OnStartCasting?.Invoke();
         StartCoroutine(Casting());
     }
 
-    private void Update()
-    {
-        //if (Input.GetKeyDown(KeyCode.I))
-        //    StartCasting();
-
-        //if (Input.GetKeyDown(KeyCode.K))
-        //    InterruptCasting();
-    }
     /// <summary>
     /// Se encarga del proceso de casteo. Es un timer con el fill de la barra(no creo que usemos barra igual, sino una animacion clara)
     /// </summary>
     /// <returns></returns>
     IEnumerator Casting()
     {
-        castingBar.SetActive(true);
-        isCasting = true;
-        castingBar_img.fillAmount = 0;
+        //castingBar?.SetActive(true);
+        //castingBar_img.fillAmount = 0;
         float count = 0;
+        InCasting = true;
 
-        while(count <= castingTime)
+        while (count <= castingTime)
         {
             count += Time.deltaTime;
-            var percent = count / castingTime;
-            castingBar_img.fillAmount = percent;
+            //var percent = count / castingTime;
+            //castingBar_img.fillAmount = percent;
             yield return null;
         }
-        
+
         OnFinishCasting?.Invoke();
-        isCasting = false;
-        castingBar.SetActive(false);
+        //castingBar?.SetActive(false);
+        InCasting = false;
     }
 
     /// <summary>
@@ -80,12 +72,13 @@ public class CastingBar : MonoBehaviour
     /// </summary>
     public void InterruptCasting()
     {
-        if (!isCasting) return;
+        if (!InCasting) return;
 
         StopAllCoroutines();
         OnInterruptCasting?.Invoke();
-        castingBar_img.fillAmount = 0;
-        castingBar.SetActive(false);
+        //castingBar_img.fillAmount = 0;
+        //castingBar?.SetActive(false);
+        InCasting = false;
     }
 
     //Suscribirse a los eventos

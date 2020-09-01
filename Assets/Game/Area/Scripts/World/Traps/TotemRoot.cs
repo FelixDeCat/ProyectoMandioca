@@ -80,9 +80,12 @@ public class TotemRoot : Totem
         }
     }
 
-    protected override void TakeDamage()
+    protected override void InternalTakeDamage()
     {
-        if (stuned) return;
+        if (stuned)
+        {
+            TakeDamageFeedback(); return;
+        }
         InterruptCast();
         Teleport();
     }
