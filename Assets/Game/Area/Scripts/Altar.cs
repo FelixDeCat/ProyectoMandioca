@@ -5,7 +5,7 @@ using UnityEngine;
 public class Altar : MonoBehaviour
 {
     public Transform spawnposition;
-    public ItemWorld item;
+    public InteractCollect item;
     private void Start()
     {
         Main.instance.SpawnItem(item, spawnposition);

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ScreamItemWorld : ItemWorld
+public class ScreamItemWorld : InteractCollect
 {
     [HideInInspector]
     public ScreamPool myPool;

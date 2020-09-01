@@ -6,7 +6,7 @@ public abstract class WalkingEntity : EntityBase
 {
     protected override void OnUpdate() { if (executeAStar) {/*Execute AStar*/}  OnUpdateEntity(); }
     protected abstract void OnUpdateEntity();
-    public virtual void OnReceiveItem(ItemWorld itemworld) { }
+    public virtual void OnReceiveItem(InteractCollect itemworld) { }
     public virtual void OnStun() { }
 
     #region en desuso

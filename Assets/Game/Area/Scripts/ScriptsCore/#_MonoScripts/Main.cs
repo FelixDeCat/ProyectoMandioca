@@ -203,11 +203,11 @@ public class Main : MonoBehaviour
 
         ///todo esto que esta aca abajo tiene que volar
 
-    public ItemWorld SpawnItem(ItemWorld item, Transform pos) => spawner.SpawnItem(item, pos);
+    public InteractCollect SpawnItem(InteractCollect item, Transform pos) => spawner.SpawnItem(item, pos);
     public GameObject SpawnItem(GameObject item, Transform pos) => spawner.SpawnItem(item, pos);
     public void SpawnItem(Item item, Transform pos) => spawner.SpawnItem(item, pos);
     public void SpawnItem(Item item, Vector3 pos) => spawner.SpawnItem(item, pos);
-    public List<ItemWorld> SpawnListItems(ItemWorld item, Transform pos, int quantity) => spawner.spawnListItems(item, pos, quantity);
+    public List<InteractCollect> SpawnListItems(InteractCollect item, Transform pos, int quantity) => spawner.spawnListItems(item, pos, quantity);
     public List<GameObject> SpawnListItems(Item item, Vector3 pos, int quantity) => spawner.spawnListItems(item, pos, quantity);
     public List<GameObject> SpawnListItems(GameObject item, Transform pos, int quantity) => spawner.spawnListItems(item, pos, quantity);
 

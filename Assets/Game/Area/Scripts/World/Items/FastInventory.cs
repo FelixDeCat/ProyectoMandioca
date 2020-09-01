@@ -49,6 +49,12 @@ public class FastInventory : UI_Base
         {
             inventory[item.id].cant++;
         }
+
+        if (item.equipable)
+        {
+            EquipedManager.instance.EquipItem(item);
+        }
+
         RefreshScreen();
     }
     public void Add(Item item, int cant)

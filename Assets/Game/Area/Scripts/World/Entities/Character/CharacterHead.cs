@@ -977,7 +977,7 @@ public class CharacterHead : CharacterControllable
     protected override void OnTurnOff() { }
     protected override void OnFixedUpdate() { }
     #region Items
-    public override void OnReceiveItem(ItemWorld itemworld)
+    public override void OnReceiveItem(InteractCollect itemworld)
     {
         base.OnReceiveItem(itemworld);
     }

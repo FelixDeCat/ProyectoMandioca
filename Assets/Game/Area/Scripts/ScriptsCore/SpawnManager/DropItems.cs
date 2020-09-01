@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class DropItems : Interactable
 {
-    public ItemWorld itemToDrop;
+    public InteractCollect itemToDrop;
     public Transform posToDrop;
     public int QuantityToSpawn;
     public SpawnData data;

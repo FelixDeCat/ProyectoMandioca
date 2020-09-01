@@ -22,16 +22,16 @@ public class Spawner : MonoBehaviour
 
     }
 
-    public ItemWorld SpawnItem(ItemWorld item, Transform position)
+    public InteractCollect SpawnItem(InteractCollect item, Transform position)
     {
-        ItemWorld myItem = GameObject.Instantiate(item,parent_items);
+        InteractCollect myItem = GameObject.Instantiate(item,parent_items);
         myItem.transform.position = position.position;
         return myItem;
 
     }
-    public ItemWorld SpawnItem(ItemWorld item, Vector3 position)
+    public InteractCollect SpawnItem(InteractCollect item, Vector3 position)
     {
-        ItemWorld myItem = GameObject.Instantiate(item, parent_items);
+        InteractCollect myItem = GameObject.Instantiate(item, parent_items);
         myItem.transform.position = position;
         return myItem;
 
@@ -43,18 +43,18 @@ public class Spawner : MonoBehaviour
         return myItem;
     }
 
-    public List<ItemWorld> spawnListItems(ItemWorld obj, Transform pos, int quantity)
+    public List<InteractCollect> spawnListItems(InteractCollect obj, Transform pos, int quantity)
     {
-        List<ItemWorld> aux = new List<ItemWorld>();
+        List<InteractCollect> aux = new List<InteractCollect>();
         for (int i = 0; i < quantity; i++)
         {
             aux.Add(SpawnItem(obj, pos));
         }
         return aux;
     }
-    public List<ItemWorld> spawnListItems(ItemWorld obj, Vector3 pos, int quantity)
+    public List<InteractCollect> spawnListItems(InteractCollect obj, Vector3 pos, int quantity)
     {
-        List<ItemWorld> aux = new List<ItemWorld>();
+        List<InteractCollect> aux = new List<InteractCollect>();
         for (int i = 0; i < quantity; i++)
         {
             aux.Add(SpawnItem(obj, pos));
