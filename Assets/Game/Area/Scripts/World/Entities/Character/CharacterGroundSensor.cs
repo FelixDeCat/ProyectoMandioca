@@ -10,7 +10,7 @@ public class CharacterGroundSensor : MonoBehaviour
     [SerializeField] float widht = 0.2f;
     [SerializeField] float lenght = 0.2f;
     [SerializeField] float height = 0.3f;
-    [SerializeField] LayerMask floorMask = 1 << 21;
+    public LayerMask floorMask = 1 << 21;
 
     [SerializeField] float gravityMultiplier = 0.2f;
     [SerializeField] float maxAceleration = 15;

@@ -37,6 +37,14 @@ public class CharacterMovement
     int _fallDMG;
     float _currentTime;
     float _maxTimer;
+    float HigeBase;
+    float HigeFall;
+    float _fallMaxDistance;
+    public void Set_fallMaxDistance(float distance)
+    {
+        _fallMaxDistance = distance;
+    }
+
     public void SetFallTimer(float _time)
     {
         _maxTimer = _time;
@@ -64,7 +72,11 @@ public class CharacterMovement
     private ParticleSystem endTeleport;
     private float _teleportDistance;
     private bool teleportActive;
-
+    LayerMask _mask;
+    public void setMask(LayerMask mask)
+    {
+        _mask = mask;
+    }
     CharFeedbacks feedbacks;
     [SerializeField] Transform myCamera = null;
 
@@ -276,23 +288,53 @@ public class CharacterMovement
 
     public void OnUpdate()
     {
+        
         if (isGrounded.IsInGround)
         {
             if (_falling)
-                Main.instance.GetChar().Life.Hit(_fallDMG);
+            {
+                float totalFall = HigeBase - HigeFall;
+                if (totalFall > _fallMaxDistance)
+                {
+                    Main.instance.GetChar().Life.Hit((int)totalFall*(int)_DMGMultiplier);
+                }
+                
+            }
+                
 
-            _fallDMG = 0;
-            _currentTime = 0;
+            //_fallDMG = 0;
+            //_currentTime = 0;
             _falling = false;
+            RaycastHit hit;
+            Debug.Log(HigeBase);
+            if (Physics.Raycast(rotTransform.position,Vector3.down,out hit, 10f, _mask))
+            {
+
+                if (hit.collider.GetComponent<Transform>())
+                {
+                    HigeBase = hit.point.y;
+                   
+                }
+            }
+
         }
         else
         {
-            _currentTime += Time.deltaTime;
-            if (_currentTime >= _maxTimer)
+            RaycastHit hit;
+            if (Physics.Raycast(rotTransform.position, Vector3.down, out hit, 10f, _mask))
             {
-                _falling = true;
-                _fallDMG = (int)((_currentTime * _DMGMultiplier) - _maxTimer);
+                if (hit.collider.GetComponent<Transform>())
+                {
+                    HigeFall = hit.point.y;
+                }
             }
+            _falling = true;
+            // _currentTime += Time.deltaTime;
+            //if (_currentTime >= _maxTimer)
+            //{
+            //    _falling = true;
+            //    _fallDMG = (int)((_currentTime * _DMGMultiplier) - _maxTimer);
+            //}
         }
 
         #region el dash fisico mero mero

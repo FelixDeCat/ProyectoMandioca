@@ -108,6 +108,7 @@ public class CharacterHead : CharacterControllable
     [Header("Falling damage Options")]
     [SerializeField] float _multiplierFallDMG = 2;
     [SerializeField] float _TimeToFallDamage = 5;
+    [SerializeField] float _distanceToFallDamage = 5;
 
 
     private void Start()
@@ -137,6 +138,8 @@ public class CharacterHead : CharacterControllable
         ChildrensUpdates += move.OnUpdate;
         move.SetCallbacks(OnBeginRoll, OnEndRoll);
         slowSpeed = move.GetDefaultSpeed * .6f;
+        move.setMask(groundSensor.floorMask);
+        move.Set_fallMaxDistance(_distanceToFallDamage);
 
         charBlock
             .Initialize()
