@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics.Contracts;
 using UnityEngine;
 
 namespace Tools.StateMachine
@@ -18,13 +19,14 @@ namespace Tools.StateMachine
         {
             base.Enter(last);
 
-            anim.SetBool("TakeDamage", true);
+            anim.SetTrigger("takeDmg");
+            anim.SetBool("rotate", false);
         }
 
         protected override void Exit(CrowEnemy.CrowInputs input)
         {
             base.Exit(input);
-            anim.SetBool("TakeDamage", false);
+
             timer = 0;
         }
 

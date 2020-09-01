@@ -54,8 +54,15 @@ namespace Tools.StateMachine
 
                     Vector3 myForward = (enemy.CurrentTarget().transform.position - root.position).normalized;
                     Vector3 forwardRotation = new Vector3(myForward.x, 0, myForward.z);
-
-                    root.forward = Vector3.Lerp(root.forward, forwardRotation, rotationSpeed * Time.deltaTime);
+                    if (forwardRotation.x == root.forward.x && forwardRotation.z == root.forward.z)
+                    {
+                        anim.SetBool("rotate", false);
+                    }
+                    else
+                    {
+                        root.forward = Vector3.Lerp(root.forward, forwardRotation, rotationSpeed * Time.deltaTime);
+                        anim.SetBool("rotate", true);
+                    }
 
                     if (Vector3.Distance(pos1, pos2) >= distanceToNormalAttack)
                         sm.SendInput(CrowEnemy.CrowInputs.IDLE);

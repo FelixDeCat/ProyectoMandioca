@@ -10,6 +10,9 @@ public class CrowEnemy : EnemyBase
     public AnimationCurve animEmisive;
 
     [Header("Combat Options")]
+    [SerializeField] Throwable throwObject = null;
+    [SerializeField] Transform shootPivot = null;
+    [SerializeField] float throwForce = 6;
     [SerializeField] int damage = 2;
     [SerializeField] float rotationSpeed = 8;
     [SerializeField] float knockback = 20;
@@ -41,7 +44,7 @@ public class CrowEnemy : EnemyBase
     [System.Serializable]
     public class DataBaseCrowParticles
     {
-        public ParticleSystem castParticles = null;
+        //public ParticleSystem castParticles = null;
         public ParticleSystem takeDmg = null;
     }
 
@@ -56,7 +59,7 @@ public class CrowEnemy : EnemyBase
     {
         base.OnInitialize();
         Main.instance.eventManager.TriggerEvent(GameEvents.ENEMY_SPAWN, new object[] { this });
-        ParticlesManager.Instance.GetParticlePool(particles.castParticles.name, particles.castParticles, 3);
+        //ParticlesManager.Instance.GetParticlePool(particles.castParticles.name, particles.castParticles, 3);
         ParticlesManager.Instance.GetParticlePool(particles.takeDmg.name, particles.takeDmg, 8);
 
         var smr = GetComponentInChildren<SkinnedMeshRenderer>();
@@ -74,6 +77,8 @@ public class CrowEnemy : EnemyBase
 
         petrifyEffect?.AddStartCallback(() => sm.SendInput(CrowInputs.PETRIFIED));
         petrifyEffect?.AddEndCallback(() => sm.SendInput(CrowInputs.IDLE));
+
+        ThrowablePoolsManager.instance.CreateAPool(throwObject.name, throwObject);
     }
     protected override void OnReset()
     {
@@ -145,20 +150,14 @@ public class CrowEnemy : EnemyBase
     protected override void OnResume() { }
 
     #region Attack
-    public void DealDamage() { /* te re tiro la piedra wacho */ }
+    public void DealDamage()
+    {
+        float yDir = CurrentTarget() ? (CurrentTarget().transform.position - transform.position).normalized.y : 0;
 
-    //public void AttackEntity(DamageReceiver e)
-    //{
-    //    dmgData.SetDamage(damage).SetDamageTick(false).SetDamageType(Damagetype.Normal).SetKnockback(knockback)
-    //.SetPositionAndDirection(transform.position);
-    //    Attack_Result takeDmg = e.TakeDamage(dmgData);
+        ThrowData newData = new ThrowData().Configure(shootPivot.position, new Vector3(rootTransform.forward.x, yDir, rootTransform.forward.z), throwForce, damage, rootTransform);
 
-    //    if (takeDmg == Attack_Result.parried)
-    //    {
-    //        combatComponent.Stop();
-    //        sm.SendInput(CrowInputs.PARRIED);
-    //    }
-    //}
+        ThrowablePoolsManager.instance.Throw(throwObject.name, newData);
+    }
 
     public override void ToAttack() => attacking = true;
     #endregion

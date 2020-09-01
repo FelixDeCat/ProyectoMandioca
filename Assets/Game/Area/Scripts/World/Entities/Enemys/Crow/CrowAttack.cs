@@ -20,7 +20,8 @@ namespace Tools.StateMachine
         protected override void Enter(EState<CrowEnemy.CrowInputs> last)
         {
             base.Enter(last);
-            anim.SetBool("Attack", true);
+            anim.SetTrigger("attack");
+            anim.SetBool("rotate", false);
         }
 
         protected override void Exit(CrowEnemy.CrowInputs input)
@@ -28,9 +29,7 @@ namespace Tools.StateMachine
             base.Exit(input);
 
             timer = 0;
-            anim.SetBool("Attack", false);
-            var myEnemy = (EnemyBase)enemy;
-            myEnemy.attacking = false;
+            enemy.attacking = false;
             combatDirector.AttackRelease(enemy, enemy.CurrentTarget());
         }
 
