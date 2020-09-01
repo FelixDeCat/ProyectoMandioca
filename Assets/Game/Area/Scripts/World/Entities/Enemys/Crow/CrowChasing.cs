@@ -1,24 +1,26 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System;
 using UnityEngine;
-using System;
 
 namespace Tools.StateMachine
 {
     public class CrowChasing : CrowStates
     {
         Func<bool> IsAttack;
+        Func<bool> IsCast;
+        Func<Transform, bool> LineOfSight;
         float distanceToNormalAttack;
         float rotationSpeed;
         EnemyBase enemy;
 
         public CrowChasing(EState<CrowEnemy.CrowInputs> myState, EventStateMachine<CrowEnemy.CrowInputs> _sm, Func<bool> _IsAttack,
-                            float _distanceToAttack, float _rotationSpeed, EnemyBase _enemy) : base(myState, _sm)
+                            float _distanceToAttack, float _rotationSpeed, EnemyBase _enemy, Func<bool> _IsCast, Func<Transform, bool> _LineOfSight) : base(myState, _sm)
         {
             IsAttack = _IsAttack;
             distanceToNormalAttack = _distanceToAttack;
             rotationSpeed = _rotationSpeed;
             enemy = _enemy;
+            IsCast = _IsCast;
+            LineOfSight = _LineOfSight;
         }
 
         protected override void Enter(EState<CrowEnemy.CrowInputs> last)
@@ -42,9 +44,7 @@ namespace Tools.StateMachine
                 sm.SendInput(CrowEnemy.CrowInputs.IDLE);
 
             if (IsAttack())
-            {
                 sm.SendInput(CrowEnemy.CrowInputs.BEGIN_ATTACK);
-            }
             else
             {
                 if (enemy.CurrentTarget() != null)
@@ -54,17 +54,9 @@ namespace Tools.StateMachine
 
                     Vector3 myForward = (enemy.CurrentTarget().transform.position - root.position).normalized;
                     Vector3 forwardRotation = new Vector3(myForward.x, 0, myForward.z);
-                    if (forwardRotation.x == root.forward.x && forwardRotation.z == root.forward.z)
-                    {
-                        anim.SetBool("rotate", false);
-                    }
-                    else
-                    {
-                        root.forward = Vector3.Lerp(root.forward, forwardRotation, rotationSpeed * Time.deltaTime);
-                        anim.SetBool("rotate", true);
-                    }
+                    root.forward = Vector3.Lerp(root.forward, forwardRotation, rotationSpeed * Time.deltaTime);
 
-                    if (Vector3.Distance(pos1, pos2) >= distanceToNormalAttack)
+                    if (Vector3.Distance(pos1, pos2) >= distanceToNormalAttack || !IsCast() || !LineOfSight(enemy.CurrentTarget().transform))
                         sm.SendInput(CrowEnemy.CrowInputs.IDLE);
                 }
             }

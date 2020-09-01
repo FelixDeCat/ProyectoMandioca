@@ -45,7 +45,7 @@ public class LineOfSight : MonoBehaviour
 
             if (Physics.Raycast(myTransform.position + offset , _directionToTarget , out raycastInfo, 100, layermask))
             {
-                if (raycastInfo.collider.gameObject.GetComponent<CharacterHead>())
+                if (raycastInfo.transform == _target)
                 {
                    
                     obstaclesBetween = false;

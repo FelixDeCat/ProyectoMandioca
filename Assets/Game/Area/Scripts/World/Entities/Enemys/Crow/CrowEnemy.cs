@@ -9,23 +9,29 @@ public class CrowEnemy : EnemyBase
 {
     public AnimationCurve animEmisive;
 
+    [SerializeField] float rotationSpeed = 8;
+
     [Header("Combat Options")]
     [SerializeField] Throwable throwObject = null;
     [SerializeField] Transform shootPivot = null;
     [SerializeField] float throwForce = 6;
+    [SerializeField] float cdToCast = 2;
     [SerializeField] int damage = 2;
-    [SerializeField] float rotationSpeed = 8;
     [SerializeField] float knockback = 20;
     [SerializeField] float attackRecall = 2;
-    public DummySpecialAttack dummySpecialAttack;
-
+    [SerializeField] CastingBar castingBehaviour = null;
     private CombatDirector director;
+    [SerializeField] LineOfSight lineOfSight = null;
 
     [Header("Life Options")]
     [SerializeField] float recallTime = 1;
 
     private bool cooldown = false;
     private float timercooldown = 0;
+
+    float timerToCast;
+    bool castingOver;
+    bool stopCD;
 
     [Header("Feedback")]
     [SerializeField] AnimEvent anim = null;
@@ -67,7 +73,7 @@ public class CrowEnemy : EnemyBase
             myMat = smr.materials;
 
         AudioManager.instance.GetSoundPool(sounds.takeDmgSound.name, AudioGroups.GAME_FX, sounds.takeDmgSound);
-        AudioManager.instance.GetSoundPool(sounds.attackSound.name, AudioGroups.GAME_FX, sounds.attackSound, true);
+        AudioManager.instance.GetSoundPool(sounds.attackSound.name, AudioGroups.GAME_FX, sounds.attackSound);
 
         rb = GetComponent<Rigidbody>();
         anim.Add_Callback("DealDamage", DealDamage);
@@ -79,6 +85,9 @@ public class CrowEnemy : EnemyBase
         petrifyEffect?.AddEndCallback(() => sm.SendInput(CrowInputs.IDLE));
 
         ThrowablePoolsManager.instance.CreateAPool(throwObject.name, throwObject);
+
+        castingBehaviour.AddEventListener_OnFinishCasting(CastOver);
+        lineOfSight.Configurate(shootPivot);
     }
     protected override void OnReset()
     {
@@ -99,64 +108,89 @@ public class CrowEnemy : EnemyBase
         if (sm == null)
             SetStates();
         else
-        {
             sm.SendInput(CrowInputs.IDLE);
-        }
 
         director.AddNewTarget(this);
 
         canupdate = true;
+
+        timerToCast = cdToCast;
     }
     protected override void OnUpdateEntity()
     {
-        if (canupdate)
+        if (!death)
         {
-            if (!death)
+            if (combat)
             {
-                if (combat)
+                if (Vector3.Distance(Main.instance.GetChar().transform.position, transform.position) > combatDistance + 2)
                 {
-                    if (Vector3.Distance(Main.instance.GetChar().transform.position, transform.position) > combatDistance + 2)
-                    {
-                        director.DeadEntity(this, entityTarget);
-                        entityTarget = null;
-                        combat = false;
-                    }
-                }
+                    director.DeadEntity(this, entityTarget);
+                    entityTarget = null;
+                    combat = false;
 
-                if (!combat && entityTarget == null)
-                {
-                    if (Vector3.Distance(Main.instance.GetChar().transform.position, transform.position) <= combatDistance)
-                    {
-                        director.AddToList(this, Main.instance.GetChar());
-                        SetTarget(Main.instance.GetChar());
-                        combat = true;
-                    }
+                    animator.SetBool("rotate", false);
+
+                    if (castingBehaviour.InCasting)
+                        castingBehaviour.InterruptCasting();
+
+                    castingOver = false;
                 }
             }
 
-            if (sm != null)
+            if (!combat && entityTarget == null)
             {
-                sm.Update();
+                if (Vector3.Distance(Main.instance.GetChar().transform.position, transform.position) <= combatDistance)
+                {
+                    director.AddToList(this, Main.instance.GetChar());
+                    SetTarget(Main.instance.GetChar());
+                    combat = true;
+
+                    if (stopCD) castingBehaviour.StartCasting();
+
+                    animator.SetBool("rotate", true);
+                }
             }
 
-            if (cooldown)
+            if (!stopCD)
             {
-                if (timercooldown < recallTime) timercooldown = timercooldown + 1 * Time.deltaTime;
-                else { cooldown = false; timercooldown = 0; }
+                if (cdToCast > timerToCast) timerToCast += Time.deltaTime;
+                else
+                {
+                    if(combat) castingBehaviour.StartCasting();
+                    timerToCast = 0;
+                    stopCD = true;
+                }
             }
         }
+
+        if (sm != null)
+            sm.Update();
+
+        if (cooldown)
+        {
+            if (timercooldown < recallTime) timercooldown = timercooldown + 1 * Time.deltaTime;
+            else { cooldown = false; timercooldown = 0; }
+        }
     }
+
     protected override void OnPause() { }
     protected override void OnResume() { }
 
     #region Attack
+    void CastOver() => castingOver = true;
+
     public void DealDamage()
     {
-        float yDir = CurrentTarget() ? (CurrentTarget().transform.position - transform.position).normalized.y : 0;
+        AudioManager.instance.PlaySound(sounds.attackSound.name);
 
-        ThrowData newData = new ThrowData().Configure(shootPivot.position, new Vector3(rootTransform.forward.x, yDir, rootTransform.forward.z), throwForce, damage, rootTransform);
+        Vector3 dir = CurrentTarget() ? (CurrentTarget().transform.position - shootPivot.position).normalized : Vector3.zero;
+
+        ThrowData newData = new ThrowData().Configure(shootPivot.position, dir, throwForce, damage, rootTransform);
 
         ThrowablePoolsManager.instance.Throw(throwObject.name, newData);
+
+        stopCD = false;
+        castingOver = false;
     }
 
     public override void ToAttack() => attacking = true;
@@ -281,9 +315,9 @@ public class CrowEnemy : EnemyBase
 
         var head = Main.instance.GetChar();
 
-        new CrowIdle(idle, sm, distancePos, rotationSpeed, this).SetAnimator(animator).SetRoot(rootTransform).SetDirector(director);
+        new CrowIdle(idle, sm, distancePos, rotationSpeed, this, ()=> castingOver, lineOfSight.OnSight).SetAnimator(animator).SetRoot(rootTransform).SetDirector(director);
 
-        new CrowChasing(chasing, sm, IsAttack, distancePos, rotationSpeed, this).SetDirector(director).SetRoot(rootTransform);
+        new CrowChasing(chasing, sm, IsAttack, distancePos, rotationSpeed, this, () => castingOver, lineOfSight.OnSight).SetDirector(director).SetRoot(rootTransform);
 
         new CrowAttack(attack, sm, attackRecall, this).SetAnimator(animator).SetDirector(director);
 

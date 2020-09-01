@@ -41,7 +41,7 @@ public abstract class EnemyBase : NPCBase, ICombatDirector
     #region Combat Director Functions (hacer component)
     //cuando haya tiempo hacer un combat director connector component
     [Header("Combat director")]
-    [SerializeField, Range(0.5f, 15)] protected float distancePos = 1.5f;
+    [SerializeField, Range(0.5f, 30)] protected float distancePos = 1.5f;
     protected bool withPos;
     protected EntityBase entityTarget;
 
@@ -73,7 +73,7 @@ public abstract class EnemyBase : NPCBase, ICombatDirector
     protected override void OnInitialize()
     {
         rb = GetComponent<Rigidbody>();
-        dmgData.Initialize(this);
+        dmgData?.Initialize(this);
         dmgReceiver.Initialize(rootTransform, IsDamage, Death, TakeDamageFeedback, rb, lifesystem, InmuneFeedback);
     }
 
