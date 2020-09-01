@@ -28,31 +28,9 @@ public class CharacterMovement
     private Vector3 dashDir;
     public bool InDash { get; private set; }
     bool dashCdOk;
-    bool _falling;
-    float _DMGMultiplier;
-    public void Set_DMGMultiplier(float multiplier)
-    {
-        _DMGMultiplier = multiplier;
-    }
-    int _fallDMG;
-    float _currentTime;
-    float _maxTimer;
-    float HigeBase;
-    float HigeFall;
-    float _fallMaxDistance;
-    public void Set_fallMaxDistance(float distance)
-    {
-        _fallMaxDistance = distance;
-    }
-
-    public void SetFallTimer(float _time)
-    {
-        _maxTimer = _time;
-    }
-    public void ForcedCanDash(bool candash)
-    {
-        InDash = candash;
-    }
+    [SerializeField] float _DMGMultiplier = 2;
+    [SerializeField] float _fallMaxDistance = 10;
+    float lastYPos;
 
     CharacterGroundSensor isGrounded;
     CharacterAnimator anim;
@@ -72,11 +50,6 @@ public class CharacterMovement
     private ParticleSystem endTeleport;
     private float _teleportDistance;
     private bool teleportActive;
-    LayerMask _mask;
-    public void setMask(LayerMask mask)
-    {
-        _mask = mask;
-    }
     CharFeedbacks feedbacks;
     [SerializeField] Transform myCamera = null;
 
@@ -122,6 +95,8 @@ public class CharacterMovement
         AudioManager.instance.GetSoundPool("DashSounds", AudioGroups.GAME_FX);
         ActualizeDash(true);
         isGrounded.TurnOn();
+
+        isGrounded.GroundOneShot += CalculateFallDamage;
     }
 
     #region BUILDER
@@ -285,58 +260,25 @@ public class CharacterMovement
     #endregion
 
     #region ROLL
+    public void ForcedCanDash(bool candash)
+    {
+        InDash = candash;
+    }
+
+    void CalculateFallDamage(float y)
+    {
+        float totalFall = lastYPos - y;
+        if (totalFall > _fallMaxDistance)
+        {
+            float dmg = (totalFall - _fallMaxDistance) * _DMGMultiplier;
+            Main.instance.GetChar().Life.Hit((int)dmg);
+        }
+
+        lastYPos = y;
+    }
 
     public void OnUpdate()
     {
-        
-        if (isGrounded.IsInGround)
-        {
-            if (_falling)
-            {
-                float totalFall = HigeBase - HigeFall;
-                if (totalFall > _fallMaxDistance)
-                {
-                    Main.instance.GetChar().Life.Hit((int)totalFall*(int)_DMGMultiplier);
-                }
-                
-            }
-                
-
-            //_fallDMG = 0;
-            //_currentTime = 0;
-            _falling = false;
-            RaycastHit hit;
-            Debug.Log(HigeBase);
-            if (Physics.Raycast(rotTransform.position,Vector3.down,out hit, 10f, _mask))
-            {
-
-                if (hit.collider.GetComponent<Transform>())
-                {
-                    HigeBase = hit.point.y;
-                   
-                }
-            }
-
-        }
-        else
-        {
-            RaycastHit hit;
-            if (Physics.Raycast(rotTransform.position, Vector3.down, out hit, 10f, _mask))
-            {
-                if (hit.collider.GetComponent<Transform>())
-                {
-                    HigeFall = hit.point.y;
-                }
-            }
-            _falling = true;
-            // _currentTime += Time.deltaTime;
-            //if (_currentTime >= _maxTimer)
-            //{
-            //    _falling = true;
-            //    _fallDMG = (int)((_currentTime * _DMGMultiplier) - _maxTimer);
-            //}
-        }
-
         #region el dash fisico mero mero
         if (InDash)
         {

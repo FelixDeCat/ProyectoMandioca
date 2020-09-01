@@ -10,7 +10,7 @@ public class CharacterGroundSensor : MonoBehaviour
     [SerializeField] float widht = 0.2f;
     [SerializeField] float lenght = 0.2f;
     [SerializeField] float height = 0.3f;
-    public LayerMask floorMask = 1 << 21;
+    [SerializeField] LayerMask floorMask = 1 << 21;
 
     [SerializeField] float gravityMultiplier = 0.2f;
     [SerializeField] float maxAceleration = 15;
@@ -64,23 +64,23 @@ public class CharacterGroundSensor : MonoBehaviour
         RaycastHit hit;
 
         if (Physics.Raycast(transform.position, -transform.up, out hit, height, floorMask))
-            GroundOneShot(hit.transform.position.y);
+            GroundOneShot(hit.point.y);
         else if(Physics.Raycast(transform.position + Vector3.right * widht, -transform.up, out hit, height, floorMask))
-            GroundOneShot(hit.transform.position.y);
+            GroundOneShot(hit.point.y);
         else if (Physics.Raycast(transform.position + Vector3.left * widht, -transform.up, out hit, height, floorMask))
-            GroundOneShot(hit.transform.position.y);
+            GroundOneShot(hit.point.y);
         else if (Physics.Raycast(transform.position + Vector3.forward * lenght, -transform.up, out hit, height, floorMask))
-            GroundOneShot(hit.transform.position.y);
+            GroundOneShot(hit.point.y);
         else if (Physics.Raycast(transform.position + Vector3.back * lenght, -transform.up, out hit, height, floorMask))
-            GroundOneShot(hit.transform.position.y);
+            GroundOneShot(hit.point.y);
         else if (Physics.Raycast(transform.position + Vector3.back * lenght + Vector3.right * widht, -transform.up, out hit, height, floorMask))
-            GroundOneShot(hit.transform.position.y);
+            GroundOneShot(hit.point.y);
         else if (Physics.Raycast(transform.position + Vector3.back * lenght + Vector3.left * widht, -transform.up, out hit, height, floorMask))
-            GroundOneShot(hit.transform.position.y);
+            GroundOneShot(hit.point.y);
         else if (Physics.Raycast(transform.position + Vector3.forward * lenght + Vector3.left * widht, -transform.up, out hit, height, floorMask))
-            GroundOneShot(hit.transform.position.y);
+            GroundOneShot(hit.point.y);
         else if (Physics.Raycast(transform.position + Vector3.forward * lenght + Vector3.right * widht, -transform.up, out hit, height, floorMask))
-            GroundOneShot(hit.transform.position.y);
+            GroundOneShot(hit.point.y);
         else
             isGrounded = false;
     }
