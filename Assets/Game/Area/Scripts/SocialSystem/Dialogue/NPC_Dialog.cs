@@ -35,7 +35,7 @@ public class NPC_Dialog : Interactable
             {
                 if (currentDialoge) DialogueManager.instance.StartDialogue(currentDialoge);
                 WorldItemInfo.instance.Hide();
-                OnInteract?.Invoke();
+                OnInteract.Invoke();
             }
             oneshot = true;
         }
@@ -43,7 +43,7 @@ public class NPC_Dialog : Interactable
         {
             if (currentDialoge) DialogueManager.instance.StartDialogue(currentDialoge);
             WorldItemInfo.instance.Hide();
-            OnInteract?.Invoke();
+            OnInteract.Invoke();
         }
 
         

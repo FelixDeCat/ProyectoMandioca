@@ -41,9 +41,19 @@ public class UI_MisionManager : MonoBehaviour
         {
             if (misions[i].data.IsHided) continue;
             UI_CompMision m = GameObject.Instantiate(model, parent);
-            m.SetData(
+            if (!misions[i].Completed)
+            {
+                m.SetData(
                 misions[i].mision_name,
                 misions[i].data.ItemsCompleteString());
+            }
+            else
+            {
+                m.SetData(
+                misions[i].mision_name,
+                misions[i].info.finish_message);
+            }
+            
 
             ui_misions.Add(m);
         }

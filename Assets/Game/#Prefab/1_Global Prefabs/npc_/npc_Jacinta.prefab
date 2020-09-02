@@ -199,8 +199,9 @@ GameObject:
   - component: {fileID: 8191286866028951726}
   - component: {fileID: 3680192537541581800}
   - component: {fileID: 3510549195213244809}
+  - component: {fileID: 5117752635429791419}
   m_Layer: 0
-  m_Name: Jacinta
+  m_Name: npc_Jacinta
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -251,11 +252,31 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   nombre_NPC: Jacinta
-  dialogues: []
-  currentDialoge: {fileID: 0}
+  dialogues:
+  - {fileID: 11400000, guid: 4bb3697115690484094cfb0d210e9895, type: 2}
+  - {fileID: 11400000, guid: 047df4d18a460ce4ba592f70879c81d8, type: 2}
+  - {fileID: 11400000, guid: 690567aef9dc1ca458905b1151340001, type: 2}
+  - {fileID: 11400000, guid: 649b662d398f34741a92549b70280319, type: 2}
+  - {fileID: 11400000, guid: f882b12497f092a489453a0c0c0a86b3, type: 2}
+  currentDialoge: {fileID: 11400000, guid: 4bb3697115690484094cfb0d210e9895, type: 2}
   OnBeginMission:
     m_PersistentCalls:
       m_Calls: []
+  OnInteract:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 5117752635429791419}
+        m_MethodName: Execute
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  useOneShot: 0
 --- !u!114 &3510549195213244809
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -268,6 +289,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d6cea45e67681384694b617a30ba7815, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &5117752635429791419
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8255752919292501291}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1eea20de562cb4d4a8321dcb29076864, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ID_misionsToCheck: 05000000
 --- !u!1 &8917786873028692753
 GameObject:
   m_ObjectHideFlags: 0

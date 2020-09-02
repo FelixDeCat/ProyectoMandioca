@@ -85,8 +85,8 @@ namespace Misions.Core
     [System.Serializable]
     public class Serializable_DescriptiveInfo
     {
-        
         [Multiline(10)] public string description;
+        [Multiline(5)] public string finish_message;
     }
     #endregion
     #region DATA
@@ -97,6 +97,7 @@ namespace Misions.Core
         [SerializeField] bool completed = false;
         [SerializeField] bool isactive = false;
         [SerializeField] bool isHided = false;
+        bool delivered;
         [SerializeField] ItemMision[] mision_item = new ItemMision[0];
         
         string[] regions_to_enable =  new string[1];
@@ -106,6 +107,7 @@ namespace Misions.Core
         internal string[] Regions { get { return regions_to_enable; } }
         internal ItemMision[] MisionItems { get { return mision_item; } }
         internal FaseChangerData[] FasesToChange { get { return fasesToChange; } }
+        internal bool Delivered { get { return delivered; } }
         internal string ItemsCompleteString()
         {
             string aux = "";
@@ -125,6 +127,8 @@ namespace Misions.Core
         internal void SetItemsMision(ItemMision[] items) => mision_item = items;
         internal void ActivateMision() => isactive = true;
         internal void DeactivateMision() => isactive = false;
+        internal void SetCompletedMision() => completed = true;
+        internal void SetDeliveredMision() => delivered = true;
         
         internal bool CanPrint(string place)
         {

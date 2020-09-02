@@ -99,9 +99,17 @@ public class MisionManager : MonoBehaviour
     /////////////////////////////////////////////////////
 
     //Automatico
-    public void CompleteMision(Mision m) { if (m.AutoEnd) EndMision(m); }
+    public void CompleteMision(Mision m)
+    {
+        m.data.SetCompletedMision();
+        if (m.AutoEnd) EndMision(m);
+    }
     //Manual
-    public void DeliveMision(Mision m) => EndMision(m);
+    public void DeliveMision(Mision m)
+    {
+        m.data.SetCompletedMision();
+        EndMision(m);
+    }
 
     //completado de items
     public void AddMisionItem(int Id, int Index)
@@ -134,26 +142,30 @@ public class MisionManager : MonoBehaviour
     //Funcional
     void EndMision(Mision m)
     {
-        m.End();
-        if (m.rewarding.items_rewarding.Length > 0)
+        if (!m.data.Delivered)
         {
-            for (int i = 0; i < m.rewarding.items_rewarding.Length; i++)
+            m.data.SetDeliveredMision();
+            m.End();
+            if (m.rewarding.items_rewarding.Length > 0)
             {
-                var itm = m.rewarding.items_rewarding[i].item;
+                for (int i = 0; i < m.rewarding.items_rewarding.Length; i++)
+                {
+                    var itm = m.rewarding.items_rewarding[i].item;
 
-                if (itm.equipable)
-                {
-                    EquipedManager.instance.EquipItem(itm);
-                }
-                else
-                {
-                    FastInventory.instance.Add(m.rewarding.items_rewarding[i].item, m.rewarding.items_rewarding[i].cant);
+                    if (itm.equipable)
+                    {
+                        EquipedManager.instance.EquipItem(itm);
+                    }
+                    else
+                    {
+                        FastInventory.instance.Add(m.rewarding.items_rewarding[i].item, m.rewarding.items_rewarding[i].cant);
+                    }
                 }
             }
+            active_misions.Remove(m);
+            finalizedMisions.Add(m);
+            UI_StackMision.instancia.LogearMision(m, true, 8f);
         }
-        active_misions.Remove(m);
-        finalizedMisions.Add(m);
-        UI_StackMision.instancia.LogearMision(m, true, 8f);
     }
     #endregion
 }
