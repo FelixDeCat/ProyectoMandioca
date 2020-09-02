@@ -106,29 +106,29 @@ public class MisionManager : MonoBehaviour
     //completado de items
     public void AddMisionItem(int Id, int Index)
     {
-        bool notfount = false;
-
-        if (!active_misions.Contains(MisionsDataBase.instance.GetMision(Id))) return;
-        for (int i = 0; i < active_misions.Count; i++)
+        if (active_misions.Contains(MisionsDataBase.instance.GetMision(Id)))
         {
-            if (active_misions[i].id_mision == Id)
+            for (int i = 0; i < active_misions.Count; i++)
             {
-                if (Index < active_misions[i].data.MisionItems.Length)
+                if (active_misions[i].id_mision == Id)
                 {
-                    var aux = active_misions[i].data.MisionItems[Index];
-                    aux.Execute();
-                    notfount = true;
+                    if (Index < active_misions[i].data.MisionItems.Length)
+                    {
+                        var aux = active_misions[i].data.MisionItems[Index];
+                        aux.Execute();
+                    }
+                    else Debug.LogError("El Index que me pasaron es Mayor al la cantidad que tengo");
                 }
-                else Debug.LogError("El Index que me pasaron es Mayor al la cantidad que tengo");
             }
-        }
 
-        if (notfount)
+            CheckMision();
+        }
+        else
         {
-            MissionMemory.instance.AddToMemory(Id, Index);
+            var mision = MisionsDataBase.instance.GetMision(Id);
+            if (mision.data.MisionItems[Index].Store_This_Item)
+                mision.data.MisionItems[Index].Execute();
         }
-
-        CheckMision();
     }
 
     //Funcional

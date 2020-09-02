@@ -56,7 +56,7 @@ public class Mision
     {
         for (int i = 0; i < data.MisionItems.Length; i++)
         {
-            data.MisionItems[i].CheckMemory(id_mision, i);
+            //data.MisionItems[i].CheckMemory(id_mision, i);
 
             if (!data.MisionItems[i].IsCompleted) return false;
             else continue;
@@ -98,6 +98,7 @@ namespace Misions.Core
         [SerializeField] bool isactive = false;
         [SerializeField] bool isHided = false;
         [SerializeField] ItemMision[] mision_item = new ItemMision[0];
+        
         string[] regions_to_enable =  new string[1];
         internal bool Completed { get { return completed; } }
         internal bool IsActive { get { return isactive; } }
