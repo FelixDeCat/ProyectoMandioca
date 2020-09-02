@@ -1311,32 +1311,6 @@ MonoBehaviour:
       - 0.5
       - 0.5
       - 0.5
---- !u!114 &-3281412301160651698
-MonoBehaviour:
-  m_ObjectHideFlags: 3
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6050e2d5de785ce4d931e4dbdbf2d755, type: 3}
-  m_Name: ChromaticAberration
-  m_EditorClassIdentifier: 
-  active: 0
-  enabled:
-    overrideState: 1
-    value: 1
-  spectralLut:
-    overrideState: 0
-    value: {fileID: 2800000, guid: d66e678fa8b350b48a53950aa9f2b13a, type: 3}
-    defaultState: 1
-  intensity:
-    overrideState: 1
-    value: 0
-  fastMode:
-    overrideState: 0
-    value: 0
 --- !u!114 &-1571401451015692866
 MonoBehaviour:
   m_ObjectHideFlags: 3
@@ -1399,10 +1373,9 @@ MonoBehaviour:
   settings:
   - {fileID: -1571401451015692866}
   - {fileID: -3848811751668884872}
-  - {fileID: 6973116405419376559}
-  - {fileID: -3281412301160651698}
   - {fileID: 7036508485036723466}
---- !u!114 &6973116405419376559
+  - {fileID: 1491073321465060931}
+--- !u!114 &1491073321465060931
 MonoBehaviour:
   m_ObjectHideFlags: 3
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1411,41 +1384,22 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 40b924e2dad56384a8df2a1e111bb675, type: 3}
-  m_Name: Vignette
+  m_Script: {fileID: 11500000, guid: abc0b71c0a6142d49bce109f569ab7b2, type: 3}
+  m_Name: FogPPSSettings
   m_EditorClassIdentifier: 
-  active: 0
+  active: 1
   enabled:
     overrideState: 1
     value: 1
-  mode:
-    overrideState: 0
-    value: 0
-  color:
+  _Radius:
     overrideState: 1
-    value: {r: 0.33962262, g: 0.33962262, b: 0.33962262, a: 1}
-  center:
+    value: 11.8
+  _FallOff:
     overrideState: 1
-    value: {x: 0.5, y: 0.5}
-  intensity:
+    value: 1.95
+  _FogColor:
     overrideState: 1
-    value: 0.172
-  smoothness:
-    overrideState: 0
-    value: 0.2
-  roundness:
-    overrideState: 0
-    value: 1
-  rounded:
-    overrideState: 1
-    value: 1
-  mask:
-    overrideState: 0
-    value: {fileID: 0}
-    defaultState: 1
-  opacity:
-    overrideState: 0
-    value: 1
+    value: {r: 0.3773585, g: 0.3773585, b: 0.3773585, a: 0}
 --- !u!114 &7036508485036723466
 MonoBehaviour:
   m_ObjectHideFlags: 3
