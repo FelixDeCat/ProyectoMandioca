@@ -40,6 +40,7 @@ public class CrowEnemy : EnemyBase
     [SerializeField] Color onHitColor = Color.white;
     [SerializeField] float onHitFlashTime = 0.1f;
     [SerializeField] RagdollComponent ragdoll = null;
+    ParticleSystem castPartTemp;
 
     [SerializeField] EffectBase petrifyEffect = null;
     EventStateMachine<CrowInputs> sm;
@@ -50,7 +51,7 @@ public class CrowEnemy : EnemyBase
     [System.Serializable]
     public class DataBaseCrowParticles
     {
-        //public ParticleSystem castParticles = null;
+        public ParticleSystem castParticles = null;
         public ParticleSystem takeDmg = null;
     }
 
@@ -65,7 +66,7 @@ public class CrowEnemy : EnemyBase
     {
         base.OnInitialize();
         Main.instance.eventManager.TriggerEvent(GameEvents.ENEMY_SPAWN, new object[] { this });
-        //ParticlesManager.Instance.GetParticlePool(particles.castParticles.name, particles.castParticles, 3);
+        ParticlesManager.Instance.GetParticlePool(particles.castParticles.name, particles.castParticles, 2);
         ParticlesManager.Instance.GetParticlePool(particles.takeDmg.name, particles.takeDmg, 8);
 
         var smr = GetComponentInChildren<SkinnedMeshRenderer>();
@@ -87,7 +88,10 @@ public class CrowEnemy : EnemyBase
         ThrowablePoolsManager.instance.CreateAPool(throwObject.name, throwObject);
 
         castingBehaviour.AddEventListener_OnFinishCasting(CastOver);
-        lineOfSight.Configurate(shootPivot);
+        castingBehaviour.AddEventListener_OnStartCasting(() => castPartTemp = ParticlesManager.Instance.PlayParticle(particles.castParticles.name, shootPivot.position, shootPivot));
+        castingBehaviour.AddEventListener_OnFinishCasting(() => { if (castPartTemp && castPartTemp.gameObject.activeSelf)
+                ParticlesManager.Instance.StopParticle(particles.castParticles.name, castPartTemp); });
+        lineOfSight.Configurate(rootTransform);
     }
     protected override void OnReset()
     {
@@ -177,7 +181,12 @@ public class CrowEnemy : EnemyBase
     protected override void OnResume() { }
 
     #region Attack
-    void CastOver() => castingOver = true;
+    void CastOver()
+    {
+        castingOver = true;
+        if (castPartTemp && castPartTemp.gameObject.activeSelf)
+            ParticlesManager.Instance.StopParticle(particles.castParticles.name, castPartTemp);
+    }
 
     public void DealDamage()
     {

@@ -30,11 +30,9 @@ namespace Tools.Testing
                     Cursor.visible = false;
                     Cursor.lockState = CursorLockMode.Locked;
                 }
-                packageToLoad.LoadComponents();
+                packageToLoad?.LoadComponents();
                 Destroy(this.gameObject);
             }
-
-            
         }
     }
 

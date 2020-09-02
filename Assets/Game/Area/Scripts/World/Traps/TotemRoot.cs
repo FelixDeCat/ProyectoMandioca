@@ -14,9 +14,9 @@ public class TotemRoot : Totem
 
     CharacterHead myChar;
 
-    protected override void Start()
+    protected override void OnInitialize()
     {
-        base.Start();
+        base.OnInitialize();
 
         myChar = Main.instance.GetChar();
 

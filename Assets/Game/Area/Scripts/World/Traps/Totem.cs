@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 
-public abstract class Totem : MonoBehaviour
+public abstract class Totem : PlayObject
 {
 
     [SerializeField] protected CastingBar myCastingBar = null;
@@ -23,7 +23,7 @@ public abstract class Totem : MonoBehaviour
     bool casting;
     protected bool stuned;
 
-    protected virtual void Start()
+    protected override void OnInitialize()
     {
         myCastingBar.AddEventListener_OnFinishCasting(EndCast);
         effectStun.AddStartCallback(GetStunned);
@@ -56,6 +56,8 @@ public abstract class Totem : MonoBehaviour
             OnStartCast();
 
         InternalTotemEnter();
+
+        On();
     }
 
     protected virtual void InternalTotemEnter() { }
@@ -87,7 +89,7 @@ public abstract class Totem : MonoBehaviour
 
     protected virtual void InternalStartCast() { }
 
-    private void Update()
+    protected override void OnUpdate()
     {
         if (stuned) return;
 
@@ -157,4 +159,19 @@ public abstract class Totem : MonoBehaviour
     {
         feedback.StopAll();
     }
+
+    protected override void OnTurnOn() { }
+
+    protected override void OnTurnOff()
+    {
+        feedback.StopAll();
+        casting = false;
+        stuned = false;
+        timer = 0;
+        myCastingBar.InterruptCasting();
+    }
+
+    protected override void OnFixedUpdate() { }
+    protected override void OnPause() { }
+    protected override void OnResume() { }
 }

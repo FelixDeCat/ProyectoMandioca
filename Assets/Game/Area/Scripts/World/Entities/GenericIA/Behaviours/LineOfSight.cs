@@ -43,20 +43,13 @@ public class LineOfSight : MonoBehaviour
             RaycastHit raycastInfo;
             bool obstaclesBetween = true;
 
-            if (Physics.Raycast(myTransform.position + offset , _directionToTarget , out raycastInfo, 100, layermask))
+            if (Physics.Raycast(myTransform.position + offset , _directionToTarget , out raycastInfo, 100, layermask, QueryTriggerInteraction.Ignore))
             {
                 if (raycastInfo.transform == _target)
-                {
-                   
                     obstaclesBetween = false;
-                }
                 else
-                {
-                    
                     obstaclesBetween = true;
-                }
             }
-
             if (obstaclesBetween) return false;
             else return true;
         }
