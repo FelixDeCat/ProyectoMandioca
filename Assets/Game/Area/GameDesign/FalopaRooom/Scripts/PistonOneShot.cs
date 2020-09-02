@@ -6,8 +6,14 @@ public class PistonOneShot : Piston
 {
     [SerializeField] AnimPalanca animPalanca;
 
+    Palanca palanca;
+
+    bool status = true;
+    
     public override void Start()
     {
+        palanca = animPalanca.GetComponent<Palanca>();
+        palanca.SetPredicate(currStatus);
         if (Anim)
         {
             pingponglerp = new PingPongLerp();
@@ -22,11 +28,17 @@ public class PistonOneShot : Piston
     public bool isStop = false;
 
     public void StopPiston()
-    {
-        //if (isStop) { pingponglerp.Play(1); }
-        //else pingponglerp.Stop();
-        //isStop = !isStop;
+    {        
+        StartCoroutine(pingponglerp.stopAfter(1, animPalanca.AnimOff, changeInteractableStatus));
+    }
 
-        StartCoroutine(pingponglerp.stopAfter(1, animPalanca.AnimOff));
+    bool changeInteractableStatus(bool stat)
+    {
+        status = stat;
+        return status;
+    } 
+    bool currStatus()
+    {
+        return status;
     }
 }

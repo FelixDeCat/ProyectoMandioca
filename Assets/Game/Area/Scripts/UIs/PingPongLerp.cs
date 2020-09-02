@@ -85,8 +85,9 @@ public class PingPongLerp
         timer = 0;
     }
 
-    public IEnumerator stopAfter(float num, Action act)
+    public IEnumerator stopAfter(float num, Action act, Func<bool, bool> changeBool)
     {
+        changeBool.Invoke(false);
         Play(num);
         float aux = 0;
         anim = true;
@@ -106,6 +107,7 @@ public class PingPongLerp
         anim = false;
         Stop();
         act.Invoke();
+        changeBool.Invoke(true);
     }
 
 
