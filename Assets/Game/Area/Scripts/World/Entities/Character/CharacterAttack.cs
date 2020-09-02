@@ -91,6 +91,7 @@ public class CharacterAttack
         oneshot = false;
         buttonPressedTime = 0f;
         anim.OnAttackBegin(false);
+       
     }
 
     public string ChangeName() => currentWeapon.weaponName;
@@ -159,7 +160,10 @@ public class CharacterAttack
             hit.collider.GetComponent<EffectReceiver>()?.TakeEffect(EffectName.OnPetrify, 1.5f);
             inHit = true;
         }
-
+        if (inHit)
+        {
+            feedbacks.sounds.Play_DashBashHit();
+        }
         return inHit;
     }
 
@@ -233,6 +237,8 @@ public class CharacterAttack
             HeavyAttack.Invoke();
             data.SetDamageType(Damagetype.Heavy);
             move.AttackMovement(10);
+            Debug.Log("golpea duro");
+            feedbacks.sounds.Play_heavySwing();
         }
         feedbacks.particles.feedbackHeavy.Stop();
         oneshot = false;
