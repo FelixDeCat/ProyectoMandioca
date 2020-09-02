@@ -17,7 +17,9 @@ public class CharLifeSystem: _Base_Life_System
     public event Action death = delegate { };
     public event Action caronte = delegate { };
 
-    [SerializeField] bool oneShotCaronte = false;
+    [SerializeField] bool caronteEventAvaliable;
+
+    bool oneShotCaronte = false;
 
     CharFeedbacks feedbacks = null;
 
@@ -67,7 +69,7 @@ public class CharLifeSystem: _Base_Life_System
 
     void EVENT_OnDeath()
     {
-        if (!oneShotCaronte)
+        if (caronteEventAvaliable && !oneShotCaronte)
         {
             oneShotCaronte = true;
             caronte?.Invoke();
@@ -77,8 +79,8 @@ public class CharLifeSystem: _Base_Life_System
         
         if (!godMode)
         {
-            
-            oneShotCaronte = false;
+            if(caronteEventAvaliable)
+                oneShotCaronte = false;
             
             death.Invoke();
         }

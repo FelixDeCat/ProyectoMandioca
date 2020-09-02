@@ -53,7 +53,7 @@ public class CaronteEvent : MonoBehaviour
             {
                 var caronte = GameObject.Instantiate<Caronte>(caronte_pf);
                 caronte.OnDefeatCaronte += OnDefeatCaronte;
-                caronte.transform.position = GetSurfacePos(); //Tools.Extensions.Extensions.RandomPositionByPoint(character.GetComponentInChildren<InteractSensor>().transform.position + new Vector3(0, 10,0), 5, 1);
+                caronte.transform.position = GetSurfacePos(); 
 
                 return;
             }
