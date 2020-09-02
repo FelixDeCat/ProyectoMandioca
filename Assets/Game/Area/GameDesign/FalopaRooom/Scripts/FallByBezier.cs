@@ -7,8 +7,8 @@ public class FallByBezier : MonoBehaviour
 {
     [SerializeField] BezierPoint[] bezierPoints = new BezierPoint[2];
     float slider = 0;
-    [Range(1,100)]
-    [SerializeField] float fallSpeed = 10;
+    [Range(0,5)]
+    [SerializeField] float fallSpeed = 5;
 
     [SerializeField] GameObject objToFall = null;
 
