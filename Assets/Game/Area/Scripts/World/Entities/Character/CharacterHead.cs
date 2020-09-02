@@ -55,6 +55,7 @@ public class CharacterHead : CharacterControllable
     [SerializeField] CharacterAttack charAttack = new CharacterAttack();
     [SerializeField] float attackRecall = 1;
     [SerializeField] DamageReceiver dmgReceiver = null;
+    public DamageReceiver damageReceiver() => dmgReceiver;
     CustomCamera customCam;
     [SerializeField] float timeToDownWeapons = 5;
     public bool IsComboWomboActive;
@@ -81,9 +82,6 @@ public class CharacterHead : CharacterControllable
 
     [SerializeField] CharLifeSystem lifesystem = null;
     public CharLifeSystem Life => lifesystem;
-    [SerializeField] CaronteEvent caronteSystem;
-    public CaronteEvent CaronteDeathEvent() => caronteSystem;
-    public bool caronteActive;
 
     Rigidbody rb;
 
@@ -161,10 +159,6 @@ public class CharacterHead : CharacterControllable
 
         //COMBOWOMBO
 
-        //Caronte
-        caronteSystem.Init();
-
-        //Caronte
         charAttack.Add_callback_Normal_attack(ReleaseInNormal);
         charAttack.Add_callback_Heavy_attack(ReleaseInHeavy);
 
@@ -628,12 +622,13 @@ public class CharacterHead : CharacterControllable
     void OnLoseLife() { }
     void OnGainLife() => customCam.BeginShakeCamera();
     void OnDeath()
-    {
+    {      
         Main.instance.RemoveEntity(this);
         Main.instance.eventManager.TriggerEvent(GameEvents.ON_PLAYER_DEATH);
         Main.instance.GetCombatDirector().RemoveTarget(this);
     }
     void OnChangeLife(int current, int max) { }
+
     #endregion
 
     #region Attack

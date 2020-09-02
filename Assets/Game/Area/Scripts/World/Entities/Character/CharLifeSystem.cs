@@ -15,8 +15,8 @@ public class CharLifeSystem: _Base_Life_System
     public event Action loselife = delegate { };
     public event Action gainlife = delegate { };
     public event Action death = delegate { };
+    public event Action caronte = delegate { };
 
-    [SerializeField] bool caronteActivation = false;
     bool oneShotCaronte = false;
 
     CharFeedbacks feedbacks = null;
@@ -46,6 +46,8 @@ public class CharLifeSystem: _Base_Life_System
     public CharLifeSystem REMOVE_EVENT_OnGainLife(Action _callback) { gainlife -= _callback; return this; }
     public CharLifeSystem ADD_EVENT_Death(Action _callback) { death += _callback; return this; }
     public CharLifeSystem REMOVE_EVENT_Death(Action _callback) { death -= _callback; return this; }
+    public CharLifeSystem ADD_EVENT_OnCaronteDeathEvent(Action _callback) { caronte += _callback; return this; }
+    public CharLifeSystem REMOVE_EVENT_OnCaronteDeathEvent(Action _callback) { caronte -= _callback; return this; }
 
     //////////////////////////////////////////////////////////////////////////////////
     /// CALLBACKS
@@ -56,6 +58,7 @@ public class CharLifeSystem: _Base_Life_System
     }
     void EVENT_OnLoseLife() { loselife.Invoke();}
 
+
     void EVENT_OnGainLife()
     {
         if(feedbacks != null) feedbacks.sounds.Play_TakeHeal();
@@ -64,15 +67,20 @@ public class CharLifeSystem: _Base_Life_System
 
     void EVENT_OnDeath()
     {
-        if(caronteActivation && !oneShotCaronte)
+        if (!oneShotCaronte)
         {
             oneShotCaronte = true;
-            GetComponent<CharacterHead>().CaronteDeathEvent().TurnOnCarontePP();
+            caronte?.Invoke();
             return;
         }
 
+        
         if (!godMode)
+        {
+            oneShotCaronte = false;
             death.Invoke();
+        }
+            
     }
 
     //////////////////////////////////////////////////////////////////////////////////
