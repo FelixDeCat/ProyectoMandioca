@@ -17,7 +17,7 @@ public class CharLifeSystem: _Base_Life_System
     public event Action death = delegate { };
     public event Action caronte = delegate { };
 
-    bool oneShotCaronte = false;
+    [SerializeField] bool oneShotCaronte = false;
 
     CharFeedbacks feedbacks = null;
 
@@ -77,7 +77,9 @@ public class CharLifeSystem: _Base_Life_System
         
         if (!godMode)
         {
+            
             oneShotCaronte = false;
+            
             death.Invoke();
         }
             
@@ -100,6 +102,10 @@ public class CharLifeSystem: _Base_Life_System
     public void AddHealth(int _val) => lifesystem.IncreaseLife(_val);
     public int GetLife() => (int)lifesystem.Life;
     public int GetMax() => lifesystem.GetMax();
+    public void AllowCaronteEvent()
+    {
+        oneShotCaronte = false;
+    }
 
 
 }
