@@ -15,6 +15,10 @@ public class EnemyStunner : WalkingEntity
 
     [SerializeField] CombatArea spawneablePosition = null;
 
+    [SerializeField] Transform spawnPointsParent;
+    [SerializeField] Transform[] spawnPoints;
+    int lastTP = -1;
+
     CastingBar castingBar;
     EnemyLifeSystem life;
     DamageReceiver damageReceiver;
@@ -64,6 +68,8 @@ public class EnemyStunner : WalkingEntity
 
         castingBar.AddEventListener_OnFinishCasting(StunChar);
         castingBar.AddEventListener_OnFinishCasting(() => ChangeState(EnemyStunnerStates.Idle));
+
+        spawnPoints = spawnPointsParent.GetComponentsInChildren<Transform>();
     }
 
 
@@ -114,7 +120,7 @@ public class EnemyStunner : WalkingEntity
 
     void Teleport()
     {
-        Vector2 aux;
+        /*Vector2 aux;
         if (spawneablePosition.isCircle)
         {
             float ang = Random.Range(0, 360);
@@ -131,7 +137,15 @@ public class EnemyStunner : WalkingEntity
             aux.x = -(spawneablePosition.cubeArea.x / 2) + spawneablePosition.cubeArea.x * Random.value;
             aux.y = -(spawneablePosition.cubeArea.y / 2) + spawneablePosition.cubeArea.y * Random.value;
             transform.position = spawneablePosition.transform.position + new Vector3(aux.x, 0, aux.y);
+        }*/
+        int aux = Random.Range(0, spawnPoints.Length);
+        while(lastTP == aux && spawnPoints.Length > 1)
+        {
+            aux = Random.Range(0, spawnPoints.Length);
         }
+        transform.position = spawnPoints[aux].transform.position;
+        lastTP = aux;
+
     }
 
     void TakeDamage()
