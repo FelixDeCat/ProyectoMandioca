@@ -196,7 +196,7 @@ public class CharacterAttack
         inCheck = true;
         buttonPressedTime = 0f;
         anim.OnAttackBegin(true);
-        anim.ForceAttack();
+        anim.ForceAttack(true);
     }
 
     // Aca es cuando suelto la tecla desde el estado Charge Attack

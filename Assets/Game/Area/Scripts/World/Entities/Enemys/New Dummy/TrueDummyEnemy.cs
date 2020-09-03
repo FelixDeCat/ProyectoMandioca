@@ -140,9 +140,7 @@ public class TrueDummyEnemy : EnemyBase
         if (sm == null)
             SetStates();
         else
-        {
             sm.SendInput(DummyEnemyInputs.IDLE);
-        }
 
         //director.AddNewTarget(this);
 

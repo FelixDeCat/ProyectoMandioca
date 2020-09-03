@@ -432,7 +432,7 @@ public class CharacterHead : CharacterControllable
             .SetMovement(this.move)
             .SetAttack(charAttack);
 
-        new CharReleaseAttack(attackRelease, stateMachine, attackRecall, HeavyAttackRealease, ChangeHeavy, ChangeAttack)
+        new CharReleaseAttack(attackRelease, stateMachine, attackRecall, HeavyAttackRealease, ChangeHeavy, ChangeAttack, charanim)
             .SetMovement(this.move)
             .SetLeftAxis(GetLeftHorizontal, GetLeftVertical)
             .SetAttack(charAttack)
