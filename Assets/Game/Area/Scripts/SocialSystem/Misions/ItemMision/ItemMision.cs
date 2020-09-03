@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using UnityEngine;
 using System;
 using UnityEngine.Events;
-using UnityEngine.XR.WSA.Input;
 
 [System.Serializable]
 public class ItemMision 

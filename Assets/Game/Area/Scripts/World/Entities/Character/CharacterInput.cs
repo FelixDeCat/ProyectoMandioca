@@ -4,7 +4,6 @@ using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.UI;
 using Tools.EventClasses;
-using UnityEditor.SceneManagement;
 using UnityEngine.SceneManagement;
 
 public class CharacterInput : MonoBehaviour
