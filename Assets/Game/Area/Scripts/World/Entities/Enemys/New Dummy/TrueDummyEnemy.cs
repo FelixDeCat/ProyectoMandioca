@@ -144,7 +144,7 @@ public class TrueDummyEnemy : EnemyBase
             sm.SendInput(DummyEnemyInputs.IDLE);
         }
 
-        director.AddNewTarget(this);
+        //director.AddNewTarget(this);
 
         canupdate = true;
     }

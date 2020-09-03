@@ -37,7 +37,7 @@ public class SpatialGrid_handler : MonoBehaviour
     public void StopSpatialGrid()
     {
         //_grid = null;
-        StopAllCoroutines();
+        if(this != null) StopAllCoroutines();
     }
 
     private void OnDisable() => StopAllCoroutines();

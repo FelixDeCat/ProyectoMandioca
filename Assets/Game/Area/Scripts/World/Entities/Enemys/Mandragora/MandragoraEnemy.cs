@@ -167,7 +167,7 @@ public class MandragoraEnemy : EnemyBase
         else
             sm.SendInput(MandragoraInputs.IDLE);
 
-        director.AddNewTarget(this);
+        //director.AddNewTarget(this);
 
         canupdate = true;
     }

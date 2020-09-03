@@ -39,11 +39,14 @@ public class CombatDirector : LoadComponent, IZoneElement
     void AssignPos(EntityBase target)
     {
         ICombatDirector randomEnemy = waitToAttack[target][UnityEngine.Random.Range(0, waitToAttack[target].Count)];
-        waitToAttack[target].Remove(randomEnemy);
-        listAttackTarget[target].Add(randomEnemy);
-        AssignPos(randomEnemy);
+        AssignPos(randomEnemy, target);
     }
-    void AssignPos(ICombatDirector e) => e.SetBool(true);
+    void AssignPos(ICombatDirector e, EntityBase target)
+    {
+        waitToAttack[target].Remove(e);
+        listAttackTarget[target].Add(e);
+        e.SetBool(true);
+    }
     void RemoveToList(ICombatDirector e, EntityBase target)
     {
         if (!target || !listAttackTarget.ContainsKey(target))
@@ -81,10 +84,7 @@ public class CombatDirector : LoadComponent, IZoneElement
     void CalculateTimer(EntityBase target) => timeToAttacks[target] = UnityEngine.Random.Range(timerMin, timerMax);
     void Update()
     {
-        if (run)
-        {
-            AllUpdates();
-        }
+        if (run) AllUpdates();
     }
     #endregion
     #region Funciones Publicas
@@ -103,33 +103,93 @@ public class CombatDirector : LoadComponent, IZoneElement
 
             updateDict.Add(entity, () =>
             {
-                if (!isAttack[entity])
+                timers[entity] += Time.deltaTime;
+
+                if (timers[entity] >= timeToAttacks[entity])
                 {
-                    timers[entity] += Time.deltaTime;
+                    timers[entity] = 0;
+                    CalculateTimer(entity);
 
-                    if (timers[entity] >= timeToAttacks[entity])
+                    if (prepareToAttack[entity].Count <= 0)
+                        isAttack[entity] = true;
+                    else
                     {
-                        timers[entity] = 0;
-                        CalculateTimer(entity);
-
-                        if (prepareToAttack[entity].Count <= 0)
-                        {
-                            isAttack[entity] = true;
-                        }
-                        else
-                        {
-
-                            var e = prepareToAttack[entity][UnityEngine.Random.Range(0, prepareToAttack[entity].Count)];
-                            e.ToAttack();
-                            Attack(e, entity);
-                        }
+                        var e = prepareToAttack[entity][UnityEngine.Random.Range(0, prepareToAttack[entity].Count)];
+                        e.ToAttack();
+                        Attack(e, entity);
                     }
                 }
             });
 
             AllUpdates += updateDict[entity];
+
+            StartCoroutine(CheckWaitEnemies(entity));
         }
     }
+
+    IEnumerator CheckWaitEnemies(EntityBase entity)
+    {
+        while (true)
+        {
+            if(waitToAttack.Count > 0)
+            {
+                if(listAttackTarget[entity].Count > 0)
+                {
+                    for (int i = 0; i < listAttackTarget[entity].Count; i++)
+                    {
+                        if (waitToAttack.Count <= 0) break;
+                        var temp = CheckPosition(listAttackTarget[entity][i], entity);
+
+                        if(listAttackTarget[entity][i] != temp)
+                        {
+                            listAttackTarget[entity][i].SetBool(false);
+                            waitToAttack[entity].Add(listAttackTarget[entity][i]);
+                            listAttackTarget[entity][i] = temp;
+                            waitToAttack[entity].Remove(temp);
+                            temp.SetBool(true);
+                        }
+                    }
+                }
+            }
+
+            yield return new WaitForSeconds(3);
+        }
+    }
+
+    ICombatDirector CheckPosition(ICombatDirector combat, EntityBase entity)
+    {
+        if (combat != null)
+        {
+            var temp = combat;
+            for (int i = 0; i < waitToAttack[entity].Count; i++)
+            {
+                float distance = combat.GetDistance() + 5;
+
+                if ((temp.CurrentPos() - entity.transform.position).magnitude > distance * distance) break;
+                if ((temp.CurrentPos() - entity.transform.position).magnitude > (temp.CurrentPos() - waitToAttack[entity][i].CurrentPos()).magnitude)
+                    temp = waitToAttack[entity][i];
+            }
+
+            return temp;
+        }
+        else
+        {
+            ICombatDirector temp = null;
+            for (int i = 0; i < waitToAttack[entity].Count; i++)
+            {
+                if(temp == null) { temp = waitToAttack[entity][i]; continue; }
+
+                float distance = combat.GetDistance() + 5;
+
+                if ((temp.CurrentPos() - entity.transform.position).magnitude > distance * distance) break;
+                if ((temp.CurrentPos() - entity.transform.position).magnitude > (temp.CurrentPos() - waitToAttack[entity][i].CurrentPos()).magnitude)
+                    temp = waitToAttack[entity][i];
+            }
+
+            return temp;
+        }
+    }
+
     ///<summary> Remueve un target, ya no va a poder ser atacado (recomendado cuando muere un entity que era target). </summary>
     public void RemoveTarget(EntityBase entity)
     {
@@ -212,7 +272,7 @@ public class CombatDirector : LoadComponent, IZoneElement
             if (!listAttackTarget[target].Contains(e))
             {
                 listAttackTarget[target].Add(e);
-                AssignPos(e);
+                AssignPos(e, target);
             }
         }
         else

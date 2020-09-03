@@ -172,7 +172,7 @@ public class SpatialGrid : MonoBehaviour
     {
         var ents = RecursiveWalker(transform).Select(x => x.GetComponent<GridEntity>()).Where(x => x != null);
 
-        
+
         SpatialGrid_handler.instance?.StopSpatialGrid();
         //foreach (var e in ents)
         //e.OnMove -= UpdateEntity;

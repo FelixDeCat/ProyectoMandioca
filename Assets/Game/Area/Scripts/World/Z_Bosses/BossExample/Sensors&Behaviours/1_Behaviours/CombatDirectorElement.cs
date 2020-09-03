@@ -73,6 +73,8 @@ public class CombatDirectorElement : MonoBehaviour, ICombatDirector
         combat = false;
         SetBool(false);
     }
+
+    public float GetDistance() { return 0; }
     #endregion
 }
 

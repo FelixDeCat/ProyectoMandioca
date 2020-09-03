@@ -5,6 +5,7 @@ using UnityEngine;
 public interface ICombatDirector 
 {
     void SetTarget(EntityBase entity);
+    float GetDistance();
     EntityBase CurrentTarget();
     Vector3 CurrentPos();
     void ToAttack();
