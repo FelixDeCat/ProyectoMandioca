@@ -106,6 +106,7 @@ GameObject:
   - component: {fileID: 3397613649751747434}
   - component: {fileID: 3397613649751747446}
   - component: {fileID: 3397613649751747445}
+  - component: {fileID: 5522117828442369585}
   m_Layer: 0
   m_Name: ReturnToLive
   m_TagString: Untagged
@@ -223,3 +224,40 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7964b3fdb49f10948ad1d7f2356caa2e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  poolname: 
+  attacking: 0
+  death: 0
+  OnDeath:
+    m_PersistentCalls:
+      m_Calls: []
+  Invinsible: 0
+  combatDistance: 20
+  combat: 0
+  distancePos: 1.5
+  dmgData: {fileID: 5522117828442369585}
+  dmgReceiver: {fileID: 3397613649751747432}
+  lifesystem: {fileID: 0}
+  rootTransform: {fileID: 0}
+--- !u!114 &5522117828442369585
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3397613649751747435}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 76ec5563f4c97ae4dabf294f011c2d67, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  damage: 0
+  initDamage: 0
+  tickDamage: 0
+  finalDamage: 0
+  damageType: 0
+  owner_position: {x: 0, y: 0, z: 0}
+  knockbackForce: 0
+  hasDamageTick: 0
+  damageTime: 0
+  attackDir: {x: 0, y: 0, z: 0}
+  owner: {fileID: 0}
