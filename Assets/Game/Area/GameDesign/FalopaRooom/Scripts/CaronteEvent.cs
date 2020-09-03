@@ -15,6 +15,8 @@ public class CaronteEvent : MonoBehaviour
 
     public bool caronteActive;
 
+    bool stopMovement;
+
     List<PlayObject> enemies = new List<PlayObject>();
     CharacterHead character;
     public void Start()
@@ -27,6 +29,8 @@ public class CaronteEvent : MonoBehaviour
     {
 
         if (!caronteActive) return;
+
+        stopMovement = true;
 
         carontePP.SetActive(true);
 
@@ -43,22 +47,43 @@ public class CaronteEvent : MonoBehaviour
         var mano = GameObject.Instantiate<GameObject>(hand_pf);
         var m = mano.GetComponentInChildren<CaronteHand>();
         mano.transform.position = character.transform.position - new Vector3(0, 12, 0);
-        
+
+       
+
+        m.OnMissPlayer += SpawnCaronte;
         m.OnGrabPlayer += () => 
         {
-            
+
             character.Life.Heal(1);
-            var dData = mano.GetComponent<DamageData>().SetDamage(200).SetDamageType(Damagetype.Normal);
+            var dData = mano.GetComponent<DamageData>().SetDamage(200).SetDamageType(Damagetype.NonBlockAndParry);
             if(character.damageReceiver().TakeDamage(dData) == Attack_Result.inmune)
             {
-                var caronte = GameObject.Instantiate<Caronte>(caronte_pf);
-                caronte.OnDefeatCaronte += OnDefeatCaronte;
-                caronte.transform.position = GetSurfacePos(); 
-
-                return;
+                SpawnCaronte();
             }
             TurnOffCarontePP();
         };
+
+     
+    }
+
+    void SpawnCaronte()
+    {
+        character.Life.Heal(1);
+        var caronte = GameObject.Instantiate<Caronte>(caronte_pf);
+        caronte.OnDefeatCaronte += OnDefeatCaronte;
+        caronte.transform.position = GetSurfacePos();
+        stopMovement = false;
+        return;
+    }
+
+    private void Update()
+    {
+        if(stopMovement)
+        {
+            character?.GetCharMove().MovementVertical(0);
+            character?.GetCharMove().MovementHorizontal(0);
+        }
+        
     }
 
     public Vector3 GetSurfacePos()
@@ -91,7 +116,7 @@ public class CaronteEvent : MonoBehaviour
     public void TurnOffCarontePP()
     {
         carontePP.SetActive(false);
-
+        stopMovement = false;
         foreach (PlayObject po in enemies)
         {
             po.gameObject.SetActive(true);

@@ -7,11 +7,13 @@ public class CaronteHand : MonoBehaviour
 {
 
     public Action OnGrabPlayer;
+    public Action OnMissPlayer;
 
     [SerializeField] float timeBeforeGoingUp;
     [SerializeField] float timeGoingUp;
     [SerializeField] float timebeforeGrabbin;
     [SerializeField] float speed;
+    [SerializeField] float distanceToGrab;
 
     float _count = 0;
 
@@ -34,7 +36,22 @@ public class CaronteHand : MonoBehaviour
 
         yield return new WaitForSeconds(timebeforeGrabbin);
 
-        OnGrabPlayer?.Invoke();
+        if(Vector3.Distance(transform.position, Main.instance.GetChar().Root.position) <= distanceToGrab)
+        {
+            OnGrabPlayer?.Invoke();
+        }
+        else
+        {
+            OnMissPlayer?.Invoke();
+        }
+
+        
         Destroy(gameObject, 2);
+    }
+
+    private void OnDrawGizmos()
+    {
+        Gizmos.color = Color.red;
+        Gizmos.DrawWireSphere(transform.position, distanceToGrab);
     }
 }
