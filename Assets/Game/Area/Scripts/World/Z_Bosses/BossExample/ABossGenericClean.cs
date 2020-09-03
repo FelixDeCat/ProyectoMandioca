@@ -90,16 +90,10 @@ public class ABossGenericClean : EnemyBase
 
     void TakeDamageFeedback(Vector3 owner)
     {
-
         sensors_and_behaviours.Behaviours.cooldown_Damage.BeginCooldown();
         feedbackManager.Play_FeedbackOnHit();
         feedbackManager.Play_OnHitFlashEmission();
     }
-
-    
-
-    
-    
 
     #region Desuso
     public override float ChangeSpeed(float newSpeed) { return newSpeed; }
