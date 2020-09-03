@@ -635,8 +635,8 @@ MonoBehaviour:
   Hand: {fileID: 8213101228369894556}
   thowable: {fileID: 7744332779966298613, guid: 1427e5c3693cb894fb61ecca87312869,
     type: 3}
-  ThrowForce: 3
-  rockDamage: 4
+  ThrowForce: 6
+  rockDamage: 10
 --- !u!1 &1197418161451616722
 GameObject:
   m_ObjectHideFlags: 0
@@ -1041,6 +1041,9 @@ MonoBehaviour:
   poolname: 
   attacking: 0
   death: 0
+  OnDeath:
+    m_PersistentCalls:
+      m_Calls: []
   Invinsible: 0
   combatDistance: 20
   combat: 0
@@ -1074,7 +1077,6 @@ MonoBehaviour:
   myPlayObjects: []
   debug: 1
   acty: 0
-  onGrid: 0
 --- !u!1 &1909525048760699112
 GameObject:
   m_ObjectHideFlags: 0
@@ -2817,10 +2819,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   invulnerability: 
-  resistances: 
-  debilities: 
-  debilityAddDmg: 0
-  resistanceRestDmg: 0
+  resistances:
+    m_keys: 
+    m_values: []
+  debilities:
+    m_keys: 
+    m_values: []
   knockbackMultiplier: 1
 --- !u!114 &4538564803222110691
 MonoBehaviour:
@@ -10984,6 +10988,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalScale.z
       value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 4402440460658521277, guid: 48fe3e230b37f29449856c4f0dc77ca3,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 2
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 48fe3e230b37f29449856c4f0dc77ca3, type: 3}
