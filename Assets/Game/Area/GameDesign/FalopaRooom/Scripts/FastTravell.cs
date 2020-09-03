@@ -43,7 +43,7 @@ public class FastTravell : MonoBehaviour
             {
                 if (hit.collider.gameObject.layer == 21)
                 {
-                    
+                    Main.instance.GetChar().GetCharMove().StopDamageFall();
                     Main.instance.GetChar().transform.position = hit.point;
                     _inFastTravell = false;
 

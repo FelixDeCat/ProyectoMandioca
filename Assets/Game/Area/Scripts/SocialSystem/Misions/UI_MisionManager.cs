@@ -39,7 +39,7 @@ public class UI_MisionManager : MonoBehaviour
 
         for (int i = 0; i < misions.Count; i++)
         {
-            if (misions[i].data.IsHided) continue;
+            if (misions[i].IsHided) continue;
             UI_CompMision m = GameObject.Instantiate(model, parent);
             if (!misions[i].Completed)
             {

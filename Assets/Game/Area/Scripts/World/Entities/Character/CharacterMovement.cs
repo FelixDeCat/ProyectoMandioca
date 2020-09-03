@@ -265,13 +265,17 @@ public class CharacterMovement
         InDash = candash;
     }
 
+    bool candamagefall = true;
+    float timer_racall_damage_fall;
+    public void StopDamageFall() { candamagefall = false; timer_racall_damage_fall = 0; } 
     void CalculateFallDamage(float y)
     {
+
         float totalFall = lastYPos - y;
         if (totalFall > _fallMaxDistance)
         {
             float dmg = (totalFall - _fallMaxDistance) * _DMGMultiplier;
-            Main.instance.GetChar().Life.Hit((int)dmg);
+            if (candamagefall) Main.instance.GetChar().Life.Hit((int)dmg);
         }
 
         lastYPos = y;
@@ -311,6 +315,16 @@ public class CharacterMovement
             }
         }
         #endregion
+
+        if (!candamagefall)
+        {
+            timer_racall_damage_fall += Time.deltaTime;
+            if (timer_racall_damage_fall >= 1)
+            {
+                timer_racall_damage_fall = 0;
+                candamagefall = true;
+            }
+        }
     }
 
     public void StopRoll()

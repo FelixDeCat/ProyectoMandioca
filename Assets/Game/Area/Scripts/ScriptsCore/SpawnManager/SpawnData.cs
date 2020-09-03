@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "ItemData", menuName = "Inventory/ItemData", order = 2)]
+[CreateAssetMenu(fileName = "ItemData", menuName = "Inventory/ItemDataSpawner", order = 2)]
 public class SpawnData : ScriptableObject
 {
     [System.Serializable]

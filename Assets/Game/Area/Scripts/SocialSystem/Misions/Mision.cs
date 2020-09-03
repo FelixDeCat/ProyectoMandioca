@@ -3,17 +3,21 @@ using System.Collections.Generic;
 using UnityEngine;
 using System;
 
+[CreateAssetMenu(fileName = "Mision", menuName = "RPG/Misions/Mision", order = 10)]
 [System.Serializable]
-public class Mision
+public class Mision: ScriptableObject
 {
     [Multiline(2)] public string mision_name;
     public int id_mision;
-    public bool AutoEnd = true;
+    public string id_command;
+    [SerializeField] internal bool AutoEnd = true;
+    [SerializeField] bool isHided = false;
     public Misions.Core.Serializable_DescriptiveInfo info;
     public Misions.Core.Serializable_MisionData data;
     
     public Misions.Core.Serializable_Reward rewarding;
     public bool Completed { get { return data.Completed; } }
+    internal bool IsHided { get { return isHided; } }
     public Action<Mision> mision_end_callback;
     public Action mision_end_callback_simple;
     public Action Callback_Refresh;
@@ -22,7 +26,6 @@ public class Mision
     {
         return "chacha";
     }
-
 
     public void Begin(Action Refresh)
     {
@@ -93,20 +96,18 @@ namespace Misions.Core
     [System.Serializable]
     public class Serializable_MisionData
     {
-        [SerializeField] FaseChangerData[] fasesToChange = new FaseChangerData[1];
-        [SerializeField] bool completed = false;
-        [SerializeField] bool isactive = false;
-        [SerializeField] bool isHided = false;
+        bool completed = false;
+        bool isactive = false;
+        
         bool delivered;
         [SerializeField] ItemMision[] mision_item = new ItemMision[0];
         
         string[] regions_to_enable =  new string[1];
         internal bool Completed { get { return completed; } }
         internal bool IsActive { get { return isactive; } }
-        internal bool IsHided { get { return isHided; } }
+        
         internal string[] Regions { get { return regions_to_enable; } }
         internal ItemMision[] MisionItems { get { return mision_item; } }
-        internal FaseChangerData[] FasesToChange { get { return fasesToChange; } }
         internal bool Delivered { get { return delivered; } }
         internal string ItemsCompleteString()
         {
