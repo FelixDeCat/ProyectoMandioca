@@ -22,7 +22,9 @@ public class ItemMision
     internal string Description { get { return description; } }
     internal int CurrentValue { get { return (int)currentvalue; } }
     internal int MaxValue { get { return (int)maxvalue; } }
-    internal bool Store_This_Item { get { return store_this_item; } } 
+    internal bool Store_This_Item { get { return store_this_item; } }
+
+    public void SetCurrentValue(int val) => currentvalue = (byte)val;
 
     public override string ToString()
     {

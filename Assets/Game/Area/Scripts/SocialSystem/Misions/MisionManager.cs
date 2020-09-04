@@ -3,6 +3,23 @@ using System.Collections.Generic;
 using UnityEngine;
 using System;
 
+public struct MisionItemKey
+{
+    public int id;
+    public int index;
+    public MisionItemKey(int _id, int _index)
+    {
+        id = _id;
+        index = _index;
+    }
+    public override bool Equals(object obj)
+    {
+        var key = (MisionItemKey)obj;
+        return key.id == id && key.index == index;
+    }
+
+}
+
 public class MisionManager : MonoBehaviour
 {
     public static MisionManager instancia;
@@ -12,6 +29,8 @@ public class MisionManager : MonoBehaviour
     public List<Mision> finalizedMisions = new List<Mision>();
     public UI_MisionManager ui;
     public UI_Mission_GeneralManager ui_panel;
+
+    Dictionary<MisionItemKey, int> stores = new Dictionary<MisionItemKey, int>();
 
     public bool MisionIsActive(Mision m) => active_misions.Contains(m);
     private void Update() { if (Input.GetKeyDown(KeyCode.J)) ui_panel.Enable(); }
@@ -48,10 +67,22 @@ public class MisionManager : MonoBehaviour
     /////////////////////////////////////////////////////
     //// AGREGADO DE MISIONS
     /////////////////////////////////////////////////////
-    public bool AddMision(Mision m, Action<Mision> callbackToEnd)
+    public bool AddMision(Mision _m, Action<int> callbackToEnd)
     {
-        if (!registry.ContainsKey(m.id_mision))
+        if (!registry.ContainsKey(_m.id_mision))
         {
+            var m = Instantiate(_m);
+            m = _m;
+
+            for (int i = 0; i < m.data.MisionItems.Length; i++)
+            {
+                MisionItemKey key = new MisionItemKey(m.id_mision, i);
+                if (stores.ContainsKey(key))
+                {
+                    m.data.MisionItems[i].SetCurrentValue(stores[key]);
+                }
+            }
+
             registry.Add(m.id_mision, m);
             if (!m.IsHided) UI_StackMision.instancia.LogearMision(m, false, 4f);
             if (LocalMisionManager.instance) LocalMisionManager.instance.OnMissionsChange();
@@ -65,27 +96,7 @@ public class MisionManager : MonoBehaviour
         }
         else
         {
-            m.OnRefresh();
-            CheckMision();
-            return false;
-        }
-    }
-    public bool AddMision(Mision m)
-    {
-        if (!registry.ContainsKey(m.id_mision))
-        {
-            registry.Add(m.id_mision, m);
-            if (!m.IsHided) UI_StackMision.instancia.LogearMision(m, false, 4f);
-            if (LocalMisionManager.instance) LocalMisionManager.instance.OnMissionsChange();
-            m.Begin(CheckMision);
-            m.AddCallbackToEnd(CompleteMision);
-            active_misions.Add(m);
-            m.OnRefresh();
-            CheckMision();
-            return true;
-        }
-        else
-        {
+            var m = registry[_m.id_mision];
             m.OnRefresh();
             CheckMision();
             return false;
@@ -93,64 +104,105 @@ public class MisionManager : MonoBehaviour
     }
     #endregion 
 
+    public Mision GetMisionInRegistryByID(int id)
+    {
+        if (registry.ContainsKey(id))
+        {
+            for (int i = 0; i < active_misions.Count; i++)
+            {
+                if (active_misions[i].id_mision == id)
+                {
+                    return active_misions[i];
+                }
+            }
+        }
+        return null;
+    }
+
     #region End Mision functions
     /////////////////////////////////////////////////////
     //// ENTREGA DE MISION
     /////////////////////////////////////////////////////
 
     //Automatico
-    public void CompleteMision(Mision m)
+    public void CompleteMision(int id)
     {
-        m.data.SetCompletedMision();
-        if (m.AutoEnd) EndMision(m);
+        var m = GetMisionInRegistryByID(id);
+        if (m != null)
+        {
+            m.data.SetCompletedMision();
+            if (m.AutoEnd) EndMision(id);
+        }
     }
     //Manual
-    public void DeliveMision(Mision m)
+    public void DeliveMision(int id)
     {
-        m.data.SetCompletedMision();
-        EndMision(m);
+        var m = GetMisionInRegistryByID(id);
+        if (m != null)
+        {
+            if (m.CanFinishMision())
+            {
+                m.data.SetCompletedMision();
+                EndMision(id);
+            }
+        }
     }
 
     //completado de items
     public void AddMisionItem(int Id, int Index)
     {
-        if (active_misions.Contains(MisionsDataBase.instance.GetMision(Id)))
-        {
-            for (int i = 0; i < active_misions.Count; i++)
-            {
-                if (active_misions[i].id_mision == Id)
-                {
-                    if (Index < active_misions[i].data.MisionItems.Length)
-                    {
-                        var aux = active_misions[i].data.MisionItems[Index];
-                        aux.Execute();
-                    }
-                    else Debug.LogError("El Index que me pasaron es Mayor al la cantidad que tengo");
-                }
-            }
+        var m = GetMisionInRegistryByID(Id);
 
+        // si me da null es xq no esta en el registro, por lo tanto todavia
+        // no pasó por el AddMision, quiere decir que estoy agregando un 
+        // item de mision sin antes tener la mision activa
+        if (m != null)
+        {
+            Debug.Log("NO ES NULO");
+
+            if (Index < m.data.MisionItems.Length)
+            {
+                var aux = m.data.MisionItems[Index];
+                aux.Execute();
+            }
+            else Debug.LogError("El Index que me pasaron es Mayor al la cantidad que tengo");
             CheckMision();
         }
         else
         {
-            var mision = MisionsDataBase.instance.GetMision(Id);
-            if (mision.data.MisionItems[Index].Store_This_Item)
-                mision.data.MisionItems[Index].Execute();
+            var fragile = MisionsDataBase.instance.GetMision(Id).data.MisionItems[Index];
+            if (fragile.Store_This_Item)
+            {
+                MisionItemKey key = new MisionItemKey(Id, Index);
+
+                if (!stores.ContainsKey(key))
+                {
+                    stores.Add(key, 1);
+                }
+                else
+                {
+                    stores[key]++;
+                }
+
+                Debug.Log("Estoy agregando un item: " + fragile.Description + " val: " + stores[key]);
+            }
         }
     }
 
     //Funcional
-    void EndMision(Mision m)
+    void EndMision(int Id)
     {
+        var m = GetMisionInRegistryByID(Id);
+
         if (!m.data.Delivered)
         {
             m.data.SetDeliveredMision();
             m.End();
             if (m.rewarding.items_rewarding.Length > 0)
             {
-                for (int i = 0; i < m.rewarding.items_rewarding.Length; i++)
+                for (int j = 0; j < m.rewarding.items_rewarding.Length; j++)
                 {
-                    var itm = m.rewarding.items_rewarding[i].item;
+                    var itm = m.rewarding.items_rewarding[j].item;
 
                     if (itm.equipable)
                     {
@@ -158,7 +210,7 @@ public class MisionManager : MonoBehaviour
                     }
                     else
                     {
-                        FastInventory.instance.Add(m.rewarding.items_rewarding[i].item, m.rewarding.items_rewarding[i].cant);
+                        FastInventory.instance.Add(m.rewarding.items_rewarding[j].item, m.rewarding.items_rewarding[j].cant);
                     }
                 }
             }
@@ -167,5 +219,6 @@ public class MisionManager : MonoBehaviour
             UI_StackMision.instancia.LogearMision(m, true, 8f);
         }
     }
+
     #endregion
 }

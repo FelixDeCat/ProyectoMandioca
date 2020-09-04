@@ -18,7 +18,7 @@ public class Mision: ScriptableObject
     public Misions.Core.Serializable_Reward rewarding;
     public bool Completed { get { return data.Completed; } }
     internal bool IsHided { get { return isHided; } }
-    public Action<Mision> mision_end_callback;
+    public Action<int> mision_end_callback;
     public Action mision_end_callback_simple;
     public Action Callback_Refresh;
 
@@ -33,7 +33,7 @@ public class Mision: ScriptableObject
         data.ActivateMision();
         Callback_Refresh = Refresh;
     }
-    public void AddCallbackToEnd(Action<Mision> callbackToEnd)
+    public void AddCallbackToEnd(Action<int> callbackToEnd)
     {
         mision_end_callback += callbackToEnd;
     }
@@ -69,7 +69,7 @@ public class Mision: ScriptableObject
 
     protected void Finish()
     { 
-        mision_end_callback.Invoke(this);
+        mision_end_callback.Invoke(id_mision);
         try
         {
             mision_end_callback_simple.Invoke();
@@ -96,10 +96,10 @@ namespace Misions.Core
     [System.Serializable]
     public class Serializable_MisionData
     {
-        bool completed = false;
-        bool isactive = false;
+        public bool completed = false;
+        public bool isactive = false;
         
-        bool delivered;
+        public bool delivered;
         [SerializeField] ItemMision[] mision_item = new ItemMision[0];
         
         string[] regions_to_enable =  new string[1];

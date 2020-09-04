@@ -14,13 +14,6 @@ public class EXE_DeliverMision : ExecutableBase
     protected override void OnExecute()
     {
         if (ID_Mision_To_Deliver == -1) return;
-
-        var mision = MisionsDataBase.instance.GetMision(ID_Mision_To_Deliver);
-        if (mision.CanFinishMision())
-        {
-            MisionManager.instancia.DeliveMision(mision);
-        }
-
-        
+        MisionManager.instancia.DeliveMision(ID_Mision_To_Deliver);
     }
 }

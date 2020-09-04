@@ -9,7 +9,7 @@ public class DealMision : MonoBehaviour
         MisionManager.instancia.AddMision(MisionsDataBase.instance.GetMision(ID), EndMision);
     }
 
-    public void EndMision(Mision m)
+    public void EndMision(int ID)
     {
         UE_EndMision.Invoke();
     }

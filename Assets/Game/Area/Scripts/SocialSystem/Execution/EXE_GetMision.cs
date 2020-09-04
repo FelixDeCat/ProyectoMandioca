@@ -28,7 +28,7 @@ public class EXE_GetMision : ExecutableBase
         predicate = _predicate;
     }
 
-    void EndMision(Mision m)
+    void EndMision(int ID)
     {
         UE_OnEndMission.Invoke();
     }
