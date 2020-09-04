@@ -51,6 +51,13 @@ public class TotemRoot : Totem
         ParticlesManager.Instance.PlayParticle(onRootParticles.name, myChar.transform.position);
     }
 
+    protected override void Dead()
+    {
+        base.Dead();
+
+        gameObject.SetActive(false);
+    }
+
     protected override void InternalStunOver()
     {
         base.InternalStunOver();
