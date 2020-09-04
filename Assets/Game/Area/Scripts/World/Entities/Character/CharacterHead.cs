@@ -55,7 +55,7 @@ public class CharacterHead : CharacterControllable
     [SerializeField] CharacterAttack charAttack = new CharacterAttack();
     [SerializeField] float attackRecall = 1;
     [SerializeField] DamageReceiver dmgReceiver = null;
-    public DamageReceiver damageReceiver() => dmgReceiver;
+    public DamageReceiver DamageReceiver() => dmgReceiver;
     CustomCamera customCam;
     [SerializeField] float timeToDownWeapons = 5;
     public bool IsComboWomboActive;
