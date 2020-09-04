@@ -13,8 +13,11 @@ public class CameraRotate : MonoBehaviour
     [SerializeField] public List<BezierPoint> bezierPoints = new List<BezierPoint>();
     [SerializeField] float sliderTime = 1;
 
+    [SerializeField] Transform lookAtTrans;
+
     //[SerializeField] float _speedToReturn;
     //[SerializeField] float _speedAwayFromMesh;
+
     [SerializeField] float minDistance = 2.5f;
 
     [Header("Horizontal")]
@@ -42,9 +45,7 @@ public class CameraRotate : MonoBehaviour
 
     [SerializeField] Transform camConfig = null;
 
-    Vector3 offsetVec = new Vector3(0, 1f, 0);
-
-
+    [SerializeField] Vector3 offsetVec = new Vector3(0, 2f, 0);
 
     private void Start()
     {
@@ -95,14 +96,17 @@ public class CameraRotate : MonoBehaviour
             {
                 float distance = hit.distance;
                 Debug.Log(hit.distance);
-                if (distance > 2.5f)
-                {
-                    Vector3 dir = hit.point - direction.normalized;
-                    camConfig.position = dir;                   
-                }else if (distance <= 2.5f && prevDist < distance)
+                if (distance > minDistance)
                 {
                     Vector3 dir = hit.point - direction.normalized;
                     camConfig.position = dir;
+                    camConfig.transform.rotation = bezierPoints[0].transform.rotation;
+                }
+                else if (distance <= minDistance && prevDist < distance)
+                {
+                    Vector3 dir = hit.point - direction.normalized;
+                    camConfig.position = dir;
+                    camConfig.transform.rotation = bezierPoints[0].transform.rotation;
                     prevDist = hit.distance;
                 }
             }
@@ -180,6 +184,7 @@ public class CameraRotate : MonoBehaviour
     {
         if (UseBezier) return;
         rotatorX.transform.RotateAround(myChar.transform.position, Vector3.up, axis * sensitivityHorizontal * Time.deltaTime * horAxis);
+        lookAtTrans.transform.RotateAround(myChar.transform.position, Vector3.up, axis * sensitivityHorizontal * Time.deltaTime * horAxis);
     }
     public void RotateVertical(float vertical)
     {
@@ -206,6 +211,7 @@ public class CameraRotate : MonoBehaviour
         {
             item.transform.RotateAround(myChar.transform.position, Vector3.up, axis * sensitivityHorizontal * Time.deltaTime * horAxis);
         }
+        lookAtTrans.transform.RotateAround(myChar.transform.position, Vector3.up, axis * sensitivityHorizontal * Time.deltaTime * horAxis);
     }
 
     public void RotateVerticalByBezier(float vertical)
