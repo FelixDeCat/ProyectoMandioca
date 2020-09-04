@@ -63,6 +63,9 @@ public class CombatDirector : LoadComponent, IZoneElement
         if (waitToAttack[target].Contains(e))
             waitToAttack[target].Remove(e);
 
+        if (prepareToAttack[target].Contains(e))
+            prepareToAttack[target].Remove(e);
+
         if (e.IsInPos())
         {
             if (waitToAttack[target].Count > 0)
