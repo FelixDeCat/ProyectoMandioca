@@ -68,7 +68,7 @@ public class BasicMinion : Minion
         canupdate = true;
         if (entityTarget != null)
         {
-            director.DeadEntity(this, entityTarget);
+            //director.DeadEntity(this, entityTarget);
             entityTarget = null;
         }
     }
@@ -89,8 +89,8 @@ public class BasicMinion : Minion
                     {
                         if (!enemy.GetComponent<EnemyBase>().death)
                         {
-                            entityTarget = enemy.GetComponent<EnemyBase>();
-                            director.AddToList(this, enemy.GetComponent<EnemyBase>());
+                            //entityTarget = enemy.GetComponent<EnemyBase>();
+                            //director.AddToList(this, enemy.GetComponent<EnemyBase>());
                             break;
                         }
                     }
@@ -135,8 +135,8 @@ public class BasicMinion : Minion
     public void Die()
     {
         sm.SendInput(BasicMinionInput.DIE);
-                death = true;
-        director.DeadEntity(this, entityTarget,this);
+        //        death = true;
+        //director.DeadEntity(this, entityTarget,this);
         Main.instance.RemoveEntity(this);
     }
 

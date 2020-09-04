@@ -11,7 +11,7 @@ public class CombatDirectorElement : MonoBehaviour, ICombatDirector
     bool withPos;
 
     CombatDirector director;
-    EntityBase owner = null;
+    [SerializeField] EnemyBase owner = null;
     EntityBase target;
     bool combat;
 
@@ -27,31 +27,31 @@ public class CombatDirectorElement : MonoBehaviour, ICombatDirector
     public void Initialize(EntityBase entityBase)
     {
         director = Main.instance.GetCombatDirector();
-        director.AddNewTarget(entityBase);
+        //director.AddNewTarget(entityBase);
 
     }
     public void IAmReady(Action _toAttackCallback)
     {
         combat = true;
-        director.PrepareToAttack(this, Main.instance.GetChar());
+        director.PrepareToAttack(owner.GetComponent<EnemyBase>(), Main.instance.GetChar());
     }
     public void IAmNotReady()
     {
         combat = false;
-        director.DeleteToPrepare(this, Main.instance.GetChar());
+        director.DeleteToPrepare(owner.GetComponent<EnemyBase>(), Main.instance.GetChar());
     }
     public void AttackRelease()
     {
-        director.AttackRelease(this, Main.instance.GetChar());
+        director.AttackRelease(owner.GetComponent<EnemyBase>(), Main.instance.GetChar());
     }
     public void EnterCombat()
     {
-        director.AddToList(this, Main.instance.GetChar());
+        director.AddToList(owner.GetComponent<EnemyBase>(), Main.instance.GetChar());
         combat = true;
     }
     public void ExitCombat()
     {
-        director.DeadEntity(this, Main.instance.GetChar());
+        director.DeadEntity(owner.GetComponent<EnemyBase>(), Main.instance.GetChar());
         target = null;
         combat = false;
     }

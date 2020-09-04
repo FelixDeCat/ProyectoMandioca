@@ -273,7 +273,7 @@ public class MandragoraEnemy : EnemyBase
             ragdoll.Ragdoll(true, dir);
         death = true;
         mandragoraIsTrap = false;
-        director.RemoveTarget(this);
+        director.DeadEntity(this, entityTarget);
         Main.instance.RemoveEntity(this);
     }
 

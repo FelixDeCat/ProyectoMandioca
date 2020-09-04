@@ -38,7 +38,7 @@ public class Caronte : EnemyBase
         else
             sm.SendInput(CaronteInputs.IDLE);
 
-        director.AddNewTarget(this);
+        //director.AddNewTarget(this);
 
         canupdate = true;
     }

@@ -234,7 +234,7 @@ public class CrowEnemy : EnemyBase
         else
             ragdoll.Ragdoll(true, dir);
         death = true;
-        director.RemoveTarget(this);
+        director.DeadEntity(this, entityTarget);
         Main.instance.RemoveEntity(this);
     }
 

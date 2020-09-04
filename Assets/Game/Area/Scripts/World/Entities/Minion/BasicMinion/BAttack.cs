@@ -36,7 +36,7 @@ namespace Tools.StateMachine
                 timer = 0;
                 anim.SetBool("Attack", false);
                 minion.attacking = false;
-                combatDirector.AttackRelease(minion, minion.CurrentTarget());
+                //combatDirector.AttackRelease(minion, minion.CurrentTarget());
             }
         }
     }

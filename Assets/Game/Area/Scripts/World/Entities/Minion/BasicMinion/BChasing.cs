@@ -22,7 +22,7 @@ namespace Tools.StateMachine
         protected override void Enter(EState<BasicMinion.BasicMinionInput> _lastState)
         {
             base.Enter(_lastState);
-            combatDirector.PrepareToAttack(minion, minion.CurrentTarget());
+            //combatDirector.PrepareToAttack(minion, minion.CurrentTarget());
         }
 
         protected override void Update()
@@ -54,8 +54,8 @@ namespace Tools.StateMachine
         {
             base.Exit(input);
 
-            if(minion.CurrentTarget() != null)
-                combatDirector.DeleteToPrepare(minion, minion.CurrentTarget());
+            //if(minion.CurrentTarget() != null)
+            //    combatDirector.DeleteToPrepare(minion, minion.CurrentTarget());
         }
 
     }

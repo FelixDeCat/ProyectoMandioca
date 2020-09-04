@@ -37,7 +37,7 @@ namespace Tools.StateMachine
 
             var myEnemy = (EnemyBase)enemy;
             myEnemy.attacking = false;
-            combatDirector.AttackRelease(enemy, enemy.CurrentTarget());
+            //combatDirector.AttackRelease(enemy, enemy.CurrentTarget());
         }
 
         protected override void Update()

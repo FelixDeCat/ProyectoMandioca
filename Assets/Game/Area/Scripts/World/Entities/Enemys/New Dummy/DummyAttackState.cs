@@ -5,9 +5,9 @@ namespace Tools.StateMachine
     {
         float cd;
         float timer;
-        ICombatDirector enemy;
+        EnemyBase enemy;
         public DummyAttackState(EState<TrueDummyEnemy.DummyEnemyInputs> myState, EventStateMachine<TrueDummyEnemy.DummyEnemyInputs> _sm,
-                                float _cd, ICombatDirector _enemy) : base(myState, _sm)
+                                float _cd, EnemyBase _enemy) : base(myState, _sm)
         {
             cd = _cd;
             enemy = _enemy;

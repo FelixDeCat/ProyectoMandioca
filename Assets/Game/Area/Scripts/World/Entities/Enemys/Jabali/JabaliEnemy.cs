@@ -93,8 +93,6 @@ public class JabaliEnemy : EnemyBase
     {
         //lo de el ragdoll
     }
-
-
     public override void IAInitialize(CombatDirector _director)
     {
         director = _director;
@@ -103,7 +101,7 @@ public class JabaliEnemy : EnemyBase
         else
             sm.SendInput(JabaliInputs.IDLE);
 
-        director.AddNewTarget(this);
+        //director.AddNewTarget(this);
 
         canupdate = true;
     }
