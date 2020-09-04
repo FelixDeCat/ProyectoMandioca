@@ -42,15 +42,15 @@ public class ABossGenericClean : EnemyBase
 
     protected override void OnTurnOff() 
     {
-        Debug.LogWarning("se esta apagando");
-        sensors_and_behaviours.Sensor.StartSensors(); 
-        inputSender.Execute(false); 
+        //Debug.LogWarning("se esta apagando");
+        //sensors_and_behaviours.Sensor.StartSensors(); 
+        //inputSender.Execute(false); 
     }
     protected override void OnTurnOn() 
     { 
-        Debug.LogWarning("se esta prendiendo"); 
-        sensors_and_behaviours.Sensor.StopSensors(); 
-        inputSender.Execute(true); 
+        //Debug.LogWarning("se esta prendiendo"); 
+        //sensors_and_behaviours.Sensor.StopSensors(); 
+        //inputSender.Execute(true); 
     }
 
     void DeathVector(Vector3 dir)

@@ -33,7 +33,6 @@ public class Generic_Throw : MonoStateBase
 
     void ThrowSomething()
     {
-        Debug.Log("ENTRO ACA AL EVENTO");
 
         Get_FeedbackHandler.Play_ThrowAttack();
 

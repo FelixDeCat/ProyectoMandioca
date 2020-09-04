@@ -72,7 +72,6 @@ public class MisionManager : MonoBehaviour
         if (!registry.ContainsKey(_m.id_mision))
         {
             var m = Instantiate(_m);
-            m = _m;
 
             for (int i = 0; i < m.data.MisionItems.Length; i++)
             {
@@ -158,7 +157,7 @@ public class MisionManager : MonoBehaviour
         // item de mision sin antes tener la mision activa
         if (m != null)
         {
-            Debug.Log("NO ES NULO");
+            //Debug.Log("NO ES NULO");
 
             if (Index < m.data.MisionItems.Length)
             {
@@ -184,7 +183,7 @@ public class MisionManager : MonoBehaviour
                     stores[key]++;
                 }
 
-                Debug.Log("Estoy agregando un item: " + fragile.Description + " val: " + stores[key]);
+               // Debug.Log("Estoy agregando un item: " + fragile.Description + " val: " + stores[key]);
             }
         }
     }

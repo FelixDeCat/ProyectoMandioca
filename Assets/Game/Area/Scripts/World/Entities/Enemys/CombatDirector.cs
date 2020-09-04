@@ -93,6 +93,8 @@ public class CombatDirector : LoadComponent, IZoneElement
     {
         if (!listAttackTarget.ContainsKey(entity))
         {
+            
+
             listAttackTarget.Add(entity, new List<ICombatDirector>());
             attackingTarget.Add(entity, new List<ICombatDirector>());
             waitToAttack.Add(entity, new List<ICombatDirector>());
@@ -103,6 +105,7 @@ public class CombatDirector : LoadComponent, IZoneElement
 
             updateDict.Add(entity, () =>
             {
+
                 timers[entity] += Time.deltaTime;
 
                 if (timers[entity] >= timeToAttacks[entity])
@@ -123,7 +126,9 @@ public class CombatDirector : LoadComponent, IZoneElement
 
             AllUpdates += updateDict[entity];
 
-            StartCoroutine(CheckWaitEnemies(entity));
+            
+
+            //StartCoroutine(CheckWaitEnemies(entity));
         }
     }
 

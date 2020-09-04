@@ -95,7 +95,6 @@ public class CameraRotate : MonoBehaviour
             if (!IgnoreCollisionsBezier && Physics.Raycast(myChar.transform.position + offsetVec, direction, out hit, dist, _mask))
             {
                 float distance = hit.distance;
-                Debug.Log(hit.distance);
                 if (distance > minDistance)
                 {
                     Vector3 dir = hit.point - direction.normalized;

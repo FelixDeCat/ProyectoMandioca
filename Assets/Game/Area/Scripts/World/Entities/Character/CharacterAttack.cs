@@ -237,7 +237,6 @@ public class CharacterAttack
             HeavyAttack.Invoke();
             data.SetDamageType(Damagetype.Heavy);
             move.AttackMovement(10);
-            Debug.Log("golpea duro");
             feedbacks.sounds.Play_heavySwing();
         }
         feedbacks.particles.feedbackHeavy.Stop();

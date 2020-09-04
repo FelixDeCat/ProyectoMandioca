@@ -61,13 +61,13 @@ public class UI_DialogueManager : UI_Base
 
         if (force)
         {
-            Debug.Log("->> Entro por force");
+            //Debug.Log("->> Entro por force");
             textAnim.Force(s);
             OnFinishCarret.Invoke();
         }
         else
         {
-            Debug.Log("->> Entro Normal");
+            //Debug.Log("->> Entro Normal");
             textAnim.BeginAnim(s, OnFinishCarret);
         }
     }
