@@ -25,7 +25,7 @@ MonoBehaviour:
     defaultState: 1
   tonemapper:
     overrideState: 1
-    value: 2
+    value: 3
   toneCurveToeStrength:
     overrideState: 0
     value: 0
@@ -42,8 +42,8 @@ MonoBehaviour:
     overrideState: 0
     value: 0
   toneCurveGamma:
-    overrideState: 0
-    value: 1
+    overrideState: 1
+    value: 1.3
   ldrLut:
     overrideState: 0
     value: {fileID: 0}
@@ -56,7 +56,7 @@ MonoBehaviour:
     value: 0
   tint:
     overrideState: 1
-    value: 5
+    value: 20
   colorFilter:
     overrideState: 0
     value: {r: 1, g: 0.9575472, b: 0.9822178, a: 1}
@@ -65,7 +65,7 @@ MonoBehaviour:
     value: 0
   saturation:
     overrideState: 1
-    value: 10
+    value: -3
   brightness:
     overrideState: 0
     value: 0
@@ -1320,7 +1320,7 @@ MonoBehaviour:
       - 0.5
       - 0.5
       - 0.5
---- !u!114 &-6064321413701286096
+--- !u!114 &-2554693201271297502
 MonoBehaviour:
   m_ObjectHideFlags: 3
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1329,69 +1329,22 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 40b924e2dad56384a8df2a1e111bb675, type: 3}
-  m_Name: Vignette
+  m_Script: {fileID: 11500000, guid: abc0b71c0a6142d49bce109f569ab7b2, type: 3}
+  m_Name: FogPPSSettings
   m_EditorClassIdentifier: 
   active: 1
   enabled:
     overrideState: 1
     value: 1
-  mode:
-    overrideState: 0
-    value: 0
-  color:
+  _Radius:
     overrideState: 1
-    value: {r: 0.5566038, g: 0.31768423, b: 0.5470477, a: 1}
-  center:
+    value: 19
+  _FallOff:
     overrideState: 1
-    value: {x: 0.5, y: 0.5}
-  intensity:
+    value: 3
+  _FogColor:
     overrideState: 1
-    value: 0.116
-  smoothness:
-    overrideState: 0
-    value: 0.2
-  roundness:
-    overrideState: 0
-    value: 1
-  rounded:
-    overrideState: 1
-    value: 1
-  mask:
-    overrideState: 0
-    value: {fileID: 0}
-    defaultState: 1
-  opacity:
-    overrideState: 0
-    value: 1
---- !u!114 &-4589102047703908304
-MonoBehaviour:
-  m_ObjectHideFlags: 3
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 556797029e73b2347956b6579e77e05b, type: 3}
-  m_Name: DepthOfField
-  m_EditorClassIdentifier: 
-  active: 0
-  enabled:
-    overrideState: 1
-    value: 1
-  focusDistance:
-    overrideState: 1
-    value: 7
-  aperture:
-    overrideState: 1
-    value: 0.1
-  focalLength:
-    overrideState: 1
-    value: 11
-  kernelSize:
-    overrideState: 1
-    value: 2
+    value: {r: 0.49056602, g: 0, b: 0.328585, a: 0}
 --- !u!114 &-1269388789912056764
 MonoBehaviour:
   m_ObjectHideFlags: 3
@@ -1449,10 +1402,9 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 8e6292b2c06870d4495f009f912b9600, type: 3}
-  m_Name: PP Corruption
+  m_Name: PP Forest
   m_EditorClassIdentifier: 
   settings:
   - {fileID: -1269388789912056764}
   - {fileID: -8575736412110635701}
-  - {fileID: -6064321413701286096}
-  - {fileID: -4589102047703908304}
+  - {fileID: -2554693201271297502}
