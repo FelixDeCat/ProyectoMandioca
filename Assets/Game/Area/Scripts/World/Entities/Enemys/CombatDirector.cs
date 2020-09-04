@@ -131,7 +131,9 @@ public class CombatDirector : LoadComponent, IZoneElement
     {
         while (true)
         {
-            if(waitToAttack.Count > 0)
+            if (!waitToAttack.ContainsKey(entity)) break;
+
+            if(waitToAttack[entity].Count > 0)
             {
                 if(listAttackTarget[entity].Count > 0)
                 {
