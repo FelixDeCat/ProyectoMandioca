@@ -78,7 +78,6 @@ public class EquipedManager : MonoBehaviour
         RefreshUI();
     }
 
-
     public bool EquipItem(Item item)
     {
         // aca tendria que obtener todos los spots que tengo realmente
