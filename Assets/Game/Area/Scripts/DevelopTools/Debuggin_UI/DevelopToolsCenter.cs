@@ -20,6 +20,14 @@ public class DevelopToolsCenter : MonoBehaviour
         DevelopTools.UI.Debug_UI_Tools.instance.CreateToogle("Jabalies State Machine Debug", false, ToogleDebugJabali);
 
         DevelopTools.UI.Debug_UI_Tools.instance.CreateToogle("Cubitos Render", false, CubitosRender);
+
+        DevelopTools.UI.Debug_UI_Tools.instance.CreateToogle("Armas", false, Armas);
+    }
+    string Armas(bool val)
+    {
+        Main.instance.GetChar().ToggleShield(val);
+        Main.instance.GetChar().ToggleSword(val);
+        return "C:=> " + (val ? "ON" : "OFF");
     }
 
     string CubitosRender(bool val)
