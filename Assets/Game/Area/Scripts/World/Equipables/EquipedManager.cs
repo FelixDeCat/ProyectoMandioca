@@ -181,7 +181,7 @@ public class EquipedManager : MonoBehaviour
         }
         public bool IHaveItem => itemBehaviour != null && item != null;
         public bool IsConsumible => item.item.consumible;
-        public void Use() => itemBehaviour.BeginUse();
+        public void Use() => itemBehaviour.Basic_PressDown();
         public bool RemoveAItem(int cant = 1)
         {
             if (item.cant > 0)

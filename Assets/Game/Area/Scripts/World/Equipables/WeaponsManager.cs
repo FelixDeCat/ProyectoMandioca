@@ -49,8 +49,8 @@ public class WeaponsManager : ManagerEquipableBase
     }
 
     // tiene animacion con trigger, dispara a ConfirmAttack()
-    public void ConfirmAttack() { current_weapon.BeginUse(); sensorManager.On(); }
-    public void CancelAttack() { current_weapon.EndUse(); sensorManager.Off(); }
+    public void ConfirmAttack() { current_weapon.Basic_PressDown(); sensorManager.On(); }
+    public void CancelAttack() { current_weapon.Basic_PressUp(); sensorManager.Off(); }
     public void EndAnimation() { /*charfeedback.OnEndAttack();*/ sensorManager.Off(); }
 
     public void EndAttack() { }
@@ -58,8 +58,8 @@ public class WeaponsManager : ManagerEquipableBase
 
     private void Update()
     {
-        if (current_weapon != null)
-            current_weapon.UpdateUse();
+        //if (current_weapon != null)
+        //    current_weapon.UpdateUse();
     }
 
    
