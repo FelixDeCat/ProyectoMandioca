@@ -13,7 +13,6 @@ public abstract class Equipable : MonoBehaviour
 
     bool equiped;
     public bool Equiped { get { return equiped; } }
-
     public virtual void Equip() { OnEquip(); equiped = true; }
     public virtual void UnEquip() { OnUnequip(); equiped = false; }
 

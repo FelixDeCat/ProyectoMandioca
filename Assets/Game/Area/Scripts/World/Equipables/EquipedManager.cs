@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Runtime.InteropServices.WindowsRuntime;
 using UnityEngine;
 
 public class EquipedManager : MonoBehaviour
@@ -9,25 +10,18 @@ public class EquipedManager : MonoBehaviour
     public UI_CurrentItem UI_CurrentItem;
     public Spot[] spots;
 
-    public ItemInInventory current;
-
-    Dictionary<SpotType, equipdata> data = new Dictionary<SpotType, equipdata>();
-
-    Dictionary<SpotType, Transform> positions = new Dictionary<SpotType, Transform>();
-    Dictionary<SpotType, EquipedItem> behaviours = new Dictionary<SpotType, EquipedItem>();
+    Dictionary<SpotType, EquipData> equip = new Dictionary<SpotType, EquipData>();
 
     private void Awake()
     {
         instance = this;
         for (int i = 0; i < spots.Length; i++)
         {
-            if (!positions.ContainsKey(spots[i].spotType))
-            {
-                positions.Add(spots[i].spotType, spots[i].spotparent);
-            }
-        }
+            var type = spots[i].spotType;
+            var parent = spots[i].spotparent;
 
-        current = new ItemInInventory(ScriptableObject.CreateInstance<Item>(), -1);
+            Data(type).SetParent(parent);
+        }
     }
 
     public void UseWaist1()
@@ -35,152 +29,218 @@ public class EquipedManager : MonoBehaviour
         UseItem(SpotType.Waist1);
     }
 
-    public void UseItem(SpotType _spottype)
+    public EquipData Data(SpotType spot)
     {
-        if (!behaviours.ContainsKey(_spottype)) return;
+        if (!equip.ContainsKey(spot)) equip.Add(spot, new EquipData());
+        return equip[spot];
+    }
 
-        if (current.item.consumible)
+    public void UseItem(SpotType spot)
+    {
+        if (!equip.ContainsKey(spot)) return;
+        var data = equip[spot];
+        if (!data.IHaveItem) return;
+        if (data.CanUse)
         {
-            if (behaviours[_spottype].CanUse())
+            if (data.IsConsumible)
             {
-                if (current.cant > 0)
-                {
-                    behaviours[_spottype].BeginUse();
-                    current.cant--;
-                }
-                if (current.cant <= 0)
-                {
-                    UnEquipByItem(current);
-                    Clean();
-                }
+                if (data.RemoveAItem(1)) data.Use();
+                else { /*feedback de no tengo mas*/ }
+                if (data.INotHaveEnoughtQuantity) data.Unequip();
             }
+            else data.Use();
         }
-        else
-        {
-            behaviours[_spottype].BeginUse();
-        }
-
+        else { /*tiro feedback de que no se puede usar en ese lugar*/ }
         RefreshUI();
     }
 
-    public void RemoveAItem(SpotType _spottype)
+    public void RemoveAItem(SpotType spot)
     {
-        if (!behaviours.ContainsKey(_spottype)) return;
-        if (current.cant > 0)
-        {
-            current.cant--;
-        }
-        if (current.cant <= 0)
-        {
-            UnEquipByItem(current);
-            Clean();
-        }
+        if (!equip.ContainsKey(spot)) return;
+        var data = equip[spot];
+        if (!data.IHaveItem) return;
+        if (data.RemoveAItem(1)) data.Use();
+        if (data.INotHaveEnoughtQuantity) data.Unequip();
         RefreshUI();
     }
 
     public bool EquipItem(Item item)
     {
-        // aca tendria que obtener todos los spots que tengo realmente
-        // y tener enlistado los spots disponibles, si me llega uno que 
-        // no tengo, devuelvo false... esta bueno porque si tengo una
-        // mochila con 3 spots nuevos, puedo meterlos y quitarlos de esta lista
+        SpotType spot = item.spot;
 
-        if (current.cant == -1)
+        var data = Data(spot);
+
+        if (data.Parent == null) data.SetParent(this.transform);
+
+        if (data.INeedANewPlace(item))
         {
-            Create(item);
-            TryEquipInSpot(current);
+            if(data.IHaveItem) data.Unequip();
+            data.AddItem(item);
+            data.Equip();
         }
         else
         {
-            if (current.item == item)
-            {
-                current.cant++;
-            }
-            else
-            {
-                UnEquipByItem(current);
-                Clean();
-                TryEquipInSpot(current);
-            }
+            data.AddItem(item);
         }
+
         RefreshUI();
         return true;
     }
 
     void RefreshUI()
     {
-        if (!UI_CurrentItem.IsActive && current.cant > 0)
+        SpotType spot = SpotType.Waist1;
+
+        if (!equip.ContainsKey(spot)) return;
+        var data = equip[spot];
+
+        if (!UI_CurrentItem.IsActive && data.Item.cant > 0)
         {
             UI_CurrentItem.Open();
         }
-        if (current.cant <= 0 && UI_CurrentItem.IsActive)
+        if (data.Item.cant <= 0 && UI_CurrentItem.IsActive)
         {
             UI_CurrentItem.Close();
         }
-        UI_CurrentItem.SetItem(current.cant.ToString(), current.item.img);
+        UI_CurrentItem.SetItem(data.Item.cant.ToString(), data.Item.item.img);
     }
 
 
-    void EquipByItem(ItemInInventory _item, Transform _parent)
-    {
-
-        var go = Instantiate(_item.item.model, _parent);
-        go.transform.localPosition = Vector3.zero;
-        var spot = _item.item.spot;
-        //
-        var aux = go.GetComponent<ItemVersion>();
-        if (aux != null) aux.Activate_EquipedVersion();
-        //
-        var behaviour = aux.GetEquipedVersion().GetComponent<EquipedItem>();
-        if (behaviour != null)
-        {
-            if (!behaviours.ContainsKey(spot))
-            {
-                behaviours.Add(spot, behaviour);
-            }
-            else
-            {
-                behaviours[spot] = behaviour;
-            }
-            if (!behaviour.Equiped) behaviour.Equip();
-        }
-    }
-    void UnEquipByItem(ItemInInventory _item)
-    {
-        if (_item.cant > 0)
-        {
-            for (int i = 0; i < _item.cant; i++)
-            {
-                Main.instance.SpawnItem(_item.item, Main.instance.GetChar().Root.forward);
-            }
-        }
-        var spot = _item.item.spot;
-        var parent = positions[spot];
-        var behaviour = parent.GetComponentInChildren<EquipedItem>();
-        if (behaviour != null) behaviour.UnEquip();
-        for (int i = 0; i < parent.childCount; i++) Destroy(parent.GetChild(i).gameObject);
-    }
-
-    void TryEquipInSpot(ItemInInventory _itm)
-    {
-        if (SpotsEnables)
-        {
-            EquipByItem(_itm, positions[_itm.item.spot]);
-        }
-        else Debug.LogWarning("Me estan pasando un spot fuera de mi jurisdiccion");
-    }
-
-    void Create(Item _itm) => current = new ItemInInventory(_itm, 1);
-    void Clean() => current = new ItemInInventory(ScriptableObject.CreateInstance<Item>(), -1);
-
-    bool SpotsEnables => current.item.spot == SpotType.Waist1 || current.item.spot == SpotType.Waist2 || current.item.spot == SpotType.Waist3;
-
-
-    public struct equipdata
+    public class EquipData
     {
         Transform parent;
         EquipedItem itemBehaviour;
         ItemInInventory item;
+        #region Getters
+        public Transform Parent { get => parent; }
+        public EquipedItem ItemBehaviour { get => itemBehaviour; }
+        public ItemInInventory Item { get => item; }
+        public int Quantity { get => item.cant; }
+        #endregion
+        #region Setters
+        public void SetParent(Transform _parent) => this.parent = _parent;
+        public void SetItemBehaviour(EquipedItem _itemBehaviour) => this.itemBehaviour = _itemBehaviour;
+        public void SetItemInInventory(ItemInInventory _item) => this.item = _item;
+        #endregion
+
+        internal EquipedItem BehaviourInSpot()
+        {
+            if (itemBehaviour != null) return itemBehaviour;
+            else { Debug.LogError("No tengo ningun Behaviour en este lugar"); return null; }
+        }
+        internal ItemInInventory ItemInSpot()
+        {
+            if (item != null) return item;
+            else { Debug.LogError("No tengo ningun Item en este lugar"); return null; }
+        }
+        public bool INeedANewPlace(Item _itm)
+        {
+            if (item == null)
+            {
+                //si no tengo un item, necesito la señal para equiparlo
+                return true;
+            }
+            else
+            {
+                //si es un item distinto, necesito la señal para remplazarlo
+                return !item.item.Equals(_itm);
+            }
+        }
+        public void AddItem(Item _itm, int quant = 1) 
+        {
+            if (item == null)
+            {
+                item = new ItemInInventory(_itm, quant);
+            }
+            else
+            {
+                if (!item.item.Equals(_itm))
+                {
+                    item.item = _itm;
+                    item.cant = quant;
+                }
+                else
+                {
+                    item.cant = item.cant + quant;
+                }
+            }
+            
+        }
+        public bool IHaveItem => itemBehaviour != null && item != null;
+        public bool IsConsumible => item.item.consumible;
+        public void Use() => itemBehaviour.BeginUse();
+        public bool RemoveAItem(int cant = 1)
+        {
+            if (item.cant > 0)
+            {
+                item.cant = item.cant - cant;
+                if (item.cant <= 0) item.cant = 0;
+                return true;
+            }
+            else
+            {
+                item.cant = 0;
+                return false;
+            }
+        }
+        public bool CanUse => itemBehaviour.CanUse();
+        public bool IHaveEnoughtQuantity => item.cant > 0;
+        public bool INotHaveEnoughtQuantity => item.cant <= 0;
+        void Baheviour_UnEquip()
+        {
+            if (itemBehaviour != null)
+                itemBehaviour.UnEquip();
+        }
+        void Behaviour_Equip()
+        {
+            if (itemBehaviour != null)
+                itemBehaviour.Equip();
+        }
+        public void Item_Drop()
+        {
+            if (IHaveEnoughtQuantity)
+            {
+                for (int i = 0; i < Quantity; i++)
+                {
+                    Main.instance.SpawnItem(item.item, Main.instance.GetChar().Root.forward);
+                }
+            }
+        }
+
+        public void CleanChildrens()
+        {
+            for (int i = 0; i < parent.childCount; i++)
+                Destroy(parent.GetChild(i).gameObject);
+        }
+
+        public void Unequip()
+        {
+            Item_Drop();
+            Baheviour_UnEquip();
+            CleanChildrens();
+        }
+
+
+        public void Equip()
+        {
+            if (parent == null)
+            {
+
+            }
+            var go = Instantiate(item.item.model, parent);
+            go.transform.localPosition = Vector3.zero;
+            //
+            var aux = go.GetComponent<ItemVersion>();
+            if (aux != null) aux.Activate_EquipedVersion();
+            //
+            itemBehaviour = aux.GetEquipedVersion().GetComponent<EquipedItem>();
+
+            if (itemBehaviour != null)
+            {
+                if (!itemBehaviour.Equiped) itemBehaviour.Equip();
+            }
+        }
+
     }
 
 }

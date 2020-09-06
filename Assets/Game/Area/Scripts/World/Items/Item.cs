@@ -23,4 +23,10 @@ public class Item : ScriptableObject
     public GameObject model;
     public Sprite img;
     public SpotType spot;
+
+    public override bool Equals(object other)
+    {
+        var itm = (Item)other;
+        return itm.id == id;
+    }
 }
