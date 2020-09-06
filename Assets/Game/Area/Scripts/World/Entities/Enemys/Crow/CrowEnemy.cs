@@ -19,7 +19,6 @@ public class CrowEnemy : EnemyBase
     [SerializeField] int damage = 2;
     [SerializeField] float knockback = 20;
     [SerializeField] float attackRecall = 2;
-    [SerializeField] CastingBar castingBehaviour = null;
     private CombatDirector director;
     [SerializeField] LineOfSight lineOfSight = null;
 
@@ -30,8 +29,8 @@ public class CrowEnemy : EnemyBase
     private float timercooldown = 0;
 
     float timerToCast;
-    bool castingOver;
     bool stopCD;
+    bool castingOver;
 
     [Header("Feedback")]
     [SerializeField] AnimEvent anim = null;
@@ -87,10 +86,6 @@ public class CrowEnemy : EnemyBase
 
         ThrowablePoolsManager.instance.CreateAPool(throwObject.name, throwObject);
 
-        castingBehaviour.AddEventListener_OnFinishCasting(CastOver);
-        castingBehaviour.AddEventListener_OnStartCasting(() => castPartTemp = ParticlesManager.Instance.PlayParticle(particles.castParticles.name, shootPivot.position, shootPivot));
-        castingBehaviour.AddEventListener_OnFinishCasting(() => { if (castPartTemp && castPartTemp.gameObject.activeSelf)
-                ParticlesManager.Instance.StopParticle(particles.castParticles.name, castPartTemp); });
         lineOfSight.Configurate(rootTransform);
     }
     protected override void OnReset()
@@ -134,10 +129,10 @@ public class CrowEnemy : EnemyBase
 
                     animator.SetBool("rotate", false);
 
-                    if (castingBehaviour.InCasting)
-                        castingBehaviour.InterruptCasting();
+                    if (castPartTemp != null)
+                        ParticlesManager.Instance.StopParticle(castPartTemp.name, castPartTemp);
 
-                    castingOver = false;
+                    sm.SendInput(CrowInputs.IDLE);
                 }
             }
 
@@ -149,8 +144,6 @@ public class CrowEnemy : EnemyBase
                     SetTarget(Main.instance.GetChar());
                     combat = true;
 
-                    if (stopCD) castingBehaviour.StartCasting();
-
                     animator.SetBool("rotate", true);
                 }
             }
@@ -160,7 +153,6 @@ public class CrowEnemy : EnemyBase
                 if (cdToCast > timerToCast) timerToCast += Time.deltaTime;
                 else
                 {
-                    if(combat) castingBehaviour.StartCasting();
                     timerToCast = 0;
                     stopCD = true;
                 }
@@ -183,9 +175,10 @@ public class CrowEnemy : EnemyBase
     #region Attack
     void CastOver()
     {
+        animator.SetTrigger("attack");
+        animator.SetBool("rotate", false);
+        castPartTemp = null;
         castingOver = true;
-        if (castPartTemp && castPartTemp.gameObject.activeSelf)
-            ParticlesManager.Instance.StopParticle(particles.castParticles.name, castPartTemp);
     }
 
     public void DealDamage()
@@ -199,7 +192,6 @@ public class CrowEnemy : EnemyBase
         ThrowablePoolsManager.instance.Throw(throwObject.name, newData);
 
         stopCD = false;
-        castingOver = false;
     }
 
     public override void ToAttack() => attacking = true;
@@ -324,11 +316,12 @@ public class CrowEnemy : EnemyBase
 
         var head = Main.instance.GetChar();
 
-        new CrowIdle(idle, sm, distancePos, rotationSpeed, this, ()=> castingOver, lineOfSight.OnSight).SetAnimator(animator).SetRoot(rootTransform).SetDirector(director);
+        new CrowIdle(idle, sm, distancePos, rotationSpeed, this, lineOfSight.OnSight, () => stopCD).SetAnimator(animator).SetRoot(rootTransform).SetDirector(director);
 
-        new CrowChasing(chasing, sm, IsAttack, distancePos, rotationSpeed, this, () => castingOver, lineOfSight.OnSight).SetDirector(director).SetRoot(rootTransform);
+        new CrowChasing(chasing, sm, IsAttack, distancePos, rotationSpeed, this, lineOfSight.OnSight).SetDirector(director).SetRoot(rootTransform);
 
-        new CrowAttack(attack, sm, attackRecall, this).SetAnimator(animator).SetDirector(director);
+        new CrowAttack(attack, sm, attackRecall, () => castPartTemp = ParticlesManager.Instance.PlayParticle(particles.castParticles.name, shootPivot.position, CastOver, shootPivot),
+            () => castingOver, (x) => castingOver = x, this, rotationSpeed).SetAnimator(animator).SetDirector(director).SetRoot(rootTransform);
 
         new CrowTakeDmg(takeDamage, sm, recallTime).SetAnimator(animator);
 

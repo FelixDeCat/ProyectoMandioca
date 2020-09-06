@@ -288,12 +288,9 @@ public class MandragoraEnemy : EnemyBase
     protected override void OnTurnOff()
     {
         sm.SendInput(MandragoraInputs.DISABLE);
-        if (combat)
-        {
-            director.DeadEntity(this, entityTarget);
-            entityTarget = null;
-            combat = false;
-        }
+        director.DeadEntity(this, entityTarget);
+        entityTarget = null;
+        combat = false;
 
         groundSensor?.TurnOff();
     }

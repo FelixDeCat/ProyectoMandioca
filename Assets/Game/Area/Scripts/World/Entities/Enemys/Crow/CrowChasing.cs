@@ -6,20 +6,18 @@ namespace Tools.StateMachine
     public class CrowChasing : CrowStates
     {
         Func<bool> IsAttack;
-        Func<bool> IsCast;
         Func<Transform, bool> LineOfSight;
         float distanceToNormalAttack;
         float rotationSpeed;
         EnemyBase enemy;
 
         public CrowChasing(EState<CrowEnemy.CrowInputs> myState, EventStateMachine<CrowEnemy.CrowInputs> _sm, Func<bool> _IsAttack,
-                            float _distanceToAttack, float _rotationSpeed, EnemyBase _enemy, Func<bool> _IsCast, Func<Transform, bool> _LineOfSight) : base(myState, _sm)
+                            float _distanceToAttack, float _rotationSpeed, EnemyBase _enemy, Func<Transform, bool> _LineOfSight) : base(myState, _sm)
         {
             IsAttack = _IsAttack;
             distanceToNormalAttack = _distanceToAttack;
             rotationSpeed = _rotationSpeed;
             enemy = _enemy;
-            IsCast = _IsCast;
             LineOfSight = _LineOfSight;
         }
 
@@ -56,7 +54,7 @@ namespace Tools.StateMachine
                     Vector3 forwardRotation = new Vector3(myForward.x, 0, myForward.z);
                     root.forward = Vector3.Lerp(root.forward, forwardRotation, rotationSpeed * Time.deltaTime);
 
-                    if (Vector3.Distance(pos1, pos2) >= distanceToNormalAttack || !IsCast() || !LineOfSight(enemy.CurrentTarget().transform))
+                    if (Vector3.Distance(pos1, pos2) >= distanceToNormalAttack || !LineOfSight(enemy.CurrentTarget().transform))
                         sm.SendInput(CrowEnemy.CrowInputs.IDLE);
                 }
             }
