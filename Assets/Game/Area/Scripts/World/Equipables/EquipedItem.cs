@@ -22,7 +22,10 @@ public class EquipedItem : Usable
     protected override void OnUnequip() { EV_Unequip.Invoke(); }
     protected override void OnUpdateUse() { EV_UpdateUse.Invoke(); }
     protected override bool OnCanUse() { return predicate.Invoke(); }
-    public void SetModelFunction(Func<bool> _predicate) => predicate = _predicate;
+    public void SetModelFunction(Func<bool> _predicate) 
+    {
+        predicate = _predicate; 
+    }
 
 
 }

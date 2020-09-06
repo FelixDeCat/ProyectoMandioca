@@ -70,8 +70,6 @@ public class EquipedManager : MonoBehaviour
 
         var data = Data(spot);
 
-        if (data.Parent == null) data.SetParent(this.transform);
-
         if (data.INeedANewPlace(item))
         {
             if(data.IHaveItem) data.Unequip();
@@ -223,9 +221,11 @@ public class EquipedManager : MonoBehaviour
 
         public void Equip()
         {
-            if (parent == null)
-            {
-
+            if (item.item.model == null) return;
+            if (parent == null || !parent.gameObject.activeInHierarchy) 
+            { 
+                parent = Main.instance.GetChar().Root;
+                Debug.LogWarning("Ojo que no tengo parent o esta dentro de una jerarquia desactivada, para que no rompa lo pongo dentro del char");
             }
             var go = Instantiate(item.item.model, parent);
             go.transform.localPosition = Vector3.zero;

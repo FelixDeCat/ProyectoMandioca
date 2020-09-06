@@ -22,6 +22,7 @@ public class HealExecute : MonoBehaviour
 
     public bool Pred()
     {
+        Debug.Log("CAN HEAL? " + Main.instance.GetChar().Life.CanHeal());
         return Main.instance.GetChar().Life.CanHeal();
     }
 
