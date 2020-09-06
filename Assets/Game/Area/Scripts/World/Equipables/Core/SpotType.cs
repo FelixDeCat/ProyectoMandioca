@@ -20,5 +20,7 @@
     LeftCompanion,
     Waist1,
     Waist2,
-    Waist3
+    Waist3,
+    FirstHandSkill,
+    SecondHandSkill
 }

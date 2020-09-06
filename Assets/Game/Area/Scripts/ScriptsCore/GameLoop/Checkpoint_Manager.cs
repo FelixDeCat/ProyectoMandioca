@@ -54,7 +54,7 @@ public class Checkpoint_Manager : MonoBehaviour
 
     private void Update()
     {
-        if (Main.instance.GetChar().transform.position.y < -10)
+        if (Main.instance.GetChar().transform.position.y < -20)
         {
            SpawnChar();
         }
