@@ -179,13 +179,14 @@ public class CrowEnemy : EnemyBase
         animator.SetBool("rotate", false);
         castPartTemp = null;
         castingOver = true;
+        dir = CurrentTarget() ? (CurrentTarget().transform.position - shootPivot.position).normalized : Vector3.zero;
+        dir.y += 0.1f;
     }
 
+    Vector3 dir;
     public void DealDamage()
     {
         AudioManager.instance.PlaySound(sounds.attackSound.name);
-
-        Vector3 dir = CurrentTarget() ? (CurrentTarget().transform.position - shootPivot.position).normalized : Vector3.zero;
 
         ThrowData newData = new ThrowData().Configure(shootPivot.position, dir, throwForce, damage, rootTransform);
 

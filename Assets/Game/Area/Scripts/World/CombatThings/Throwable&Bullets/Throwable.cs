@@ -3,79 +3,73 @@ using System.Collections.Generic;
 using UnityEngine;
 using DevelopTools;
 using System;
+using System.Reflection;
 
-public class Throwable : MonoBehaviour
+public abstract class Throwable : MonoBehaviour
 {
-    public float local_force_multiplier = 5;
-    public Sensor sensor;
-    [SerializeField] int damage = 5;
-    [SerializeField] int inParryDamage = 10;
-    Rigidbody myrig;
+    [SerializeField] Sensor sensor = null;
+    [SerializeField] float damageParryMultiplier = 2;
+    protected Rigidbody myrig;
 
-    public float time_to_disapear = 3f;
-    float timerDisapear;
-    bool canDisapear;
+    [SerializeField] LayerMask layermask_player = 1 << 9;
+    [SerializeField] LayerMask layermask_enemy = 1 << 12;
+    [SerializeField] LayerMask layermask_floor = 1 << 21;
 
-    public LayerMask layermask_player;
-    public LayerMask layermask_enemy;
+    protected Action<Throwable> ReturnToPool;
 
-    Vector3 posCollision;
+    [SerializeField] DamageData damageData = null;
+    protected ThrowData savethrowdata;
 
-    Action<Throwable> ReturnToPool;
-
-    public DamageData damageData;
-    ThrowData savethrowdata;
-    [SerializeField] AudioClip _crushBoulder = null;
-
-    private void Start()
+    protected virtual void Start()
     {
-        damageData
-            .SetDamage(damage)
-            .SetDamageType(Damagetype.Normal)
-            .SetKnockback(500);
-        AudioManager.instance.GetSoundPool("boulder Crush", AudioGroups.GAME_FX, _crushBoulder);
+    }
+
+    private void Awake()
+    {
+        myrig = GetComponent<Rigidbody>();
+        sensor.AddCallback_OnTriggerEnter(ReceiveEntityToDamage).AddCallback_OnTriggerFloor(OnFloorCollision).SetFloor(layermask_floor);
     }
 
     public void Throw(ThrowData data, Action<Throwable> _ReturnToPoolCallback)
     {
-        myrig = GetComponent<Rigidbody>();
+        sensor.gameObject.SetActive(true);
         myrig.isKinematic = false;
         myrig.velocity = Vector3.zero;
-        damage = data.Damage;
-        sensor.SetLayers(layermask_player);
-        sensor.AddCallback_OnTriggerEnter(ReceiveEntityToDamage);
-        this.transform.position = data.Position;
-        this.transform.forward = data.Direction;
-        myrig.AddForce(data.Direction * local_force_multiplier * data.Force, ForceMode.VelocityChange);
-        canDisapear = true;
-        ReturnToPool = _ReturnToPoolCallback;
+        savethrowdata = data;
+
         damageData
-              .SetDamage(damage)
+              .SetDamage(savethrowdata.Damage)
               .SetDamageType(Damagetype.Normal)
               .SetKnockback(500);
 
-        savethrowdata = data;
+        sensor.SetLayers(layermask_player);
+
+        transform.position = data.Position;
+        transform.forward = data.Direction;
+        ReturnToPool = _ReturnToPoolCallback;
+
+        InternalThrow();
     }
 
-    private void Update()
+    protected abstract void InternalThrow();
+
+    protected abstract void OnFloorCollision();
+
+    protected virtual void NonParry()
     {
-        if (canDisapear)
-        {
-            if (timerDisapear < time_to_disapear)
-            {
-                timerDisapear = timerDisapear + 1 * Time.deltaTime;
-            }
-            else
-            {
-                timerDisapear = 0;
-                canDisapear = false;
-                ReturnToPool(this);
-            }
-        }
-        //
+        sensor.gameObject.SetActive(false);
     }
 
-    void ReturnTheRock(Vector3 newPosition, Vector3 newDirection, float force)
+    protected virtual void Update()
+    {
+        if (!savethrowdata.Owner.gameObject.activeSelf)
+        {
+            NonParry();
+            return;
+        }
+    }
+
+    void ParryThrowable(Vector3 newPosition, Vector3 newDirection)
     {
         myrig.isKinematic = false;
         myrig.velocity = Vector3.zero;
@@ -83,38 +77,38 @@ public class Throwable : MonoBehaviour
         sensor.SetLayers(layermask_enemy);
         sensor.AddCallback_OnTriggerEnter(ReceiveEntityToDamage);
 
-        this.transform.position = newPosition;
-        this.transform.forward = newDirection;
+        transform.position = newPosition;
+        transform.forward = newDirection;
 
-        myrig.AddForce(newDirection * local_force_multiplier * force, ForceMode.VelocityChange);
-        
-        canDisapear = true;
-        timerDisapear = 0;
+        InternalParry();
     }
 
-    void ReceiveEntityToDamage(GameObject go)//cambiar por damage nuevo
+    protected abstract void InternalParry();
+
+    void ReceiveEntityToDamage(GameObject go)
     {
         var ent = go.GetComponent<DamageReceiver>();
         if (ent != null)
         {
-            var dir = ent.transform.position - this.transform.position;
+            var dir = ent.transform.position - transform.position;
             dir.Normalize();
 
-            damageData.SetPositionAndDirection(this.transform.position, dir);
+            damageData.SetPositionAndDirection(transform.position, dir);
             var aux = ent.TakeDamage(damageData);
 
             if (aux == Attack_Result.parried)
             {
-                AudioManager.instance.PlaySound("boulder Crush",go.transform);
-                posCollision = this.transform.position;
-                var newdir = savethrowdata.Owner.position - posCollision;
+                var newdir = savethrowdata.Owner.position - transform.position;
                 newdir.Normalize();
+                newdir.y += 0.1f;
                 damageData
-                   .SetDamage(inParryDamage)
+                   .SetDamage((int)(savethrowdata.Damage * damageParryMultiplier))
                    .SetDamageType(Damagetype.NonBlockAndParry)
                    .SetKnockback(500);
-                ReturnTheRock(posCollision, newdir, savethrowdata.Force * 2);
+                ParryThrowable(transform.position, newdir);
             }
+            else
+                NonParry();
         }
     }
 }
