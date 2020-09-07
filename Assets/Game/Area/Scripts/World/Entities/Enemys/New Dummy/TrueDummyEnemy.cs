@@ -271,12 +271,9 @@ public class TrueDummyEnemy : EnemyBase
         if (sm.Current.Name == "Die") gameObject.SetActive(false);
 
         sm.SendInput(DummyEnemyInputs.DISABLE);
-        if (combat)
-        {
-            director.DeadEntity(this, entityTarget);
-            entityTarget = null;
-            combat = false;
-        }
+        director.DeadEntity(this, entityTarget);
+        entityTarget = null;
+        combat = false;
         groundSensor?.TurnOff();
     }
     protected override void OnTurnOn()

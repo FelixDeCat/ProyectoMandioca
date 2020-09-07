@@ -64,7 +64,7 @@ public class ParticlesManager : MonoBehaviour
             aS.Play();
 
             if (!aS.main.loop)
-                StartCoroutine(ReturnSoundToPool(aS, particleName));
+                StartCoroutine(ReturnSoundToPool(aS, particleName, callbackEnd));
 
             return aS;
         }
@@ -127,11 +127,17 @@ public class ParticlesManager : MonoBehaviour
         return particlePool;
     }
 
-    private IEnumerator ReturnSoundToPool(ParticleSystem aS, string sT)
+    private IEnumerator ReturnSoundToPool(ParticleSystem aS, string sT, Action callbackOnEnd = default)
     {
-        yield return new WaitForSeconds(aS.main.duration);
+        //yield return new WaitForSeconds(aS.main.duration);
 
-        particleRegistry[sT].ReturnParticle(aS);
+        yield return new WaitUntil(() => !aS.IsAlive(true));
+
+        if (aS.gameObject.activeSelf)
+        {
+            particleRegistry[sT].ReturnParticle(aS);
+            callbackOnEnd?.Invoke();
+        }
     }
     #endregion
 }

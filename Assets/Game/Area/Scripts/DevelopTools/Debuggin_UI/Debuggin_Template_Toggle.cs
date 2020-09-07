@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
 
 namespace DevelopTools.UI
 {
@@ -15,8 +16,8 @@ namespace DevelopTools.UI
  
 
         //refes a las partes de texto del template
-        [SerializeField] private Text title = null;
-        [SerializeField] private Text value_changed = null;
+        [SerializeField] private TextMeshProUGUI title = null;
+        [SerializeField] private TextMeshProUGUI value_changed = null;
 
         private void Start()
         {

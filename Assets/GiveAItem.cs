@@ -23,7 +23,7 @@ public class GiveAItem : MonoBehaviour
         {
             for (int i = 0; i < item.Length; i++)
             {
-                if (EquipedManager.instance.Data(SpotType.Waist1).Item.item.id == item[i].item.id)
+                if (EquipedManager.instance.Data(SpotType.Waist1).IHaveSpecificItem(item[i].item))
                 {
                     return true;
                 }

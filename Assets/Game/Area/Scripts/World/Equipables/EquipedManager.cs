@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Runtime.InteropServices.WindowsRuntime;
 using UnityEngine;
@@ -8,13 +9,25 @@ public class EquipedManager : MonoBehaviour
     public static EquipedManager instance;
 
     public UI_CurrentItem UI_CurrentItem;
-    public Spot[] spots;
+    Spot[] spots;
 
     Dictionary<SpotType, EquipData> equip = new Dictionary<SpotType, EquipData>();
 
     private void Awake()
     {
         instance = this;
+
+    }
+
+    public void UseWaist1()
+    {
+        UseItem(SpotType.Waist1);
+    }
+
+    internal void SetSpotsInTransforms(Spot[] _spots)
+    {
+        spots = _spots;
+
         for (int i = 0; i < spots.Length; i++)
         {
             var type = spots[i].spotType;
@@ -22,11 +35,6 @@ public class EquipedManager : MonoBehaviour
 
             Data(type).SetParent(parent);
         }
-    }
-
-    public void UseWaist1()
-    {
-        UseItem(SpotType.Waist1);
     }
 
     public EquipData Data(SpotType spot)
@@ -72,7 +80,7 @@ public class EquipedManager : MonoBehaviour
 
         if (data.INeedANewPlace(item))
         {
-            if(data.IHaveItem) data.Unequip();
+            if (data.IHaveItem) data.Unequip();
             data.AddItem(item);
             data.Equip();
         }
@@ -144,7 +152,7 @@ public class EquipedManager : MonoBehaviour
                 return !item.item.Equals(_itm);
             }
         }
-        public void AddItem(Item _itm, int quant = 1) 
+        public void AddItem(Item _itm, int quant = 1)
         {
             if (item == null)
             {
@@ -162,11 +170,18 @@ public class EquipedManager : MonoBehaviour
                     item.cant = item.cant + quant;
                 }
             }
-            
+
+        }
+        public bool IHaveSpecificItem(Item itm)
+        {
+            if (itemBehaviour != null && item != null)
+                if (itm.Equals(item.item)) return true;
+                else return false;
+            return false;
         }
         public bool IHaveItem => itemBehaviour != null && item != null;
         public bool IsConsumible => item.item.consumible;
-        public void Use() => itemBehaviour.BeginUse();
+        public void Use() => itemBehaviour.Basic_PressDown();
         public bool RemoveAItem(int cant = 1)
         {
             if (item.cant > 0)
@@ -222,8 +237,8 @@ public class EquipedManager : MonoBehaviour
         public void Equip()
         {
             if (item.item.model == null) return;
-            if (parent == null || !parent.gameObject.activeInHierarchy) 
-            { 
+            if (parent == null || !parent.gameObject.activeInHierarchy)
+            {
                 parent = Main.instance.GetChar().Root;
                 Debug.LogWarning("Ojo que no tengo parent o esta dentro de una jerarquia desactivada, para que no rompa lo pongo dentro del char");
             }

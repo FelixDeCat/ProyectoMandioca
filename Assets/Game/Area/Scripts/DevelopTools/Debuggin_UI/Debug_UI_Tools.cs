@@ -64,10 +64,10 @@ namespace DevelopTools.UI
             debug_UIs.Add(newToggle.gameObject);
         }
 
-        public void CreateButton(string title, Func<string> callback)
+        public void CreateButton(string title, Func<string> callback, string txt_button = "execute")
         {
             Debuggin_Template_Button newButton = Instantiate(button_pf, container);
-            newButton.Configurate(title, callback);
+            newButton.Configurate(title, callback, txt_button);
             debug_UIs.Add(newButton.gameObject);
         }
 

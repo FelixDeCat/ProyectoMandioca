@@ -5,9 +5,11 @@ using DevelopTools.UI;
 
 public class GoToCharPos : MonoBehaviour
 {
+    public string name_entity;
+
     void Start()
     {
-        DevelopTools.UI.Debug_UI_Tools.instance.CreateButton("GoTOChar:" + gameObject.name, GoToCharPosFunc);
+        DevelopTools.UI.Debug_UI_Tools.instance.CreateButton("trae a " + name_entity, GoToCharPosFunc, "Invocar");
     }
 
     public string GoToCharPosFunc()
