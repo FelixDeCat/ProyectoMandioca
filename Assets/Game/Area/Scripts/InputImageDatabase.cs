@@ -20,7 +20,8 @@ public class InputImageDatabase : MonoBehaviour
         normal_attack,
         interact,
         selectSkill,
-        useSkill,
+        useSkill_L,
+        useSkill_R,
         evade
     }
     SpriteDataBaseInput current;
@@ -35,7 +36,8 @@ public class InputImageDatabase : MonoBehaviour
         if (type == InputImageType.normal_attack) return current.normal_attack;
         if (type == InputImageType.interact) return current.interact;
         if (type == InputImageType.selectSkill) return current.selectSkill;
-        if (type == InputImageType.useSkill) return current.useSkill;
+        if (type == InputImageType.useSkill_L) return current.useLSkill;
+        if (type == InputImageType.useSkill_R) return current.useRSkill;
         if (type == InputImageType.evade) return current.evade;
         return null;
     }
@@ -55,6 +57,7 @@ public class SpriteDataBaseInput
     public Sprite normal_attack;
     public Sprite interact;
     public Sprite selectSkill;
-    public Sprite useSkill;
+    public Sprite useLSkill;
+    public Sprite useRSkill;
     public Sprite evade;
 }

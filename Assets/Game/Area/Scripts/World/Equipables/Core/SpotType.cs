@@ -1,4 +1,5 @@
-﻿public enum SpotType
+﻿[System.Serializable]
+public enum SpotType
 {
     NoWereable,
     Firsthand,

@@ -6,6 +6,7 @@ using UnityEngine.UI;
 
 public class UI_CurrentItem : UI_Base
 {
+    public SpotType spot_to_represent;
     [SerializeField] TextMeshProUGUI txt_cant = null;
     [SerializeField] Image img = null;
 

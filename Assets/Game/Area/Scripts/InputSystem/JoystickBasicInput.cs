@@ -42,8 +42,13 @@ public class JoystickBasicInput
     public JoystickBasicInput SUBSCRIBE_LBUTTON_UP(Action a) { lbuttonUp += a; b_lbuttonUp = true; return this; }
     public JoystickBasicInput SUBSCRIBE_RBUTTON_DOWN(Action a) { rbuttonDown += a; b_rbuttonDown = true;  return this; }
     public JoystickBasicInput SUBSCRIBE_RBUTTON_UP(Action a) { rbuttonUp += a; b_rbuttonUp = true; return this; }
+
     public JoystickBasicInput SUBSCRIBE_LTRIGGER(Action a) { Triggers.AddEvent_Negative(a); b_ltrigger = true; return this; }
+    public JoystickBasicInput SUBSCRIBE_LTRIGGER_RELEASE(Action a) { Triggers.AddEvent_Negative_Release(a); b_ltrigger = true; return this; }
+
     public JoystickBasicInput SUBSCRIBE_RTRIGGER(Action a) { Triggers.AddEvent_Positive(a); b_rtrigger = true; return this; }
+    public JoystickBasicInput SUBSCRIBE_RTRIGGER_RELEASE(Action a) { Triggers.AddEvent_Positive_Release(a); b_rtrigger = true; return this; }
+
     public JoystickBasicInput SUBSCRIBE_DPAD_LEFT(Action a) { DPad_Horizontal.AddEvent_Negative(a); b_dpadLeft = true; return this; }
     public JoystickBasicInput SUBSCRIBE_DPAD_RIGHT(Action a) { DPad_Horizontal.AddEvent_Positive(a); b_dpadRight = true; return this; }
     public JoystickBasicInput SUBSCRIBE_DPAD_UP(Action a) { DPad_Vertical.AddEvent_Positive(a); b_dpadUp = true; return this; }

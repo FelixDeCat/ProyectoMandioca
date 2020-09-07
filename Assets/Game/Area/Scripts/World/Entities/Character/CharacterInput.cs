@@ -51,7 +51,9 @@ public class CharacterInput : MonoBehaviour
     public UnityEvent NextON;
 
     public UnityEvent RTrigger;
+    public UnityEvent RTrigger_Release;
     public UnityEvent LTrigger;
+    public UnityEvent LTrigger_Release;
 
     public UnityEvent R_Stick_Central_Button;
     public UnityEvent L_Stick_Central_Button;
@@ -244,6 +246,8 @@ public class CharacterInput : MonoBehaviour
             .SUBSCRIBE_DPAD_LEFT(EV_DPAD_LEFT)
             .SUBSCRIBE_LTRIGGER(EV_DPAD_RTRIGGER)
             .SUBSCRIBE_RTRIGGER(EV_DPAD_LTRIGGER)
+            .SUBSCRIBE_LTRIGGER_RELEASE(EV_DPAD_RTRIGGER_RELEASE)
+            .SUBSCRIBE_RTRIGGER_RELEASE(EV_DPAD_LTRIGGER_RELEASE)
             .SUBSCRIBE_R_STICK_BTN_CENTRAL(R_Stick_Central_Button.Invoke)
             .SUBSCRIBE_L_STICK_BTN_CENTRAL(L_Stick_Central_Button.Invoke)
             ;
@@ -254,7 +258,9 @@ public class CharacterInput : MonoBehaviour
     void EV_DPAD_LEFT() { OnDpad_Left.Invoke(); }
     void EV_DPAD_RIGHT() { OnDpad_Right.Invoke(); }
     void EV_DPAD_LTRIGGER() { LTrigger.Invoke(); }
+    void EV_DPAD_LTRIGGER_RELEASE() { LTrigger_Release.Invoke(); }
     void EV_DPAD_RTRIGGER() { RTrigger.Invoke(); }
+    void EV_DPAD_RTRIGGER_RELEASE() { RTrigger_Release.Invoke(); }
 
     #endregion
 

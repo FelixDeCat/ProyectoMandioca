@@ -7,21 +7,13 @@ using UnityEngine;
 public class EquipedManager : MonoBehaviour
 {
     public static EquipedManager instance;
-
-    public UI_CurrentItem UI_CurrentItem;
     Spot[] spots;
-
     Dictionary<SpotType, EquipData> equip = new Dictionary<SpotType, EquipData>();
 
     private void Awake()
     {
         instance = this;
 
-    }
-
-    public void UseWaist1()
-    {
-        UseItem(SpotType.Waist1);
     }
 
     internal void SetSpotsInTransforms(Spot[] _spots)
@@ -43,7 +35,15 @@ public class EquipedManager : MonoBehaviour
         return equip[spot];
     }
 
-    public void UseItem(SpotType spot)
+    #region UEVENTS
+    public void UEVENT_PRESS_DOWN_UseWaist1() => UseItem(SpotType.Waist1, true);
+    public void UEVENT_PRESS_UP_UseWaist1() => UseItem(SpotType.Waist1, false);
+    public void UEVENT_PRESS_DOWN_UseFirstHandSkill() => UseItem(SpotType.FirstHandSkill, true);
+    public void UEVENT_PRESS_UP_UseFirstHandSkill() => UseItem(SpotType.FirstHandSkill, false);
+    public void UEVENT_PRESS_DOWN_UseSecondHandSkill() => UseItem(SpotType.SecondHandSkill, true);
+    public void UEVENT_PRESS_UP_UseSecondHandSkill() => UseItem(SpotType.SecondHandSkill, false);
+    #endregion
+    public void UseItem(SpotType spot, bool pressDown)
     {
         if (!equip.ContainsKey(spot)) return;
         var data = equip[spot];
@@ -52,11 +52,31 @@ public class EquipedManager : MonoBehaviour
         {
             if (data.IsConsumible)
             {
-                if (data.RemoveAItem(1)) data.Use();
+                // ARREGLAR ACA...!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                // dejar preparado para lo de la piedra
+                // antes de remover tengo que preguntar si puedo remover
+                //si puedo remover mando pressdown con el Action de RemoveOneItem 
+                // ej data.UsePressDown(RemoveAItem)
+                //entonces el equipable se encarga de ejecutar el Remove
+                // este es el caso de la piedra que se ejecuta en el PressUp
+                // o en el caso de alguna animacion o casteo de algun consumible
+
+
+                if (data.RemoveAItem(1)) data.Use_PressDown();
                 else { /*feedback de no tengo mas*/ }
                 if (data.INotHaveEnoughtQuantity) data.Unequip();
             }
-            else data.Use();
+            else 
+            {
+                if (pressDown)
+                {
+                    data.Use_PressDown();
+                }
+                else
+                {
+                    data.Use_PressUp();
+                }
+            }
         }
         else { /*tiro feedback de que no se puede usar en ese lugar*/ }
         RefreshUI();
@@ -67,7 +87,7 @@ public class EquipedManager : MonoBehaviour
         if (!equip.ContainsKey(spot)) return;
         var data = equip[spot];
         if (!data.IHaveItem) return;
-        if (data.RemoveAItem(1)) data.Use();
+        data.RemoveAItem(1);
         if (data.INotHaveEnoughtQuantity) data.Unequip();
         RefreshUI();
     }
@@ -95,20 +115,32 @@ public class EquipedManager : MonoBehaviour
 
     void RefreshUI()
     {
-        SpotType spot = SpotType.Waist1;
-
-        if (!equip.ContainsKey(spot)) return;
-        var data = equip[spot];
-
-        if (!UI_CurrentItem.IsActive && data.Item.cant > 0)
+        foreach (var s in equip)
         {
-            UI_CurrentItem.Open();
+            var ui = UI_SlotManager.instance.GetSlotBySpot(s.Key);
+
+            if (ui != null)
+            {
+                var data = s.Value;
+
+                if (data.IHaveItem)
+                {
+                    if (!ui.IsActive && data.Item.cant > 0)
+                    {
+                        ui.Open();
+                    }
+                    if (data.Item.cant <= 0 && ui.IsActive)
+                    {
+                        ui.Close();
+                    }
+                    ui.SetItem(data.Item.cant.ToString(), data.Item.item.img);
+                }
+            }
+            else
+            {
+                //el equip este no tiene UI
+            }
         }
-        if (data.Item.cant <= 0 && UI_CurrentItem.IsActive)
-        {
-            UI_CurrentItem.Close();
-        }
-        UI_CurrentItem.SetItem(data.Item.cant.ToString(), data.Item.item.img);
     }
 
 
@@ -181,7 +213,8 @@ public class EquipedManager : MonoBehaviour
         }
         public bool IHaveItem => itemBehaviour != null && item != null;
         public bool IsConsumible => item.item.consumible;
-        public void Use() => itemBehaviour.Basic_PressDown();
+        public void Use_PressDown() => itemBehaviour.Basic_PressDown();
+        public void Use_PressUp() => itemBehaviour.Basic_PressUp();
         public bool RemoveAItem(int cant = 1)
         {
             if (item.cant > 0)
