@@ -34,12 +34,12 @@ public class DamageReceiver : MonoBehaviour
     public void Initialize(Transform _ownerRoot, Func<bool> _IsDmg, Action<Vector3> _OnDead, Action<DamageData> _takeDmg,
         Rigidbody _rb,_Base_Life_System lifeSystem, Action _InmuneFeedback = default)
     {
-        ownerRoot = _ownerRoot;
+        if (_ownerRoot != null) ownerRoot = _ownerRoot;
         takeDmg += _takeDmg;
         OnDead += _OnDead;
-        IsDmg += _IsDmg;
-        InmuneFeedback += _InmuneFeedback;
-        rb = _rb;
+        if (_IsDmg != null) IsDmg = _IsDmg;
+        if (_InmuneFeedback != null) InmuneFeedback += _InmuneFeedback;
+        if (_rb != null) rb = _rb;
         if (lifeSystem != null) _LifeSystem = lifeSystem;
     }
     public DamageReceiver SetBlock(Func<Vector3, Vector3, Vector3, bool> _IsBlock, Action<EntityBase> _Block)

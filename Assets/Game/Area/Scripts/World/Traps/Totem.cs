@@ -158,6 +158,7 @@ public abstract class Totem : PlayObject
     protected virtual void Dead()
     {
         feedback.StopAll();
+        myCastingBar.InterruptCasting();
     }
 
     protected override void OnTurnOn() { }
