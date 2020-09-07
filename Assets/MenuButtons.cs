@@ -57,6 +57,7 @@ public class MenuButtons : MonoBehaviour
         if (_currentAnim != null&&Input.anyKeyDown)
         {
             ReactivateButtons(_currentAnim);
+            _currentAnim = null;
         }
     }
 }
