@@ -14,6 +14,7 @@ public class CooldownModule : MonoBehaviour
     public float Cooldown { get { return cooldown; } }
     float timer = 0;
     bool anim;
+    public bool IsRunning { get { return anim; } }
 
     #region Builder
     public CooldownModule Subscribe_Refresh(Action<float, float> _callback) { callback_refreshCooldown = _callback; return this; }

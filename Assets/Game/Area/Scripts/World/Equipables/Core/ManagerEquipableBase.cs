@@ -12,10 +12,10 @@ public abstract class ManagerEquipableBase : MonoBehaviour
     public SpotType spottype;
     public Spot spot;
 
-    public int GetIdCurrentItem()
-    {
-        return current.item.id;
-    }
+    //public int GetIdCurrentItem()
+    //{
+    //    return current.item.id;
+    //}
 
     public void EquipItem(Item item)
     {
@@ -35,7 +35,7 @@ public abstract class ManagerEquipableBase : MonoBehaviour
         current = eq;
         current.Equip();
         OnItemEquiped(eq);
-        ui_equipable.Refresh(current.item);
+        //ui_equipable.Refresh(current.item);
     }
 
     protected abstract void OnItemEquiped(Equipable equipable);

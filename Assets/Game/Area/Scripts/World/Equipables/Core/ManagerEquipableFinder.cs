@@ -41,23 +41,23 @@ public class ManagerEquipableFinder : MonoBehaviour
 
     public bool EquipItem(Item item)
     {
-        var equipable = item.model.GetComponent<Equipable>();
-        if (!equipable) { throw new System.Exception("No se encontró el equipable, tal vez no este seteado en las configuraciones del Item"); }
+        //var equipable = item.model.GetComponent<Equipable>();
+        //if (!equipable) { throw new System.Exception("No se encontró el equipable, tal vez no este seteado en las configuraciones del Item"); }
 
-        var spotype = equipable.spot_type;
+        //var spotype = equipable.spot_type;
 
-        if (managersequipables.ContainsKey(spotype))
-        {
-            //Debug.Log("Contiene esta key");
-            managersequipables[spotype].EquipItem(item);
-            return true;
-        }
-        else
-        {
-            //Debug.Log("No Contiene esta key");
-            return false;
-        }
-
+        //if (managersequipables.ContainsKey(spotype))
+        //{
+        //    //Debug.Log("Contiene esta key");
+        //    managersequipables[spotype].EquipItem(item);
+        //    return true;
+        //}
+        //else
+        //{
+        //    //Debug.Log("No Contiene esta key");
+        //    return false;
+        //}
+        return true;
         
     }
 }

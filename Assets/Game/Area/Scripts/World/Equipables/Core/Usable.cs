@@ -7,6 +7,8 @@ public abstract class Usable : Equipable
 {
     bool canUpdateUse;
 
+    CooldownModule cooldown;
+
     #region PREDICADO OPCIONAL - 2 formas de usar - (Leeme)
     /*
     █████████████████████████████████████████████████████████████████████████████████████████████████████████████ <READ_START>
@@ -36,7 +38,13 @@ public abstract class Usable : Equipable
     Func<bool> predicate = delegate { return true; };
     public void SetModelFunction(Func<bool> _predicate) => predicate = _predicate;
     
-    public bool CanUse() { return OnCanUse() && predicate.Invoke(); }
+    public bool CanUse() 
+    {
+        bool cooldownActive = true;
+        if (cooldown != null) cooldownActive = cooldown.IsRunning;
+        
+        return OnCanUse() && predicate.Invoke() && !cooldownActive; 
+    }
     public void Basic_PressDown() { OnPressDown(); canUpdateUse = true; }
     public void Basic_PressUp() { OnPressUp(); canUpdateUse = true; }
     protected abstract void OnPressDown();
@@ -46,4 +54,23 @@ public abstract class Usable : Equipable
     protected override void Update() { base.Update(); if (canUpdateUse) OnUpdateUse(); }
     public override void Pause() { base.Pause(); canUpdateUse = false; }
     public override void Resume() { base.Resume(); canUpdateUse = true; }
+
+    public override void Equip()
+    {
+        base.Equip();
+        if (cooldown != null)
+        {
+            cooldown.StartCooldown();
+        }
+
+    }
+    public override void UnEquip()
+    {
+        base.UnEquip();
+        if (cooldown != null)
+        {
+            cooldown.Stop();
+        }
+
+    }
 }
