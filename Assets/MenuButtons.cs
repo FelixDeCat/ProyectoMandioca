@@ -42,6 +42,7 @@ public class MenuButtons : MonoBehaviour
         {
             item.interactable = false;
         }
+        fadeAnim.SetTrigger("MenuFade");
     }
 
     public void Settings()
