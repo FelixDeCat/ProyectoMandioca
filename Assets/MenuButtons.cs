@@ -27,6 +27,12 @@ public class MenuButtons : MonoBehaviour
     public string sceneGym4 = "Art muestra";
     public string sceneBlocking = "TerrainTestGonzaSinChar";
 
+
+    private void Start()
+    {
+        Main.instance.GetChar().transform.position = new Vector3(1000, 1000, 1000);
+    }
+
     public void StarButton()
     {
         CharacterInput inputs = Main.instance.GetChar().getInput;
