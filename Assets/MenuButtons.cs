@@ -14,13 +14,29 @@ public class MenuButtons : MonoBehaviour
     public Button[] mainButtons;
 
     private Animator _currentAnim;
-  
+
+    [SerializeField] DefaultMenuAnim buttons_joystick_panel = null;
+    [SerializeField] DefaultMenuAnim buttons_Keyboard_panel = null;
+
+    [Header("Si esta activo usa el input del mouse")]
+    public bool _activeRotation;
+
+    public string sceneGym = "Gym";
+    public string sceneGym2 = "Gym";
+    public string sceneGym3 = "Gym";
+    public string sceneGym4 = "Art muestra";
+    public string sceneBlocking = "TerrainTestGonzaSinChar";
+
     public void StarButton()
     {
-        //rellenar
+        CharacterInput inputs = Main.instance.GetChar().getInput;
+        inputs.ChangeRotation(_activeRotation);
+        LoadSceneHandler.instance.LoadAScene(sceneBlocking);
+        gameObject.SetActive(false);
     }
     public void LoadButton() //aca abro un mini menu con animator ,por el momento podrian acceder a las demas escenas desde aca
     {
+        _currentAnim = animLoadM;
         animLoadM.SetTrigger("Open");
         foreach (var item in mainButtons)
         {
@@ -59,5 +75,33 @@ public class MenuButtons : MonoBehaviour
             ReactivateButtons(_currentAnim);
             _currentAnim = null;
         }
+    }
+    public void goToGym()
+    {
+        CharacterInput inputs = Main.instance.GetChar().getInput;
+        inputs.ChangeRotation(_activeRotation);
+        LoadSceneHandler.instance.LoadAScene(sceneGym);
+        gameObject.SetActive(false);
+    }
+    public void goToGym2()
+    {
+        CharacterInput inputs = Main.instance.GetChar().getInput;
+        inputs.ChangeRotation(_activeRotation);
+        LoadSceneHandler.instance.LoadAScene(sceneGym2);
+        gameObject.SetActive(false);
+    }
+    public void goToGym3()
+    {
+        CharacterInput inputs = Main.instance.GetChar().getInput;
+        inputs.ChangeRotation(_activeRotation);
+        LoadSceneHandler.instance.LoadAScene(sceneGym3);
+        gameObject.SetActive(false);
+    }
+    public void goToGym4()
+    {        
+        CharacterInput inputs = Main.instance.GetChar().getInput;
+        inputs.ChangeRotation(_activeRotation);
+        LoadSceneHandler.instance.LoadAScene(sceneGym4);
+        gameObject.SetActive(false);
     }
 }
