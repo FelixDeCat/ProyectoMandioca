@@ -20,6 +20,7 @@ public class SoundPool : SingleObjectPool<AudioSource>
       _audioClip = audioClip;
       _loop = loop;
       _audioMixer = audioMixerGroup;
+        extendible = false;
    }
    protected override void AddObject(int prewarm = 3)
    {

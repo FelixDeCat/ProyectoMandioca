@@ -9,6 +9,7 @@ namespace DevelopTools
 {
     public abstract class SingleObjectPool<T> : MonoBehaviour where T : Component
     {
+        public bool extendible = true;
         /// <summary>
         /// Prefab que se quiere poolear
         /// </summary>
@@ -43,9 +44,17 @@ namespace DevelopTools
         /// <returns></returns>
         public T Get()
         {
-            if (objects.Count == 0) 
+            T obj = null;
+            if (objects.Count == 0 && !extendible)
+            {
+                return obj;
+            }
+            if(objects.Count == 0)
+            {
                 AddObject(auto_exp ? auto_size : 1);
-            var obj = objects.Dequeue();
+            }
+            
+            obj = objects.Dequeue();
             obj.gameObject.SetActive(true);
             currentlyUsingObj.Add(obj);
             return obj;

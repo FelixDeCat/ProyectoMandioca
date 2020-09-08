@@ -9,7 +9,11 @@ public class PoolParticle : SingleObjectPool<ParticleSystem>
     [SerializeField] private ParticleSystem particle;
     public bool soundPoolPlaying = false;
 
-    public void Configure(ParticleSystem _particle) => particle = _particle;
+    public void Configure(ParticleSystem _particle)
+    {
+        extendible = true;
+        particle = _particle;
+    } 
 
     protected override void AddObject(int prewarm = 3)
     {

@@ -67,8 +67,17 @@ public class AudioManager : MonoBehaviour
         if (_soundRegistry.ContainsKey(soundPoolName))
         {
             var soundPool = _soundRegistry[soundPoolName];
-            soundPool.soundPoolPlaying = true;
+           
             AudioSource aS = soundPool.Get();
+            if (aS == null)
+            {
+                soundPool.StopAllSounds();
+                aS = soundPool.Get();
+                if (aS == null)
+                    return;
+            }
+
+            soundPool.soundPoolPlaying = true;
             if (trackingTransform != null) aS.transform.position = trackingTransform.position;
             aS.Play();
 
@@ -87,11 +96,20 @@ public class AudioManager : MonoBehaviour
         {
             OnEnd = callbackEnd;
             var soundPool = _soundRegistry[soundPoolName];
-            soundPool.soundPoolPlaying = true;
-            AudioSource aS = soundPool.Get();
-            if (trackingTransform != null) aS.transform.position = trackingTransform.position;
             
+            AudioSource aS = soundPool.Get();
+            if (aS == null)
+            {
+                soundPool.StopAllSounds();
+                aS = soundPool.Get();
+                if (aS == null)
+                    return;
+            }
+            soundPool.soundPoolPlaying = true;
+            if (trackingTransform != null) aS.transform.position = trackingTransform.position;
             aS.Play();
+         
+
 
             AudioEndChecker checker = new AudioEndChecker();
             checker.CheckIfEnded(callbackEnd, aS);
@@ -166,7 +184,7 @@ public class AudioManager : MonoBehaviour
     /// <returns></returns>
     private IEnumerator ReturnSoundToPool(AudioSource aS, string sT)
     {
-        yield return new WaitForSeconds(2);
+        yield return new WaitUntil(()=> !aS.isPlaying);
         
         _soundRegistry[sT].ReturnToPool(aS);
     }
