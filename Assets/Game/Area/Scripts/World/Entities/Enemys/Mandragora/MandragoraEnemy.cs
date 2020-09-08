@@ -138,7 +138,6 @@ public class MandragoraEnemy : EnemyBase
         {
             int index = UnityEngine.Random.Range(0, enemiesTypes.Count);
             var enemy = spawnerSpot.SpawnPrefab(spawnerSpot.GetSurfacePos(), PoolManager.instance.GetObjectPool(enemiesTypes[index].name));
-            enemy.GetComponent<EnemyBase>().SpawnEnemy();
         }
 
         mandragoraIsTrap = false;

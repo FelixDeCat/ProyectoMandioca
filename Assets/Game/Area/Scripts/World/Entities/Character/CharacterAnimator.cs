@@ -27,6 +27,8 @@ public class CharacterAnimator : BaseAnimator
 
     public void Combo(bool val) => myAnim.SetBool("IsCombo", val);
 
+    public void Falling(bool val) => myAnim.SetBool("falling", val);
+
     public void InCombat(int val)
     {
         if(val == 0) myAnim.SetTrigger("Env");

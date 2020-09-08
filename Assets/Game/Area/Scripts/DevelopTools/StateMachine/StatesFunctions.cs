@@ -9,6 +9,7 @@ namespace Tools.StateMachine
     public abstract class StatesFunctions<T>
     {
         protected EventStateMachine<T> sm;
+        protected EState<T> state;
 
         public StatesFunctions(EState<T> myState, EventStateMachine<T> _sm)
         {
@@ -23,6 +24,7 @@ namespace Tools.StateMachine
             myState.OnExit += Exit;
 
             sm = _sm;
+            state = myState;
         }
 
         protected abstract void Enter(EState<T> lastState);

@@ -23,6 +23,7 @@ public class SpawnerSpot
         newObject.On();
         newObject.transform.position = pos;
         newObject.Spawner = spawner;
+        newObject.GetComponent<EnemyBase>()?.SpawnEnemy();
         return newObject;
     }
 

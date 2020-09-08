@@ -9,7 +9,7 @@ public class CharacterHead : CharacterControllable
     {
         IDLE, MOVE, BEGIN_BLOCK, BLOCK, END_BLOCK, PARRY, CHARGE_ATTACK, RELEASE_ATTACK,
         TAKE_DAMAGE, DEAD, ROLL, SPIN, STUN, PLAYER_LOCK_ON, ON_SKILL, ON_LOOK_SHOLDER,
-        ON_MENU_ENTER, ON_MENU_EXIT
+        ON_MENU_ENTER, ON_MENU_EXIT, FALLING
     };
 
     Action ChildrensUpdates;
@@ -237,6 +237,7 @@ public class CharacterHead : CharacterControllable
         var bashDash = new EState<PlayerInputs>("BashDash");
         var LookAtOverSholder = new EState<PlayerInputs>("LookAtOverSholder");
         var onMenues = new EState<PlayerInputs>("OnMenues");
+        var falling = new EState<PlayerInputs>("Falling");
 
         ConfigureState.Create(idle)
             .SetTransition(PlayerInputs.MOVE, move)
@@ -250,6 +251,7 @@ public class CharacterHead : CharacterControllable
             .SetTransition(PlayerInputs.STUN, stun)
             .SetTransition(PlayerInputs.ON_SKILL, onSkill)
             .SetTransition(PlayerInputs.ON_LOOK_SHOLDER, LookAtOverSholder)
+            .SetTransition(PlayerInputs.FALLING, falling)
             .Done();
 
         ConfigureState.Create(LookAtOverSholder)
@@ -276,6 +278,7 @@ public class CharacterHead : CharacterControllable
             .SetTransition(PlayerInputs.ON_SKILL, onSkill)
             .SetTransition(PlayerInputs.STUN, stun)
             .SetTransition(PlayerInputs.ON_LOOK_SHOLDER, LookAtOverSholder)
+            .SetTransition(PlayerInputs.FALLING, falling)
             .Done();
 
         ConfigureState.Create(onSkill)
@@ -307,10 +310,9 @@ public class CharacterHead : CharacterControllable
             .SetTransition(PlayerInputs.END_BLOCK, endBlock)
             .SetTransition(PlayerInputs.ROLL, bashDash)
             .SetTransition(PlayerInputs.ON_MENU_ENTER, onMenues)
-            //.SetTransition(PlayerInputs.CHARGE_ATTACK, attackCharge)
-            //.SetTransition(PlayerInputs.TAKE_DAMAGE, takeDamage)
             .SetTransition(PlayerInputs.PARRY, parry)
             .SetTransition(PlayerInputs.DEAD, dead)
+            .SetTransition(PlayerInputs.FALLING, falling)
             .Done();
 
         ConfigureState.Create(endBlock)
@@ -321,6 +323,7 @@ public class CharacterHead : CharacterControllable
             .SetTransition(PlayerInputs.TAKE_DAMAGE, takeDamage)
             .SetTransition(PlayerInputs.BEGIN_BLOCK, beginBlock)
             .SetTransition(PlayerInputs.DEAD, dead)
+            .SetTransition(PlayerInputs.FALLING, falling)
             .Done();
 
         ConfigureState.Create(parry)
@@ -336,6 +339,12 @@ public class CharacterHead : CharacterControllable
             .SetTransition(PlayerInputs.MOVE, move)
             .SetTransition(PlayerInputs.DEAD, dead)
             //.SetTransition(PlayerInputs.CHARGE_ATTACK, attackCharge)
+            .Done();
+
+         ConfigureState.Create(falling)
+            .SetTransition(PlayerInputs.IDLE, idle)
+            .SetTransition(PlayerInputs.ON_MENU_ENTER, onMenues)
+            .SetTransition(PlayerInputs.DEAD, dead)
             .Done();
 
         ConfigureState.Create(bashDash)
@@ -365,18 +374,21 @@ public class CharacterHead : CharacterControllable
             .SetTransition(PlayerInputs.BEGIN_BLOCK, beginBlock)
             .SetTransition(PlayerInputs.DEAD, dead)
             .SetTransition(PlayerInputs.ROLL, roll)
+            .SetTransition(PlayerInputs.FALLING, falling)
             .Done();
 
         ConfigureState.Create(takeDamage)
             .SetTransition(PlayerInputs.IDLE, idle)
             .SetTransition(PlayerInputs.ON_MENU_ENTER, onMenues)
             .SetTransition(PlayerInputs.DEAD, dead)
+            .SetTransition(PlayerInputs.FALLING, falling)
             .Done();
 
         ConfigureState.Create(stun)
             .SetTransition(PlayerInputs.IDLE, idle)
             .SetTransition(PlayerInputs.ON_MENU_ENTER, onMenues)
             .SetTransition(PlayerInputs.MOVE, move)
+            .SetTransition(PlayerInputs.FALLING, falling)
             .Done();
 
         ConfigureState.Create(dead)
