@@ -11,10 +11,13 @@ public class UI_CurrentItem : UI_Base
     [SerializeField] Image img = null;
     [SerializeField] GenericBar_Sprites cooldownBar;
     [SerializeField] GenericBar_Sprites castingbar;
+    [SerializeField] ParticleSystem part_endLoad;
 
-    public void SetItem(string _cant, Sprite _img)
+
+    public void SetItem(string _cant, Sprite _img, bool showNumber = true)
     {
         txt_cant.text = _cant;
+        txt_cant.gameObject.SetActive(showNumber);
         img.sprite = _img;
     }
 
@@ -33,8 +36,15 @@ public class UI_CurrentItem : UI_Base
         cooldownBar?.SetValue(current);
     }
 
-    public void Cooldown_Begin() { }
-    public void Cooldown_End() { }
+    public void Cooldown_Begin() 
+    {
+        img.color = new Color(0, 0, 0, 0.5f);
+    }
+    public void Cooldown_End() 
+    {
+        img.color = Color.white;
+        part_endLoad.Play();
+    }
    
 
     #endregion

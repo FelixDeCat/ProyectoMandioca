@@ -133,7 +133,7 @@ public class EquipedManager : MonoBehaviour
                     {
                         ui.Close();
                     }
-                    ui.SetItem(data.Item.cant.ToString(), data.Item.item.img);
+                    ui.SetItem(data.Item.cant.ToString(), data.Item.item.img, data.Item.item.consumible);
                 }
             }
             else
