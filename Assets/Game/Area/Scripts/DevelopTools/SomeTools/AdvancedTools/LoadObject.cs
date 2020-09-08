@@ -5,7 +5,7 @@ using System;
 
 public class LoadObject : LoadComponent
 {
-    Action endload;
+    Action endload = delegate { };
     [SerializeField] string prefabname = "asd";
 
     GameObject go;
