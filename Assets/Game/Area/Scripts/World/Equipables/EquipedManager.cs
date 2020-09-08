@@ -66,7 +66,7 @@ public class EquipedManager : MonoBehaviour
                 else { /*feedback de no tengo mas*/ }
                 if (data.INotHaveEnoughtQuantity) data.Unequip();
             }
-            else 
+            else
             {
                 if (pressDown)
                 {
@@ -202,8 +202,8 @@ public class EquipedManager : MonoBehaviour
                     item.cant = item.cant + quant;
                 }
             }
-
         }
+
         public bool IHaveSpecificItem(Item itm)
         {
             if (itemBehaviour != null && item != null)
@@ -232,16 +232,7 @@ public class EquipedManager : MonoBehaviour
         public bool CanUse => itemBehaviour.CanUse();
         public bool IHaveEnoughtQuantity => item.cant > 0;
         public bool INotHaveEnoughtQuantity => item.cant <= 0;
-        void Baheviour_UnEquip()
-        {
-            if (itemBehaviour != null)
-                itemBehaviour.UnEquip();
-        }
-        void Behaviour_Equip()
-        {
-            if (itemBehaviour != null)
-                itemBehaviour.Equip();
-        }
+        
         public void Item_Drop()
         {
             if (IHaveEnoughtQuantity)
@@ -262,7 +253,8 @@ public class EquipedManager : MonoBehaviour
         public void Unequip()
         {
             Item_Drop();
-            Baheviour_UnEquip();
+            if (itemBehaviour != null) itemBehaviour.UnEquip();
+            //aca limpio todas las referencias
             CleanChildrens();
         }
 
@@ -273,7 +265,7 @@ public class EquipedManager : MonoBehaviour
             if (parent == null || !parent.gameObject.activeInHierarchy)
             {
                 parent = Main.instance.GetChar().Root;
-                Debug.LogWarning("Ojo que no tengo parent o esta dentro de una jerarquia desactivada, para que no rompa lo pongo dentro del char");
+                Debug.LogWarning("Ojo al piojo que no tengo parent o esta dentro de una jerarquia desactivada, para que no rompa lo pongo dentro del char");
             }
             var go = Instantiate(item.item.model, parent);
             go.transform.localPosition = Vector3.zero;
@@ -282,10 +274,34 @@ public class EquipedManager : MonoBehaviour
             if (aux != null) aux.Activate_EquipedVersion();
             //
             itemBehaviour = aux.GetEquipedVersion().GetComponent<EquipedItem>();
-
+            
             if (itemBehaviour != null)
             {
-                if (!itemBehaviour.Equiped) itemBehaviour.Equip();
+                if (!itemBehaviour.Equiped)
+                {
+                    //esto va primero xq aca obtengo los scripts necesarios
+                    itemBehaviour.Equip();
+
+                    #region SI TENGO COOLDOWN ENTRO ACA
+                    if (itemBehaviour.CooldownModule != null)
+                    {
+                        var spot = item.item.spot;
+                        var ui = UI_SlotManager.instance.GetSlotBySpot(spot);
+
+                        if (ui != null)
+                        {
+                            itemBehaviour.CooldownModule
+                            .Subscribe_Begin(ui.Cooldown_Begin)
+                            .Subscribe_End(ui.Cooldown_End)
+                            .Subscribe_Refresh(ui.Cooldown_RefreshCurrentValue);
+                        }
+
+                        itemBehaviour.CooldownModule.StartCooldown();
+                    }
+                    #endregion
+
+                    
+                }
             }
         }
 

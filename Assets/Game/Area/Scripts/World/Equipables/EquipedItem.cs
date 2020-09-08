@@ -34,8 +34,14 @@ public class EquipedItem : Usable
     ///////////////////////////////////////////////////////////
     /// U S A B L E
     ///////////////////////////////////////////////////////////
-    protected override void OnPressDown() { EV_BeginUse.Invoke(); }
-    protected override void OnPressUp() { EV_EndUse.Invoke(); }
+    protected override void OnPressDown() 
+    {
+        EV_BeginUse.Invoke();
+    }
+    protected override void OnPressUp() 
+    { 
+        EV_EndUse.Invoke(); 
+    }
     protected override void OnUpdateUse() { EV_UpdateUse.Invoke(); }
     protected override bool OnCanUse() { return true; }
     

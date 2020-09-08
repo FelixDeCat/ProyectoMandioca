@@ -8,6 +8,7 @@ public abstract class Usable : Equipable
     bool canUpdateUse;
 
     CooldownModule cooldown;
+    public CooldownModule CooldownModule => cooldown;
 
     #region PREDICADO OPCIONAL - 2 formas de usar - (Leeme)
     /*
@@ -40,12 +41,18 @@ public abstract class Usable : Equipable
     
     public bool CanUse() 
     {
-        bool cooldownActive = true;
+        bool cooldownActive = false;
         if (cooldown != null) cooldownActive = cooldown.IsRunning;
+        Debug.Log("Mi Cooldown es: " + cooldownActive);
         
         return OnCanUse() && predicate.Invoke() && !cooldownActive; 
     }
-    public void Basic_PressDown() { OnPressDown(); canUpdateUse = true; }
+    public void Basic_PressDown() 
+    { 
+        OnPressDown(); 
+        canUpdateUse = true;
+        if (cooldown != null) cooldown.StartCooldown();
+    }
     public void Basic_PressUp() { OnPressUp(); canUpdateUse = true; }
     protected abstract void OnPressDown();
     protected abstract void OnPressUp();
@@ -58,10 +65,7 @@ public abstract class Usable : Equipable
     public override void Equip()
     {
         base.Equip();
-        if (cooldown != null)
-        {
-            cooldown.StartCooldown();
-        }
+        cooldown = GetComponent<CooldownModule>();
 
     }
     public override void UnEquip()

@@ -8,7 +8,6 @@ public class CooldownModule : MonoBehaviour
     Action<float, float> callback_refreshCooldown = delegate { };
     Action callback_Begin = delegate { };
     Action callback_End = delegate { };
-    Action callback_Update = delegate { };
 
     [SerializeField] float cooldown;
     public float Cooldown { get { return cooldown; } }
@@ -20,7 +19,7 @@ public class CooldownModule : MonoBehaviour
     public CooldownModule Subscribe_Refresh(Action<float, float> _callback) { callback_refreshCooldown = _callback; return this; }
     public CooldownModule Subscribe_Begin(Action _callback) { callback_Begin = _callback; return this; }
     public CooldownModule Subscribe_End(Action _callback) { callback_End = _callback; return this; }
-    public CooldownModule Subscribe_Update(Action _callback) { callback_Update = _callback; return this; }
+
     #endregion
 
     public void StartCooldown()
@@ -50,8 +49,6 @@ public class CooldownModule : MonoBehaviour
     {
         if (anim)
         {
-            callback_Update.Invoke();
-
             if (timer < cooldown)
             {
                 timer = timer + 1 * Time.deltaTime;
