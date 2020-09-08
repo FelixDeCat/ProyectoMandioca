@@ -10,6 +10,11 @@ public class LoadObject : LoadComponent
 
     GameObject go;
 
+    public void LoadScene()
+    {
+        StartCoroutine(LoadMe());
+    }
+
     protected override IEnumerator LoadMe()
     {
         go = Instantiate(Resources.Load<GameObject>(prefabname), this.transform);
