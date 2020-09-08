@@ -58,6 +58,9 @@ public class TrueDummyEnemy : EnemyBase
     {
         public AudioClip _takeHit_AC;
         public AudioClip clip_walkEnt;
+        public AudioClip entDeath_Clip;
+        public AudioClip entAttack_Clip;
+        public AudioClip entSpawn_clip;
     }
 
     [System.Serializable]
@@ -101,7 +104,11 @@ public class TrueDummyEnemy : EnemyBase
         if (smr != null)
             myMat = smr.materials;
 
-        AudioManager.instance.GetSoundPool(takeHit_audioName, AudioGroups.GAME_FX, sounds._takeHit_AC);
+        AudioManager.instance.GetSoundPool(sounds._takeHit_AC.name, AudioGroups.GAME_FX, sounds._takeHit_AC);
+        AudioManager.instance.GetSoundPool(sounds.entDeath_Clip.name, AudioGroups.GAME_FX, sounds.entDeath_Clip);
+        AudioManager.instance.GetSoundPool(sounds.entAttack_Clip.name, AudioGroups.GAME_FX, sounds.entAttack_Clip);
+        AudioManager.instance.GetSoundPool(sounds.entSpawn_clip.name, AudioGroups.GAME_FX, sounds.entSpawn_clip);
+
         AudioManager.instance.GetSoundPool("WalkEnt", AudioGroups.GAME_FX, sounds.clip_walkEnt, true);
 
         rb = GetComponent<Rigidbody>();
@@ -145,6 +152,12 @@ public class TrueDummyEnemy : EnemyBase
         //director.AddNewTarget(this);
 
         canupdate = true;
+    }
+    public override void SpawnEnemy()
+    {
+        Debug.Log("spawn");
+        AudioManager.instance.PlaySound(sounds.entSpawn_clip.name);
+        base.SpawnEnemy();
     }
     protected override void OnUpdateEntity()
     {
@@ -192,7 +205,7 @@ public class TrueDummyEnemy : EnemyBase
     protected override void OnResume() { }
 
     #region Attack
-    public void DealDamage() { combatComponent.ManualTriggerAttack(); sm.SendInput(DummyEnemyInputs.ATTACK); }
+    public void DealDamage() { combatComponent.ManualTriggerAttack(); sm.SendInput(DummyEnemyInputs.ATTACK); AudioManager.instance.PlaySound(sounds.entAttack_Clip.name); }
 
     public void AttackEntity(DamageReceiver e)
     {
@@ -235,7 +248,7 @@ public class TrueDummyEnemy : EnemyBase
             director.ChangeTarget(this, data.owner, entityTarget);
         }
 
-        AudioManager.instance.PlaySound(takeHit_audioName);
+        AudioManager.instance.PlaySound(sounds._takeHit_AC.name);
 
         sm.SendInput(DummyEnemyInputs.TAKE_DAMAGE);
 
@@ -247,6 +260,7 @@ public class TrueDummyEnemy : EnemyBase
 
     protected override void Die(Vector3 dir)
     {
+        AudioManager.instance.PlaySound(sounds.entDeath_Clip.name);
         groundSensor?.TurnOff();
         sm.SendInput(DummyEnemyInputs.DIE);
         if (dir == Vector3.zero)

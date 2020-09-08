@@ -66,6 +66,10 @@ public class MandragoraEnemy : EnemyBase
     {
         public AudioClip _takeHit_AC;
         public AudioClip clip_walkEnt;
+        public AudioClip mandragoraScream_Clip;
+        public AudioClip mandragoraSpawn_Clip;
+        public AudioClip mandragoraAttack_Clip;
+        public AudioClip mandragoraDeath_Clip;
     }
 
     protected override void OnInitialize()
@@ -79,8 +83,12 @@ public class MandragoraEnemy : EnemyBase
         if (smr != null)
             myMat = smr.materials;
 
-        AudioManager.instance.GetSoundPool(takeHit_audioName, AudioGroups.GAME_FX, sounds._takeHit_AC);
-        AudioManager.instance.GetSoundPool("WalkEnt", AudioGroups.GAME_FX, sounds.clip_walkEnt, true);
+        AudioManager.instance.GetSoundPool(sounds._takeHit_AC.name, AudioGroups.GAME_FX, sounds._takeHit_AC);
+        AudioManager.instance.GetSoundPool(sounds.clip_walkEnt.name, AudioGroups.GAME_FX, sounds.clip_walkEnt, true);
+        AudioManager.instance.GetSoundPool(sounds.mandragoraAttack_Clip.name, AudioGroups.GAME_FX, sounds.mandragoraAttack_Clip);
+        AudioManager.instance.GetSoundPool(sounds.mandragoraScream_Clip.name, AudioGroups.GAME_FX, sounds.mandragoraScream_Clip);
+        AudioManager.instance.GetSoundPool(sounds.mandragoraSpawn_Clip.name, AudioGroups.GAME_FX, sounds.mandragoraSpawn_Clip);
+        AudioManager.instance.GetSoundPool(sounds.mandragoraDeath_Clip.name, AudioGroups.GAME_FX, sounds.mandragoraDeath_Clip);
 
         rb = GetComponent<Rigidbody>();
         combatComponent.Configure(AttackEntity);
@@ -110,12 +118,13 @@ public class MandragoraEnemy : EnemyBase
     {
         animator.SetBool("entry", true);
         mandragoraIsTrap = false;
-
+        AudioManager.instance.PlaySound(sounds.mandragoraSpawn_Clip.name);
         base.SpawnEnemy();
     }
 
     public void AwakeMandragora()
     {
+        AudioManager.instance.PlaySound(sounds.mandragoraScream_Clip.name);
         animator.SetBool("entry", true);
         trigger.StopAllCoroutines();
         trigger.gameObject.SetActive(false);
@@ -211,7 +220,7 @@ public class MandragoraEnemy : EnemyBase
     protected override void OnResume() { }
 
     #region Attack
-    public void DealDamage() { combatComponent.ManualTriggerAttack(); sm.SendInput(MandragoraInputs.ATTACK); }
+    public void DealDamage() { combatComponent.ManualTriggerAttack(); sm.SendInput(MandragoraInputs.ATTACK); AudioManager.instance.PlaySound(sounds.mandragoraAttack_Clip.name); }
 
     public void AttackEntity(DamageReceiver e)
     {
@@ -253,7 +262,7 @@ public class MandragoraEnemy : EnemyBase
             director.ChangeTarget(this, data.owner, entityTarget);
         }
 
-        AudioManager.instance.PlaySound(takeHit_audioName);
+        AudioManager.instance.PlaySound(sounds._takeHit_AC.name);
 
         sm.SendInput(MandragoraInputs.TAKE_DAMAGE);
 
@@ -266,6 +275,7 @@ public class MandragoraEnemy : EnemyBase
     protected override void Die(Vector3 dir)
     {
         groundSensor?.TurnOff();
+        AudioManager.instance.PlaySound(sounds.mandragoraDeath_Clip.name);
         sm.SendInput(MandragoraInputs.DIE);
         if (dir == Vector3.zero)
             ragdoll.Ragdoll(true, -rootTransform.forward);
