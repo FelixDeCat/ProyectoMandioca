@@ -134,6 +134,16 @@ public class CrowEnemy : EnemyBase
 
                     sm.SendInput(CrowInputs.IDLE);
                 }
+
+                if (!stopCD)
+                {
+                    if (cdToCast > timerToCast) timerToCast += Time.deltaTime;
+                    else
+                    {
+                        timerToCast = 0;
+                        stopCD = true;
+                    }
+                }
             }
 
             if (!combat && entityTarget == null)
@@ -145,16 +155,6 @@ public class CrowEnemy : EnemyBase
                     combat = true;
 
                     animator.SetBool("rotate", true);
-                }
-            }
-
-            if (!stopCD)
-            {
-                if (cdToCast > timerToCast) timerToCast += Time.deltaTime;
-                else
-                {
-                    timerToCast = 0;
-                    stopCD = true;
                 }
             }
         }
@@ -179,7 +179,7 @@ public class CrowEnemy : EnemyBase
         animator.SetBool("rotate", false);
         castPartTemp = null;
         castingOver = true;
-        dir = CurrentTarget() ? (CurrentTarget().transform.position - shootPivot.position).normalized : Vector3.zero;
+        dir = CurrentTarget() ? (CurrentTarget().transform.position - shootPivot.position).normalized : Vector3.down;
         dir.y += 0.1f;
     }
 
@@ -191,8 +191,6 @@ public class CrowEnemy : EnemyBase
         ThrowData newData = new ThrowData().Configure(shootPivot.position, dir, throwForce, damage, rootTransform);
 
         ThrowablePoolsManager.instance.Throw(throwObject.name, newData);
-
-        stopCD = false;
     }
 
     public override void ToAttack() => attacking = true;
@@ -244,12 +242,9 @@ public class CrowEnemy : EnemyBase
         if (sm.Current.Name == "Die") gameObject.SetActive(false);
 
         sm.SendInput(CrowInputs.DISABLE);
-        if (combat)
-        {
-            director.DeadEntity(this, entityTarget);
-            entityTarget = null;
-            combat = false;
-        }
+        director.DeadEntity(this, entityTarget);
+        entityTarget = null;
+        combat = false;
     }
     protected override void OnTurnOn()
     {
@@ -322,7 +317,7 @@ public class CrowEnemy : EnemyBase
         new CrowChasing(chasing, sm, IsAttack, distancePos, rotationSpeed, this, lineOfSight.OnSight).SetDirector(director).SetRoot(rootTransform);
 
         new CrowAttack(attack, sm, attackRecall, () => castPartTemp = ParticlesManager.Instance.PlayParticle(particles.castParticles.name, shootPivot.position, CastOver, shootPivot),
-            () => castingOver, (x) => castingOver = x, this, rotationSpeed).SetAnimator(animator).SetDirector(director).SetRoot(rootTransform);
+            () => castingOver, (x) => { castingOver = x; stopCD = x; }, this, rotationSpeed).SetAnimator(animator).SetDirector(director).SetRoot(rootTransform);
 
         new CrowTakeDmg(takeDamage, sm, recallTime).SetAnimator(animator);
 

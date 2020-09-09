@@ -26,6 +26,11 @@ namespace Tools.StateMachine
                 if (timer >= 2)
                     sm.SendInput(CharacterHead.PlayerInputs.IDLE);
             }
+            else
+            {
+                charMove.MovementHorizontal(LeftHorizontal());
+                charMove.MovementVertical(LeftVertical());
+            }
         }
 
         protected override void FixedUpdate()
@@ -40,7 +45,9 @@ namespace Tools.StateMachine
 
         public void ActivateCD()
         {
-            if(sm.Current == state) cd = true;
+            if (sm.Current == state) { cd = true; charAnim.Falling(false); charMove.MovementHorizontal(0);
+                charMove.MovementVertical(0);
+            }
         }
 
         protected override void Exit(CharacterHead.PlayerInputs input)

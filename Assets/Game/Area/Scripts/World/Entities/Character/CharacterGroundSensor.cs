@@ -22,7 +22,20 @@ public class CharacterGroundSensor : MonoBehaviour
     public bool IsInGround { get => isGrounded; private set { } }
     bool on;
 
+    float lastY;
+    bool isFalling;
+    float disToFall;
+    Action Falling;
+    Action FallingEnd;
+
     private void Awake() => GroundOneShot += InGroundOneShot;
+
+    public void SetFallingSystem(float _disToFall, Action _Falling, Action _FallingEnd)
+    {
+        disToFall = _disToFall;
+        Falling = _Falling;
+        FallingEnd = _FallingEnd;
+    }
 
     public void TurnOn()
     {
@@ -38,6 +51,8 @@ public class CharacterGroundSensor : MonoBehaviour
 
         on = false;
         VelY = 0;
+
+        isFalling = false;
     }
 
 
@@ -53,6 +68,12 @@ public class CharacterGroundSensor : MonoBehaviour
                 timer += Time.deltaTime;
 
                 DebugCustom.Log("Gravity", "Gravity", "TRUE");
+
+                if (!isFalling &&  lastY - (transform.position.y - height) >= disToFall)
+                {
+                    Falling?.Invoke();
+                    isFalling = true;
+                }
             }
 
             yield return new WaitForSeconds(0.05f);
@@ -94,7 +115,14 @@ public class CharacterGroundSensor : MonoBehaviour
             VelY = 0;
             DebugCustom.Log("Gravity", "Gravity", "false");
             isGrounded = true;
+
+            if (isFalling)
+            {
+                FallingEnd?.Invoke();
+                isFalling = false;
+            }
         }
+        lastY = y;
     }
 
     public void AddForce(float force)

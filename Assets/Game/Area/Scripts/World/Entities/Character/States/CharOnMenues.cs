@@ -13,8 +13,6 @@ namespace Tools.StateMachine
             Cursor.lockState = CursorLockMode.None;
             charMove.MovementVertical(0);
             charMove.MovementHorizontal(0);
-            charMove.RotateHorizontal(0);
-            charMove.RotateVertical(0);
             charMove.SnorlaxateCharacter(true);
             interactSensor.CanInteract(false);
             SpatialGrid_handler.instance.StopSpatialGrid();
@@ -24,7 +22,11 @@ namespace Tools.StateMachine
                 e.Off();
             }
         }
-        protected override void Update() { }
+        protected override void Update()
+        {
+            charMove.MovementVertical(0);
+            charMove.MovementHorizontal(0);
+        }
         protected override void FixedUpdate() => base.FixedUpdate();
         protected override void LateUpdate() => base.LateUpdate();
         protected override void Exit(CharacterHead.PlayerInputs input) {

@@ -29,7 +29,7 @@ public class CharacterMovement
     public bool InDash { get; private set; }
     bool dashCdOk;
     [SerializeField] float _DMGMultiplier = 2;
-    [SerializeField] float _fallMaxDistance = 10;
+    public float fallMaxDistance = 10;
     float lastYPos;
 
     CharacterGroundSensor isGrounded;
@@ -270,11 +270,10 @@ public class CharacterMovement
     public void StopDamageFall() { candamagefall = false; timer_racall_damage_fall = 0; } 
     void CalculateFallDamage(float y)
     {
-
         float totalFall = lastYPos - y;
-        if (totalFall > _fallMaxDistance)
+        if (totalFall > fallMaxDistance)
         {
-            float dmg = (totalFall - _fallMaxDistance) * _DMGMultiplier;
+            float dmg = (totalFall - fallMaxDistance) * _DMGMultiplier;
             if (candamagefall) Main.instance.GetChar().Life.Hit((int)dmg);
         }
 

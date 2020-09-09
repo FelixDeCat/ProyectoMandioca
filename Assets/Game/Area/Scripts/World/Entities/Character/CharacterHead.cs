@@ -341,11 +341,11 @@ public class CharacterHead : CharacterControllable
             //.SetTransition(PlayerInputs.CHARGE_ATTACK, attackCharge)
             .Done();
 
-         ConfigureState.Create(falling)
-            .SetTransition(PlayerInputs.IDLE, idle)
-            .SetTransition(PlayerInputs.ON_MENU_ENTER, onMenues)
-            .SetTransition(PlayerInputs.DEAD, dead)
-            .Done();
+        ConfigureState.Create(falling)
+           .SetTransition(PlayerInputs.IDLE, idle)
+           .SetTransition(PlayerInputs.ON_MENU_ENTER, onMenues)
+           .SetTransition(PlayerInputs.DEAD, dead)
+           .Done();
 
         ConfigureState.Create(bashDash)
             .SetTransition(PlayerInputs.IDLE, idle)
@@ -457,18 +457,21 @@ public class CharacterHead : CharacterControllable
             .SetMovement(this.move)
             .SetAnimator(charanim);
 
+        CharFalling tempFalling = new CharFalling(falling, stateMachine);
+        tempFalling.SetAnimator(charanim).SetMovement(this.move).SetLeftAxis(GetLeftHorizontal, GetLeftVertical);
+
         new CharOnSkill(onSkill, stateMachine, CanExecuteSkill)
             .SetMovement(this.move);
 
         new CharDead(dead, stateMachine);
+
+        groundSensor.SetFallingSystem(this.move.fallMaxDistance, () => stateMachine.SendInput(PlayerInputs.FALLING), tempFalling.ActivateCD);
     }
 
     float GetLeftHorizontal() => moveX;
     float GetLeftVertical() => moveY;
     float GetRightHorizontal() => rotateX;
     float GetRightVertical() => rotateY;
-    float GetSpinDuration() => spinDuration;
-    float GetSpinSpeed() => spinSpeed;
     float GetStunDuration() => stunDuration;
 
 
