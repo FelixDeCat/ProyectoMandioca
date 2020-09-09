@@ -7,9 +7,93 @@ public abstract class Usable : Equipable
 {
     bool canUpdateUse;
 
+    #region Modulos Opcionales
     CooldownModule cooldown;
     public CooldownModule CooldownModule => cooldown;
+    NormalCastModule normal_cast;
+    public NormalCastModule NormalCasting => normal_cast;
+    #endregion
 
+    Action CallbackOnUse = delegate { };
+    public void Subscribe_Callback_OnUse(Action _callback) => CallbackOnUse = _callback;
+
+    ///////////////////////////////////////////////////////////////
+    ///      U S E   F U N C T I O N S
+    ///////////////////////////////////////////////////////////////
+    public bool CanUse() 
+    {
+        bool cooldownActive = false;
+        if (cooldown != null) cooldownActive = cooldown.IsRunning;
+
+        return OnCanUse() && predicate.Invoke() && !cooldownActive; 
+    }
+    public void Basic_PressDown() 
+    {
+        if (normal_cast != null)
+        {
+            normal_cast.Subscribe_Sucess(RealUse);
+            normal_cast.StartCast();
+        }
+        else
+        {
+            RealUse();
+        }
+
+        OnPressDown();
+    }
+    public void Basic_PressUp() 
+    {
+        if (normal_cast != null)
+        {
+            normal_cast.StopCast();
+        }
+        OnPressUp();
+        canUpdateUse = false; 
+    }
+
+    void RealUse()
+    {
+        if (cooldown != null) cooldown.StartCooldown();
+        canUpdateUse = true;
+        CallbackOnUse.Invoke();
+        OnExecute();
+    }
+
+    ///////////////////////////////////////////////////////////////
+    ///      E Q U I P    F U N C T I O N S
+    ///////////////////////////////////////////////////////////////
+    public override void Equip()
+    {
+        base.Equip();
+        cooldown = GetComponent<CooldownModule>();
+        normal_cast = GetComponent<NormalCastModule>();
+
+    }
+    public override void UnEquip()
+    {
+        base.UnEquip();
+        if (cooldown != null)
+        {
+            cooldown.Stop();
+        }
+    }
+
+    ///////////////////////////////////////////////////////////////
+    ///      O T H E R S
+    ///////////////////////////////////////////////////////////////
+    #region abstracts
+    protected abstract void OnPressDown();
+    protected abstract void OnPressUp();
+    protected abstract void OnExecute();
+    protected abstract void OnUpdateUse();
+    protected abstract bool OnCanUse();
+    #endregion
+    #region Update & LoopGame
+    protected override void Update() { base.Update(); if (canUpdateUse) OnUpdateUse(); }
+    public override void Pause() { base.Pause(); canUpdateUse = false; }
+    public override void Resume() { base.Resume(); canUpdateUse = true; }
+    #endregion
+    #region Predicate
     #region PREDICADO OPCIONAL - 2 formas de usar - (Leeme)
     /*
     █████████████████████████████████████████████████████████████████████████████████████████████████████████████ <READ_START>
@@ -38,43 +122,5 @@ public abstract class Usable : Equipable
     #endregion
     Func<bool> predicate = delegate { return true; };
     public void SetModelFunction(Func<bool> _predicate) => predicate = _predicate;
-    
-    public bool CanUse() 
-    {
-        bool cooldownActive = false;
-        if (cooldown != null) cooldownActive = cooldown.IsRunning;
-        Debug.Log("Mi Cooldown es: " + cooldownActive);
-        
-        return OnCanUse() && predicate.Invoke() && !cooldownActive; 
-    }
-    public void Basic_PressDown() 
-    { 
-        OnPressDown(); 
-        canUpdateUse = true;
-        if (cooldown != null) cooldown.StartCooldown();
-    }
-    public void Basic_PressUp() { OnPressUp(); canUpdateUse = true; }
-    protected abstract void OnPressDown();
-    protected abstract void OnPressUp();
-    protected abstract void OnUpdateUse();
-    protected abstract bool OnCanUse();
-    protected override void Update() { base.Update(); if (canUpdateUse) OnUpdateUse(); }
-    public override void Pause() { base.Pause(); canUpdateUse = false; }
-    public override void Resume() { base.Resume(); canUpdateUse = true; }
-
-    public override void Equip()
-    {
-        base.Equip();
-        cooldown = GetComponent<CooldownModule>();
-
-    }
-    public override void UnEquip()
-    {
-        base.UnEquip();
-        if (cooldown != null)
-        {
-            cooldown.Stop();
-        }
-
-    }
+    #endregion
 }

@@ -1,8 +1,16 @@
-﻿using UnityEngine.UI;
+﻿using UnityEngine;
+using UnityEngine.UI;
 
 public class GenericBar_Sprites : GenericBar
 {
     public Image sp;
+    public void SetImageOriginalColor() { sp.color = originalColor; }
+    public void SetImageColor(Color val) { sp.color = val; }
+    Color originalColor;
+    private void Start()
+    {
+        originalColor = sp.color;
+    }
 
     protected override void OnSetValue(float value)
     {

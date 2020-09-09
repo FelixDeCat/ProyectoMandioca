@@ -6,11 +6,15 @@ public class BoomerangShield : MonoBehaviour
 {
     public void OnUse()
     {
-        Debug.Log("USE");
+        Debug.Log("ON PRESS");
+    }
+    public void OnExecute()
+    {
+        Debug.Log("EXECUTE");
     }
     public void OnStopUse()
     {
-        Debug.Log("Stop USE");
+        Debug.Log("ON RELEASE");
     }
     public void Equip()
     {

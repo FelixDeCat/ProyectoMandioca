@@ -9,6 +9,7 @@ public class FeedbackInteract_Scaler : FeedbackInteractBase
     Vector3 startscale = Vector3.zero;
     Vector3 finalscale = Vector3.zero;
     public Vector3 cant_to_scale = new Vector3(2,2,2);
+    public bool playOnAwake = true;
     private void Start()
     {
         if (ownTransform) toscale = this.transform;
@@ -17,6 +18,8 @@ public class FeedbackInteract_Scaler : FeedbackInteractBase
             startscale.x + cant_to_scale.x, 
             startscale.y + cant_to_scale.y, 
             startscale.z + cant_to_scale.z);
+
+        if (playOnAwake) Show();
     }
     protected override void OnShow() => toscale.transform.localScale = finalscale;
     protected override void OnHide() => toscale.transform.localScale = startscale;

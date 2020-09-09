@@ -232,7 +232,7 @@ public class EquipedManager : MonoBehaviour
         public bool CanUse => itemBehaviour.CanUse();
         public bool IHaveEnoughtQuantity => item.cant > 0;
         public bool INotHaveEnoughtQuantity => item.cant <= 0;
-        
+
         public void Item_Drop()
         {
             if (IHaveEnoughtQuantity)
@@ -274,7 +274,7 @@ public class EquipedManager : MonoBehaviour
             if (aux != null) aux.Activate_EquipedVersion();
             //
             itemBehaviour = aux.GetEquipedVersion().GetComponent<EquipedItem>();
-            
+
             if (itemBehaviour != null)
             {
                 if (!itemBehaviour.Equiped)
@@ -282,12 +282,18 @@ public class EquipedManager : MonoBehaviour
                     //esto va primero xq aca obtengo los scripts necesarios
                     itemBehaviour.Equip();
 
+                    var spot = item.item.spot;
+                    var ui = UI_SlotManager.instance.GetSlotBySpot(spot);
+
+                    if (ui != null)
+                    {
+                        ItemBehaviour.Subscribe_Callback_OnUse(ui.Core_OnUse);
+                    }
+                    
+
                     #region SI TENGO COOLDOWN ENTRO ACA
                     if (itemBehaviour.CooldownModule != null)
                     {
-                        var spot = item.item.spot;
-                        var ui = UI_SlotManager.instance.GetSlotBySpot(spot);
-
                         if (ui != null)
                         {
                             itemBehaviour.CooldownModule
@@ -300,7 +306,22 @@ public class EquipedManager : MonoBehaviour
                     }
                     #endregion
 
-                    
+                    #region SI TENGO CASTING ENTRO ACA
+                    if (itemBehaviour.NormalCasting != null)
+                    {
+                        if (ui != null)
+                        {
+                            itemBehaviour.NormalCasting
+                            .Subscribe_Feedback_Begin(ui.Casting_Begin)
+                            .Subscribe_Feedback_End(ui.Casting_End)
+                            .Subscribe_Feedback_HoldThePower(ui.Casting_HoldThePower)
+                            .Subscribe_Feedback_Refresh(ui.Casting_RefreshCurrentValue)
+                            .Subscribe_Feedback_CastingFail(ui.Casting_Fail);
+                        }
+                    }
+                    #endregion
+
+
                 }
             }
         }
