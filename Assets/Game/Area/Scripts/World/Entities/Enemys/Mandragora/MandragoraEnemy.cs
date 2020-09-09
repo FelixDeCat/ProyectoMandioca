@@ -103,7 +103,7 @@ public class MandragoraEnemy : EnemyBase
         IAInitialize(Main.instance.GetCombatDirector());
         petrifyEffect?.AddStartCallback(() => sm.SendInput(MandragoraInputs.PETRIFIED));
         petrifyEffect?.AddEndCallback(() => sm.SendInput(MandragoraInputs.IDLE));
-        PoolManager.instance.GetObjectPool(trapToDie.name, trapToDie);
+        //PoolManager.instance.GetObjectPool(trapToDie.name, trapToDie);
 
        // Debug.Log("Me inicializo");
 
@@ -146,9 +146,9 @@ public class MandragoraEnemy : EnemyBase
 
     void OnDead()
     {
-        var pool = PoolManager.instance.GetObjectPool(trapToDie.name);
-        var trap = pool.GetPlayObject(trapDuration);
-        trap.transform.position = rootToTrap.position;
+       // var pool = PoolManager.instance.GetObjectPool(trapToDie.name);
+       // var trap = pool.GetPlayObject(trapDuration);
+       // trap.transform.position = rootToTrap.position;
     }
 
     protected override void OnReset()
