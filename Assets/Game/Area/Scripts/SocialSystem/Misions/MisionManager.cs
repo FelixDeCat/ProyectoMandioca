@@ -132,19 +132,25 @@ public class MisionManager : MonoBehaviour
             m.data.SetCompletedMision();
             if (m.AutoEnd) EndMision(id);
         }
+        CheckMision();
     }
     //Manual
     public void DeliveMision(int id)
     {
         var m = GetMisionInRegistryByID(id);
+        
         if (m != null)
         {
+            Debug.Log("Terminando la mision: " + m.mision_name);
+
             if (m.CanFinishMision())
             {
                 m.data.SetCompletedMision();
                 EndMision(id);
             }
         }
+
+        CheckMision();
     }
 
     //completado de items
