@@ -50,8 +50,11 @@ public class DialogueManager : MonoBehaviour
         currentdialogue = 0;
         currentNode = 0;
         frontend.Close();
+        Invoke("SendInputCharCanMove",0.01f);
+    }
+    void SendInputCharCanMove()
+    {
         Main.instance.GetChar().InputGoToMenues(false);
-        // desbloquear el movimiento al character
     }
     public void OnNext()
     {
