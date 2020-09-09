@@ -12,6 +12,9 @@ public class GiveAItem : MonoBehaviour
     public bool isEquiped = false;
     bool oneshot;
 
+    public bool CanExecute = false;
+    public void Set_CanExecute(bool val) => CanExecute = val;
+
     private void Start()
     {
         counter_predicate.Invoke(CanGiveItem);
@@ -19,6 +22,7 @@ public class GiveAItem : MonoBehaviour
 
     public bool CanGiveItem()
     {
+        if (!CanExecute) return false;
         if (isEquiped)
         {
             for (int i = 0; i < item.Length; i++)
