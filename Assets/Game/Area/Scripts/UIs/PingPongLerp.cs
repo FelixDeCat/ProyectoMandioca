@@ -85,7 +85,7 @@ public class PingPongLerp
         timer = 0;
     }
 
-    public IEnumerator stopAfter(float num, Action act, Func<bool, bool> changeBool)
+    public IEnumerator stopAfter(float num, Action act, Func<bool, bool> changeBool, bool notCanBack = false)
     {
         changeBool.Invoke(false);
         Play(num);
@@ -103,6 +103,12 @@ public class PingPongLerp
                 aux += Time.deltaTime;
             }
             yield return new WaitForEndOfFrame();
+            if (notCanBack)
+            {
+                anim = false;
+                Stop();
+                yield break;
+            }
         }
         anim = false;
         Stop();

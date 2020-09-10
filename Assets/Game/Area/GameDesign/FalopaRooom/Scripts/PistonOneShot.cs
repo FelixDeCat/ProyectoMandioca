@@ -5,6 +5,7 @@ using UnityEngine;
 public class PistonOneShot : Piston
 {
     [SerializeField] AnimPalanca animPalanca;
+    [SerializeField] bool notCanComeBack;
 
     Palanca palanca;
 
@@ -29,7 +30,7 @@ public class PistonOneShot : Piston
 
     public void StopPiston()
     {        
-        StartCoroutine(pingponglerp.stopAfter(1, animPalanca.AnimOff, changeInteractableStatus));
+        StartCoroutine(pingponglerp.stopAfter(1, animPalanca.AnimOff, changeInteractableStatus, notCanComeBack));
     }
 
     bool changeInteractableStatus(bool stat)
@@ -40,5 +41,10 @@ public class PistonOneShot : Piston
     bool currStatus()
     {
         return status;
+    }
+
+    public void StartPistonInf()
+    {
+        pingponglerp.Play(1);
     }
 }
