@@ -5,8 +5,9 @@ using UnityEngine;
 public class Generic_Taunt : MonoStateBase
 {
     protected override void OnOneAwake() { }
-    protected override void OnBegin() 
+    protected override void OnBegin()
     {
+        Debug.Log("Entro a Taunt");
         Get_FeedbackHandler.Play_BegginFightClip();
         Get_InputSender.StartStateMachine();
     }
