@@ -17,7 +17,6 @@ public struct MisionItemKey
         var key = (MisionItemKey)obj;
         return key.id == id && key.index == index;
     }
-
 }
 
 public class MisionManager : MonoBehaviour
@@ -29,11 +28,20 @@ public class MisionManager : MonoBehaviour
     public List<Mision> finalizedMisions = new List<Mision>();
     public UI_MisionManager ui;
     public UI_Mission_GeneralManager ui_panel;
+    public MisionSoundDataBase feedbackSound;
+
 
     Dictionary<MisionItemKey, int> stores = new Dictionary<MisionItemKey, int>();
 
     public bool MisionIsActive(Mision m) => active_misions.Contains(m);
-    private void Update() { if (Input.GetKeyDown(KeyCode.J)) ui_panel.Enable(); }
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.J))
+        {
+            ui_panel.Enable();
+            feedbackSound.Play_OpenPanel();
+        }
+    }
     public void RefreshInPlace(string place)
     {
         foreach (var m in active_misions)
@@ -83,7 +91,11 @@ public class MisionManager : MonoBehaviour
             }
 
             registry.Add(m.id_mision, m);
-            if (!m.IsHided) UI_StackMision.instancia.LogearMision(m, false, 4f);
+            if (!m.IsHided)
+            {
+                UI_StackMision.instancia.LogearMision(m, false, 4f);
+                feedbackSound.Play_NewMissionAdded();
+            }
             if (LocalMisionManager.instance) LocalMisionManager.instance.OnMissionsChange();
             m.Begin(CheckMision);
             m.AddCallbackToEnd(CompleteMision);
@@ -130,7 +142,14 @@ public class MisionManager : MonoBehaviour
         if (m != null)
         {
             m.data.SetCompletedMision();
-            if (m.AutoEnd) EndMision(id);
+            if (m.AutoEnd)
+            {
+                EndMision(id);
+            }
+            else
+            {
+                feedbackSound.Play_MissionCompleted();
+            }
         }
         CheckMision();
     }
@@ -138,7 +157,7 @@ public class MisionManager : MonoBehaviour
     public void DeliveMision(int id)
     {
         var m = GetMisionInRegistryByID(id);
-        
+
         if (m != null)
         {
             Debug.Log("Terminando la mision: " + m.mision_name);
@@ -168,7 +187,7 @@ public class MisionManager : MonoBehaviour
             if (Index < m.data.MisionItems.Length)
             {
                 var aux = m.data.MisionItems[Index];
-                aux.Execute();
+                aux.Execute(ItemMisionFeedbackCompleted);
             }
             else Debug.LogError("El Index que me pasaron es Mayor al la cantidad que tengo");
             CheckMision();
@@ -188,21 +207,26 @@ public class MisionManager : MonoBehaviour
                 {
                     stores[key]++;
                 }
-
-               // Debug.Log("Estoy agregando un item: " + fragile.Description + " val: " + stores[key]);
+                // Debug.Log("Estoy agregando un item: " + fragile.Description + " val: " + stores[key]);
             }
         }
     }
 
+    void ItemMisionFeedbackCompleted() => feedbackSound.Play_OneItemMisionCompleted();
+
     //Funcional
     void EndMision(int Id)
     {
+
         var m = GetMisionInRegistryByID(Id);
 
         if (!m.data.Delivered)
         {
             m.data.SetDeliveredMision();
             m.End();
+
+            feedbackSound.Play_MissionFinished();
+
             if (m.rewarding.items_rewarding.Length > 0)
             {
                 for (int j = 0; j < m.rewarding.items_rewarding.Length; j++)

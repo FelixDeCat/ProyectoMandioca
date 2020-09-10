@@ -1956,6 +1956,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3142462906436260364}
   - component: {fileID: 5717544149215133689}
+  - component: {fileID: 8698661936448177635}
   m_Layer: 0
   m_Name: Mision Manager
   m_TagString: Untagged
@@ -1993,6 +1994,19 @@ MonoBehaviour:
   finalizedMisions: []
   ui: {fileID: 2705636031144139013}
   ui_panel: {fileID: 5451859552497899896}
+  feedbackSound: {fileID: 8698661936448177635}
+--- !u!114 &8698661936448177635
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3566919860297492817}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cd8e2d2f8a5baaf408df43f9cc23c928, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &3583784308108422029
 GameObject:
   m_ObjectHideFlags: 0
@@ -3512,6 +3526,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3cf15c442af8d3b45b33a9fbb430cbc2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  extendible: 1
   prefab: {fileID: 4969699027704660006, guid: 8a3d6e77360fc2240a25f02514de5e85, type: 3}
   parent: {fileID: 1558832090876662305}
   model: {fileID: 4969699027704660006, guid: 8a3d6e77360fc2240a25f02514de5e85, type: 3}
@@ -5934,12 +5949,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 10e5fa98b64e0b24aaafe5ad8d912de6, type: 3}
---- !u!224 &2705636031144139012 stripped
-RectTransform:
-  m_CorrespondingSourceObject: {fileID: 8749542806930387922, guid: 10e5fa98b64e0b24aaafe5ad8d912de6,
-    type: 3}
-  m_PrefabInstance: {fileID: 6692568338543995606}
-  m_PrefabAsset: {fileID: 0}
 --- !u!114 &2705636031144139013 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 8749542806930387923, guid: 10e5fa98b64e0b24aaafe5ad8d912de6,
@@ -5952,3 +5961,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ea118a6ffdc5b9f409e31cc57b0dd66a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!224 &2705636031144139012 stripped
+RectTransform:
+  m_CorrespondingSourceObject: {fileID: 8749542806930387922, guid: 10e5fa98b64e0b24aaafe5ad8d912de6,
+    type: 3}
+  m_PrefabInstance: {fileID: 6692568338543995606}
+  m_PrefabAsset: {fileID: 0}

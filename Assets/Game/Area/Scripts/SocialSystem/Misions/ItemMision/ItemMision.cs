@@ -68,14 +68,14 @@ public class ItemMision
         }
     }
 
-    public void Execute() 
+    public void Execute(Action ItemCompleted)
     {
         if (iscompleted) return;
 
         if (itemType == ItemType.one_objective_Bool)
         {
             iscompleted = true;
-            
+            ItemCompleted.Invoke();
         }
         else
         {
@@ -84,6 +84,7 @@ public class ItemMision
             {
                 currentvalue = maxvalue;
                 iscompleted = true;
+                ItemCompleted.Invoke();
             }
         }
 
