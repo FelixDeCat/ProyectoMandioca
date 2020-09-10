@@ -46,9 +46,12 @@ public abstract class UI_Base : MonoBehaviour
     }
     public virtual void Close()
     {
-        anim.Close();
-        parent.SetActive(false);
-        isActive = false;
-        Main.instance.GetMyEventSystem().DeselectGameObject();
+        if (isActive)
+        {
+            anim.Close();
+            parent.SetActive(false);
+            isActive = false;
+            Main.instance.GetMyEventSystem().DeselectGameObject();
+        }
     }
 }

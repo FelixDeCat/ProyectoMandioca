@@ -64,6 +64,7 @@ public class EquipedManager : MonoBehaviour
 
                 if (data.RemoveAItem(1)) data.Use_PressDown();
                 else { /*feedback de no tengo mas*/ }
+
                 if (data.INotHaveEnoughtQuantity) data.Unequip();
             }
             else
@@ -84,6 +85,7 @@ public class EquipedManager : MonoBehaviour
 
     public void RemoveAItem(SpotType spot)
     {
+        Debug.Log("Entro al remove desde afuera");
         if (!equip.ContainsKey(spot)) return;
         var data = equip[spot];
         if (!data.IHaveItem) return;
@@ -134,6 +136,10 @@ public class EquipedManager : MonoBehaviour
                         ui.Close();
                     }
                     ui.SetItem(data.Item.cant.ToString(), data.Item.item.img, data.Item.item.consumible);
+                }
+                else
+                {
+                    ui.Close();
                 }
             }
             else
@@ -220,21 +226,41 @@ public class EquipedManager : MonoBehaviour
             if (item.cant > 0)
             {
                 item.cant = item.cant - cant;
-                if (item.cant <= 0) item.cant = 0;
+                if (item.cant <= 0)
+                {
+                    item.cant = 0;
+                    item = null;
+                }
                 return true;
             }
             else
             {
                 item.cant = 0;
+                item = null;
                 return false;
             }
         }
         public bool CanUse => itemBehaviour.CanUse();
-        public bool IHaveEnoughtQuantity => item.cant > 0;
-        public bool INotHaveEnoughtQuantity => item.cant <= 0;
+        public bool IHaveEnoughtQuantity 
+        {
+            get
+            {
+                if (item == null) return false;
+                else return item.cant > 0;
+            } 
+        }
+        public bool INotHaveEnoughtQuantity
+        {
+            get
+            {
+                if (item == null) return true;
+                else return item.cant <= 0;
+            }
+        }
 
         public void Item_Drop()
         {
+            //ojo que cuando queramos drop, a veces ItemInInventory es null y rompe en Quantity
             if (IHaveEnoughtQuantity)
             {
                 for (int i = 0; i < Quantity; i++)
@@ -250,9 +276,9 @@ public class EquipedManager : MonoBehaviour
                 Destroy(parent.GetChild(i).gameObject);
         }
 
-        public void Unequip()
+        public void Unequip(bool destroyed = true)
         {
-            Item_Drop();
+            if (!destroyed) Item_Drop();
             if (itemBehaviour != null) itemBehaviour.UnEquip();
             //aca limpio todas las referencias
             CleanChildrens();
@@ -289,7 +315,7 @@ public class EquipedManager : MonoBehaviour
                     {
                         ItemBehaviour.Subscribe_Callback_OnUse(ui.Core_OnUse);
                     }
-                    
+
 
                     #region SI TENGO COOLDOWN ENTRO ACA
                     if (itemBehaviour.CooldownModule != null)
