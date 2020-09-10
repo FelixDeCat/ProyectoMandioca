@@ -24,7 +24,9 @@ public class PistonOneShot : Piston
             pingponglerp.ConfigueTimeStopsSides(staypositiontime_go, staypositiontime_back);
         }
     }
-    protected override void Update() { }
+    protected override void Update() {
+        pingponglerp.Updatear();
+    }
 
     public bool isStop = false;
 
