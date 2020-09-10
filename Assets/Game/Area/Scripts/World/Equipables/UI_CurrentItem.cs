@@ -17,7 +17,9 @@ public class UI_CurrentItem : UI_Base
     [SerializeField] GameObject HoldThePower;
 
     [SerializeField] Image img_aux = null;
-    [SerializeField] Animator anim_OnUse;
+    public float anim_scale_on_use = 0.2f;
+    Vector3 originalScale;
+    Vector3 scaledScale;
 
 
     public void SetItem(string _cant, Sprite _img, bool showNumber = true)
@@ -26,7 +28,9 @@ public class UI_CurrentItem : UI_Base
         txt_cant.gameObject.SetActive(showNumber);
         img.sprite = _img;
         img_aux.sprite = _img;
-        img_aux.enabled = false;
+        // img_aux.enabled = false;
+
+       
     }
     
     public void SetCastingBar(float current, float max)
@@ -36,7 +40,11 @@ public class UI_CurrentItem : UI_Base
     }
     protected override void OnStart()
     {
-        
+        originalScale = img_aux.gameObject.transform.localScale;
+        var v = img_aux.gameObject.transform.localScale;
+        scaledScale = new Vector3(v.x + anim_scale_on_use, v.y + anim_scale_on_use, v.z + anim_scale_on_use);
+        img_aux.gameObject.transform.localScale = originalScale;
+        img_aux.color = new Color(1, 1, 1, 0);
     }
 
     private void Update()
@@ -52,28 +60,32 @@ public class UI_CurrentItem : UI_Base
     
     public void Core_OnUse()
     {
-        Debug.Log("Animando");
-        anim_OnUse.Play("ImageScale");
+        Debug.Log("ONUSE");
+        img_aux.enabled = true;
+        img_aux.gameObject.transform.localScale = scaledScale;
+        timer_use = 0;
+        anim_use = true;
     }
     void UpdateCoreAnimations()
     {
-        //if (anim_use)
-        //{
-        //    if (timer_use < 1f)
-        //    {
-        //        Debug.Log("ONUSE: " + timer_use);
-        //        timer_use = timer_use + 1 * Time.deltaTime;
-        //        img_aux.gameObject.transform.localScale = Vector3.Lerp(scaledScale, originalScale, timer_use);
-        //        img_aux.color = Color.Lerp(new Color(1, 1, 1, 1), new Color(1,1,1,0), timer_use);
-        //    }
-        //    else
-        //    {
-        //        img_aux.gameObject.transform.localScale = originalScale;
-        //        img_aux.color = new Color(1, 1, 1, 0);
-        //        timer_use = 0;
-        //        anim_use = false;
-        //    }
-        //}
+        if (anim_use)
+        {
+            if (timer_use < 1f)
+            {
+                Debug.Log("ONUSE: " + timer_use);
+                timer_use = timer_use + 2 * Time.deltaTime;
+                img_aux.gameObject.transform.localScale = Vector3.Lerp(scaledScale, originalScale, timer_use);
+                img_aux.color = Color.Lerp(new Color(1, 1, 1, 1), new Color(1,1,1,0), timer_use);
+            }
+            else
+            {
+                img_aux.gameObject.transform.localScale = originalScale;
+                img_aux.color = new Color(1, 1, 1, 0);
+                timer_use = 0;
+                anim_use = false;
+                img_aux.enabled = false;
+            }
+        }
     }
     #endregion
 
