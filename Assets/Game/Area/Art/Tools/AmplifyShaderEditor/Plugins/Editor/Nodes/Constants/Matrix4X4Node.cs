@@ -199,8 +199,11 @@ namespace AmplifyShaderEditor
 
 		public override void ForceUpdateFromMaterial( Material material )
 		{
-			if ( UIUtils.IsProperty( m_currentParameterType ) && material.HasProperty( m_propertyName ) )
+			if( UIUtils.IsProperty( m_currentParameterType ) && material.HasProperty( m_propertyName ) )
+			{
 				m_materialValue = material.GetMatrix( m_propertyName );
+				PreviewIsDirty = true;
+			}
 		}
 		
 		public override void ReadFromString( ref string[] nodeParams )

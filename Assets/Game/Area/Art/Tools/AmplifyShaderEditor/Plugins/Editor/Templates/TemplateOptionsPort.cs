@@ -48,7 +48,7 @@ namespace AmplifyShaderEditor
 					{
 						case AseOptionsActionType.SetDefine:
 						{
-							List<TemplateMultiPassMasterNode> nodes = owner.ContainerGraph.MultiPassMasterNodes.NodesList;
+							List<TemplateMultiPassMasterNode> nodes = owner.ContainerGraph.GetMultiPassMasterNodes( owner.LODIndex );
 							int count = nodes.Count;
 							for( int nodeIdx = 0; nodeIdx < count; nodeIdx++ )
 							{
@@ -59,7 +59,7 @@ namespace AmplifyShaderEditor
 						break;
 						case AseOptionsActionType.SetUndefine:
 						{
-							List<TemplateMultiPassMasterNode> nodes = owner.ContainerGraph.MultiPassMasterNodes.NodesList;
+							List<TemplateMultiPassMasterNode> nodes = owner.ContainerGraph.GetMultiPassMasterNodes( owner.LODIndex );
 							int count = nodes.Count;
 							for( int nodeIdx = 0; nodeIdx < count; nodeIdx++ )
 							{
@@ -86,7 +86,11 @@ namespace AmplifyShaderEditor
 		public void SubShaderFillDataCollector( TemplateMultiPassMasterNode owner, ref MasterNodeDataCollector dataCollector )
 		{
 
-			TemplateMultiPassMasterNode targetNode = string.IsNullOrEmpty(m_options.Id) ? owner:owner.ContainerGraph.GetMasterNodeOfPass( m_options.Id );
+			//TemplateMultiPassMasterNode targetNode = string.IsNullOrEmpty(m_options.Id) ? owner:owner.ContainerGraph.GetMasterNodeOfPass( m_options.Id , owner.LODIndex );
+			TemplateMultiPassMasterNode targetNode = string.IsNullOrEmpty( m_options.Id ) ?
+														owner.ContainerGraph.GetMainMasterNodeOfLOD( owner.LODIndex ) :
+														owner.ContainerGraph.GetMasterNodeOfPass( m_options.Id , owner.LODIndex );
+
 			InputPort port = null;
 			if( m_portId > -1 )
 			{

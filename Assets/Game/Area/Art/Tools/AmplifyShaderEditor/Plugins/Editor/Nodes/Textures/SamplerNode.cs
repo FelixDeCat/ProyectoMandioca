@@ -65,9 +65,6 @@ namespace AmplifyShaderEditor
 		private int m_textureCoordSet = 0;
 
 		[SerializeField]
-		private string m_normalMapUnpackMode;
-
-		[SerializeField]
 		private bool m_autoUnpackNormals = false;
 
 		[SerializeField]
@@ -101,6 +98,9 @@ namespace AmplifyShaderEditor
 
 		[SerializeField]
 		private float m_referenceWidth = -1;
+
+		[SerializeField]
+		private SamplerStateAutoGenerator m_samplerStateAutoGenerator = new SamplerStateAutoGenerator();
 
 		private Vector4Node m_texCoordsHelper;
 
@@ -206,7 +206,7 @@ namespace AmplifyShaderEditor
 			if( m_texPort.IsConnected )
 			{
 				usingTexture = true;
-				SetPreviewTexture( m_texPort.InputPreviewTexture );
+				SetPreviewTexture( m_texPort.InputPreviewTexture( ContainerGraph ) );
 			}
 			else if( SoftValidReference && m_referenceSampler.TextureProperty != null )
 			{
@@ -234,9 +234,15 @@ namespace AmplifyShaderEditor
 				m_defaultId = Shader.PropertyToID( "_Default" );
 
 			if( usingTexture )
+			{
 				PreviewMaterial.SetInt( m_defaultId, 0 );
+				m_previewMaterialPassId = 1;
+			}
 			else
+			{
 				PreviewMaterial.SetInt( m_defaultId, ( (int)m_defaultTextureValue ) + 1 );
+				m_previewMaterialPassId = 0;
+			}
 		}
 
 		protected override void OnUniqueIDAssigned()
@@ -400,6 +406,8 @@ namespace AmplifyShaderEditor
 				ConfigureOutputPorts();
 				//ResizeNodeToPreview();
 			}
+
+			UpdateTitle();
 		}
 
 		public override void OnInputPortDisconnected( int portId )
@@ -419,6 +427,8 @@ namespace AmplifyShaderEditor
 				ConfigureOutputPorts();
 				//ResizeNodeToPreview();
 			}
+
+			UpdateTitle();
 		}
 
 		private void ForceInputPortsChange()
@@ -525,6 +535,17 @@ namespace AmplifyShaderEditor
 			m_sizeIsDirty = true;
 		}
 
+		void UpdateTitle()
+		{
+			if( m_referenceType == TexReferenceType.Object )
+			{
+				SetTitleText( m_propertyInspectorName );
+				SetAdditonalTitleText( string.Format( Constants.PropertyValueLabel, GetPropertyValStr() ) );
+			}
+
+			m_sizeIsDirty = true;
+		}
+
 		public override void OnObjectDropped( UnityEngine.Object obj )
 		{
 			base.OnObjectDropped( obj );
@@ -546,7 +567,7 @@ namespace AmplifyShaderEditor
 
 		void ShowSamplerUI()
 		{
-			if( UIUtils.CurrentWindow.OutsideGraph.IsSRP )
+			if( UIUtils.CurrentWindow.OutsideGraph.IsSRP || UIUtils.CurrentWindow.IsShaderFunctionWindow )
 			{
 				string[] contents = UIUtils.TexturePropertyNodeArr();
 				string[] arr = new string[ contents.Length + 1 ];
@@ -556,6 +577,7 @@ namespace AmplifyShaderEditor
 					arr[ i ] = contents[ i - 1 ];
 				}
 				m_useSamplerArrayIdx = EditorGUILayoutPopup( "Reference Sampler", m_useSamplerArrayIdx, arr );
+				//m_samplerStateAutoGenerator.Draw( this );
 			}
 		}
 
@@ -660,7 +682,7 @@ namespace AmplifyShaderEditor
 				m_referenceArrayId = EditorGUILayoutPopup( Constants.AvailableReferenceStr, m_referenceArrayId, arr );
 				if( EditorGUI.EndChangeCheck() )
 				{
-					m_referenceSampler = UIUtils.GetSamplerNode( m_referenceArrayId );
+					m_referenceSampler = ContainerGraph.SamplerNodes.GetNode( m_referenceArrayId );
 					if( m_referenceSampler != null )
 					{
 						m_referenceNodeId = m_referenceSampler.UniqueId;
@@ -787,6 +809,10 @@ namespace AmplifyShaderEditor
 					//SetAdditonalTitleText( m_previousAdditionalText );
 
 					SetTitleTextOnCallback( m_previewTextProp.PropertyInspectorName, ( instance, newTitle ) => instance.TitleContent.text = newTitle + Constants.InstancePostfixStr );
+					if( m_previewTextProp.AdditonalTitleContent.text != m_additionalContent.text )
+					{
+						PreviewIsDirty = true;
+					}
 					SetAdditonalTitleText( m_previewTextProp.AdditonalTitleContent.text );
 
 					// Draw chain lock
@@ -808,14 +834,14 @@ namespace AmplifyShaderEditor
 
 			if( m_referenceArrayId > -1 )
 			{
-				ParentNode newNode = UIUtils.GetSamplerNode( m_referenceArrayId );
+				ParentNode newNode = ContainerGraph.SamplerNodes.GetNode( m_referenceArrayId );
 				if( newNode == null || newNode.UniqueId != m_referenceNodeId )
 				{
 					m_referenceSampler = null;
-					int count = UIUtils.GetSamplerNodeAmount();
+					int count = ContainerGraph.SamplerNodes.NodesList.Count;
 					for( int i = 0; i < count; i++ )
 					{
-						ParentNode node = UIUtils.GetSamplerNode( i );
+						ParentNode node = ContainerGraph.SamplerNodes.GetNode( i );
 						if( node.UniqueId == m_referenceNodeId )
 						{
 							m_referenceSampler = node as SamplerNode;
@@ -957,33 +983,6 @@ namespace AmplifyShaderEditor
 				}
 			}
 
-			if( m_autoUnpackNormals )
-			{
-				bool isScaledNormal = false;
-				if( m_normalPort.IsConnected )
-				{
-					isScaledNormal = true;
-				}
-				else
-				{
-					if( m_normalPort.FloatInternalData != 1 )
-					{
-						isScaledNormal = true;
-					}
-				}
-
-				string scaleValue = isScaledNormal ? m_normalPort.GeneratePortInstructions( ref dataCollector ) : "1.0f";
-				m_normalMapUnpackMode = TemplateHelperFunctions.CreateUnpackNormalStr( dataCollector, isScaledNormal, scaleValue );
-
-				if( isScaledNormal )
-				{
-					if( !( dataCollector.IsTemplate && dataCollector.IsSRP ) )
-					{
-						dataCollector.AddToIncludes( UniqueId, Constants.UnityStandardUtilsLibFuncs );
-					}
-				}
-
-			}
 			if( IsObject && ( !m_texPort.IsConnected || portProperty == "0.0" ) )
 				base.GenerateShaderForOutput( outputId, ref dataCollector, ignoreLocalVar );
 
@@ -1078,6 +1077,20 @@ namespace AmplifyShaderEditor
 						if( samplerNode.IsConnected )
 						{
 							samplerToUse = samplerNode.CurrentPropertyReference;
+							string dataType = string.Empty;
+							string dataName = string.Empty;
+							bool fullValue = false;
+							if( samplerNode.GetUniformData( out dataType, out dataName, ref fullValue ) )
+							{
+								if( fullValue )
+								{
+									dataCollector.AddToUniforms( samplerNode.UniqueId, dataName, m_srpBatcherCompatible );
+								}
+								else
+								{
+									dataCollector.AddToUniforms( samplerNode.UniqueId, dataType, dataName, m_srpBatcherCompatible, m_excludeUniform );
+								}
+							}
 						}
 						else
 						{
@@ -1194,7 +1207,7 @@ namespace AmplifyShaderEditor
 				//{
 				//	samplerValue = m_samplerType + mipType + "( " + propertyName + ", " + uvCoords + " )";
 				//}
-				AddNormalMapTag( ref samplerValue );
+				AddNormalMapTag( ref dataCollector, ref samplerValue );
 				return samplerValue;
 			}
 
@@ -1258,7 +1271,7 @@ namespace AmplifyShaderEditor
 
 						dataCollector.AddLocalVariable( UniqueId, CurrentPrecisionType, WirePortDataType.FLOAT4, virtualVariable, virtualSampler );
 
-						AddNormalMapTag( ref virtualVariable );
+						AddNormalMapTag( ref dataCollector, ref virtualVariable );
 
 						switch( vtex.Channel )
 						{
@@ -1349,7 +1362,7 @@ namespace AmplifyShaderEditor
 			//	samplerOp = m_samplerType + mipType + "( " + propertyName + ", " + uvCoords + " )";
 			//}
 
-			AddNormalMapTag( ref samplerOp );
+			AddNormalMapTag( ref dataCollector, ref samplerOp );
 
 			int connectedPorts = 0;
 			for( int i = 0; i < m_outputPorts.Count; i++ )
@@ -1380,11 +1393,33 @@ namespace AmplifyShaderEditor
 			return samplerOp;
 		}
 
-		private void AddNormalMapTag( ref string value )
+		private void AddNormalMapTag( ref MasterNodeDataCollector dataCollector, ref string value )
 		{
 			if( m_autoUnpackNormals )
 			{
-				value = string.Format( m_normalMapUnpackMode, value );
+				bool isScaledNormal = false;
+				if( m_normalPort.IsConnected )
+				{
+					isScaledNormal = true;
+				}
+				else
+				{
+					if( m_normalPort.FloatInternalData != 1 )
+					{
+						isScaledNormal = true;
+					}
+				}
+
+				string scaleValue = isScaledNormal ? m_normalPort.GeneratePortInstructions( ref dataCollector ) : "1.0f";
+				value = GeneratorUtils.GenerateUnpackNormalStr( ref dataCollector, CurrentPrecisionType, UniqueId, OutputId, value, isScaledNormal, scaleValue );
+
+				if( isScaledNormal )
+				{
+					if( !( dataCollector.IsTemplate && dataCollector.IsSRP ) )
+					{
+						dataCollector.AddToIncludes( UniqueId, Constants.UnityStandardUtilsLibFuncs );
+					}
+				}
 			}
 		}
 
@@ -1486,12 +1521,14 @@ namespace AmplifyShaderEditor
 			{
 				if( UIUtils.CurrentShaderVersion() > 22 )
 				{
-					m_referenceSampler = UIUtils.GetNode( m_referenceNodeId ) as SamplerNode;
-					m_referenceArrayId = UIUtils.GetSamplerNodeRegisterId( m_referenceNodeId );
+					
+
+					m_referenceSampler = ContainerGraph.GetNode( m_referenceNodeId ) as SamplerNode;
+					m_referenceArrayId = ContainerGraph.SamplerNodes.GetNodeRegisterIdx( m_referenceNodeId );
 				}
 				else
 				{
-					m_referenceSampler = UIUtils.GetSamplerNode( m_referenceArrayId );
+					m_referenceSampler = ContainerGraph.SamplerNodes.GetNode( m_referenceArrayId );
 					if( m_referenceSampler != null )
 					{
 						m_referenceNodeId = m_referenceSampler.UniqueId;
@@ -1705,6 +1742,11 @@ namespace AmplifyShaderEditor
 
 				if( dataCollector.MasterNodeCategory == AvailableShaderTypes.Template )
 				{
+					string result = string.Empty;
+					if( dataCollector.TemplateDataCollectorInstance.GetCustomInterpolatedData( TemplateHelperFunctions.IntToUVChannelInfo[ m_textureCoordSet ], m_uvPort.DataType, PrecisionType.Float, ref result, false, dataCollector.PortCategory ) )
+					{
+						coordInput = result;
+					} else
 					if( dataCollector.TemplateDataCollectorInstance.HasUV( m_textureCoordSet ) )
 						coordInput = dataCollector.TemplateDataCollectorInstance.GetUVName( m_textureCoordSet, m_uvPort.DataType );
 					else
@@ -1800,6 +1842,8 @@ namespace AmplifyShaderEditor
 				m_texCoordsHelper = null;
 			}
 
+			m_samplerStateAutoGenerator.Destroy();
+			m_samplerStateAutoGenerator = null;
 			m_defaultValue = null;
 			m_materialValue = null;
 			m_referenceSampler = null;
@@ -1935,7 +1979,7 @@ namespace AmplifyShaderEditor
 			{
 				if( m_referenceType == TexReferenceType.Instance && m_referenceArrayId > -1 )
 				{
-					SamplerNode node = UIUtils.GetSamplerNode( m_referenceArrayId );
+					SamplerNode node = ContainerGraph.SamplerNodes.GetNode( m_referenceArrayId );
 					if( node != null )
 						return true;
 				}
@@ -1956,7 +2000,7 @@ namespace AmplifyShaderEditor
 				string propertyName = string.Empty;
 				if( m_referenceType == TexReferenceType.Instance && m_referenceArrayId > -1 )
 				{
-					SamplerNode node = UIUtils.GetSamplerNode( m_referenceArrayId );
+					SamplerNode node = ContainerGraph.SamplerNodes.GetNode( m_referenceArrayId );
 					propertyName = ( node != null ) ? node.TextureProperty.PropertyName : PropertyName;
 				}
 				else if( m_texPort.IsConnected && ( m_texPort.GetOutputNodeWhichIsNotRelay( 0 ) as TexturePropertyNode ) != null )
@@ -1977,7 +2021,7 @@ namespace AmplifyShaderEditor
 			{
 				if( m_referenceType == TexReferenceType.Instance && m_referenceArrayId > -1 )
 				{
-					m_referenceSampler = UIUtils.GetSamplerNode( m_referenceArrayId );
+					m_referenceSampler = ContainerGraph.SamplerNodes.GetNode( m_referenceArrayId );
 
 					m_texPort.Locked = true;
 
@@ -2012,6 +2056,7 @@ namespace AmplifyShaderEditor
 			{
 				m_materialValue = material.GetTexture( PropertyName );
 				CheckTextureImporter( true );
+				PreviewIsDirty = true;
 			}
 
 		}

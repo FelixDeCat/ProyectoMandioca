@@ -99,6 +99,8 @@ namespace AmplifyShaderEditor
 		private List<PropertyDataCollector> m_customInputList;
 		private List<PropertyDataCollector> m_propertiesList;
 		private List<PropertyDataCollector> m_instancedPropertiesList;
+		private List<PropertyDataCollector> m_dotsPropertiesList;
+		private List<PropertyDataCollector> m_dotsDefinesList;
 		private List<PropertyDataCollector> m_uniformsList;
 		private List<PropertyDataCollector> m_includesList;
 		private List<PropertyDataCollector> m_additionalDirectivesList;
@@ -124,7 +126,9 @@ namespace AmplifyShaderEditor
 		private Dictionary<string, PropertyDataCollector> m_customInputDict;
 		private Dictionary<string, PropertyDataCollector> m_propertiesDict;
 		private Dictionary<string, PropertyDataCollector> m_instancedPropertiesDict;
+		private Dictionary<string, PropertyDataCollector> m_dotsPropertiesDict;
 		private Dictionary<string, PropertyDataCollector> m_uniformsDict;
+		private Dictionary<string, PropertyDataCollector> m_softRegisteredUniformsDict;
 		private Dictionary<string, PropertyDataCollector> m_includesDict;
 		private Dictionary<string, PropertyDataCollector> m_additionalDirectivesDict;
 		private Dictionary<string, string> m_includesExclusionDict;
@@ -242,6 +246,8 @@ namespace AmplifyShaderEditor
 			m_customInputList = new List<PropertyDataCollector>();
 			m_propertiesList = new List<PropertyDataCollector>();
 			m_instancedPropertiesList = new List<PropertyDataCollector>();
+			m_dotsPropertiesList = new List<PropertyDataCollector>();
+			m_dotsDefinesList = new List<PropertyDataCollector>();
 			m_uniformsList = new List<PropertyDataCollector>();
 			m_includesList = new List<PropertyDataCollector>();
 			m_additionalDirectivesList = new List<PropertyDataCollector>();
@@ -268,7 +274,9 @@ namespace AmplifyShaderEditor
 
 			m_propertiesDict = new Dictionary<string, PropertyDataCollector>();
 			m_instancedPropertiesDict = new Dictionary<string, PropertyDataCollector>();
+			m_dotsPropertiesDict = new Dictionary<string, PropertyDataCollector>();
 			m_uniformsDict = new Dictionary<string, PropertyDataCollector>();
+			m_softRegisteredUniformsDict = new Dictionary<string, PropertyDataCollector>();
 			m_includesDict = new Dictionary<string, PropertyDataCollector>();
 			m_additionalDirectivesDict = new Dictionary<string, PropertyDataCollector>();
 			m_includesExclusionDict = new Dictionary<string, string>();
@@ -600,6 +608,26 @@ namespace AmplifyShaderEditor
 			}
 		}
 
+		public void AddToDotsProperties( WirePortDataType dataType, int nodeId, string value, int orderIndex, PrecisionType precision )
+		{
+			if( string.IsNullOrEmpty( value ) )
+				return;
+
+			string prop = string.Format( IOUtils.DotsInstancedPropertiesData, UIUtils.PrecisionWirePortToCgType( precision, dataType ), value );
+			string define = string.Format( IOUtils.DotsInstancedDefinesData, UIUtils.PrecisionWirePortToCgType( precision, dataType ), value );
+
+			if( !m_dotsPropertiesDict.ContainsKey( value ) )
+			{
+				PropertyDataCollector dataColl = new PropertyDataCollector( nodeId, prop, orderIndex );
+				dataColl.DataType = dataType;
+				m_dotsPropertiesDict.Add( value, dataColl );
+				m_dotsPropertiesList.Add( dataColl );
+
+				dataColl = new PropertyDataCollector( nodeId, define, orderIndex );
+				m_dotsDefinesList.Add( dataColl );
+			}
+		}
+
 		public void AddToInstancedProperties( WirePortDataType dataType, int nodeId, string value, int orderIndex )
 		{
 			if( string.IsNullOrEmpty( value ) )
@@ -786,38 +814,46 @@ namespace AmplifyShaderEditor
 			}
 		}
 
+		public bool CheckIfSoftRegistered( string name )
+		{
+			return m_softRegisteredUniformsDict.ContainsKey( name );
+		}
 
 		public void SoftRegisterUniform( TemplateShaderPropertyData data )
 		{
-
 			bool excludeUniformKeyword = ( data.PropertyType == PropertyType.InstancedProperty ) || IsSRP;
 
 			string uniformName = UIUtils.GenerateUniformName( excludeUniformKeyword, data.PropertyDataType, data.PropertyName );
 			if( !m_uniformsDict.ContainsKey( uniformName ) )
 			{
-				m_uniformsDict.Add( uniformName, new PropertyDataCollector( -1, uniformName ) );
+				PropertyDataCollector newEntry = new PropertyDataCollector( -1, uniformName );
+				m_uniformsDict.Add( uniformName, newEntry );
+				m_softRegisteredUniformsDict.Add( uniformName, newEntry );
 			}
 
 			string instancedUniform = GenerateInstanced( PrecisionType.Float, data.PropertyDataType, data.PropertyName );
 			if( !m_uniformsDict.ContainsKey( instancedUniform ) )
 			{
-				m_uniformsDict.Add( instancedUniform, new PropertyDataCollector( -1, instancedUniform ) );
+				PropertyDataCollector newEntry = new PropertyDataCollector( -1, instancedUniform );
+				m_uniformsDict.Add( instancedUniform, newEntry );
+				m_softRegisteredUniformsDict.Add( instancedUniform, newEntry );
 			}
 
 			instancedUniform = GenerateInstanced( PrecisionType.Half, data.PropertyDataType, data.PropertyName );
 			if( !m_uniformsDict.ContainsKey( instancedUniform ) )
 			{
-				m_uniformsDict.Add( instancedUniform, new PropertyDataCollector( -1, instancedUniform ) );
+				PropertyDataCollector newEntry = new PropertyDataCollector( -1, instancedUniform );
+				m_uniformsDict.Add( instancedUniform, newEntry );
+				m_softRegisteredUniformsDict.Add( instancedUniform, newEntry );
 			}
-
 		}
 
-		public void AddToUniforms( int nodeId, string dataType, string dataName, bool checkSRPBatch = false )
+		public void AddToUniforms( int nodeId, string dataType, string dataName, bool checkSRPBatch = false, bool excludeUniform = false )
 		{
 			if( string.IsNullOrEmpty( dataName ) || string.IsNullOrEmpty( dataType ) )
 				return;
 
-			string value = UIUtils.GenerateUniformName( IsSRP, dataType, dataName );
+			string value = UIUtils.GenerateUniformName( IsSRP || excludeUniform, dataType, dataName );
 			if( !m_uniformsDict.ContainsKey( value ) && !m_uniformsDict.ContainsKey( dataName ) )
 			{
 				m_uniformsDict.Add( value, new PropertyDataCollector( nodeId, value ) );
@@ -1538,6 +1574,12 @@ namespace AmplifyShaderEditor
 			m_instancedPropertiesList.Clear();
 			m_instancedPropertiesList = null;
 
+			m_dotsPropertiesList.Clear();
+			m_dotsPropertiesList = null;
+
+			m_dotsDefinesList.Clear();
+			m_dotsDefinesList = null;
+
 			m_uniformsList.Clear();
 			m_uniformsList = null;
 
@@ -1604,11 +1646,17 @@ namespace AmplifyShaderEditor
 			m_propertiesDict.Clear();
 			m_propertiesDict = null;
 
+			m_dotsPropertiesDict.Clear();
+			m_dotsPropertiesDict = null;
+
 			m_instancedPropertiesDict.Clear();
 			m_instancedPropertiesDict = null;
 
 			m_uniformsDict.Clear();
 			m_uniformsDict = null;
+
+			m_softRegisteredUniformsDict.Clear();
+			m_softRegisteredUniformsDict = null;
 
 			m_includesDict.Clear();
 			m_includesDict = null;
@@ -1939,6 +1987,8 @@ namespace AmplifyShaderEditor
 		public List<PropertyDataCollector> CustomInputList { get { return m_customInputList; } }
 		public List<PropertyDataCollector> PropertiesList { get { return m_propertiesList; } }
 		public List<PropertyDataCollector> InstancedPropertiesList { get { return m_instancedPropertiesList; } }
+		public List<PropertyDataCollector> DotsPropertiesList { get { return m_dotsPropertiesList; } }
+		public List<PropertyDataCollector> DotsDefinesList { get { return m_dotsDefinesList; } }
 		public List<PropertyDataCollector> UniformsList { get { return m_uniformsList; } }
 		public List<PropertyDataCollector> MiscList { get { return m_additionalDirectivesList; } }
 		public List<PropertyDataCollector> BeforeNativeDirectivesList { get { return m_additionalDirectivesList.FindAll( obj => obj.OrderIndex < 0 ); } }

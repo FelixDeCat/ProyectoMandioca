@@ -154,7 +154,7 @@ namespace AmplifyShaderEditor
 			{
 				switch( m_dataType )
 				{
-					case WirePortDataType.OBJECT:
+					case WirePortDataType.OBJECT:break;
 					case WirePortDataType.FLOAT: m_previewInternalFloat = reset ? 0 : Convert.ToSingle( data[ 0 ] ); break;
 					case WirePortDataType.INT:
 					{
@@ -308,7 +308,7 @@ namespace AmplifyShaderEditor
 		{
 			switch( m_dataType )
 			{
-				case WirePortDataType.OBJECT:
+				case WirePortDataType.OBJECT:break;
 				case WirePortDataType.FLOAT:
 				{
 					if( forceDecimal && m_previewInternalFloat == (int)m_previewInternalFloat )
@@ -411,7 +411,22 @@ namespace AmplifyShaderEditor
 		private string SamplerWrappedData( ref MasterNodeDataCollector dataCollector )
 		{
 			m_internalData = "_Sampler" + PortId + UIUtils.GetNode( m_nodeId ).OutputId;
-			dataCollector.AddToUniforms( m_nodeId, "uniform sampler2D " + m_internalData + ";" );
+			ParentGraph outsideGraph = UIUtils.CurrentWindow.OutsideGraph;
+			if( outsideGraph.SamplingThroughMacros )
+			{
+				if( outsideGraph.IsSRP )
+				{
+					dataCollector.AddToUniforms( m_nodeId, string.Format( Constants.TexDeclarationNoSamplerSRPMacros[ TextureType.Texture2D ], m_internalData ));
+				}
+				else
+				{
+					dataCollector.AddToUniforms( m_nodeId, string.Format( Constants.TexDeclarationNoSamplerStandardMacros[ TextureType.Texture2D ], m_internalData ));
+				}
+			}
+			else
+			{
+				dataCollector.AddToUniforms( m_nodeId, "uniform sampler2D " + m_internalData + ";" );
+			}
 
 			return m_internalData;
 		}
@@ -574,6 +589,10 @@ namespace AmplifyShaderEditor
 			switch( m_dataType )
 			{
 				case WirePortDataType.OBJECT:
+				{
+					InternalData = owner.EditorGUITextField( rect, label, InternalData );
+				}
+				break;
 				case WirePortDataType.FLOAT:
 				{
 					FloatInternalData = owner.EditorGUIFloatField( rect, label, FloatInternalData );
@@ -858,7 +877,7 @@ namespace AmplifyShaderEditor
 							case WirePortDataType.FLOAT3: m_previewInternalVec3.x = m_previewInternalFloat; break;
 							case WirePortDataType.FLOAT4: m_previewInternalVec4.x = m_previewInternalFloat; break;
 							case WirePortDataType.FLOAT3x3:
-							case WirePortDataType.FLOAT4x4: m_previewInternalMatrix4x4 = Matrix4x4.identity; break;//m_previewInternalMatrix4x4[ 0 ] = m_previewInternalFloat; break;
+							case WirePortDataType.FLOAT4x4: m_previewInternalMatrix4x4[ 0 ] = m_previewInternalFloat; break;
 							case WirePortDataType.COLOR: m_previewInternalColor.r = m_previewInternalFloat; break;
 							case WirePortDataType.INT: m_previewInternalInt = (int)m_previewInternalFloat; break;
 						}
@@ -884,9 +903,8 @@ namespace AmplifyShaderEditor
 							case WirePortDataType.FLOAT3x3:
 							case WirePortDataType.FLOAT4x4:
 							{
-								//m_previewInternalMatrix4x4[ 0 ] = m_previewInternalVec2.x;
-								//m_previewInternalMatrix4x4[ 1 ] = m_previewInternalVec2.y;
-								m_previewInternalMatrix4x4 = Matrix4x4.identity;
+								m_previewInternalMatrix4x4[ 0 ] = m_previewInternalVec2.x;
+								m_previewInternalMatrix4x4[ 1 ] = m_previewInternalVec2.y;
 							}
 							break;
 							case WirePortDataType.COLOR:
@@ -920,10 +938,9 @@ namespace AmplifyShaderEditor
 							case WirePortDataType.FLOAT3x3:
 							case WirePortDataType.FLOAT4x4:
 							{
-								//m_previewInternalMatrix4x4[ 0 ] = m_previewInternalVec3.x;
-								//m_previewInternalMatrix4x4[ 1 ] = m_previewInternalVec3.y;
-								//m_previewInternalMatrix4x4[ 2 ] = m_previewInternalVec3.z;
-								m_previewInternalMatrix4x4 = Matrix4x4.identity;
+								m_previewInternalMatrix4x4[ 0 ] = m_previewInternalVec3.x;
+								m_previewInternalMatrix4x4[ 1 ] = m_previewInternalVec3.y;
+								m_previewInternalMatrix4x4[ 2 ] = m_previewInternalVec3.z;
 							}
 							break;
 							case WirePortDataType.COLOR:
@@ -958,11 +975,10 @@ namespace AmplifyShaderEditor
 							case WirePortDataType.FLOAT3x3:
 							case WirePortDataType.FLOAT4x4:
 							{
-								//m_previewInternalMatrix4x4[ 0 ] = m_previewInternalVec4.x;
-								//m_previewInternalMatrix4x4[ 1 ] = m_previewInternalVec4.y;
-								//m_previewInternalMatrix4x4[ 2 ] = m_previewInternalVec4.z;
-								//m_previewInternalMatrix4x4[ 3 ] = m_previewInternalVec4.w;
-								m_previewInternalMatrix4x4 = Matrix4x4.identity;
+								m_previewInternalMatrix4x4[ 0 ] = m_previewInternalVec4.x;
+								m_previewInternalMatrix4x4[ 1 ] = m_previewInternalVec4.y;
+								m_previewInternalMatrix4x4[ 2 ] = m_previewInternalVec4.z;
+								m_previewInternalMatrix4x4[ 3 ] = m_previewInternalVec4.w;
 							}
 							break;
 							case WirePortDataType.COLOR:
@@ -1045,11 +1061,10 @@ namespace AmplifyShaderEditor
 							case WirePortDataType.FLOAT3x3:
 							case WirePortDataType.FLOAT4x4:
 							{
-								//m_previewInternalMatrix4x4[ 0 ] = m_previewInternalColor.r;
-								//m_previewInternalMatrix4x4[ 1 ] = m_previewInternalColor.g;
-								//m_previewInternalMatrix4x4[ 2 ] = m_previewInternalColor.b;
-								//m_previewInternalMatrix4x4[ 3 ] = m_previewInternalColor.a;
-								m_previewInternalMatrix4x4 = Matrix4x4.identity;
+								m_previewInternalMatrix4x4[ 0 ] = m_previewInternalColor.r;
+								m_previewInternalMatrix4x4[ 1 ] = m_previewInternalColor.g;
+								m_previewInternalMatrix4x4[ 2 ] = m_previewInternalColor.b;
+								m_previewInternalMatrix4x4[ 3 ] = m_previewInternalColor.a;
 							}
 							break;
 							case WirePortDataType.INT: m_previewInternalInt = (int)m_previewInternalColor.r; break;
@@ -1065,7 +1080,7 @@ namespace AmplifyShaderEditor
 							case WirePortDataType.FLOAT3: m_previewInternalVec3.x = m_previewInternalInt; break;
 							case WirePortDataType.FLOAT4: m_previewInternalVec4.x = m_previewInternalInt; break;
 							case WirePortDataType.FLOAT3x3:
-							case WirePortDataType.FLOAT4x4: m_previewInternalMatrix4x4 = Matrix4x4.identity;break;//m_previewInternalMatrix4x4[ 0 ] = m_previewInternalInt; break;
+							case WirePortDataType.FLOAT4x4: m_previewInternalMatrix4x4[ 0 ] = m_previewInternalInt; break;
 							case WirePortDataType.COLOR: m_previewInternalColor.r = m_previewInternalInt; break;
 						}
 					}
@@ -1153,9 +1168,13 @@ namespace AmplifyShaderEditor
 			get { return m_cachedPropertyId; }
 		}
 
-		public bool InputNodeHasPreview()
+		public bool InputNodeHasPreview( ParentGraph container )
 		{
-			ParentNode node = GetOutputNode( 0 );
+			ParentNode node = null;
+			if( m_externalReferences.Count > 0)
+			{
+				node = container.GetNode( m_externalReferences[ 0 ].NodeId );
+			}
 
 			if( node != null )
 				return node.HasPreviewShader;
@@ -1176,13 +1195,21 @@ namespace AmplifyShaderEditor
 				m_cachedPropertyId = Shader.PropertyToID( m_propertyName );
 		}
 
-		public void SetPreviewInputTexture()
+		public void SetPreviewInputTexture( ParentGraph container )
 		{
 			PreparePortCacheID();
 
 			if( (object)m_node == null )
-				m_node = UIUtils.GetNode( NodeId );
-			m_node.PreviewMaterial.SetTexture( m_cachedPropertyId, GetOutputConnection( 0 ).OutputPreviewTexture );
+			{
+				m_node = container.GetNode( NodeId );
+				//m_node = UIUtils.GetNode( NodeId );
+			}
+
+			if( ExternalReferences.Count>0 )
+			{
+				m_node.PreviewMaterial.SetTexture( m_cachedPropertyId, container.GetNode( ExternalReferences[ 0 ].NodeId ).GetOutputPortByUniqueId( ExternalReferences[ 0 ].PortId ).OutputPreviewTexture );
+			}
+			//m_node.PreviewMaterial.SetTexture( m_cachedPropertyId, GetOutputConnection( 0 ).OutputPreviewTexture );
 		}
 
 		private void SetPortPreviewShader( Shader portShader )
@@ -1194,7 +1221,7 @@ namespace AmplifyShaderEditor
 			}
 		}
 
-		public void SetPreviewInputValue()
+		public void SetPreviewInputValue( ParentGraph container )
 		{
 			if( m_inputPreviewTexture == null )
 			{
@@ -1214,7 +1241,7 @@ namespace AmplifyShaderEditor
 				case WirePortDataType.FLOAT:
 				{
 					SetPortPreviewShader( UIUtils.FloatShader );
-
+					//Debug.Log( m_previewInternalFloat );
 					InputPreviewMaterial.SetFloat( CachedFloatPropertyID, m_previewInternalFloat );
 				}
 				break;
@@ -1277,8 +1304,16 @@ namespace AmplifyShaderEditor
 
 			PreparePortCacheID();
 
+			//if( (object)m_node == null )
+			//	m_node = UIUtils.GetNode( NodeId );
+
 			if( (object)m_node == null )
-				m_node = UIUtils.GetNode( NodeId );
+			{
+				m_node = container.GetNode( NodeId );
+				//m_node = UIUtils.GetNode( NodeId );
+			}
+			//m_propertyName = "_A";
+			//Debug.Log( m_propertyName );
 			m_node.PreviewMaterial.SetTexture( m_propertyName, m_inputPreviewTexture );
 		}
 
@@ -1417,14 +1452,29 @@ namespace AmplifyShaderEditor
 			}
 		}
 
-		public RenderTexture InputPreviewTexture
+		//public RenderTexture InputPreviewTexture
+		//{
+		//	get
+		//	{
+		//		if( IsConnected )
+		//			return GetOutputConnection( 0 ).OutputPreviewTexture;
+		//		else
+		//			return m_inputPreviewTexture;
+		//	}
+		//}
+
+		public RenderTexture InputPreviewTexture( ParentGraph container )
 		{
-			get
+			if( IsConnected )
 			{
-				if( IsConnected )
-					return GetOutputConnection( 0 ).OutputPreviewTexture;
+				if( m_externalReferences.Count > 0 )
+					return container.GetNode( m_externalReferences[ 0 ].NodeId ).GetOutputPortByUniqueId( m_externalReferences[ 0 ].PortId ).OutputPreviewTexture;
 				else
-					return m_inputPreviewTexture;
+					return null;
+			}
+			else
+			{
+				return m_inputPreviewTexture;
 			}
 		}
 

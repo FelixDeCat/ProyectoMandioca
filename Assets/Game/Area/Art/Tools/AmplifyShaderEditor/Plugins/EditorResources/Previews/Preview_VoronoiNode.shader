@@ -5,6 +5,7 @@
 		_A("_RGB", 2D) = "white" {}
 		_B("_RGB", 2D) = "white" {}
 		_C("_RGB", 2D) = "white" {}
+		_D ("_RGB", 2D) = "white" {}
 		_UseTileScale("_UseTileScale", Float) = 0
 		_TileScale ("_TileScale", Int) = 1
 		_MinkowskiPower("_MinkowskiPower", Float) = 0
@@ -12,6 +13,7 @@
 		_MethodType("_MethodType", Int) = 0
 		_SearchQuality("_SearchQuality", Int) = 1
 		_Octaves("_Octaves", Int) = 1
+		_UseSmoothness("_UseSmoothness", Int ) = 0
 	}
 	SubShader
 	{
@@ -20,6 +22,7 @@
 		sampler2D _A;
 		sampler2D _B;
 		sampler2D _C;
+		sampler2D _D;
 		float _UseTileScale = 0;
 		int _TileScale = 1;
 		float _MinkowskiPower = 1;
@@ -28,6 +31,8 @@
 		int _SearchQuality = 0;
 		int _Octaves = 1;
 		int _PreviewID = 0;
+		int _UseSmoothness = 0;
+		int _CustomUVs;
 
 		float2 VoronoiHash( float2 p )
 		{
@@ -36,13 +41,12 @@
 			return frac (sin (p) *43758.5453);
 		}
 
-		float Voronoi( float2 v, float time, inout float2 id )
+		float Voronoi( float2 v, float time, inout float2 id, inout float2 mr, float smoothness )
 		{
 			float2 n = floor(v);
 			float2 f = frac(v);
 			float F1 = 8.0;
 			float F2 = 8.0; 
-			float2 mr = 0; 
 			float2 mg = 0;
 			for (int j = -_SearchQuality; j <= _SearchQuality; j++)
 			{
@@ -50,7 +54,7 @@
 				{
 					float2 g = float2(i, j);
 					float2 o = VoronoiHash (n + g);
-					o = (sin (time + o * 6.2831) * 0.5 + 0.5); float2 r = g - f + o;
+					o = (sin (time + o * 6.2831) * 0.5 + 0.5); float2 r = f - g - o;
 					float d = 0;
 					//Euclidean^2
 					if (_DistFunc == 0)
@@ -78,15 +82,26 @@
 						d = (1 / pow(2, 1 / _MinkowskiPower))  * pow( ( pow( abs( r.x ), _MinkowskiPower) + pow( abs( r.y ), _MinkowskiPower) ),  (1 / _MinkowskiPower));
 					}
 
-					if (d < F1) 
+					if (_MethodType == 0 && _UseSmoothness == 1)
 					{
-						F2 = F1;
-						F1 = d; mg = g; mr = r; id = o;
+						float h = smoothstep (0.0, 1.0, 0.5 + 0.5 * (F1 - d) / smoothness);
+						F1 = lerp (F1, d, h) - smoothness * h * (1.0 - h);
+						mg = g; mr = r; id = o;
 					}
-					else if (d < F2) 
+					else
 					{
-						F2 = d;
+						if (d < F1)
+						{
+							F2 = F1;
+							F1 = d; mg = g; mr = r; id = o;
+						}
+						else if (d < F2)
+						{
+							F2 = d;
+						}
+						
 					}
+
 				}
 			}
 
@@ -121,7 +136,7 @@
 						float2 g = mg + float2(i, j);
 						float2 o = VoronoiHash (n + g);
 						o = ( sin (time + o * 6.2831) * 0.5 + 0.5); 
-						float2 r = g - f + o;
+						float2 r = f - g - o;
 						float d = dot (0.5 * (mr + r), normalize (r - mr));
 						F1 = min (F1, d);
 					}
@@ -150,12 +165,12 @@
 			}
 
 			//x - Out y - Cells
-			float2 UnityVoronoi (float2 UV, float AngleOffset, float CellDensity)
+			float3 UnityVoronoi (float2 UV, float AngleOffset, float CellDensity, inout float2 mr)
 			{
 				float2 g = floor (UV * CellDensity);
 				float2 f = frac (UV * CellDensity);
 				float t = 8.0;
-				float2 res = float2(8.0, 0.0);
+				float3 res = float3(8.0, 0.0, 0.0);
 
 				for (int y = -1; y <= 1; y++)
 				{
@@ -164,9 +179,9 @@
 						float2 lattice = float2(x, y);
 						float2 offset = UnityVoronoiRandomVector (lattice + g, AngleOffset);
 						float d = distance (lattice + offset, f);
-
 						if (d < res.x)
 						{
+							mr = f - lattice - offset;
 							res = float3(d, offset.x, offset.y);
 						}
 					}
@@ -176,14 +191,19 @@
 
 			float4 frag (v2f_img i) : SV_Target
 			{
-				float2 uvValue = tex2D(_A, i.uv).rg;
+				float2 uvValue = i.uv;
+				if (_CustomUVs == 1)
+						uvValue = tex2D(_A, i.uv).rg;
 				float angleOffset = tex2D(_B, i.uv).r;
 				float cellDensity = tex2D(_C, i.uv).r;
-				float2 voronoiVal = UnityVoronoi( uvValue, angleOffset , cellDensity );
-				if( _PreviewID == 1 )
-					return float4( voronoiVal.yyy, 1 );
+				float2 uv = 0;
+				float3 voronoiVal = UnityVoronoi( uvValue, angleOffset , cellDensity, uv );
+				if( _PreviewID == 2)
+					return float4( uv, 0, 1 );
+				else if( _PreviewID == 1)
+					return float4( voronoiVal.yz, 0, 1 );
 				else
-					return float4(voronoiVal.xxx, 1);
+					return float4( voronoiVal.xxx, 1);
 			}
 			ENDCG
 		}
@@ -197,15 +217,22 @@
 
 			float4 frag (v2f_img i) : SV_Target
 			{
-				float2 uvValue = tex2D (_A, i.uv).rg;
+				float2 uvValue = i.uv;
+				if (_CustomUVs == 1)
+						uvValue = tex2D(_A, i.uv).rg;
 				float time = tex2D (_B, i.uv).r;
 				float scale = tex2D (_C, i.uv).r;
+				float smoothness = tex2D (_D, i.uv).r;
+				
 				float2 id = 0;
-				float voronoiVal = Voronoi(uvValue*scale,time, id );
+				float2 uv = 0;
+				float voronoiVal = Voronoi( uvValue*scale,time, id, uv, smoothness );
 				if (_Octaves == 1)
 				{
-					if( _PreviewID == 1)
-						return float4( id.xxx, 1 );
+					if( _PreviewID == 2)
+						return float4( uv, 0, 1 );
+					else if( _PreviewID == 1)
+						return float4( id, 0, 1 );
 					else
 						return float4(voronoiVal.xxx, 1);
 				}
@@ -216,14 +243,16 @@
 					float rest = 0;
 					for (int it = 0; it < _Octaves; it++)
 					{
-						voroi += fade * Voronoi(uvValue*scale, time, id );
+						voroi += fade * Voronoi( uvValue*scale, time, id, uv, smoothness);
 						rest += fade;
 						uvValue *= 2;
 						fade *= 0.5;
 					}
 					voroi /= rest;
-					if( _PreviewID == 1 )
-						return float4( id.xxx, 1 );
+					if( _PreviewID == 2)
+						return float4( uv, 0, 1 );
+					else if( _PreviewID == 1)
+						return float4( id, 0, 1 );
 					else
 						return float4(voroi.xxx, 1);
 				}

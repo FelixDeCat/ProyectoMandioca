@@ -41,6 +41,9 @@ namespace AmplifyShaderEditor
 		private TemplatesBlendModule m_blendOpHelper = new TemplatesBlendModule();
 
 		[SerializeField]
+		private TemplateAlphaToMaskModule m_alphaToMaskHelper = new TemplateAlphaToMaskModule();
+
+		[SerializeField]
 		private TemplateCullModeModule m_cullModeHelper = new TemplateCullModeModule();
 
 		[SerializeField]
@@ -87,6 +90,9 @@ namespace AmplifyShaderEditor
 		{
 			if( m_currentTemplate.BlendData.DataCheck == TemplateDataCheck.Valid )
 				m_blendOpHelper.ConfigureFromTemplateData( m_currentTemplate.BlendData );
+
+			if( m_currentTemplate.AlphaToMaskData.DataCheck == TemplateDataCheck.Valid )
+				m_alphaToMaskHelper.ConfigureFromTemplateData( m_currentTemplate.AlphaToMaskData );
 
 			if( m_currentTemplate.CullModeData.DataCheck == TemplateDataCheck.Valid )
 				m_cullModeHelper.ConfigureFromTemplateData( m_currentTemplate.CullModeData );
@@ -250,6 +256,10 @@ namespace AmplifyShaderEditor
 			bool generalIsVisible = ContainerGraph.ParentWindow.InnerWindowVariables.ExpandedGeneralShaderOptions;
 			NodeUtils.DrawPropertyGroup( ref generalIsVisible, GeneralFoldoutStr, DrawGeneralOptions );
 			ContainerGraph.ParentWindow.InnerWindowVariables.ExpandedGeneralShaderOptions = generalIsVisible;
+
+			if( m_currentTemplate.AlphaToMaskData.DataCheck == TemplateDataCheck.Valid )
+				m_alphaToMaskHelper.Draw( this );
+
 			if( m_currentTemplate.BlendData.DataCheck == TemplateDataCheck.Valid )
 				m_blendOpHelper.Draw( this );
 
@@ -503,9 +513,9 @@ namespace AmplifyShaderEditor
 				validBody = m_currentTemplate.FillTemplateBody( m_currentTemplate.BlendData.BlendOpId, ref shaderBody, m_blendOpHelper.CurrentBlendOp ) && validBody;
 			}
 
-			if( m_currentTemplate.BlendData.ValidAlphaToMask )
+			if( m_currentTemplate.AlphaToMaskData.DataCheck == TemplateDataCheck.Valid )
 			{
-				validBody = m_currentTemplate.FillTemplateBody( m_currentTemplate.BlendData.AlphaToMaskId, ref shaderBody, m_blendOpHelper.CurrentAlphaToMask ) && validBody;
+				validBody = m_currentTemplate.FillTemplateBody( m_currentTemplate.AlphaToMaskData.AlphaToMaskId, ref shaderBody, m_alphaToMaskHelper.GenerateShaderData( false ) ) && validBody;
 			}
 
 			if( m_currentTemplate.DepthData.ValidZWrite )
@@ -735,6 +745,7 @@ namespace AmplifyShaderEditor
 			base.Destroy();
 			m_currentTemplate = null;
 			m_blendOpHelper = null;
+			m_alphaToMaskHelper = null;
 			m_cullModeHelper = null;
 			m_colorMaskHelper.Destroy();
 			m_colorMaskHelper = null;

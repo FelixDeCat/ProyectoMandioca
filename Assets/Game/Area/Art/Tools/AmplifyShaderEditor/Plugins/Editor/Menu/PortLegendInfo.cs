@@ -109,6 +109,8 @@ namespace AmplifyShaderEditor
 			if ( !EditorGUIUtility.isProSkin )
 			{
 				m_labelStyleBold.normal.textColor = m_labelStyle.normal.textColor = Color.black;
+				m_nodeInfoLabelStyleBold.normal.textColor = m_labelStyle.normal.textColor = Color.black;
+				m_nodeInfoLabelStyle.normal.textColor = m_labelStyle.normal.textColor = Color.black;
 			}
 
 			m_availableArea = new Rect( WindowPosX, WindowPosY, WindowSizeX - 2 * WindowPosX, WindowSizeY - 2 * WindowPosY );
@@ -247,6 +249,7 @@ namespace AmplifyShaderEditor
 				{
 					DrawItem( m_editorShortcuts[ i ].Name, m_editorShortcuts[ i ].Description );
 				}
+				DrawItem( "Q", "Alternative Pan modifier" );
 				DrawItem( "Ctrl + F", "Find nodes" );
 				DrawItem( "LMB Drag", "Box selection" );
 				DrawItem( "MMB/RMB Drag", "Camera pan" );

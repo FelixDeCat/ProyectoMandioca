@@ -62,6 +62,7 @@ namespace AmplifyShaderEditor
 			m_drawPreview = false;
 			m_drawPreviewExpander = false;
 			m_canExpand = false;
+			m_showHybridInstancedUI = true;
 			m_selectedLocation = PreviewLocation.BottomCenter;
 			m_previewShaderGUID = "6cf365ccc7ae776488ae8960d6d134c3";
 			m_srpBatcherCompatible = true;
@@ -426,6 +427,7 @@ namespace AmplifyShaderEditor
 			if( UIUtils.IsProperty( m_currentParameterType ) && material.HasProperty( m_propertyName ) )
 			{
 				MaterialValue = material.GetColor( m_propertyName );
+				PreviewIsDirty = true;
 			}
 		}
 

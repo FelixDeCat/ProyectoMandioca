@@ -10,7 +10,6 @@ using System.Text.RegularExpressions;
 
 namespace AmplifyShaderEditor
 {
-
 	public enum CustomExpressionMode
 	{
 		Create,
@@ -61,10 +60,12 @@ namespace AmplifyShaderEditor
 		private const float LineAdjust = 1.15f;
 		private const float IdentationAdjust = 5f;
 		private const string CustomExpressionInfo = "Creates a custom expression or function according to how code is written on text area.\n\n" +
-													" - If a return function is detected on Code text area then a function will be created.\n" +
+													"- If a return function is detected on Code text area then a function will be created.\n" +
 													"Also in function mode a ; is expected on the end of each instruction line.\n\n" +
 													"- If no return function is detected then an expression will be generated and used directly on the vertex/frag body.\n" +
-													"On Expression mode a ; is not required on the end of an instruction line.";
+													"On Expression mode a ; is not required on the end of an instruction line.\n\n" +
+													"- You can also call a function from an external file, just make sure to add the include file via the 'Additional Directives' group " +
+													"in the main property panel. Also works with shader functions.";
 		private const char LineFeedSeparator = '$';
 
 		private const string ReturnHelper = "return";
@@ -87,6 +88,7 @@ namespace AmplifyShaderEditor
 		private const string DependenciesStr = "Dependencies";
 
 		private const string VarRegexReplacer = @"\b{0}\b";
+		private readonly string[] PrecisionLabelsExtraLocal = { "Float", "Half", "Inherit Local" };
 
 		private readonly string[] AvailableWireTypesStr =
 		{
@@ -240,7 +242,7 @@ namespace AmplifyShaderEditor
 		{
 			base.CommonInit( uniqueId );
 			AddInputPort( WirePortDataType.FLOAT, false, "In0" );
-			m_items.Add( new CustomExpressionInputItem( PrecisionType.Float, VariableQualifiers.In, string.Empty, false, true, string.Empty/*"[0]"*/ ) );
+			m_items.Add( new CustomExpressionInputItem( PrecisionType.Inherit, VariableQualifiers.In, string.Empty, false, true, string.Empty/*"[0]"*/ ) );
 			AddOutputPort( WirePortDataType.FLOAT, "Out" );
 			m_textLabelWidth = 97;
 			m_customPrecision = true;
@@ -451,7 +453,9 @@ namespace AmplifyShaderEditor
 			{
 				int portIdx = i + m_firstAvailablePort;
 				string qualifier = m_items[ i ].Qualifier == VariableQualifiers.In ? string.Empty : UIUtils.QualifierToCg( m_items[ i ].Qualifier ) + " ";
-				PrecisionType precision = ( (int)m_items[ i ].Precision > (int)CurrentPrecisionType ) ? m_items[ i ].Precision : CurrentPrecisionType;
+				PrecisionType precision = m_items[ i ].Precision;
+				if( precision == PrecisionType.Inherit )
+					precision = CurrentPrecisionType;
 				string dataType = ( m_inputPorts[ portIdx ].DataType == WirePortDataType.OBJECT ) ? m_items[ i ].CustomType : UIUtils.PrecisionWirePortToCgType( precision, m_inputPorts[ portIdx ].DataType );
 				functionBody += qualifier + dataType + " " + m_inputPorts[ portIdx ].Name;
 				if( i < ( count - 1 ) )
@@ -864,7 +868,7 @@ namespace AmplifyShaderEditor
 
 								// Precision
 								rect.y += lineSpacing;
-								m_items[ index ].Precision = (PrecisionType)EditorGUIPopup( rect, PrecisionContent.text, (int)m_items[ index ].Precision, PrecisionLabels );
+								m_items[ index ].Precision = (PrecisionType)EditorGUIPopup( rect, PrecisionContent.text, (int)m_items[ index ].Precision, PrecisionLabelsExtraLocal );
 								// Type
 								rect.y += lineSpacing;
 								int typeIdx = WireToIdx[ m_inputPorts[ portIdx ].DataType ];
@@ -876,6 +880,11 @@ namespace AmplifyShaderEditor
 								if( EditorGUI.EndChangeCheck() )
 								{
 									m_inputPorts[ portIdx ].ChangeType( AvailableWireTypes[ typeIdx ], false );
+									if( typeIdx == 5 || typeIdx == 6 )
+									{
+										m_inputPorts[ portIdx ].Matrix4x4InternalData = Matrix4x4.identity;
+									}
+
 									if( m_items[ index ].Qualifier != VariableQualifiers.In )
 									{
 										OutputPort currOutPort = GetOutputPortByUniqueId( CreateOutputId( m_inputPorts[ portIdx ].PortId ) );
@@ -1045,7 +1054,7 @@ namespace AmplifyShaderEditor
 		void AddPortAt( int idx )
 		{
 			AddInputPortAt( idx, WirePortDataType.FLOAT, false, GetFirstAvailableName() );
-			m_items.Insert( idx - m_firstAvailablePort, new CustomExpressionInputItem( PrecisionType.Float, VariableQualifiers.In, string.Empty, false, true, string.Empty/* "[" + idx + "]"*/ ) );
+			m_items.Insert( idx - m_firstAvailablePort, new CustomExpressionInputItem( PrecisionType.Inherit, VariableQualifiers.In, string.Empty, false, true, string.Empty/* "[" + idx + "]"*/ ) );
 			m_repopulateNameDictionary = true;
 			RecalculateInOutOutputPorts();
 		}
@@ -1087,16 +1096,10 @@ namespace AmplifyShaderEditor
 			m_code = m_code.Replace( "\r\n", "\n" );
 
 			bool codeContainsReturn = m_code.Contains( ReturnHelper );
-			if( !codeContainsReturn &&
-				m_mode == CustomExpressionMode.Create &&
-				!m_voidMode )
+			if( !codeContainsReturn && outputId != 0 && m_mode == CustomExpressionMode.Create && !m_voidMode )
 			{
-				UIUtils.ShowMessage( UniqueId, string.Format( "Custom Expression '{0}' on Create mode without return statement", m_customExpressionName ), MessageSeverity.Warning );
-				if( outputId != 0 )
-				{
-					UIUtils.ShowMessage( UniqueId, string.Format( "Attempting to get value from inexisting inout/out variable on Custom Expression '{0}'", m_customExpressionName ), MessageSeverity.Warning );
-					return "0";
-				}
+				UIUtils.ShowMessage( "Attempting to get value from inexisting inout/out variable", MessageSeverity.Warning );
+				return "0";
 			}
 
 			int dependenciesCount = m_dependencies.Count;
@@ -1147,15 +1150,16 @@ namespace AmplifyShaderEditor
 					for( int i = m_firstAvailablePort; i < count; i++ )
 					{
 						string inputPortLocalVar = m_inputPorts[ i ].Name + OutputId;
-						string result = m_inputPorts[ i ].GeneratePortInstructions( ref dataCollector );
 						int idx = i - m_firstAvailablePort;
 						if( m_inputPorts[ i ].DataType != WirePortDataType.OBJECT )
 						{
+							string result = m_inputPorts[ i ].GeneratePortInstructions( ref dataCollector );
 							dataCollector.AddLocalVariable( UniqueId, CurrentPrecisionType, m_inputPorts[ i ].DataType, inputPortLocalVar, result );
 						}
 						else
 						{
-							string inputLocalVar = string.Format( Constants.LocalValueDecWithoutIdent, m_items[ idx ].CustomType, inputPortLocalVar, result );
+							string result =( m_inputPorts[ i ].IsConnected )? m_inputPorts[ i ].GeneratePortInstructions( ref dataCollector) : m_inputPorts[ i ].InternalData.ToString();
+							string inputLocalVar = string.Format( Constants.CustomTypeLocalValueDecWithoutIdent, m_items[ idx ].CustomType, inputPortLocalVar, result );
 							dataCollector.AddLocalVariable( UniqueId, inputLocalVar );
 						}
 
@@ -1254,10 +1258,21 @@ namespace AmplifyShaderEditor
 						string functionCall = expressionName + "( ";
 						for( int i = m_firstAvailablePort; i < count; i++ )
 						{
+							
 							string inputPortLocalVar = m_inputPorts[ i ].Name + OutputId;
-							string result = m_inputPorts[ i ].GeneratePortInstructions( ref dataCollector );
-							dataCollector.AddLocalVariable( UniqueId, CurrentPrecisionType, m_inputPorts[ i ].DataType, inputPortLocalVar, result );
 							int idx = i - m_firstAvailablePort;
+							if( m_inputPorts[ i ].DataType != WirePortDataType.OBJECT )
+							{
+								string result = m_inputPorts[ i ].GeneratePortInstructions( ref dataCollector );
+								dataCollector.AddLocalVariable( UniqueId, CurrentPrecisionType, m_inputPorts[ i ].DataType, inputPortLocalVar, result );
+							}
+							else
+							{
+								string result = ( m_inputPorts[ i ].IsConnected ) ? m_inputPorts[ i ].GeneratePortInstructions( ref dataCollector ) : m_inputPorts[ i ].InternalData.ToString();
+								string inputLocalVar = string.Format( Constants.CustomTypeLocalValueDecWithoutIdent, m_items[ idx ].CustomType, inputPortLocalVar, result );
+								dataCollector.AddLocalVariable( UniqueId, inputLocalVar );
+							}
+							
 							if( m_items[ idx ].Qualifier != VariableQualifiers.In )
 							{
 								OutputPort currOutputPort = GetOutputPortByUniqueId( CreateOutputId( m_inputPorts[ i ].PortId ) );

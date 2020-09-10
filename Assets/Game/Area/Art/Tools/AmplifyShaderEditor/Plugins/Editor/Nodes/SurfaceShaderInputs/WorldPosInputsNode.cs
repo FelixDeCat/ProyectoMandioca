@@ -28,10 +28,7 @@ namespace AmplifyShaderEditor
 				string varName = dataCollector.TemplateDataCollectorInstance.GetWorldPos();
 				return GetOutputVectorItem( 0, outputId, varName );
 			}
-
-			if ( dataCollector.PortCategory == MasterNodePortCategory.Fragment || dataCollector.PortCategory == MasterNodePortCategory.Debug )
-				base.GenerateShaderForOutput( outputId, ref dataCollector, ignoreLocalVar );
-
+			
 			string worldPosition = GeneratorUtils.GenerateWorldPosition( ref dataCollector, UniqueId );
 
 			return GetOutputVectorItem( 0, outputId, worldPosition );

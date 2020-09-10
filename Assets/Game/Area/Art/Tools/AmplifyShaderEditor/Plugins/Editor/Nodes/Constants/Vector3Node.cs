@@ -32,6 +32,7 @@ namespace AmplifyShaderEditor
 			AddOutputVectorPorts( WirePortDataType.FLOAT3, "XYZ" );
 			m_previewShaderGUID = "8a44d38f06246bf48944b3f314bc7920";
 			m_srpBatcherCompatible = true;
+			m_showHybridInstancedUI = true;
 		}
 
 		public override void CopyDefaultsToMaterial()
@@ -271,7 +272,10 @@ namespace AmplifyShaderEditor
 		public override void ForceUpdateFromMaterial( Material material )
 		{
 			if( UIUtils.IsProperty( m_currentParameterType ) && material.HasProperty( m_propertyName ) )
+			{
 				m_materialValue = material.GetVector( m_propertyName );
+				PreviewIsDirty = true;
+			}
 		}
 
 		public override void ReadFromString( ref string[] nodeParams )

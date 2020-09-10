@@ -194,24 +194,32 @@ namespace AmplifyShaderEditor
 		SurfaceData,
 		Textures,
 		Time,
-		TrignometryOperators,
+		TrigonometryOperators,
 		UVCoordinates,
 		VectorOperators,
 		VertexData
 	}
 
-	public enum TransformSpace
+	public enum TransformSpaceFrom
 	{
 		Object = 0,
 		World,
 		View,
-		Clip,
 		Tangent
-		//Screen??
+	}
+
+	public enum TransformSpaceTo
+	{
+		Object = 0,
+		World,
+		View,
+		Tangent,
+		Clip
 	}
 
 	public class UIUtils
 	{
+		public static string NewTemplateGUID;
 		public static int SerializeHelperCounter = 0;
 		public static bool IgnoreDeselectAll = false;
 
@@ -419,7 +427,7 @@ namespace AmplifyShaderEditor
 			"Surface Data",
 			"Textures",
 			"Time",
-			"Trignometry Operators",
+			"Trigonometry Operators",
 			"UV Coordinates",
 			"Vector Operators",
 			"Vertex Data"
@@ -587,7 +595,7 @@ namespace AmplifyShaderEditor
 			{ WirePortDataType.FLOAT3x3,	new Color(0.5f,1f,0.5f,1f)},
 			{ WirePortDataType.FLOAT4x4,	new Color(0.5f,1f,0.5f,1f)},
 			{ WirePortDataType.COLOR,		new Color(1f,0,1f,1f)},
-			{ WirePortDataType.INT,			Color.gray},
+			{ WirePortDataType.INT,         Color.white},
 			{ WirePortDataType.SAMPLER1D,	new Color(1f,0.5f,0f,1f)},
 			{ WirePortDataType.SAMPLER2D,	new Color(1f,0.5f,0f,1f)},
 			{ WirePortDataType.SAMPLER3D,	new Color(1f,0.5f,0f,1f)},
@@ -991,6 +999,8 @@ namespace AmplifyShaderEditor
 			RangedFloatSliderThumbStyle.active.background = null;
 			RangedFloatSliderThumbStyle.hover.background = null;
 			RangedFloatSliderThumbStyle.focused.background = null;
+			RangedFloatSliderThumbStyle.overflow = new RectOffset( 1, 1, -4, 4 );
+			RangedFloatSliderThumbStyle.margin = RectOffsetZero;
 
 			SwitchNodePopUp = new GUIStyle( (GUIStyle)"Popup" );
 			// RectOffset cannot be initiliazed on constructor
@@ -1006,7 +1016,7 @@ namespace AmplifyShaderEditor
 			GraphDropDown = new GUIStyle( MainSkin.customStyles[ (int)CustomStyle.GraphButton ] );
 			GraphDropDown.padding.right = 20;
 
-			Box = new GUIStyle( GUI.skin.box );
+			Box = new GUIStyle( MainSkin.box );
 			Button = new GUIStyle( GUI.skin.button );
 			TextArea = new GUIStyle( GUI.skin.textArea );
 			Label = new GUIStyle( GUI.skin.label );
@@ -1970,7 +1980,7 @@ namespace AmplifyShaderEditor
 			return newShader;
 		}
 
-		public static Shader CreateNewEmpty( string customPath = null )
+		public static Shader CreateNewEmpty( string customPath = null , string customShaderName = null )
 		{
 			if( CurrentWindow == null )
 				return null;
@@ -1998,12 +2008,19 @@ namespace AmplifyShaderEditor
 			else
 			{
 				pathName = customPath;
-				shaderName = Constants.DefaultShaderName;
-				int indexOfAssets = pathName.IndexOf( "Assets" );
-				string uniquePath = ( indexOfAssets > 0 )? pathName.Remove( 0, indexOfAssets ) : pathName;
-				string assetPathAndName = AssetDatabase.GenerateUniqueAssetPath( uniquePath + shaderName + ".shader" );
-				pathName = assetPathAndName;
-				shaderName = assetPathAndName.Remove( 0, assetPathAndName.IndexOf( shaderName ) );
+				if( string.IsNullOrEmpty( customShaderName ) )
+				{
+					shaderName = Constants.DefaultShaderName;
+					int indexOfAssets = pathName.IndexOf( "Assets" );
+					string uniquePath = ( indexOfAssets > 0 ) ? pathName.Remove( 0, indexOfAssets ) : pathName;
+					string assetPathAndName = AssetDatabase.GenerateUniqueAssetPath( uniquePath + shaderName + ".shader" );
+					pathName = assetPathAndName;
+					shaderName = assetPathAndName.Remove( 0, assetPathAndName.IndexOf( shaderName ) );
+				}
+				else
+				{
+					shaderName = customShaderName;
+				}
 				shaderName = shaderName.Remove( shaderName.Length - 7 );
 			}
 			if( !System.String.IsNullOrEmpty( shaderName ) && !System.String.IsNullOrEmpty( pathName ) )
@@ -2023,7 +2040,7 @@ namespace AmplifyShaderEditor
 		}
 
 
-		public static Shader CreateNewEmptyTemplate( string templateGUID, string customPath = null )
+		public static Shader CreateNewEmptyTemplate( string templateGUID, string customPath = null, string customShaderName = null )
 		{
 			if( CurrentWindow == null )
 				return null;
@@ -2051,12 +2068,19 @@ namespace AmplifyShaderEditor
 			else
 			{
 				pathName = customPath;
-				shaderName = Constants.DefaultShaderName;
-				int indexOfAssets = pathName.IndexOf( "Assets" );
-				string uniquePath = ( indexOfAssets > 0 ) ? pathName.Remove( 0, indexOfAssets ) : pathName;
-				string assetPathAndName = AssetDatabase.GenerateUniqueAssetPath( uniquePath + shaderName + ".shader" );
-				pathName = assetPathAndName;
-				shaderName = assetPathAndName.Remove( 0, assetPathAndName.IndexOf( shaderName ) );
+				if( string.IsNullOrEmpty( customShaderName ) )
+				{
+					shaderName = Constants.DefaultShaderName;
+					int indexOfAssets = pathName.IndexOf( "Assets" );
+					string uniquePath = ( indexOfAssets > 0 ) ? pathName.Remove( 0, indexOfAssets ) : pathName;
+					string assetPathAndName = AssetDatabase.GenerateUniqueAssetPath( uniquePath + shaderName + ".shader" );
+					pathName = assetPathAndName;
+					shaderName = assetPathAndName.Remove( 0, assetPathAndName.IndexOf( shaderName ) );
+				}
+				else
+				{
+					shaderName = customShaderName;
+				}
 				shaderName = shaderName.Remove( shaderName.Length - 7 );
 			}
 			if( !System.String.IsNullOrEmpty( shaderName ) && !System.String.IsNullOrEmpty( pathName ) )

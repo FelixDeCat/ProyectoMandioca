@@ -234,6 +234,132 @@ namespace AmplifyShaderEditor
 	}
 
 	[Serializable]
+	public class TemplateTessVControlTag
+	{
+		public string Id;
+		public int StartIdx;
+
+		public TemplateTessVControlTag()
+		{
+			StartIdx = -1;
+		}
+
+		public bool IsValid { get { return StartIdx >= 0; } }
+	}
+
+	[Serializable]
+	public class TemplateTessControlData
+	{
+		public string Id;
+		public int StartIdx;
+		public string InVarType;
+		public string InVarName;
+		public string OutVarType;
+		public string OutVarName;
+
+		public bool IsValid { get { return StartIdx >= 0; } }
+
+		public TemplateTessControlData()
+		{
+			StartIdx = -1;
+		}
+
+		public TemplateTessControlData( int startIdx, string id, string inVarInfo, string outVarInfo )
+		{
+			StartIdx = startIdx;
+			Id = id;
+			string[] inVarInfoArr = inVarInfo.Split( IOUtils.VALUE_SEPARATOR );
+			if( inVarInfoArr.Length > 1 )
+			{
+				InVarType = inVarInfoArr[ 1 ];
+				InVarName = inVarInfoArr[ 0 ];
+			}
+
+			string[] outVarInfoArr = outVarInfo.Split( IOUtils.VALUE_SEPARATOR );
+			if( outVarInfoArr.Length > 1 )
+			{
+				OutVarType = outVarInfoArr[ 1 ];
+				OutVarName = outVarInfoArr[ 0 ];
+			}
+		}
+
+		public string[] GenerateControl( Dictionary<TemplateSemantics, TemplateVertexData> vertexData, List<string> inputList )
+		{
+			List<string> value = new List<string>();
+			if( vertexData != null && vertexData.Count > 0 )
+			{
+				foreach( var item in vertexData )
+				{
+					if( inputList.FindIndex( x => { return x.Contains( item.Value.VarName ); } ) > -1 )
+						value.Add( string.Format( "{0}.{1} = {2}.{1};", OutVarName, item.Value.VarName, InVarName ) );
+				}
+			}
+			return value.ToArray();
+		}
+	}
+
+	[Serializable]
+	public class TemplateTessDomainData
+	{
+		public string Id;
+		public int StartIdx;
+		public string InVarType;
+		public string InVarName;
+		public string OutVarType;
+		public string OutVarName;
+		public string BaryVarType;
+		public string BaryVarName;
+
+		public bool IsValid { get { return StartIdx >= 0; } }
+
+		public TemplateTessDomainData()
+		{
+			StartIdx = -1;
+		}
+
+		public TemplateTessDomainData( int startIdx, string id, string inVarInfo, string outVarInfo, string baryVarInfo )
+		{
+			StartIdx = startIdx;
+			Id = id;
+			string[] inVarInfoArr = inVarInfo.Split( IOUtils.VALUE_SEPARATOR );
+			if( inVarInfoArr.Length > 1 )
+			{
+				InVarType = inVarInfoArr[ 1 ];
+				InVarName = inVarInfoArr[ 0 ];
+			}
+
+			string[] outVarInfoArr = outVarInfo.Split( IOUtils.VALUE_SEPARATOR );
+			if( outVarInfoArr.Length > 1 )
+			{
+				OutVarType = outVarInfoArr[ 1 ];
+				OutVarName = outVarInfoArr[ 0 ];
+			}
+
+			string[] baryVarInfoArr = baryVarInfo.Split( IOUtils.VALUE_SEPARATOR );
+			if( baryVarInfoArr.Length > 1 )
+			{
+				BaryVarType = baryVarInfoArr[ 1 ];
+				BaryVarName = baryVarInfoArr[ 0 ];
+			}
+		}
+
+		public string[] GenerateDomain( Dictionary<TemplateSemantics, TemplateVertexData> vertexData, List<string> inputList )
+		{
+			List<string> value = new List<string>();
+			if( vertexData != null && vertexData.Count > 0 )
+			{
+				foreach( var item in vertexData )
+				{
+					//o.ase_normal = patch[0].ase_normal * bary.x + patch[1].ase_normal * bary.y + patch[2].ase_normal * bary.z;
+					if( inputList.FindIndex( x => { return x.Contains( item.Value.VarName ); } ) > -1 )
+						value.Add( string.Format( "{0}.{1} = {2}[0].{1} * {3}.x + {2}[1].{1} * {3}.y + {2}[2].{1} * {3}.z;", OutVarName, item.Value.VarName, InVarName, BaryVarName ) );
+				}
+			}
+			return value.ToArray();
+		}
+	}
+
+	[Serializable]
 	public class TemplateFunctionData
 	{
 		public int MainBodyLocalIdx;
@@ -349,6 +475,7 @@ namespace AmplifyShaderEditor
 		public static readonly string TemplatePragmaTag = "/*ase_pragma*/";
 		public static readonly string TemplatePassTag = "/*ase_pass*/";
 		public static readonly string TemplatePassesEndTag = "/*ase_pass_end*/";
+		public static readonly string TemplateLODsTag = "/*ase_lod*/";
 		//public static readonly string TemplatePassTagPattern = @"\s\/\*ase_pass\*\/";
 		public static readonly string TemplatePassTagPattern = @"\s\/\*ase_pass[:\*]+";
 		public static readonly string TemplatePropertyTag = "/*ase_props*/";
@@ -356,6 +483,10 @@ namespace AmplifyShaderEditor
 		public static readonly string TemplateSRPBatcherTag = "/*ase_srp_batcher*/\n";
 		public static readonly string TemplateInterpolatorBeginTag = "/*ase_interp(";
 		public static readonly string TemplateVertexDataTag = "/*ase_vdata:";
+
+		public static readonly string TemplateTessVControlTag = "/*ase_vcontrol*/";
+		public static readonly string TemplateTessControlCodeArea = "/*ase_control_code:";
+		public static readonly string TemplateTessDomainCodeArea = "/*ase_domain_code:";
 
 		//public static readonly string TemplateExcludeFromGraphTag = "/*ase_hide_pass*/";
 		public static readonly string TemplateMainPassTag = "/*ase_main_pass*/";
@@ -402,7 +533,8 @@ namespace AmplifyShaderEditor
 																new TemplateTagData( TemplatePragmaTag,true),
 																new TemplateTagData( TemplatePassTag,true),
 																new TemplateTagData( TemplateInputsVertParamsTag,false),
-																new TemplateTagData( TemplateInputsFragParamsTag,false)
+																new TemplateTagData( TemplateInputsFragParamsTag,false),
+																new TemplateTagData( TemplateLODsTag,true)
 																//new TemplateTagData( TemplateCullModeTag,false),
 																//new TemplateTagData( TemplateBlendModeTag,false),
 																//new TemplateTagData( TemplateBlendOpTag,false),
@@ -413,6 +545,10 @@ namespace AmplifyShaderEditor
 		public static string LightweigthUnlitGUID = "e2514bdcf5e5399499a9eb24d175b9db";
 		public static string UniversalPBRGUID = "94348b07e5e8bab40bd6c8a1e3df54cd";
 		public static string UniversalUnlitGUID = "2992e84f91cbeb14eab234972e07ea9d";
+
+		public static string HDNewLitGUID = "53b46d85872c5b24c8f4f0a1c3fe4c87";
+		public static string HDNewPBRGUID = "41e04be03f2c20941bc749271be1c937";
+		public static string HDNewUnlitGUID = "7f5cb9c3ea6481f469fdd856555439ef";
 		public static string HDLitGUID = "091c43ba8bd92c9459798d59b089ce4e";
 		public static string HDPBRGUID = "bb308bce79762c34e823049efce65141";
 		public static string HDUnlitGUID = "dfe2f27ac20b08c469b2f95c236be0c3";
@@ -520,10 +656,40 @@ namespace AmplifyShaderEditor
 			}
 		}
 
+		//[MenuItem( "Window/Amplify Shader Editor/Create Menu Items", false, 1000 )]
+		//public static void ForceCreateTemplateMenuItems()
+		//{
+		//	UIUtils.CurrentWindow.TemplatesManagerInstance.CreateTemplateMenuItems();
+		//}
+
 		public void CreateTemplateMenuItems()
 		{
 			if( m_sortedTemplates == null || m_sortedTemplates.Count == 0 )
 				return;
+
+			// change names for duplicates
+			for( int i = 0; i < m_sortedTemplates.Count; i++ )
+			{
+				for( int j = 0; j < i; j++ )
+				{
+					if( m_sortedTemplates[ i ].Name == m_sortedTemplates[ j ].Name )
+					{
+						var match = Regex.Match( m_sortedTemplates[ i ].Name, @".+(\d+)" );
+						if( match.Success )
+						{
+							string strNumber = match.Groups[ 1 ].Value;
+							int number = int.Parse( strNumber ) + 1;
+							string firstPart = m_sortedTemplates[ i ].Name.Substring( 0, match.Groups[ 1 ].Index );
+							string secondPart = m_sortedTemplates[ i ].Name.Substring( match.Groups[ 1 ].Index + strNumber.Length );
+							m_sortedTemplates[ i ].Name = firstPart + number + secondPart;
+						}
+						else
+						{
+							m_sortedTemplates[ i ].Name += " 1";
+						}
+					}
+				}
+			}
 
 			System.Text.StringBuilder fileContents = new System.Text.StringBuilder();
 			fileContents.Append( "// Amplify Shader Editor - Visual Shader Editing Tool\n" );
@@ -538,9 +704,11 @@ namespace AmplifyShaderEditor
 			for( int i = 0; i < m_sortedTemplates.Count; i++ )
 			{
 				fileContents.AppendFormat( "\t\t[MenuItem( \"Assets/Create/Amplify Shader/{0}\", false, {1} )]\n", m_sortedTemplates[ i ].Name, fixedPriority );
-				fileContents.AppendFormat( "\t\tpublic static void ApplyTemplate{0}()\n", i );
+				string itemName = UIUtils.RemoveInvalidCharacters( m_sortedTemplates[ i ].Name );
+				fileContents.AppendFormat( "\t\tpublic static void ApplyTemplate{0}()\n", itemName/*i*/ );
 				fileContents.Append( "\t\t{\n" );
-				fileContents.AppendFormat( "\t\t\tAmplifyShaderEditorWindow.CreateNewTemplateShader( \"{0}\" );\n", m_sortedTemplates[ i ].GUID );
+				//fileContents.AppendFormat( "\t\t\tAmplifyShaderEditorWindow.CreateNewTemplateShader( \"{0}\" );\n", m_sortedTemplates[ i ].GUID );
+				fileContents.AppendFormat( "\t\t\tAmplifyShaderEditorWindow.CreateConfirmationTemplateShader( \"{0}\" );\n", m_sortedTemplates[ i ].GUID );
 				fileContents.Append( "\t\t}\n" );
 			}
 			fileContents.Append( "\t}\n" );

@@ -609,11 +609,16 @@ namespace AmplifyShaderEditor
 
 			OnPropertyNameChanged();
 
-			CheckReference();
+			if( CheckReference() )
+			{
+				OrderIndex = m_referenceSampler.RawOrderIndex;
+				OrderIndexOffset = m_referenceSampler.OrderIndexOffset;
+			}
 
 			bool isVertex = ( dataCollector.PortCategory == MasterNodePortCategory.Vertex || dataCollector.PortCategory == MasterNodePortCategory.Tessellation );
 
 			bool instanced = false;
+
 			if( m_referenceType == TexReferenceType.Instance && m_referenceSampler != null )
 				instanced = true;
 
@@ -656,7 +661,7 @@ namespace AmplifyShaderEditor
 			{
 				if( dataCollector.IsTemplate )
 				{
-					uvs = dataCollector.TemplateDataCollectorInstance.GetTextureCoord( m_uvSet, ( instanced ? m_referenceSampler.PropertyName : PropertyName ), UniqueId, CurrentPrecisionType );
+					uvs = dataCollector.TemplateDataCollectorInstance.GetTextureCoord( m_uvSet, propertyName/*( instanced ? m_referenceSampler.PropertyName : PropertyName )*/, UniqueId, CurrentPrecisionType );
 				}
 				else
 				{
@@ -667,31 +672,6 @@ namespace AmplifyShaderEditor
 				}
 			}
 			string index = m_indexPort.GeneratePortInstructions( ref dataCollector );
-
-			string m_normalMapUnpackMode = "";
-			if( m_autoUnpackNormals )
-			{
-				bool isScaledNormal = false;
-				if( m_normalPort.IsConnected )
-				{
-					isScaledNormal = true;
-				}
-				else
-				{
-					if( m_normalPort.FloatInternalData != 1 )
-					{
-						isScaledNormal = true;
-					}
-				}
-
-				string scaleValue = isScaledNormal ? m_normalPort.GeneratePortInstructions( ref dataCollector ) : "1.0";
-				m_normalMapUnpackMode = TemplateHelperFunctions.CreateUnpackNormalStr( dataCollector, isScaledNormal, scaleValue );
-				if( isScaledNormal && ( !dataCollector.IsTemplate || !dataCollector.IsSRP ) )
-				{
-					dataCollector.AddToIncludes( UniqueId, Constants.UnityStandardUtilsLibFuncs );
-				}
-
-			}
 
 			string result = string.Empty;
 
@@ -732,7 +712,27 @@ namespace AmplifyShaderEditor
 			}
 
 			if( m_autoUnpackNormals )
-				result = string.Format( m_normalMapUnpackMode, result );
+			{
+				bool isScaledNormal = false;
+				if( m_normalPort.IsConnected )
+				{
+					isScaledNormal = true;
+				}
+				else
+				{
+					if( m_normalPort.FloatInternalData != 1 )
+					{
+						isScaledNormal = true;
+					}
+				}
+
+				string scaleValue = isScaledNormal ? m_normalPort.GeneratePortInstructions( ref dataCollector ) : "1.0";
+				result = GeneratorUtils.GenerateUnpackNormalStr( ref dataCollector, CurrentPrecisionType, UniqueId, OutputId, result, isScaledNormal, scaleValue );
+				if( isScaledNormal && ( !dataCollector.IsTemplate || !dataCollector.IsSRP ) )
+				{
+					dataCollector.AddToIncludes( UniqueId, Constants.UnityStandardUtilsLibFuncs );
+				}
+			}
 
 			RegisterLocalVariable( 0, result, ref dataCollector, "texArray" + OutputId );
 			return GetOutputVectorItem( 0, outputId, m_outputPorts[ 0 ].LocalValue( dataCollector.PortCategory ) );
@@ -886,6 +886,8 @@ namespace AmplifyShaderEditor
 				m_materialTextureArray = (Texture2DArray)material.GetTexture( PropertyName );
 				if( m_materialTextureArray == null )
 					m_materialTextureArray = m_defaultTextureArray;
+
+				PreviewIsDirty = true;
 			}
 		}
 

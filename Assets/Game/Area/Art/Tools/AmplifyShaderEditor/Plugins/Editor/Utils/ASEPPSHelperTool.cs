@@ -214,6 +214,8 @@ namespace AmplifyShaderEditor
 
 			EditorGUILayout.LabelField( ".cs", GUILayout.MaxWidth( 40 ) );
 			EditorGUILayout.EndHorizontal();
+			EditorGUILayout.HelpBox( "The path for the generated script should be outside of Amplify Shader Editor folder structure due to use of Assembly Definition files which will conflict and prevent to compile correctly.", MessageType.Warning );
+
 			EditorGUILayout.Separator();
 
 			m_menuEntry = EditorGUILayout.TextField( "Name", m_menuEntry );

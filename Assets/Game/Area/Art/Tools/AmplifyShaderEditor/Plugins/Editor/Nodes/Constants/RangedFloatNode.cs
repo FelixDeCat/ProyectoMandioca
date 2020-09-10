@@ -49,6 +49,7 @@ namespace AmplifyShaderEditor
 			AddOutputPort( WirePortDataType.FLOAT, Constants.EmptyPortValue );
 			m_insideSize.Set( 50, 0 );
 			m_showPreview = false;
+			m_showHybridInstancedUI = true;
 			m_selectedLocation = PreviewLocation.BottomCenter;
 			m_availableAttribs.Add( new PropertyAttributes( "Toggle", "[Toggle]" ) );
 			m_availableAttribs.Add( new PropertyAttributes( "Int Range", "[IntRange]" ) );
@@ -382,6 +383,7 @@ namespace AmplifyShaderEditor
 
 			sliderValRect.width = 10;
 			float percent = ( value - m_min) / ( m_max-m_min );
+			percent = Mathf.Clamp01( percent );
 			sliderValRect.x += percent * (sliderBackRect.width - 10 * drawInfo.InvertedZoom );
 			GUI.Label( sliderValRect, string.Empty, UIUtils.RangedFloatSliderThumbStyle );
 		}
@@ -462,8 +464,11 @@ namespace AmplifyShaderEditor
 
 		public override void ForceUpdateFromMaterial( Material material )
 		{
-			if ( UIUtils.IsProperty( m_currentParameterType ) && material.HasProperty( m_propertyName ) )
+			if( UIUtils.IsProperty( m_currentParameterType ) && material.HasProperty( m_propertyName ) )
+			{
 				m_materialValue = material.GetFloat( m_propertyName );
+				PreviewIsDirty = true;
+			}
 		}
 
 		public override void ReadFromString( ref string[] nodeParams )
