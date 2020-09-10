@@ -17,7 +17,7 @@ public class DevelopToolsCenter : MonoBehaviour
         ToogleDebug(false);
         DevelopTools.UI.Debug_UI_Tools.instance.CreateToogle("Dummy Enemy State Machine Debug", false, ToogleDebug);
        // DevelopTools.UI.Debug_UI_Tools.instance.CreateToogle("Range Enemy State Machine Debug", false, ToogleDebugRange);
-        DevelopTools.UI.Debug_UI_Tools.instance.CreateToogle("Jabalies State Machine Debug", false, ToogleDebugJabali);
+        //DevelopTools.UI.Debug_UI_Tools.instance.CreateToogle("Jabalies State Machine Debug", false, ToogleDebugJabali);
 
         DevelopTools.UI.Debug_UI_Tools.instance.CreateToogle("Cubitos Render", false, CubitosRender);
 
@@ -58,6 +58,6 @@ public class DevelopToolsCenter : MonoBehaviour
     public bool EnemyDebuggingIsActive() { return enemydebug; }
     string ToogleDebug(bool active) { enemydebug = active; FindObjectsOfType<TrueDummyEnemy>().ToList().ForEach(x => x.ToogleDebug(active)); return active ? "debug activado" : "debug desactivado"; }
    // string ToogleDebugRange(bool active) { enemydebug = active; FindObjectsOfType<RangeDummy>().ToList().ForEach(x => x.debug_options.ToogleDebug(active)); return active ? "debug activado" : "debug desactivado"; }
-    string ToogleDebugJabali(bool active) { enemydebug = active; FindObjectsOfType<JabaliEnemy>().ToList().ForEach(x => x.ToogleDebug(active)); return active ? "debug activado" : "debug desactivado"; }
+    //string ToogleDebugJabali(bool active) { enemydebug = active; FindObjectsOfType<JabaliEnemy>().ToList().ForEach(x => x.ToogleDebug(active)); return active ? "debug activado" : "debug desactivado"; }
 
 }

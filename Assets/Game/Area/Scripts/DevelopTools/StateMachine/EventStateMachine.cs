@@ -14,7 +14,7 @@ namespace Tools.StateMachine
 
 		private EState<T> current;
 		Action<string> debug = delegate { };
-		public EventStateMachine(EState<T> initial, Action<string> _debug)
+		public EventStateMachine(EState<T> initial, Action<string> _debug = null)
 		{
 			debug = _debug;
 			current = initial;

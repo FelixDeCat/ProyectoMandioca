@@ -13,21 +13,23 @@ namespace Tools.StateMachine
         GameObject feedbackCharge;
         SoundPool pool;
         AudioSource source;
-        Func<Transform> GetTarget;
-
+        CharacterGroundSensor groundSensor;
 
         float timer;
-        float timePush = 10;
+        float timePush;
 
-        public JabaliPushAttack(EState<JabaliEnemy.JabaliInputs> myState, EventStateMachine<JabaliEnemy.JabaliInputs> _sm, float _speed,
-                                Action _DealDamage, GameObject _feedbackCharge, Action _PlayCombat, string _wooshSound) : base(myState, _sm)
+
+        public JabaliPushAttack(EState<JabaliEnemy.JabaliInputs> myState, EventStateMachine<JabaliEnemy.JabaliInputs> _sm, float _speed, Action _DealDamage,
+                                GameObject _feedbackCharge, Action _PlayCombat, string _wooshSound, float _chargeDuration, CharacterGroundSensor _groundSensor) : base(myState, _sm)
         {
             maxSpeed = _speed;
-            pushSpeed = maxSpeed / 2;
+            pushSpeed = maxSpeed / 1.5f;
             DealDamage = _DealDamage;
             feedbackCharge = _feedbackCharge;
             PlayCombat = _PlayCombat;
             pool = AudioManager.instance.GetSoundPool(_wooshSound);
+            timePush = _chargeDuration;
+            groundSensor = _groundSensor;
         }
 
         protected override void Enter(EState<JabaliEnemy.JabaliInputs> input)
@@ -40,8 +42,11 @@ namespace Tools.StateMachine
             PlayCombat();
             anim.SetTrigger("ChargeOk");
             source = pool.Get();
-            source.transform.position = root.transform.position;
-            source.Play();
+            if (source != null)
+            {
+                source.transform.position = root.transform.position;
+                source.Play();
+            }
         }
 
         protected override void Update()
@@ -54,7 +59,7 @@ namespace Tools.StateMachine
                     pushSpeed = maxSpeed;
             }
 
-            rb.velocity = new Vector3(root.forward.x * pushSpeed, rb.velocity.y, root.forward.z * pushSpeed);
+            rb.velocity = new Vector3(root.forward.x * pushSpeed, groundSensor.VelY, root.forward.z * pushSpeed);
             DealDamage();
 
             timer += Time.deltaTime;
@@ -75,8 +80,11 @@ namespace Tools.StateMachine
             base.Exit(input);
             rb.velocity = Vector3.zero;
             combatDirector.AttackRelease(enemy, enemy.CurrentTarget());
-            source.Stop();
-            pool.ReturnToPool(source);
+            if (source != null)
+            {
+                source.Stop();
+                pool.ReturnToPool(source);
+            }
 
             timer = 0;
         }

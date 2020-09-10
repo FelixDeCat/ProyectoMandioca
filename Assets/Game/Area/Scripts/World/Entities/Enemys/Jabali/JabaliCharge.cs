@@ -13,29 +13,29 @@ namespace Tools.StateMachine
         string firstPushSound;
         SoundPool pool;
         AudioSource source;
-        private string soundName;
-        Func<Transform> target;
+        GenericEnemyMove move;
+
 
         public JabaliCharge(EState<JabaliEnemy.JabaliInputs> myState, EventStateMachine<JabaliEnemy.JabaliInputs> _sm, float _chargeTime,
-            string _updateSound, string _exitSound) : base(myState, _sm)
+            string _updateSound, string _exitSound, GenericEnemyMove _move) : base(myState, _sm)
         {
             chargeTime = _chargeTime;
             firstPushSound = _exitSound;
-            
-            soundName = _updateSound;
+            move = _move;
             pool = AudioManager.instance.GetSoundPool(_updateSound);
         }
 
         protected override void Enter(EState<JabaliEnemy.JabaliInputs> input)
         {
             if (input.Name != "Petrified")
-            {
                 anim.SetBool("ChargeAttack", true);
-            }
             finalPos = root.position - root.forward * 2;
             source = pool.Get();
-            source.transform.position = root.transform.position;
-            source.Play();
+            if (source != null)
+            {
+                source.transform.position = root.transform.position;
+                source.Play();
+            }
         }
 
         protected override void Update()
@@ -44,6 +44,12 @@ namespace Tools.StateMachine
 
             rb.transform.position = Vector3.Lerp(root.position, finalPos, Time.deltaTime);
 
+            if (enemy.CurrentTarget())
+            {
+                Vector3 myForward = (enemy.CurrentTarget().transform.position - root.position).normalized;
+                myForward.y = 0;
+                move.Rotation(myForward);
+            }
             if (timer >= chargeTime)
                 sm.SendInput(JabaliEnemy.JabaliInputs.PUSH);
         }
@@ -55,8 +61,11 @@ namespace Tools.StateMachine
                 anim.SetBool("ChargeAttack", false);
                 timer = 0;
             }
-            source.Stop();
-            pool.ReturnToPool(source);
+            if (source != null)
+            {
+                source.Stop();
+                pool.ReturnToPool(source);
+            }
             AudioManager.instance.PlaySound(firstPushSound, root);
         }
     }

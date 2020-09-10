@@ -2,9 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using System;
 using UnityEngine.Experimental.GlobalIllumination;
-//using UnityEngine.UIElements;
 using UnityEngine.UI;
 using TMPro;
 

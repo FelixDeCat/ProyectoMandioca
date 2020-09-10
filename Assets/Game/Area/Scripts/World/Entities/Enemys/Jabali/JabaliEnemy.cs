@@ -9,6 +9,7 @@ public class JabaliEnemy : EnemyBase
     [Header("Move Options")]
     [SerializeField] GenericEnemyMove movement = null;
     [SerializeField] LineOfSight lineOfSight = null;
+    [SerializeField] CharacterGroundSensor groundSensor = null;
 
     public AnimationCurve animEmisive;
 
@@ -31,11 +32,11 @@ public class JabaliEnemy : EnemyBase
     [SerializeField] float stunChargeTime = 2;
     [SerializeField] float timeToObtainCharge = 5;
     [SerializeField] float chargeSpeed = 12;
+    [SerializeField] float chargeDuration = 5;
     [SerializeField] float pushKnockback = 80;
     private bool chargeOk = false;
     private float cargeTimer;
     private CombatDirector director;
-
 
     [Header("Life Options")]
     [SerializeField] float tdRecall = 0.5f;
@@ -47,41 +48,55 @@ public class JabaliEnemy : EnemyBase
     private Action<EState<JabaliInputs>> EnterStun;
     private Action<string> UpdateStun;
     private Action<JabaliInputs> ExitStun;
-    private Material[] myMat;
 
     [Header("Feedback")]
-    [SerializeField] ParticleSystem greenblood = null;
     [SerializeField] AnimEvent anim = null;
     [SerializeField] Animator animator = null;
     [SerializeField] RagdollComponent ragdoll = null;
     [SerializeField] Color onHitColor = Color.white;
     [SerializeField] float onHitFlashTime = 0.1f;
-    [SerializeField] GameObject feedbackCharge = null;
-    [SerializeField] List<AudioClip> mySounds = new List<AudioClip>();
     [SerializeField] EffectBase petrifyEffect = null;
+    Material[] myMat;
+    [SerializeField] GoatParticles particles = new GoatParticles();
+    [SerializeField] GoatSounds sounds = new GoatSounds();
+    [Serializable] public class GoatParticles
+    {
+        public ParticleSystem hitParticle;
+        public GameObject chargeFeedback;
+    }
 
+    [Serializable] public class GoatSounds
+    {
+        public AudioClip takeDamage;
+        public AudioClip pushAnticipation;
+        public AudioClip pushEnter;
+        public AudioClip pushLoop;
+        public AudioClip headAttack;
+        public AudioClip dead;
+    }
     EventStateMachine<JabaliInputs> sm;
 
     protected override void OnInitialize()
     {
         base.OnInitialize();
 
-        myMat = GetComponentInChildren<SkinnedMeshRenderer>().materials;
+        var smr = GetComponentInChildren<SkinnedMeshRenderer>();
+        if (smr != null)
+            myMat = smr.materials;
 
-        movement.Configure(rootTransform, rb);
         headAttack.Configure(HeadAttack);
         pushAttack.Configure(PushRelease, StunAfterCharge);
         lineOfSight.Configurate(rootTransform);
-        AudioManager.instance.GetSoundPool(mySounds[0].name, AudioGroups.JABALI, mySounds[0], true);
-        AudioManager.instance.GetSoundPool(mySounds[1].name, AudioGroups.JABALI, mySounds[1]);
-        AudioManager.instance.GetSoundPool(mySounds[2].name, AudioGroups.JABALI, mySounds[2]);
-        AudioManager.instance.GetSoundPool(mySounds[3].name, AudioGroups.JABALI, mySounds[3]);
-        AudioManager.instance.GetSoundPool(mySounds[4].name, AudioGroups.JABALI, mySounds[4]);
-        AudioManager.instance.GetSoundPool(mySounds[5].name, AudioGroups.JABALI, mySounds[5]);
+        AudioManager.instance.GetSoundPool(sounds.dead.name, AudioGroups.JABALI, sounds.dead);
+        AudioManager.instance.GetSoundPool(sounds.headAttack.name, AudioGroups.JABALI, sounds.headAttack);
+        AudioManager.instance.GetSoundPool(sounds.pushAnticipation.name, AudioGroups.JABALI, sounds.pushAnticipation, true);
+        AudioManager.instance.GetSoundPool(sounds.pushEnter.name, AudioGroups.JABALI, sounds.pushEnter);
+        AudioManager.instance.GetSoundPool(sounds.pushLoop.name, AudioGroups.JABALI, sounds.pushLoop, true);
+        AudioManager.instance.GetSoundPool(sounds.takeDamage.name, AudioGroups.JABALI, sounds.takeDamage);
+        ParticlesManager.Instance.GetParticlePool(particles.hitParticle.name, particles.hitParticle);
+        movement.Configure(rootTransform, rb, groundSensor);
 
         anim.Add_Callback("DealDamage", DealDamage);
-        StartDebug();
-
         Main.instance.AddEntity(this);
 
         IAInitialize(Main.instance.GetCombatDirector());
@@ -100,8 +115,6 @@ public class JabaliEnemy : EnemyBase
             SetStates();
         else
             sm.SendInput(JabaliInputs.IDLE);
-
-        //director.AddNewTarget(this);
 
         canupdate = true;
     }
@@ -169,8 +182,21 @@ public class JabaliEnemy : EnemyBase
     protected override void OnPause() { }
     protected override void OnResume() { }
     protected override void OnFixedUpdate() { }
-    protected override void OnTurnOff() { }
-    protected override void OnTurnOn() { }
+    protected override void OnTurnOff()
+    {
+        if (sm.Current.Name == "Die") gameObject.SetActive(false);
+
+        sm.SendInput(JabaliInputs.DISABLE);
+        director.DeadEntity(this, entityTarget);
+        entityTarget = null;
+        combat = false;
+        groundSensor?.TurnOff();
+    }
+    protected override void OnTurnOn()
+    {
+        sm.SendInput(JabaliInputs.IDLE);
+        groundSensor?.TurnOn();
+    }
 
     #region Attack Things
     public void HeadAttack(DamageReceiver e)
@@ -180,9 +206,7 @@ public class JabaliEnemy : EnemyBase
         Attack_Result takeDmg = e.TakeDamage(dmgData);
 
         if (takeDmg == Attack_Result.parried)
-        {
             sm.SendInput(JabaliInputs.PARRIED);
-        }
     }
 
     void PushRelease(DamageReceiver e)
@@ -195,9 +219,9 @@ public class JabaliEnemy : EnemyBase
             pushAttack.Stop();
     }
 
-    void PushAttack() { pushAttack.ManualTriggerAttack(); }
+    void PushAttack() => pushAttack.ManualTriggerAttack();
 
-    public void DealDamage() { headAttack.ManualTriggerAttack(); }
+    public void DealDamage() => headAttack.ManualTriggerAttack();
 
     public override void ToAttack() => attacking = true;
 
@@ -212,11 +236,11 @@ public class JabaliEnemy : EnemyBase
             director.ChangeTarget(this, data.owner, entityTarget);
         }
 
-        AudioManager.instance.PlaySound(mySounds[2].name, rootTransform);
+        AudioManager.instance.PlaySound(sounds.takeDamage.name, rootTransform);
 
         sm.SendInput(JabaliInputs.TAKE_DMG);
 
-        greenblood.Play();
+        ParticlesManager.Instance.PlayParticle(particles.hitParticle.name, transform.position);
         cooldown = true;
 
         StartCoroutine(OnHitted(myMat, onHitFlashTime, onHitColor));
@@ -225,7 +249,8 @@ public class JabaliEnemy : EnemyBase
     protected override void Die(Vector3 dir)
     {
         death = true;
-        director.RemoveTarget(this);
+        director.DeadEntity(this, CurrentTarget());
+        groundSensor?.TurnOff();
         sm.SendInput(JabaliInputs.DEAD);
         if (dir == Vector3.zero)
             ragdoll.Ragdoll(true, -rootTransform.forward);
@@ -243,15 +268,6 @@ public class JabaliEnemy : EnemyBase
     #endregion
 
     #region Effects Things
-    public override float ChangeSpeed(float newSpeed)
-    {
-        if (newSpeed < 0)
-            return movement.GetInitSpeed();
-
-        movement.SetCurrentSpeed(newSpeed);
-
-        return movement.GetInitSpeed();
-    }
 
     void StunAfterCharge()
     {
@@ -386,7 +402,7 @@ public class JabaliEnemy : EnemyBase
             .SetTransition(JabaliInputs.IDLE, idle)
             .Done();
 
-        sm = new EventStateMachine<JabaliInputs>(idle, DebugState);
+        sm = new EventStateMachine<JabaliInputs>(idle);
 
         new JabaliIdle(idle, sm, movement, distanceToCharge, distancePos, normalDistance, IsChargeOk).SetThis(this).SetDirector(director)
             .SetRoot(rootTransform);
@@ -396,16 +412,16 @@ public class JabaliEnemy : EnemyBase
 
         new JabaliChasing(chasing, sm, IsAttack, IsChargeOk, distanceToCharge, distancePos, movement).SetDirector(director).SetThis(this).SetRoot(rootTransform);
 
-        new JabaliCharge(chargePush, sm, chargeTime, mySounds[0].name, mySounds[1].name).SetAnimator(animator).SetDirector(director)
+        new JabaliCharge(chargePush, sm, chargeTime, sounds.pushAnticipation.name, sounds.pushEnter.name, movement).SetAnimator(animator).SetDirector(director)
             .SetThis(this).SetRigidbody(rb).SetRoot(rootTransform);
 
-        new JabaliPushAttack(push, sm, chargeSpeed, PushAttack, feedbackCharge, pushAttack.Play, mySounds[3].name)
+        new JabaliPushAttack(push, sm, chargeSpeed, PushAttack, particles.chargeFeedback, pushAttack.Play, sounds.pushLoop.name, chargeDuration, groundSensor)
             .SetAnimator(animator).SetRigidbody(rb).SetRoot(rootTransform)
             .SetThis(this).SetDirector(director);
 
         new JabaliAttackAnticipation(headAnt, sm, movement, normalAttAnticipation).SetAnimator(animator).SetDirector(director).SetThis(this).SetRoot(rootTransform);
 
-        new JabaliHeadAttack(headAttack, sm, cdToHeadAttack, mySounds[4].name).SetAnimator(animator).SetDirector(director).SetThis(this);
+        new JabaliHeadAttack(headAttack, sm, cdToHeadAttack, sounds.headAttack.name).SetAnimator(animator).SetDirector(director).SetThis(this);
 
         new JabaliTD(takeDamage, sm, tdRecall).SetAnimator(animator);
 
@@ -413,7 +429,7 @@ public class JabaliEnemy : EnemyBase
 
         new JabaliStun(petrified, sm, StartStun, TickStun, EndStun);
 
-        new JabaliDeath(dead, sm, ragdoll, mySounds[5].name).SetThis(this).SetDirector(director);
+        new JabaliDeath(dead, sm, ragdoll, sounds.dead.name).SetThis(this).SetDirector(director);
 
         disable.OnEnter += (input) => DisableObject();
 
@@ -437,29 +453,5 @@ public class JabaliEnemy : EnemyBase
 
     void EnableObject() => Initialize();
 
-    #endregion
-
-    #region Debuggin
-    UnityEngine.UI.Text txt_debug = null;
-    public GameObject canvasDebugModel;
-    void DebugState(string state) { if (txt_debug != null) txt_debug.text = state; }//viene de la state machine
-    public void ToogleDebug(bool val)
-    {
-        if (val)
-        {
-            if (txt_debug == null)
-            {
-                GameObject go = Instantiate(canvasDebugModel, this.transform);
-                txt_debug = go.GetComponentInChildren<UnityEngine.UI.Text>();
-            }
-            txt_debug.enabled = val;
-        }
-        else
-        {
-            if (txt_debug != null)
-                txt_debug.enabled = val;
-        }
-    }
-    void StartDebug() { if (txt_debug != null) txt_debug.enabled = DevelopToolsCenter.instance.EnemyDebuggingIsActive(); }// inicializacion
     #endregion
 }

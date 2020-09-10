@@ -148,58 +148,50 @@ public class TrueDummyEnemy : EnemyBase
             SetStates();
         else
             sm.SendInput(DummyEnemyInputs.IDLE);
-
-        //director.AddNewTarget(this);
-
         canupdate = true;
     }
     public override void SpawnEnemy()
     {
-        Debug.Log("spawn");
         AudioManager.instance.PlaySound(sounds.entSpawn_clip.name);
         base.SpawnEnemy();
     }
     protected override void OnUpdateEntity()
     {
-        if (canupdate)
+        if (!death)
         {
-            if (!death)
+            if (combat)
             {
-                if (combat)
+                if (Vector3.Distance(Main.instance.GetChar().transform.position, transform.position) > combatDistance + 2)
                 {
-                    if (Vector3.Distance(Main.instance.GetChar().transform.position, transform.position) > combatDistance + 2)
-                    {
-                        director.DeadEntity(this, entityTarget);
-                        entityTarget = null;
-                        combat = false;
-                    }
-                }
-
-                if (!combat && entityTarget == null)
-                {
-                    if (Vector3.Distance(Main.instance.GetChar().transform.position, transform.position) <= combatDistance)
-                    {
-                        director.AddToList(this, Main.instance.GetChar());
-                        SetTarget(Main.instance.GetChar());
-                        combat = true;
-                    }
+                    director.DeadEntity(this, entityTarget);
+                    entityTarget = null;
+                    combat = false;
                 }
             }
 
-            if (sm != null)
+            if (!combat && entityTarget == null)
             {
-                sm.Update();
+                if (Vector3.Distance(Main.instance.GetChar().transform.position, transform.position) <= combatDistance)
+                {
+                    director.AddToList(this, Main.instance.GetChar());
+                    SetTarget(Main.instance.GetChar());
+                    combat = true;
+                }
             }
-
-            if (cooldown) {
-                if (timercooldown < recallTime)  timercooldown = timercooldown + 1 * Time.deltaTime;
-                else {  cooldown = false; timercooldown = 0; }
-            }
-
-            //special attack CD no funciono como queria
-
-            dummySpecialAttack.UpdateSpecialAttack();
         }
+
+        if (sm != null)
+            sm.Update();
+
+        if (cooldown)
+        {
+            if (timercooldown < recallTime) timercooldown = timercooldown + 1 * Time.deltaTime;
+            else { cooldown = false; timercooldown = 0; }
+        }
+
+        //special attack CD no funciono como queria
+
+        dummySpecialAttack.UpdateSpecialAttack();
     }
     protected override void OnPause() { }
     protected override void OnResume() { }
@@ -217,23 +209,10 @@ public class TrueDummyEnemy : EnemyBase
         {
             combatComponent.Stop();
             sm.SendInput(DummyEnemyInputs.PARRIED);
-            
         }
     }
 
     public override void ToAttack() => attacking = true;
-    #endregion
-
-    #region Effects
-    public override float ChangeSpeed(float newSpeed)
-    {
-        if (newSpeed < 0)
-            return movement.GetInitSpeed();
-
-        movement.SetCurrentSpeed(newSpeed);
-
-        return movement.GetInitSpeed();
-    }
     #endregion
 
     #region Life Things

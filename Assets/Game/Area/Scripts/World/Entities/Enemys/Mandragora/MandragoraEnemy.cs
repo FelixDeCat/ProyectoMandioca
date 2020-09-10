@@ -47,7 +47,6 @@ public class MandragoraEnemy : EnemyBase
     [SerializeField] Color onHitColor = Color.white;
     [SerializeField] float onHitFlashTime = 0.1f;
     [SerializeField] RagdollComponent ragdoll = null;
-    private const string takeHit_audioName = "woodChop";
 
     [SerializeField] EffectBase petrifyEffect = null;
     EventStateMachine<MandragoraInputs> sm;
@@ -103,9 +102,7 @@ public class MandragoraEnemy : EnemyBase
         IAInitialize(Main.instance.GetCombatDirector());
         petrifyEffect?.AddStartCallback(() => sm.SendInput(MandragoraInputs.PETRIFIED));
         petrifyEffect?.AddEndCallback(() => sm.SendInput(MandragoraInputs.IDLE));
-        //PoolManager.instance.GetObjectPool(trapToDie.name, trapToDie);
-
-       // Debug.Log("Me inicializo");
+        if(trapToDie) PoolManager.instance.GetObjectPool(trapToDie.name, trapToDie);
 
         if (!mandragoraIsTrap) return;
         spawnerSpot.Initialize();
@@ -146,9 +143,12 @@ public class MandragoraEnemy : EnemyBase
 
     void OnDead()
     {
-       // var pool = PoolManager.instance.GetObjectPool(trapToDie.name);
-       // var trap = pool.GetPlayObject(trapDuration);
-       // trap.transform.position = rootToTrap.position;
+        if (trapToDie)
+        {
+            var pool = PoolManager.instance.GetObjectPool(trapToDie.name);
+            var trap = pool.GetPlayObject(trapDuration);
+            trap.transform.position = rootToTrap.position;
+        }
     }
 
     protected override void OnReset()

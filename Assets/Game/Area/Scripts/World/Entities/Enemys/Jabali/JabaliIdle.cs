@@ -30,9 +30,8 @@ namespace Tools.StateMachine
                 Vector3 pos2 = new Vector3(enemy.CurrentTarget().transform.position.x, 0, enemy.CurrentTarget().transform.position.z);
 
                 Vector3 myForward = (enemy.CurrentTarget().transform.position - root.position).normalized;
-                Vector3 forwardRotation = new Vector3(myForward.x, 0, myForward.z);
-
-                move.Rotation(forwardRotation);
+                myForward.y = 0;
+                move.Rotation(myForward);
 
                 if (enemy.IsInPos())
                 {
