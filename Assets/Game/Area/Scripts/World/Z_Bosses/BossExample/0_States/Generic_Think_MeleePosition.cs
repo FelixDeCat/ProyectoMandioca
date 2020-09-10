@@ -5,17 +5,27 @@ using Tools.Extensions;
 
 public class Generic_Think_MeleePosition : MonoStateBase
 {
+    [Range(0,1)]
+    public float prob_to_Melee;
 
+    public bool UseCombatDirector;
 
     protected override void OnBegin()
     {
         Get_Behaviours.followBehaviour.StartLookAt();
 
         var aux = Random.value;
-        if (aux <= 0.3)
+        if (aux <= prob_to_Melee)
         {
-            Get_Behaviours.combatDirectorComponent.EnterCombat();
-            Get_Behaviours.combatDirectorComponent.IAmReady(OnAttack);
+            if (UseCombatDirector)
+            {
+                Get_Behaviours.combatDirectorComponent.EnterCombat();
+                Get_Behaviours.combatDirectorComponent.IAmReady(OnAttack);
+            }
+            else
+            {
+                OnAttack();
+            }
         }
         else
         {

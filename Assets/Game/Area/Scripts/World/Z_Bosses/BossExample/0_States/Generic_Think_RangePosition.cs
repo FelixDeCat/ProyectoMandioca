@@ -4,17 +4,30 @@ using UnityEngine;
 
 public class Generic_Think_RangePosition : MonoStateBase
 {
+
+    public bool UseCombatDirector;
+
     protected override void OnBegin()
     {
         Get_Behaviours.followBehaviour.StartLookAt();
 
-        Get_Behaviours.combatDirectorComponent.EnterCombat();
-        Get_Behaviours.combatDirectorComponent.IAmReady(OnAttack);
+        if (UseCombatDirector)
+        {
+            Get_Behaviours.combatDirectorComponent.EnterCombat();
+            Get_Behaviours.combatDirectorComponent.IAmReady(OnAttack);
+        }
+        else
+        {
+            OnAttack();
+        }
     }
     public void OnAttack()
     {
-        if (_monoStateBaseOptions.isactive)
+        if (_monoStateBaseOptions.isactive) 
+        {
             Get_InputSender.SendBool("CombatDirAdvice", true);
+        }
+            
     }
     protected override void OnExit()
     {
