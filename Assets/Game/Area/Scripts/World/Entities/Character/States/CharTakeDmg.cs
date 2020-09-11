@@ -1,5 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System;
 using UnityEngine;
 
 namespace Tools.StateMachine
@@ -7,12 +6,13 @@ namespace Tools.StateMachine
     public class CharTakeDmg : CharacterStates
     {
         float timer;
-        float takeDamageRecall;
         CharacterAnimator anim;
+        Func<float> TakeDamageRecall;
+        float takeDamageRecall;
 
-        public CharTakeDmg(EState<CharacterHead.PlayerInputs> myState, EventStateMachine<CharacterHead.PlayerInputs> _sm, float recall, CharacterAnimator _anim) : base(myState, _sm)
+        public CharTakeDmg(EState<CharacterHead.PlayerInputs> myState, EventStateMachine<CharacterHead.PlayerInputs> _sm, Func<float> _recall, CharacterAnimator _anim) : base(myState, _sm)
         {
-            takeDamageRecall = recall;
+            TakeDamageRecall = _recall;
             anim = _anim;
         }
 
@@ -20,6 +20,7 @@ namespace Tools.StateMachine
         {
             //Tambien podría haber una rica animación, why not
             anim.OnHit();
+            takeDamageRecall = TakeDamageRecall();
         }
 
         protected override void Update()

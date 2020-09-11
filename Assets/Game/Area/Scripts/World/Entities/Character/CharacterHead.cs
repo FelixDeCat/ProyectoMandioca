@@ -450,7 +450,7 @@ public class CharacterHead : CharacterControllable
             .SetAttack(charAttack)
             .SetLeftAxis(GetLeftHorizontal, GetLeftVertical).SetFeedbacks(feedbacks);
 
-        new CharTakeDmg(takeDamage, stateMachine, takeDamageRecall, charanim);
+        new CharTakeDmg(takeDamage, stateMachine, () => takeDamageRecall, charanim);
 
         new CharStun(stun, stateMachine)
             .Configurate(GetStunDuration, go_StunFeedback)
@@ -892,14 +892,24 @@ public class CharacterHead : CharacterControllable
             feedbacks.sounds.Play_TakeBigDamage();
             customCam.BeginShakeCamera(0.5f);
             charanim.SetTypeDamge(1);
+            takeDamageRecall = 2.5f;
         }
         else
         {
             feedbacks.sounds.Play_TakeNormalDamage();
             customCam.BeginShakeCamera();
             charanim.SetTypeDamge(0);
+            takeDamageRecall = 0;
         }
         stateMachine.SendInput(PlayerInputs.TAKE_DAMAGE);
+
+        if(stateMachine.Current.Name == "Take_Damage" && perc >= big_damage_limit_percent)
+        {
+            Vector3 newForward = (data.owner_position - transform.position).normalized;
+            newForward.y = 0;
+
+            Root.forward = newForward;
+        }
 
         feedbacks.particles.hitParticle.Play();
         Main.instance.Vibrate();

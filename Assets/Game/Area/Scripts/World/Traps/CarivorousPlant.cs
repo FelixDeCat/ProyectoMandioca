@@ -8,7 +8,6 @@ public class CarivorousPlant : EntityBase
 {
     public CharacterHead character;
     [SerializeField] float attractionForce = 500;
-    //[SerializeField] SkinnedMeshRenderer plant = null;
     [SerializeField] Transform centerPoint = null;
     [SerializeField] ForceMode mode = ForceMode.Acceleration;
     [SerializeField] DamageReceiver damageReceiver = null;
@@ -18,13 +17,13 @@ public class CarivorousPlant : EntityBase
     [SerializeField] AnimEvent animEvent = null;
     [SerializeField] LayerMask characterLayer = 0;
 
-    //[SerializeField] float closeMouth = 10;
-    //[SerializeField] float openMouth = 6;
-
     [SerializeField] float radious = 3f;
     [SerializeField] int dmg = 5;
     [SerializeField] float timeToDamage = 3;
     [SerializeField] Damagetype dmgType = Damagetype.Normal;
+    [SerializeField] float attackCD = 2;
+    bool attackRecall;
+    float attackTimer;
     float timer;
 
     [SerializeField] ParticleSystem attFeedback = null;
@@ -90,7 +89,7 @@ public class CarivorousPlant : EntityBase
                 character.GetCharMove().MovementAddForce(att.normalized, attractionForce, mode);
         }
 
-        if(isZero && !inDmg)
+        if(isZero && !inDmg && !attackRecall)
         {
             timer += Time.deltaTime;
 
@@ -100,7 +99,18 @@ public class CarivorousPlant : EntityBase
                 inDmg = true;
                 timer = 0;
             }
-        }    
+        }
+
+        if (attackRecall)
+        {
+            attackTimer += Time.deltaTime;
+
+            if(attackTimer>=attackCD)
+            {
+                attackTimer = 0;
+                attackRecall = false;
+            }
+        }
     }
 
     void DamageCharacter()
@@ -109,38 +119,9 @@ public class CarivorousPlant : EntityBase
             character?.GetComponent<DamageReceiver>().TakeDamage(data.SetPositionAndDirection(centerPoint.position, Vector3.zero));
 
         inDmg = false;
+
+        attackRecall = true;
     }
-
-    //IEnumerator DamageCoroutine()
-    //{
-    //    inDmg = true;
-    //    float startAmount = plant.GetBlendShapeWeight(0);
-
-    //    while(startAmount > 0)
-    //    {
-    //        startAmount -= closeMouth;
-    //        plant.SetBlendShapeWeight(0, startAmount);
-    //        yield return new WaitForSeconds(0.01f);
-    //    }
-
-    //    character?.GetComponent<DamageReceiver>().TakeDamage(data.SetPositionAndDirection(centerPoint.position, Vector3.zero));
-    //    StartCoroutine(OpenMouth());
-    //}
-
-    //IEnumerator OpenMouth()
-    //{
-    //    float startAmount = plant.GetBlendShapeWeight(0);
-
-    //    while (startAmount < 70)
-    //    {
-    //        startAmount += openMouth;
-    //        plant.SetBlendShapeWeight(0, startAmount);
-    //        yield return new WaitForSeconds(0.01f);
-    //    }
-
-    //    timer = 0;
-    //    inDmg = false;
-    //}
 
     void TakeDamage()
     {
@@ -198,8 +179,10 @@ public class CarivorousPlant : EntityBase
 
             character?.GetCharMove().StopForceBool();
             isZero = false;
-            //plant?.SetBlendShapeWeight(0, 0);
             character = null;
+
+            attackTimer = 0;
+            attackRecall = false;
 
             if (attFXTemp)
             {

@@ -7,18 +7,12 @@ public class MainMenuButtons : MonoBehaviour
 {
     EventSystem eventSystem;
     [SerializeField] GameObject primaryButton = null;
-    [SerializeField] GameObject selected;
 
     private void Awake()
     {
         eventSystem = FindObjectOfType<EventSystem>();
         eventSystem?.SetSelectedGameObject(null);
         StartCoroutine(SelectButtonCoroutine(primaryButton));
-    }
-
-    private void Update()
-    {
-        selected = eventSystem.currentSelectedGameObject;
     }
 
     IEnumerator SelectButtonCoroutine(GameObject button)

@@ -20,6 +20,8 @@ public abstract class Throwable : MonoBehaviour
     [SerializeField] DamageData damageData = null;
     protected ThrowData savethrowdata;
 
+    [SerializeField] float knockback = 300;
+
     protected virtual void Start()
     {
     }
@@ -40,7 +42,7 @@ public abstract class Throwable : MonoBehaviour
         damageData
               .SetDamage(savethrowdata.Damage)
               .SetDamageType(Damagetype.Normal)
-              .SetKnockback(500);
+              .SetKnockback(knockback);
 
         sensor.SetLayers(layermask_player);
 
@@ -104,7 +106,7 @@ public abstract class Throwable : MonoBehaviour
                 damageData
                    .SetDamage((int)(savethrowdata.Damage * damageParryMultiplier))
                    .SetDamageType(Damagetype.NonBlockAndParry)
-                   .SetKnockback(500);
+                   .SetKnockback(knockback);
                 ParryThrowable(transform.position, newdir);
             }
             else
