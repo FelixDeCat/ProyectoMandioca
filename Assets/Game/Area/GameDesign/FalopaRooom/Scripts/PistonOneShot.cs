@@ -6,6 +6,7 @@ public class PistonOneShot : Piston
 {
     [SerializeField] AnimPalanca animPalanca;
     [SerializeField] bool notCanComeBack;
+    [SerializeField] AudioClip timerSound;
 
     Palanca palanca;
 
@@ -13,6 +14,7 @@ public class PistonOneShot : Piston
     
     public override void Start()
     {
+        AudioManager.instance.GetSoundPool(timerSound.name, AudioGroups.GAME_FX, timerSound);
         palanca = animPalanca.GetComponent<Palanca>();
         palanca.SetPredicate(currStatus);
         if (Anim)
@@ -33,6 +35,7 @@ public class PistonOneShot : Piston
     public void StopPiston()
     {        
         StartCoroutine(pingponglerp.stopAfter(1, animPalanca.AnimOff, changeInteractableStatus, notCanComeBack));
+        AudioManager.instance.PlaySound(timerSound.name);
     }
 
     bool changeInteractableStatus(bool stat)
