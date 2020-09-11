@@ -30,7 +30,6 @@ public class MisionManager : MonoBehaviour
     public UI_Mission_GeneralManager ui_panel;
     public MisionSoundDataBase feedbackSound;
 
-
     Dictionary<MisionItemKey, int> stores = new Dictionary<MisionItemKey, int>();
 
     public bool MisionIsActive(Mision m) => active_misions.Contains(m);
