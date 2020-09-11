@@ -4,7 +4,8 @@ Shader "Others/Effects/DecalFireDepth"
 {
 	Properties
 	{
-		
+		_FallOff("Fall Off", Float) = 0
+
 	}
 	
 	SubShader
@@ -17,13 +18,12 @@ Shader "Others/Effects/DecalFireDepth"
 		CGINCLUDE
 		#pragma target 3.0
 		ENDCG
-		Blend Off
+		Blend One OneMinusSrcAlpha
 		AlphaToMask Off
 		Cull Back
 		ColorMask RGBA
 		ZWrite On
 		ZTest LEqual
-		Offset 0 , 0
 		
 		
 		
@@ -65,8 +65,45 @@ Shader "Others/Effects/DecalFireDepth"
 				UNITY_VERTEX_OUTPUT_STEREO
 			};
 
+			uniform float _FallOff;
 			UNITY_DECLARE_DEPTH_TEXTURE( _CameraDepthTexture );
 			uniform float4 _CameraDepthTexture_TexelSize;
+			struct Gradient
+			{
+				int type;
+				int colorsLength;
+				int alphasLength;
+				float4 colors[8];
+				float2 alphas[8];
+			};
+			
+			Gradient NewGradient(int type, int colorsLength, int alphasLength, 
+			float4 colors0, float4 colors1, float4 colors2, float4 colors3, float4 colors4, float4 colors5, float4 colors6, float4 colors7,
+			float2 alphas0, float2 alphas1, float2 alphas2, float2 alphas3, float2 alphas4, float2 alphas5, float2 alphas6, float2 alphas7)
+			{
+				Gradient g;
+				g.type = type;
+				g.colorsLength = colorsLength;
+				g.alphasLength = alphasLength;
+				g.colors[ 0 ] = colors0;
+				g.colors[ 1 ] = colors1;
+				g.colors[ 2 ] = colors2;
+				g.colors[ 3 ] = colors3;
+				g.colors[ 4 ] = colors4;
+				g.colors[ 5 ] = colors5;
+				g.colors[ 6 ] = colors6;
+				g.colors[ 7 ] = colors7;
+				g.alphas[ 0 ] = alphas0;
+				g.alphas[ 1 ] = alphas1;
+				g.alphas[ 2 ] = alphas2;
+				g.alphas[ 3 ] = alphas3;
+				g.alphas[ 4 ] = alphas4;
+				g.alphas[ 5 ] = alphas5;
+				g.alphas[ 6 ] = alphas6;
+				g.alphas[ 7 ] = alphas7;
+				return g;
+			}
+			
 			float2 UnStereo( float2 UV )
 			{
 				#if UNITY_SINGLE_PASS_STEREO
@@ -83,6 +120,28 @@ Shader "Others/Effects/DecalFireDepth"
 				result *= float3(1,1,-1);
 				#endif
 				return result;
+			}
+			
+			float4 SampleGradient( Gradient gradient, float time )
+			{
+				float3 color = gradient.colors[0].rgb;
+				UNITY_UNROLL
+				for (int c = 1; c < 8; c++)
+				{
+				float colorPos = saturate((time - gradient.colors[c-1].w) / (gradient.colors[c].w - gradient.colors[c-1].w)) * step(c, (float)gradient.colorsLength-1);
+				color = lerp(color, gradient.colors[c].rgb, lerp(colorPos, step(0.01, colorPos), gradient.type));
+				}
+				#ifndef UNITY_COLORSPACE_GAMMA
+				color = half3(GammaToLinearSpaceExact(color.r), GammaToLinearSpaceExact(color.g), GammaToLinearSpaceExact(color.b));
+				#endif
+				float alpha = gradient.alphas[0].x;
+				UNITY_UNROLL
+				for (int a = 1; a < 8; a++)
+				{
+				float alphaPos = saturate((time - gradient.alphas[a-1].y) / (gradient.alphas[a].y - gradient.alphas[a-1].y)) * step(a, (float)gradient.alphasLength-1);
+				alpha = lerp(alpha, gradient.alphas[a].x, lerp(alphaPos, step(0.01, alphaPos), gradient.type));
+				}
+				return float4(color, alpha);
 			}
 			
 
@@ -124,6 +183,7 @@ Shader "Others/Effects/DecalFireDepth"
 #ifdef ASE_NEEDS_FRAG_WORLD_POSITION
 				float3 WorldPosition = i.worldPos;
 #endif
+				Gradient gradient18 = NewGradient( 0, 3, 2, float4( 1, 0, 0, 0 ), float4( 1, 0, 0.06603765, 0.6294194 ), float4( 1, 0.6502035, 0.2688679, 1 ), 0, 0, 0, 0, 0, float2( 1, 0 ), float2( 1, 1 ), 0, 0, 0, 0, 0, 0 );
 				float4 screenPos = i.ase_texcoord1;
 				float4 ase_screenPosNorm = screenPos / screenPos.w;
 				ase_screenPosNorm.z = ( UNITY_NEAR_CLIP_VALUE >= 0 ) ? ase_screenPosNorm.z : ase_screenPosNorm.z * 0.5 + 0.5;
@@ -142,12 +202,13 @@ Shader "Others/Effects/DecalFireDepth"
 				float3 In72_g1 = ( (temp_output_43_0_g1).xyz / (temp_output_43_0_g1).w );
 				float3 localInvertDepthDir72_g1 = InvertDepthDir72_g1( In72_g1 );
 				float4 appendResult49_g1 = (float4(localInvertDepthDir72_g1 , 1.0));
-				float4 temp_output_1_0 = mul( unity_CameraToWorld, appendResult49_g1 );
-				float3 worldToObj5 = mul( unity_WorldToObject, float4( temp_output_1_0.xyz, 1 ) ).xyz;
-				float4 temp_cast_2 = (length( worldToObj5 )).xxxx;
+				float3 worldToObj5 = mul( unity_WorldToObject, float4( mul( unity_CameraToWorld, appendResult49_g1 ).xyz, 1 ) ).xyz;
+				float smoothstepResult21 = smoothstep( _FallOff , 1.0 , ( 1.0 - length( ( worldToObj5 * 2 ) ) ));
+				float temp_output_17_0 = saturate( smoothstepResult21 );
+				float4 appendResult15 = (float4(( SampleGradient( gradient18, temp_output_17_0 ) * temp_output_17_0 ).rgb , temp_output_17_0));
 				
 				
-				finalColor = temp_cast_2;
+				finalColor = appendResult15;
 				return finalColor;
 			}
 			ENDCG
@@ -159,17 +220,42 @@ Shader "Others/Effects/DecalFireDepth"
 }
 /*ASEBEGIN
 Version=18301
-0;416;974;273;478.2831;139.7946;1.3;True;False
-Node;AmplifyShaderEditor.FunctionNode;1;-692,3;Inherit;False;Reconstruct World Position From Depth;-1;;1;e7094bcbcc80eb140b2a3dbe6a861de8;0;0;1;FLOAT4;0
-Node;AmplifyShaderEditor.TransformPositionNode;5;-95.75856,-31.38;Inherit;False;World;Object;False;Fast;True;1;0;FLOAT3;0,0,0;False;4;FLOAT3;0;FLOAT;1;FLOAT;2;FLOAT;3
-Node;AmplifyShaderEditor.WorldToObjectTransfNode;3;-271.2001,214.4;Inherit;False;1;0;FLOAT4;0,0,0,1;False;5;FLOAT4;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
-Node;AmplifyShaderEditor.TransformDirectionNode;4;-240.5821,75.73671;Inherit;False;World;Object;False;Fast;1;0;FLOAT3;0,0,0;False;4;FLOAT3;0;FLOAT;1;FLOAT;2;FLOAT;3
-Node;AmplifyShaderEditor.LengthOpNode;7;189.9169,26.60538;Inherit;False;1;0;FLOAT3;0,0,0;False;1;FLOAT;0
-Node;AmplifyShaderEditor.TemplateMultiPassMasterNode;0;347.1,-10.4;Float;False;True;-1;2;ASEMaterialInspector;100;1;Others/Effects/DecalFireDepth;0770190933193b94aaa3065e307002fa;True;Unlit;0;0;Unlit;2;True;0;1;False;-1;0;False;-1;0;1;False;-1;0;False;-1;True;0;False;-1;0;False;-1;False;False;False;False;False;False;True;0;False;-1;True;0;False;-1;True;True;True;True;True;0;False;-1;False;False;False;True;False;255;False;-1;255;False;-1;255;False;-1;7;False;-1;1;False;-1;1;False;-1;1;False;-1;7;False;-1;1;False;-1;1;False;-1;1;False;-1;True;1;False;-1;True;3;False;-1;True;True;0;False;-1;0;False;-1;True;1;RenderType=Opaque=RenderType;True;2;0;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;1;LightMode=ForwardBase;False;0;;0;0;Standard;1;Vertex Position,InvertActionOnDeselection;1;0;1;True;False;;0
+0;416;974;273;414.7712;396.4667;1;True;False
+Node;AmplifyShaderEditor.FunctionNode;1;-756.923,-10.88174;Inherit;False;Reconstruct World Position From Depth;-1;;1;e7094bcbcc80eb140b2a3dbe6a861de8;0;0;1;FLOAT4;0
+Node;AmplifyShaderEditor.TransformPositionNode;5;-416.7365,-17.09077;Inherit;False;World;Object;False;Fast;True;1;0;FLOAT3;0,0,0;False;4;FLOAT3;0;FLOAT;1;FLOAT;2;FLOAT;3
+Node;AmplifyShaderEditor.ScaleNode;11;-218.2524,-16.17487;Inherit;False;2;1;0;FLOAT3;0,0,0;False;1;FLOAT3;0
+Node;AmplifyShaderEditor.LengthOpNode;7;-102.2639,-18.77206;Inherit;False;1;0;FLOAT3;0,0,0;False;1;FLOAT;0
+Node;AmplifyShaderEditor.RangedFloatNode;13;5.686213,54.04967;Inherit;False;Property;_FallOff;Fall Off;0;0;Create;True;0;0;False;0;False;0;-0.14;0;0;0;1;FLOAT;0
+Node;AmplifyShaderEditor.OneMinusNode;14;28.39804,-12.13128;Inherit;False;1;0;FLOAT;0;False;1;FLOAT;0
+Node;AmplifyShaderEditor.SmoothstepOpNode;21;182.7438,-2.08959;Inherit;False;3;0;FLOAT;0;False;1;FLOAT;0;False;2;FLOAT;1;False;1;FLOAT;0
+Node;AmplifyShaderEditor.GradientNode;18;93.4151,-252.2722;Inherit;False;0;3;2;1,0,0,0;1,0,0.06603765,0.6294194;1,0.6502035,0.2688679,1;1,0;1,1;0;1;OBJECT;0
+Node;AmplifyShaderEditor.SaturateNode;17;331.5657,-0.6072874;Inherit;False;1;0;FLOAT;0;False;1;FLOAT;0
+Node;AmplifyShaderEditor.GradientSampleNode;19;311.6763,-259.024;Inherit;True;2;0;OBJECT;;False;1;FLOAT;0;False;5;COLOR;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
+Node;AmplifyShaderEditor.SimpleMultiplyOpNode;20;678.2446,-208.5124;Inherit;False;2;2;0;COLOR;0,0,0,0;False;1;FLOAT;0;False;1;COLOR;0
+Node;AmplifyShaderEditor.DynamicAppendNode;15;862.1811,-87.23509;Inherit;False;FLOAT4;4;0;FLOAT3;0,0,0;False;1;FLOAT;0;False;2;FLOAT;0;False;3;FLOAT;0;False;1;FLOAT4;0
+Node;AmplifyShaderEditor.SimpleMultiplyOpNode;38;-111.5723,155.4836;Inherit;False;2;2;0;FLOAT;0;False;1;FLOAT;0;False;1;FLOAT;0
+Node;AmplifyShaderEditor.SimpleTimeNode;40;-665.4993,199.7735;Inherit;False;1;0;FLOAT;1;False;1;FLOAT;0
+Node;AmplifyShaderEditor.ClampOpNode;42;-267.7089,121.5056;Inherit;False;3;0;FLOAT;0;False;1;FLOAT;0;False;2;FLOAT;1;False;1;FLOAT;0
+Node;AmplifyShaderEditor.SinOpNode;39;-525.7994,198.7736;Inherit;False;1;0;FLOAT;0;False;1;FLOAT;0
+Node;AmplifyShaderEditor.RangedFloatNode;41;-837.1088,213.8055;Inherit;False;Property;_Float0;Float 0;1;0;Create;True;0;0;False;0;False;0;2;0;0;0;1;FLOAT;0
+Node;AmplifyShaderEditor.TemplateMultiPassMasterNode;0;999.7986,-81.00065;Float;False;True;-1;2;ASEMaterialInspector;100;1;Others/Effects/DecalFireDepth;0770190933193b94aaa3065e307002fa;True;Unlit;0;0;Unlit;2;True;3;1;False;-1;10;False;-1;0;1;False;-1;0;False;-1;True;0;False;-1;0;False;-1;False;False;False;False;False;False;True;0;False;-1;True;0;False;-1;True;True;True;True;True;0;False;-1;False;False;False;True;False;255;False;-1;255;False;-1;255;False;-1;7;False;-1;1;False;-1;1;False;-1;1;False;-1;7;False;-1;1;False;-1;1;False;-1;1;False;-1;True;1;False;-1;True;3;False;-1;True;False;0;False;-1;0;False;-1;True;1;RenderType=Opaque=RenderType;True;2;0;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;1;LightMode=ForwardBase;False;0;;0;0;Standard;1;Vertex Position,InvertActionOnDeselection;1;0;1;True;False;;0
 WireConnection;5;0;1;0
-WireConnection;3;0;1;0
-WireConnection;4;0;1;0
-WireConnection;7;0;5;0
-WireConnection;0;0;7;0
+WireConnection;11;0;5;0
+WireConnection;7;0;11;0
+WireConnection;14;0;7;0
+WireConnection;21;0;14;0
+WireConnection;21;1;13;0
+WireConnection;17;0;21;0
+WireConnection;19;0;18;0
+WireConnection;19;1;17;0
+WireConnection;20;0;19;0
+WireConnection;20;1;17;0
+WireConnection;15;0;20;0
+WireConnection;15;3;17;0
+WireConnection;38;1;42;0
+WireConnection;40;0;41;0
+WireConnection;42;0;39;0
+WireConnection;39;0;40;0
+WireConnection;0;0;15;0
 ASEEND*/
-//CHKSM=893247A3BE8F689D65E9980562754503CD9A379D
+//CHKSM=AC97C25A2005BB6DEF6DFC24FA1AFE16259333F4
