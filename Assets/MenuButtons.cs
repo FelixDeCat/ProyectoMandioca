@@ -5,6 +5,8 @@ using UnityEngine.UI;
 
 public class MenuButtons : MonoBehaviour
 {
+    [SerializeField] MainMenuButtons selectorButtons = null;
+
     public Animator animLoadM;
     public Animator animSttngsM;
     public Animator animCredits;
@@ -77,9 +79,10 @@ public class MenuButtons : MonoBehaviour
     }
     private void Update()
     {
-        if (_currentAnim != null&&Input.anyKeyDown)
+        if (_currentAnim != null && Input.GetKeyDown(KeyCode.Escape) || _currentAnim != null && Input.GetKeyDown(KeyCode.Joystick1Button1))
         {
             ReactivateButtons(_currentAnim);
+            selectorButtons.SelectButton(mainButtons[0].gameObject);
             _currentAnim = null;
         }
     }

@@ -1,5 +1,4 @@
 ﻿using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
@@ -8,12 +7,18 @@ public class MainMenuButtons : MonoBehaviour
 {
     EventSystem eventSystem;
     [SerializeField] GameObject primaryButton = null;
+    [SerializeField] GameObject selected;
 
     private void Awake()
     {
         eventSystem = FindObjectOfType<EventSystem>();
         eventSystem?.SetSelectedGameObject(null);
         StartCoroutine(SelectButtonCoroutine(primaryButton));
+    }
+
+    private void Update()
+    {
+        selected = eventSystem.currentSelectedGameObject;
     }
 
     IEnumerator SelectButtonCoroutine(GameObject button)

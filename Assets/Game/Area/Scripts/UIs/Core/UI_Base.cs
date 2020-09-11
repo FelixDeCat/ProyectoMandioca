@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using System.Collections;
 using UnityEngine.UI;
 
 [RequireComponent(typeof(UI_Anim_Code))] 
@@ -33,9 +34,14 @@ public abstract class UI_Base : MonoBehaviour
     protected abstract void OnUpdate();
     public abstract void Refresh();
     public void ConfigurateFirst(GameObject go) => firstToOpenMenu = go;
-    public void ForceDirectConfigurateFirst(GameObject go) =>  Main.instance.GetMyEventSystem().Set_First(go);
+    public void ForceDirectConfigurateFirst(GameObject go) { Main.instance.GetMyEventSystem().DeselectGameObject(); StartCoroutine(SelectButtonCoroutine(go)); }
 
-    
+    IEnumerator SelectButtonCoroutine(GameObject button)
+    {
+        yield return new WaitForEndOfFrame();
+        Main.instance.GetMyEventSystem().Set_First(button);
+    }
+
     public virtual void Open()
     {
         if(!isActive) anim.Open();
@@ -44,14 +50,14 @@ public abstract class UI_Base : MonoBehaviour
         isActive = true;
         if(firstToOpenMenu) Main.instance.GetMyEventSystem().Set_First(firstToOpenMenu.gameObject);
     }
-    public virtual void Close()
+    public virtual void Close(bool buttonDeselect = false)
     {
         if (isActive)
         {
             anim.Close();
             parent.SetActive(false);
             isActive = false;
-            Main.instance.GetMyEventSystem().DeselectGameObject();
+            if (buttonDeselect) Main.instance.GetMyEventSystem().DeselectGameObject();
         }
     }
 }

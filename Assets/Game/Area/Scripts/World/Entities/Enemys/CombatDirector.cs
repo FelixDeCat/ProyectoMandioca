@@ -165,7 +165,7 @@ public class CombatDirector : LoadComponent, IZoneElement
 
     EnemyBase CheckPosition(EnemyBase combat, EntityBase entity)
     {
-        if (combat != null)
+        if (combat.gameObject.activeSelf)
         {
             var temp = combat;
             for (int i = 0; i < waitToAttack[entity].Count; i++)
