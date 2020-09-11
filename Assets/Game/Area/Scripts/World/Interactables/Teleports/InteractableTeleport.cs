@@ -11,6 +11,7 @@ public class InteractableTeleport : Interactable
     [Multiline(10)]
     public string informacion_del_teleport = "bla bla bla";
     public bool mostrar_cartelito = true;
+    public bool mostrar_Descripcion = true;
     public Transform transform_destino;
     public string sceneToChange;
     public override void OnExecute(WalkingEntity entity) 
@@ -29,8 +30,9 @@ public class InteractableTeleport : Interactable
     {
         if (mostrar_cartelito)
         {
-            if(pointToMessage != null) WorldItemInfo.instance.Show(pointToMessage.transform.position, titulo, informacion_del_teleport, interactInfo, false, false);
-            else WorldItemInfo.instance.Show(this.transform.position, titulo, informacion_del_teleport, interactInfo, false, false);
+            Main.instance.GetChar().GetCharMove().StopDamageFall();
+            if (pointToMessage != null) WorldItemInfo.instance.Show(pointToMessage.transform.position, titulo, informacion_del_teleport, interactInfo, false, mostrar_Descripcion);
+            else WorldItemInfo.instance.Show(this.transform.position, titulo, informacion_del_teleport, interactInfo, false, mostrar_Descripcion);
         }
     }
 }

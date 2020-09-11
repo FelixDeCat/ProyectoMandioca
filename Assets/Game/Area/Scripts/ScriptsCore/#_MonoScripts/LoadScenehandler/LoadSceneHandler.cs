@@ -30,22 +30,30 @@ public class LoadSceneHandler : MonoBehaviour
         }
     }
 
-    public void LoadAScene(string scene)
+    public void LoadAScene(string scene, bool loadScreen = true)
     {
         SceneToLoad = scene;
-        loadscreen.SetActive(true);
-        Fades_Screens.instance.Black();
-        Fades_Screens.instance.FadeOff(LoadTime);
+
+        if (loadScreen)
+        {
+            loadscreen.SetActive(true);
+            Fades_Screens.instance.Black();
+            Fades_Screens.instance.FadeOff(LoadTime);
+        }
+        else
+        {
+            StartCoroutine(Load().GetEnumerator());
+        }
     }
 
     void LoadTime()
     {
-        master_genbar_Scene.gameObject.SetActive(true);
-        master_genbar_Scene.Configure(1f, 0.01f);
-        master_genbar_Scene.SetValue(0);
-        master_genbar_localLoader.gameObject.SetActive(true);
-        master_genbar_localLoader.Configure(1f, 0.01f);
-        master_genbar_localLoader.SetValue(0);
+        master_genbar_Scene?.gameObject.SetActive(true);
+        master_genbar_Scene?.Configure(1f, 0.01f);
+        master_genbar_Scene?.SetValue(0);
+        master_genbar_localLoader?.gameObject.SetActive(true);
+        master_genbar_localLoader?.Configure(1f, 0.01f);
+        master_genbar_localLoader?.SetValue(0);
 
         StartCoroutine(Load().GetEnumerator());
     }
@@ -81,21 +89,24 @@ public class LoadSceneHandler : MonoBehaviour
     AsyncOperation asyncLoad;
     IEnumerator LoadAsyncScene()
     {
-        asyncLoad = SceneManager.LoadSceneAsync(SceneToLoad);
-        asyncLoad.completed += Completed;
-        asyncLoad.allowSceneActivation = false;
-        while (!asyncLoad.isDone)
+        if (SceneManager.GetActiveScene().name != SceneToLoad)
         {
-            yield return new WaitForEndOfFrame();
-            MasterBarScene(asyncLoad.progress, 1);
-
-            if (asyncLoad.progress >= 0.9f)
+            asyncLoad = SceneManager.LoadSceneAsync(SceneToLoad);
+            asyncLoad.completed += Completed;
+            asyncLoad.allowSceneActivation = false;
+            while (!asyncLoad.isDone)
             {
-                asyncLoad.allowSceneActivation = true;
+                yield return new WaitForEndOfFrame();
+                MasterBarScene(asyncLoad.progress, 1);
+
+                if (asyncLoad.progress >= 0.9f)
+                {
+                    asyncLoad.allowSceneActivation = true;
+                }
+                yield return null;
             }
-            yield return null;
+            OnEndLoad.Invoke();
         }
-        OnEndLoad.Invoke();
     }
     void Completed(AsyncOperation async) 
     { 
@@ -111,13 +122,13 @@ public class LoadSceneHandler : MonoBehaviour
     #region Bar
     public void MasterBarScene(float value, int max)
     {
-        master_genbar_Scene.Configure(max, 0.01f);
-        master_genbar_Scene.SetValue(value);
+        master_genbar_Scene?.Configure(max, 0.01f);
+        master_genbar_Scene?.SetValue(value);
     }
     public void MasterBarScripts(float value, int max)
     {
-        master_genbar_localLoader.Configure(max, 0.01f);
-        master_genbar_localLoader.SetValue(value);
+        master_genbar_localLoader?.Configure(max, 0.01f);
+        master_genbar_localLoader?.SetValue(value);
     }
     #endregion
 

@@ -4,18 +4,21 @@ using UnityEngine;
 
 public class BoomerangShield : MonoBehaviour
 {
-    public void OnUse()
+    ///////////////////////////////////////
+    //  USE
+    ///////////////////////////////////////
+    public void OnPress()
     {
         Debug.Log("ON PRESS");
-    }
-    public void OnExecute()
-    {
-        Debug.Log("EXECUTE");
     }
     public void OnStopUse()
     {
         Debug.Log("ON RELEASE");
     }
+
+    ///////////////////////////////////////
+    //  EQUIP
+    ///////////////////////////////////////
     public void Equip()
     {
         Debug.Log("EQUIP");
@@ -23,6 +26,20 @@ public class BoomerangShield : MonoBehaviour
     public void UnEQuip()
     {
         Debug.Log("UNEQUIP");
+    }
+
+
+    ///////////////////////////////////////
+    //  EXECUTE SKILL
+    ///////////////////////////////////////
+    public void OnExecute()
+    {
+        Debug.Log("EXECUTE");
+    }
+
+    private void Update()
+    {
+        
     }
 }
 

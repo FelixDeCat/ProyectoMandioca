@@ -66,7 +66,7 @@ public class Mouse_Or_Keyboard : MonoBehaviour
     {
         CharacterInput inputs = Main.instance.GetChar().getInput;
         inputs.ChangeRotation(_activeRotation);
-        LoadSceneHandler.instance.LoadAScene(sceneBlocking);
-        gameObject.SetActive(false);
+        LoadSceneHandler.instance.LoadAScene(sceneBlocking, false);
+        //gameObject.SetActive(false);
     }
 }
