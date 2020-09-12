@@ -102,7 +102,7 @@ public class PingPongLerp
                 aux += Time.deltaTime;
             }
             yield return new WaitForEndOfFrame();
-            if (notCanBack)
+            if (notCanBack && aux >= cantspeed * goSpeed)
             {
                 Stop();
                 yield break;
