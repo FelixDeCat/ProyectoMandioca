@@ -10,5 +10,5 @@ public class AnimEvent : MonoBehaviour
     public void Remove_Callback(string s, Action receiver) => myeventManager.UnsubscribeToEvent(s, receiver);
 
     //este es la funcion que vamos a disparar desde las animaciones
-    public void EVENT_Callback(string s) => myeventManager.TriggerEvent(s);
+    public void EVENT_Callback(string s)  {myeventManager.TriggerEvent(s);} 
 }

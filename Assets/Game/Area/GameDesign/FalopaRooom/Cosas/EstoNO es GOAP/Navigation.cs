@@ -11,6 +11,7 @@ namespace GOAP
         public static Navigation instance;
         public List<Waypoint> _waypoints = new List<Waypoint>();
 
+
         void Start()
         {
             instance = this;
@@ -19,8 +20,17 @@ namespace GOAP
             {
                 var wp = xf.GetComponent<Waypoint>();
                 if (wp != null)
+                {
                     _waypoints.Add(wp);
+                }
+                    
             }
+
+            foreach(Waypoint wp in _waypoints)
+            {
+                wp.InitializeNodes();
+            }
+
         }
 
         public bool Reachable(Vector3 from, Vector3 to, List<Tuple<Vector3, Vector3>> debugRayList = null)
@@ -39,7 +49,7 @@ namespace GOAP
                     , w => w == dstWp
                     , w =>
                         w.adyacent
-                            .Where(a => a.nearbyItems.All(it => it.type != ItemType.Door))
+                            //.Where(a => a.nearbyItems.All(it => it.type != ItemType.Door))
                             .Select(a => new AStar<Waypoint>.Arc(a, Vector3.Distance(a.transform.position, w.transform.position)))
                 );
                 if (path == null)

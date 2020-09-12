@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using System;
+using GOAP;
 
 
 public class CaronteEvent : MonoBehaviour
@@ -11,7 +12,7 @@ public class CaronteEvent : MonoBehaviour
     [SerializeField] LayerMask floor;
 
     [SerializeField] GameObject hand_pf;
-    [SerializeField] Caronte caronte_pf;
+    [SerializeField] Ente caronte_pf;
 
     public bool caronteActive;
 
@@ -30,7 +31,7 @@ public class CaronteEvent : MonoBehaviour
 
         if (!caronteActive) return;
 
-        stopMovement = true;
+        //stopMovement = true;
 
         carontePP.SetActive(true);
 
@@ -46,19 +47,19 @@ public class CaronteEvent : MonoBehaviour
         //Inicializo mano
         var mano = GameObject.Instantiate<GameObject>(hand_pf);
         var m = mano.GetComponentInChildren<CaronteHand>();
-        mano.transform.position = character.transform.position - new Vector3(0, 12, 0);
+        mano.transform.position = character.transform.position - new Vector3(0, 12, -2);
 
        
 
         m.OnMissPlayer += SpawnCaronte;
         m.OnGrabPlayer += () => 
         {
-
+            
             character.Life.Heal(1);
             var dData = mano.GetComponent<DamageData>().SetDamage(200).SetDamageType(Damagetype.NonBlockAndParry);
             if(character.DamageReceiver().TakeDamage(dData) == Attack_Result.inmune)
             {
-                SpawnCaronte();
+                //SpawnCaronte();
             }
             TurnOffCarontePP();
         };
@@ -68,22 +69,23 @@ public class CaronteEvent : MonoBehaviour
 
     void SpawnCaronte()
     {
-        character.Life.Heal(1);
-        var caronte = GameObject.Instantiate<Caronte>(caronte_pf);
-        caronte.OnDefeatCaronte += OnDefeatCaronte;
+        character.Life.Heal(25);
+        var caronte = GameObject.Instantiate<Ente>(caronte_pf);
+        caronte.OnDeath += OnDefeatCaronte;
+        caronte.OnDeath += (v3) => Destroy(caronte.gameObject);
         caronte.transform.position = GetSurfacePos();
-        stopMovement = false;
+        //stopMovement = false;
         return;
     }
 
     private void Update()
     {
-        if(stopMovement)
+        if (stopMovement)
         {
             character?.GetCharMove().MovementVertical(0);
             character?.GetCharMove().MovementHorizontal(0);
         }
-        
+
     }
 
     public Vector3 GetSurfacePos()
@@ -106,11 +108,12 @@ public class CaronteEvent : MonoBehaviour
         return new Vector3(UnityEngine.Random.Range(min.x, max.x), t.position.y, UnityEngine.Random.Range(min.z, max.z));
     }
 
-    void OnDefeatCaronte()
+    void OnDefeatCaronte(Vector3 v3)
     {
         TurnOffCarontePP();
         character.Life.Heal(Mathf.RoundToInt(character.Life.GetMax() * 0.25f));
         character.Life.AllowCaronteEvent();
+        
     }
 
     public void TurnOffCarontePP()

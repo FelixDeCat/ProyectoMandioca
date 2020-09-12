@@ -5,21 +5,8 @@ namespace GOAP
 {
     public enum ItemType
     {
-        Invalid,
-        Key,
-        Door,
-        Entity,
-        Mace,
-        PastaFrola,
-        Button,
-        Hp,
-        Coin,
-        CoinDoor,
-        PressurePlate,
-        KeyDoor,
-        PatrolPoint,
-        Dude,
-        HideSpot
+       hero,
+       speedBuff
     }
 
     public class Item : MonoBehaviour
@@ -29,10 +16,20 @@ namespace GOAP
 
         public bool interactuable = true;
 
-        private void Start()
+        private void Initialize()
         {
-            _wp = Navigation.instance.NearestTo(transform.position);   
-            _wp.nearbyItems.Add(this);
+            if(Navigation.instance != null)
+            {
+                _wp = Navigation.instance.NearestTo(transform.position);
+                _wp.nearbyItems.Add(this);
+            }
+            
+        }
+
+        private void Update()
+        {
+            if (Input.GetKeyDown(KeyCode.K))
+                Initialize();
         }
 
         //private void OnDestroy()

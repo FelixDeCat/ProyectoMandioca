@@ -12,16 +12,31 @@ namespace GOAP
         public float healthCurrent;
 
         public event Action<Ente, Waypoint, bool> OnReachDestination = delegate { };
+        public event Action OnReachDestinationNoParameters = delegate { };
         public event Action<Ente, Item> OnHitItem = delegate { };
         public event Action<Ente, Item> OnStayItem = delegate { };
+        public event Action OnFinishAttack = delegate { };
+        public event Action OnMeleeAttack = delegate { };
         public event Action OnTakeDmg = delegate { };
+        public event Action<Vector3> OnDeath = delegate { };
 
         [SerializeField] Transform _root;
+        public Transform Root() => _root;
+        CharacterHead character;
 
+        public bool canSpeedBuff = true;
+        public AttackSensor attackSensor;
+        public DamageReceiver damagereciever;
 
         Animator _anim;
+        public AnimEvent _animEvent;
 
         public Animator Anim ()=> _anim; 
+        public AnimEvent AnimEvent ()=> _animEvent;
+
+
+        [Header("Feedback")]
+        [SerializeField] ParticleSystem takeDamage_fb;
 
         void FixedUpdate()
         {
@@ -30,10 +45,27 @@ namespace GOAP
 
         private void Start()
         {
+            
+            damagereciever.Initialize(_root, IsDamaged, OnDeath, TakeDamageFeedback, GetComponent<Rigidbody>(), GetComponent<EnemyLifeSystem>());
+
             _anim = GetComponentInChildren<Animator>();
+            //_animEvent = GetComponentInChildren<AnimEvent>();
+
+            _animEvent.Add_Callback("meleeAttack", OnMeleeAttackHit);
+            _animEvent.Add_Callback("finishAttack", OnFinishMeleeAttackAnimation);
+
+            //prendo y apago el sensor cuando la animacion lo pide
+            OnMeleeAttack += () => attackSensor.gameObject.SetActive(true);
+            OnFinishAttack += () => attackSensor.gameObject.SetActive(false);
 
             OnReachDestination += Stop;
+
+            GetComponent<Dude>().Initialize();
         }
+
+        void OnMeleeAttackHit() => OnMeleeAttack?.Invoke();  
+        void OnFinishMeleeAttackAnimation() => OnFinishAttack?.Invoke();
+
 
         private void Update()
         {
@@ -52,6 +84,19 @@ namespace GOAP
 
             if (healthCurrent <= 0)
                 Debug.Log("Dead");
+        }
+
+        void TakeDamageFeedback(DamageData dData)
+        {
+            _anim.SetTrigger("takeDamage");
+            takeDamage_fb.Play();
+            
+        }
+
+        public bool IsDamaged()
+        {
+            
+            return false;
         }
 
         #endregion
@@ -124,7 +169,7 @@ namespace GOAP
                     {
                         
 
-                        while ((next - FloorPos(this)).sqrMagnitude >= 0.05f)
+                        while ((next - FloorPos(this)).sqrMagnitude >= 1f)//0.05f)
                         {
                             _vel = (next - FloorPos(this)).normalized;
                             _root.LookAt(next);
@@ -134,16 +179,18 @@ namespace GOAP
                     }
                 }
                 reachedDst = path.Last();
+                _root.LookAt(reachedDst.transform.position);
             }
 
             if (reachedDst == dstWp)
             {
                 _vel = (FloorPos(destination) - FloorPos(this)).normalized;
-                yield return new WaitUntil(() => (FloorPos(destination) - FloorPos(this)).sqrMagnitude < 0.05f);
+                yield return new WaitUntil(() => (FloorPos(destination) - FloorPos(this)).sqrMagnitude < 1.5f);//0.05f);
             }
 
             _vel = Vector3.zero;
-            OnReachDestination(this, reachedDst, reachedDst == dstWp);
+            OnReachDestination?.Invoke(this, reachedDst, reachedDst == dstWp);
+            OnReachDestinationNoParameters?.Invoke();
         }
 
 
@@ -192,6 +239,7 @@ namespace GOAP
                 Gizmos.DrawCube(_gizmoRealTarget.transform.position + Vector3.up * 1f, Vector3.one * 0.3f);
 
         }
+        
 
         #endregion
 

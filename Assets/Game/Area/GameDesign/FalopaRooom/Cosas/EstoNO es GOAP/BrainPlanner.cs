@@ -11,7 +11,9 @@ namespace GOAP
     {
 
         [Header("Cost settings")]
-        public int getMeleeRange;
+        public int meleeAttack;
+        public int speedBuff;
+        public int move;
 
         private readonly List<Tuple<Vector3, Vector3>> _debugRayList = new List<Tuple<Vector3, Vector3>>();
 
@@ -27,10 +29,13 @@ namespace GOAP
 
 
             var typeDict = new Dictionary<string, ItemType>() {
-              { "meleeRange", ItemType.Key }
+              { "hero", ItemType.hero }, 
+              { "speed", ItemType.speedBuff } 
         };
             var actDict = new Dictionary<string, ActionEntity>() {
-              { "GoTo", ActionEntity.MeleeAttack }
+              { "AttackMelee", ActionEntity.MeleeAttack },
+              { "Buff", ActionEntity.Speedbuff },
+              { "GoTo", ActionEntity.Move }
         };
 
 
@@ -38,7 +43,7 @@ namespace GOAP
             Func<GoapState, int> final = (gS) =>
             {
                 int h = 0;
-                if (!gS.worldStateSnap.values["hasKey"]) h += 1;
+                if (gS.worldStateSnap.charLife > 0) h += 1;
                 return h;
             };
             GoapState initial = new GoapState();
@@ -86,16 +91,33 @@ namespace GOAP
         {
             return new List<GoapAction>()
             {
-                    new GoapAction("GoTo meleeRange")
-                        .SetCost(getMeleeRange)
-                        
+                    new GoapAction("AttackMelee hero")
+                        .SetCost(meleeAttack)
+                        .Pre(gS => gS.charLife > 0 && gS.distanceToHero < 5)
 
                         .Effect(gS =>
                         {
-                            gS.values["hasKey"] = true;
+                            gS.charLife -= 5;
+                        }),
+                    new GoapAction("Buff speed")
+                        .SetCost(speedBuff)
+                        .Pre(gS =>  gS.canSpeedbuff && gS.distanceToHero >= 5)
+
+                        .Effect(gS =>
+                        {
+                            gS.canSpeedbuff = false;
+                            gS.distanceToHero = 3;
+                        }),
+                    new GoapAction("GoTo hero")
+                        .SetCost(move)
+                        .Pre(gS =>  gS.distanceToHero >= 5)
+
+                        .Effect(gS =>
+                        {
+                            gS.distanceToHero = 3;
                         }),
 
-            
+
             };
         }
 

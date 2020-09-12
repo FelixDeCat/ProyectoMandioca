@@ -38,10 +38,12 @@ public class CaronteHand : MonoBehaviour
 
         if(Vector3.Distance(transform.position, Main.instance.GetChar().Root.position) <= distanceToGrab)
         {
+            Debug.Log("la mano agarra al player");
             OnGrabPlayer?.Invoke();
         }
         else
         {
+            Debug.Log("mano erra");
             OnMissPlayer?.Invoke();
         }
 
