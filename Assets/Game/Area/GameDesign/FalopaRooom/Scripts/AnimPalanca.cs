@@ -5,6 +5,7 @@ using UnityEngine;
 public class AnimPalanca : MonoBehaviour
 {
     Animator myAnim;
+    [SerializeField] GameObject[] objsTurnOff;
 
     bool isOn = false;
     private void Awake()
@@ -14,10 +15,21 @@ public class AnimPalanca : MonoBehaviour
 
     public void Anim()
     {
-        if (!isOn) myAnim.Play("PalancaOn");   
+        if (!isOn)
+        {
+            myAnim.Play("PalancaOn");
+            for (int i = 0; i < objsTurnOff.Length; i++)
+            {
+                objsTurnOff[i].SetActive(false);
+            }
+        }
     }
     public void AnimOff()
     {
         myAnim.Play("PalancaOff");
+        for (int i = 0; i < objsTurnOff.Length; i++)
+        {
+            objsTurnOff[i].SetActive(true);
+        }
     }
 }

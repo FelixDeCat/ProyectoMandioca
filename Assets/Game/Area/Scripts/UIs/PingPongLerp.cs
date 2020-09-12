@@ -15,7 +15,7 @@ public class PingPongLerp
     bool overload;
     bool oneshotoverload;
 
-    float cantspeed;
+    float cantspeed = 1f;
 
     bool loop;
 
@@ -74,7 +74,7 @@ public class PingPongLerp
                 cantspeed = _cantspeed;
                 oneshotoverload = true;
             }
-            
+
         }
     }
 
@@ -91,9 +91,8 @@ public class PingPongLerp
         Play(num);
         float aux = 0;
         anim = true;
-        while(aux < 2 * cantspeed * goSpeed + time_stop_back)
+        while (aux < 2 * cantspeed * goSpeed + time_stop_back)
         {
-            Updatear();
             if (!anim_time_stop)
             {
                 aux += cantspeed * goSpeed * Time.deltaTime;
@@ -105,12 +104,10 @@ public class PingPongLerp
             yield return new WaitForEndOfFrame();
             if (notCanBack)
             {
-                anim = false;
                 Stop();
                 yield break;
             }
         }
-        anim = false;
         Stop();
         act.Invoke();
         changeBool.Invoke(true);
@@ -125,7 +122,7 @@ public class PingPongLerp
             {
                 if (go)
                 {
-                    if (timer < 1) { timer = timer + cantspeed* goSpeed * Time.deltaTime; callback(timer); }
+                    if (timer < 1) { timer = timer + cantspeed * goSpeed * Time.deltaTime; callback(timer); }
                     else
                     {
                         timer = 1;
@@ -181,6 +178,7 @@ public class PingPongLerp
                     if (timer_stop < time_stop_go)
                     {
                         timer_stop = timer_stop + 1 * Time.deltaTime;
+                        Debug.Log("GO" + timer_stop);
                     }
                     else
                     {
@@ -193,6 +191,7 @@ public class PingPongLerp
                     if (timer_stop < time_stop_back)
                     {
                         timer_stop = timer_stop + 1 * Time.deltaTime;
+                        Debug.Log("back" + timer_stop);
                     }
                     else
                     {
@@ -200,7 +199,7 @@ public class PingPongLerp
                         anim_time_stop = false;
                     }
                 }
-            
+
             }
         }
     }
