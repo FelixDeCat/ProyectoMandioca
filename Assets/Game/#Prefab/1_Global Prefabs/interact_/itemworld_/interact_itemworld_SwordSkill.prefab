@@ -193,7 +193,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7104676001182063614}
-  - component: {fileID: 8250773346146493682}
   - component: {fileID: 3482681056625853461}
   - component: {fileID: 4727598802959696924}
   - component: {fileID: 941807130495705804}
@@ -219,19 +218,6 @@ Transform:
   m_Father: {fileID: 8697729264707728270}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!65 &8250773346146493682
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3481587724905602646}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 0.13477886, y: 0.32258797, z: 0.10976046}
-  m_Center: {x: -0.0010424554, y: 0.16357696, z: 0.0031273142}
 --- !u!114 &3482681056625853461
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -272,6 +258,9 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+  EV_Execute:
+    m_PersistentCalls:
+      m_Calls: []
   EV_UpdateUse:
     m_PersistentCalls:
       m_Calls: []
@@ -405,6 +394,7 @@ MonoBehaviour:
   ownTransform: 0
   toscale: {fileID: 1854495556832180652}
   cant_to_scale: {x: 0.5, y: 0.5, z: 0.5}
+  playOnAwake: 1
 --- !u!1 &6087907960850241633
 GameObject:
   m_ObjectHideFlags: 0
