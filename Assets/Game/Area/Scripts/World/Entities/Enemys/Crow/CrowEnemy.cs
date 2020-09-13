@@ -7,7 +7,10 @@ using UnityEngine.Serialization;
 
 public class CrowEnemy : EnemyBase
 {
+    [SerializeField] bool showGizmoCombatDistance;
+    [SerializeField] bool showGizmoDistancePos;
     public AnimationCurve animEmisive;
+
 
     [SerializeField] float rotationSpeed = 8;
 
@@ -249,6 +252,15 @@ public class CrowEnemy : EnemyBase
     protected override void OnTurnOn()
     {
         sm.SendInput(CrowInputs.IDLE);
+    }
+
+    public void OnDrawGizmos()
+    {
+        if (showGizmoDistancePos)
+            Gizmos.DrawWireSphere(transform.position, distancePos);
+
+        if (showGizmoCombatDistance)
+            Gizmos.DrawWireSphere(transform.position, combatDistance);
     }
 
     #region STATE MACHINE THINGS
