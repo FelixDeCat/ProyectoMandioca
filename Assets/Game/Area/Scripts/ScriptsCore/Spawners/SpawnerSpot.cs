@@ -6,6 +6,7 @@ using UnityEngine;
 public class SpawnerSpot
 {
     public float radious = 4;
+    [SerializeField] float heightSpawn = 20;
     [SerializeField] LayerMask mask = 1 << 21;
     [SerializeField] public Transform spawnSpot;
 
@@ -30,7 +31,7 @@ public class SpawnerSpot
     public Vector3 GetSurfacePos()
     {
         var pos = GetPosRandom(radious, spawnSpot);
-        pos.y += 20;
+        pos.y += heightSpawn;
 
         RaycastHit hit;
 
