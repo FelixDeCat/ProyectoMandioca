@@ -43,9 +43,9 @@ Shader "Other/Effects/DecalShadow"
 }
 /*ASEBEGIN
 Version=18301
-0;416;970;273;399.5663;-206.8161;1;True;False
+18.5;420;970;273;418.0663;-202.8161;1;True;False
 Node;AmplifyShaderEditor.WorldPosInputsNode;2;-1421.031,737.4021;Inherit;False;0;4;FLOAT3;0;FLOAT;1;FLOAT;2;FLOAT;3
-Node;AmplifyShaderEditor.Vector3Node;3;-1479.031,889.4021;Inherit;False;Property;_Pos;Pos;1;0;Create;True;0;0;False;0;False;783,120.5,117;-53.2,9.99,-43.31;0;4;FLOAT3;0;FLOAT;1;FLOAT;2;FLOAT;3
+Node;AmplifyShaderEditor.Vector3Node;3;-1479.031,889.4021;Inherit;False;Property;_Pos;Pos;1;0;Create;True;0;0;False;0;False;783,120.5,117;-52.74,9.63,-43.33;0;4;FLOAT3;0;FLOAT;1;FLOAT;2;FLOAT;3
 Node;AmplifyShaderEditor.DistanceOpNode;1;-1220.031,839.4021;Inherit;False;2;0;FLOAT3;0,0,0;False;1;FLOAT3;0,0,0;False;1;FLOAT;0
 Node;AmplifyShaderEditor.RangedFloatNode;5;-1207.534,922.6726;Inherit;False;Property;_Float0;Float 0;0;0;Create;True;0;0;False;0;False;0;6.87;0;0;0;1;FLOAT;0
 Node;AmplifyShaderEditor.SimpleDivideOpNode;4;-1022.999,826.8295;Inherit;False;2;0;FLOAT;0;False;1;FLOAT;0;False;1;FLOAT;0
@@ -62,4 +62,4 @@ WireConnection;6;1;7;0
 WireConnection;11;0;6;0
 WireConnection;25;0;11;0
 ASEEND*/
-//CHKSM=068CA32C69507AA44E0DD33B22F9A89F2A2668B5
+//CHKSM=AC1005363E9F4E39B47D8A46BA620B342C1F1845
