@@ -14,6 +14,7 @@ namespace GOAP
         public event Action<Ente, Waypoint, bool> OnReachDestination = delegate { };
         public event Action OnReachDestinationNoParameters = delegate { };
         public event Action<Ente, Item> OnHitItem = delegate { };
+        public event Action OnMeleeRangeWithPlayer = delegate { };
         public event Action<Ente, Item> OnStayItem = delegate { };
         public event Action OnFinishAttack = delegate { };
         public event Action OnMeleeAttack = delegate { };
@@ -31,22 +32,30 @@ namespace GOAP
         Animator _anim;
         public AnimEvent _animEvent;
 
-        public Animator Anim ()=> _anim; 
-        public AnimEvent AnimEvent ()=> _animEvent;
+        public Animator Anim() => _anim;
+        public AnimEvent AnimEvent() => _animEvent;
 
+        public Sensor meleeRange_sensor;
+        Rigidbody _rb;
+
+        public Vector3 _dir;
 
         [Header("Feedback")]
         [SerializeField] ParticleSystem takeDamage_fb;
 
         void FixedUpdate()
         {
+            _dir = _vel;
+            //_rb.velocity += _vel * currentSpeed * Time.fixedDeltaTime;
             transform.Translate(Time.fixedDeltaTime * _vel * currentSpeed);
         }
 
         private void Start()
         {
-            
-            damagereciever.Initialize(_root, IsDamaged, OnDeath, TakeDamageFeedback, GetComponent<Rigidbody>(), GetComponent<EnemyLifeSystem>());
+            _rb = GetComponent<Rigidbody>();
+
+            meleeRange_sensor.AddCallback_OnTriggerEnter(OnPlayerInMeleeRange);
+            damagereciever.Initialize(_root, IsDamaged, OnDeath, TakeDamageFeedback, _rb, GetComponent<EnemyLifeSystem>());
 
             _anim = GetComponentInChildren<Animator>();
             //_animEvent = GetComponentInChildren<AnimEvent>();
@@ -60,9 +69,13 @@ namespace GOAP
 
             OnReachDestination += Stop;
 
-            GetComponent<Dude>().Initialize();
         }
 
+        public void Initialize()
+        {
+            GetComponent<Dude>().Initialize();
+        }
+        void OnPlayerInMeleeRange(GameObject go)  {OnMeleeRangeWithPlayer?.Invoke(); }
         void OnMeleeAttackHit() => OnMeleeAttack?.Invoke();  
         void OnFinishMeleeAttackAnimation() => OnFinishAttack?.Invoke();
 
@@ -109,14 +122,15 @@ namespace GOAP
         Waypoint _gizmoRealTarget;
         IEnumerable<Waypoint> _gizmoPath;
         Coroutine _navCR;
-        Vector3 FloorPos(MonoBehaviour b)
-        {
-            return FloorPos(b.transform.position);
-        }
-        Vector3 FloorPos(Vector3 v)
-        {
-            return new Vector3(v.x, v.y, v.z);//Vector3(v.x, 0f, v.z);
-        }
+
+        //Vector3 FloorPos(MonoBehaviour b)
+        //{
+        //    return FloorPos(b.transform.position);
+        //}
+        //Vector3 FloorPos(Vector3 v)
+        //{
+        //    return new Vector3(v.x, v.y, v.z);//Vector3(v.x, 0f, v.z);
+        //}
 
 
         public void GoTo(Vector3 destination)
@@ -141,6 +155,7 @@ namespace GOAP
 
         protected virtual IEnumerator Navigate(Vector3 destination)
         {
+            nodeDebug = destination;
             var srcWp = Navigation.instance.NearestTo(transform.position);
             var dstWp = Navigation.instance.NearestTo(destination);
 
@@ -165,27 +180,28 @@ namespace GOAP
                 if (path != null)
                 {
                     // Debug.Log("COUNT" + path.Count());
-                    foreach (var next in path.Select(w => FloorPos(w)))
+                    foreach (var next in path)//.Select(w => FloorPos(w)))
                     {
-                        
-
-                        while ((next - FloorPos(this)).sqrMagnitude >= 1f)//0.05f)
-                        {
-                            _vel = (next - FloorPos(this)).normalized;
-                            _root.LookAt(next);
-                            yield return null;
-                        }
+                        _vel = (next.transform.position - _root.position);
+                        _vel.Normalize();
+                        yield return null;
+                        //while ((next.transform.position - _root.position).sqrMagnitude >= 1f)
+                        //{
+                        //    _vel = (next.transform.position - _root.position).normalized;
+                        //    _root.LookAt(next.transform.position);
+                        //    yield return null;
+                        //}
                        
                     }
                 }
                 reachedDst = path.Last();
-                _root.LookAt(reachedDst.transform.position);
             }
 
             if (reachedDst == dstWp)
             {
-                _vel = (FloorPos(destination) - FloorPos(this)).normalized;
-                yield return new WaitUntil(() => (FloorPos(destination) - FloorPos(this)).sqrMagnitude < 1.5f);//0.05f);
+                _vel = (destination - _root.position).normalized;
+                _root.LookAt(destination);
+                yield return new WaitUntil(() => (destination - _root.position).sqrMagnitude < 0.05f);
             }
 
             _vel = Vector3.zero;
@@ -196,9 +212,9 @@ namespace GOAP
 
         #endregion
 
-        void OnCollisionEnter(Collision col)
+        void OnTriggerEnter(Collider col)
         {
-            var item = col.collider.GetComponentInParent<Item>();
+            var item = col.GetComponentInParent<Item>();
 
             if (item)
             {
@@ -221,22 +237,30 @@ namespace GOAP
 
         #region Gizmos
 
-        
+        Vector3 nodeDebug;
         void OnDrawGizmos()
         {
+            if (_vel == Vector3.zero) return;
+
+            Gizmos.DrawSphere(_root.position, 1);
+            Gizmos.DrawSphere(nodeDebug, 1);
+
+            Gizmos.color = Color.red;
+            Gizmos.DrawLine(_root.position, _vel);
+
             if (_gizmoPath == null)
                 return;
 
             Gizmos.color = Color.blue;
-            var points = _gizmoPath.Select(w => FloorPos(w));
-            Vector3 last = points.First();
-            foreach (var p in points.Skip(1))
-            {
-                Gizmos.DrawLine(p + Vector3.up, last + Vector3.up);
-                last = p;
-            }
-            if (_gizmoRealTarget != null)
-                Gizmos.DrawCube(_gizmoRealTarget.transform.position + Vector3.up * 1f, Vector3.one * 0.3f);
+            //var points = _gizmoPath.Select(w => FloorPos(w));
+            //Vector3 last = points.First();
+            //foreach (var p in points.Skip(1))
+            //{
+            //    Gizmos.DrawLine(p + Vector3.up, last + Vector3.up);
+            //    last = p;
+            //}
+            //if (_gizmoRealTarget != null)
+            //    Gizmos.DrawCube(_gizmoRealTarget.transform.position + Vector3.up * 1f, Vector3.one * 0.3f);
 
         }
         

@@ -30,8 +30,10 @@ public class Sensor : MonoBehaviour
         layers_to_collide = original_layer_mask;
     }
 
-    public Sensor AddCallback_OnTriggerEnter(Action<GameObject> callback) { Ev_Colision = callback; return this; }
-    public Sensor AddCallback_OnTriggerExit(Action<GameObject> callback) { Ev_Exit = callback; return this; }
+    public Sensor AddCallback_OnTriggerEnter(Action<GameObject> callback) { Ev_Colision += callback; return this; }
+    public Sensor AddCallback_OnTriggerExit(Action<GameObject> callback) { Ev_Exit += callback; return this; }
+    public Sensor RemoveCallback_OnTriggerEnter(Action<GameObject> callback) { Ev_Colision -= callback; return this; }
+    public Sensor RemoveCallback_OnTriggerExit(Action<GameObject> callback) { Ev_Exit -= callback; return this; }
     public Sensor AddCallback_OnTriggerFloor(Action callback) { Ev_FloorColision = callback; return this; }
 
     protected virtual void OnTriggerEnter(Collider col)

@@ -13,7 +13,6 @@ public class AttackSensor : MonoBehaviour
 
         if (hero)
         {
-            Debug.Log("esto pasa?");
             OnHeroHitted?.Invoke(hero);
         }
             

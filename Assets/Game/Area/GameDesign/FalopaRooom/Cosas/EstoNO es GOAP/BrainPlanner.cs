@@ -93,7 +93,7 @@ namespace GOAP
             {
                     new GoapAction("AttackMelee hero")
                         .SetCost(meleeAttack)
-                        .Pre(gS => gS.charLife > 0 && gS.distanceToHero < 5)
+                        .Pre(gS => gS.charLife > 0 && gS.distanceToHero < 2.5)
 
                         .Effect(gS =>
                         {
@@ -110,7 +110,7 @@ namespace GOAP
                         }),
                     new GoapAction("GoTo hero")
                         .SetCost(move)
-                        .Pre(gS =>  gS.distanceToHero >= 5)
+                        .Pre(gS =>  gS.distanceToHero >= 2.5)
 
                         .Effect(gS =>
                         {

@@ -71,9 +71,13 @@ public class CaronteEvent : MonoBehaviour
     {
         character.Life.Heal(25);
         var caronte = GameObject.Instantiate<Ente>(caronte_pf);
+        WorldState.instance.ente = caronte;
         caronte.OnDeath += OnDefeatCaronte;
         caronte.OnDeath += (v3) => Destroy(caronte.gameObject);
         caronte.transform.position = GetSurfacePos();
+
+
+        caronte.Initialize();
         //stopMovement = false;
         return;
     }
