@@ -4,34 +4,20 @@ using UnityEngine;
 
 public class TotemDestruible : MonoBehaviour
 {
-    Collider col;
-    Rigidbody rb;
+    Renderer render;
+    [SerializeField] GameObject prefabToDestruible = null;
 
     private void Start()
     {
-        col = GetComponent<Collider>();
-        rb = GetComponent<Rigidbody>();
+        render = GetComponent<Renderer>();
     }
 
     public void DropPiece(Vector3 dir, float force)
     {
-        transform.SetParent(null);
-        col.enabled = true;
-        rb.isKinematic = false;
+        render.enabled = false;
 
-        rb.AddForce(dir * force, ForceMode.Impulse);;
-
-        StartCoroutine(DestroyCoroutine());
-    }
-
-    IEnumerator DestroyCoroutine()
-    {
-        yield return new WaitForSeconds(3);
-
-        col.enabled = false;
-
-        yield return new WaitForSeconds(1);
-
-        Destroy(this.gameObject);
+        var newObject = Instantiate(prefabToDestruible);
+        newObject.transform.SetPositionAndRotation(transform.position, transform.rotation);
+        newObject.GetComponent<Rigidbody>()?.AddForce(dir * force, ForceMode.Impulse);;
     }
 }

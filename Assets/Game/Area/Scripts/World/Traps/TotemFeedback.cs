@@ -18,6 +18,8 @@ public class TotemFeedback
     Func<IEnumerator, Coroutine> StartCoroutine;
     Action<IEnumerator> StopCoroutine;
 
+    bool charging;
+
     List<ParticleSystem> particlesGoTo = new List<ParticleSystem>();
 
     public void Initialize(Func<IEnumerator, Coroutine> _StartCoroutine, Action<IEnumerator> _StopCoroutine)
@@ -32,20 +34,26 @@ public class TotemFeedback
     public void StartChargeFeedback(float timeToCast)
     {
         float percent = timeToCast * percentToAppear;
+        charging = true;
 
         StartCoroutine(StartToCharge(percent));
     }
 
     IEnumerator StartToCharge(float timeToCast)
     {
-        yield return new WaitForSeconds(timeToCast);
+        if (charging)
+        {
+            yield return new WaitForSeconds(timeToCast);
 
-        chargeParticleTemp = ParticlesManager.Instance.PlayParticle(chargeParticle.name, startPos.position, startPos);
+            chargeParticleTemp = ParticlesManager.Instance.PlayParticle(chargeParticle.name, startPos.position, startPos);
+            charging = false;
+        }
     }
 
     public void InterruptCharge()
     {
         if(chargeParticleTemp != null && chargeParticleTemp.gameObject.activeSelf) ParticlesManager.Instance.StopParticle(chargeParticle.name, chargeParticleTemp);
+        charging = false;
         StopCoroutine(StartToCharge(0));
     }
 
@@ -106,5 +114,7 @@ public class TotemFeedback
             ParticlesManager.Instance.StopParticle(goToPos.name, particlesGoTo[i]);
 
         if (chargeParticleTemp != null && chargeParticleTemp.gameObject.activeSelf) ParticlesManager.Instance.StopParticle(chargeParticle.name, chargeParticleTemp);
+
+        charging = false;
     }
 }

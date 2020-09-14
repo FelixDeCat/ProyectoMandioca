@@ -71,7 +71,7 @@ public class DamageReceiver : MonoBehaviour
             InmuneFeedback?.Invoke();
             return Attack_Result.inmune;
         }
-        if (invulnerability.Contains(data.damageType))
+        if (invulnerability.Contains(Damagetype.All) || invulnerability.Contains(data.damageType))
         {
             InmuneFeedback?.Invoke();
             return Attack_Result.inmune;
