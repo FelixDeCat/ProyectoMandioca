@@ -55,7 +55,7 @@ namespace GOAP
             _rb = GetComponent<Rigidbody>();
 
             meleeRange_sensor.AddCallback_OnTriggerEnter(OnPlayerInMeleeRange);
-            damagereciever.Initialize(_root, IsDamaged, OnDeath, TakeDamageFeedback, _rb, GetComponent<EnemyLifeSystem>());
+            damagereciever.SetIsDamage(IsDamaged).AddDead(OnDeath).AddTakeDamage(TakeDamageFeedback).Initialize(_root, _rb, GetComponent<EnemyLifeSystem>());
 
             _anim = GetComponentInChildren<Animator>();
             //_animEvent = GetComponentInChildren<AnimEvent>();

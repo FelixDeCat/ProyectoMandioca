@@ -26,12 +26,9 @@ public abstract class BaseDestructible : Environment
     {
         _lifeSytstem.Initialize( _lifeSytstem.life, ()=> { }, () => { }, () => { });
 
-        damageReceiver.Initialize(transform,
-            () => { return false; },
-            (x) => { OnDestroyed.Invoke(); DestroyDestructible(); },
-            (x) => { OnTakeDamage.Invoke(); },
+        damageReceiver.AddDead((x) => { OnDestroyed.Invoke(); DestroyDestructible(); }).AddTakeDamage((x) => OnTakeDamage.Invoke()).Initialize(transform,
             GetComponent<Rigidbody>(),
-            _lifeSytstem);           
+            _lifeSytstem);
 
         AudioManager.instance.GetSoundPool(destroyedSound.name, AudioGroups.AMBIENT_FX, destroyedSound);
     }

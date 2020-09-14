@@ -74,7 +74,7 @@ public abstract class EnemyBase : NPCBase, ICombatDirector
     {
         rb = GetComponent<Rigidbody>();
         dmgData?.Initialize(this);
-        dmgReceiver.Initialize(rootTransform, IsDamage, Death, TakeDamageFeedback, rb, lifesystem, InmuneFeedback);
+        dmgReceiver.SetIsDamage(IsDamage).AddDead(Death).AddTakeDamage(TakeDamageFeedback).AddInmuneFeedback(InmuneFeedback).Initialize(rootTransform, rb, lifesystem);
     }
 
     public void ResetEntity()

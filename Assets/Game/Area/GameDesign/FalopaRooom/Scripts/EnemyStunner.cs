@@ -52,14 +52,7 @@ public class EnemyStunner : WalkingEntity
 
         life.Initialize(life.life, () => { }, () => { }, () => { });
 
-        damageReceiver.Initialize(
-            transform,
-            () => { return false; },
-            (x) => { Die(); },
-            (x) => { TakeDamage(); },
-            rb,
-            life
-            );
+        damageReceiver.AddDead((x) => Die()).AddTakeDamage((x) => TakeDamage()).Initialize(transform, rb, life);
         StartCoroutine(StartCastStun());
 
         castingBar.AddEventListener_OnStartCasting(() => ChangeState(EnemyStunnerStates.Casting));

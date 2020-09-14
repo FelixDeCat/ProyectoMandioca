@@ -31,15 +31,7 @@ public abstract class Totem : PlayObject
         feedback.Initialize(StartCoroutine, StopCoroutine);
 
         life.Initialize(life.life, () => { }, () => { }, () => { });
-        damageReceiver.Initialize(
-            transform,
-            () => { return false; },
-            (x) => { Dead(); },
-            (x) => { InternalTakeDamage(); },
-            null,
-            life,
-            InmuneFeedback
-            );
+        damageReceiver.AddDead((x) => Dead()).AddTakeDamage((x) => InternalTakeDamage()).AddInmuneFeedback(InmuneFeedback).Initialize(transform, null, life);
 
         AudioManager.instance.GetSoundPool(ac_TakeDamage.name, AudioGroups.GAME_FX, ac_TakeDamage);
         ParticlesManager.Instance.GetParticlePool(ps_TakeDamage.name, ps_TakeDamage);

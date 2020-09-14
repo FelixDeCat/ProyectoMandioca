@@ -14,11 +14,9 @@ public class DamageReceiver : MonoBehaviour
     bool blockEntity;
     bool parryEntity;
 
-
     Action<DamageData> takeDmg;
     Action<Vector3> OnDead;
     Action InmuneFeedback;
-    Action IndestructibleFeedback;
     Func<bool> IsDmg;
     bool IsNotDestructible = false;
     Transform ownerRoot;
@@ -31,17 +29,37 @@ public class DamageReceiver : MonoBehaviour
 
     Rigidbody rb;
 
-    public void Initialize(Transform _ownerRoot, Func<bool> _IsDmg, Action<Vector3> _OnDead, Action<DamageData> _takeDmg,
-        Rigidbody _rb,_Base_Life_System lifeSystem, Action _InmuneFeedback = default)
+    public void Initialize(Transform _ownerRoot, Rigidbody _rb,_Base_Life_System lifeSystem)
     {
         if (_ownerRoot != null) ownerRoot = _ownerRoot;
-        takeDmg += _takeDmg;
-        OnDead += _OnDead;
-        if (_IsDmg != null) IsDmg = _IsDmg;
-        if (_InmuneFeedback != null) InmuneFeedback += _InmuneFeedback;
         if (_rb != null) rb = _rb;
         if (lifeSystem != null) _LifeSystem = lifeSystem;
     }
+
+    public DamageReceiver AddDead(Action<Vector3> _OnDead)
+    {
+        OnDead += _OnDead;
+        return this;
+    }
+
+    public DamageReceiver AddTakeDamage(Action<DamageData> _takeDmg)
+    {
+        takeDmg += _takeDmg;
+        return this;
+    }
+
+    public DamageReceiver SetIsDamage(Func<bool> _IsDmg)
+    {
+        IsDmg = _IsDmg;
+        return this;
+    }
+
+    public DamageReceiver AddInmuneFeedback(Action _InmuneFeedback)
+    {
+        InmuneFeedback += _InmuneFeedback;
+        return this;
+    }
+
     public DamageReceiver SetBlock(Func<Vector3, Vector3, Vector3, bool> _IsBlock, Action<EntityBase> _Block)
     {
         blockEntity = true;
@@ -58,10 +76,9 @@ public class DamageReceiver : MonoBehaviour
         return this;
     }
 
-
     public Attack_Result TakeDamage(DamageData data)
     {
-        if (IsDmg()) return Attack_Result.inmune;
+        if (IsDmg != null && IsDmg()) return Attack_Result.inmune;
 
         if (_LifeSystem != null && _LifeSystem.life <= 0) return Attack_Result.inmune;
 
@@ -114,11 +131,11 @@ public class DamageReceiver : MonoBehaviour
 
         bool death = _LifeSystem.Hit(dmg);
 
-        if (death) OnDead(data.attackDir);
+        if (death) OnDead?.Invoke(data.attackDir);
 
         
 
-       takeDmg(data);
+       takeDmg?.Invoke(data);
 
         return death ? Attack_Result.death : Attack_Result.sucessful;
     }

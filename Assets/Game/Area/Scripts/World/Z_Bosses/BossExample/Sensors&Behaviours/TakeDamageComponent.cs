@@ -21,7 +21,7 @@ public class TakeDamageComponent : MonoBehaviour
         damageReceiver = GetComponent<DamageReceiver>();
 
         LifeSystem.Initialize(life, OnHit, OnGain, OnDeath);
-        damageReceiver.Initialize(owner, Predicate_CanTakeDamage, OnDeathVector, TakeDamage, rb, LifeSystem);
+        damageReceiver.SetIsDamage(Predicate_CanTakeDamage).AddDead(OnDeathVector).AddTakeDamage(TakeDamage).Initialize(owner, rb, LifeSystem);
         tkdFeedback = _tkdFeedback;
         rb = _rb;
     }

@@ -26,14 +26,6 @@ public class PropHittable : Environment
         _lifeSytstem.Initialize(_lifeSytstem.life, () => { }, () => { }, () => { });
 
         damageReceiver.ChangeIndestructibility(isIndestructible);
-        damageReceiver.Initialize(transform,
-            () => { return false; },
-            (x) => { },
-            (x) => { },
-            GetComponent<Rigidbody>(),
-            _lifeSytstem,
-            () => { OnTakeDamage.Invoke(); }
-            );
-
+        damageReceiver.AddInmuneFeedback(() => OnTakeDamage.Invoke()).Initialize(transform, GetComponent<Rigidbody>(), _lifeSytstem);
     }  
 }

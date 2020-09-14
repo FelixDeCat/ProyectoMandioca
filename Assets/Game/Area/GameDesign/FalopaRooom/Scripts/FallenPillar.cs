@@ -17,16 +17,8 @@ public class FallenPillar : MonoBehaviour
         pillarFallen.SetActive(false);
         _BLS.Initialize();
         _BLS.CreateADummyLifeSystem();
-        dmg.Initialize(
-            transform,
-            () => { return false; },
-            (x) => { },
-            (x) => { GetHit(); },
-            GetComponent<Rigidbody>(),
-            _BLS);
+        dmg.AddTakeDamage((x) => GetHit()).Initialize(transform, GetComponent<Rigidbody>(), _BLS);
     }
-
-    
 
     void GetHit()
     {

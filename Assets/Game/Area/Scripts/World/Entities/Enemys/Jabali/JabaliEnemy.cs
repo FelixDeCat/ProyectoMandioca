@@ -218,7 +218,7 @@ public class JabaliEnemy : EnemyBase
         Attack_Result takeDmg = e.TakeDamage(dmgData);
 
 
-        if (takeDmg == Attack_Result.parried || takeDmg == Attack_Result.blocked) e.GetComponent<CharacterHead>().UnequipShield(rootTransform.forward);
+        if (takeDmg == Attack_Result.parried || takeDmg == Attack_Result.blocked) e.GetComponent<CharacterHead>().UnequipShield((e.transform.position - transform.position).normalized);
 
         if (e == entityTarget || e.GetComponent<CharacterHead>())
             pushAttack.Stop();
@@ -237,10 +237,14 @@ public class JabaliEnemy : EnemyBase
     {
         if (friendly && !combat)
         {
-            director.AddToList(this, Main.instance.GetChar());
-            SetTarget(Main.instance.GetChar());
-            combat = true;
-            friendly = false;
+            ToCombat();
+
+            var overlap = Physics.OverlapSphere(data.owner.transform.position, combatDistance);
+
+            foreach (var item in overlap)
+            {
+                if (item.GetComponent<JabaliEnemy>() && item.GetComponent<JabaliEnemy>().friendly) item.GetComponent<JabaliEnemy>().ToCombat();
+            }
         }
 
         AudioManager.instance.PlaySound(sounds.takeDamage.name, rootTransform);
@@ -251,6 +255,14 @@ public class JabaliEnemy : EnemyBase
         cooldown = true;
 
         StartCoroutine(OnHitted(myMat, onHitFlashTime, onHitColor));
+    }
+
+    public void ToCombat()
+    {
+        director.AddToList(this, Main.instance.GetChar());
+        SetTarget(Main.instance.GetChar());
+        combat = true;
+        friendly = false;
     }
 
     protected override void Die(Vector3 dir)

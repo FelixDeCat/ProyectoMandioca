@@ -41,7 +41,7 @@ public class CarivorousPlant : EntityBase
     {
         on = true;
 
-        damageReceiver.Initialize(centerPoint, () => false, DeadPlant, (x) => TakeDamage(), null, lifeSystem);
+        damageReceiver.AddDead(DeadPlant).AddTakeDamage((x) => TakeDamage()).Initialize(centerPoint, null, lifeSystem);
 
         data.SetDamage(dmg).SetDamageType(dmgType).SetDamageInfo(DamageInfo.NonBlockAndParry).Initialize(this);
         lifeSystem.Initialize();

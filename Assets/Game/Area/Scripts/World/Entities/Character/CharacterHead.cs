@@ -146,7 +146,10 @@ public class CharacterHead : CharacterControllable
         dmgReceiver
             .SetBlock(charBlock.IsBlock, BlockFeedback)
             .SetParry(charBlock.IsParry, ParryFeedback)
-            .Initialize(rot, () => move.InDash, Dead, TakeDamageFeedback, rb, lifesystem);
+            .SetIsDamage(() => move.InDash)
+            .AddDead(Dead)
+            .AddTakeDamage(TakeDamageFeedback)
+            .Initialize(rot, rb, lifesystem);
 
         charAttack
             .SetAnimator(charanim)
@@ -808,7 +811,7 @@ public class CharacterHead : CharacterControllable
         shieldInteractable.gameObject.SetActive(true);
         shieldInteractable.transform.SetParent(null);
         shieldInteractable.transform.SetPositionAndRotation(charBlock.shield.transform.position, charBlock.shield.transform.rotation);
-        shieldInteractable.GetComponent<Rigidbody>()?.AddForce(dir * 15, ForceMode.Impulse);
+        shieldInteractable.GetComponent<Rigidbody>()?.AddForce(dir * 20, ForceMode.Impulse);
         stateMachine.SendInput(PlayerInputs.END_BLOCK);
 
         ToggleShield(false);

@@ -16,7 +16,7 @@ public class DestructibleSystem : MonoBehaviour
     {
         if (percentTier.Count <= 0) return;
 
-        dmgReceiver?.Initialize(null, null, (x) => { }, TakeDamage, null, lifeSystem);
+        dmgReceiver?.AddTakeDamage(TakeDamage).Initialize(null, null, lifeSystem);
 
         maxLife = lifeSystem.life;
     }
