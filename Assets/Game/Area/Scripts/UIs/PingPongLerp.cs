@@ -105,11 +105,13 @@ public class PingPongLerp
             if (notCanBack && aux >= cantspeed * goSpeed)
             {
                 Stop();
+                
                 yield break;
             }
         }
         Stop();
         act.Invoke();
+        callback(0);
         changeBool.Invoke(true);
     }
 

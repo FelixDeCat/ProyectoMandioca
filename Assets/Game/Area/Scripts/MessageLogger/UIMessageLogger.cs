@@ -46,20 +46,28 @@ public class UIMessageLogger : SingleObjectPool<UI_Comp_Message>
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.K))
-        {
-            var msg1 = new MsgLogData("Test basico");
-            var msg2 = new MsgLogData("Test dura 5 seg", 5f);
-            var msg3 = new MsgLogData("Test bloqueado",true);
-            var msg4 = new MsgLogData("Test dura 7 el negro, con img", InputImageDatabase.instance.GetSprite(InputImageDatabase.InputImageType.interact), Color.black, Color.white, 7f);
+        //if (Input.GetKeyDown(KeyCode.K))
+        //{
+        //    var msg1 = new MsgLogData("Test basico");
+        //    var msg2 = new MsgLogData("Test dura 5 seg", 5f);
+        //    var msg3 = new MsgLogData("Test bloqueado",true);
+        //   var msg4 = new MsgLogData("Test dura 7 el negro, con img", InputImageDatabase.instance.GetSprite(InputImageDatabase.InputImageType.interact), Color.black, Color.white, 7f);
 
-            LogMessage(msg1);
-            LogMessage(msg2);
-            LogMessage(msg3);
-            LogMessage(msg4);
-
-        }
+        //    LogMessage(msg1);
+        //    LogMessage(msg2);
+        //    LogMessage(msg3);
+        //    LogMessage(msg4);
+        //}
     }
 
     #endregion
+}
+
+public static class GameMessage
+{
+    public static void Log(MsgLogData data)
+    {
+        Debug.Log("ME llega un mensaje");
+        UIMessageLogger.instance.LogMessage(data);
+    }
 }

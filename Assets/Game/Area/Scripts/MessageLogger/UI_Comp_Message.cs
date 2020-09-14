@@ -30,8 +30,8 @@ public class UI_Comp_Message : MonoBehaviour
 
     void Start()
     {
-        myGroup = GetComponent<CanvasGroup>();
-        close_button = GetComponentInChildren<Button>();
+       // myGroup = GetComponent<CanvasGroup>();
+        //close_button = GetComponentInChildren<Button>();
     }
     void Update()
     {
@@ -106,6 +106,7 @@ public class UI_Comp_Message : MonoBehaviour
     }
     void Update_FadeAnim()
     {
+        Debug.LogWarning("WARNING PARA NO OLVIDAR CHEQUEA ESTO");
         if (anim_fade)
         {
             if (timer_fade < data.TimeToFade)

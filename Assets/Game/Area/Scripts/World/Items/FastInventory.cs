@@ -55,6 +55,8 @@ public class FastInventory : UI_Base
             EquipedManager.instance.EquipItem(item);
         }
 
+        GameMessage.Log(new MsgLogData(item.name, item.img, new Color(0, 0, 0, 0), Color.white, 1f));
+
         RefreshScreen();
     }
     public void Add(Item item, int cant)
@@ -68,6 +70,9 @@ public class FastInventory : UI_Base
         {
             inventory[item.id].cant = cant;
         }
+
+        GameMessage.Log(new MsgLogData(item.name, item.img, new Color(0,0,0,0), Color.black, 1f));
+
         RefreshScreen();
     }
     public void Remove(Item item, int cant = 1)
