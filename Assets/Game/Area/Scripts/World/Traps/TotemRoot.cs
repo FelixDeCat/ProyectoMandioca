@@ -1,16 +1,22 @@
 ﻿using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class TotemRoot : Totem
 {
     [SerializeField] private float range = 20;
+    [SerializeField] bool squaredRange = false;
+    [SerializeField] Vector3 squareRange;
+
 
     [SerializeField] private float effectDuration = 10;
 
     [SerializeField] ParticleSystem onRootParticles = null;
     [SerializeField] CombatArea spawneablePosition = null;
     [SerializeField] EffectName effectOwner = EffectName.OnRoot;
+
+    [SerializeField] Animator anim = null;
+    [SerializeField] AnimEvent animEvent = null;
+    [SerializeField] Collider col = null;
 
     CharacterHead myChar;
 
@@ -23,13 +29,21 @@ public class TotemRoot : Totem
         StartCoroutine(CheckDistance());
 
         ParticlesManager.Instance.GetParticlePool(onRootParticles.name, onRootParticles);
+
+        animEvent.Add_Callback("TeleportAnim", TeleportForAnim);
+
+        damageReceiver.AddInvulnerability(Damagetype.All);
     }
+
 
     IEnumerator CheckDistance()
     {
         while (true)
         {
-            if (!onUpdate && Vector3.Distance(myChar.transform.position, transform.position) <= range)
+            Vector3 aux = transform.InverseTransformPoint(myChar.transform.position);
+
+            if (!onUpdate && (!squaredRange && Vector3.Distance(myChar.transform.position, transform.position) <= range) ||
+                (Mathf.Abs(aux.x) <= squareRange.x && Mathf.Abs(aux.y) <= squareRange.y && Mathf.Abs(aux.z) <= squareRange.z))
                 OnTotemEnter();
 
             yield return new WaitForSeconds(0.5f);
@@ -40,7 +54,9 @@ public class TotemRoot : Totem
     {
         base.UpdateTotem();
 
-        if (myChar != null && Vector3.Distance(myChar.transform.position, transform.position) > range)
+        Vector3 aux = transform.InverseTransformPoint(myChar.transform.position);
+        if (myChar != null && (!squaredRange && Vector3.Distance(myChar.transform.position, transform.position) > range) ||
+            (Mathf.Abs(aux.x) > squareRange.x || Mathf.Abs(aux.y) > squareRange.y || Mathf.Abs(aux.z) > squareRange.z))
             OnTotemExit();
     }
 
@@ -61,11 +77,17 @@ public class TotemRoot : Totem
     protected override void InternalStunOver()
     {
         base.InternalStunOver();
-
+        damageReceiver.AddInvulnerability(Damagetype.All);
         Teleport();
     }
 
     void Teleport()
+    {
+        col.enabled = false;
+        anim.SetTrigger("Teleport");
+    }
+
+    void TeleportForAnim()
     {
         Vector2 aux;
         if (spawneablePosition.isCircle)
@@ -85,6 +107,7 @@ public class TotemRoot : Totem
             aux.y = -(spawneablePosition.cubeArea.y / 2) + spawneablePosition.cubeArea.y * Random.value;
             transform.position = spawneablePosition.transform.position + new Vector3(aux.x, 0, aux.y);
         }
+        col.enabled = true;
     }
 
     protected override void InternalTakeDamage()
@@ -97,9 +120,26 @@ public class TotemRoot : Totem
         Teleport();
     }
 
+    protected override void InmuneFeedback()
+    {
+        base.InmuneFeedback();
+        InterruptCast();
+        Teleport();
+    }
+
+    protected override void InternalGetStunned()
+    {
+        base.InternalGetStunned();
+        damageReceiver.RemoveInvulnerability(Damagetype.All);
+        anim.SetTrigger("Stunned");
+    }
+
     private void OnDrawGizmosSelected()
     {
-        Gizmos.DrawWireSphere(transform.position, range);
+        if (!squaredRange)
+            Gizmos.DrawWireSphere(transform.position, range);
+        else
+            Gizmos.DrawWireCube(transform.position, squareRange * 2);
     }
 
     protected override bool InternalCondition()

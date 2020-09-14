@@ -10,7 +10,7 @@ public abstract class Totem : PlayObject
     [SerializeField] protected EffectStunnerStunned effectStun = null;
     [SerializeField] protected float timeToCast = 5f;
     [SerializeField] protected TotemFeedback feedback = null;
-    [SerializeField] DamageReceiver damageReceiver = null;
+    [SerializeField] protected DamageReceiver damageReceiver = null;
     [SerializeField] _Base_Life_System life = null;
 
     [SerializeField] bool instantStart = false;
@@ -37,7 +37,8 @@ public abstract class Totem : PlayObject
             (x) => { Dead(); },
             (x) => { InternalTakeDamage(); },
             null,
-            life
+            life,
+            InmuneFeedback
             );
 
         AudioManager.instance.GetSoundPool(ac_TakeDamage.name, AudioGroups.GAME_FX, ac_TakeDamage);
@@ -151,6 +152,11 @@ public abstract class Totem : PlayObject
     {
         ParticlesManager.Instance.PlayParticle(ps_TakeDamage.name, myCastingBar.transform.position);
         AudioManager.instance.PlaySound(ac_TakeDamage.name);
+    }
+
+    protected virtual void InmuneFeedback()
+    {
+
     }
 
     protected abstract void InternalTakeDamage();

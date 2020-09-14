@@ -12,6 +12,7 @@ public class DestroyedVersion : MonoBehaviour
     Color mycolor;
 
     [SerializeField] bool useFade = true;
+    public Rigidbody principalChild = null;
 
     public void BeginDestroy()
     {

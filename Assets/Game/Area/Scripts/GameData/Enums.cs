@@ -1,7 +1,8 @@
 ﻿public enum Attack_Result { sucessful, blocked, parried, reflexed, inmune, death }
 public enum side_type { neutral, ally, enemy, other }
 [System.Serializable] public enum SkillType { control, culpa, obligacion, generics, others }
-public enum Damagetype { Fire, Normal, NonParry, Explosion, NonBlock, Heavy, NonBlockAndParry }
+public enum Damagetype { Fire, Normal, Explosion, Heavy, StealShield, All }
+public enum DamageInfo { NonParry, NonBlock, NonBlockAndParry, Normal }
 public enum CommonStates { IDLE, ATTACK, ENABLE, DISABLE, DIE, CHASING, GO_TO_POS }
 public enum AudioGroups { GAME_FX, MUSIC, MISC, JABALI, SLOWMO, AMBIENT_FX }
 

@@ -56,7 +56,7 @@ public class CaronteEvent : MonoBehaviour
         {
             
             character.Life.Heal(1);
-            var dData = mano.GetComponent<DamageData>().SetDamage(200).SetDamageType(Damagetype.NonBlockAndParry);
+            var dData = mano.GetComponent<DamageData>().SetDamage(200).SetDamageInfo(DamageInfo.NonBlockAndParry);
             if(character.DamageReceiver().TakeDamage(dData) == Attack_Result.inmune)
             {
                 //SpawnCaronte();

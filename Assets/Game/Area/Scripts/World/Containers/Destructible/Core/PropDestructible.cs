@@ -30,14 +30,29 @@ public class PropDestructible : BaseDestructible
         }
         var childs = savedDestroyedVersion.GetComponentsInChildren<Rigidbody>();
 
-        foreach (var c in childs)
-        {
-            var aux = c.transform.position - transform.position;
-            aux.Normalize();
-            c.AddForce(aux * 5, ForceMode.VelocityChange);
-        }
 
-        
+        if (savedDestroyedVersion.principalChild)
+        {
+            foreach (var c in childs)
+            {
+                Vector3 aux;
+                if (c != savedDestroyedVersion.principalChild) aux = c.transform.position - savedDestroyedVersion.principalChild.transform.position;
+                else aux = c.transform.position - transform.position;
+                aux.Normalize();
+                c.AddForce(aux * 5, ForceMode.VelocityChange);
+                c.AddTorque(aux);
+            }
+        }
+        else
+        {
+            foreach (var c in childs)
+            {
+                var aux = c.transform.position - transform.position;
+                aux.Normalize();
+                c.AddForce(aux * 5, ForceMode.VelocityChange);
+                c.AddTorque(aux * 4);
+            }
+        }
 
         if (destroy)
         {

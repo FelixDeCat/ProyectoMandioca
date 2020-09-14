@@ -18,6 +18,7 @@ public class JabaliEnemy : EnemyBase
     [SerializeField] JabaliPushComponent pushAttack = null;
     [SerializeField] float normalDistance = 9;
     [SerializeField] float timeParried = 2;
+    [SerializeField] bool friendly = false;
 
     [Header("NormalAttack")]
     [SerializeField] int normalDamage = 4;
@@ -34,6 +35,7 @@ public class JabaliEnemy : EnemyBase
     [SerializeField] float chargeSpeed = 12;
     [SerializeField] float chargeDuration = 5;
     [SerializeField] float pushKnockback = 80;
+    [SerializeField] bool unequipShield = true;
     private bool chargeOk = false;
     private float cargeTimer;
     private CombatDirector director;
@@ -146,7 +148,7 @@ public class JabaliEnemy : EnemyBase
                     }
                 }
 
-                if (!combat && entityTarget == null)
+                if (!combat && entityTarget == null && !friendly)
                 {
                     if (Vector3.Distance(Main.instance.GetChar().transform.position, transform.position) <= combatDistance)
                     {
@@ -211,11 +213,14 @@ public class JabaliEnemy : EnemyBase
 
     void PushRelease(DamageReceiver e)
     {
-        dmgData.SetDamage(pushDamage).SetDamageTick(false).SetDamageType(Damagetype.Normal).SetKnockback(pushKnockback)
-            .SetPositionAndDirection(transform.position);
+        dmgData.SetDamage(pushDamage).SetDamageTick(false).SetDamageType(Damagetype.StealShield).SetKnockback(pushKnockback)
+            .SetPositionAndDirection(transform.position, transform.forward);
         Attack_Result takeDmg = e.TakeDamage(dmgData);
 
-        if(e == entityTarget || e.GetComponent<CharacterHead>())
+
+        if (takeDmg == Attack_Result.parried || takeDmg == Attack_Result.blocked) e.GetComponent<CharacterHead>().UnequipShield(rootTransform.forward);
+
+        if (e == entityTarget || e.GetComponent<CharacterHead>())
             pushAttack.Stop();
     }
 
@@ -230,10 +235,12 @@ public class JabaliEnemy : EnemyBase
     #region TakeDamage Things
     protected override void TakeDamageFeedback(DamageData data)
     {
-        if (sm.Current.Name == "Idle" || sm.Current.Name == "Persuit")
+        if (friendly && !combat)
         {
-            attacking = false;
-            director.ChangeTarget(this, data.owner, entityTarget);
+            director.AddToList(this, Main.instance.GetChar());
+            SetTarget(Main.instance.GetChar());
+            combat = true;
+            friendly = false;
         }
 
         AudioManager.instance.PlaySound(sounds.takeDamage.name, rootTransform);

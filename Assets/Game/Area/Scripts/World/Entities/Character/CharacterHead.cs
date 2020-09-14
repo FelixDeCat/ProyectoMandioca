@@ -2,6 +2,7 @@ using System.Collections;
 using UnityEngine;
 using System;
 using Tools.StateMachine;
+using UnityEditorInternal;
 
 public class CharacterHead : CharacterControllable
 {
@@ -75,6 +76,7 @@ public class CharacterHead : CharacterControllable
 
     [Header("Interactable")]
     public InteractSensor sensor;
+    [SerializeField] Interactable shieldInteractable = null;
 
     [Header("Life Options")]
     [Range(0f, 1f)]
@@ -798,6 +800,20 @@ public class CharacterHead : CharacterControllable
     public void AddParry(Action listener) => charBlock.callback_OnParry += listener;
     public void RemoveParry(Action listener) => charBlock.callback_OnParry -= listener;
     public void PerfectParry() { feedbacks.particles.parryParticle.Play(); stateMachine.SendInput(PlayerInputs.PARRY); }
+
+    public void UnequipShield(Vector3 dir)
+    {
+        if (!canBlock) return;
+
+        shieldInteractable.gameObject.SetActive(true);
+        shieldInteractable.transform.SetParent(null);
+        shieldInteractable.transform.SetPositionAndRotation(charBlock.shield.transform.position, charBlock.shield.transform.rotation);
+        shieldInteractable.GetComponent<Rigidbody>()?.AddForce(dir * 15, ForceMode.Impulse);
+        stateMachine.SendInput(PlayerInputs.END_BLOCK);
+
+        ToggleShield(false);
+    }
+
     //<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
     #endregion
 
