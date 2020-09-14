@@ -74,7 +74,6 @@ public class PingPongLerp
                 cantspeed = _cantspeed;
                 oneshotoverload = true;
             }
-
         }
     }
 
@@ -180,7 +179,6 @@ public class PingPongLerp
                     if (timer_stop < time_stop_go)
                     {
                         timer_stop = timer_stop + 1 * Time.deltaTime;
-                        Debug.Log("GO" + timer_stop);
                     }
                     else
                     {
@@ -193,7 +191,6 @@ public class PingPongLerp
                     if (timer_stop < time_stop_back)
                     {
                         timer_stop = timer_stop + 1 * Time.deltaTime;
-                        Debug.Log("back" + timer_stop);
                     }
                     else
                     {

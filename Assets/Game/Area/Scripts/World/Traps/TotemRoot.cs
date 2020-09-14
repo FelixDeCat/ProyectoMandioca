@@ -4,6 +4,9 @@ using UnityEngine;
 public class TotemRoot : Totem
 {
     [SerializeField] private float range = 20;
+    [SerializeField] bool squaredRange = false;
+    [SerializeField] Vector3 squareRange;
+
 
     [SerializeField] private float effectDuration = 10;
 
@@ -32,11 +35,15 @@ public class TotemRoot : Totem
         damageReceiver.AddInvulnerability(Damagetype.All);
     }
 
+
     IEnumerator CheckDistance()
     {
         while (true)
         {
-            if (!onUpdate && Vector3.Distance(myChar.transform.position, transform.position) <= range)
+            Vector3 aux = transform.InverseTransformPoint(myChar.transform.position);
+
+            if (!onUpdate && (!squaredRange && Vector3.Distance(myChar.transform.position, transform.position) <= range) ||
+                (Mathf.Abs(aux.x) <= squareRange.x && Mathf.Abs(aux.y) <= squareRange.y && Mathf.Abs(aux.z) <= squareRange.z))
                 OnTotemEnter();
 
             yield return new WaitForSeconds(0.5f);
@@ -47,7 +54,9 @@ public class TotemRoot : Totem
     {
         base.UpdateTotem();
 
-        if (myChar != null && Vector3.Distance(myChar.transform.position, transform.position) > range)
+        Vector3 aux = transform.InverseTransformPoint(myChar.transform.position);
+        if (myChar != null && (!squaredRange && Vector3.Distance(myChar.transform.position, transform.position) > range) ||
+            (Mathf.Abs(aux.x) > squareRange.x || Mathf.Abs(aux.y) > squareRange.y || Mathf.Abs(aux.z) > squareRange.z))
             OnTotemExit();
     }
 
@@ -127,7 +136,10 @@ public class TotemRoot : Totem
 
     private void OnDrawGizmosSelected()
     {
-        Gizmos.DrawWireSphere(transform.position, range);
+        if (!squaredRange)
+            Gizmos.DrawWireSphere(transform.position, range);
+        else
+            Gizmos.DrawWireCube(transform.position, squareRange * 2);
     }
 
     protected override bool InternalCondition()
