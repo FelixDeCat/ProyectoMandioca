@@ -12,7 +12,7 @@ public class SpikeCorruptedVine : MonoBehaviour
     {
         damageData = GetComponent<DamageData>();
 
-        damageData.SetDamage(1).SetDamageType(Damagetype.NonBlockAndParry);
+        damageData.SetDamage(1).SetDamageInfo(DamageInfo.NonBlockAndParry);
     }
 
     private void OnTriggerEnter(Collider other)

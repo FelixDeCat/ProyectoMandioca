@@ -41,7 +41,7 @@ public abstract class Throwable : MonoBehaviour
 
         damageData
               .SetDamage(savethrowdata.Damage)
-              .SetDamageType(Damagetype.Normal)
+              .SetDamageInfo(DamageInfo.Normal)
               .SetKnockback(knockback);
 
         sensor.SetLayers(layermask_player);
@@ -100,12 +100,11 @@ public abstract class Throwable : MonoBehaviour
 
             if (aux == Attack_Result.parried)
             {
-                var newdir = savethrowdata.Owner.position - transform.position;
+                var newdir = savethrowdata.Owner.position + new Vector3(0, 1, 0) - transform.position;
                 newdir.Normalize();
-                newdir.y += 0.1f;
                 damageData
                    .SetDamage((int)(savethrowdata.Damage * damageParryMultiplier))
-                   .SetDamageType(Damagetype.NonBlockAndParry)
+                   .SetDamageInfo(DamageInfo.NonBlockAndParry)
                    .SetKnockback(knockback);
                 ParryThrowable(transform.position, newdir);
             }

@@ -9,7 +9,8 @@ public class DamageData : MonoBehaviour
     [HideInInspector] public int tickDamage;
     [HideInInspector] public int finalDamage;
 
-    [HideInInspector] public Damagetype damageType;
+    [HideInInspector] public Damagetype damageType = Damagetype.Normal;
+    [HideInInspector] public DamageInfo damageInfo = DamageInfo.Normal;
 
     [HideInInspector] public Vector3 owner_position;
 
@@ -27,6 +28,12 @@ public class DamageData : MonoBehaviour
     public DamageData SetDamage(int dmg)
     {
         damage = dmg;
+        return this;
+    }
+
+    public DamageData SetDamageInfo(DamageInfo dmgInfo)
+    {
+        damageInfo = dmgInfo;
         return this;
     }
 

@@ -182,8 +182,7 @@ public class CrowEnemy : EnemyBase
         animator.SetBool("rotate", false);
         castPartTemp = null;
         castingOver = true;
-        dir = CurrentTarget() ? (CurrentTarget().transform.position - shootPivot.position).normalized : Vector3.down;
-        dir.y += 0.1f;
+        dir = CurrentTarget() ? (CurrentTarget().transform.position + new Vector3(0, 1, 0) - shootPivot.position).normalized : Vector3.down;
     }
 
     Vector3 dir;
@@ -204,11 +203,11 @@ public class CrowEnemy : EnemyBase
 
     protected override void TakeDamageFeedback(DamageData data)
     {
-        if (sm.Current.Name == "Idle")
-        {
-            attacking = false;
-            director.ChangeTarget(this, data.owner, entityTarget);
-        }
+        //if (sm.Current.Name == "Idle")
+        //{
+        //    attacking = false;
+        //    director.ChangeTarget(this, data.owner, entityTarget);
+        //}
 
         AudioManager.instance.PlaySound(sounds.takeDmgSound.name);
 
@@ -276,7 +275,7 @@ public class CrowEnemy : EnemyBase
         var petrified = new EState<CrowInputs>("Petrified");
 
         ConfigureState.Create(idle)
-            .SetTransition(CrowInputs.TAKE_DAMAGE, takeDamage)
+            //.SetTransition(CrowInputs.TAKE_DAMAGE, takeDamage)
             .SetTransition(CrowInputs.DIE, die)
             .SetTransition(CrowInputs.PETRIFIED, petrified)
             .SetTransition(CrowInputs.DISABLE, disable)
@@ -286,7 +285,7 @@ public class CrowEnemy : EnemyBase
         ConfigureState.Create(chasing)
             .SetTransition(CrowInputs.IDLE, idle)
             .SetTransition(CrowInputs.BEGIN_ATTACK, attack)
-            .SetTransition(CrowInputs.TAKE_DAMAGE, takeDamage)
+            //.SetTransition(CrowInputs.TAKE_DAMAGE, takeDamage)
             .SetTransition(CrowInputs.DIE, die)
             .SetTransition(CrowInputs.PETRIFIED, petrified)
             .SetTransition(CrowInputs.DISABLE, disable)
