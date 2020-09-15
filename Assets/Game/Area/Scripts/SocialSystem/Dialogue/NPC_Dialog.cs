@@ -4,13 +4,10 @@ using UnityEngine;
 using Tools.Extensions;
 using UnityEngine.Events;
 
-public class NPC_Dialog : Interactable
+public class NPC_Dialog : MonoBehaviour
 {
-    public string nombre_NPC;
     public DialogueTree[] dialogues;
     public DialogueTree currentDialoge;
-    public UnityEvent OnBeginMission;
-    public UnityEvent OnInteract;
 
     public bool useOneShot;
     bool oneshot = false;
@@ -21,13 +18,7 @@ public class NPC_Dialog : Interactable
             currentDialoge = dialogues[0];
     }
 
-    public override void OnEnter(WalkingEntity entity)
-    {
-        
-        WorldItemInfo.instance.Show(pointToMessage.position, nombre_NPC, "", "hablar", false, false);
-        
-    }
-    public override void OnExecute(WalkingEntity collector)
+    public void Talk()
     {
         if (useOneShot)
         {
@@ -35,7 +26,6 @@ public class NPC_Dialog : Interactable
             {
                 if (currentDialoge) DialogueManager.instance.StartDialogue(currentDialoge);
                 WorldItemInfo.instance.Hide();
-                OnInteract.Invoke();
             }
             oneshot = true;
         }
@@ -43,14 +33,7 @@ public class NPC_Dialog : Interactable
         {
             if (currentDialoge) DialogueManager.instance.StartDialogue(currentDialoge);
             WorldItemInfo.instance.Hide();
-            OnInteract.Invoke();
         }
-
-        
-    }
-    public override void OnExit()
-    {
-        WorldItemInfo.instance.Hide();
     }
 
     public void GoToFase(int newfase)

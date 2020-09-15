@@ -39,6 +39,7 @@ public class DialogueManager : MonoBehaviour
         frontend.Open();
         Main.instance.GetChar().InputGoToMenues(true);
         tree = treedialog;
+
         ShowInScreen();
 
         //bloquear el movimiento al character
@@ -64,6 +65,8 @@ public class DialogueManager : MonoBehaviour
 
         /////// deberiamos cambiar la List<string> por una List<Phrase>
         /////// este Phrase tendria que tener el String y el command place
+
+        
 
 
         if (currentdialogue >= tree.dialogueNodes[currentNode].dialogues.Count - 1)//si es el dialogo final
@@ -139,6 +142,19 @@ public class DialogueManager : MonoBehaviour
 
     public void ShowInScreen()
     {
+        if (currentNode <= tree.dialogueNodes.Count)
+        {
+            if (currentdialogue <= tree.dialogueNodes[currentNode].phrases.Length && tree.dialogueNodes[currentNode].phrases.Length >= 1)
+            {
+                var commands = tree.dialogueNodes[currentNode].phrases[currentdialogue].command;
+                for (int i = 0; i < commands.Length; i++)
+                {
+                    Command.Execute(commands[i]);
+                }
+            }
+        }
+        
+
 
         frontend.TurnOn_ButtonNext(false);
         frontend.TurnOn_ButtonExit(false);

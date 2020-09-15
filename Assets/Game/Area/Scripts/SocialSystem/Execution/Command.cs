@@ -24,16 +24,21 @@ public class Command : MonoBehaviour
     ///
     private void Start()
     {
-        Command
-            .AddBranch(new CommandBranch("Item")
-                .AddLeaf(Add, "Add")
-                .AddLeaf(Remove, "Remove")
-                .AddLeaf(Equip, "Equip")
-                .AddBranch(
-                new CommandBranch("Print")
-                    .AddLeaf(PrintNegro, "Negro")
-                    .AddLeaf(PrintBlanco, "Blanco")));
+        //Command
+        //    .AddBranch(new CommandBranch("Item")
+        //        .AddLeaf(Add, "Add")
+        //        .AddLeaf(Remove, "Remove")
+        //        .AddLeaf(Equip, "Equip")
+        //        .AddBranch(
+        //        new CommandBranch("Print")
+        //            .AddLeaf(PrintNegro, "Negro")
+        //            .AddLeaf(PrintBlanco, "Blanco")));
+
+
+        
+        
     }
+
     private void Update()
     {
         if (Input.GetKeyDown(KeyCode.B)) Command.Execute("Item_Add_Potadesalud");
