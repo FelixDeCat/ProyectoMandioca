@@ -28,6 +28,8 @@ namespace GOAP
         public bool canSpeedBuff = true;
         public AttackSensor attackSensor;
         public DamageReceiver damagereciever;
+        GenericLifeSystem _lifeSystem;
+        public GenericLifeSystem Life => _lifeSystem;
 
         Animator _anim;
         public AnimEvent _animEvent;
@@ -35,31 +37,41 @@ namespace GOAP
         public Animator Anim() => _anim;
         public AnimEvent AnimEvent() => _animEvent;
 
+        public CaronteSkill_Manager skillManager;
+
         public Sensor meleeRange_sensor;
         Rigidbody _rb;
 
+        [Header("Movement")]
         public Vector3 _dir;
         public Vector3 dest_pos;
+        public float rootSpeed;
+        public float speed = 2f;
+        float currentSpeed;
 
         [Header("Feedback")]
         [SerializeField] ParticleSystem takeDamage_fb;
 
         void FixedUpdate()
         {
-            
+            if(dest_pos != Vector3.zero)
+            {
+                _rb.velocity += _dir * currentSpeed * Time.fixedDeltaTime;
+                Rotation(_dir);
+            }
+        }
 
-
-            
-
-            //transform.Translate(Time.fixedDeltaTime * _vel * currentSpeed);
+        public void Rotation(Vector3 forward)
+        {
+            _root.forward = Vector3.Lerp(_root.forward, forward, rootSpeed * Time.deltaTime);
         }
 
         private void Start()
         {
             _rb = GetComponent<Rigidbody>();
-
+            _lifeSystem = GetComponent<GenericLifeSystem>();
             meleeRange_sensor.AddCallback_OnTriggerEnter(OnPlayerInMeleeRange);
-            damagereciever.SetIsDamage(IsDamaged).AddDead(OnDeath).AddTakeDamage(TakeDamageFeedback).Initialize(_root, _rb, GetComponent<EnemyLifeSystem>());
+            damagereciever.SetIsDamage(IsDamaged).AddDead(OnDeath).AddTakeDamage(TakeDamageFeedback).Initialize(_root, _rb, _lifeSystem);
 
             _anim = GetComponentInChildren<Animator>();
             //_animEvent = GetComponentInChildren<AnimEvent>();
@@ -79,6 +91,7 @@ namespace GOAP
         {
             GetComponent<Dude>().Initialize();
         }
+
         void OnPlayerInMeleeRange(GameObject go) { OnMeleeRangeWithPlayer?.Invoke(); }
         void OnMeleeAttackHit() => OnMeleeAttack?.Invoke();
         void OnFinishMeleeAttackAnimation() => OnFinishAttack?.Invoke();
@@ -87,59 +100,25 @@ namespace GOAP
         private void Update()
         {
             _anim.SetFloat("speed", currentSpeed);
-
-
-            _dir = dest_pos - _root.position;
-            _dir.Normalize();
-            _rb.velocity += _dir * 50 * Time.deltaTime;
         }
 
         #region Health
-
-        public void ModifyHealth(int dmg)
-        {
-            if (dmg < 0)
-                OnTakeDmg?.Invoke();
-
-            healthCurrent += dmg;
-
-            if (healthCurrent <= 0)
-                Debug.Log("Dead");
-        }
 
         void TakeDamageFeedback(DamageData dData)
         {
             _anim.SetTrigger("takeDamage");
             takeDamage_fb.Play();
-
         }
 
-        public bool IsDamaged()
-        {
-
-            return false;
-        }
+        public bool IsDamaged(){return false;}
 
         #endregion
 
         #region Momevent
 
-        Vector3 _vel;
-        public float speed = 2f;
-        float currentSpeed;
         Waypoint _gizmoRealTarget;
         IEnumerable<Waypoint> _gizmoPath;
         Coroutine _navCR;
-
-        //Vector3 FloorPos(MonoBehaviour b)
-        //{
-        //    return FloorPos(b.transform.position);
-        //}
-        //Vector3 FloorPos(Vector3 v)
-        //{
-        //    return new Vector3(v.x, v.y, v.z);//Vector3(v.x, 0f, v.z);
-        //}
-
 
         public void GoTo(Vector3 destination)
         {
@@ -150,20 +129,22 @@ namespace GOAP
         public void Stop()
         {
             if (_navCR != null) StopCoroutine(_navCR);
-            _vel = Vector3.zero;
+            dest_pos = Vector3.zero;
             currentSpeed = 0;
         }
 
         public void Stop(Ente ente, Waypoint wp, bool b)
         {
             if (_navCR != null) StopCoroutine(_navCR);
-            _vel = Vector3.zero;
+            dest_pos = Vector3.zero;
             currentSpeed = 0;
         }
 
         protected virtual IEnumerator Navigate(Vector3 destination)
         {
+            
             nodeDebug = destination;
+            
             var srcWp = Navigation.instance.NearestTo(transform.position);
             var dstWp = Navigation.instance.NearestTo(destination);
 
@@ -187,17 +168,15 @@ namespace GOAP
                 );
                 if (path != null)
                 {
-                    DebugCustom.Log("Path", "Count: ", path.Count());
-                    foreach (var w in path)//.Select(w => FloorPos(w)))
+                    foreach (var w in path)
                     {
                         dest_pos = w.transform.position;
-                        _dir = w.transform.position - _root.position;
+                        _dir = dest_pos - _root.position;
                         _dir.Normalize();
 
 
-                        while ((w.transform.position - _root.position).sqrMagnitude >= 1f)
+                        while ((dest_pos - _root.position).sqrMagnitude >= 2f)
                         {
-                            _root.LookAt(w.transform.position);
                             yield return null;
                         }
 
@@ -208,13 +187,14 @@ namespace GOAP
 
             if (reachedDst == dstWp)
             {
-                Debug.Log("Llegue al destino");
-                _vel = (destination - _root.position).normalized;
-                _root.LookAt(destination);
-                yield return new WaitUntil(() => (destination - _root.position).sqrMagnitude < 0.05f);
+                dest_pos = destination;
+                _dir = dest_pos - _root.position;
+                _dir.Normalize();
+
+                yield return new WaitUntil(() => (dest_pos - _root.position).sqrMagnitude < 2f);
             }
 
-            _vel = Vector3.zero;
+            dest_pos = Vector3.zero;
             OnReachDestination?.Invoke(this, reachedDst, reachedDst == dstWp);
             OnReachDestinationNoParameters?.Invoke();
         }
@@ -250,15 +230,14 @@ namespace GOAP
         Vector3 nodeDebug;
         void OnDrawGizmos()
         {
-            if (_vel == Vector3.zero) return;
+            if (dest_pos == Vector3.zero) return;
 
             //Gizmos.DrawSphere(_root.position, 1);
             //izmos.DrawSphere(nodeDebug, 1);
 
             
 
-            Gizmos.color = Color.red;
-            
+            Gizmos.color = Color.red;           
             Gizmos.DrawLine(_root.position, dest_pos);
 
             Gizmos.color = Color.green;

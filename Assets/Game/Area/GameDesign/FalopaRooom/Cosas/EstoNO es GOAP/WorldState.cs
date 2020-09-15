@@ -13,10 +13,9 @@ namespace GOAP
         public Dictionary<string, bool> values = new Dictionary<string, bool>();
         public List<Item> allItems;
         public Ente ente;
-        public float pressurePlate;
         public CharacterHead characterhead;
         public float distanceToHero;
-        public bool canSpeedbuff;
+
 
 
         [Header("MANDIOCA")]
@@ -33,14 +32,9 @@ namespace GOAP
 
         private void Start()
         {
-            //Primera imagen del mundo al darle play
-            values["hasKey"] = false;
-
             characterhead = Main.instance.GetChar();
 
             allItems.Add(characterhead.GetComponent<Item>());
-
-            
 
         }
        
@@ -55,18 +49,24 @@ namespace GOAP
             snap.values.UpdateWith(values);
 
            
-            snap.eData.hpMax = ente.health;
-            snap.eData.hp = ente.healthCurrent;
+            //snap.eData.hpMax = ente.Life.;
+            //snap.eData.hp = ente.healthCurrent;
             snap.eData.pos = ente.transform.position;
-            snap.canSpeedbuff = ente.canSpeedBuff;
+           
             
 
             /// ////
 
-            //snap.objTEST = objectiveTEST;
             snap.charRoot = this.characterhead.Root;
             snap.charLife = this.characterhead.Life.GetLife();
             snap.distanceToHero = Vector3.Distance(snap.charRoot.position, snap.eData.pos);
+
+            snap.skills.UpdateWith(ente.skillManager.GetAllSkills);
+
+            foreach (var s in snap.skills)
+            {
+                snap.allItems.Add(s.Value.GetComponent<Item>());
+            }
 
 
 
@@ -90,13 +90,11 @@ namespace GOAP
     {
         public List<Item> allItems = new List<Item>();
         public Dictionary<string, bool> values = new Dictionary<string, bool>();
+        public Dictionary<string, GOAP_Skills_Base> skills = new Dictionary<string, GOAP_Skills_Base>();
         public EnteDATA eData;
         public Transform charRoot;
         public int charLife;
         public float distanceToHero;
-        public bool canSpeedbuff;
-
-        public Item objTEST;
 
         public WorldStateSnapShot()
         {

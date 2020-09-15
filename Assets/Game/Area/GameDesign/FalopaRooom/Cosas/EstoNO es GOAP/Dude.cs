@@ -10,30 +10,16 @@ namespace GOAP
 {
     public enum ActionEntity
     {
-        Kill,
-        PickUp,
-        NextStep,
-        FailedStep,
-        Open,
-        Success,
-        PressButton,
-        PickUpHealth,
-        ThinkPlan,
-        Idle,
-        Collect,
-        OpenCoinDoor,
-        GetDamaged,
-        StandOnPressurePlate,
-        AprobarFinal,
-        OpenKeyDoor,
-        Patrol,
-        Chase,
-        Hide,
-
-
-        Speedbuff,
+        UseSkill,
         MeleeAttack,
-        Move
+        Move,
+        NextStep,
+        Success,
+        ThinkPlan,
+        FailedStep,
+        Idle
+
+
     }
     public class Dude : MonoBehaviour
     {
@@ -55,8 +41,6 @@ namespace GOAP
             _ent = GetComponent<Ente>();
             _planner = GetComponent<BrainPlanner>();
 
-            _ent.OnTakeDmg += () => _fsm.Feed(ActionEntity.GetDamaged);
-
             //estados basicos
             var idle = new State<ActionEntity>("idle");
             var any = new State<ActionEntity>("any");
@@ -69,9 +53,15 @@ namespace GOAP
             var meleeAttack = new State<ActionEntity>("meleeAttack");
             var speedBuff = new State<ActionEntity>("speedBuff");
             var move = new State<ActionEntity>("move");
+            var useSkill = new State<ActionEntity>("move");
 
             void NextStep() { _fsm.Feed(ActionEntity.NextStep); };
 
+            useSkill.OnEnter += (a) =>
+            {
+                var skill = _ent.skillManager.GetSkill(_target.GetComponent<GOAP_Skills_Base>().skillName);
+                skill.Execute();
+            };
 
             meleeAttack.OnEnter += (a) =>
             {
@@ -91,16 +81,9 @@ namespace GOAP
                 _ent.meleeRange_sensor.Off();
             };
 
-            speedBuff.OnEnter += (a) =>
-            {
-                SpeedBuff();
-                NextStep();
-            };
-
             move.OnEnter += (a) =>
             {
                 _ent.GoTo(_target.transform.position);
-                //_ent.OnMeleeRangeWithPlayer += NextStep;
                 _ent.OnReachDestinationNoParameters += NextStep;
 
             };
@@ -157,7 +140,7 @@ namespace GOAP
             StateConfigurer.Create(planStep)
                 .SetTransition(ActionEntity.Success, success)
                 .SetTransition(ActionEntity.MeleeAttack, meleeAttack)
-                .SetTransition(ActionEntity.Speedbuff, speedBuff)
+                .SetTransition(ActionEntity.UseSkill, useSkill)
                 .SetTransition(ActionEntity.Move, move)
                 .Done();
 
@@ -194,12 +177,6 @@ namespace GOAP
             _ent.Anim().SetTrigger("meleeAttack");
 
 
-        }
-
-        void SpeedBuff()
-        {
-            _ent.canSpeedBuff = false;
-            StartCoroutine(SpeedBuff_Handler());
         }
 
         IEnumerator SpeedBuff_Handler()

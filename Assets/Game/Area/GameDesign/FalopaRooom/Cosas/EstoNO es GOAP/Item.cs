@@ -6,7 +6,7 @@ namespace GOAP
     public enum ItemType
     {
        hero,
-       speedBuff
+       skill
     }
 
     public class Item : MonoBehaviour

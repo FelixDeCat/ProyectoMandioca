@@ -12,7 +12,7 @@ namespace GOAP
 
         [Header("Cost settings")]
         public int meleeAttack;
-        public int speedBuff;
+        public int handOfDead;
         public int move;
 
         private readonly List<Tuple<Vector3, Vector3>> _debugRayList = new List<Tuple<Vector3, Vector3>>();
@@ -30,11 +30,11 @@ namespace GOAP
 
             var typeDict = new Dictionary<string, ItemType>() {
               { "hero", ItemType.hero }, 
-              { "speed", ItemType.speedBuff } 
+              { "handOfDead", ItemType.skill } 
         };
             var actDict = new Dictionary<string, ActionEntity>() {
               { "AttackMelee", ActionEntity.MeleeAttack },
-              { "Buff", ActionEntity.Speedbuff },
+              { "useSkill", ActionEntity.UseSkill},
               { "GoTo", ActionEntity.Move }
         };
 
@@ -99,14 +99,15 @@ namespace GOAP
                         {
                             gS.charLife -= 5;
                         }),
-                    new GoapAction("Buff speed")
-                        .SetCost(speedBuff)
-                        .Pre(gS =>  gS.canSpeedbuff && gS.distanceToHero >= 5)
+                    new GoapAction("useSkill handOfDead")
+                        .SetCost(handOfDead)
+                        .Pre(gS =>  gS.skills["HandOfDead"].isAvaliable && gS.distanceToHero >= 5)
 
                         .Effect(gS =>
                         {
-                            gS.canSpeedbuff = false;
-                            gS.distanceToHero = 3;
+                            Debug.Log(gS.skills.Count);
+                            gS.skills["HandOfDead"].isAvaliable = false;
+                            gS.charLife -= 10;
                         }),
                     new GoapAction("GoTo hero")
                         .SetCost(move)
