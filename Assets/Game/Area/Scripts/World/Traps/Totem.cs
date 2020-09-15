@@ -5,7 +5,6 @@ using UnityEngine.Events;
 
 public abstract class Totem : PlayObject
 {
-
     [SerializeField] protected CastingBar myCastingBar = null;
     [SerializeField] protected EffectStunnerStunned effectStun = null;
     [SerializeField] protected float timeToCast = 5f;
@@ -20,12 +19,13 @@ public abstract class Totem : PlayObject
 
     float timer;
     protected bool onUpdate;
+    bool castingCD;
     bool casting;
+    float timerCasting;
     protected bool stuned;
 
     protected override void OnInitialize()
     {
-        myCastingBar.AddEventListener_OnFinishCasting(EndCast);
         effectStun.AddStartCallback(GetStunned);
         effectStun.AddEndCallback(StunOver);
         feedback.Initialize(StartCoroutine, StopCoroutine);
@@ -60,8 +60,9 @@ public abstract class Totem : PlayObject
         if (!onUpdate) return;
 
         onUpdate = false;
-        myCastingBar.InterruptCasting();
         casting = false;
+        timeToCast = 0;
+        castingCD = false;
         timer = 0;
         InternalTotemExit();
     }
@@ -70,11 +71,10 @@ public abstract class Totem : PlayObject
 
     protected void OnStartCast()
     {
-        if(!stuned && !casting && onUpdate && InternalCondition())
+        if(!stuned && !castingCD && onUpdate && InternalCondition())
         {
-            myCastingBar.StartCasting();
+            casting = true;
             InternalStartCast();
-            feedback.StartChargeFeedback(myCastingBar.castingTime);
         }
     }
 
@@ -84,19 +84,31 @@ public abstract class Totem : PlayObject
 
     protected override void OnUpdate()
     {
+
         if (stuned) return;
 
         if (onUpdate)
         {
-            if (casting)
+            if (castingCD)
             {
                 timer += Time.deltaTime;
 
                 if (timer >= timeToCast)
                 {
-                    casting = false;
+                    castingCD = false;
                     timer = 0;
                     OnStartCast();
+                }
+            }
+            else if (casting)
+            {
+                timerCasting += Time.deltaTime;
+
+                if (timerCasting >= myCastingBar.castingTime)
+                {
+                    casting = false;
+                    timerCasting = 0;
+                    feedback.StartChargeFeedback(EndCast);
                 }
             }
 
@@ -109,7 +121,7 @@ public abstract class Totem : PlayObject
     void EndCast()
     {
         InternalEndCast();
-        casting = true;
+        castingCD = true;
     }
 
     protected abstract void InternalEndCast();
@@ -117,14 +129,16 @@ public abstract class Totem : PlayObject
     void GetStunned()
     {
         stuned = true;
-        myCastingBar.InterruptCasting();
+        casting = false;
+        timerCasting = 0;
         feedback.InterruptCharge();
         InternalGetStunned();
     }
 
     protected void InterruptCast()
     {
-        myCastingBar.InterruptCasting();
+        casting = false;
+        timerCasting = 0;
         feedback.InterruptCharge();
         OnStartCast();
     }
@@ -134,7 +148,7 @@ public abstract class Totem : PlayObject
     void StunOver()
     {
         stuned = false;
-        myCastingBar.StartCasting();
+        OnStartCast();
         InternalStunOver();
     }
 
@@ -156,7 +170,9 @@ public abstract class Totem : PlayObject
     protected virtual void Dead()
     {
         feedback.StopAll();
-        myCastingBar.InterruptCasting();
+        casting = false;
+        timerCasting = 0;
+        feedback.InterruptCharge();
     }
 
     protected override void OnTurnOn() { }
@@ -164,10 +180,12 @@ public abstract class Totem : PlayObject
     protected override void OnTurnOff()
     {
         feedback.StopAll();
-        casting = false;
+        castingCD = false;
         stuned = false;
         timer = 0;
-        myCastingBar.InterruptCasting();
+        casting = false;
+        timerCasting = 0;
+        feedback.InterruptCharge();
     }
 
     protected override void OnFixedUpdate() { }

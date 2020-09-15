@@ -43,9 +43,11 @@ public class TotemRoot : Totem
             Vector3 aux = transform.InverseTransformPoint(myChar.transform.position);
 
             if (!onUpdate && (!squaredRange && Vector3.Distance(myChar.transform.position, transform.position) <= range) ||
-                (Mathf.Abs(aux.x) <= squareRange.x && Mathf.Abs(aux.y) <= squareRange.y && Mathf.Abs(aux.z) <= squareRange.z))
+                squaredRange && (Mathf.Abs(aux.x) <= squareRange.x && Mathf.Abs(aux.y) <= squareRange.y && Mathf.Abs(aux.z) <= squareRange.z))
                 OnTotemEnter();
-
+            else if(onUpdate && (!squaredRange && Vector3.Distance(myChar.transform.position, transform.position) > range) ||
+            squaredRange && (Mathf.Abs(aux.x) > squareRange.x || Mathf.Abs(aux.y) > squareRange.y || Mathf.Abs(aux.z) > squareRange.z))
+                OnTotemExit();
             yield return new WaitForSeconds(0.5f);
         }
     }
@@ -53,11 +55,6 @@ public class TotemRoot : Totem
     protected override void UpdateTotem()
     {
         base.UpdateTotem();
-
-        Vector3 aux = transform.InverseTransformPoint(myChar.transform.position);
-        if (myChar != null && (!squaredRange && Vector3.Distance(myChar.transform.position, transform.position) > range) ||
-            (Mathf.Abs(aux.x) > squareRange.x || Mathf.Abs(aux.y) > squareRange.y || Mathf.Abs(aux.z) > squareRange.z))
-            OnTotemExit();
     }
 
     void StunChar()

@@ -31,30 +31,14 @@ public class TotemFeedback
         ParticlesManager.Instance.GetParticlePool(goToPos.name, goToPos, 6);
     }
 
-    public void StartChargeFeedback(float timeToCast)
+    public void StartChargeFeedback(Action EndCast)
     {
-        float percent = timeToCast * percentToAppear;
-        charging = true;
-
-        StartCoroutine(StartToCharge(percent));
-    }
-
-    IEnumerator StartToCharge(float timeToCast)
-    {
-        if (charging)
-        {
-            yield return new WaitForSeconds(timeToCast);
-
-            chargeParticleTemp = ParticlesManager.Instance.PlayParticle(chargeParticle.name, startPos.position, startPos);
-            charging = false;
-        }
+        chargeParticleTemp = ParticlesManager.Instance.PlayParticle(chargeParticle.name, startPos.position, EndCast, startPos);
     }
 
     public void InterruptCharge()
     {
         if(chargeParticleTemp != null && chargeParticleTemp.gameObject.activeSelf) ParticlesManager.Instance.StopParticle(chargeParticle.name, chargeParticleTemp);
-        charging = false;
-        StopCoroutine(StartToCharge(0));
     }
 
     public void StartGoToFeedback(Vector3 finalPos, Action<Vector3> OnEndGo) => StartCoroutine(GoToFeedback(startPos.position, finalPos, OnEndGo));
