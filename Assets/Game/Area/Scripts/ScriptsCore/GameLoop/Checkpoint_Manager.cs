@@ -44,7 +44,13 @@ public class Checkpoint_Manager : MonoBehaviour
         GameLoop.instance.SubscribeCheckpoint(this);
         Fades_Screens.instance.Black();
         Fades_Screens.instance.FadeOff(() => { });
-        SpawnChar();
+
+        if (Main.instance.CanGoToCheckPoint)
+        {
+            SpawnChar();
+        }
+
+        if (!Main.instance.CanGoToCheckPoint) Main.instance.ResetGoCheckPoints();
     }
 
     void UpdateCurrentCheckpoint(Checkpoint_Spot cp)
@@ -62,6 +68,7 @@ public class Checkpoint_Manager : MonoBehaviour
 
     public void SpawnChar()
     {
+        
         Fades_Screens.instance.Black();
         Main.instance.GetChar().StopMovement();
         Main.instance.GetChar().transform.position = _activeCheckPoint.GetPosition;

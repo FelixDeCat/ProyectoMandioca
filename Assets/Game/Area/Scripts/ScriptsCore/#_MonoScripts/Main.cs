@@ -21,6 +21,11 @@ public class Main : MonoBehaviour
 
     public bool useMouse;
 
+    bool canGoToCheckPOint = true;
+    public bool CanGoToCheckPoint { get { return canGoToCheckPOint; } }
+    public void IgnoreCheckPoints() => canGoToCheckPOint = false;
+    public void ResetGoCheckPoints() => canGoToCheckPOint = true;
+
 
     [Header("Inspector References")]
     public EventManager eventManager;
