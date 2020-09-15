@@ -26,6 +26,8 @@ public class Checkpoint_Manager : MonoBehaviour
     public Checkpoint_Spot _activeCheckPoint;
     public List<Checkpoint_Spot> allCheckpoints = new List<Checkpoint_Spot>();
 
+    public float posToRespawn = -20;
+
     private void Awake() 
     { 
         instance = this;
@@ -60,7 +62,7 @@ public class Checkpoint_Manager : MonoBehaviour
 
     private void Update()
     {
-        if (Main.instance.GetChar().transform.position.y < -20)
+        if (Main.instance.GetChar().transform.position.y < posToRespawn)
         {
            SpawnChar();
         }
