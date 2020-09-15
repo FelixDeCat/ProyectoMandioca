@@ -2,7 +2,6 @@ using System.Collections;
 using UnityEngine;
 using System;
 using Tools.StateMachine;
-using UnityEditorInternal;
 
 public class CharacterHead : CharacterControllable
 {
