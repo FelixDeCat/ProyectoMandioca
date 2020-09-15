@@ -30,14 +30,19 @@ public class NPC_Anims : MonoBehaviour
                             .AddLeaf(Play_Reject, "Reject")
                             .AddLeaf(Play_Cry, "Cry")
                             .AddLeaf(Play_Thanks, "Thanks")
-                            ))));
+                            ))
+                    .AddBranch(new CommandBranch("Stop")
+                        .AddBranch(new CommandBranch(npc_Name)
+                            .AddLeaf(Stop_Crying, "Cry")
+                            ))
+                    ));
 
         //NPC_Animation_Play_Jacinta_Reject
     }
 
 
     public void Play_Explainning(string s) => myAnim.SetBool("Explaining", true);
-    public void Play_GiveAReward(string s) { }
+    public void Play_GiveAReward(string s) => myAnim.SetTrigger("GiveAReward");
     public void Play_Idle(string s) { }
     public void Play_Cry(string s) { myAnim.SetBool("Crying", true); }
     public void Play_Thanks(string s) { }
