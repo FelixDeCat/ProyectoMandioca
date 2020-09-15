@@ -30,9 +30,21 @@ public class LoadSceneAsync : MonoBehaviour
         if (SceneManager.GetActiveScene().name != SceneToLoad)
         {
             
-            asyncLoad = SceneManager.LoadSceneAsync(SceneToLoad, LoadSceneMode.Additive);
+            asyncLoad = SceneManager.LoadSceneAsync(SceneToLoad, LoadSceneMode.Single);
+            yield return new WaitForEndOfFrame();
 
-            asyncLoad.allowSceneActivation = true;
+            while (!asyncLoad.isDone)
+            {
+                yield return new WaitForEndOfFrame();
+                if (asyncLoad.progress >= 0.9f)
+                {
+                    asyncLoad.allowSceneActivation = true;
+                }
+            }
+
+            //yield return new WaitUntil(() => asyncLoad.isDone);
+
+            //asyncLoad.allowSceneActivation = true;
 
             yield return null;
         }

@@ -39,6 +39,7 @@ public class CustomCamera : MonoBehaviour
     [SerializeField, Range(0, 1)] float fade = 0.05f;
     public float speedRot;
     Camera mycam;
+    public Camera MyCam { get { return mycam; } }
     bool setOverTheSholder;
     public List<CamConfiguration> myCameras = new List<CamConfiguration>();
     public CamConfiguration overTheSholderCam;

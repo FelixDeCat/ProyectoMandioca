@@ -11,7 +11,6 @@ namespace DevelopTools.UI
         public Transform parent_view;
         public Transform parent_content;
         public Dictionary<string, DebugVisualSpace> mySpaces = new Dictionary<string, DebugVisualSpace>();
-        public Transform left, right;
         bool show;
         private void Awake() { instance = this; BUTTON_Hide(); }
         public void BUTTON_Show() { show = true; parent_view.gameObject.SetActive(true); }
