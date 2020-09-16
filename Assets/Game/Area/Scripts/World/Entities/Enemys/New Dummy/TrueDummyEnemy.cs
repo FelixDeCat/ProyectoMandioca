@@ -131,6 +131,9 @@ public class TrueDummyEnemy : EnemyBase
     protected override void OnReset()
     {
         ragdoll.Ragdoll(false, Vector3.zero);
+        death = false;
+        sm.SendInput(DummyEnemyInputs.DISABLE);
+        particles.myGroundParticle.gameObject.SetActive(true);
     }
     public override void Zone_OnPlayerExitInThisRoom()
     {
@@ -261,18 +264,22 @@ public class TrueDummyEnemy : EnemyBase
     protected override void OnFixedUpdate() { }
     protected override void OnTurnOff()
     {
-        if (sm.Current.Name == "Die") gameObject.SetActive(false);
+        //if (sm.Current.Name == "Die") ReturnToSpawner();
 
         sm.SendInput(DummyEnemyInputs.DISABLE);
         director.DeadEntity(this, entityTarget);
         entityTarget = null;
         combat = false;
         groundSensor?.TurnOff();
+
+        Debug.Log("me apago men");
     }
     protected override void OnTurnOn()
     {
         sm.SendInput(DummyEnemyInputs.IDLE);
         groundSensor?.TurnOn();
+
+        Debug.Log("me prendo pá");
     }
 
     #region STATE MACHINE THINGS
@@ -366,6 +373,7 @@ public class TrueDummyEnemy : EnemyBase
             .Done();
 
         ConfigureState.Create(die)
+            .SetTransition(DummyEnemyInputs.DISABLE, disable)
             .Done();
 
         ConfigureState.Create(disable)
@@ -396,7 +404,7 @@ public class TrueDummyEnemy : EnemyBase
 
         new DummyStunState<DummyEnemyInputs>(petrified, sm);
 
-        new DummyDieState(die, sm, ragdoll, particles.myGroundParticle).SetAnimator(animator).SetDirector(director).SetRigidbody(rb);
+        new DummyDieState(die, sm, ragdoll, particles.myGroundParticle, ReturnToSpawner).SetAnimator(animator).SetDirector(director).SetRigidbody(rb);
 
         new DummyDisableState<DummyEnemyInputs>(disable, sm, EnableObject, DisableObject);
     }

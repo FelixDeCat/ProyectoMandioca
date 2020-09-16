@@ -38,5 +38,10 @@ public abstract class PlayObject : MonoBehaviour,IZoneElement
     public virtual void Zone_OnUpdateInThisRoom() { }
     public virtual void Zone_OnPlayerDeath() { }
 
-    public virtual void ReturnToSpawner() { Spawner?.ReturnObject(this); Pool?.ReturnPlayObject(this); Spawner = null; Pool = null; }
+    public virtual void ReturnToSpawner()
+    {
+        if(Spawner) Spawner.ReturnObject(this);
+        else if(Pool) Pool.ReturnPlayObject(this);
+        else Destroy(this.gameObject); 
+    }
 }

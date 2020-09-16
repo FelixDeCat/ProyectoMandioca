@@ -88,7 +88,7 @@ public abstract class EnemyBase : NPCBase, ICombatDirector
     protected abstract void OnReset();
 
     protected abstract void TakeDamageFeedback(DamageData data);
-    void Death(Vector3 dir) { Die(dir); ReturnToSpawner(); OnDeath?.Invoke(); }
+    void Death(Vector3 dir) { Die(dir); OnDeath?.Invoke(); }
     protected abstract void Die(Vector3 dir);
     protected abstract bool IsDamage();
     protected virtual void InmuneFeedback() { }

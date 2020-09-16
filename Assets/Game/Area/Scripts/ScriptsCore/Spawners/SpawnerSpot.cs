@@ -24,6 +24,7 @@ public class SpawnerSpot
         newObject.On();
         newObject.transform.position = pos;
         newObject.Spawner = spawner;
+        newObject.Pool = _poolObject;
         newObject.GetComponent<EnemyBase>()?.SpawnEnemy();
         return newObject;
     }

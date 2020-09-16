@@ -29,6 +29,7 @@ public class DamageReceiver : MonoBehaviour
 
     Rigidbody rb;
 
+    #region Builder
     public void Initialize(Transform _ownerRoot, Rigidbody _rb,_Base_Life_System lifeSystem)
     {
         if (_ownerRoot != null) ownerRoot = _ownerRoot;
@@ -75,6 +76,7 @@ public class DamageReceiver : MonoBehaviour
         Parry = _Parry;
         return this;
     }
+    #endregion
 
     public Attack_Result TakeDamage(DamageData data)
     {
@@ -138,6 +140,17 @@ public class DamageReceiver : MonoBehaviour
        takeDmg?.Invoke(data);
 
         return death ? Attack_Result.death : Attack_Result.sucessful;
+    }
+
+    public void InstaKill()
+    {
+        if (_LifeSystem != null && _LifeSystem.Life <= 0) return;
+
+        int dmg = _LifeSystem.Life;
+
+        bool death = _LifeSystem.Hit(dmg);
+
+        if (death) OnDead?.Invoke(Vector3.zero);
     }
 
     public void AddInvulnerability(Damagetype inv) { if (!invulnerability.Contains(inv)) invulnerability.Add(inv); }

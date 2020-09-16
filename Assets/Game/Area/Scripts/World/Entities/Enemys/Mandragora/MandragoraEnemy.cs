@@ -154,6 +154,8 @@ public class MandragoraEnemy : EnemyBase
     protected override void OnReset()
     {
         ragdoll.Ragdoll(false, Vector3.zero);
+        death = false;
+        sm.SendInput(MandragoraInputs.DISABLE);
     }
 
     public override void Zone_OnPlayerExitInThisRoom()
@@ -388,6 +390,7 @@ public class MandragoraEnemy : EnemyBase
             .Done();
 
         ConfigureState.Create(die)
+            .SetTransition(MandragoraInputs.DISABLE, disable)
             .Done();
 
         ConfigureState.Create(disable)
@@ -414,7 +417,7 @@ public class MandragoraEnemy : EnemyBase
 
         new DummyStunState<MandragoraInputs>(petrified, sm);
 
-        new DummyDieState(die, sm, ragdoll, OnDead).SetAnimator(animator).SetDirector(director).SetRigidbody(rb);
+        new DummyDieState(die, sm, ragdoll, OnDead, ReturnToSpawner).SetAnimator(animator).SetDirector(director).SetRigidbody(rb);
 
         new DummyDisableState<MandragoraInputs>(disable, sm, EnableObject, DisableObject);
     }

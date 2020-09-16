@@ -13,5 +13,9 @@ public class KillZone : MonoBehaviour
         {
             Checkpoint_Manager.instance.SpawnChar();
         }
+        else if (other.GetComponent<DamageReceiver>())
+        {
+            other.GetComponent<DamageReceiver>().InstaKill();
+        }
     }
 }

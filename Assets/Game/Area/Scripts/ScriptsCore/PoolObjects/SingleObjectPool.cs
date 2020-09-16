@@ -77,6 +77,7 @@ namespace DevelopTools
         /// <param name="objectToReturn"></param>
         public void ReturnToPool(T objectToReturn)
         {
+            objectToReturn.GetComponent<EnemyBase>()?.ResetEntity();
             objectToReturn.gameObject.SetActive(false);
             currentlyUsingObj.Remove(objectToReturn);
             objects.Enqueue(objectToReturn);

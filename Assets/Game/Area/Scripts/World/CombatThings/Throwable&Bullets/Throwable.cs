@@ -34,6 +34,7 @@ public abstract class Throwable : MonoBehaviour
 
     public void Throw(ThrowData data, Action<Throwable> _ReturnToPoolCallback)
     {
+        parried = false;
         sensor.gameObject.SetActive(true);
         myrig.isKinematic = false;
         myrig.velocity = Vector3.zero;
@@ -90,6 +91,8 @@ public abstract class Throwable : MonoBehaviour
     void ReceiveEntityToDamage(GameObject go)
     {
         var ent = go.GetComponent<DamageReceiver>();
+
+        if (ent.GetComponent<CharacterHead>() && parried) return;
         if (ent != null)
         {
             var dir = ent.transform.position - transform.position;
@@ -100,11 +103,12 @@ public abstract class Throwable : MonoBehaviour
 
             if (aux == Attack_Result.parried)
             {
+                parried = true;
                 var newdir = savethrowdata.Owner.position + new Vector3(0, 1, 0) - transform.position;
                 newdir.Normalize();
                 damageData
                    .SetDamage((int)(savethrowdata.Damage * damageParryMultiplier))
-                   .SetDamageInfo(DamageInfo.NonBlockAndParry)
+                   .SetDamageInfo(DamageInfo.Normal)
                    .SetKnockback(knockback);
                 ParryThrowable(transform.position, newdir);
             }
@@ -112,4 +116,6 @@ public abstract class Throwable : MonoBehaviour
                 NonParry();
         }
     }
+
+    bool parried;
 }

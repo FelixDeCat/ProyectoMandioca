@@ -35,7 +35,7 @@ public class CustomSpawner : PlayObject
 
     private void Start()
     {
-        _poolPlayObject = PoolManager.instance.GetObjectPool(gameObject.name, prefab);
+        _poolPlayObject = PoolManager.instance.GetObjectPool(prefab.name, prefab);
         spot.Initialize(spawnSpot, spawnRadius);
     }
 
@@ -127,7 +127,11 @@ public class CustomSpawner : PlayObject
 
     public void ReturnObject(PlayObject newobject)
     {
-        //_poolPlayObject.ReturnToPool(newobject);
+        newobject.Spawner = null;
+        newobject.Pool = null;
+        newobject.Off();
+
+        _poolPlayObject.ReturnToPool(newobject);
         currentSpawn -= 1;
     }
 

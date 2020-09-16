@@ -1,4 +1,5 @@
 ﻿using System;
+using UnityEngine;
 
 namespace Tools.StateMachine
 {
@@ -37,7 +38,7 @@ namespace Tools.StateMachine
 
         protected override void Update()
         {
-
+            Debug.Log("me quedo en el disable pá");
         }
     }
 }
