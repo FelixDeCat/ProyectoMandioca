@@ -77,15 +77,17 @@ public class MenuButtons : MonoBehaviour
             item.interactable = true;
         }
     }
+
     private void Update()
     {
-        if (_currentAnim != null && Input.GetKeyDown(KeyCode.Escape) || _currentAnim != null && Input.GetKeyDown(KeyCode.Joystick1Button1))
+        if (_currentAnim != null && Input.GetKeyDown(KeyCode.Mouse0) || _currentAnim != null && Input.GetKeyDown(KeyCode.Joystick1Button1))
         {
             ReactivateButtons(_currentAnim);
             selectorButtons.SelectButton(mainButtons[0].gameObject);
             _currentAnim = null;
         }
     }
+
     public void goToGym()
     {
         CharacterInput inputs = Main.instance.GetChar().getInput;
@@ -93,6 +95,7 @@ public class MenuButtons : MonoBehaviour
         LoadSceneHandler.instance.LoadAScene(sceneGym);
         gameObject.SetActive(false);
     }
+
     public void goToGym2()
     {
         CharacterInput inputs = Main.instance.GetChar().getInput;
@@ -100,6 +103,7 @@ public class MenuButtons : MonoBehaviour
         LoadSceneHandler.instance.LoadAScene(sceneGym2);
         gameObject.SetActive(false);
     }
+
     public void goToGym3()
     {
         CharacterInput inputs = Main.instance.GetChar().getInput;
@@ -107,11 +111,20 @@ public class MenuButtons : MonoBehaviour
         LoadSceneHandler.instance.LoadAScene(sceneGym3);
         gameObject.SetActive(false);
     }
+
     public void goToGym4()
     {        
         CharacterInput inputs = Main.instance.GetChar().getInput;
         inputs.ChangeRotation(_activeRotation);
         LoadSceneHandler.instance.LoadAScene(sceneGym4);
         gameObject.SetActive(false);
+    }
+
+    public void ExitToGame()
+    {
+        if(Application.isEditor)
+            UnityEditor.EditorApplication.isPlaying = false;
+        else
+            Application.Quit();
     }
 }
