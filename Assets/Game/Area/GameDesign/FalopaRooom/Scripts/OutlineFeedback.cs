@@ -19,7 +19,7 @@ public class OutlineFeedback : FeedbackInteractBase
 
     private void Start()
     {
-        myMat = parentWithMaterials.GetComponentsInChildren<Renderer>().Select(x => x.materials[1]).ToArray();
+        myMat = parentWithMaterials.GetComponentsInChildren<Renderer>().Where(x =>  x.materials.Length > 1).Select(x => x.materials[1]).ToArray();
     }
 
     protected override void OnShow()
