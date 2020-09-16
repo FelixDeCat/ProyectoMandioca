@@ -11,7 +11,8 @@ namespace SM {
 
         public void OnTriggerEnter( Collider other ) {
             OnTriggerEnterEvent.Invoke();
-            SceneManager._sceneManager.LoadScene();
+            //SceneManager._sceneManager.LoadScene();
+            //SceneManager._sceneManager.LoadScene();
 
         }
         public void OnTriggerExit( Collider other ) {

@@ -9,13 +9,13 @@ namespace SM {
     public class SceneManager : MonoBehaviour {
         public SceneVault [] sceneFiles;
         public UnityEvent<string, AsyncOperation> onLoading;
-        public static SceneManager _sceneManager;
+        public static SceneManager instance;
         
         public void Awake() {
-            if ( _sceneManager ) {
+            if ( instance ) {
                 Destroy(this);
             } else {
-                _sceneManager = this;
+                instance = this;
                 DontDestroyOnLoad(this.gameObject);
             }
 

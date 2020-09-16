@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEditor;
 namespace SM {
     //El que maneja todo en la escena
-    public class SceneHelper : CharacterHead{
+    public class SceneHelper : CharacterHead {
         [SerializeField]
         public SceneVault handler;
     }
