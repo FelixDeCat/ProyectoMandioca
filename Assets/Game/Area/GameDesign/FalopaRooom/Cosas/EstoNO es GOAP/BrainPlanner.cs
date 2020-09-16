@@ -93,7 +93,7 @@ namespace GOAP
             {
                     new GoapAction("AttackMelee hero")
                         .SetCost(meleeAttack)
-                        .Pre(gS => gS.charLife > 0 && gS.distanceToHero < 2.5)
+                        .Pre(gS => gS.charLife > 0 && gS.distanceToHero <= 2f)
 
                         .Effect(gS =>
                         {
@@ -105,17 +105,16 @@ namespace GOAP
 
                         .Effect(gS =>
                         {
-                            Debug.Log(gS.skills.Count);
                             gS.skills["HandOfDead"].isAvaliable = false;
                             gS.charLife -= 10;
                         }),
                     new GoapAction("GoTo hero")
                         .SetCost(move)
-                        .Pre(gS =>  gS.distanceToHero >= 2.5)
+                        .Pre(gS =>  gS.distanceToHero > 2f)
 
                         .Effect(gS =>
                         {
-                            gS.distanceToHero = 3;
+                            gS.distanceToHero = 1;
                         }),
 
 

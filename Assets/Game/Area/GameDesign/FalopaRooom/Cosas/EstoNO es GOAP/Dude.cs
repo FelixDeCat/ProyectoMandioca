@@ -32,23 +32,23 @@ namespace GOAP
         private BrainPlanner _planner;
         IEnumerable<Tuple<ActionEntity, Item>> _plan;
 
+        GOAP_Skills_Base _currentSkill;
+
         public string debugState;
-
-
 
         public void Initialize()
         {
             _ent = GetComponent<Ente>();
             _planner = GetComponent<BrainPlanner>();
 
-            //estados basicos
+            #region Basic States
             var idle = new State<ActionEntity>("idle");
             var any = new State<ActionEntity>("any");
             var planStep = new State<ActionEntity>("planStep");
             var failStep = new State<ActionEntity>("failStep");
             var success = new State<ActionEntity>("success");
             var thinkPlan = new State<ActionEntity>("thinkPlan");
-
+            #endregion
 
             var meleeAttack = new State<ActionEntity>("meleeAttack");
             var speedBuff = new State<ActionEntity>("speedBuff");
@@ -56,29 +56,50 @@ namespace GOAP
             var useSkill = new State<ActionEntity>("move");
 
             void NextStep() { _fsm.Feed(ActionEntity.NextStep); };
+            void FailedStep() { _fsm.Feed(ActionEntity.FailedStep); };
 
             useSkill.OnEnter += (a) =>
             {
-                var skill = _ent.skillManager.GetSkill(_target.GetComponent<GOAP_Skills_Base>().skillName);
-                skill.Execute();
+                _currentSkill = _ent.skillManager.GetSkill(_target.GetComponent<GOAP_Skills_Base>().skillName);
+                _currentSkill.Execute();
+                if(!_currentSkill.instantSkill)
+                {
+                    _currentSkill.OnFinishSkill += NextStep;
+                    return;
+                }
+
+                NextStep();
+            };
+
+            useSkill.OnExit += (a) =>
+            {
+                if (!_currentSkill.instantSkill)
+                {
+                    _currentSkill.OnFinishSkill -= NextStep;
+                }
+
+                _currentSkill = null;
             };
 
             meleeAttack.OnEnter += (a) =>
             {
+                _ent.Stop();
+                if (!Check_MeleeRangeHero())
+                {
+                    FailedStep();
+                    return;
+                }
 
-                _ent.GoTo(_target.transform.position);
-                _ent.meleeRange_sensor.On();
-                _ent.OnMeleeRangeWithPlayer += MeleeAttack;
+                MeleeAttack();
+
                 _ent.OnFinishAttack += NextStep;
                 _ent.attackSensor.OnHeroHitted += ResolveAttack;
             };
 
             meleeAttack.OnExit += (a) =>
             {
-                _ent.OnMeleeRangeWithPlayer -= MeleeAttack;
                 _ent.attackSensor.OnHeroHitted -= ResolveAttack;
                 _ent.OnFinishAttack -= NextStep;
-                _ent.meleeRange_sensor.Off();
             };
 
             move.OnEnter += (a) =>
@@ -88,14 +109,8 @@ namespace GOAP
 
             };
 
-            move.OnUpdate += () =>
-            {
-                Check_MeleeRangeHero();
-            };
-
             move.OnExit += (a) =>
             {
-                _ent.OnMeleeRangeWithPlayer -= NextStep;
                 _ent.OnReachDestinationNoParameters -= NextStep;
             };
 
@@ -155,42 +170,11 @@ namespace GOAP
             hero.GetComponent<DamageReceiver>().TakeDamage(damageData);
         }
 
-        void Check_MeleeRangeHero()
-        {
-            if (Vector3.Distance(_target.transform.position, _ent.transform.position) < 2f)
-            {
-                _fsm.Feed(ActionEntity.NextStep);
-            }
-        }
+        bool Check_MeleeRangeHero(){return Vector3.Distance(_target.transform.position, _ent.transform.position) <= 5f ? true:false;}
 
         void MeleeAttack()
         {
-            _ent.Stop();
-            Debug.Log("entro al ataque");
-            if (Vector3.Distance(_target.transform.position, _ent.transform.position) > 3)
-            {
-                _fsm.Feed(ActionEntity.FailedStep);
-                return;
-            }
-
-
             _ent.Anim().SetTrigger("meleeAttack");
-
-
-        }
-
-        IEnumerator SpeedBuff_Handler()
-        {
-            float auxSpeed = _ent.speed;
-            _ent.speed *= 2;
-
-            yield return new WaitForSeconds(5);
-
-            _ent.speed = auxSpeed;
-
-            yield return new WaitForSeconds(10);
-            _ent.canSpeedBuff = true;
-
         }
 
 

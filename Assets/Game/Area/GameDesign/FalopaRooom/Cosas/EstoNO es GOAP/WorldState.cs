@@ -23,7 +23,7 @@ namespace GOAP
         public Item objectiveTEST;
 
 
-        public EnteDATA enteDATA;
+//        public EnteDATA enteDATA;
         private void Awake()
         {
             if (instance == null)
@@ -46,20 +46,13 @@ namespace GOAP
 
             ente = FindObjectOfType<Ente>();
             snap.allItems = allItems.Where(x => x != null && x.interactuable).ToList();
-            snap.values.UpdateWith(values);
-
-           
-            //snap.eData.hpMax = ente.Life.;
-            //snap.eData.hp = ente.healthCurrent;
-            snap.eData.pos = ente.transform.position;
-           
-            
+            snap.values.UpdateWith(values); 
 
             /// ////
 
             snap.charRoot = this.characterhead.Root;
             snap.charLife = this.characterhead.Life.GetLife();
-            snap.distanceToHero = Vector3.Distance(snap.charRoot.position, snap.eData.pos);
+            snap.distanceToHero = Vector3.Distance(snap.charRoot.position, ente.Root().position);
 
             snap.skills.UpdateWith(ente.skillManager.GetAllSkills);
 
@@ -67,8 +60,6 @@ namespace GOAP
             {
                 snap.allItems.Add(s.Value.GetComponent<Item>());
             }
-
-
 
             snapDebug = snap;
             return snap;
@@ -78,20 +69,20 @@ namespace GOAP
 
     //Data de la entidad "dude"
    
-    public struct EnteDATA
-    {
-        public Vector3 pos;
-        public float hpMax;
-        public float hp;
-        public bool hidden;
-    }
+    //public struct EnteDATA
+    //{
+    //    public Vector3 pos;
+    //    public float hpMax;
+    //    public float hp;
+    //    public bool hidden;
+    //}
     [Serializable]
     public class WorldStateSnapShot
     {
         public List<Item> allItems = new List<Item>();
         public Dictionary<string, bool> values = new Dictionary<string, bool>();
         public Dictionary<string, GOAP_Skills_Base> skills = new Dictionary<string, GOAP_Skills_Base>();
-        public EnteDATA eData;
+        //public EnteDATA eData;
         public Transform charRoot;
         public int charLife;
         public float distanceToHero;

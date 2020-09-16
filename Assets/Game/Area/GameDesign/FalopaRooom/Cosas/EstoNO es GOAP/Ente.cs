@@ -8,9 +8,7 @@ namespace GOAP
 {
     public class Ente : MonoBehaviour
     {
-        public float health;
-        public float healthCurrent;
-
+        //events
         public event Action<Ente, Waypoint, bool> OnReachDestination = delegate { };
         public event Action OnReachDestinationNoParameters = delegate { };
         public event Action<Ente, Item> OnHitItem = delegate { };
@@ -23,28 +21,29 @@ namespace GOAP
 
         [SerializeField] Transform _root;
         public Transform Root() => _root;
+        Rigidbody _rb;
+
         CharacterHead character;
 
-        public bool canSpeedBuff = true;
         public AttackSensor attackSensor;
         public DamageReceiver damagereciever;
         GenericLifeSystem _lifeSystem;
         public GenericLifeSystem Life => _lifeSystem;
 
+        //Animation
         Animator _anim;
-        public AnimEvent _animEvent;
-
         public Animator Anim() => _anim;
+        AnimEvent _animEvent;
         public AnimEvent AnimEvent() => _animEvent;
+
 
         public CaronteSkill_Manager skillManager;
 
-        public Sensor meleeRange_sensor;
-        Rigidbody _rb;
+        //public Sensor meleeRange_sensor;
 
         [Header("Movement")]
-        public Vector3 _dir;
-        public Vector3 dest_pos;
+        Vector3 _dir;
+        Vector3 _dest_pos;
         public float rootSpeed;
         public float speed = 2f;
         float currentSpeed;
@@ -54,28 +53,33 @@ namespace GOAP
 
         void FixedUpdate()
         {
-            if(dest_pos != Vector3.zero)
+            if(_dest_pos != Vector3.zero)
             {
                 _rb.velocity += _dir * currentSpeed * Time.fixedDeltaTime;
                 Rotation(_dir);
             }
         }
 
-        public void Rotation(Vector3 forward)
+        private void Update()
         {
-            _root.forward = Vector3.Lerp(_root.forward, forward, rootSpeed * Time.deltaTime);
+            _anim.SetFloat("speed", currentSpeed);
         }
+        
 
         private void Start()
         {
+            //Movement
             _rb = GetComponent<Rigidbody>();
+            //OnReachDestination += Stop;
+
+            //Life
             _lifeSystem = GetComponent<GenericLifeSystem>();
-            meleeRange_sensor.AddCallback_OnTriggerEnter(OnPlayerInMeleeRange);
             damagereciever.SetIsDamage(IsDamaged).AddDead(OnDeath).AddTakeDamage(TakeDamageFeedback).Initialize(_root, _rb, _lifeSystem);
 
-            _anim = GetComponentInChildren<Animator>();
-            //_animEvent = GetComponentInChildren<AnimEvent>();
 
+            //Animation
+            _anim = GetComponentInChildren<Animator>();
+            _animEvent = GetComponentInChildren<AnimEvent>();
             _animEvent.Add_Callback("meleeAttack", OnMeleeAttackHit);
             _animEvent.Add_Callback("finishAttack", OnFinishMeleeAttackAnimation);
 
@@ -83,24 +87,18 @@ namespace GOAP
             OnMeleeAttack += () => attackSensor.gameObject.SetActive(true);
             OnFinishAttack += () => attackSensor.gameObject.SetActive(false);
 
-            OnReachDestination += Stop;
+            //meleeRange_sensor.AddCallback_OnTriggerEnter(OnPlayerInMeleeRange);
+
 
         }
 
-        public void Initialize()
-        {
-            GetComponent<Dude>().Initialize();
-        }
+        public void Initialize(){GetComponent<Dude>().Initialize();}
 
-        void OnPlayerInMeleeRange(GameObject go) { OnMeleeRangeWithPlayer?.Invoke(); }
+        //void OnPlayerInMeleeRange(GameObject go) { OnMeleeRangeWithPlayer?.Invoke(); Debug.Log("TE ALCANCEEE"); }
         void OnMeleeAttackHit() => OnMeleeAttack?.Invoke();
         void OnFinishMeleeAttackAnimation() => OnFinishAttack?.Invoke();
 
 
-        private void Update()
-        {
-            _anim.SetFloat("speed", currentSpeed);
-        }
 
         #region Health
 
@@ -129,14 +127,16 @@ namespace GOAP
         public void Stop()
         {
             if (_navCR != null) StopCoroutine(_navCR);
-            dest_pos = Vector3.zero;
+            _dest_pos = Vector3.zero;
+            _rb.velocity = Vector3.zero;
             currentSpeed = 0;
         }
 
         public void Stop(Ente ente, Waypoint wp, bool b)
         {
             if (_navCR != null) StopCoroutine(_navCR);
-            dest_pos = Vector3.zero;
+            _dest_pos = Vector3.zero;
+            _rb.velocity = Vector3.zero;
             currentSpeed = 0;
         }
 
@@ -170,12 +170,12 @@ namespace GOAP
                 {
                     foreach (var w in path)
                     {
-                        dest_pos = w.transform.position;
-                        _dir = dest_pos - _root.position;
+                        _dest_pos = w.transform.position;
+                        _dir = _dest_pos - _root.position;
                         _dir.Normalize();
 
 
-                        while ((dest_pos - _root.position).sqrMagnitude >= 2f)
+                        while ((_dest_pos - _root.position).sqrMagnitude >= 3f)
                         {
                             yield return null;
                         }
@@ -187,32 +187,34 @@ namespace GOAP
 
             if (reachedDst == dstWp)
             {
-                dest_pos = destination;
-                _dir = dest_pos - _root.position;
+                _dest_pos = destination;
+                _dir = _dest_pos - _root.position;
                 _dir.Normalize();
 
-                yield return new WaitUntil(() => (dest_pos - _root.position).sqrMagnitude < 2f);
+                yield return new WaitUntil(() => (_dest_pos - _root.position).sqrMagnitude < 3f);
             }
 
-            dest_pos = Vector3.zero;
+            _dest_pos = Vector3.zero;
             OnReachDestination?.Invoke(this, reachedDst, reachedDst == dstWp);
             OnReachDestinationNoParameters?.Invoke();
         }
 
+        public void Rotation(Vector3 forward){_root.forward = Vector3.Lerp(_root.forward, forward, rootSpeed * Time.deltaTime);}
+
 
         #endregion
 
-        void OnTriggerEnter(Collider col)
+        #region Sensor
+        private void OnCollisionEnter(Collision collision)
         {
-            var item = col.GetComponentInParent<Item>();
+            var item = collision.gameObject.GetComponentInParent<Item>();
 
             if (item)
             {
+                Debug.Log("el collider funca");
                 OnHitItem(this, item);
             }
-
         }
-
 
         private void OnTriggerStay(Collider other)
         {
@@ -224,13 +226,14 @@ namespace GOAP
             }
         }
 
+        #endregion
 
         #region Gizmos
 
         Vector3 nodeDebug;
         void OnDrawGizmos()
         {
-            if (dest_pos == Vector3.zero) return;
+            if (_dest_pos == Vector3.zero) return;
 
             //Gizmos.DrawSphere(_root.position, 1);
             //izmos.DrawSphere(nodeDebug, 1);
@@ -238,10 +241,10 @@ namespace GOAP
             
 
             Gizmos.color = Color.red;           
-            Gizmos.DrawLine(_root.position, dest_pos);
+            Gizmos.DrawLine(_root.position, _dest_pos);
 
             Gizmos.color = Color.green;
-            Gizmos.DrawSphere(dest_pos, 0.5f);
+            Gizmos.DrawSphere(_dest_pos, 0.5f);
 
             if (_gizmoPath == null)
                 return;

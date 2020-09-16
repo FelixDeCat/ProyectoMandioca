@@ -43,7 +43,6 @@ public class CaronteHand : MonoBehaviour
         }
         else
         {
-            Debug.Log("mano erra");
             OnMissPlayer?.Invoke();
         }
 

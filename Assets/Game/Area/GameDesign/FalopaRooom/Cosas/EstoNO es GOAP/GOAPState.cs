@@ -24,16 +24,10 @@ namespace GOAP
             worldStateSnap.values = new Dictionary<string, bool>();
             worldStateSnap.values.UpdateWith(source.worldStateSnap.values);
 
-            worldStateSnap.eData = source.worldStateSnap.eData;
-
+            worldStateSnap.skills = new Dictionary<string, GOAP_Skills_Base>();
+            worldStateSnap.skills.UpdateWith(source.worldStateSnap.skills);
 
             worldStateSnap.allItems = new List<Item>();
-
-            //        for(var i = source.worldStateSnap.allItems.Count - 1; i > -1; i--)
-            //        {
-            //            if (source.worldStateSnap.allItems[i] == null)
-            //                source.worldStateSnap.allItems.RemoveAt(i);
-            //        }
             worldStateSnap.allItems = source.worldStateSnap.allItems.GetRange(0, source.worldStateSnap.allItems.Count);
 
             generatingAction = gen;

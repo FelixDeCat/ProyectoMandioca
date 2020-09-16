@@ -1,17 +1,20 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public abstract class GOAP_Skills_Base : MonoBehaviour
 {
     protected bool canUpdate;
-
+    public event Action OnFinishSkill;
+    
     bool isOn;
 
     bool alreadyInitialized = false;
 
     public float CD_time;
     public bool isAvaliable = true;
+    public bool instantSkill;
     public string skillName;
 
     public void Initialize() { if (!alreadyInitialized) { OnInitialize(); alreadyInitialized = true; } }
@@ -19,8 +22,8 @@ public abstract class GOAP_Skills_Base : MonoBehaviour
     public void Off() { if (isOn) { isOn = false; canUpdate = false; OnTurnOff(); } }
     public void Pause() { canUpdate = false; OnPause(); }
     public void Resume() { canUpdate = true; OnResume(); }
-    public void Execute() { StartCD(); OnExecute(); }
-
+    public void Execute() { StartCD(); OnExecute();}
+    
     private void StartCD() { StartCoroutine(CD_timer()); }
     IEnumerator CD_timer()
     {
@@ -43,5 +46,6 @@ public abstract class GOAP_Skills_Base : MonoBehaviour
     protected abstract void OnResume();
 
     protected abstract void OnExecute();
+
 
 }
