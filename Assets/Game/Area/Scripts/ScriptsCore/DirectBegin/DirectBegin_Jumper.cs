@@ -15,7 +15,7 @@ namespace Tools.Testing
         public void Configure(string s) { SceneToJump = s; DontDestroyOnLoad(this.gameObject); instance = this; }
         public void JumpTo()
         {
-            Scenes.Load(SceneToJump);
+            LoadSceneHandler.instance.LoadAScene(SceneToJump);
             Destroy(this.gameObject);
         }
     }

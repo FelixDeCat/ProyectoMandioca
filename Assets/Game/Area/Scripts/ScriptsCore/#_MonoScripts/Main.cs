@@ -46,8 +46,6 @@ public class Main : MonoBehaviour
 
     BaseRoom _currentRoom;
 
-    //estas dos cosas no deberian estar acá
-    PopUpCrown _theCrown;
 
     private void Awake()
     {

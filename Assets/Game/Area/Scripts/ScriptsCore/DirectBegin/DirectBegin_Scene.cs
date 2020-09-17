@@ -13,18 +13,26 @@ namespace Tools.Testing
     {
         public bool LockMouse;
         [SerializeField] LocalPackageLoadComponent packageToLoad;
+
+        [SerializeField] GameObject[] toIgnoreIfThisIsNotTheMoment;
         
         public void Awake()
         {
             if (Main.instance == null) // si entra acá es porque nunca entro a la escena de carga
             {
+                for (int i = 0; i < toIgnoreIfThisIsNotTheMoment.Length; i++)
+                {
+                    DestroyImmediate(toIgnoreIfThisIsNotTheMoment[i].gameObject);
+                }
                 GameObject jumper = new GameObject();
                 jumper.AddComponent<DirectBegin_Jumper>();
                 jumper.GetComponent<DirectBegin_Jumper>().Configure(Scenes.GetActiveSceneName());
+                Scenes.UnloadThisScene();
                 Scenes.Load_Load();
             }
             else
             {
+                
                 //Debug.Log("entro mas veces aca");
                 if (LockMouse)
                 {
