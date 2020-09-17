@@ -6,6 +6,7 @@ namespace GOAP
 {
     public class CaronteSkill_Manager : MonoBehaviour
     {
+        [SerializeField] Transform _root;
         Dictionary<string, GOAP_Skills_Base> skillRegistry = new Dictionary<string, GOAP_Skills_Base>();
 
     void Start()
@@ -16,6 +17,7 @@ namespace GOAP
                 if (s != null)
                 {
                     skillRegistry.Add(s.skillName, s);
+                    s.Initialize(_root);
                 }
             }
         }

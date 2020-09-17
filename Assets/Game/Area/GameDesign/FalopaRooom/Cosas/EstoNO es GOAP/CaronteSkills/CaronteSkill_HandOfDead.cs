@@ -4,17 +4,41 @@ using UnityEngine;
 
 public class CaronteSkill_HandOfDead : GOAP_Skills_Base
 {
+
+    [SerializeField] HandOfDead_Handler hand_pf;
+
     protected override void OnExecute()
     {
-        Debug.Log("EJECUTO HABILIDAD");
-
-
+        SpawnHand();
     }
 
-    protected override void OnFixedUpdate()
+    void SpawnHand()
     {
+        var hand = Instantiate<HandOfDead_Handler>(hand_pf);
+
+        var characterPos = Main.instance.GetChar().Root;
+        var dir = characterPos.position - owner.position;
+        dir = dir.normalized;
+
+
+        hand.Initialize(owner, dir, 1000);
+
+        hand.OnGrabPlayer += KillPlayer;
+        hand.OnReachedDestination += DecideIfTeleport;
+    }
+
+    public void KillPlayer(HandOfDead_Handler hand)
+    {
+        Destroy(hand.gameObject);
         
     }
+
+    void DecideIfTeleport(HandOfDead_Handler hand)
+    {
+        Destroy(hand);
+    }
+
+    protected override void OnFixedUpdate(){}
 
     protected override void OnInitialize()
     {
@@ -45,4 +69,6 @@ public class CaronteSkill_HandOfDead : GOAP_Skills_Base
     {
         
     }
+
+  
 }

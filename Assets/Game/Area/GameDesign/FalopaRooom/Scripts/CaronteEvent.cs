@@ -13,6 +13,9 @@ public class CaronteEvent : MonoBehaviour
 
     [SerializeField] GameObject hand_pf;
     [SerializeField] Ente caronte_pf;
+    Ente caronte;
+
+    public static CaronteEvent instance;
 
     public bool caronteActive;
 
@@ -20,9 +23,14 @@ public class CaronteEvent : MonoBehaviour
 
     List<PlayObject> enemies = new List<PlayObject>();
     CharacterHead character;
-    public void Start()
+
+    private void Awake()
     {
-        
+        if (instance == null) instance = this;
+    }
+
+    public void Start()
+    {       
         character = Main.instance.GetChar();
         character.Life.ADD_EVENT_OnCaronteDeathEvent(TurnOnCarontePP);
     }
@@ -31,7 +39,6 @@ public class CaronteEvent : MonoBehaviour
 
         if (!caronteActive) return;
 
-        //stopMovement = true;
 
         carontePP.SetActive(true);
 
@@ -70,7 +77,7 @@ public class CaronteEvent : MonoBehaviour
     void SpawnCaronte()
     {
         character.Life.Heal(25);
-        var caronte = GameObject.Instantiate<Ente>(caronte_pf);
+        caronte = GameObject.Instantiate<Ente>(caronte_pf);
         WorldState.instance.ente = caronte;
         caronte.OnDeath += OnDefeatCaronte;
         caronte.OnDeath += (v3) => Destroy(caronte.gameObject);
@@ -122,6 +129,7 @@ public class CaronteEvent : MonoBehaviour
 
     public void TurnOffCarontePP()
     {
+        Destroy(caronte.gameObject);
         carontePP.SetActive(false);
         stopMovement = false;
         foreach (PlayObject po in enemies)

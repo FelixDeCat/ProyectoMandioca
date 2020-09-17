@@ -127,8 +127,17 @@ public class DamageReceiver : MonoBehaviour
 
         if(rb)
         {
-            Vector3 knockbackForce = aux * data.knockbackForce + data.attackDir;
-            rb.AddForce(knockbackForce * knockbackMultiplier, ForceMode.Impulse);
+            if(data.damageType == Damagetype.Heavy)
+            {
+                Vector3 knockbackForce = aux * data.knockbackForce + data.attackDir;
+                rb.AddForce(knockbackForce * knockbackMultiplier * 5, ForceMode.Impulse);
+            }
+            else
+            {
+                Vector3 knockbackForce = aux * data.knockbackForce + data.attackDir;
+                rb.AddForce(knockbackForce * knockbackMultiplier, ForceMode.Impulse);
+            }
+            
         }
 
         bool death = _LifeSystem.Hit(dmg);
