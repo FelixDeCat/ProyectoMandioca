@@ -11,15 +11,16 @@ namespace Tools.Testing
     using System.Linq;
     public class DirectBegin_Scene : MonoBehaviour
     {
-        public JumpData data;
         public bool LockMouse;
         [SerializeField] LocalPackageLoadComponent packageToLoad;
+        
         public void Awake()
         {
             if (Main.instance == null) // si entra acá es porque nunca entro a la escena de carga
             {
-                DontDestroyOnLoad(this.gameObject);
-                data.SceneToJump = Scenes.GetActiveSceneName();
+                GameObject jumper = new GameObject();
+                jumper.AddComponent<DirectBegin_Jumper>();
+                jumper.GetComponent<DirectBegin_Jumper>().Configure(Scenes.GetActiveSceneName());
                 Scenes.Load_Load();
             }
             else
@@ -34,13 +35,5 @@ namespace Tools.Testing
                 Destroy(this.gameObject);
             }
         }
-    }
-
-    [System.Serializable]
-    public class JumpData
-    {
-        [SerializeField] string sceneToJump = "default";
-        internal string SceneToJump { get => sceneToJump; set => sceneToJump = value; }
-        
     }
 }

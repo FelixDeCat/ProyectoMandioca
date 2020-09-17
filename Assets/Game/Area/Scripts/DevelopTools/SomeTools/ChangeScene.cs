@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using Tools.Testing;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.SceneManagement;
@@ -16,6 +17,11 @@ public class ChangeScene : MonoBehaviour
     }
     void Execute()
     {
+        if (DirectBegin_Jumper.instance != null)
+        {
+            DirectBegin_Jumper.instance.JumpTo();
+            return;
+        }
         if (!stayHere)
             LoadSceneHandler.instance.LoadAScene(scene);
     }

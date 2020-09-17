@@ -10,16 +10,13 @@ namespace Tools.Testing
     using UnityEngine;
     public class DirectBegin_Jumper : MonoBehaviour
     {
-        public void Start()
+        string SceneToJump;
+        public static DirectBegin_Jumper instance;
+        public void Configure(string s) { SceneToJump = s; DontDestroyOnLoad(this.gameObject); instance = this; }
+        public void JumpTo()
         {
-            var aux = FindObjectOfType<DirectBegin_Scene>();
-
-            // si entra acá es porque alguna escena
-            // me trajo hasta la escena de carga
-            if (aux != null)
-            {
-                Scenes.Load(aux.data.SceneToJump);
-            }
+            Scenes.Load(SceneToJump);
+            Destroy(this.gameObject);
         }
     }
 }
