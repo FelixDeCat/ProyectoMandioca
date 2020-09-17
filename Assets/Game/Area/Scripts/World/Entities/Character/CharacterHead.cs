@@ -62,7 +62,7 @@ public class CharacterHead : CharacterControllable
     bool canAddComboHit = true;
     [SerializeField] ComboWomboSystem combo_system = new ComboWomboSystem();
 
-
+    [SerializeField] AudioClip chargeSound;
     [SerializeField] GameObject go_StunFeedback = null;
     float spinDuration;
     float spinSpeed;
@@ -122,7 +122,7 @@ public class CharacterHead : CharacterControllable
     {
         Main.instance.GetCombatDirector().AddNewTarget(this);
         rb = GetComponent<Rigidbody>();
-
+        combo_system.SetSound(chargeSound);
         feedbacks.Initialize();
 
         charanim = new CharacterAnimator(anim_base);

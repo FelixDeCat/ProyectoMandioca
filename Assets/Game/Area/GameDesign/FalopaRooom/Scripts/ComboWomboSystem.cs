@@ -13,7 +13,7 @@ public class ComboWomboSystem
     public int hitsNeededToCombo;
     public float cdToAddHit;
     public float timeToCombo;
-
+    AudioClip comboSounds;
 
     float _count;
     bool comboRunning;
@@ -21,9 +21,16 @@ public class ComboWomboSystem
     public void AddCallback_OnComboready(Action callback) => OnComboReady += callback;
     public void RemoveCallback_OnComboready(Action callback) => OnComboReady -= callback;
 
-    public void Initialize(int hitsNeeded)
+    public void Initialize(int hitsNeeded,AudioClip sound)
     {
         hitsNeededToCombo = hitsNeeded;
+        comboSounds = sound;
+        AudioManager.instance.GetSoundPool(comboSounds.name, AudioGroups.GAME_FX, comboSounds);
+    }
+    public void SetSound(AudioClip sound)
+    {
+        comboSounds = sound;
+        AudioManager.instance.GetSoundPool(comboSounds.name, AudioGroups.GAME_FX, comboSounds);
     }
 
     public void OnUpdate()
@@ -34,6 +41,7 @@ public class ComboWomboSystem
            
             if (_count >= timeToCombo)
             {
+                AudioManager.instance.PlaySound(comboSounds.name);
                 ClearCombo();
             }
         }
