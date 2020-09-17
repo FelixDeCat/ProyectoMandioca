@@ -9,7 +9,8 @@ public class FollowBehaviour : MonoBehaviour
     public Vector3 Origin { get { return root.position; } }
     public Vector3 Direction { get { return (Destiny - Origin).normalized; } }
 
-    [SerializeField] GenericEnemyMove genericEnemyMove;
+    [SerializeField] GenericEnemyMove genericEnemyMove = null;
+    [SerializeField] CharacterGroundSensor groundSensor = null;
 
     Transform root;
     Rigidbody rb;
@@ -18,17 +19,12 @@ public class FollowBehaviour : MonoBehaviour
     bool scape;
     bool lookat;
 
-    private void Awake()
-    {
-        genericEnemyMove = GetComponent<GenericEnemyMove>();
-    }
-
     public void ConfigureFollowBehaviour(Transform root, Rigidbody rb, Transform target)
     {
         this.root = root;
         this.rb = rb;
         this.target = target;
-        genericEnemyMove.Configure(root, rb);
+        genericEnemyMove.Configure(root, rb, groundSensor);
     }
 
     public void ChangeTarget(Transform target) => this.target = target;
