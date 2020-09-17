@@ -95,12 +95,14 @@ namespace PixelCrushers.SceneStreamer {
             StartCoroutine(LoadAdditiveAsync(sceneName, loadedHandler, distance));
         }
         private IEnumerator LoadAdditiveAsync(string sceneName, InternalLoadedHandler loadedHandler, int distance) {
+            if (AlreadyExist(sceneName)) yield break;
             AsyncOperation asyncOperation = SceneManager.LoadSceneAsync(sceneName, LoadSceneMode.Additive);
             onLoading.Invoke(sceneName, asyncOperation);
             yield return asyncOperation;
             FinishLoad(sceneName, loadedHandler, distance);
         }
         private IEnumerator LoadAdditive(string sceneName, InternalLoadedHandler loadedHandler, int distance) {
+            if (AlreadyExist(sceneName)) yield break;
             SceneManager.LoadScene(sceneName, LoadSceneMode.Additive);
             onLoading.Invoke(sceneName, null);
             yield return new WaitForEndOfFrame();
@@ -128,5 +130,14 @@ namespace PixelCrushers.SceneStreamer {
         public static bool IsSceneLoaded(string sceneName) => instance.IsLoaded(sceneName);
         public static void LoadScene(string sceneName) => instance.Load(sceneName);
         public static void UnloadScene(string sceneName)=>instance.Unload(sceneName);
+        bool AlreadyExist(string scene)
+        {
+            bool exist = false;
+            for (int i = 0; i < SceneManager.sceneCount; i++)
+            {
+                if (SceneManager.GetSceneAt(i).name == scene) exist = true;
+            }
+            return exist;
+        }
     }
 }
