@@ -19,27 +19,16 @@ public class ColorRandomizer : MonoBehaviour
     public Color[] randomColors;
 
     
-    private MeshRenderer _render;
+    private Renderer _render;
 
    
-
-    private void Awake()
-    {
-        //for (int i = 0; i < things.Length; i++)
-        //{
-           
-        //    _render = things[i].GetComponent<MeshRenderer>();
-        //    _render.material.SetColor(colorProperty,Randomizer());
-           
-        //}
-    }
 
 
     public void SetArrays()
     {
         for (int i = 0; i < things.Length; i++)
         {
-            _render = things[i].GetComponent<MeshRenderer>();
+            _render = things[i].GetComponent<Renderer>();
             _render.sharedMaterial.SetColor(colorProperty, Randomizer());
 
         }
@@ -50,7 +39,7 @@ public class ColorRandomizer : MonoBehaviour
         for (int i = 0; i < things.Length; i++)
         {
 
-            _render = things[i].GetComponent<MeshRenderer>();
+            _render = things[i].GetComponent<Renderer>();
             _render.sharedMaterial.SetColor(colorProperty, standardColor);
 
         }
