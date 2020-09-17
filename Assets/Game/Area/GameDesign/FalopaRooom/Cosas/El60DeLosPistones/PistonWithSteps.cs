@@ -6,7 +6,7 @@ using System.Linq;
 
 public class PistonWithSteps : MonoBehaviour
 {
-    [SerializeField] Rigidbody _rb;
+    [SerializeField] Transform _root;
     [SerializeField] List<Transform> nodes = new List<Transform>();
     [SerializeField] Transform parent;
 
@@ -21,13 +21,11 @@ public class PistonWithSteps : MonoBehaviour
     {
         if(isMoving)
         {
-            //Por que con el rb no se pega el player y con transform si?
-            _rb.transform.position += _dir * speed * Time.fixedDeltaTime;
-            //_rb.MovePosition(_rb.position + _dir * speed * Time.fixedDeltaTime);
-
-            if (Vector3.Distance(_rb.position, nodes[currentNode].position) <= 0.5f)
+            _root.transform.position += _dir * speed * Time.fixedDeltaTime;
+            
+            if (Vector3.Distance(_root.position, nodes[currentNode].position) <= 0.5f)
             {
-                _rb.position = nodes[currentNode].position;
+                _root.position = nodes[currentNode].position;
                 isMoving = false;
             }
         }
@@ -60,7 +58,7 @@ public class PistonWithSteps : MonoBehaviour
 
         currentNode++;
         var nextNode = nodes[currentNode];
-        _dir = nextNode.position - _rb.position;
+        _dir = nextNode.position - _root.position;
         _dir = _dir.normalized;
     }
 
