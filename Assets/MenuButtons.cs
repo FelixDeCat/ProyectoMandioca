@@ -55,7 +55,15 @@ public class MenuButtons : MonoBehaviour
 
     public void Settings()
     {
-        //que lo codee su vieja
+
+    }
+    public void Quit()
+    {
+#if UNITY_EDITOR
+        UnityEditor.EditorApplication.isPlaying = false;
+#else
+      Application.Quit();
+#endif
     }
     public void Credits()
     {
