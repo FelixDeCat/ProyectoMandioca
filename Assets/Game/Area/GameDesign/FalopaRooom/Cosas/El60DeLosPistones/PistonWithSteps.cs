@@ -14,7 +14,7 @@ public class PistonWithSteps : MonoBehaviour
 
     Vector3 _dir;
     int currentNode = 0;
-    bool isMoving;
+    bool isMoving = false;
 
     // Update is called once per frame
     void FixedUpdate()
@@ -44,9 +44,6 @@ public class PistonWithSteps : MonoBehaviour
     public void GoToNextNode()
     {
         if (isMoving) return;
-
-        
-
         isMoving = true;
         
 
