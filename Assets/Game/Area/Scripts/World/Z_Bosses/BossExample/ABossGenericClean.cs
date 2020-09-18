@@ -38,6 +38,16 @@ public class ABossGenericClean : EnemyBase
 
         //quitar esto de aca... cuando tenga la grilla esto tiene que volar
         sensors_and_behaviours.Sensor.StartSensors();
+
+
+        fastSubscriber.animevent.Add_Callback("Wendigo_Walk",WendigoWalk);
+    }
+
+    void WendigoWalk()
+    {
+        Debug.Log("Wendigo_Walk");
+
+        feedbackManager.Play_Sound_WendigoWalk();
     }
 
     protected override void OnTurnOff() 

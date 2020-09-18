@@ -10,6 +10,7 @@ public class FeedbackSoundDataBase : MonoBehaviour
     [SerializeField] AudioClip _beginFightClip = null;
     [SerializeField] AudioClip _deathClip = null;
     [SerializeField] AudioClip _hitTheGround = null;
+    [SerializeField] AudioClip _walk = null;
     Transform root;
 
     void Start()
@@ -19,6 +20,7 @@ public class FeedbackSoundDataBase : MonoBehaviour
         AudioManager.instance.GetSoundPool(_beginFightClip.name, AudioGroups.GAME_FX, _beginFightClip);
         AudioManager.instance.GetSoundPool(_deathClip.name, AudioGroups.GAME_FX, _deathClip);
         AudioManager.instance.GetSoundPool(_hitTheGround.name, AudioGroups.GAME_FX, _hitTheGround);
+        AudioManager.instance.GetSoundPool(_walk.name, AudioGroups.GAME_FX, _walk);
     }
     public void SetRoot(Transform root) => this.root = root;
     public void GetDamageClip() => AudioManager.instance.PlaySound(_getDamageClip.name, root);
@@ -26,4 +28,5 @@ public class FeedbackSoundDataBase : MonoBehaviour
     public void BeginFightClip() => AudioManager.instance.PlaySound(_beginFightClip.name, root);
     public void HitTheGround() => AudioManager.instance.PlaySound(_hitTheGround.name, root);
     public void DeathClip() => AudioManager.instance.PlaySound(_deathClip.name, root);
+    public void WalkClip() => AudioManager.instance.PlaySound(_walk.name, root);
 }

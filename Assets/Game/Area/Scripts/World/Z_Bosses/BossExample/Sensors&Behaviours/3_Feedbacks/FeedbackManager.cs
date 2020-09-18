@@ -28,4 +28,5 @@ public class FeedbackManager : MonoBehaviour
     public void Play_HitTheGround() => FeedbackSoundDataBase.HitTheGround();
     public void EnableRockInHand() => feedbackInHand.Activate(true);
     public void DisableRockInHand() => feedbackInHand.Activate(false);
+    public void Play_Sound_WendigoWalk() => FeedbackSoundDataBase.WalkClip();
 }
