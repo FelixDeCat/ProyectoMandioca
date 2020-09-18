@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System;
+using UnityEngine.Events;
 
 public class PingPongLerp
 {
@@ -84,12 +85,13 @@ public class PingPongLerp
         timer = 0;
     }
 
-    public IEnumerator stopAfter(float num, Action act, Func<bool, bool> changeBool, bool notCanBack = false)
+    public IEnumerator stopAfter(float num, Action act, Func<bool, bool> changeBool, UnityEvent onReachEnd, bool notCanBack = false)
     {
         changeBool.Invoke(false);
         Play(num);
         float aux = 0;
         anim = true;
+        bool auxBool = false;
         while (aux < 2 * cantspeed * goSpeed + time_stop_back)
         {
             if (!anim_time_stop)
@@ -101,10 +103,16 @@ public class PingPongLerp
                 aux += Time.deltaTime;
             }
             yield return new WaitForEndOfFrame();
+
+            if (!auxBool && aux >= cantspeed * goSpeed)
+            {
+                onReachEnd.Invoke();
+                auxBool = false;
+            }
             if (notCanBack && aux >= cantspeed * goSpeed)
             {
                 Stop();
-                
+
                 yield break;
             }
         }

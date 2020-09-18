@@ -1,12 +1,14 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class PistonOneShot : Piston
 {
     [SerializeField] AnimPalanca animPalanca;
     [SerializeField] bool notCanComeBack;
     [SerializeField] AudioClip timerSound;
+    [SerializeField] UnityEvent onEndReach;
 
     Palanca palanca;
 
@@ -34,7 +36,7 @@ public class PistonOneShot : Piston
 
     public void StopPiston()
     {        
-        StartCoroutine(pingponglerp.stopAfter(1, animPalanca.AnimOff, changeInteractableStatus, notCanComeBack));
+        StartCoroutine(pingponglerp.stopAfter(1, animPalanca.AnimOff, changeInteractableStatus, onEndReach, notCanComeBack));
         if(!notCanComeBack) AudioManager.instance.PlaySound(timerSound.name);
     }
 
