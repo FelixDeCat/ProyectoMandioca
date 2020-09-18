@@ -29,13 +29,17 @@ public class CaronteSkill_HandOfDead : GOAP_Skills_Base
 
     public void KillPlayer(HandOfDead_Handler hand)
     {
-        Destroy(hand.gameObject);
+
         
     }
 
     void DecideIfTeleport(HandOfDead_Handler hand)
     {
-        Destroy(hand);
+        if(Vector3.Distance(owner.position, heroRoot.position) > Vector3.Distance(hand.transform.position, heroRoot.position))
+        {
+            owner.transform.position = hand.transform.position;
+            Destroy(hand.gameObject);
+        }
     }
 
     protected override void OnFixedUpdate(){}

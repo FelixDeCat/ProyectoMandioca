@@ -16,9 +16,10 @@ public abstract class GOAP_Skills_Base : MonoBehaviour
     public bool isAvaliable = true;
     public bool instantSkill;
     public string skillName;
-    protected Transform owner; 
+    protected Transform owner;
+    protected Transform heroRoot; 
 
-    public void Initialize(Transform owner) { if (!alreadyInitialized) { OnInitialize(); alreadyInitialized = true; this.owner = owner; } }
+    public void Initialize(Transform owner) { if (!alreadyInitialized) { OnInitialize(); alreadyInitialized = true; this.owner = owner; heroRoot = Main.instance.GetChar().Root; } }
     public void On() { if (!isOn) { isOn = true; canUpdate = true; OnTurnOn(); } }
     public void Off() { if (isOn) { isOn = false; canUpdate = false; OnTurnOff(); } }
     public void Pause() { canUpdate = false; OnPause(); }
