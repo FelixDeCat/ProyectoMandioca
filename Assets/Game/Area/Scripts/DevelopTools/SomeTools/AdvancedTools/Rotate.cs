@@ -20,13 +20,20 @@ public class Rotate : MonoBehaviour {
 
     public bool constant_movement;
 
+    bool play = true;
+
     private void Awake()
     {
         timer = timetochangerandom + 1;
     }
 
+    public void Play() => play = true;
+    public void Stop() => play = false;
+
     void Update ()
     {
+        if (!play) return;
+
         PingPong();
         
         if (random) {

@@ -130,9 +130,10 @@ public class MenuButtons : MonoBehaviour
 
     public void ExitToGame()
     {
-        if(Application.isEditor)
-            UnityEditor.EditorApplication.isPlaying = false;
-        else
-            Application.Quit();
+        //   //lo comente xq no se xq el build me tira error
+        //if(Application.isEditor)
+        //   // UnityEditor.EditorApplication.isPlaying = false;
+        //else
+        Application.Quit();
     }
 }
