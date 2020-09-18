@@ -24,8 +24,8 @@ public class ComboWomboSystem
     public void Initialize(int hitsNeeded,AudioClip sound)
     {
         hitsNeededToCombo = hitsNeeded;
-        comboSounds = sound;
-        AudioManager.instance.GetSoundPool(comboSounds.name, AudioGroups.GAME_FX, comboSounds);
+        //comboSounds = sound;
+        //AudioManager.instance.GetSoundPool(comboSounds.name, AudioGroups.GAME_FX, comboSounds);
     }
     public void SetSound(AudioClip sound)
     {
@@ -41,7 +41,6 @@ public class ComboWomboSystem
            
             if (_count >= timeToCombo)
             {
-                AudioManager.instance.PlaySound(comboSounds.name);
                 ClearCombo();
             }
         }
@@ -60,7 +59,7 @@ public class ComboWomboSystem
         if(ComboReady())
         {
             OnComboReady?.Invoke();
-
+            AudioManager.instance.PlaySound(comboSounds.name);
             ClearCombo();
         }
     }

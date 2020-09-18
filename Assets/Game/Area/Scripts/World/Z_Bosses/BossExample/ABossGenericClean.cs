@@ -40,14 +40,7 @@ public class ABossGenericClean : EnemyBase
         sensors_and_behaviours.Sensor.StartSensors();
 
 
-        fastSubscriber.animevent.Add_Callback("Wendigo_Walk",WendigoWalk);
-    }
-
-    void WendigoWalk()
-    {
-        Debug.Log("Wendigo_Walk");
-
-        feedbackManager.Play_Sound_WendigoWalk();
+        fastSubscriber.animevent.Add_Callback("Wendigo_Walk", feedbackManager.Play_Sound_WendigoWalk);
     }
 
     protected override void OnTurnOff() 
