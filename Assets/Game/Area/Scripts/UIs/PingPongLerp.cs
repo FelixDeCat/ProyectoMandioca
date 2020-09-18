@@ -107,7 +107,7 @@ public class PingPongLerp
             if (!auxBool && aux >= cantspeed * goSpeed)
             {
                 onReachEnd.Invoke();
-                auxBool = false;
+                auxBool = true;
             }
             if (notCanBack && aux >= cantspeed * goSpeed)
             {
