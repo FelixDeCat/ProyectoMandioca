@@ -148,8 +148,6 @@ public class CharacterInput : MonoBehaviour
         if(Input.GetKeyDown(KeyCode.E)) RTrigger.Invoke();
         if (Input.GetKeyDown(KeyCode.Q)) LTrigger.Invoke();
 
-        if (Input.GetKeyDown(KeyCode.R)) SceneManager.LoadScene(SceneManager.GetActiveScene().name);
-
         if (Input.GetKeyDown(KeyCode.LeftControl) || Input.GetKeyDown(KeyCode.RightControl)) SwitchActive.Invoke();
 
             RefreshHelper();

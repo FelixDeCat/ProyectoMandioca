@@ -271,15 +271,11 @@ public class TrueDummyEnemy : EnemyBase
         entityTarget = null;
         combat = false;
         groundSensor?.TurnOff();
-
-        Debug.Log("me apago men");
     }
     protected override void OnTurnOn()
     {
         sm.SendInput(DummyEnemyInputs.IDLE);
         groundSensor?.TurnOn();
-
-        Debug.Log("me prendo pá");
     }
 
     #region STATE MACHINE THINGS
