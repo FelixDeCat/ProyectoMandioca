@@ -5,6 +5,14 @@ using System.Linq;
 public class PauseManager : MonoBehaviour
 {
 
+
+
+
+    public void ReturnToMenu()
+    {
+
+    }
+
     private void Update()
     {
         if (Input.GetKeyDown(KeyCode.O))

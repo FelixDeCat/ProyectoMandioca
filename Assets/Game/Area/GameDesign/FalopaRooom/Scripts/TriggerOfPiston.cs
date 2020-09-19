@@ -14,9 +14,9 @@ public class TriggerOfPiston : MonoBehaviour
     }
     private void OnTriggerExit(Collider collision)
     {
-        if (collision.gameObject.GetComponent<CharacterHead>())
+        if (collision.gameObject.GetComponent<CharacterHead>() && collision.gameObject.GetComponent<CharacterHead>().transform.parent == parentToParent.transform)
         {
-            collision.gameObject.GetComponent<CharacterHead>().transform.parent = null;
+            collision.gameObject.GetComponent<CharacterHead>().transform.parent = collision.gameObject.GetComponent<CharacterHead>().MyParent;
         }
     }
 }

@@ -38,7 +38,8 @@ public class PistonWithSteps : MonoBehaviour
 
     public void RemovePlayerFromPlatform()
     {
-        Main.instance.GetChar().transform.parent = null;
+        if(Main.instance.GetChar().transform.parent == parent.transform)
+            Main.instance.GetChar().transform.parent = Main.instance.GetChar().MyParent;
     }
 
     public void GoToNextNode()

@@ -108,8 +108,11 @@ public class CharacterHead : CharacterControllable
     [HideInInspector] private bool canAttack = false;
     public void ToggleAttack(bool val) => canAttack = val;
 
+    public Transform MyParent { get; private set; }
+
     private void Start()
     {
+        MyParent = transform.parent;
         lifesystem
            .Configure_CharLifeSystem()
            .ADD_EVENT_OnGainLife(OnGainLife)
