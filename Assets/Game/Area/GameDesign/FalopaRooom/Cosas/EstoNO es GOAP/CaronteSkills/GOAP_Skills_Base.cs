@@ -6,7 +6,7 @@ using UnityEngine;
 public abstract class GOAP_Skills_Base : MonoBehaviour
 {
     protected bool canUpdate;
-    public event Action OnFinishSkill;
+    public  Action OnFinishSkill;
     
     bool isOn;
 

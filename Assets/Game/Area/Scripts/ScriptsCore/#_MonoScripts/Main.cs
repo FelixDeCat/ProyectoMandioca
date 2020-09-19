@@ -77,7 +77,7 @@ public class Main : MonoBehaviour
         //Invoke("AllReady", 0.1f);
 
         character.Initialize();
-        character.Resume();
+        character.On();
     }
 
     System.Collections.IEnumerator InitCorroutine()
@@ -128,8 +128,8 @@ public class Main : MonoBehaviour
     public void OnPlayerDeath() { }
 
     public void InitializePlayObjects() { foreach (var e in allentities) e.Initialize(); }
-    public void Play() { foreach (var e in allentities) e.Resume(); }
-    public void Pause() { foreach (var e in allentities) e.Pause(); }
+    public void Play() { foreach (var e in allentities) e.On(); }
+    public void Pause() { foreach (var e in allentities) e.Off(); }
 
     bool firstTimePasivas;
     bool firstTimeActivas;

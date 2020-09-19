@@ -7,6 +7,7 @@ public class HandOfDead_Handler : MonoBehaviour
 {
     [SerializeField] float speed;
     [SerializeField] Transform _root;
+    public Transform Root => _root;
     [SerializeField] float _lifeTime;
 
     DamageData dmgDATA;
@@ -28,8 +29,11 @@ public class HandOfDead_Handler : MonoBehaviour
 
     public void GrabPlayer()
     {
+
+        if (Main.instance.GetChar().DamageReceiver().TakeDamage(dmgDATA) == Attack_Result.inmune)
+            return;
+
         OnGrabPlayer?.Invoke(this);
-        Main.instance.GetChar().DamageReceiver().TakeDamage(dmgDATA);
         CaronteEvent.instance.TurnOffCarontePP();
         Destroy(gameObject);
     }
@@ -41,6 +45,8 @@ public class HandOfDead_Handler : MonoBehaviour
         if (_count >= _lifeTime)
         {
             //No me salio
+            Debug.Log("entro aca");
+            _count = 0;
             OnReachedDestination?.Invoke(this);
             Destroy(gameObject);
         }
