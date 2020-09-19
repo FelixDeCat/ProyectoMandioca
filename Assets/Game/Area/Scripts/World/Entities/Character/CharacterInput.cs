@@ -93,10 +93,18 @@ public class CharacterInput : MonoBehaviour
     private void Start()
     {
         DevelopTools.UI.Debug_UI_Tools.instance.CreateToogle("Input de Rotacion", true, ChangeRotation);
-
+        LoadSceneHandler.instance.OnEndLoad += (x) =>
+        {
+            if (x != 12 && x != 0 && inMenu)
+                inMenu = false;
+        };
     }
+    public bool inMenu = true;
+
     private void Update()
     {
+        if (inMenu) return;
+
         //var HorizontalAux = Input.GetAxis(dirConfig.H_name);
         //var VerticalAux = Input.GetAxis(dirConfig.V_name);
         //var HMult = dirConfig.H_Multiplier;
@@ -145,7 +153,9 @@ public class CharacterInput : MonoBehaviour
 
         if (Input.GetButtonDown("SwitchActive")) SwitchActive.Invoke();
 
-        if(Input.GetKeyDown(KeyCode.E)) RTrigger.Invoke();
+        if (Input.GetButtonDown("Pause")) PauseManager.Instance.Pause();
+
+        if (Input.GetKeyDown(KeyCode.E)) RTrigger.Invoke();
         if (Input.GetKeyDown(KeyCode.Q)) LTrigger.Invoke();
 
         if (Input.GetKeyDown(KeyCode.LeftControl) || Input.GetKeyDown(KeyCode.RightControl)) SwitchActive.Invoke();

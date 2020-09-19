@@ -30,10 +30,8 @@ public class Main : MonoBehaviour
     [Header("Inspector References")]
     public EventManager eventManager;
     [SerializeField] CharacterHead character = null;
-    //[SerializeField] LoadSceneHandler loader = null;
     [SerializeField] List<PlayObject> allentities = new List<PlayObject>();
     public List<PlayObject> AllEntities { get { return allentities; } }
-    //[SerializeField] SkillManager_Pasivas pasives = null; 
     [SerializeField] SkillManager_PasivasNoBranches pasives_nobranches = null;
     [SerializeField] SkillManager_ActivasNueva actives = null;
     [SerializeField] LevelSystem levelSystem = null;
@@ -60,8 +58,6 @@ public class Main : MonoBehaviour
         Invoke("EndLoad", 0.1f);
 
         Cursor.lockState = CursorLockMode.Confined;
-        
-        
     }
 
     void EndLoad()

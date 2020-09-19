@@ -9,8 +9,6 @@ public class ParticlesManager : MonoBehaviour
 
     private Dictionary<string, PoolParticle> particleRegistry = new Dictionary<string, PoolParticle>();
 
-    Action OnEnd;
-
     private void Awake()
     {
         if (Instance == null) Instance = this;
@@ -50,11 +48,22 @@ public class ParticlesManager : MonoBehaviour
         }
     }
 
+    public void PauseParticles()
+    {
+        foreach (var item in particleRegistry)
+            item.Value.PauseParticles();
+    }
+
+    public void ResumeParticles()
+    {
+        foreach (var item in particleRegistry)
+            item.Value.ResumeParticles();
+    }
+
     public ParticleSystem PlayParticle(string particleName, Vector3 spawnPos, Action callbackEnd, Transform trackingTransform = null)
     {
         if (particleRegistry.ContainsKey(particleName))
         {
-            OnEnd = callbackEnd;
             var particlePool = particleRegistry[particleName];
             particlePool.soundPoolPlaying = true;
             ParticleSystem aS = particlePool.Get();
@@ -129,8 +138,6 @@ public class ParticlesManager : MonoBehaviour
 
     private IEnumerator ReturnSoundToPool(ParticleSystem aS, string sT, Action callbackOnEnd = default)
     {
-        //yield return new WaitForSeconds(aS.main.duration);
-
         yield return new WaitUntil(() => !aS.IsAlive(true));
 
         if (aS.gameObject.activeSelf)

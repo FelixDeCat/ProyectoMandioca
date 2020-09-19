@@ -45,4 +45,34 @@ public class PoolParticle : SingleObjectPool<ParticleSystem>
         particle.Stop();
         ReturnToPool(particle);
     }
+
+    public void PauseParticles()
+    {
+        for (int i = 0; i < currentlyUsingObj.Count; i++)
+        {
+            if(currentlyUsingObj[i] == null)
+            {
+                currentlyUsingObj.RemoveAt(i);
+                i -= 1;
+                continue;
+            }
+
+            currentlyUsingObj[i].Pause();
+        }
+    }
+
+    public void ResumeParticles()
+    {
+        for (int i = 0; i < currentlyUsingObj.Count; i++)
+        {
+            if (currentlyUsingObj[i] == null)
+            {
+                currentlyUsingObj.RemoveAt(i);
+                i -= 1;
+                continue;
+            }
+
+            currentlyUsingObj[i].Play();
+        }
+    }
 }

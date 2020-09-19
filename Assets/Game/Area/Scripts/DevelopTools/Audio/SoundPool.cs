@@ -13,7 +13,6 @@ public class SoundPool : SingleObjectPool<AudioSource>
    [SerializeField] private bool playOnAwake = false;
    public bool soundPoolPlaying = false;
    private AudioMixerGroup _audioMixer;
-   private Transform trackingTransform;
 
    public void Configure(AudioClip audioClip, AudioMixerGroup audioMixerGroup,  bool loop = false) 
    {
@@ -30,18 +29,47 @@ public class SoundPool : SingleObjectPool<AudioSource>
       objects.Enqueue(newAudio);
    }
 
-   public void StopAllSounds()
-   {
-      for (int i = currentlyUsingObj.Count - 1; i >= 0; i--)
-      {
-         if (currentlyUsingObj[i].isPlaying)
-         {
-            currentlyUsingObj[i].Stop();
-            ReturnToPool(currentlyUsingObj[i]);
-         }
-      }
+    public void StopAllSounds()
+    {
+       for (int i = currentlyUsingObj.Count - 1; i >= 0; i--)
+       {
+          if (currentlyUsingObj[i].isPlaying)
+          {
+             currentlyUsingObj[i].Stop();
+             ReturnToPool(currentlyUsingObj[i]);
+          }
+       }
 
-      soundPoolPlaying = false;
-   }
+       soundPoolPlaying = false;
+    }
 
+    public void PauseAudio()
+    {
+        for (int i = 0; i < currentlyUsingObj.Count; i++)
+        {
+            if (currentlyUsingObj[i] == null)
+            {
+                currentlyUsingObj.RemoveAt(i);
+                i -= 1;
+                continue;
+            }
+
+            currentlyUsingObj[i].Pause();
+        }
+    }
+
+    public void ResumeAudio()
+    {
+        for (int i = 0; i < currentlyUsingObj.Count; i++)
+        {
+            if (currentlyUsingObj[i] == null)
+            {
+                currentlyUsingObj.RemoveAt(i);
+                i -= 1;
+                continue;
+            }
+
+            currentlyUsingObj[i].Play();
+        }
+    }
 }

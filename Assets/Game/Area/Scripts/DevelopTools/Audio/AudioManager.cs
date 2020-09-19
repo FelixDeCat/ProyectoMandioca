@@ -136,6 +136,18 @@ public class AudioManager : MonoBehaviour
         }
     }
 
+    public void PauseSounds()
+    {
+        foreach (var item in _soundRegistry)
+            item.Value.PauseAudio();
+    }
+
+    public void ResumeSounds()
+    {
+        foreach (var item in _soundRegistry)
+            item.Value.ResumeAudio();
+    }
+
     /// <summary>
     /// Les devuelve el pool de sonido que pidieron. Si ese pool no existe, crea uno con el audioclip que mandaron
     /// </summary>

@@ -97,6 +97,4 @@ public class UI_Anim_Code : UI_AnimBase
             }
         }
     }
-
-    
 }

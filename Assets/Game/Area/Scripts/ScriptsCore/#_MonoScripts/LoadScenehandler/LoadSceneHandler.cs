@@ -9,7 +9,7 @@ public class LoadSceneHandler : MonoBehaviour
 {
     public static LoadSceneHandler instance;
     private void Awake() => instance = this;
-    Action OnEndLoad = delegate { };
+    public Action<int> OnEndLoad = delegate { };
     //[SerializeField] GameObject model_master_loadBar;
     [SerializeField] GenericBar master_genbar_localLoader = null;
     [SerializeField] GenericBar master_genbar_Scene = null;
@@ -105,7 +105,7 @@ public class LoadSceneHandler : MonoBehaviour
                 }
                 yield return null;
             }
-            OnEndLoad.Invoke();
+            OnEndLoad.Invoke(SceneManager.GetActiveScene().buildIndex);
         }
     }
     void Completed(AsyncOperation async) 
