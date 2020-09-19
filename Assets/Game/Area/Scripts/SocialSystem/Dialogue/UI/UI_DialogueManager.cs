@@ -43,6 +43,7 @@ public class UI_DialogueManager : UI_Base
 
     public void SetPhoto(Sprite sp)
     {
+        if (photo == null) return;
         photo_go.SetActive(true);
         photo.sprite = sp;
     }
