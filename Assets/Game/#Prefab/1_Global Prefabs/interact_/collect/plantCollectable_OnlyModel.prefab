@@ -11,9 +11,8 @@ GameObject:
   - component: {fileID: 2899997960798169747}
   - component: {fileID: 9141728075333660983}
   - component: {fileID: 6248134198912189753}
-  - component: {fileID: 5849429225311845957}
-  m_Layer: 0
-  m_Name: GameObject
+  m_Layer: 21
+  m_Name: tronco
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -28,8 +27,8 @@ Transform:
   m_GameObject: {fileID: 1794811446246649179}
   m_LocalRotation: {x: -0.0000000754979, y: -0.000000043711392, z: 0.000000043711385,
     w: 1}
-  m_LocalPosition: {x: 0.0019938152, y: -0.058499657, z: -0.002298991}
-  m_LocalScale: {x: 0.07557663, y: 0.12404661, z: -0.011339101}
+  m_LocalPosition: {x: -0.0026, y: 0.0009, z: -0.002298991}
+  m_LocalScale: {x: 0.05561382, y: 0.09137923, z: -0.04390858}
   m_Children: []
   m_Father: {fileID: 6227705847276008050}
   m_RootOrder: 2
@@ -60,6 +59,7 @@ MeshRenderer:
   m_RendererPriority: 0
   m_Materials:
   - {fileID: 2100000, guid: 332fc86c5107bfd4cb17d0f70f0c95b7, type: 2}
+  - {fileID: 2100000, guid: c04e9619d961d3749ab73ede524920de, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -80,20 +80,6 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
---- !u!64 &5849429225311845957
-MeshCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1794811446246649179}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Convex: 1
-  m_CookingOptions: 14
-  m_Mesh: {fileID: -1354052351536759296, guid: 99ddbae094d36624ab48501769f8ef23, type: 3}
 --- !u!1 &5398593520291311860
 GameObject:
   m_ObjectHideFlags: 0
@@ -105,8 +91,8 @@ GameObject:
   - component: {fileID: 1615926350638651944}
   - component: {fileID: 5347997036797576633}
   - component: {fileID: 3125454746492897586}
-  m_Layer: 0
-  m_Name: GameObject
+  m_Layer: 21
+  m_Name: hojas grandes
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -183,8 +169,9 @@ GameObject:
   m_Component:
   - component: {fileID: 6227705847276008050}
   - component: {fileID: 3142760920851059293}
-  m_Layer: 0
-  m_Name: interact_collect_plant
+  - component: {fileID: 7482269240593473905}
+  m_Layer: 21
+  m_Name: plantCollectable_OnlyModel
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -228,6 +215,20 @@ LODGroup:
     - renderer: {fileID: 0}
     - renderer: {fileID: 0}
   m_Enabled: 1
+--- !u!136 &7482269240593473905
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6227705847276008061}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  m_Radius: 0.07
+  m_Height: 0.51
+  m_Direction: 1
+  m_Center: {x: -0.005, y: 0.22, z: 0}
 --- !u!1 &6664525975305867608
 GameObject:
   m_ObjectHideFlags: 0
@@ -239,8 +240,8 @@ GameObject:
   - component: {fileID: 1308618243269494865}
   - component: {fileID: 6186950775987900289}
   - component: {fileID: 3913342843953087501}
-  m_Layer: 0
-  m_Name: GameObject (1)
+  m_Layer: 21
+  m_Name: hojas chicas auxiliares
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
