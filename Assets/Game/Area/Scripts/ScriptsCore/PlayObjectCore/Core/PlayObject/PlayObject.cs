@@ -15,8 +15,8 @@ public abstract class PlayObject : MonoBehaviour,IZoneElement
 
     bool alreadyInitialized = false;
     public void Initialize() { if (!alreadyInitialized) { OnInitialize(); alreadyInitialized = true; } }
-    public void On() { if (!isOn) { isOn = true; canupdate = true; OnTurnOn(); } /*Debug.Log("me prendo" + name);*/ }
-    public void Off() { if (isOn) { isOn = false; canupdate = false; OnTurnOff(); }/* Debug.Log("me apago" + name);*/ }
+    public void On() { if (!isOn) { isOn = true; canupdate = true; OnTurnOn(); OnResume(); } /*Debug.Log("me prendo" + name);*/ }
+    public void Off() { if (isOn) { isOn = false; canupdate = false; OnTurnOff(); OnPause(); }/* Debug.Log("me apago" + name);*/ }
     public void Pause() { canupdate = false; OnPause(); }
     public void Resume() { canupdate = true; OnResume(); }
     private void Update() { if (canupdate) OnUpdate();  }

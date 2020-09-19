@@ -27,6 +27,7 @@ public class MenuButtons : MonoBehaviour
     public string sceneGym2 = "Gym";
     public string sceneGym3 = "Gym";
     public string sceneGym4 = "Art muestra";
+    public string sceneGym5 = "Arena";
     public string sceneBlocking = "TerrainTestGonzaSinChar";
 
 
@@ -125,6 +126,14 @@ public class MenuButtons : MonoBehaviour
         CharacterInput inputs = Main.instance.GetChar().getInput;
         inputs.ChangeRotation(_activeRotation);
         LoadSceneHandler.instance.LoadAScene(sceneGym4);
+        gameObject.SetActive(false);
+    }
+
+    public void goToGym5()
+    {
+        CharacterInput inputs = Main.instance.GetChar().getInput;
+        inputs.ChangeRotation(_activeRotation);
+        LoadSceneHandler.instance.LoadAScene(sceneGym5);
         gameObject.SetActive(false);
     }
 
