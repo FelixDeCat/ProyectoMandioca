@@ -8,7 +8,7 @@ using Random = UnityEngine.Random;
 public class CustomSpawner : PlayObject
 {
     private ObjectPool_PlayObject _poolPlayObject;
-    private float _waveCount = 20f;
+    private float _waveCount;
     private float _totalCount;
     private int _amountSpawned;
     
@@ -22,7 +22,7 @@ public class CustomSpawner : PlayObject
     [SerializeField] private Transform spawnSpot = null;
     public SpawnerSpot spot = new SpawnerSpot();
     [SerializeField] private int maxSpawn = 10;
-    int currentSpawn;
+    [SerializeField] int currentSpawn;
 
 
     [Header("***--Wave Settings--***")]
@@ -47,12 +47,14 @@ public class CustomSpawner : PlayObject
     //Una state machine XD
     protected override void OnUpdate()
     {
+
         if (currentSpawn >= maxSpawn) return;
 
         switch (mode)
         {
             case SpawnMode.Time:
             {
+                    
                 TimeMode();
                 break;
             }
@@ -121,6 +123,7 @@ public class CustomSpawner : PlayObject
     {
         _totalCount = 0;
         _amountSpawned = 0;
+        currentSpawn = 0;
     }
 
     public void ToggleInfiniteSpawner(){ infiniteSpawner = !infiniteSpawner; }

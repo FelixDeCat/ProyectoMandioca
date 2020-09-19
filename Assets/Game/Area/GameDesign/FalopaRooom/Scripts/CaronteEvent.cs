@@ -129,7 +129,10 @@ public class CaronteEvent : MonoBehaviour
 
     public void TurnOffCarontePP()
     {
-        Destroy(caronte.gameObject);
+        if(caronte!= null)
+            Destroy(caronte.gameObject);
+
+
         carontePP.SetActive(false);
         stopMovement = false;
         foreach (PlayObject po in enemies)

@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using GOAP;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -35,11 +36,13 @@ public class CaronteSkill_HandOfDead : GOAP_Skills_Base
 
     void DecideIfTeleport(HandOfDead_Handler hand)
     {
-        if(Vector3.Distance(owner.position, heroRoot.position) > Vector3.Distance(hand.transform.position, heroRoot.position))
+        if(Vector3.Distance(owner.position, heroRoot.position) > Vector3.Distance(hand.Root.transform.position, heroRoot.position))
         {
-            owner.transform.position = hand.transform.position;
-            Destroy(hand.gameObject);
+            owner.GetComponent<Rigidbody>().MovePosition(hand.Root.transform.position);
         }
+
+        OnFinishSkill?.Invoke();
+        Destroy(hand.gameObject);
     }
 
     protected override void OnFixedUpdate(){}

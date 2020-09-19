@@ -53,7 +53,7 @@ namespace GOAP
             var meleeAttack = new State<ActionEntity>("meleeAttack");
             var speedBuff = new State<ActionEntity>("speedBuff");
             var move = new State<ActionEntity>("move");
-            var useSkill = new State<ActionEntity>("move");
+            var useSkill = new State<ActionEntity>("useSkill");
 
             void NextStep() { _fsm.Feed(ActionEntity.NextStep); };
             void FailedStep() { _fsm.Feed(ActionEntity.FailedStep); };
@@ -61,6 +61,7 @@ namespace GOAP
             useSkill.OnEnter += (a) =>
             {
                 _currentSkill = _ent.skillManager.GetSkill(_target.GetComponent<GOAP_Skills_Base>().skillName);
+                Debug.Log("uso el skill " + _ent.skillManager.GetSkill(_target.GetComponent<GOAP_Skills_Base>().skillName));
                 _currentSkill.Execute();
                 if(!_currentSkill.instantSkill)
                 {
