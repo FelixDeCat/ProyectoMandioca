@@ -25,7 +25,7 @@ public class AutoShutDownOnBuild : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKey(KeyCode.LeftShift) && Input.GetKeyDown(KeyCode.K))
+        if (Input.GetKey(KeyCode.LeftShift) && Input.GetKeyDown(KeyCode.L))
         {
             en = !en;
             if (en) OnEnable.Invoke();

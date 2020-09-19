@@ -44,6 +44,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   toscale: {fileID: 8884592247090527006}
+  own: 0
   cant_to_scale: {x: 0.5, y: 0.5, z: 0.5}
   cant_speed_ping_pong_lerp: 2
 --- !u!1 &8884592245154067189
@@ -90,6 +91,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   torot: {fileID: 8884592247090527006}
+  own: 0
+  loop: 0
   cant_to_rotate: {x: 0, y: 1, z: 0}
 --- !u!1 &8884592245503462425
 GameObject:
@@ -102,7 +105,7 @@ GameObject:
   - component: {fileID: 8884592245503462431}
   - component: {fileID: 8884592245503462430}
   m_Layer: 0
-  m_Name: teleport_name
+  m_Name: tool_teleport_name
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -137,17 +140,29 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 30d97c948a2607a4d9963d8a205f10bc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  distancetoInteract: 1
+  distancetoInteract: 1.5
   autoexecute: 0
   pointToMessage: {fileID: 8884592245656463151}
   feedback:
   - {fileID: 8884592246192594343}
   - {fileID: 8884592245035231830}
   - {fileID: 8884592245154067195}
+  _withDelay: 0
+  delayTime: 0
+  UE_OnEnter:
+    m_PersistentCalls:
+      m_Calls: []
+  UE_OnExit:
+    m_PersistentCalls:
+      m_Calls: []
+  teleportType: 0
   titulo: teleport
+  interactInfo: Entrar
   informacion_del_teleport: go to transform
   mostrar_cartelito: 1
+  mostrar_Descripcion: 1
   transform_destino: {fileID: 0}
+  sceneToChange: 
 --- !u!1 &8884592245656463150
 GameObject:
   m_ObjectHideFlags: 0
@@ -174,7 +189,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8884592245656463150}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.633, z: 0}
+  m_LocalPosition: {x: 0, y: 3.07, z: 0}
   m_LocalScale: {x: 0.05, y: 0.05, z: 1}
   m_Children: []
   m_Father: {fileID: 8884592245503462431}
@@ -287,9 +302,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: 1
   v3: {x: 0, y: 0, z: -1}
+  pingPong: 0
+  timeToPong: 0
   random: 0
   random_range: 0
   timetochangerandom: 1
+  constant_movement: 0
 --- !u!212 &8884592246146336082
 SpriteRenderer:
   m_ObjectHideFlags: 0
