@@ -6,6 +6,7 @@ public class ThrowSpell : Throwable
 {
     [SerializeField] AudioClip parrySound = null;
     [SerializeField] ParticleSystem explosionParticle = null;
+    [SerializeField] ParticleSystem mainParticles = null;
 
     bool move;
     bool noFloorCollision;
@@ -40,7 +41,7 @@ public class ThrowSpell : Throwable
 
         move = false;
         ParticlesManager.Instance.PlayParticle(explosionParticle.name, transform.position);
-        ReturnToPool(this);
+        Dissappear();
     }
 
     protected override void Update()
@@ -69,8 +70,20 @@ public class ThrowSpell : Throwable
         myrig.velocity = Vector3.zero;
         move = false;
         ParticlesManager.Instance.PlayParticle(explosionParticle.name, transform.position);
-        ReturnToPool(this);
+        Dissappear();
         noFloorCollision = false;
         timer = 0;
+    }
+
+    public override void Pause()
+    {
+        base.Pause();
+        mainParticles.Pause();
+    }
+
+    public override void Resume()
+    {
+        base.Resume();
+        mainParticles.Play();
     }
 }

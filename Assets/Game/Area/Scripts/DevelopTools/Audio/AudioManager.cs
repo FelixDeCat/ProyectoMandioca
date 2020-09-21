@@ -196,7 +196,7 @@ public class AudioManager : MonoBehaviour
     /// <returns></returns>
     private IEnumerator ReturnSoundToPool(AudioSource aS, string sT)
     {
-        yield return new WaitUntil(()=> !aS.isPlaying);
+        yield return new WaitForSeconds(aS.clip.length);
         
         _soundRegistry[sT].ReturnToPool(aS);
     }

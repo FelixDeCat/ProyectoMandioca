@@ -61,7 +61,10 @@ public class LoadSceneHandler : MonoBehaviour
     IEnumerable Load(bool loadScene = true)
     {
         yield return ComponentsToLoad().GetEnumerator();
-        if(loadScene) if (!stayHere) yield return LoadAsyncScene();
+        if (loadScene) if (!stayHere) 
+            { 
+                yield return LoadAsyncScene(); 
+            }
         loadscreen.SetActive(false);
     }
 
@@ -96,14 +99,14 @@ public class LoadSceneHandler : MonoBehaviour
             asyncLoad.allowSceneActivation = false;
             while (!asyncLoad.isDone)
             {
-                yield return new WaitForEndOfFrame();
+                //yield return new WaitForEndOfFrame();
                 MasterBarScene(asyncLoad.progress, 1);
 
                 if (asyncLoad.progress >= 0.9f)
                 {
-                    asyncLoad.allowSceneActivation = true;
+                    yield return null;
                 }
-                yield return null;
+                asyncLoad.allowSceneActivation = true;
             }
             OnEndLoad.Invoke(SceneManager.GetActiveScene().buildIndex);
         }

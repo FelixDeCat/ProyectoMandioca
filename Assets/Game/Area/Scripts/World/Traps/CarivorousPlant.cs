@@ -25,6 +25,7 @@ public class CarivorousPlant : EntityBase
     bool attackRecall;
     float attackTimer;
     float timer;
+    float animSpeed;
 
     [SerializeField] ParticleSystem attFeedback = null;
     ParticleSystem attFXTemp;
@@ -203,7 +204,14 @@ public class CarivorousPlant : EntityBase
 
     protected override void OnFixedUpdate() { }
 
-    protected override void OnPause() { }
+    protected override void OnPause()
+    {
+        animSpeed = anim.speed;
+        anim.speed = 0;
+    }
 
-    protected override void OnResume() { }
+    protected override void OnResume()
+    {
+        anim.speed = animSpeed;
+    }
 }

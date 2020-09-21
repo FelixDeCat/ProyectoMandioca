@@ -42,7 +42,6 @@ public class MandragoraEnemy : EnemyBase
 
     [Header("Feedback")]
     [SerializeField] AnimEvent anim = null;
-    [SerializeField] Animator animator = null;
     private Material[] myMat;
     [SerializeField] Color onHitColor = Color.white;
     [SerializeField] float onHitFlashTime = 0.1f;
@@ -157,18 +156,6 @@ public class MandragoraEnemy : EnemyBase
         death = false;
         sm.SendInput(MandragoraInputs.DISABLE);
     }
-
-    public override void Zone_OnPlayerExitInThisRoom()
-    {
-        //Debug.Log("Player enter the room");
-        IAInitialize(Main.instance.GetCombatDirector());
-    }
-
-    public override void Zone_OnPlayerEnterInThisRoom(Transform who)
-    {
-        sm.SendInput(MandragoraInputs.DISABLE);
-    }
-
     public override void IAInitialize(CombatDirector _director)
     {
         director = _director;
@@ -176,10 +163,6 @@ public class MandragoraEnemy : EnemyBase
             SetStates();
         else
             sm.SendInput(MandragoraInputs.IDLE);
-
-        //director.AddNewTarget(this);
-
-        canupdate = true;
     }
 
     protected override void OnUpdateEntity()
@@ -217,8 +200,21 @@ public class MandragoraEnemy : EnemyBase
             }
         }
     }
-    protected override void OnPause() { }
-    protected override void OnResume() { }
+    Vector3 force;
+    protected override void OnPause()
+    {
+        base.OnPause();
+        force = rb.velocity;
+        rb.isKinematic = true;
+        if (death) ragdoll.PauseRagdoll();
+    }
+    protected override void OnResume()
+    {
+        base.OnResume();
+        rb.isKinematic = false;
+        rb.velocity = force;
+        if (death) ragdoll.ResumeRagdoll();
+    }
 
     #region Attack
     public void DealDamage() { combatComponent.ManualTriggerAttack(); sm.SendInput(MandragoraInputs.ATTACK); AudioManager.instance.PlaySound(sounds.mandragoraAttack_Clip.name); }

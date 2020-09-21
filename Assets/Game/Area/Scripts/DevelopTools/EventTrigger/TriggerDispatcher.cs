@@ -7,7 +7,6 @@ using Tools.EventClasses;
 public class TriggerDispatcher : MonoBehaviour
 {
     [SerializeField] UnityEvent OnTriggerEnterEvent = null;
-    [SerializeField] UnityEvent OnTriggerStayEvent = null;
     [SerializeField] UnityEvent OnTriggerExitEvent = null;
     [SerializeField] UnityEvent OnTriggerLateEnterEvent = null;
 
@@ -38,11 +37,6 @@ public class TriggerDispatcher : MonoBehaviour
     {
         yield return new WaitForEndOfFrame();
         OnExecute(OnTriggerLateEnterEvent, other);
-    }
-    
-    private void OnTriggerStay(Collider other)
-    {
-        OnExecute(OnTriggerStayEvent, other);
     }
 
     private void OnTriggerExit(Collider other)

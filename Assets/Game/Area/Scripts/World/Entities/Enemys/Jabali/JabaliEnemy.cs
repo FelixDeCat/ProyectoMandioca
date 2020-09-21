@@ -53,7 +53,6 @@ public class JabaliEnemy : EnemyBase
 
     [Header("Feedback")]
     [SerializeField] AnimEvent anim = null;
-    [SerializeField] Animator animator = null;
     [SerializeField] RagdollComponent ragdoll = null;
     [SerializeField] Color onHitColor = Color.white;
     [SerializeField] float onHitFlashTime = 0.1f;
@@ -61,6 +60,7 @@ public class JabaliEnemy : EnemyBase
     Material[] myMat;
     [SerializeField] GoatParticles particles = new GoatParticles();
     [SerializeField] GoatSounds sounds = new GoatSounds();
+
     [Serializable] public class GoatParticles
     {
         public ParticleSystem hitParticle;
@@ -106,10 +106,7 @@ public class JabaliEnemy : EnemyBase
         petrifyEffect?.AddStartCallback(() => sm.SendInput(JabaliInputs.PETRIFIED));
         petrifyEffect?.AddEndCallback(() => sm.SendInput(JabaliInputs.IDLE));
     }
-    protected override void OnReset()
-    {
-        //lo de el ragdoll
-    }
+
     public override void IAInitialize(CombatDirector _director)
     {
         director = _director;
@@ -117,72 +114,76 @@ public class JabaliEnemy : EnemyBase
             SetStates();
         else
             sm.SendInput(JabaliInputs.IDLE);
-
-        canupdate = true;
     }
 
-    public override void Zone_OnPlayerExitInThisRoom()
+    protected override void OnReset()
     {
-        Debug.Log("Player enter the room");
-        IAInitialize(Main.instance.GetCombatDirector());
-    }
-
-    public override void Zone_OnPlayerEnterInThisRoom(Transform who)
-    {
+        ragdoll.Ragdoll(false, Vector3.zero);
+        death = false;
         sm.SendInput(JabaliInputs.DISABLE);
     }
 
     protected override void OnUpdateEntity()
     {
-        if (canupdate)
+        if (!death)
         {
-            if (!death)
+            if (combat)
             {
-                if (combat)
+                if (Vector3.Distance(Main.instance.GetChar().transform.position, transform.position) > combatDistance + 2)
                 {
-                    if (Vector3.Distance(Main.instance.GetChar().transform.position, transform.position) > combatDistance + 2)
-                    {
-                        director.DeadEntity(this, entityTarget);
-                        entityTarget = null;
-                        combat = false;
-                    }
-                }
-
-                if (!combat && entityTarget == null && !friendly)
-                {
-                    if (Vector3.Distance(Main.instance.GetChar().transform.position, transform.position) <= combatDistance)
-                    {
-                        director.AddToList(this, Main.instance.GetChar());
-                        SetTarget(Main.instance.GetChar()); 
-                        combat = true;
-                    }
+                    director.DeadEntity(this, entityTarget);
+                    entityTarget = null;
+                    combat = false;
                 }
             }
 
-            if (sm != null)
-                sm.Update();
-
-            if (cooldown)
+            if (!combat && entityTarget == null && !friendly)
             {
-                if (timercooldown < tdRecall) timercooldown = timercooldown + 1 * Time.deltaTime;
-                else { cooldown = false; timercooldown = 0; }
-            }
-
-            if (!chargeOk)
-            {
-                cargeTimer += Time.deltaTime;
-
-                if (cargeTimer >= timeToObtainCharge)
+                if (Vector3.Distance(Main.instance.GetChar().transform.position, transform.position) <= combatDistance)
                 {
-                    chargeOk = true;
-                    cargeTimer = 0;
+                    director.AddToList(this, Main.instance.GetChar());
+                    SetTarget(Main.instance.GetChar());
+                    combat = true;
                 }
             }
         }
+
+        if (sm != null)
+            sm.Update();
+
+        if (cooldown)
+        {
+            if (timercooldown < tdRecall) timercooldown = timercooldown + 1 * Time.deltaTime;
+            else { cooldown = false; timercooldown = 0; }
+        }
+
+        if (!chargeOk)
+        {
+            cargeTimer += Time.deltaTime;
+
+            if (cargeTimer >= timeToObtainCharge)
+            {
+                chargeOk = true;
+                cargeTimer = 0;
+            }
+        }
+    }
+    Vector3 force;
+    protected override void OnPause()
+    {
+        base.OnPause();
+        force = rb.velocity;
+        rb.isKinematic = true;
+        if (death) ragdoll.PauseRagdoll();
+    }
+    protected override void OnResume()
+    {
+        base.OnResume();
+        rb.isKinematic = false;
+        rb.velocity = force;
+        if (death) ragdoll.ResumeRagdoll();
     }
 
-    protected override void OnPause() { }
-    protected override void OnResume() { }
     protected override void OnFixedUpdate() { }
     protected override void OnTurnOff()
     {

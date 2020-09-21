@@ -11,6 +11,7 @@ public abstract class Totem : PlayObject
     [SerializeField] protected TotemFeedback feedback = null;
     [SerializeField] protected DamageReceiver damageReceiver = null;
     [SerializeField] _Base_Life_System life = null;
+    [SerializeField] protected Animator anim = null;
 
     [SerializeField] bool instantStart = false;
 
@@ -23,12 +24,13 @@ public abstract class Totem : PlayObject
     bool casting;
     float timerCasting;
     protected bool stuned;
+    float animSpeed;
 
     protected override void OnInitialize()
     {
         effectStun.AddStartCallback(GetStunned);
         effectStun.AddEndCallback(StunOver);
-        feedback.Initialize(StartCoroutine, StopCoroutine);
+        feedback.Initialize(StartCoroutine);
 
         life.Initialize(life.life, () => { }, () => { }, () => { });
         damageReceiver.AddDead((x) => Dead()).AddTakeDamage((x) => InternalTakeDamage()).AddInmuneFeedback(InmuneFeedback).Initialize(transform, null, life);
@@ -169,6 +171,7 @@ public abstract class Totem : PlayObject
 
     protected virtual void Dead()
     {
+        PauseManager.Instance.RemoveToPause(this);
         feedback.StopAll();
         casting = false;
         timerCasting = 0;
@@ -189,6 +192,15 @@ public abstract class Totem : PlayObject
     }
 
     protected override void OnFixedUpdate() { }
-    protected override void OnPause() { }
-    protected override void OnResume() { }
+    protected override void OnPause()
+    {
+        animSpeed = anim.speed;
+        anim.speed = 0;
+        feedback.pause = true;
+    }
+    protected override void OnResume()
+    {
+        anim.speed = animSpeed;
+        feedback.pause = false;
+    }
 }

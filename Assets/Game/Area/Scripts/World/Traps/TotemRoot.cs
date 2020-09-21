@@ -14,7 +14,6 @@ public class TotemRoot : Totem
     [SerializeField] CombatArea spawneablePosition = null;
     [SerializeField] EffectName effectOwner = EffectName.OnRoot;
 
-    [SerializeField] Animator anim = null;
     [SerializeField] AnimEvent animEvent = null;
     [SerializeField] Collider col = null;
 

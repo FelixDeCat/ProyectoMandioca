@@ -21,6 +21,7 @@ public class ABossGenericClean : EnemyBase
     protected override void OnInitialize()
     {
         sensors_and_behaviours.Initialize(this);
+        rb = sensors_and_behaviours.rigidBody;
         feedbackManager.SetRoot(rootTransform);
         stateMachineHandler.Initialize(sensors_and_behaviours, fastSubscriber, inputSender, feedbackManager);
 
@@ -86,11 +87,6 @@ public class ABossGenericClean : EnemyBase
         //lo de el ragdoll
     }
 
-    public override void Zone_OnPlayerEnterInThisRoom(Transform who)
-    {
-        //inputSender.BeginStateMachine();
-    }
-
     void TakeDamageFeedback(Vector3 owner)
     {
         sensors_and_behaviours.Behaviours.cooldown_Damage.BeginCooldown();
@@ -102,9 +98,22 @@ public class ABossGenericClean : EnemyBase
     public override float ChangeSpeed(float newSpeed) { return newSpeed; }
     public override void IAInitialize(CombatDirector _director) { }
     protected override void OnFixedUpdate() { }
-    protected override void OnPause() { }
-    protected override void OnResume() { }
-    
+    Vector3 force;
+    protected override void OnPause()
+    {
+        base.OnPause();
+        force = rb.velocity;
+        rb.isKinematic = true;
+        if (death) sensors_and_behaviours.Behaviours.ragdollComponent.PauseRagdoll();
+    }
+    protected override void OnResume()
+    {
+        base.OnResume();
+        rb.isKinematic = false;
+        rb.velocity = force;
+        if (death) sensors_and_behaviours.Behaviours.ragdollComponent.ResumeRagdoll();
+    }
+
     public override void ToAttack() => attacking = true;
     protected override void OnUpdateEntity() { }
     protected override void TakeDamageFeedback(DamageData data) { }

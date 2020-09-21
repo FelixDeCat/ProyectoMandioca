@@ -32,12 +32,10 @@ public class TrueDummyEnemy : EnemyBase
 
     [Header("Feedback")]
     [SerializeField] AnimEvent anim = null;
-    [SerializeField] Animator animator = null;
     private Material[] myMat;
     [SerializeField] Color onHitColor = Color.white;
     [SerializeField] float onHitFlashTime = 0.1f;
     [SerializeField] RagdollComponent ragdoll = null;
-    private const string takeHit_audioName = "woodChop";
 
     [SerializeField] EffectBase petrifyEffect = null;
     EventStateMachine<DummyEnemyInputs> sm;
@@ -89,7 +87,6 @@ public class TrueDummyEnemy : EnemyBase
         }
     }
 
-
     protected override void OnInitialize()
     {
         base.OnInitialize();
@@ -135,15 +132,6 @@ public class TrueDummyEnemy : EnemyBase
         sm.SendInput(DummyEnemyInputs.DISABLE);
         particles.myGroundParticle.gameObject.SetActive(true);
     }
-    public override void Zone_OnPlayerExitInThisRoom()
-    {
-        //Debug.Log("Player enter the room");
-        IAInitialize(Main.instance.GetCombatDirector());
-    }
-    public override void Zone_OnPlayerEnterInThisRoom(Transform who)
-    {
-        sm.SendInput(DummyEnemyInputs.DISABLE);
-    }
     public override void IAInitialize(CombatDirector _director)
     {
         director = _director;
@@ -151,7 +139,6 @@ public class TrueDummyEnemy : EnemyBase
             SetStates();
         else
             sm.SendInput(DummyEnemyInputs.IDLE);
-        canupdate = true;
     }
     public override void SpawnEnemy()
     {
@@ -196,8 +183,22 @@ public class TrueDummyEnemy : EnemyBase
 
         dummySpecialAttack.UpdateSpecialAttack();
     }
-    protected override void OnPause() { }
-    protected override void OnResume() { }
+    Vector3 force;
+    protected override void OnPause()
+    {
+        base.OnPause();
+        force = rb.velocity; rb.isKinematic = true;
+        particles.myGroundParticle.Pause();
+        if (death) ragdoll.PauseRagdoll();
+    }
+    protected override void OnResume()
+    {
+        base.OnResume();
+        rb.isKinematic = false;
+        rb.velocity = force;
+        particles.myGroundParticle.Play();
+        if (death) ragdoll.ResumeRagdoll();
+    }
 
     #region Attack
     public void DealDamage() { combatComponent.ManualTriggerAttack(); sm.SendInput(DummyEnemyInputs.ATTACK); AudioManager.instance.PlaySound(sounds.entAttack_Clip.name); }

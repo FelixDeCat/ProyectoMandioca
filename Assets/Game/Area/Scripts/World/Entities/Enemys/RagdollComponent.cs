@@ -43,7 +43,6 @@ public class RagdollComponent : MonoBehaviour
     }
     void DisableWendigo() => callback_end.Invoke();
 
-
     public void Ragdoll(bool active, Vector3 dir)
     {
         for (int i = 0; i < myCollider.Length; i++)
@@ -72,9 +71,20 @@ public class RagdollComponent : MonoBehaviour
 
     public void DesactiveBones()
     {
-        for (int i = 0; i < myBones.Length; i++)
-        {
-            myBones[i].GetComponent<Collider>().enabled = false;
-        }
+        for (int i = 0; i < myBones.Length; i++) myBones[i].GetComponent<Collider>().enabled = false;
+    }
+
+    Vector3 force;
+
+    public void PauseRagdoll()
+    {
+        force = principalBone.GetComponent<Rigidbody>().velocity;
+        for (int i = 0; i < myBones.Length; i++) myBones[i].GetComponent<Rigidbody>().isKinematic = true;
+    }
+
+    public void ResumeRagdoll()
+    {
+        principalBone.GetComponent<Rigidbody>().velocity = force;
+        for (int i = 0; i < myBones.Length; i++) myBones[i].GetComponent<Rigidbody>().isKinematic = false;
     }
 }

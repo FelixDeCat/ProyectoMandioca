@@ -4,7 +4,7 @@ using UnityEngine;
 using System;
 
 
-public abstract class PlayObject : MonoBehaviour,IZoneElement
+public abstract class PlayObject : MonoBehaviour, IPauseable
 {
     protected bool canupdate;
 
@@ -15,8 +15,8 @@ public abstract class PlayObject : MonoBehaviour,IZoneElement
 
     bool alreadyInitialized = false;
     public void Initialize() { if (!alreadyInitialized) { OnInitialize(); alreadyInitialized = true; } }
-    public void On() { if (!isOn) { isOn = true; canupdate = true; OnTurnOn(); OnResume(); PauseManager.Instance.AddToPause(this); } }
-    public void Off() { if (isOn) { isOn = false; canupdate = false; OnTurnOff(); OnPause(); PauseManager.Instance.RemoveToPause(this); } }
+    public void On() { if (!isOn) { isOn = true; canupdate = true; OnTurnOn(); PauseManager.Instance.AddToPause(this); } }
+    public void Off() { if (isOn) { isOn = false; canupdate = false; OnTurnOff(); PauseManager.Instance.RemoveToPause(this); } }
     public void Pause() { canupdate = false; OnPause(); }
     public void Resume() { canupdate = true; OnResume(); }
     private void Update() { if (canupdate) OnUpdate();  }
@@ -32,12 +32,6 @@ public abstract class PlayObject : MonoBehaviour,IZoneElement
     protected abstract void OnFixedUpdate();
     protected abstract void OnPause();
     protected abstract void OnResume();
-    public virtual void Zone_OnPlayerExitInThisRoom() { }
-    public virtual void Zone_OnDungeonGenerationFinallized() { }
-    public virtual void Zone_OnPlayerEnterInThisRoom(Transform who) { }
-    public virtual void Zone_OnUpdateInThisRoom() { }
-    public virtual void Zone_OnPlayerDeath() { }
-
     public virtual void ReturnToSpawner()
     {
         if (Spawner) Spawner.ReturnObject(this);
