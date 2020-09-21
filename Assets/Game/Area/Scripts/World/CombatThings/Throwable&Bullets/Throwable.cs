@@ -5,7 +5,7 @@ using DevelopTools;
 using System;
 using System.Reflection;
 
-public abstract class Throwable : MonoBehaviour
+public abstract class Throwable : MonoBehaviour,IPauseable
 {
     [SerializeField] Sensor sensor = null;
     [SerializeField] float damageParryMultiplier = 2;
@@ -22,8 +22,11 @@ public abstract class Throwable : MonoBehaviour
 
     [SerializeField] float knockback = 300;
 
+    bool canUpdate;
+
     protected virtual void Start()
     {
+
     }
 
     private void Awake()
@@ -34,6 +37,7 @@ public abstract class Throwable : MonoBehaviour
 
     public void Throw(ThrowData data, Action<Throwable> _ReturnToPoolCallback)
     {
+        PauseManager.Instance.AddToPause(this);
         parried = false;
         sensor.gameObject.SetActive(true);
         myrig.isKinematic = false;
@@ -65,6 +69,8 @@ public abstract class Throwable : MonoBehaviour
 
     protected virtual void Update()
     {
+        if (!canUpdate) return;
+
         if (!savethrowdata.Owner.gameObject.activeSelf)
         {
             NonParry();
@@ -115,6 +121,27 @@ public abstract class Throwable : MonoBehaviour
             else
                 NonParry();
         }
+    }
+
+    protected void Dissappear()
+    {
+        PauseManager.Instance.RemoveToPause(this);
+        ReturnToPool(this);
+    }
+    Vector3 force;
+
+    public virtual void Pause()
+    {
+        canUpdate = false;
+        force = myrig.velocity;
+        myrig.isKinematic = true;
+    }
+
+    public virtual void Resume()
+    {
+        canUpdate = true;
+        myrig.isKinematic = false;
+        myrig.velocity = force;
     }
 
     bool parried;

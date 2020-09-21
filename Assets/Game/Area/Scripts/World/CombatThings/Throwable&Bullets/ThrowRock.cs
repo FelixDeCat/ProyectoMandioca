@@ -42,7 +42,7 @@ public class ThrowRock : Throwable
             {
                 timerDisapear = 0;
                 canDisapear = false;
-                ReturnToPool(this);
+                Dissappear();
             }
         }
     }

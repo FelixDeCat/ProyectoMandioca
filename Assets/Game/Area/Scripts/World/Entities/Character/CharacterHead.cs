@@ -636,8 +636,23 @@ public class CharacterHead : CharacterControllable
     #endregion
 
     #region Pause & Resume
-    protected override void OnPause() { }
-    protected override void OnResume() { }
+    Vector3 force;
+    float animSpeed;
+    protected override void OnPause()
+    {
+        animSpeed = anim_base.speed;
+        anim_base.speed = 0;
+        force = rb.velocity;
+        rb.collisionDetectionMode = CollisionDetectionMode.Discrete;
+        rb.isKinematic = true;
+    }
+    protected override void OnResume()
+    {
+        anim_base.speed = animSpeed;
+        rb.isKinematic = false;
+        rb.collisionDetectionMode = CollisionDetectionMode.Continuous;
+        rb.velocity = force;
+    }
     #endregion
 
     #region Life
