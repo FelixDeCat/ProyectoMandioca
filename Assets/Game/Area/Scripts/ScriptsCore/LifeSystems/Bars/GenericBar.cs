@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
 public abstract class GenericBar : MonoBehaviour
 {
     protected float maxValue;
@@ -7,6 +8,7 @@ public abstract class GenericBar : MonoBehaviour
 
     [Header("para visualizar la barra")]
     [SerializeField] protected Text porcentaje;
+    [SerializeField] protected TextMeshProUGUI porcentajePro;
     [SerializeField] protected bool realvalue;
 
     public void Configure(int maxValue, float scaler)
@@ -27,4 +29,5 @@ public abstract class GenericBar : MonoBehaviour
 
     public void SetValue(float val) => OnSetValue(val);
     protected abstract void OnSetValue(float val);
+    
 }

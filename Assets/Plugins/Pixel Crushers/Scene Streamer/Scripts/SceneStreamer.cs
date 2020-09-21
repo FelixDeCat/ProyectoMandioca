@@ -4,6 +4,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine.SceneManagement;
 using System;
+using TMPro;
 
 namespace PixelCrushers.SceneStreamer
 {
@@ -14,6 +15,13 @@ namespace PixelCrushers.SceneStreamer
         public int maxNeighborDistance = 1;
         [Tooltip("(Failsafe) If scene doesn't load after this many seconds, stop waiting.")]
         public float maxLoadWaitTime = 10f;
+
+        public TextMeshProUGUI currentScene;
+        public TextMeshProUGUI Neightbouros;
+
+        public TextMeshProUGUI t_loaded;
+        public TextMeshProUGUI t_loading;
+        public TextMeshProUGUI t_near;
 
         [System.Serializable] public class StringEvent : UnityEvent<string> { }
         [SerializeField] StringEvent onLoaded = new StringEvent();
@@ -29,6 +37,8 @@ namespace PixelCrushers.SceneStreamer
         private HashSet<string> m_loaded = new HashSet<string>();
         private HashSet<string> m_loading = new HashSet<string>();
         private HashSet<string> m_near = new HashSet<string>();
+        private HashSet<string> begined = new HashSet<string>();
+        private HashSet<string> myCurrentVecinos = new HashSet<string>();
 
         #region instance things
         private static object s_lock = new object();
@@ -57,6 +67,7 @@ namespace PixelCrushers.SceneStreamer
         #endregion
         public void SetCurrent(string sceneName)
         {
+            currentScene.text = sceneName;
             if (string.IsNullOrEmpty(sceneName) || string.Equals(sceneName, m_currentSceneName)) return;
             if (logDebugInfo) Debug.Log("Scene Streamer: Setting current scene to " + sceneName + ".");
             StartCoroutine(LoadCurrentScene(sceneName));
@@ -95,6 +106,8 @@ namespace PixelCrushers.SceneStreamer
             GameObject scene = GameObject.Find(sceneName);
             NeighboringScenes neighboringScenes = (scene) ? scene.GetComponent<NeighboringScenes>() : null;
 
+
+
             //por si acaso no tiene el componente se lo asigna al GO que tenga el nombre de la escena
             //y si tiene edges adentro los va asignando de acuerdo a las refes de los vecinos
             if (!neighboringScenes) neighboringScenes = CreateNeighboringScenesList(scene);
@@ -107,11 +120,12 @@ namespace PixelCrushers.SceneStreamer
                 Load(neighboringScenes.sceneNames[i], LoadNeighbors, distance + 1);
             }
         }
+        HashSet<string> neighbors;
         NeighboringScenes CreateNeighboringScenesList(GameObject scene)
         {
             if (!scene) return null;
             NeighboringScenes neighboringScenes = scene.AddComponent<NeighboringScenes>();
-            HashSet<string> neighbors = new HashSet<string>();
+            neighbors = new HashSet<string>();
             var sceneEdges = scene.GetComponentsInChildren<SceneEdge>();
             for (int i = 0; i < sceneEdges.Length; i++) neighbors.Add(sceneEdges[i].nextSceneName);
             neighboringScenes.sceneNames = new string[neighbors.Count];
@@ -119,6 +133,8 @@ namespace PixelCrushers.SceneStreamer
             return neighboringScenes;
         }
         bool IsLoaded(string sceneName) => m_loaded.Contains(sceneName);
+        bool IsLoading(string sceneName) => m_loading.Contains(sceneName);
+        bool IsBegined(string sceneName) => begined.Contains(sceneName);
         void Load(string sceneName) => Load(m_currentSceneName, null, 0);
         void Load(string sceneName, Action<string, int> loadedHandler, int distance)
         {
@@ -128,40 +144,31 @@ namespace PixelCrushers.SceneStreamer
                 if (loadedHandler != null) loadedHandler(sceneName, distance);
                 return;
             }
-            m_loading.Add(sceneName);
+
             StartCoroutine(LoadAdditiveAsync(sceneName, loadedHandler, distance));
         }
         IEnumerator LoadAdditiveAsync(string sceneName, Action<string, int> loadedHandler, int distance)
         {
-            if (!AlreadyExist(sceneName))
+            if (!IsLoading(sceneName))
             {
+                m_loading.Add(sceneName);
+
                 AsyncOperation asyncOperation = SceneManager.LoadSceneAsync(sceneName, LoadSceneMode.Additive);
 
                 // asyncOperation.allowSceneActivation = false;
-
                 while (asyncOperation.progress < 0.9f)
                 {
                     //onLoading.Invoke(sceneName, asyncOperation);
                     yield return null;
                 }
 
-                //  onLoading.Invoke(sceneName, asyncOperation);
-                //  yield return asyncOperation;
-
-                //yield return new WaitForSecondsRealtime(5f);
-
-                //asyncOperation.allowSceneActivation = true;
-
-                if (asyncOperation.isDone)
-                {
-                    FinishLoad(sceneName, loadedHandler, distance);
-                }
+                yield return asyncOperation;
+                FinishLoad(sceneName, loadedHandler, distance);
             }
             else
             {
                 FinishLoad(sceneName, loadedHandler, distance);
             }
-            
         }
 
         void FinishLoad(string sceneName, Action<string, int> loadedHandler, int distance)
@@ -174,12 +181,20 @@ namespace PixelCrushers.SceneStreamer
         }
         void UnloadFarScenes()
         {
+            Debug.Log("INicio: " + m_loaded.Count);
             HashSet<string> hash_far = new HashSet<string>(m_loaded);
+            Debug.Log("fin: " + m_loaded.Count);
             hash_far.ExceptWith(m_near);
-            foreach (var sceneName in hash_far) Unload(sceneName);
+            hash_far.ExceptWith(neighbors);
+
+            foreach (var sceneName in hash_far)
+            {
+                Unload(sceneName);
+            }
         }
         void Unload(string sceneName)
         {
+            
             Destroy(GameObject.Find(sceneName));
             m_loaded.Remove(sceneName);
             SceneManager.UnloadSceneAsync(sceneName);
@@ -196,6 +211,26 @@ namespace PixelCrushers.SceneStreamer
                 if (SceneManager.GetSceneAt(i).name == scene) exist = true;
             }
             return exist;
+        }
+
+        private void Update()
+        {
+            refresh();
+        }
+
+        void refresh()
+        {
+            Print(m_loaded, t_loaded);
+            Print(m_loading, t_loading);
+            Print(m_near, t_near);
+        }
+        public void Print(HashSet<string> hash, TextMeshProUGUI txt)
+        {
+            txt.text = "";
+            foreach (var h in hash)
+            {
+                txt.text += h + "  ";
+            }
         }
 
 
