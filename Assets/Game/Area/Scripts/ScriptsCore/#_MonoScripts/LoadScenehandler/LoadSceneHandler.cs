@@ -17,6 +17,10 @@ public class LoadSceneHandler : MonoBehaviour
 
     public GameObject loadscreen;
 
+    public void On_LoadScreen() => loadscreen.SetActive(true);
+    public void Off_LoadScreen() => loadscreen.SetActive(false);
+    public GenericBar GetMasterBar() => master_genbar_Scene;
+
     string SceneToLoad;
 
     public List<LoadComponent> loadCOmponents;

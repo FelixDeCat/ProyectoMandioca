@@ -38,6 +38,7 @@ namespace PixelCrushers.SceneStreamer
         private HashSet<string> m_loading = new HashSet<string>();
         private HashSet<string> m_near = new HashSet<string>();
         private HashSet<string> begined = new HashSet<string>();
+        private HashSet<string> myCurrentVecinos = new HashSet<string>();
 
         #region instance things
         private static object s_lock = new object();
@@ -105,6 +106,8 @@ namespace PixelCrushers.SceneStreamer
             GameObject scene = GameObject.Find(sceneName);
             NeighboringScenes neighboringScenes = (scene) ? scene.GetComponent<NeighboringScenes>() : null;
 
+
+
             //por si acaso no tiene el componente se lo asigna al GO que tenga el nombre de la escena
             //y si tiene edges adentro los va asignando de acuerdo a las refes de los vecinos
             if (!neighboringScenes) neighboringScenes = CreateNeighboringScenesList(scene);
@@ -117,11 +120,12 @@ namespace PixelCrushers.SceneStreamer
                 Load(neighboringScenes.sceneNames[i], LoadNeighbors, distance + 1);
             }
         }
+        HashSet<string> neighbors;
         NeighboringScenes CreateNeighboringScenesList(GameObject scene)
         {
             if (!scene) return null;
             NeighboringScenes neighboringScenes = scene.AddComponent<NeighboringScenes>();
-            HashSet<string> neighbors = new HashSet<string>();
+            neighbors = new HashSet<string>();
             var sceneEdges = scene.GetComponentsInChildren<SceneEdge>();
             for (int i = 0; i < sceneEdges.Length; i++) neighbors.Add(sceneEdges[i].nextSceneName);
             neighboringScenes.sceneNames = new string[neighbors.Count];
@@ -177,11 +181,12 @@ namespace PixelCrushers.SceneStreamer
         }
         void UnloadFarScenes()
         {
-            Debug.LogError("Descargando..");
             Debug.Log("INicio: " + m_loaded.Count);
             HashSet<string> hash_far = new HashSet<string>(m_loaded);
             Debug.Log("fin: " + m_loaded.Count);
             hash_far.ExceptWith(m_near);
+            hash_far.ExceptWith(neighbors);
+
             foreach (var sceneName in hash_far)
             {
                 Unload(sceneName);
