@@ -494,9 +494,9 @@ public class CharacterHead : CharacterControllable
         {
             if (value == combat) return;
             combat = value;
-            if (value == true && !attacking && !inTrap)
-                UpWeaponsFunction();
-            else if (value == false && !attacking && !inTrap)
+            //if (value == true && !attacking && !inTrap)
+            //    UpWeaponsFunction();
+            if (value == false && !attacking && !inTrap)
                 StartCoroutine(DownWeaponsCoroutine());
         }
         get => combat;
@@ -508,7 +508,7 @@ public class CharacterHead : CharacterControllable
         {
             if (value == inTrap) return;
             inTrap = value;
-            if (value == true && !attacking && !combat)
+            if (value == true && !attacking)
                 UpWeaponsFunction();
             else if (value == false && !attacking && !combat)
                 StartCoroutine(DownWeaponsCoroutine());
@@ -522,7 +522,7 @@ public class CharacterHead : CharacterControllable
         {
             if (value == attacking) return;
             attacking = value;
-            if (value == true && !inTrap && !combat)
+            if (value == true && !inTrap)
                 UpWeaponsFunction();
             else if (value == false && !inTrap && !combat)
                 StartCoroutine(DownWeaponsCoroutine());

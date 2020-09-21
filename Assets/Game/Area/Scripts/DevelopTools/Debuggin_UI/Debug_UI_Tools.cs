@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using Tools;
 using UnityEngine;
 
 namespace DevelopTools.UI
@@ -14,10 +15,10 @@ namespace DevelopTools.UI
                 instance = this;
         }
 
-        private void Start()
-        {
-            Toggle(false);
-        }
+        //private void Start()
+        //{
+        //    Toggle(false);
+        //}
 
         //container donde van a ir todos los sliders
         [SerializeField] private Transform container = null;
@@ -56,7 +57,6 @@ namespace DevelopTools.UI
             debug_UIs.Add(newSlider.gameObject);
         }
 
-
         public void CreateToogle(string title, bool actual, Func<bool, string> callback)
         {
             Debuggin_Template_Toggle newToggle = Instantiate(toggle_pf, container);
@@ -78,6 +78,7 @@ namespace DevelopTools.UI
         public void Toggle(bool value)
         {
             contenedorDeTODO.gameObject.SetActive(value);
+            MyEventSystem.instance.SelectGameObject(value ? debug_UIs[0] : null);
         }
     }
 

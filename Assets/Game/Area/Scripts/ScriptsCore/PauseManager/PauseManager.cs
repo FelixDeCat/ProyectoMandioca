@@ -4,6 +4,7 @@ using System.Linq;
 using Boo.Lang;
 using UnityEngine.UI;
 using Tools;
+using DevelopTools.UI;
 
 public class PauseManager : MonoBehaviour
 {
@@ -14,12 +15,30 @@ public class PauseManager : MonoBehaviour
     [SerializeField] GameObject backgroundPause = null;
     [SerializeField] GameObject mainFirstButton = null;
     [SerializeField] GameObject mainButtons = null;
+    [SerializeField] GameObject cheatsHud = null;
+
+    bool inPauseHud;
 
     private void Awake()
     {
         Instance = this;
 
         pauseHud.AddCallbacks(() => { }, () => mainButtons.SetActive(false));
+    }
+
+    private void Start()
+    {
+        cheatsHud.SetActive(false);
+    }
+
+    public void PauseHud()
+    {
+        Pause();
+        backgroundPause.SetActive(true);
+        pauseHud.Open();
+        mainButtons.SetActive(true);
+        MyEventSystem.instance.SelectGameObject(mainFirstButton);
+        inPauseHud = true;
     }
 
     public void Pause()
@@ -29,13 +48,18 @@ public class PauseManager : MonoBehaviour
 
         ParticlesManager.Instance.PauseParticles();
         AudioManager.instance.PauseSounds();
-        backgroundPause.SetActive(true);
-        pauseHud.Open();
-        mainButtons.SetActive(true);
         Cursor.lockState = CursorLockMode.None;
         Cursor.visible = true;
-        MyEventSystem.instance.SelectGameObject(mainFirstButton);
         Main.instance.GetChar().getInput.inMenu = true;
+    }
+
+    public void ResumeHud()
+    {
+        Resume();
+        backgroundPause.gameObject.SetActive(false);
+        pauseHud.Close();
+        MyEventSystem.instance.SelectGameObject(null);
+        inPauseHud = false;
     }
 
     public void Resume()
@@ -45,11 +69,8 @@ public class PauseManager : MonoBehaviour
 
         ParticlesManager.Instance.ResumeParticles();
         AudioManager.instance.ResumeSounds();
-        backgroundPause.gameObject.SetActive(false);
-        pauseHud.Close();
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
-        MyEventSystem.instance.SelectGameObject(null);
         Main.instance.GetChar().getInput.inMenu = false;
     }
 
@@ -60,12 +81,17 @@ public class PauseManager : MonoBehaviour
 
     public void Cheats()
     {
-
+        mainButtons.SetActive(false);
+        cheatsHud.SetActive(true);
+        Debug_UI_Tools.instance.Toggle(true);
     }
 
     public void BackToPause()
     {
-
+        mainButtons.SetActive(true);
+        Debug_UI_Tools.instance.Toggle(false);
+        cheatsHud.SetActive(false);
+        MyEventSystem.instance.SelectGameObject(mainFirstButton);
     }
 
     public void ReturnToMenu()
@@ -80,11 +106,18 @@ public class PauseManager : MonoBehaviour
         Destroy(transform.parent.gameObject);
     }
 
-    //private void Update()
-    //{
-    //    if (Input.GetKeyDown(KeyCode.O))
-    //        ReturnToMenu();
-    //}
+    private void Update()
+    {
+        if (!inPauseHud) return;
+
+        if (Input.GetButtonDown("Back"))
+        {
+            if (mainButtons.activeSelf)
+                ResumeHud();
+            else
+                BackToPause();
+        }
+    }
 
     public void AddToPause(IPauseable po) => pausingPlayObjects.Add(po);
     public void RemoveToPause(IPauseable po) => pausingPlayObjects.Remove(po);

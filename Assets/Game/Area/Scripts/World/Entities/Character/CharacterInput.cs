@@ -142,7 +142,7 @@ public class CharacterInput : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Alpha3)) EV_DPAD_DOWN();
         if (Input.GetKeyDown(KeyCode.Alpha4)) EV_DPAD_RIGHT();
         if (Input.GetKeyDown(KeyCode.K)) OverTheSholder.Invoke();
-        if (Input.GetButtonDown("Back")) Back.Invoke();
+        //if (Input.GetButtonDown("Back")) Back.Invoke();
 
         if (Input.GetButtonDown("Skill")) OnUseActive.Invoke();
 
@@ -153,7 +153,7 @@ public class CharacterInput : MonoBehaviour
 
         if (Input.GetButtonDown("SwitchActive")) SwitchActive.Invoke();
 
-        if (Input.GetButtonDown("Pause")) PauseManager.Instance.Pause();
+        if (Input.GetButtonDown("Pause")) PauseManager.Instance.PauseHud();
 
         if (Input.GetKeyDown(KeyCode.E)) RTrigger.Invoke();
         if (Input.GetKeyDown(KeyCode.Q)) LTrigger.Invoke();

@@ -70,10 +70,7 @@ public class MenuButtons : MonoBehaviour
     {
         animCredits.SetTrigger("Open");
         _currentAnim = animCredits;
-        foreach (var item in mainButtons)
-        {
-            item.interactable = false;
-        }
+        foreach (var item in mainButtons) item.interactable = false;
         fadeAnim.SetTrigger("MenuFade");
     }
 
@@ -81,20 +78,23 @@ public class MenuButtons : MonoBehaviour
     {
         fadeAnim.SetTrigger("Off");
         currentAnim.SetTrigger("Off");
-        foreach(var item in mainButtons)
-        {
-            item.interactable = true;
-        }
+        foreach(var item in mainButtons) item.interactable = true;
     }
 
     private void Update()
     {
         if (_currentAnim != null && Input.GetKeyDown(KeyCode.Mouse0) || _currentAnim != null && Input.GetKeyDown(KeyCode.Joystick1Button1))
         {
-            ReactivateButtons(_currentAnim);
-            selectorButtons.SelectButton(mainButtons[0].gameObject);
-            _currentAnim = null;
+            StartCoroutine(BackCoroutine());
         }
+    }
+
+    IEnumerator BackCoroutine()
+    {
+        yield return new WaitForEndOfFrame();
+        ReactivateButtons(_currentAnim);
+        selectorButtons.SelectButton(mainButtons[0].gameObject);
+        _currentAnim = null;
     }
 
     public void goToGym()
