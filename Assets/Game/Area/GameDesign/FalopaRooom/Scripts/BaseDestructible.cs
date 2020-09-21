@@ -17,8 +17,11 @@ public abstract class BaseDestructible : Environment
     [SerializeField] UnityEvent OnTakeDamage = null;
     [SerializeField] UnityEvent OnDestroyed = null;
 
+    public bool NoInitialize = false;
+
     private void Start()
     {
+        if (NoInitialize) return;
         OnInitialize();
     }
 

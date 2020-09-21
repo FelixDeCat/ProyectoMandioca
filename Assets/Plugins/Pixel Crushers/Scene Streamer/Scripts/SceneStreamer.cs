@@ -19,7 +19,7 @@ namespace PixelCrushers.SceneStreamer
         [SerializeField] StringEvent onLoaded = new StringEvent();
         [System.Serializable] public class StringAsyncEvent : UnityEvent<string, AsyncOperation> { }
         [SerializeField] StringAsyncEvent onLoading = new StringAsyncEvent();
-       // private delegate void InternalLoadedHandler(string sceneName, int distance);
+        // private delegate void InternalLoadedHandler(string sceneName, int distance);
 
         [Tooltip("Tick to log debug info to the Console window.")]
         public bool debug = false;
@@ -120,7 +120,7 @@ namespace PixelCrushers.SceneStreamer
         }
         bool IsLoaded(string sceneName) => m_loaded.Contains(sceneName);
         void Load(string sceneName) => Load(m_currentSceneName, null, 0);
-        void Load(string sceneName, Action<string,int> loadedHandler, int distance)
+        void Load(string sceneName, Action<string, int> loadedHandler, int distance)
         {
             if (IsLoaded(sceneName))
             {
@@ -136,10 +136,32 @@ namespace PixelCrushers.SceneStreamer
             if (!AlreadyExist(sceneName))
             {
                 AsyncOperation asyncOperation = SceneManager.LoadSceneAsync(sceneName, LoadSceneMode.Additive);
-                onLoading.Invoke(sceneName, asyncOperation);
-                yield return asyncOperation;
+
+                // asyncOperation.allowSceneActivation = false;
+
+                while (asyncOperation.progress < 0.9f)
+                {
+                    //onLoading.Invoke(sceneName, asyncOperation);
+                    yield return null;
+                }
+
+                //  onLoading.Invoke(sceneName, asyncOperation);
+                //  yield return asyncOperation;
+
+                //yield return new WaitForSecondsRealtime(5f);
+
+                //asyncOperation.allowSceneActivation = true;
+
+                if (asyncOperation.isDone)
+                {
+                    FinishLoad(sceneName, loadedHandler, distance);
+                }
             }
-            FinishLoad(sceneName, loadedHandler, distance);
+            else
+            {
+                FinishLoad(sceneName, loadedHandler, distance);
+            }
+            
         }
 
         void FinishLoad(string sceneName, Action<string, int> loadedHandler, int distance)
@@ -176,7 +198,7 @@ namespace PixelCrushers.SceneStreamer
             return exist;
         }
 
-        
+
 
         //private IEnumerator LoadAdditive(string sceneName, InternalLoadedHandler loadedHandler, int distance) {
         //    if (AlreadyExist(sceneName)) yield break;
