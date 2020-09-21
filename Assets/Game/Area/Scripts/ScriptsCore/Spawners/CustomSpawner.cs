@@ -22,7 +22,8 @@ public class CustomSpawner : PlayObject
     [SerializeField] private Transform spawnSpot = null;
     public SpawnerSpot spot = new SpawnerSpot();
     [SerializeField] private int maxSpawn = 10;
-    [SerializeField] int currentSpawn;
+    int currentSpawn;
+    [SerializeField] bool noUpdate = false;
 
 
     [Header("***--Wave Settings--***")]
@@ -47,14 +48,13 @@ public class CustomSpawner : PlayObject
     //Una state machine XD
     protected override void OnUpdate()
     {
-
+        if (!noUpdate) return;
         if (currentSpawn >= maxSpawn) return;
 
         switch (mode)
         {
             case SpawnMode.Time:
             {
-                    
                 TimeMode();
                 break;
             }

@@ -16,16 +16,14 @@ public class TotemFeedback
     [SerializeField] Transform startPos = null;
 
     Func<IEnumerator, Coroutine> StartCoroutine;
-    Action<IEnumerator> StopCoroutine;
 
-    bool charging;
+    public bool pause;
 
     List<ParticleSystem> particlesGoTo = new List<ParticleSystem>();
 
-    public void Initialize(Func<IEnumerator, Coroutine> _StartCoroutine, Action<IEnumerator> _StopCoroutine)
+    public void Initialize(Func<IEnumerator, Coroutine> _StartCoroutine)
     {
         StartCoroutine = _StartCoroutine;
-        StopCoroutine = _StopCoroutine;
 
         ParticlesManager.Instance.GetParticlePool(chargeParticle.name, chargeParticle, 3);
         ParticlesManager.Instance.GetParticlePool(goToPos.name, goToPos, 6);
@@ -53,7 +51,7 @@ public class TotemFeedback
 
         while (timer < timeToGoPos)
         {
-            timer += Time.deltaTime;
+            if (!pause) timer += Time.deltaTime;
 
             go.transform.position = Vector3.Lerp(initPos, finalPos, timer / timeToGoPos);
 
@@ -78,7 +76,7 @@ public class TotemFeedback
 
         while (timer < timeToGoPos)
         {
-            timer += Time.deltaTime;
+            if(!pause) timer += Time.deltaTime;
 
             go.transform.position = Vector3.Lerp(initPos, finalPos.position, timer / timeToGoPos);
 
@@ -98,7 +96,5 @@ public class TotemFeedback
             ParticlesManager.Instance.StopParticle(goToPos.name, particlesGoTo[i]);
 
         if (chargeParticleTemp != null && chargeParticleTemp.gameObject.activeSelf) ParticlesManager.Instance.StopParticle(chargeParticle.name, chargeParticleTemp);
-
-        charging = false;
     }
 }
