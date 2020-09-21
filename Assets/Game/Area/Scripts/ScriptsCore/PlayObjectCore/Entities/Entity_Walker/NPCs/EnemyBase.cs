@@ -67,8 +67,9 @@ public abstract class EnemyBase : NPCBase, ICombatDirector
     [SerializeField] protected GenericLifeSystem lifesystem = null;
     protected Rigidbody rb;
     [SerializeField] protected Transform rootTransform = null;
+    [SerializeField] protected Animator animator = null;
+    float currentAnimSpeed;
 
-    
 
     protected override void OnInitialize()
     {
@@ -92,6 +93,17 @@ public abstract class EnemyBase : NPCBase, ICombatDirector
     protected abstract void Die(Vector3 dir);
     protected abstract bool IsDamage();
     protected virtual void InmuneFeedback() { }
+
+    protected override void OnPause()
+    {
+        currentAnimSpeed = animator.speed;
+        animator.speed = 0;
+    }
+
+    protected override void OnResume()
+    {
+        animator.speed = currentAnimSpeed;
+    }
 
     #endregion
 

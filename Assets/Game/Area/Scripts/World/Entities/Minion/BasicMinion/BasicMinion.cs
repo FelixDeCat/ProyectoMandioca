@@ -45,17 +45,6 @@ public class BasicMinion : Minion
         IAInitialize();
     }
 
-    public override void Zone_OnPlayerExitInThisRoom()
-    {
-        //Debug.Log("Player enter the room");
-        IAInitialize();
-    }
-
-    public override void Zone_OnPlayerEnterInThisRoom(Transform who)
-    {
-
-    }
-
     protected override void IAInitialize()
     {
         if (!director)

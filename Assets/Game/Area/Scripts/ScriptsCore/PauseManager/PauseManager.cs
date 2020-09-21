@@ -9,7 +9,7 @@ public class PauseManager : MonoBehaviour
 {
     public static PauseManager Instance { get; private set; }
 
-    List<PlayObject> pausingPlayObjects = new List<PlayObject>();
+    List<IPauseable> pausingPlayObjects = new List<IPauseable>();
     [SerializeField] UI_Anim_Code pauseHud = null;
     [SerializeField] GameObject backgroundPause = null;
     [SerializeField] GameObject mainFirstButton = null;
@@ -32,6 +32,8 @@ public class PauseManager : MonoBehaviour
         backgroundPause.SetActive(true);
         pauseHud.Open();
         mainButtons.SetActive(true);
+        Cursor.lockState = CursorLockMode.None;
+        Cursor.visible = true;
         MyEventSystem.instance.SelectGameObject(mainFirstButton);
         Main.instance.GetChar().getInput.inMenu = true;
     }
@@ -45,6 +47,8 @@ public class PauseManager : MonoBehaviour
         AudioManager.instance.ResumeSounds();
         backgroundPause.gameObject.SetActive(false);
         pauseHud.Close();
+        Cursor.lockState = CursorLockMode.Locked;
+        Cursor.visible = false;
         MyEventSystem.instance.SelectGameObject(null);
         Main.instance.GetChar().getInput.inMenu = false;
     }
@@ -82,6 +86,6 @@ public class PauseManager : MonoBehaviour
     //        ReturnToMenu();
     //}
 
-    public void AddToPause(PlayObject po) => pausingPlayObjects.Add(po);
-    public void RemoveToPause(PlayObject po) => pausingPlayObjects.Remove(po);
+    public void AddToPause(IPauseable po) => pausingPlayObjects.Add(po);
+    public void RemoveToPause(IPauseable po) => pausingPlayObjects.Remove(po);
 }

@@ -37,7 +37,6 @@ public class CrowEnemy : EnemyBase
 
     [Header("Feedback")]
     [SerializeField] AnimEvent anim = null;
-    [SerializeField] Animator animator = null;
     private Material[] myMat;
     [SerializeField] Color onHitColor = Color.white;
     [SerializeField] float onHitFlashTime = 0.1f;
@@ -91,19 +90,6 @@ public class CrowEnemy : EnemyBase
 
         lineOfSight.Configurate(rootTransform);
     }
-    protected override void OnReset()
-    {
-        ragdoll.Ragdoll(false, Vector3.zero);
-    }
-    public override void Zone_OnPlayerExitInThisRoom()
-    {
-        //Debug.Log("Player enter the room");
-        IAInitialize(Main.instance.GetCombatDirector());
-    }
-    public override void Zone_OnPlayerEnterInThisRoom(Transform who)
-    {
-        sm.SendInput(CrowInputs.DISABLE);
-    }
     public override void IAInitialize(CombatDirector _director)
     {
         director = _director;
@@ -111,10 +97,6 @@ public class CrowEnemy : EnemyBase
             SetStates();
         else
             sm.SendInput(CrowInputs.IDLE);
-
-        //director.AddNewTarget(this);
-
-        canupdate = true;
 
         timerToCast = cdToCast;
     }
@@ -171,9 +153,25 @@ public class CrowEnemy : EnemyBase
             else { cooldown = false; timercooldown = 0; }
         }
     }
+    protected override void OnPause()
+    {
+        base.OnPause();
+        if (death) ragdoll.PauseRagdoll();
+        Debug.Log("me pauso loro");
+    }
+    protected override void OnResume()
+    {
+        base.OnResume();
+        if (death) ragdoll.ResumeRagdoll();
+        Debug.Log("resumo wachin");
+    }
 
-    protected override void OnPause() { }
-    protected override void OnResume() { }
+    protected override void OnReset()
+    {
+        ragdoll.Ragdoll(false, Vector3.zero);
+        death = false;
+        sm.SendInput(CrowInputs.DISABLE);
+    }
 
     #region Attack
     void CastOver()
@@ -203,12 +201,6 @@ public class CrowEnemy : EnemyBase
 
     protected override void TakeDamageFeedback(DamageData data)
     {
-        //if (sm.Current.Name == "Idle")
-        //{
-        //    attacking = false;
-        //    director.ChangeTarget(this, data.owner, entityTarget);
-        //}
-
         AudioManager.instance.PlaySound(sounds.takeDmgSound.name);
 
         sm.SendInput(CrowInputs.TAKE_DAMAGE);
