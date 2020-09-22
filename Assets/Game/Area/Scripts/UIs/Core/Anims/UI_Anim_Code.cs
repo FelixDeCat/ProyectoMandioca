@@ -52,6 +52,7 @@ public class UI_Anim_Code : UI_AnimBase
     {
         anim = true;
         go = true;
+        Debug.Log("Pero abrite la ptm");
     }
 
     protected override void OnClose()

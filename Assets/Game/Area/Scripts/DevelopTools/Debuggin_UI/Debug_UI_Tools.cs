@@ -78,7 +78,6 @@ namespace DevelopTools.UI
         public void Toggle(bool value)
         {
             contenedorDeTODO.gameObject.SetActive(value);
-            MyEventSystem.instance.SelectGameObject(value ? debug_UIs[0] : null);
         }
     }
 
