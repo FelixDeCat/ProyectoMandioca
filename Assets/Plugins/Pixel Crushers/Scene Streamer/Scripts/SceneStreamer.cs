@@ -16,13 +16,6 @@ namespace PixelCrushers.SceneStreamer
         [Tooltip("(Failsafe) If scene doesn't load after this many seconds, stop waiting.")]
         public float maxLoadWaitTime = 10f;
 
-        public TextMeshProUGUI currentScene;
-        public TextMeshProUGUI Neightbouros;
-
-        public TextMeshProUGUI t_loaded;
-        public TextMeshProUGUI t_loading;
-        public TextMeshProUGUI t_near;
-
         [System.Serializable] public class StringEvent : UnityEvent<string> { }
         [SerializeField] StringEvent onLoaded = new StringEvent();
         [System.Serializable] public class StringAsyncEvent : UnityEvent<string, AsyncOperation> { }
@@ -67,7 +60,6 @@ namespace PixelCrushers.SceneStreamer
         #endregion
         public void SetCurrent(string sceneName)
         {
-            currentScene.text = sceneName;
             if (string.IsNullOrEmpty(sceneName) || string.Equals(sceneName, m_currentSceneName)) return;
             if (logDebugInfo) Debug.Log("Scene Streamer: Setting current scene to " + sceneName + ".");
             StartCoroutine(LoadCurrentScene(sceneName));
@@ -212,28 +204,6 @@ namespace PixelCrushers.SceneStreamer
             }
             return exist;
         }
-
-        private void Update()
-        {
-            refresh();
-        }
-
-        void refresh()
-        {
-            Print(m_loaded, t_loaded);
-            Print(m_loading, t_loading);
-            Print(m_near, t_near);
-        }
-        public void Print(HashSet<string> hash, TextMeshProUGUI txt)
-        {
-            txt.text = "";
-            foreach (var h in hash)
-            {
-                txt.text += h + "  ";
-            }
-        }
-
-
 
         //private IEnumerator LoadAdditive(string sceneName, InternalLoadedHandler loadedHandler, int distance) {
         //    if (AlreadyExist(sceneName)) yield break;
