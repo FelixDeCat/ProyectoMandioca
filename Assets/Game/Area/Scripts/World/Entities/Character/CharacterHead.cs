@@ -616,8 +616,9 @@ public class CharacterHead : CharacterControllable
     Action<Vector3> throwCallback;
     public void ThrowSomething(Action<Vector3> throwInPosition)
     {
-        Main.instance.GetChar().charanim.StartThrow();
+        //Main.instance.GetChar().charanim.StartThrow();
         throwCallback = throwInPosition;
+        ThrowCallback();
     }
     void ThrowCallback()
     {
