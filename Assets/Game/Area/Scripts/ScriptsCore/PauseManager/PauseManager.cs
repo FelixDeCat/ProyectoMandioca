@@ -1,10 +1,10 @@
 ﻿using UnityEngine.SceneManagement;
 using UnityEngine;
 using System.Linq;
-using Boo.Lang;
 using UnityEngine.UI;
 using Tools;
 using DevelopTools.UI;
+using System.Collections.Generic;
 
 public class PauseManager : MonoBehaviour
 {

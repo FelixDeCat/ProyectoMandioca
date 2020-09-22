@@ -122,7 +122,6 @@ public class NewSceneStreamer : MonoBehaviour
     #region Registry Zone
     public void RegisterLocalScene(string sceneName, LocalSceneHandler sceneLocalScript)
     {
-        yield
         if (!localref.ContainsKey(sceneName))
         {
             localref.Add(sceneName, sceneLocalScript);

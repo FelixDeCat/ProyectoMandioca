@@ -7,9 +7,11 @@ public class NPC_Interactable : Interactable
 {
     public UnityEvent UE_OnExecute;
     public string nombre_NPC;
+    public bool mostrarFeedback = true;
 
     public override void OnEnter(WalkingEntity entity)
     {
+        if(mostrarFeedback)
         WorldItemInfo.instance.Show(pointToMessage.position, nombre_NPC, "", "hablar", false, false);
     }
 
