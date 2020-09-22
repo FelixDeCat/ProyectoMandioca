@@ -23,7 +23,7 @@ public class PauseManager : MonoBehaviour
     {
         Instance = this;
 
-        pauseHud.AddCallbacks(() => { }, () => { mainButtons.SetActive(false); pauseHud.gameObject.SetActive(false); });
+        pauseHud.AddCallbacks(() => { }, () => mainButtons.SetActive(false));
     }
 
     private void Start()
