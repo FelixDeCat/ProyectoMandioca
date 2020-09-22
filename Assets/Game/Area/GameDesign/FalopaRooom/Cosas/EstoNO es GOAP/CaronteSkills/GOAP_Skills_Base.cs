@@ -13,28 +13,37 @@ public abstract class GOAP_Skills_Base : MonoBehaviour
     bool alreadyInitialized = false;
 
     public float CD_time;
-    public bool isAvaliable = true;
+    public bool isAvaliable;
     public bool instantSkill;
     public string skillName;
     protected Transform owner;
-    protected Transform heroRoot; 
+    protected Transform heroRoot;
 
-    public void Initialize(Transform owner) { if (!alreadyInitialized) { OnInitialize(); alreadyInitialized = true; this.owner = owner; heroRoot = Main.instance.GetChar().Root; } }
+    float _count = 0;
+
+    public void Initialize(Transform owner) { if (!alreadyInitialized) { OnInitialize(); alreadyInitialized = true; this.owner = owner; heroRoot = Main.instance.GetChar().Root; } OnFinishSkill += StartCD; isAvaliable = true; }
     public void On() { if (!isOn) { isOn = true; canUpdate = true; OnTurnOn(); } }
     public void Off() { if (isOn) { isOn = false; canUpdate = false; OnTurnOff(); } }
     public void Pause() { canUpdate = false; OnPause(); }
     public void Resume() { canUpdate = true; OnResume(); }
-    public void Execute() { StartCD(); OnExecute();}
+    public void Execute() { Debug.Log(skillName + " SE EJECUTA"); OnExecute();  }
     
-    private void StartCD() { StartCoroutine(CD_timer()); }
-    IEnumerator CD_timer()
-    {
-        isAvaliable = false;
-        yield return new WaitForSeconds(CD_time);
-        isAvaliable = true;
-    }
-    private void Update() { if (canUpdate) OnUpdate(); }
+    private void StartCD() { Debug.Log("Inicio Cd de " + skillName);  On(); }
+   
+    private void Update() { if (canUpdate) OnUpdate(); CD(); }
     private void FixedUpdate() { if (canUpdate) OnFixedUpdate(); }
+
+    void CD()
+    {
+        _count += Time.deltaTime;
+
+        if(_count >= CD_time)
+        {
+            _count = 0;
+            isAvaliable = true;
+            Off();
+        }
+    }
 
     /////////////////////////////////////////////////////////////
     /// ABSTRACTS QUE SE IMPLEMENTAN EN LOS CHILDS

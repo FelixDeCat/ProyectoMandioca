@@ -7,13 +7,34 @@ public class CaronteSkill_HandOfDead : GOAP_Skills_Base
 {
 
     [SerializeField] HandOfDead_Handler hand_pf;
+    [SerializeField] int handsToSpawn;
 
     protected override void OnExecute()
     {
-        SpawnHand();
+       
+        owner.GetComponentInChildren<Animator>().SetTrigger("handOfDead");
+        StartCoroutine(TimeBetweenHands());
+        
     }
 
-    void SpawnHand()
+    IEnumerator TimeBetweenHands()
+    {
+        int count = 0;
+
+        while(count < handsToSpawn)
+        {
+           var hand = SpawnHand();
+
+            if (count == handsToSpawn - 1)
+                hand.OnReachedDestination += DecideIfTeleport;
+
+            count++;
+            yield return new WaitForSeconds(1);
+
+        }
+    }
+
+    HandOfDead_Handler SpawnHand()
     {
         var hand = Instantiate<HandOfDead_Handler>(hand_pf);
 
@@ -24,8 +45,9 @@ public class CaronteSkill_HandOfDead : GOAP_Skills_Base
 
         hand.Initialize(owner, dir, 1000);
 
-        hand.OnGrabPlayer += KillPlayer;
-        hand.OnReachedDestination += DecideIfTeleport;
+        return hand;
+        //hand.OnGrabPlayer += KillPlayer;
+        
     }
 
     public void KillPlayer(HandOfDead_Handler hand)
@@ -41,7 +63,7 @@ public class CaronteSkill_HandOfDead : GOAP_Skills_Base
             owner.GetComponent<Rigidbody>().MovePosition(hand.Root.transform.position);
         }
 
-        OnFinishSkill?.Invoke();
+        //OnFinishSkill?.Invoke();
         Destroy(hand.gameObject);
     }
 

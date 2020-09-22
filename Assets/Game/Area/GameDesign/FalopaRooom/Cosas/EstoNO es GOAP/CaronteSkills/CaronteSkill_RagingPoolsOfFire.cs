@@ -8,19 +8,12 @@ public class CaronteSkill_RagingPoolsOfFire : GOAP_Skills_Base
 
     protected override void OnExecute()
     {
+        
         fireSpawner.ActivateSpawner();
-        StartCoroutine(FinishSkillIn());
+        owner.GetComponentInChildren<Animator>().SetTrigger("ragingPools");
+        
+        
     }
-
-    IEnumerator FinishSkillIn()
-    {
-        yield return new WaitForSeconds(6);
-        OnFinishSkill?.Invoke();
-    }
-
-
-
-
 
 
     protected override void OnFixedUpdate()
@@ -30,6 +23,7 @@ public class CaronteSkill_RagingPoolsOfFire : GOAP_Skills_Base
 
     protected override void OnInitialize()
     {
+        OnFinishSkill += () => { fireSpawner.StopSpawner(); fireSpawner.ResetSpawner(); };
     }
 
     protected override void OnPause()

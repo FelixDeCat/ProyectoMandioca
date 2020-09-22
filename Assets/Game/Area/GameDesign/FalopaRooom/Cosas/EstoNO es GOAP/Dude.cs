@@ -32,6 +32,8 @@ namespace GOAP
         private BrainPlanner _planner;
         IEnumerable<Tuple<ActionEntity, Item>> _plan;
 
+        float _auxCount;
+
         GOAP_Skills_Base _currentSkill;
 
         public string debugState;
@@ -61,24 +63,18 @@ namespace GOAP
             useSkill.OnEnter += (a) =>
             {
                 _currentSkill = _ent.skillManager.GetSkill(_target.GetComponent<GOAP_Skills_Base>().skillName);
-                Debug.Log("uso el skill " + _ent.skillManager.GetSkill(_target.GetComponent<GOAP_Skills_Base>().skillName));
-                _currentSkill.Execute();
-                if(!_currentSkill.instantSkill)
-                {
-                    _currentSkill.OnFinishSkill += NextStep;
-                    return;
-                }
+                Debug.Log("uso el skill " + _currentSkill.skillName);
 
-                NextStep();
+                _ent.OnFinishSkill += _currentSkill.OnFinishSkill;
+                _ent.OnFinishSkill += NextStep;
+                _currentSkill.isAvaliable = false;
+                _currentSkill.Execute();
             };
 
             useSkill.OnExit += (a) =>
             {
-                if (!_currentSkill.instantSkill)
-                {
-                    _currentSkill.OnFinishSkill -= NextStep;
-                }
-
+                _ent.OnFinishSkill -= _currentSkill.OnFinishSkill;
+                _ent.OnFinishSkill -= NextStep;
                 _currentSkill = null;
             };
 
@@ -106,14 +102,26 @@ namespace GOAP
             move.OnEnter += (a) =>
             {
                 _ent.GoTo(_target.transform.position);
-                _ent.OnReachDestinationNoParameters += NextStep;
+                //_ent.OnReachDestinationNoParameters += NextStep;
+                _auxCount = 0;
 
             };
 
-            move.OnExit += (a) =>
+            move.OnUpdate += () =>
             {
-                _ent.OnReachDestinationNoParameters -= NextStep;
+                _auxCount += Time.deltaTime;
+
+                if (_auxCount >= 3)
+                {
+                    _ent.Stop();
+                    NextStep();
+                }
             };
+
+            //move.OnExit += (a) =>
+            //{
+            //    _ent.OnReachDestinationNoParameters -= NextStep;
+            //};
 
 
             // ////////////

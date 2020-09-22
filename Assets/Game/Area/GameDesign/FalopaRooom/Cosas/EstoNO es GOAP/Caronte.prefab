@@ -210,7 +210,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e1f582ed71d255448a9e67e5caa997e2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  CD_time: 12
+  CD_time: 20
   isAvaliable: 1
   instantSkill: 0
   skillName: RagingPoolsOfFire
@@ -291,7 +291,7 @@ MonoBehaviour:
   meleeAttack: 10
   handOfDead: 2
   ragingPoolsOfFire: 3
-  move: 5
+  move: 10
 --- !u!114 &7803271127721059552
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -577,11 +577,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 11d42737141cd8a4baddbc03bbb06042, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  CD_time: 10
+  CD_time: 4
   isAvaliable: 1
   instantSkill: 0
   skillName: HandOfDead
   hand_pf: {fileID: 6752342661732661792, guid: b8822e43ed3e1134fb06730264a1c2ea, type: 3}
+  handsToSpawn: 3
 --- !u!114 &5978329765998914611
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -731,6 +732,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1811917932565441498}
     m_Modifications:
+    - target: {fileID: 2409838714736955001, guid: 037ba7322396f2f4f85d1478bf20bcd9,
+        type: 3}
+      propertyPath: noUpdate
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 2409838714736955006, guid: 037ba7322396f2f4f85d1478bf20bcd9,
         type: 3}
       propertyPath: m_LocalPosition.x

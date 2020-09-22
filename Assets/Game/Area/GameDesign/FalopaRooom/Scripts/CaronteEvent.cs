@@ -101,7 +101,7 @@ public class CaronteEvent : MonoBehaviour
 
     public Vector3 GetSurfacePos()
     {
-        var pos = GetPosRandom(5, character.transform);
+        var pos = GetPosRandom(UnityEngine.Random.Range(8,12), character.transform);
         pos.y += 20;
 
         RaycastHit hit;
