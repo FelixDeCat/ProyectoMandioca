@@ -13,6 +13,8 @@ public class NPC_Interactable : Interactable
     {
         if(mostrarFeedback)
         WorldItemInfo.instance.Show(pointToMessage.position, nombre_NPC, "", "hablar", false, false);
+
+       
     }
 
     public override void OnExecute(WalkingEntity collector)

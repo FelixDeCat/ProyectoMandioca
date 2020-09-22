@@ -36,6 +36,8 @@ public class NewSceneStreamer : MonoBehaviour
 
     IEnumerator LoadCurrentScene(string sceneName, bool LoadScreen = false, bool LoadNeighbor = false, Action OnEnd = null)
     {
+        Debug.Log("Cargando la: " + sceneName);
+
         currentScene = sceneName;
         if (!IsLoaded(currentScene)) yield return LoadAsyncAdditive(sceneName, LoadScreen, LoadNeighbor, OnEnd);
 
@@ -45,21 +47,37 @@ public class NewSceneStreamer : MonoBehaviour
         if (LoadNeighbor)
         {
             Debug.Log("LoadNeighbor");
-            StartCoroutine(LoadNeighbors(localref[currentScene].SceneData.scenes_to_view));
+            StartCoroutine(LoadNeighbors(currentScene, localref[currentScene].SceneData.scenes_to_view));
         }
 
         failsafeTime = Time.realtimeSinceStartup + maxLoadWaitTime;
         while ((loading.Count > 0) && (Time.realtimeSinceStartup < failsafeTime)) { yield return null; }
 
+       // currentScene = "";
+
         yield return null;
     }
 
-    IEnumerator LoadNeighbors(string[] neighbors)
+    IEnumerator LoadNeighbors(string currentScene, string[] neighbors)
     {
         Debug.Log("LoadNeighbor coroutine");
         for (int i = 0; i < neighbors.Length; i++)
         {
             yield return LoadAsyncAdditive(neighbors[i], false, false, null);
+        }
+        HashSet<string> to_unload = new HashSet<string>(loaded);
+        to_unload.ExceptWith(neighbors);
+        to_unload.Remove(currentScene);
+        foreach (var u in to_unload)
+        {
+            Destroy(GameObject.Find(u));
+            loaded.Remove(u);
+            var op = SceneManager.UnloadSceneAsync(u);
+            while (op.progress < 0.9f)
+            {
+                yield return null;
+            }
+            yield return op;
         }
     }
 
@@ -73,7 +91,7 @@ public class NewSceneStreamer : MonoBehaviour
 
         }
 
-        if (!IsLoading(sceneName))
+        if (!IsLoading(sceneName) && !IsLoaded(sceneName))
         {
             loading.Add(sceneName);
             AsyncOperation asyncOperation = SceneManager.LoadSceneAsync(sceneName, LoadSceneMode.Additive);
@@ -88,7 +106,6 @@ public class NewSceneStreamer : MonoBehaviour
             //yield return new WaitForEndOfFrame();
             //Fades_Screens.instance.FadeOn(() => { });
             yield return asyncOperation;
-
 
             EndLoad(sceneName, LoadScreen, LoadNeighbor, OnEnd);
         }
@@ -112,7 +129,10 @@ public class NewSceneStreamer : MonoBehaviour
         {
             Debug.Log("hay go con este nombre");
             var local = go.GetComponent<LocalSceneHandler>();
-            if (local != null) RegisterLocalScene(sceneName, local);
+            if (local != null) { 
+                RegisterLocalScene(sceneName, local);
+                StartCoroutine(local.Load());
+            }
         }
 
         if (OnEnd != null) OnEnd.Invoke();

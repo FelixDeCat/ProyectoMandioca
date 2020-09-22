@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 using Tools.EventClasses;
+using System;
 
 public class TriggerDispatcher : MonoBehaviour
 {
@@ -10,17 +11,15 @@ public class TriggerDispatcher : MonoBehaviour
     [SerializeField] UnityEvent OnTriggerExitEvent = null;
     [SerializeField] UnityEvent OnTriggerLateEnterEvent = null;
 
-    [SerializeField] EventInt LepasoUnEntero; 
+    public void SubscribeToEnter(UnityAction callback)
+    {
+        OnTriggerEnterEvent.AddListener(callback);
+    }
 
     
     [SerializeField] TriggerReceiver[] receivers = new TriggerReceiver[0];
 
     [SerializeField] Entities entitiesThatCanTrigger = Entities.all;
-
-    private void Start()
-    {
-        LepasoUnEntero.Invoke(25);
-    }
 
     public void RecibounEntero(int pepe)
     {

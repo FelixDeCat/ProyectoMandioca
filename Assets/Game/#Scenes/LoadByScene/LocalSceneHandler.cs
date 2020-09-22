@@ -11,13 +11,15 @@ public class LocalSceneHandler : LoadComponent
 
     protected override IEnumerator LoadMe()
     {
+        var trigger = GetComponentInChildren<TriggerDispatcher>();
+        trigger.SubscribeToEnter(OnEnterToThisScene);
+        
         yield return null;
     }
 
-
     public void OnEnterToThisScene()
     {
-        //new scene streamer => actualiza a esta escena y carga mis vecinos que puedo ver
+        NewSceneStreamer.instance.LoadScene(SceneData.name, false, true);
     }
 
 }
