@@ -50,6 +50,7 @@ public class UI_DialogueManager : UI_Base
 
     public void NoUsePhoto()
     {
+        if (photo == null) return;
         photo_go.SetActive(false);
     }
 
