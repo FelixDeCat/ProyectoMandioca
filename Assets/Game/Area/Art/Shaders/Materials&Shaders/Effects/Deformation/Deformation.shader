@@ -4,7 +4,7 @@ Shader "Effects/Deformation"
 {
 	Properties
 	{
-		_TextureSample0("Texture Sample 0", 2D) = "bump" {}
+		[NoScaleOffset]_TextureSample0("Texture Sample 0", 2D) = "bump" {}
 		_IntensityDeformation("Intensity Deformation", Range( 0 , 1)) = 0
 
 	}
@@ -154,23 +154,23 @@ Shader "Effects/Deformation"
 }
 /*ASEBEGIN
 Version=18301
-0;416;974;273;1480.914;-35.52824;1;True;False
-Node;AmplifyShaderEditor.TextureCoordinatesNode;8;-1146.914,111.5282;Inherit;False;0;-1;2;3;2;SAMPLER2D;;False;0;FLOAT2;1,1;False;1;FLOAT2;0,0;False;5;FLOAT2;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
+0;350;970;339;1327.949;164.4107;1.684498;True;False
+Node;AmplifyShaderEditor.TextureCoordinatesNode;8;-1121.914,115.5282;Inherit;False;0;-1;2;3;2;SAMPLER2D;;False;0;FLOAT2;1,1;False;1;FLOAT2;0,0;False;5;FLOAT2;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
+Node;AmplifyShaderEditor.PannerNode;7;-910.409,115.1738;Inherit;False;3;0;FLOAT2;0,0;False;2;FLOAT2;0.08,0;False;1;FLOAT;1;False;1;FLOAT2;0
+Node;AmplifyShaderEditor.RangedFloatNode;6;-1034.943,246.5579;Inherit;False;Property;_IntensityDeformation;Intensity Deformation;1;0;Create;True;0;0;False;0;False;0;0.011;0;1;0;1;FLOAT;0
 Node;AmplifyShaderEditor.GrabScreenPosition;2;-851.0532,-78.2673;Inherit;False;0;0;5;FLOAT4;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
-Node;AmplifyShaderEditor.RangedFloatNode;6;-1077.943,249.5579;Inherit;False;Property;_IntensityDeformation;Intensity Deformation;1;0;Create;True;0;0;False;0;False;0;0.011;0;1;0;1;FLOAT;0
-Node;AmplifyShaderEditor.PannerNode;7;-889.409,102.1738;Inherit;False;3;0;FLOAT2;0,0;False;2;FLOAT2;0.08,0;False;1;FLOAT;1;False;1;FLOAT2;0
-Node;AmplifyShaderEditor.SamplerNode;4;-691.1251,96.70186;Inherit;True;Property;_TextureSample0;Texture Sample 0;0;0;Create;True;0;0;False;0;False;-1;None;0a432e2e86428b84c8fd98fe571f59c6;True;0;True;bump;Auto;True;Object;-1;Auto;Texture2D;6;0;SAMPLER2D;;False;1;FLOAT2;0,0;False;2;FLOAT;0;False;3;FLOAT2;0,0;False;4;FLOAT2;0,0;False;5;FLOAT;0.32;False;5;FLOAT3;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
 Node;AmplifyShaderEditor.ComponentMaskNode;5;-606.2686,-44.26114;Inherit;False;True;True;False;False;1;0;FLOAT4;0,0,0,0;False;1;FLOAT2;0
+Node;AmplifyShaderEditor.SamplerNode;4;-691.1251,96.70186;Inherit;True;Property;_TextureSample0;Texture Sample 0;0;1;[NoScaleOffset];Create;True;0;0;False;0;False;-1;None;0a432e2e86428b84c8fd98fe571f59c6;True;0;True;bump;Auto;True;Object;-1;Auto;Texture2D;6;0;SAMPLER2D;;False;1;FLOAT2;0,0;False;2;FLOAT;0;False;3;FLOAT2;0,0;False;4;FLOAT2;0,0;False;5;FLOAT;0.32;False;5;FLOAT3;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
 Node;AmplifyShaderEditor.SimpleAddOpNode;3;-370.1092,4.495056;Inherit;False;2;2;0;FLOAT2;0,0;False;1;FLOAT3;0,0,0;False;1;FLOAT3;0
-Node;AmplifyShaderEditor.ScreenColorNode;1;-261.1418,-12.8582;Inherit;False;Global;_GrabScreen0;Grab Screen 0;0;0;Create;True;0;0;False;0;False;Object;-1;False;False;1;0;FLOAT2;0,0;False;5;COLOR;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
+Node;AmplifyShaderEditor.ScreenColorNode;1;-269.8884,-5.204952;Inherit;False;Global;_GrabScreen0;Grab Screen 0;0;0;Create;True;0;0;False;0;False;Object;-1;False;False;1;0;FLOAT2;0,0;False;5;COLOR;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
 Node;AmplifyShaderEditor.TemplateMultiPassMasterNode;0;0,0;Float;False;True;-1;2;ASEMaterialInspector;0;1;Effects/Deformation;0770190933193b94aaa3065e307002fa;True;Unlit;0;0;Unlit;2;True;0;1;False;-1;0;False;-1;0;1;False;-1;0;False;-1;True;0;False;-1;0;False;-1;False;False;False;False;False;False;True;0;False;-1;True;0;False;-1;True;True;True;True;True;0;False;-1;False;False;False;True;False;255;False;-1;255;False;-1;255;False;-1;7;False;-1;1;False;-1;1;False;-1;1;False;-1;7;False;-1;1;False;-1;1;False;-1;1;False;-1;True;1;False;-1;True;3;False;-1;True;True;0;False;-1;0;False;-1;True;1;RenderType=Opaque=RenderType;True;2;0;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;1;LightMode=ForwardBase;False;0;;0;0;Standard;1;Vertex Position,InvertActionOnDeselection;1;0;1;True;False;;0
 WireConnection;7;0;8;0
+WireConnection;5;0;2;0
 WireConnection;4;1;7;0
 WireConnection;4;5;6;0
-WireConnection;5;0;2;0
 WireConnection;3;0;5;0
 WireConnection;3;1;4;0
 WireConnection;1;0;3;0
 WireConnection;0;0;1;0
 ASEEND*/
-//CHKSM=7A18F81268218503859E90FC8FE00255CBE39A40
+//CHKSM=C85FC2974B89159CCAA1550EFB73B524D09DC75D
