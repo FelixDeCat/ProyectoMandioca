@@ -309,21 +309,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f8c9758fc87b3a44283df8fff0a8624f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  throwRange: 6
-  radius: 3
+  throwRange: 10
+  radius: 5
   spinDuration: 3
-  throwSpeed: 10
-  returnSpeed: 12
+  throwSpeed: 17
+  returnSpeed: 17
   distanceToTriggerCatch: 2
   damage: 1
   damageType: 1
+  v3: {x: 0, y: 0, z: 1}
+  rotSpeed: 25
   raycastMask:
     serializedVersion: 2
     m_Bits: 15729152
   flying: {fileID: 3972254886810969619}
   auxShield: {fileID: 1946093029433831133}
-  v3: {x: 0, y: 0, z: 1}
-  rotSpeed: 25
 --- !u!114 &5845814151322671494
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -336,7 +336,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5ec55efb820a944499bb93082517942a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  cooldown: 12
+  cooldown: 6
 --- !u!114 &2824392363104236795
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -913,11 +913,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: Shield fly Part (1)
       objectReference: {fileID: 0}
-    - target: {fileID: 7817189467037744821, guid: ad46eff6c5e7f47cfa7a02e6c35975cc,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ad46eff6c5e7f47cfa7a02e6c35975cc, type: 3}
 --- !u!198 &3972254886810969619 stripped
@@ -940,28 +935,8 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -4824124809186622395, guid: ce812cf5f0be3f841bdc6e255bdf6cc9,
         type: 3}
-      propertyPath: m_LocalRotation.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: -4824124809186622395, guid: ce812cf5f0be3f841bdc6e255bdf6cc9,
-        type: 3}
-      propertyPath: m_LocalRotation.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: -4824124809186622395, guid: ce812cf5f0be3f841bdc6e255bdf6cc9,
-        type: 3}
       propertyPath: m_LocalRotation.w
       value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: -4824124809186622395, guid: ce812cf5f0be3f841bdc6e255bdf6cc9,
-        type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: -4824124809186622395, guid: ce812cf5f0be3f841bdc6e255bdf6cc9,
-        type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: -4216859302048453862, guid: ce812cf5f0be3f841bdc6e255bdf6cc9,
         type: 3}
@@ -1017,21 +992,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: -4216859302048453862, guid: ce812cf5f0be3f841bdc6e255bdf6cc9,
-        type: 3}
-      propertyPath: m_LocalScale.x
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: -4216859302048453862, guid: ce812cf5f0be3f841bdc6e255bdf6cc9,
-        type: 3}
-      propertyPath: m_LocalScale.z
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: -4216859302048453862, guid: ce812cf5f0be3f841bdc6e255bdf6cc9,
-        type: 3}
-      propertyPath: m_LocalScale.y
-      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: -927199367670048503, guid: ce812cf5f0be3f841bdc6e255bdf6cc9,
         type: 3}
