@@ -10,7 +10,26 @@ namespace GOAP
     {
         public static Navigation instance;
         public List<Waypoint> _waypoints = new List<Waypoint>();
+        [SerializeField] LayerMask mask;
 
+
+        public void LocalizeNodes()
+        {
+            foreach (Waypoint node in _waypoints)
+            {
+                GetSurfacePos(node.transform);
+            }
+        }
+
+        public void GetSurfacePos(Transform node)
+        {
+
+            RaycastHit hit;
+
+            if (Physics.Raycast(node.position, Vector3.down, out hit, Mathf.Infinity, mask, QueryTriggerInteraction.Ignore))
+                node.position = hit.point;
+
+        }
 
         void Start()
         {
