@@ -30,10 +30,18 @@ public class CharLifeSystem: _Base_Life_System
 
         lifesystem.AddCallback_LifeChange(OnLifeChange);
         Debug_UI_Tools.instance.CreateToogle("GODMODE", false, ToogleDebug);
+        Debug_UI_Tools.instance.CreateToogle("CARONTE", false, ToggleCaronte);
         ADD_EVENT_OnChangeValue(Main.instance.gameUiController.OnChangeLife);
         
         return this;
     }
+
+    string ToggleCaronte(bool val)
+    {
+        caronteEventAvaliable = !caronteEventAvaliable;
+        return "C:=> " + (val ? "ON" : "OFF");
+    }
+
 
     string ToogleDebug(bool active) { godMode = active; ; return active ? "debug activado" : "debug desactivado"; }
 

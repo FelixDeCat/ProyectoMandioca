@@ -32,11 +32,16 @@ public class CaronteEvent : MonoBehaviour
     }
 
     public void Start()
-    {       
+    {     
         character = Main.instance.GetChar();
         character.Life.ADD_EVENT_OnCaronteDeathEvent(TurnOnCarontePP);
         ss_controller.OnSSRecolected += () => OnDefeatCaronte(Vector3.zero);
+
+       
     }
+
+
+
     public void TurnOnCarontePP()
     {
 
@@ -46,7 +51,7 @@ public class CaronteEvent : MonoBehaviour
         carontePP.SetActive(true);
 
         //Apago a todos
-        enemies = Tools.Extensions.Extensions.FindInRadius<PlayObject>(Main.instance.GetChar(), 200, mask);
+        enemies = Tools.Extensions.Extensions.FindInRadius<PlayObject>(Main.instance.GetChar(), 1000, mask);
 
         foreach (PlayObject po in enemies)
         {
