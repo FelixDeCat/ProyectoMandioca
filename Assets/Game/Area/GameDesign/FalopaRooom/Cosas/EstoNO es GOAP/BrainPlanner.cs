@@ -122,7 +122,7 @@ namespace GOAP
                         }),
                     new GoapAction("GoTo hero")
                         .SetCost(move)
-                        .Pre(gS =>  gS.distanceToHero > 2f)
+                        //.Pre(gS =>  gS.distanceToHero > 2f)
 
                         .Effect(gS =>
                         {

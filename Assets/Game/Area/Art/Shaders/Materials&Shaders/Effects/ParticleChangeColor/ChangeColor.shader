@@ -4,8 +4,7 @@ Shader "Effects/Particles/ChangeColor"
 {
 	Properties
 	{
-		_RenderTexture("Render Texture", 2D) = "white" {}
-		_Tilling("Tilling", Vector) = (0,0,0,0)
+		[NoScaleOffset]_RenderTexture("Render Texture", 2D) = "white" {}
 		[HideInInspector] _texcoord( "", 2D ) = "white" {}
 		[HideInInspector] __dirty( "", Int ) = 1
 	}
@@ -36,7 +35,6 @@ Shader "Effects/Particles/ChangeColor"
 		};
 
 		uniform sampler2D _RenderTexture;
-		uniform float2 _Tilling;
 
 		void surf( Input i , inout SurfaceOutputStandard o )
 		{
@@ -49,7 +47,7 @@ Shader "Effects/Particles/ChangeColor"
 			float3x3 ase_worldToTangent = float3x3( ase_worldTangent, ase_worldBitangent, ase_worldNormal );
 			float3 worldToTangentPos7_g3 = mul( ase_worldToTangent, normalizeResult5_g3);
 			o.Normal = worldToTangentPos7_g3;
-			float2 uv_TexCoord34 = i.uv_texcoord * _Tilling;
+			float2 uv_TexCoord34 = i.uv_texcoord * float2( 0,0 );
 			float4 ParticleMain36 = ( i.vertexColor * tex2D( _RenderTexture, uv_TexCoord34 ) );
 			o.Albedo = ParticleMain36.rgb;
 			float grayscale10_g3 = Luminance(worldToTangentPos7_g3);
@@ -148,19 +146,17 @@ Shader "Effects/Particles/ChangeColor"
 	CustomEditor "ASEMaterialInspector"
 }
 /*ASEBEGIN
-Version=17200
-0;389;971;300;4893.999;167.8889;2.077864;True;False
-Node;AmplifyShaderEditor.Vector2Node;35;-4112.822,70.00806;Inherit;False;Property;_Tilling;Tilling;1;0;Create;True;0;0;False;0;0,0;0,0;0;3;FLOAT2;0;FLOAT;1;FLOAT;2
-Node;AmplifyShaderEditor.TextureCoordinatesNode;34;-3941.882,52.08887;Inherit;False;0;-1;2;3;2;SAMPLER2D;;False;0;FLOAT2;0,0;False;1;FLOAT2;0,0;False;5;FLOAT2;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
+Version=18301
+0;350;970;339;1308.655;176.784;1.70427;True;False
+Node;AmplifyShaderEditor.TextureCoordinatesNode;34;-3901.882,48.08887;Inherit;False;0;-1;2;3;2;SAMPLER2D;;False;0;FLOAT2;0,0;False;1;FLOAT2;0,0;False;5;FLOAT2;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
 Node;AmplifyShaderEditor.VertexColorNode;3;-3640.156,-132.8637;Inherit;False;0;5;COLOR;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
-Node;AmplifyShaderEditor.SamplerNode;1;-3689.196,22.41799;Inherit;True;Property;_RenderTexture;Render Texture;0;0;Create;True;0;0;False;0;-1;None;70eefe43538589647bc4deb81d26bf29;True;0;False;white;Auto;False;Object;-1;Auto;Texture2D;6;0;SAMPLER2D;;False;1;FLOAT2;0,0;False;2;FLOAT;0;False;3;FLOAT2;0,0;False;4;FLOAT2;0,0;False;5;FLOAT;1;False;5;COLOR;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
+Node;AmplifyShaderEditor.SamplerNode;1;-3689.196,22.41799;Inherit;True;Property;_RenderTexture;Render Texture;0;1;[NoScaleOffset];Create;True;0;0;False;0;False;-1;None;70eefe43538589647bc4deb81d26bf29;True;0;False;white;Auto;False;Object;-1;Auto;Texture2D;6;0;SAMPLER2D;;False;1;FLOAT2;0,0;False;2;FLOAT;0;False;3;FLOAT2;0,0;False;4;FLOAT2;0,0;False;5;FLOAT;1;False;5;COLOR;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
 Node;AmplifyShaderEditor.SimpleMultiplyOpNode;13;-3387.844,10.21522;Inherit;False;2;2;0;COLOR;0,0,0,0;False;1;COLOR;0,0,0,0;False;1;COLOR;0
-Node;AmplifyShaderEditor.RegisterLocalVarNode;36;-3230.787,11.63198;Inherit;False;ParticleMain;-1;True;1;0;COLOR;0,0,0,0;False;1;COLOR;0
 Node;AmplifyShaderEditor.WorldPosInputsNode;39;-631.8318,41.66698;Inherit;False;0;4;FLOAT3;0;FLOAT;1;FLOAT;2;FLOAT;3
+Node;AmplifyShaderEditor.RegisterLocalVarNode;36;-3230.787,11.63198;Inherit;False;ParticleMain;-1;True;1;0;COLOR;0,0,0,0;False;1;COLOR;0
 Node;AmplifyShaderEditor.GetLocalVarNode;40;-418.2317,-81.73303;Inherit;False;36;ParticleMain;1;0;OBJECT;0;False;1;COLOR;0
 Node;AmplifyShaderEditor.FunctionNode;38;-464.2011,39.78252;Inherit;False;NewLowPolyStyle;-1;;3;9366fbf697958664ea2b821af5ab3369;0;1;8;FLOAT3;0,0,0;False;2;FLOAT;9;FLOAT3;0
-Node;AmplifyShaderEditor.StandardSurfaceOutputNode;0;-74.88434,0;Float;False;True;2;ASEMaterialInspector;0;0;Standard;Effects/Particles/ChangeColor;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;Back;0;False;-1;0;False;-1;False;0;False;-1;0;False;-1;False;0;Opaque;0.5;True;True;0;False;Opaque;;Geometry;All;14;all;True;True;True;True;0;False;-1;False;0;False;-1;255;False;-1;255;False;-1;0;False;-1;0;False;-1;0;False;-1;0;False;-1;0;False;-1;0;False;-1;0;False;-1;0;False;-1;False;2;15;10;25;False;0.5;True;0;0;False;-1;0;False;-1;0;0;False;-1;0;False;-1;0;False;-1;0;False;-1;0;False;0;0,0,0,0;VertexOffset;True;False;Cylindrical;False;Relative;0;;-1;-1;-1;-1;0;False;0;0;False;-1;-1;0;False;-1;0;0;0;False;0.1;False;-1;0;False;-1;16;0;FLOAT3;0,0,0;False;1;FLOAT3;0,0,0;False;2;FLOAT3;0,0,0;False;3;FLOAT;0;False;4;FLOAT;0;False;5;FLOAT;0;False;6;FLOAT3;0,0,0;False;7;FLOAT3;0,0,0;False;8;FLOAT;0;False;9;FLOAT;0;False;10;FLOAT;0;False;13;FLOAT3;0,0,0;False;11;FLOAT3;0,0,0;False;12;FLOAT3;0,0,0;False;14;FLOAT4;0,0,0,0;False;15;FLOAT3;0,0,0;False;0
-WireConnection;34;0;35;0
+Node;AmplifyShaderEditor.StandardSurfaceOutputNode;0;-74.88434,0;Float;False;True;-1;2;ASEMaterialInspector;0;0;Standard;Effects/Particles/ChangeColor;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;Back;0;False;-1;0;False;-1;False;0;False;-1;0;False;-1;False;0;Opaque;0.5;True;True;0;False;Opaque;;Geometry;All;14;all;True;True;True;True;0;False;-1;False;0;False;-1;255;False;-1;255;False;-1;0;False;-1;0;False;-1;0;False;-1;0;False;-1;0;False;-1;0;False;-1;0;False;-1;0;False;-1;False;2;15;10;25;False;0.5;True;0;0;False;-1;0;False;-1;0;0;False;-1;0;False;-1;0;False;-1;0;False;-1;0;False;0;0,0,0,0;VertexOffset;True;False;Cylindrical;False;Relative;0;;-1;-1;-1;-1;0;False;0;0;False;-1;-1;0;False;-1;0;0;0;False;0.1;False;-1;0;False;-1;16;0;FLOAT3;0,0,0;False;1;FLOAT3;0,0,0;False;2;FLOAT3;0,0,0;False;3;FLOAT;0;False;4;FLOAT;0;False;5;FLOAT;0;False;6;FLOAT3;0,0,0;False;7;FLOAT3;0,0,0;False;8;FLOAT;0;False;9;FLOAT;0;False;10;FLOAT;0;False;13;FLOAT3;0,0,0;False;11;FLOAT3;0,0,0;False;12;FLOAT3;0,0,0;False;14;FLOAT4;0,0,0,0;False;15;FLOAT3;0,0,0;False;0
 WireConnection;1;1;34;0
 WireConnection;13;0;3;0
 WireConnection;13;1;1;0
@@ -170,4 +166,4 @@ WireConnection;0;0;40;0
 WireConnection;0;1;38;0
 WireConnection;0;2;38;9
 ASEEND*/
-//CHKSM=2A3DDDCA7DB920E97E9CE7C4E3BB412DCD5FDBAD
+//CHKSM=9957F6A568C70B944F6F3BD2DCCB9254C97AA341

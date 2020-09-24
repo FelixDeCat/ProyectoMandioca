@@ -10,6 +10,8 @@ public class CaronteEvent : MonoBehaviour
     [SerializeField] GameObject carontePP;
     [SerializeField] LayerMask mask;
     [SerializeField] LayerMask floor;
+    [SerializeField] SoulShard_Controller ss_controller;
+    //[SerializeField] Transform nodesNavigation;
 
     [SerializeField] GameObject hand_pf;
     [SerializeField] Ente caronte_pf;
@@ -33,11 +35,12 @@ public class CaronteEvent : MonoBehaviour
     {       
         character = Main.instance.GetChar();
         character.Life.ADD_EVENT_OnCaronteDeathEvent(TurnOnCarontePP);
+        ss_controller.OnSSRecolected += () => OnDefeatCaronte(Vector3.zero);
     }
     public void TurnOnCarontePP()
     {
 
-        if (!caronteActive) return;
+        //if (!caronteActive) return;
 
 
         carontePP.SetActive(true);
@@ -54,7 +57,7 @@ public class CaronteEvent : MonoBehaviour
         //Inicializo mano
         var mano = GameObject.Instantiate<GameObject>(hand_pf);
         var m = mano.GetComponentInChildren<CaronteHand>();
-        mano.transform.position = character.transform.position - new Vector3(0, 12, -2);
+        mano.transform.position = character.transform.position - new Vector3(0, 13, -2);
 
        
 
@@ -77,6 +80,11 @@ public class CaronteEvent : MonoBehaviour
     void SpawnCaronte()
     {
         character.Life.Heal(25);
+        ss_controller.ReleaseShards();
+
+        Navigation.instance.transform.position = character.transform.position;
+        Navigation.instance.LocalizeNodes();
+
         caronte = GameObject.Instantiate<Ente>(caronte_pf);
         WorldState.instance.ente = caronte;
         caronte.OnDeath += OnDefeatCaronte;
@@ -129,9 +137,11 @@ public class CaronteEvent : MonoBehaviour
 
     public void TurnOffCarontePP()
     {
+
         if(caronte!= null)
             Destroy(caronte.gameObject);
 
+        ss_controller.ReturnShardsToPool();
 
         carontePP.SetActive(false);
         stopMovement = false;
