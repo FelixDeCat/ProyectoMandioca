@@ -12,12 +12,13 @@ public class DialogueManager : MonoBehaviour
     public static DialogueManager instance;
 
     [SerializeField] UI_DialogueManager frontend = null;
+    [SerializeField] Ui_Anim_DialogueManager anim = null;
 
     DialogueTree tree;
     int currentNode = 0;
     int currentdialogue = 0;
 
-    public float cooldownSpamforcedialog = 0.1f;
+    public float cooldownSpamforcedialog = 0.3f;
 
     JoystickBasicInput joystick;
 
@@ -35,7 +36,7 @@ public class DialogueManager : MonoBehaviour
 
     public void StartDialogue(DialogueTree treedialog)
     {
-
+        anim.Open(true);
         frontend.Open();
         Main.instance.GetChar().InputGoToMenues(true);
         tree = treedialog;
@@ -50,6 +51,7 @@ public class DialogueManager : MonoBehaviour
         tree = null;
         currentdialogue = 0;
         currentNode = 0;
+        anim.Open(true);
         frontend.Close();
         Invoke("SendInputCharCanMove",0.01f);
     }
@@ -65,9 +67,6 @@ public class DialogueManager : MonoBehaviour
 
         /////// deberiamos cambiar la List<string> por una List<Phrase>
         /////// este Phrase tendria que tener el String y el command place
-
-        
-
 
         if (currentdialogue >= tree.dialogueNodes[currentNode].dialogues.Count - 1)//si es el dialogo final
         {
@@ -154,8 +153,6 @@ public class DialogueManager : MonoBehaviour
             }
         }
         
-
-
         frontend.TurnOn_ButtonNext(false);
         frontend.TurnOn_ButtonExit(false);
 
@@ -191,12 +188,14 @@ public class DialogueManager : MonoBehaviour
         if (canForce)
         {
             canForce = false;
+
             if (frontend.textAnim.inAnimation)
             {
                 frontend.SetDialogue(tree.dialogueNodes[currentNode].dialogues[currentdialogue], OnTextFinishCarret, true);
             }
         }
     }
+    
 
     void OnTextFinishCarret()
     {

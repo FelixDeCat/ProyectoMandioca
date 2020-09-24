@@ -34,7 +34,7 @@ public class TextAnimCharXChar : MonoBehaviour
 
     private void Update()
     {
-        DebugCustom.Log("Dialogue debug", "InAnim", inAnimation);
+        //DebugCustom.Log("Dialogue debug", "InAnim", inAnimation);
     }
 
     public void Force(string s)

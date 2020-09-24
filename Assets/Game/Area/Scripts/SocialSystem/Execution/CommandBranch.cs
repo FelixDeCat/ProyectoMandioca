@@ -53,8 +53,6 @@ public class CommandBranch
 
     public string RemoveFirstCommand(string cmd)
     {
-        Debug.Log("CMD TO REMOVE " + cmd);
-
         var splittedArray = cmd.Split('_');
         if (splittedArray.Length > 1)
         {
@@ -72,21 +70,11 @@ public class CommandBranch
                     result += splittedArray[i];
                 }
             }
-
-            Debug.Log("RES:>> " + result);
-
-            //var toTrimm = splittedArray[0] + '_';
-            //Debug.Log("To TRIMM " + toTrimm);
-
-            //string result = cmd.Trim(toTrimm.ToCharArray());
-
-            //Debug.Log("Result " + result);
             return result;
         }
         else
         {
             var result = cmd.Trim('_');
-            Debug.Log("Habia uno solo asi que trimm " + result);
             return result;
         }
     }
