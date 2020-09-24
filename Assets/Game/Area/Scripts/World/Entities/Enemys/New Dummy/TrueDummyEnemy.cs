@@ -36,6 +36,7 @@ public class TrueDummyEnemy : EnemyBase
     [SerializeField] Color onHitColor = Color.white;
     [SerializeField] float onHitFlashTime = 0.1f;
     [SerializeField] RagdollComponent ragdoll = null;
+    [SerializeField] Transform warningAttack_pos;
 
     [SerializeField] EffectBase petrifyEffect = null;
     EventStateMachine<DummyEnemyInputs> sm;
@@ -49,6 +50,7 @@ public class TrueDummyEnemy : EnemyBase
         public ParticleSystem _spawnParticules = null;
         public ParticleSystem myGroundParticle = null;
         public ParticleSystem greenblood = null;
+        public ParticleSystem warningAttack = null;
     }
 
     [System.Serializable]
@@ -93,9 +95,11 @@ public class TrueDummyEnemy : EnemyBase
         Main.instance.eventManager.TriggerEvent(GameEvents.ENEMY_SPAWN, new object[] { this });
         ParticlesManager.Instance.GetParticlePool(particles._spawnParticules.name, particles._spawnParticules, 5);
         ParticlesManager.Instance.GetParticlePool(particles.greenblood.name, particles.greenblood, 8);
+        ParticlesManager.Instance.GetParticlePool(particles.warningAttack.name, particles.warningAttack, 2);
 
 
         ParticlesManager.Instance.PlayParticle(particles._spawnParticules.name, transform.position);
+        
 
         var smr = GetComponentInChildren<SkinnedMeshRenderer>();
         if (smr != null)
@@ -111,6 +115,7 @@ public class TrueDummyEnemy : EnemyBase
         rb = GetComponent<Rigidbody>();
         combatComponent.Configure(AttackEntity);
         anim.Add_Callback("DealDamage", DealDamage);
+        anim.Add_Callback("WarningAttack", WarningAttackParticle);
         movement.Configure(rootTransform, rb, groundSensor);
 
         StartDebug();
@@ -201,13 +206,20 @@ public class TrueDummyEnemy : EnemyBase
     }
 
     #region Attack
-    public void DealDamage() { combatComponent.ManualTriggerAttack(); sm.SendInput(DummyEnemyInputs.ATTACK); AudioManager.instance.PlaySound(sounds.entAttack_Clip.name); }
+    public void DealDamage() {  combatComponent.ManualTriggerAttack(); sm.SendInput(DummyEnemyInputs.ATTACK); AudioManager.instance.PlaySound(sounds.entAttack_Clip.name); }
+
+    public void WarningAttackParticle()
+    {
+        ParticlesManager.Instance.PlayParticle(particles.warningAttack.name, warningAttack_pos.position);
+    }
 
     public void AttackEntity(DamageReceiver e)
     {
         dmgData.SetDamage(damage).SetDamageTick(false).SetDamageType(Damagetype.Normal).SetKnockback(knockback)
     .SetPositionAndDirection(transform.position);
         Attack_Result takeDmg = e.TakeDamage(dmgData);
+
+        
 
         if (takeDmg == Attack_Result.parried)
         {
