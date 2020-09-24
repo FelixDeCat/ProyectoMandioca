@@ -9,36 +9,18 @@ public class CaronteHand : MonoBehaviour
     public Action OnGrabPlayer;
     public Action OnMissPlayer;
 
-    [SerializeField] float timeBeforeGoingUp;
-    [SerializeField] float timeGoingUp;
-    [SerializeField] float timebeforeGrabbin;
-    [SerializeField] float speed;
     [SerializeField] float distanceToGrab;
-
-    float _count = 0;
+    [SerializeField] AnimEvent animEvent;
 
     private void Start()
     {
-        StartCoroutine(GoUpToGrab());
+        animEvent.Add_Callback("tryGrab", OnTryGrab);
     }
 
-    IEnumerator GoUpToGrab()
+    void OnTryGrab()
     {
-        yield return new WaitForSeconds(timeBeforeGoingUp);
-
-
-        while (_count <= timeGoingUp)
+        if (Vector3.Distance(transform.position, Main.instance.GetChar().Root.position) <= distanceToGrab)
         {
-            _count += Time.deltaTime;
-            transform.position += Vector3.up * speed * Time.deltaTime;
-            yield return null;
-        }
-
-        yield return new WaitForSeconds(timebeforeGrabbin);
-
-        if(Vector3.Distance(transform.position, Main.instance.GetChar().Root.position) <= distanceToGrab)
-        {
-            Debug.Log("la mano agarra al player");
             OnGrabPlayer?.Invoke();
         }
         else
@@ -46,7 +28,6 @@ public class CaronteHand : MonoBehaviour
             OnMissPlayer?.Invoke();
         }
 
-        
         Destroy(gameObject, 2);
     }
 
@@ -56,3 +37,6 @@ public class CaronteHand : MonoBehaviour
         Gizmos.DrawWireSphere(transform.position, distanceToGrab);
     }
 }
+
+
+
