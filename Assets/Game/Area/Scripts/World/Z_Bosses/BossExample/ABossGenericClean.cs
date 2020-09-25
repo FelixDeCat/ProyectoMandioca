@@ -113,8 +113,6 @@ public class ABossGenericClean : EnemyBase
         rb.velocity = force;
         if (death) sensors_and_behaviours.Behaviours.ragdollComponent.ResumeRagdoll();
     }
-
-    public override void ToAttack() => attacking = true;
     protected override void OnUpdateEntity() { }
     protected override void TakeDamageFeedback(DamageData data) { }
     protected override void Die(Vector3 dir) { }

@@ -6,11 +6,11 @@ namespace Tools.StateMachine
     {
         float cd;
         float timer;
-        EnemyBase enemy;
+        CombatDirectorElement enemy;
 
 
         public DummyParried(EState<TrueDummyEnemy.DummyEnemyInputs> myState, EventStateMachine<TrueDummyEnemy.DummyEnemyInputs> _sm,
-                                float _cd, EnemyBase _enemy) : base(myState, _sm)
+                                float _cd, CombatDirectorElement _enemy) : base(myState, _sm)
         {
             cd = _cd;
             enemy = _enemy;

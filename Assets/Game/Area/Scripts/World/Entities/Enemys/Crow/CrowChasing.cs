@@ -9,10 +9,10 @@ namespace Tools.StateMachine
         Func<Transform, bool> LineOfSight;
         float distanceToNormalAttack;
         float rotationSpeed;
-        EnemyBase enemy;
+        CombatDirectorElement enemy;
 
         public CrowChasing(EState<CrowEnemy.CrowInputs> myState, EventStateMachine<CrowEnemy.CrowInputs> _sm, Func<bool> _IsAttack,
-                            float _distanceToAttack, float _rotationSpeed, EnemyBase _enemy, Func<Transform, bool> _LineOfSight) : base(myState, _sm)
+                            float _distanceToAttack, float _rotationSpeed, CombatDirectorElement _enemy, Func<Transform, bool> _LineOfSight) : base(myState, _sm)
         {
             IsAttack = _IsAttack;
             distanceToNormalAttack = _distanceToAttack;

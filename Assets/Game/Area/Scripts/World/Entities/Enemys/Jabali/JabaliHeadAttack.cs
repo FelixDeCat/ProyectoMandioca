@@ -36,8 +36,8 @@ namespace Tools.StateMachine
             if (input != JabaliEnemy.JabaliInputs.PETRIFIED)
             {
                 timer = 0;
-                var myEnemy = (EnemyBase)enemy;
-                myEnemy.attacking = false;
+                var myEnemy = enemy;
+                myEnemy.Attacking = false;
                 combatDirector.AttackRelease(enemy, enemy.CurrentTarget());
             }
         }

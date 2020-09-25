@@ -5,7 +5,7 @@ using System;
 using Tools.StateMachine;
 using UnityEngine.Serialization;
 
-public class TrueDummyEnemy : EnemyBase
+public class TrueDummyEnemy : EnemyWithCombatDirector
 {
     [Header("Move Options")]
     [SerializeField] GenericEnemyMove movement = null;
@@ -21,8 +21,6 @@ public class TrueDummyEnemy : EnemyBase
     [SerializeField] float parriedTime = 2;
     [SerializeField] float knockback = 20;
     public DummySpecialAttack dummySpecialAttack;
-
-    private CombatDirector director;
 
     [Header("Life Options")]
     [SerializeField] float recallTime = 1;
@@ -154,23 +152,19 @@ public class TrueDummyEnemy : EnemyBase
     {
         if (!death)
         {
-            if (combat)
+            if (combatElement.Combat)
             {
                 if (Vector3.Distance(Main.instance.GetChar().transform.position, transform.position) > combatDistance + 2)
                 {
-                    director.DeadEntity(this, entityTarget);
-                    entityTarget = null;
-                    combat = false;
+                    combatElement.ExitCombat();
                 }
             }
 
-            if (!combat && entityTarget == null)
+            if (!combatElement.Combat && combatElement.Target == null)
             {
                 if (Vector3.Distance(Main.instance.GetChar().transform.position, transform.position) <= combatDistance)
                 {
-                    director.AddToList(this, Main.instance.GetChar());
-                    SetTarget(Main.instance.GetChar());
-                    combat = true;
+                    combatElement.EnterCombat();
                 }
             }
         }
@@ -227,8 +221,6 @@ public class TrueDummyEnemy : EnemyBase
             sm.SendInput(DummyEnemyInputs.PARRIED);
         }
     }
-
-    public override void ToAttack() => attacking = true;
     #endregion
 
     #region Life Things
@@ -237,12 +229,6 @@ public class TrueDummyEnemy : EnemyBase
 
     protected override void TakeDamageFeedback(DamageData data)
     {
-        if (sm.Current.Name == "Idle" || sm.Current.Name == "Persuit")
-        {
-            attacking = false;
-            director.ChangeTarget(this, data.owner, entityTarget);
-        }
-
         AudioManager.instance.PlaySound(sounds._takeHit_AC.name);
 
         sm.SendInput(DummyEnemyInputs.TAKE_DAMAGE);
@@ -263,13 +249,13 @@ public class TrueDummyEnemy : EnemyBase
         else
             ragdoll.Ragdoll(true, dir);
         death = true;
-        director.DeadEntity(this, entityTarget);
+        combatElement.ExitCombat();
         Main.instance.RemoveEntity(this);
     }
 
     protected override bool IsDamage()
     {
-        if (cooldown || Invinsible || sm.Current.Name == "Die") return true;
+        if (cooldown || sm.Current.Name == "Die") return true;
         else return false;
     }
     #endregion
@@ -280,9 +266,7 @@ public class TrueDummyEnemy : EnemyBase
         //if (sm.Current.Name == "Die") ReturnToSpawner();
 
         sm.SendInput(DummyEnemyInputs.DISABLE);
-        director.DeadEntity(this, entityTarget);
-        entityTarget = null;
-        combat = false;
+        combatElement.ExitCombat();
         groundSensor?.TurnOff();
     }
     protected override void OnTurnOn()
@@ -395,19 +379,19 @@ public class TrueDummyEnemy : EnemyBase
 
         Func<bool> SpecialAttackReady = CanDoSpecialAttack;
 
-        new DummyIdleState(idle, sm, movement, distancePos, normalDistance, this).SetAnimator(animator).SetRoot(rootTransform).SetDirector(director);
+        new DummyIdleState(idle, sm, movement, distancePos, normalDistance, combatElement).SetAnimator(animator).SetRoot(rootTransform).SetDirector(director);
 
-        new DummyFollowState(goToPos, sm, movement, normalDistance, distancePos, this, SpecialAttackReady).SetAnimator(animator).SetRoot(rootTransform);
+        new DummyFollowState(goToPos, sm, movement, normalDistance, distancePos, combatElement, SpecialAttackReady).SetAnimator(animator).SetRoot(rootTransform);
 
-        new DummyChasing(chasing, sm, IsAttack, distancePos, movement, this, SpecialAttackReady).SetDirector(director).SetRoot(rootTransform);
+        new DummyChasing(chasing, sm, () => combatElement.Attacking, distancePos, movement, combatElement, SpecialAttackReady).SetDirector(director).SetRoot(rootTransform);
 
-        new DummyAttAnt(beginAttack, sm, movement, this).SetAnimator(animator).SetDirector(director).SetRoot(rootTransform);
+        new DummyAttAnt(beginAttack, sm, movement, combatElement).SetAnimator(animator).SetDirector(director).SetRoot(rootTransform);
 
-        new DummyAttackState(attack, sm, cdToAttack, this).SetAnimator(animator).SetDirector(director);
+        new DummyAttackState(attack, sm, cdToAttack, combatElement).SetAnimator(animator).SetDirector(director);
 
-        new Tools.StateMachine.DummySpecialAttack(this, specialAttack, sm, this).SetDirector(director);
+        new Tools.StateMachine.DummySpecialAttack(this, specialAttack, sm, combatElement).SetDirector(director);
 
-        new DummyParried(parried, sm, parriedTime, this).SetAnimator(animator).SetDirector(director);
+        new DummyParried(parried, sm, parriedTime, combatElement).SetAnimator(animator).SetDirector(director);
 
         new DummyTDState(takeDamage, sm, recallTime).SetAnimator(animator);
 
@@ -438,7 +422,7 @@ public class TrueDummyEnemy : EnemyBase
     {
         canupdate = false;
         movement.SetDefaultSpeed();
-        combat = false;
+        combatElement.Combat = false;
     }
 
     void EnableObject() => Initialize();

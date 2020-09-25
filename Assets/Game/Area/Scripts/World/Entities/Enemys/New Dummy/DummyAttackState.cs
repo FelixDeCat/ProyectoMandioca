@@ -5,9 +5,9 @@ namespace Tools.StateMachine
     {
         float cd;
         float timer;
-        EnemyBase enemy;
+        CombatDirectorElement enemy;
         public DummyAttackState(EState<TrueDummyEnemy.DummyEnemyInputs> myState, EventStateMachine<TrueDummyEnemy.DummyEnemyInputs> _sm,
-                                float _cd, EnemyBase _enemy) : base(myState, _sm)
+                                float _cd, CombatDirectorElement _enemy) : base(myState, _sm)
         {
             cd = _cd;
             enemy = _enemy;
@@ -18,8 +18,8 @@ namespace Tools.StateMachine
 
             timer = 0;
             anim.SetBool("Attack", false);
-            var myEnemy = (EnemyBase)enemy;
-            myEnemy.attacking = false;
+            var myEnemy = enemy;
+            myEnemy.Attacking = false;
             combatDirector.AttackRelease(enemy, enemy.CurrentTarget());
         }
 

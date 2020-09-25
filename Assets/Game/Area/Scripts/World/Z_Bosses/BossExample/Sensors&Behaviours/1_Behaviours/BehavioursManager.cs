@@ -26,7 +26,7 @@ public class BehavioursManager : MonoBehaviour
         activateDamage.Configure(root);
         activateDamageHitTheFloor.Configure(root);
         followBehaviour.ConfigureFollowBehaviour(root,rb,target);
-        combatDirectorComponent.Initialize(entity);
+        combatDirectorComponent.Initialize(2,Main.instance.GetCombatDirector());
     }
 
     public void ChangeTarget(Transform newtarget)

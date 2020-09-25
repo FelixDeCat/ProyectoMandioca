@@ -5,7 +5,7 @@ using System;
 using Tools.StateMachine;
 using UnityEngine.Serialization;
 
-public class CrowEnemy : EnemyBase
+public class CrowEnemy : EnemyWithCombatDirector
 {
     [SerializeField] bool showGizmoCombatDistance;
     [SerializeField] bool showGizmoDistancePos;
@@ -22,7 +22,6 @@ public class CrowEnemy : EnemyBase
     [SerializeField] int damage = 2;
     [SerializeField] float knockback = 20;
     [SerializeField] float attackRecall = 2;
-    private CombatDirector director;
     [SerializeField] LineOfSight lineOfSight = null;
 
     [Header("Life Options")]
@@ -104,13 +103,11 @@ public class CrowEnemy : EnemyBase
     {
         if (!death)
         {
-            if (combat)
+            if (combatElement.Combat)
             {
                 if (Vector3.Distance(Main.instance.GetChar().transform.position, transform.position) > combatDistance + 2)
                 {
-                    director.DeadEntity(this, entityTarget);
-                    entityTarget = null;
-                    combat = false;
+                    combatElement.ExitCombat();
 
                     animator.SetBool("rotate", false);
 
@@ -131,13 +128,11 @@ public class CrowEnemy : EnemyBase
                 }
             }
 
-            if (!combat && entityTarget == null)
+            if (!combatElement.Combat && combatElement.Target == null)
             {
                 if (Vector3.Distance(Main.instance.GetChar().transform.position, transform.position) <= combatDistance)
                 {
-                    director.AddToList(this, Main.instance.GetChar());
-                    SetTarget(Main.instance.GetChar());
-                    combat = true;
+                    combatElement.EnterCombat();
 
                     animator.SetBool("rotate", true);
                 }
@@ -157,13 +152,11 @@ public class CrowEnemy : EnemyBase
     {
         base.OnPause();
         if (death) ragdoll.PauseRagdoll();
-        Debug.Log("me pauso loro");
     }
     protected override void OnResume()
     {
         base.OnResume();
         if (death) ragdoll.ResumeRagdoll();
-        Debug.Log("resumo wachin");
     }
 
     protected override void OnReset()
@@ -180,7 +173,7 @@ public class CrowEnemy : EnemyBase
         animator.SetBool("rotate", false);
         castPartTemp = null;
         castingOver = true;
-        dir = CurrentTarget() ? (CurrentTarget().transform.position + new Vector3(0, 1, 0) - shootPivot.position).normalized : Vector3.down;
+        dir = combatElement.CurrentTarget() ? (combatElement.CurrentTarget().transform.position + new Vector3(0, 1, 0) - shootPivot.position).normalized : Vector3.down;
     }
 
     Vector3 dir;
@@ -192,8 +185,6 @@ public class CrowEnemy : EnemyBase
 
         ThrowablePoolsManager.instance.Throw(throwObject.name, newData);
     }
-
-    public override void ToAttack() => attacking = true;
     #endregion
 
     #region Life Things
@@ -218,14 +209,17 @@ public class CrowEnemy : EnemyBase
             ragdoll.Ragdoll(true, -rootTransform.forward);
         else
             ragdoll.Ragdoll(true, dir);
+
+        if (castPartTemp != null)
+            ParticlesManager.Instance.StopParticle(castPartTemp.name, castPartTemp);
         death = true;
-        director.DeadEntity(this, entityTarget);
+        combatElement.ExitCombat();
         Main.instance.RemoveEntity(this);
     }
 
     protected override bool IsDamage()
     {
-        if (cooldown || Invinsible || sm.Current.Name == "Die") return true;
+        if (cooldown || sm.Current.Name == "Die") return true;
         else return false;
     }
     #endregion
@@ -236,9 +230,7 @@ public class CrowEnemy : EnemyBase
         if (sm.Current.Name == "Die") gameObject.SetActive(false);
 
         sm.SendInput(CrowInputs.DISABLE);
-        director.DeadEntity(this, entityTarget);
-        entityTarget = null;
-        combat = false;
+        combatElement.ExitCombat();
     }
     protected override void OnTurnOn()
     {
@@ -315,12 +307,12 @@ public class CrowEnemy : EnemyBase
 
         var head = Main.instance.GetChar();
 
-        new CrowIdle(idle, sm, distancePos, rotationSpeed, this, lineOfSight.OnSight, () => stopCD).SetAnimator(animator).SetRoot(rootTransform).SetDirector(director);
+        new CrowIdle(idle, sm, distancePos, rotationSpeed, combatElement, lineOfSight.OnSight, () => stopCD).SetAnimator(animator).SetRoot(rootTransform).SetDirector(director);
 
-        new CrowChasing(chasing, sm, IsAttack, distancePos, rotationSpeed, this, lineOfSight.OnSight).SetDirector(director).SetRoot(rootTransform);
+        new CrowChasing(chasing, sm, () => combatElement.Attacking, distancePos, rotationSpeed, combatElement, lineOfSight.OnSight).SetDirector(director).SetRoot(rootTransform);
 
         new CrowAttack(attack, sm, attackRecall, () => castPartTemp = ParticlesManager.Instance.PlayParticle(particles.castParticles.name, shootPivot.position, CastOver, shootPivot),
-            () => castingOver, (x) => { castingOver = x; stopCD = x; }, this, rotationSpeed).SetAnimator(animator).SetDirector(director).SetRoot(rootTransform);
+            () => castingOver, (x) => { castingOver = x; stopCD = x; }, combatElement, rotationSpeed).SetAnimator(animator).SetDirector(director).SetRoot(rootTransform);
 
         new CrowTakeDmg(takeDamage, sm, recallTime).SetAnimator(animator);
 
@@ -334,7 +326,7 @@ public class CrowEnemy : EnemyBase
     void DisableObject()
     {
         canupdate = false;
-        combat = false;
+        combatElement.Combat = false;
     }
 
     void EnableObject() => Initialize();

@@ -11368,6 +11368,7 @@ GameObject:
   - component: {fileID: 6196249987741586598}
   - component: {fileID: 6837444698053349650}
   - component: {fileID: -6525184677019622763}
+  - component: {fileID: 8390082932570871550}
   m_Layer: 10
   m_Name: enemy_Pig
   m_TagString: Untagged
@@ -11420,19 +11421,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   poolname: jabalies
-  attacking: 0
   death: 0
   OnDeath:
     m_PersistentCalls:
       m_Calls: []
-  Invinsible: 0
-  combatDistance: 20
-  combat: 0
-  distancePos: 2.5
   dmgData: {fileID: 4369836194751585076}
   dmgReceiver: {fileID: 2220049257524496936}
   lifesystem: {fileID: 3951395813138206301}
   rootTransform: {fileID: 293843520634246214}
+  animator: {fileID: 8435530919061413704}
+  combatElement: {fileID: 8390082932570871550}
+  distancePos: 2.5
+  combatDistance: 20
   movement: {fileID: 6733651048786057550}
   lineOfSight: {fileID: 3296736856270995490}
   groundSensor: {fileID: 2813422273276361586}
@@ -11462,7 +11462,6 @@ MonoBehaviour:
   unequipShield: 1
   tdRecall: 0.5
   anim: {fileID: 3296736856270995491}
-  animator: {fileID: 8435530919061413704}
   ragdoll: {fileID: 6885159979840151130}
   onHitColor: {r: 1, g: 0, b: 0, a: 0}
   onHitFlashTime: 20
@@ -11633,6 +11632,22 @@ MonoBehaviour:
   myPlayObjects: []
   debug: 0
   acty: 0
+--- !u!114 &8390082932570871550
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3951395813138206299}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ff75dc29d3fc49948a4cd32e471d0274, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Combat: 0
+  CanAttack:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!1 &4064936729920983187
 GameObject:
   m_ObjectHideFlags: 0

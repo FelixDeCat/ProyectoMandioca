@@ -7,74 +7,66 @@ using System;
 public class CombatDirectorElement : MonoBehaviour, ICombatDirector
 {
     [Header("TEMP:/Combat director")]
-    //[SerializeField, Range(0.5f, 15)] float distancePos = 1.5f;
+    float distancePos = 1.5f;
     bool withPos;
 
     CombatDirector director;
-    [SerializeField] EnemyBase owner = null;
-    EntityBase target;
-    bool combat;
+    public EntityBase Target { get; set; }
+    public bool Combat;
+    public bool Attacking {get; set;}
 
     [SerializeField] UnityEvent CanAttack = null;
 
-    void SubscribeMeToInitializer()
+    public void Initialize(float _distancePos, CombatDirector _director)
     {
-        //aca me subscribo a los sensores de inicializacion
-        //tanto para el del proximidad
-        //como el del habitacion
+        director = _director;
+        distancePos = _distancePos;
     }
 
-    public void Initialize(EntityBase entityBase)
+    public void IAmReady()
     {
-        director = Main.instance.GetCombatDirector();
-        //director.AddNewTarget(entityBase);
+        Combat = true;
+        director.PrepareToAttack(this, Main.instance.GetChar());
+    }
 
-    }
-    public void IAmReady(Action _toAttackCallback)
-    {
-        combat = true;
-        director.PrepareToAttack(owner.GetComponent<EnemyBase>(), Main.instance.GetChar());
-    }
     public void IAmNotReady()
     {
-        combat = false;
-        director.DeleteToPrepare(owner.GetComponent<EnemyBase>(), Main.instance.GetChar());
+        Combat = false;
+        director.DeleteToPrepare(this, Main.instance.GetChar());
     }
     public void AttackRelease()
     {
-        director.AttackRelease(owner.GetComponent<EnemyBase>(), Main.instance.GetChar());
+        director.AttackRelease(this, Main.instance.GetChar());
     }
+
     public void EnterCombat()
     {
-        director.AddToList(owner.GetComponent<EnemyBase>(), Main.instance.GetChar());
-        combat = true;
+        director.AddToList(this, Main.instance.GetChar());
+        SetTarget(Main.instance.GetChar());
+        Combat = true;
     }
+
     public void ExitCombat()
     {
-        director.DeadEntity(owner.GetComponent<EnemyBase>(), Main.instance.GetChar());
-        target = null;
-        combat = false;
+        director.DeadEntity(this, Main.instance.GetChar());
+        Target = null;
+        Combat = false;
     }
 
     #region ICombatDirector Functions
-    public void SetTarget(EntityBase entity) { target = entity; }
-    public EntityBase CurrentTarget() => target;
-    public Vector3 CurrentPos() => owner.transform.position;
-    public void ToAttack()
-    {
-        CanAttack.Invoke();
-    }
-
+    public Vector3 CurrentPos() => transform.position;
+    public void SetTarget(EntityBase entity) => Target = entity;
     public bool IsInPos() => withPos;
+    public EntityBase CurrentTarget() => Target;
+    public float GetDistance() => distancePos;
     public void SetBool(bool isPos) => withPos = isPos;
     public void ResetCombat()
     {
-        target = null;
-        combat = false;
+        Target = null;
+        Combat = false;
         SetBool(false);
     }
-
-    public float GetDistance() { return 0; }
+    public void ToAttack() => Attacking = true;
     #endregion
 }
 

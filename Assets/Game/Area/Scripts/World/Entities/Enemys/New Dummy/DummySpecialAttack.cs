@@ -35,8 +35,8 @@ namespace Tools.StateMachine
         {
             base.Exit(input);
 
-            var myEnemy = (EnemyBase)enemy;
-            myEnemy.attacking = false;
+            var myEnemy = (CombatDirectorElement)enemy;
+            myEnemy.Attacking = false;
             //combatDirector.AttackRelease(enemy, enemy.CurrentTarget());
         }
 

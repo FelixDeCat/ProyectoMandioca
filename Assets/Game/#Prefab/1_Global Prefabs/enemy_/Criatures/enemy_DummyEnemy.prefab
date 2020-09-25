@@ -10725,6 +10725,7 @@ GameObject:
   - component: {fileID: -410891244881964470}
   - component: {fileID: 4206374051379906606}
   - component: {fileID: 3371125276018704027}
+  - component: {fileID: 6707894994293890375}
   m_Layer: 10
   m_Name: enemy_DummyEnemy
   m_TagString: Untagged
@@ -10799,6 +10800,7 @@ MonoBehaviour:
   combatDistance: 18
   combat: 0
   distancePos: 2
+  combatElement: {fileID: 6707894994293890375}
   dmgData: {fileID: -410891244881964470}
   dmgReceiver: {fileID: 4206374051379906606}
   lifesystem: {fileID: 3901963547881250315}
@@ -10987,6 +10989,24 @@ CapsuleCollider:
   m_Height: 2.11
   m_Direction: 1
   m_Center: {x: 0, y: 1.02, z: 0}
+--- !u!114 &6707894994293890375
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3901963547881250308}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ff75dc29d3fc49948a4cd32e471d0274, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  distancePos: 2
+  combatDistance: 18
+  Combat: 0
+  CanAttack:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!1 &3909154650993246213
 GameObject:
   m_ObjectHideFlags: 0
@@ -12556,6 +12576,12 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 0eaf7fc8a16763f41bc669ca1e8c7f50, type: 3}
+--- !u!4 &1862706129178021570 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 3101975495159146329, guid: 0eaf7fc8a16763f41bc669ca1e8c7f50,
+    type: 3}
+  m_PrefabInstance: {fileID: 3663052803002345883}
+  m_PrefabAsset: {fileID: 0}
 --- !u!114 &7481602633465594832 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 6126649117267208779, guid: 0eaf7fc8a16763f41bc669ca1e8c7f50,
@@ -12568,12 +12594,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: edf3a104d1cb67340ab8ea6199d5f7c9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!4 &1862706129178021570 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 3101975495159146329, guid: 0eaf7fc8a16763f41bc669ca1e8c7f50,
-    type: 3}
-  m_PrefabInstance: {fileID: 3663052803002345883}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &4535746533609697702
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -13009,12 +13029,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a4ad128d506acf549a7277253fffb883, type: 3}
---- !u!4 &6765843946418953709 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 2751453651156627006, guid: a4ad128d506acf549a7277253fffb883,
-    type: 3}
-  m_PrefabInstance: {fileID: 8920007692700038099}
-  m_PrefabAsset: {fileID: 0}
 --- !u!114 &7721960845147089378 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 1217046971132713521, guid: a4ad128d506acf549a7277253fffb883,
@@ -13027,3 +13041,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bc9c473c0a3d9d848a4e1c9638f0fd1a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!4 &6765843946418953709 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 2751453651156627006, guid: a4ad128d506acf549a7277253fffb883,
+    type: 3}
+  m_PrefabInstance: {fileID: 8920007692700038099}
+  m_PrefabAsset: {fileID: 0}

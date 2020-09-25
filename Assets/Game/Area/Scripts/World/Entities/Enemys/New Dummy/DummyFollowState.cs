@@ -8,7 +8,7 @@ namespace Tools.StateMachine
     {
         GenericEnemyMove move;
 
-        EnemyBase noObs;
+        CombatDirectorElement noObs;
 
         float normalDistance;
         float minDistance;
@@ -16,7 +16,7 @@ namespace Tools.StateMachine
         Func<bool> IsSpecialAttack;
 
         public DummyFollowState(EState<TrueDummyEnemy.DummyEnemyInputs> myState, EventStateMachine<TrueDummyEnemy.DummyEnemyInputs> _sm, GenericEnemyMove _move,
-                                float distance, float _minDistance, EnemyBase me, Func<bool> _IsSpecialAttack = null) : base(myState, _sm)
+                                float distance, float _minDistance, CombatDirectorElement me, Func<bool> _IsSpecialAttack = null) : base(myState, _sm)
         {
             move = _move;
             normalDistance = distance;

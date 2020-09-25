@@ -11,10 +11,10 @@ namespace Tools.StateMachine
         Func<bool> IsSpecialAttack; //Este es el Func para checkear si es ataque especial 
         float distanceToNormalAttack;
         GenericEnemyMove move;
-        EnemyBase enemy;
+        CombatDirectorElement enemy;
 
         public DummyChasing(EState<TrueDummyEnemy.DummyEnemyInputs> myState, EventStateMachine<TrueDummyEnemy.DummyEnemyInputs> _sm, Func<bool> _IsAttack,
-                            float _distanceToAttack, GenericEnemyMove _move, EnemyBase _enemy, Func<bool> _IsSpecialAttack = null) : base(myState, _sm)
+                            float _distanceToAttack, GenericEnemyMove _move, CombatDirectorElement _enemy, Func<bool> _IsSpecialAttack = null) : base(myState, _sm)
         {
             IsAttack = _IsAttack;
             distanceToNormalAttack = _distanceToAttack;

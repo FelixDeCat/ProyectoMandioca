@@ -39,17 +39,17 @@ public class CombatDirector : LoadComponent, IZoneElement
     #region Funciones Internas
     void AssignPos(EntityBase target)
     {
-        EnemyBase randomEnemy = waitToAttack[target][UnityEngine.Random.Range(0, waitToAttack[target].Count)];
+        CombatDirectorElement randomEnemy = waitToAttack[target][UnityEngine.Random.Range(0, waitToAttack[target].Count)];
         AssignPos(randomEnemy, target);
     }
-    void AssignPos(EnemyBase e, EntityBase target)
+    void AssignPos(CombatDirectorElement e, EntityBase target)
     {
         waitToAttack[target].Remove(e);
         if (!listAttackTarget[target].Contains(e))
             listAttackTarget[target].Add(e);
         e.SetBool(true);
     }
-    void RemoveToList(EnemyBase e, EntityBase target)
+    void RemoveToList(CombatDirectorElement e, EntityBase target)
     {
         if (!target || !listAttackTarget.ContainsKey(target))
             return;
@@ -80,7 +80,7 @@ public class CombatDirector : LoadComponent, IZoneElement
                 head.Combat = false;
         #endregion
     }
-    void Attack(EnemyBase e, EntityBase target)
+    void Attack(CombatDirectorElement e, EntityBase target)
     {
         listAttackTarget[target].Remove(e);
         if(!attackingTarget[target].Contains(e))
@@ -98,10 +98,10 @@ public class CombatDirector : LoadComponent, IZoneElement
     {
         if (!listAttackTarget.ContainsKey(entity))
         {
-            listAttackTarget.Add(entity, new List<EnemyBase>());
-            attackingTarget.Add(entity, new List<EnemyBase>());
-            waitToAttack.Add(entity, new List<EnemyBase>());
-            prepareToAttack.Add(entity, new List<EnemyBase>());
+            listAttackTarget.Add(entity, new List<CombatDirectorElement>());
+            attackingTarget.Add(entity, new List<CombatDirectorElement>());
+            waitToAttack.Add(entity, new List<CombatDirectorElement>());
+            prepareToAttack.Add(entity, new List<CombatDirectorElement>());
             timers.Add(entity, 0);
             timeToAttacks.Add(entity, 0);
             isAttack.Add(entity, false);
@@ -163,7 +163,7 @@ public class CombatDirector : LoadComponent, IZoneElement
         }
     }
 
-    EnemyBase CheckPosition(EnemyBase combat, EntityBase entity)
+    CombatDirectorElement CheckPosition(CombatDirectorElement combat, EntityBase entity)
     {
         if (combat.gameObject.activeSelf)
         {
@@ -181,7 +181,7 @@ public class CombatDirector : LoadComponent, IZoneElement
         }
         else
         {
-            EnemyBase temp = null;
+            CombatDirectorElement temp = null;
             for (int i = 0; i < waitToAttack[entity].Count; i++)
             {
                 if(temp == null) { temp = waitToAttack[entity][i]; continue; }
@@ -224,7 +224,7 @@ public class CombatDirector : LoadComponent, IZoneElement
         }
     }
     ///<summary> Con esta función se le dice al combat que estoy listo para atacar para que te tenga en consideración cuando da la orden. </summary>
-    public void PrepareToAttack(EnemyBase e, EntityBase target)
+    public void PrepareToAttack(CombatDirectorElement e, EntityBase target)
     {
         if (isAttack[target])
         {
@@ -238,24 +238,24 @@ public class CombatDirector : LoadComponent, IZoneElement
         }
     }
     ///<summary> Esta función elemina de la consideración para la orden de ataque, ya fuese si stunean al enemigo, no está en posición de ataque o incluso, si se le acaba de dar la orden de atacar.</summary>
-    public void DeleteToPrepare(EnemyBase e, EntityBase target)
+    public void DeleteToPrepare(CombatDirectorElement e, EntityBase target)
     {
         if(prepareToAttack.ContainsKey(target))
             prepareToAttack[target].Remove(e);
     }
     ///<summary> Cuando muere un enemy que usa el combat, para sacarlo de las listas de ataque. </summary>
-    public void DeadEntity(EnemyBase e, EntityBase target)
+    public void DeadEntity(CombatDirectorElement e, EntityBase target)
     {
         RemoveToList(e, target);
     }
     ///<summary> Sobrecarga que además lo saca de los posibles target, por si el entity además podía ser atacado. </summary>
-    public void DeadEntity(EnemyBase e, EntityBase target, EntityBase me)
+    public void DeadEntity(CombatDirectorElement e, EntityBase target, EntityBase me)
     {
         RemoveTarget(me);
         RemoveToList(e, target);
     }
     ///<summary> Esto es cuando un entity termina de usar un ataque, para volver a agregarlo y sacarlo de la lista de ataque. </summary>
-    public void AttackRelease(EnemyBase e, EntityBase target)
+    public void AttackRelease(CombatDirectorElement e, EntityBase target)
     {
         if (!target || !listAttackTarget.ContainsKey(target))
             return;
@@ -268,7 +268,7 @@ public class CombatDirector : LoadComponent, IZoneElement
         AddToList(e, target);
     }
     ///<summary> Agrega a la lista de ataque de un target específico.</summary>
-    public void AddToList(EnemyBase e, EntityBase target)
+    public void AddToList(CombatDirectorElement e, EntityBase target)
     {
         if (!target || !listAttackTarget.ContainsKey(target))
             return;
@@ -298,7 +298,7 @@ public class CombatDirector : LoadComponent, IZoneElement
         //RunCheck();
     }
     ///<summary> Esta función facilita el cambio entre targets. Elimina del ataque hacia el anterior target y lo agrega al nuevo. </summary>
-    public void ChangeTarget(EnemyBase e, EntityBase newTarget, EntityBase oldTarget)
+    public void ChangeTarget(CombatDirectorElement e, EntityBase newTarget, EntityBase oldTarget)
     {
         if(oldTarget != null)
             RemoveToList(e, oldTarget);

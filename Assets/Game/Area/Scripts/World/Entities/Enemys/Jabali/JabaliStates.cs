@@ -12,7 +12,7 @@ namespace Tools.StateMachine
         protected Transform root;
         protected Rigidbody rb;
         protected CombatDirector combatDirector;
-        protected EnemyBase enemy;
+        protected CombatDirectorElement enemy;
 
         public JabaliStates(EState<JabaliEnemy.JabaliInputs> myState, EventStateMachine<JabaliEnemy.JabaliInputs> _sm) : base(myState, _sm)
         {
@@ -28,7 +28,7 @@ namespace Tools.StateMachine
 
         public JabaliStates SetDirector(CombatDirector _director) { combatDirector = _director; return this; }
 
-        public JabaliStates SetThis(EnemyBase _enemy) { enemy = _enemy; return this; }
+        public JabaliStates SetThis(CombatDirectorElement _enemy) { enemy = _enemy; return this; }
 
         #endregion
 

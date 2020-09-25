@@ -464,6 +464,7 @@ GameObject:
   - component: {fileID: 4630227783671809447}
   - component: {fileID: 2519220807646129260}
   - component: {fileID: 7685309741671335901}
+  - component: {fileID: 835024532532866824}
   m_Layer: 10
   m_Name: enemy_Crow
   m_TagString: Untagged
@@ -509,10 +510,12 @@ MonoBehaviour:
   combatDistance: 20
   combat: 0
   distancePos: 15
+  combatElement: {fileID: 835024532532866824}
   dmgData: {fileID: 0}
   dmgReceiver: {fileID: 4391981835475488202}
   lifesystem: {fileID: 4630227783671809447}
   rootTransform: {fileID: 6864829657923913771}
+  animator: {fileID: 9200313123033323931}
   showGizmoCombatDistance: 0
   showGizmoDistancePos: 0
   animEmisive:
@@ -533,7 +536,6 @@ MonoBehaviour:
   lineOfSight: {fileID: 4480938453018473712}
   recallTime: 2
   anim: {fileID: 3269634702354594759}
-  animator: {fileID: 9200313123033323931}
   onHitColor: {r: 1, g: 1, b: 1, a: 1}
   onHitFlashTime: 0.1
   ragdoll: {fileID: 5699325194483552666}
@@ -655,6 +657,24 @@ MonoBehaviour:
   myPlayObjects: []
   debug: 0
   acty: 0
+--- !u!114 &835024532532866824
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3456206184242578065}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ff75dc29d3fc49948a4cd32e471d0274, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  distancePos: 15
+  combatDistance: 20
+  Combat: 0
+  CanAttack:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!1 &4849633355957029835
 GameObject:
   m_ObjectHideFlags: 0

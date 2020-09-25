@@ -9,14 +9,14 @@ namespace Tools.StateMachine
     {
         float timer;
         float cd;
-        EnemyBase enemy;
+        CombatDirectorElement enemy;
         Action EnterAction;
         Func<bool> IsCd;
         Action<bool> ActualizeCD;
         float rotationSpeed;
 
         public CrowAttack(EState<CrowEnemy.CrowInputs> myState, EventStateMachine<CrowEnemy.CrowInputs> _sm, float _cd, Action _EnterAction,
-            Func<bool> _IsCd, Action<bool> _ActualizeCD, EnemyBase _enemy, float _rotationSpeed) : base(myState, _sm)
+            Func<bool> _IsCd, Action<bool> _ActualizeCD, CombatDirectorElement _enemy, float _rotationSpeed) : base(myState, _sm)
         {
             cd = _cd;
             enemy = _enemy;
@@ -37,7 +37,7 @@ namespace Tools.StateMachine
             base.Exit(input);
 
             timer = 0;
-            enemy.attacking = false;
+            enemy.Attacking = false;
             combatDirector.AttackRelease(enemy, enemy.CurrentTarget());
             ActualizeCD(false);
         }

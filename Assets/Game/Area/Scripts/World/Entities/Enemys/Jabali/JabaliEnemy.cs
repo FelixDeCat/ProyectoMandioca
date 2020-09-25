@@ -4,7 +4,7 @@ using UnityEngine;
 using System;
 using Tools.StateMachine;
 
-public class JabaliEnemy : EnemyBase
+public class JabaliEnemy : EnemyWithCombatDirector
 {
     [Header("Move Options")]
     [SerializeField] GenericEnemyMove movement = null;
@@ -38,7 +38,6 @@ public class JabaliEnemy : EnemyBase
     [SerializeField] bool unequipShield = true;
     private bool chargeOk = false;
     private float cargeTimer;
-    private CombatDirector director;
 
     [Header("Life Options")]
     [SerializeField] float tdRecall = 0.5f;
@@ -127,23 +126,19 @@ public class JabaliEnemy : EnemyBase
     {
         if (!death)
         {
-            if (combat)
+            if (combatElement.Combat)
             {
                 if (Vector3.Distance(Main.instance.GetChar().transform.position, transform.position) > combatDistance + 2)
                 {
-                    director.DeadEntity(this, entityTarget);
-                    entityTarget = null;
-                    combat = false;
+                    combatElement.ExitCombat();
                 }
             }
 
-            if (!combat && entityTarget == null && !friendly)
+            if (!combatElement.Combat && combatElement.Target == null && !friendly)
             {
                 if (Vector3.Distance(Main.instance.GetChar().transform.position, transform.position) <= combatDistance)
                 {
-                    director.AddToList(this, Main.instance.GetChar());
-                    SetTarget(Main.instance.GetChar());
-                    combat = true;
+                    combatElement.EnterCombat();
                 }
             }
         }
@@ -190,9 +185,7 @@ public class JabaliEnemy : EnemyBase
         if (sm.Current.Name == "Die") gameObject.SetActive(false);
 
         sm.SendInput(JabaliInputs.DISABLE);
-        director.DeadEntity(this, entityTarget);
-        entityTarget = null;
-        combat = false;
+        combatElement.ExitCombat();
         groundSensor?.TurnOff();
     }
     protected override void OnTurnOn()
@@ -221,7 +214,7 @@ public class JabaliEnemy : EnemyBase
 
         if (takeDmg == Attack_Result.parried || takeDmg == Attack_Result.blocked) e.GetComponent<CharacterHead>().UnequipShield((e.transform.position - transform.position).normalized);
 
-        if (e == entityTarget || e.GetComponent<CharacterHead>())
+        if (e.GetComponent<CharacterHead>())
             pushAttack.Stop();
     }
 
@@ -229,14 +222,12 @@ public class JabaliEnemy : EnemyBase
 
     public void DealDamage() => headAttack.ManualTriggerAttack();
 
-    public override void ToAttack() => attacking = true;
-
     #endregion
 
     #region TakeDamage Things
     protected override void TakeDamageFeedback(DamageData data)
     {
-        if (friendly && !combat)
+        if (friendly && !combatElement.Combat)
         {
             ToCombat();
 
@@ -260,16 +251,14 @@ public class JabaliEnemy : EnemyBase
 
     public void ToCombat()
     {
-        director.AddToList(this, Main.instance.GetChar());
-        SetTarget(Main.instance.GetChar());
-        combat = true;
+        combatElement.EnterCombat();
         friendly = false;
     }
 
     protected override void Die(Vector3 dir)
     {
         death = true;
-        director.DeadEntity(this, CurrentTarget());
+        combatElement.ExitCombat();
         groundSensor?.TurnOff();
         sm.SendInput(JabaliInputs.DEAD);
         if (dir == Vector3.zero)
@@ -281,7 +270,7 @@ public class JabaliEnemy : EnemyBase
 
     protected override bool IsDamage()
     {
-        if (cooldown || Invinsible || sm.Current.Name == "Dead" || sm.Current.Name == "Push") return true;
+        if (cooldown || sm.Current.Name == "Dead" || sm.Current.Name == "Push") return true;
         else return false;
     }
 
@@ -424,24 +413,24 @@ public class JabaliEnemy : EnemyBase
 
         sm = new EventStateMachine<JabaliInputs>(idle);
 
-        new JabaliIdle(idle, sm, movement, distanceToCharge, distancePos, normalDistance, IsChargeOk).SetThis(this).SetDirector(director)
+        new JabaliIdle(idle, sm, movement, distanceToCharge, distancePos, normalDistance, IsChargeOk).SetThis(combatElement).SetDirector(director)
             .SetRoot(rootTransform);
 
         new JabaliPersuit(persuit, sm, movement, lineOfSight.OnSight, IsChargeOk, normalDistance, distancePos, distanceToCharge).SetAnimator(animator)
-            .SetThis(this).SetRoot(rootTransform);
+            .SetThis(combatElement).SetRoot(rootTransform);
 
-        new JabaliChasing(chasing, sm, IsAttack, IsChargeOk, distanceToCharge, distancePos, movement).SetDirector(director).SetThis(this).SetRoot(rootTransform);
+        new JabaliChasing(chasing, sm, ()=>combatElement.Attacking, IsChargeOk, distanceToCharge, distancePos, movement).SetDirector(director).SetThis(combatElement).SetRoot(rootTransform);
 
         new JabaliCharge(chargePush, sm, chargeTime, sounds.pushAnticipation.name, sounds.pushEnter.name, movement).SetAnimator(animator).SetDirector(director)
-            .SetThis(this).SetRigidbody(rb).SetRoot(rootTransform);
+            .SetThis(combatElement).SetRigidbody(rb).SetRoot(rootTransform);
 
         new JabaliPushAttack(push, sm, chargeSpeed, PushAttack, particles.chargeFeedback, pushAttack.Play, sounds.pushLoop.name, chargeDuration, groundSensor)
             .SetAnimator(animator).SetRigidbody(rb).SetRoot(rootTransform)
-            .SetThis(this).SetDirector(director);
+            .SetThis(combatElement).SetDirector(director);
 
-        new JabaliAttackAnticipation(headAnt, sm, movement, normalAttAnticipation).SetAnimator(animator).SetDirector(director).SetThis(this).SetRoot(rootTransform);
+        new JabaliAttackAnticipation(headAnt, sm, movement, normalAttAnticipation).SetAnimator(animator).SetDirector(director).SetThis(combatElement).SetRoot(rootTransform);
 
-        new JabaliHeadAttack(headAttack, sm, cdToHeadAttack, sounds.headAttack.name).SetAnimator(animator).SetDirector(director).SetThis(this);
+        new JabaliHeadAttack(headAttack, sm, cdToHeadAttack, sounds.headAttack.name).SetAnimator(animator).SetDirector(director).SetThis(combatElement);
 
         new JabaliTD(takeDamage, sm, tdRecall).SetAnimator(animator);
 
@@ -449,7 +438,7 @@ public class JabaliEnemy : EnemyBase
 
         new JabaliStun(petrified, sm, StartStun, TickStun, EndStun);
 
-        new JabaliDeath(dead, sm, ragdoll, sounds.dead.name).SetThis(this).SetDirector(director);
+        new JabaliDeath(dead, sm, ragdoll, sounds.dead.name).SetThis(combatElement).SetDirector(director);
 
         disable.OnEnter += (input) => DisableObject();
 
@@ -468,7 +457,7 @@ public class JabaliEnemy : EnemyBase
     {
         canupdate = false;
         movement.SetDefaultSpeed();
-        combat = false;
+        combatElement.Combat = false;
     }
 
     void EnableObject() => Initialize();
