@@ -94,26 +94,41 @@ public class MisionManager : MonoBehaviour
                 }
             }
 
-            registry.Add(m.id_mision, m);
-            if (!m.IsHided)
+            if (CheckIfMissionIsCompleted(m.id_mision))
             {
-                UI_StackMision.instancia.LogearMision(m, false, 4f);
-                feedbackSound.Play_NewMissionAdded();
+                UI_StackMision.instancia.LogearMision(m, true, 2f);
+                CompleteMision(m.id_mision);
+                if (!m.AutoEnd)
+                {
+                    EndMision(m.id_mision);
+                }
             }
-            if (LocalMisionManager.instance) LocalMisionManager.instance.OnMissionsChange();
-            m.Begin(CheckMision);
-            m.AddCallbackToEnd(CompleteMision);
-            m.AddCallbackToEnd(callbackToEnd);
-            active_misions.Add(m);
+            else
+            {
+                registry.Add(m.id_mision, m);
+                if (!m.IsHided)
+                {
+                    UI_StackMision.instancia.LogearMision(m, false, 2f);
+                    feedbackSound.Play_NewMissionAdded();
+                }
+                if (LocalMisionManager.instance) LocalMisionManager.instance.OnMissionsChange();
+                m.Begin(CheckMision);
+                m.AddCallbackToEnd(CompleteMision);
+                m.AddCallbackToEnd(callbackToEnd);
+                active_misions.Add(m);
+                
+            }
+
             CheckMision();
             m.OnRefresh();
+
             return true;
         }
         else
         {
             var m = registry[_m.id_mision];
-            m.OnRefresh();
             CheckMision();
+            m.OnRefresh();
             return false;
         }
     }
@@ -174,6 +189,24 @@ public class MisionManager : MonoBehaviour
         }
 
         CheckMision();
+    }
+
+    public bool CheckIfMissionIsCompleted(int id)
+    {
+        var m = GetMisionInRegistryByID(id);
+        if (m != null)
+        {
+            bool ended = true;
+            for (int i = 0; i < m.data.MisionItems.Length; i++)
+            {
+                if (!m.data.MisionItems[i].IsCompleted)
+                {
+                    ended = false;
+                }
+            }
+            return ended;
+        }
+        else return false;
     }
 
     //completado de items
@@ -249,7 +282,7 @@ public class MisionManager : MonoBehaviour
             }
             active_misions.Remove(m);
             finalizedMisions.Add(m);
-            UI_StackMision.instancia.LogearMision(m, true, 8f);
+            UI_StackMision.instancia.LogearMision(m, true, 2f);
         }
     }
 
