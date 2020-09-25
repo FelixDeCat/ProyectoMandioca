@@ -12,6 +12,8 @@ public abstract class Usable : Equipable
     public CooldownModule CooldownModule => cooldown;
     NormalCastModule normal_cast;
     public NormalCastModule NormalCasting => normal_cast;
+    ChargeModule charge_module;
+    public ChargeModule CargeModule => charge_module;
     #endregion
 
     Action CallbackOnUse = delegate { };
@@ -29,10 +31,18 @@ public abstract class Usable : Equipable
     }
     public void Basic_PressDown() 
     {
-        if (normal_cast != null)
+        if (normal_cast != null || charge_module != null)
         {
-            normal_cast.Subscribe_Sucess(RealUse);
-            normal_cast.StartCast();
+            if (normal_cast != null)
+            {
+                normal_cast.Subscribe_Sucess(RealUse);
+                normal_cast.StartCast();
+            }
+            else
+            {
+                charge_module.Subscribe_Feedback_OnRelease(RealUse);
+                charge_module.BeginPress();
+            }
         }
         else
         {
@@ -43,20 +53,23 @@ public abstract class Usable : Equipable
     }
     public void Basic_PressUp() 
     {
-        if (normal_cast != null)
+        if (normal_cast != null || charge_module != null)
         {
-            normal_cast.StopCast();
+            if (normal_cast != null)
+                normal_cast.StopCast();
+            else
+                charge_module.StopPress();
         }
         OnPressUp();
         canUpdateUse = false; 
     }
 
-    void RealUse()
+    void RealUse(int charges = 0)
     {
         if (cooldown != null) cooldown.StartCooldown();
         canUpdateUse = true;
         CallbackOnUse.Invoke();
-        OnExecute();
+        OnExecute(charges);
     }
 
     ///////////////////////////////////////////////////////////////
@@ -67,6 +80,7 @@ public abstract class Usable : Equipable
         base.Equip();
         cooldown = GetComponent<CooldownModule>();
         normal_cast = GetComponent<NormalCastModule>();
+        charge_module = GetComponent<ChargeModule>();
 
     }
     public override void UnEquip()
@@ -84,7 +98,7 @@ public abstract class Usable : Equipable
     #region abstracts
     protected abstract void OnPressDown();
     protected abstract void OnPressUp();
-    protected abstract void OnExecute();
+    protected abstract void OnExecute(int charges);
     protected abstract void OnUpdateUse();
     protected abstract bool OnCanUse();
     #endregion

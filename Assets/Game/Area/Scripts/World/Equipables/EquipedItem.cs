@@ -10,7 +10,7 @@ public class EquipedItem : Usable
     [Header("States")]
     public UnityEvent EV_BeginUse;
     public UnityEvent EV_EndUse;
-    public UnityEvent EV_Execute;
+    public EventInt EV_Execute;
     public UnityEvent EV_UpdateUse;
     [Header("States")]
     public UnityEvent EV_Equip;
@@ -44,9 +44,10 @@ public class EquipedItem : Usable
         EV_EndUse.Invoke(); 
     }
 
-    protected override void OnExecute()
+    protected override void OnExecute(int charges = 0)
     {
-        EV_Execute.Invoke();
+
+        EV_Execute.Invoke(charges);
     }
     protected override void OnUpdateUse() { EV_UpdateUse.Invoke(); }
     protected override bool OnCanUse() { return true; }

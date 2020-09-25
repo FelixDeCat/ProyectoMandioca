@@ -132,6 +132,11 @@ public class UI_CurrentItem : UI_Base
         StopAnimFail();
         animFail = true;
     }
+    public void Casting_Fail(int charges = 0)
+    {
+        StopAnimFail();
+        animFail = true;
+    }
     void StopAnimFail()
     {
         castingbar.SetImageOriginalColor();

@@ -347,6 +347,21 @@ public class EquipedManager : MonoBehaviour
                     }
                     #endregion
 
+                    #region SI TENGO CHARGES ENTRO ACA
+                    if (itemBehaviour.CargeModule != null)
+                    {
+                        if (ui != null)
+                        {
+                            itemBehaviour.CargeModule
+                            .Subscribe_Feedback_Begin(ui.Casting_Begin)
+                            .Subscribe_Feedback_End(ui.Casting_End)
+                            .Subscribe_Feedback_HoldThePower(ui.Casting_HoldThePower)
+                            .Subscribe_Feedback_Refresh(ui.Casting_RefreshCurrentValue)
+                            .Subscribe_Feedback_OnRelease(ui.Casting_Fail);
+                        }
+                    }
+                    #endregion
+
 
                 }
             }

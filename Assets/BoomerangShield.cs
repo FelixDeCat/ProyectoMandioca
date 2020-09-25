@@ -69,10 +69,11 @@ public class BoomerangShield : MonoBehaviour
     ///////////////////////////////////////
     public void OnPress()
     {
-        OnExecute();
+        
     }
     public void OnStopUse()
     {
+
     }
 
     ///////////////////////////////////////
@@ -98,10 +99,13 @@ public class BoomerangShield : MonoBehaviour
     ///////////////////////////////////////
     //  EXECUTE SKILL
     ///////////////////////////////////////
-    public void OnExecute()
+    public void OnExecute(int charges)
     {
+        Debug.Log("CARGAS: " + charges);
+
         if (shieldStates == boomerangShieldStates.idle)
         {
+            
            _hero.ThrowSomething(ThrowShield);
         }
     }
