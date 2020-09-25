@@ -44,7 +44,9 @@ public class PauseManager : MonoBehaviour
     public void Pause()
     {
         for (int i = 0; i < pausingPlayObjects.Count; i++)
+        {
             pausingPlayObjects[i].Pause();
+        }
 
         ParticlesManager.Instance.PauseParticles();
         AudioManager.instance.PauseSounds();

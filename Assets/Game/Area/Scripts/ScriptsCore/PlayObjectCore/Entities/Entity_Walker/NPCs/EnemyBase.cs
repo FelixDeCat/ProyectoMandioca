@@ -49,6 +49,7 @@ public abstract class EnemyBase : NPCBase
 
     protected override void OnPause()
     {
+        if (animator == null) return;
         currentAnimSpeed = animator.speed;
         animator.speed = 0;
     }

@@ -17,8 +17,8 @@ public abstract class PlayObject : MonoBehaviour, IPauseable
     public void Initialize() { if (!alreadyInitialized) { OnInitialize(); alreadyInitialized = true; } }
     public void On() { if (!isOn) { isOn = true; canupdate = true; OnTurnOn(); PauseManager.Instance.AddToPause(this); } }
     public void Off() { if (isOn) { isOn = false; canupdate = false; OnTurnOff(); PauseManager.Instance.RemoveToPause(this); } }
-    public void Pause() { canupdate = false; OnPause(); }
-    public void Resume() { canupdate = true; OnResume(); }
+    public void Pause() { if (this == null) { Debug.LogWarning("Ojo que si es interface, esta existe en memoria independientemente del objeto por alguna extraña razon no sabe si el objeto existe... ARREGLAR ESTO"); return; } canupdate = false; OnPause(); }
+    public void Resume() { if (this == null) { Debug.LogWarning("Ojo que si es interface, esta existe en memoria independientemente del objeto por alguna extraña razon no sabe si el objeto existe... ARREGLAR ESTO"); return; } canupdate = true; OnResume(); }
     private void Update() { if (canupdate) OnUpdate();  }
     private void FixedUpdate() { if (canupdate) OnFixedUpdate(); }
 
