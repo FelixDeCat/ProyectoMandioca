@@ -23,6 +23,14 @@ public class ChangeScene : MonoBehaviour
             return;
         }
         if (!stayHere)
+        {
             LoadSceneHandler.instance.LoadAScene(scene);
+        }
+
+
+    }
+    public void ForceExecute()
+    {
+        SceneManager.LoadScene(scene);
     }
 }
