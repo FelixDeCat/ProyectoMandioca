@@ -13,7 +13,7 @@ public class CaronteEvent : MonoBehaviour
     [SerializeField] GameObject carontePP = null;
     [SerializeField] LayerMask mask = 0;
     [SerializeField] LayerMask floor = 1<<21;
-    [SerializeField] SoulShard_Controller ss_controller = null;
+    [SerializeField] SoulShard_controller ss_controller = null;
     [SerializeField] CaronteHand hand_pf = null;
     [SerializeField] Ente caronte_pf = null;
     [SerializeField] float delayedHand = 5;
@@ -33,12 +33,19 @@ public class CaronteEvent : MonoBehaviour
 
     public void Start()
     {     
-        character = Main.instance.GetChar();
-        character.Life.ADD_EVENT_OnCaronteDeathEvent(TurnOnCarontePP);
+        //character = Main.instance.GetChar();
+        //character.Life.ADD_EVENT_OnCaronteDeathEvent(OnPlayerDeath);
+        //character.Life.ADD_EVENT_OnCaronteDeathEvent(TurnOnCarontePP);
         ss_controller.OnSSRecolected += () => OnDefeatCaronte(Vector3.zero);
 
        
     }
+
+    //void OnPlayerDeath()
+    //{
+        
+    //    LoadSceneHandler.instance.LoadAScene("Caronte");
+    //}
 
     private void Update()
     {
