@@ -22,12 +22,29 @@ public class DevelopToolsCenter : MonoBehaviour
         DevelopTools.UI.Debug_UI_Tools.instance.CreateToogle("Cubitos Render", false, CubitosRender);
 
         DevelopTools.UI.Debug_UI_Tools.instance.CreateToogle("Armas", false, Armas);
+        DevelopTools.UI.Debug_UI_Tools.instance.CreateToogle("NormalAttack", true, GodDamage);
     }
     string Armas(bool val)
     {
         Main.instance.GetChar().ToggleShield(val);
         Main.instance.GetChar().ToggleSword(val);
         return "C:=> " + (val ? "ON" : "OFF");
+    }
+    string GodDamage(bool val)
+    {
+        var c = Main.instance.GetChar();
+
+        if (!val)
+        {
+            c.GetCharacterAttack().ChangeDamageBase(999);
+        }
+        else
+        {
+            c.GetCharacterAttack().ChangeDamageBase(20);
+        }
+
+        
+        return "C:=> " + (val ? "normal" : "Divine Force");
     }
 
     string CubitosRender(bool val)
