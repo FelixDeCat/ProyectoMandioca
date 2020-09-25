@@ -157,6 +157,8 @@ public class CharacterInput : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.E)) RTrigger.Invoke();
         if (Input.GetKeyDown(KeyCode.Q)) LTrigger.Invoke();
+        if (Input.GetKeyUp(KeyCode.E)) RTrigger_Release.Invoke();
+        if (Input.GetKeyUp(KeyCode.Q)) LTrigger_Release.Invoke();
 
         if (Input.GetKeyDown(KeyCode.LeftControl) || Input.GetKeyDown(KeyCode.RightControl)) SwitchActive.Invoke();
 
