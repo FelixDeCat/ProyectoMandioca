@@ -85,8 +85,9 @@ public class PingPongLerp
         timer = 0;
     }
 
-    public IEnumerator stopAfter(float num, Action act, Func<bool, bool> changeBool, UnityEvent onReachEnd, bool notCanBack = false)
+    public IEnumerator stopAfter(float num, float delay,Action act, Func<bool, bool> changeBool, UnityEvent onReachEnd, bool notCanBack = false)
     {
+        yield return new WaitForSeconds(delay);
         changeBool.Invoke(false);
         Play(num);
         float aux = 0;

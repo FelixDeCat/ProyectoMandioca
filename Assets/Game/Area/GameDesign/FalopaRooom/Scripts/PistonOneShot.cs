@@ -38,7 +38,7 @@ public class PistonOneShot : Piston
 
     public void StopPiston()
     {        
-        StartCoroutine(pingponglerp.stopAfter(1, animPalanca.AnimOff, changeInteractableStatus, onEndReach, notCanComeBack));
+        StartCoroutine(pingponglerp.stopAfter(1, delayToBegin,animPalanca.AnimOff, changeInteractableStatus, onEndReach, notCanComeBack));
         if(!notCanComeBack) AudioManager.instance.PlaySound(timerSound.name);
     }
 
