@@ -79,6 +79,7 @@ public class NewSceneStreamer : MonoBehaviour
                 yield return null;
             }
             yield return op;
+            LocalToEnemyManager.OnUnLoadScene(u);
         }
     }
 
