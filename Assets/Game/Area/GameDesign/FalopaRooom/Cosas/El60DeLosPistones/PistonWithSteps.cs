@@ -24,8 +24,19 @@ public class PistonWithSteps : MonoBehaviour
             
             if (Vector3.Distance(_root.position, nodes[currentNode].position) <= 0.5f)
             {
-                _root.position = nodes[currentNode].position;
-                isMoving = false;
+                var jump = nodes[currentNode].GetComponent<JumpNode>();
+                if (jump != null)
+                {
+                    isMoving = false;
+                    GoToNextNode();
+
+                }
+                else
+                {
+                    _root.position = nodes[currentNode].position;
+                    isMoving = false;
+                }
+                
             }
         }
     }
@@ -45,7 +56,6 @@ public class PistonWithSteps : MonoBehaviour
     {
         if (isMoving) return;
         isMoving = true;
-        
 
         if (nodes.Count -1 == currentNode)
         {
