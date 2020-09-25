@@ -15,21 +15,14 @@ public class LocalSceneHandler : LoadComponent
         var trigger = GetComponentInChildren<TriggerDispatcher>();
         trigger.SubscribeToEnter(OnEnterToThisScene);
 
-        StartLoad();
-
+        yield return ResourcesLoad();
         yield return null;
     }
 
     public void OnEnterToThisScene()
     {
         NewSceneStreamer.instance.LoadScene(SceneData.name, false, true);
-    }
-
-
-
-    void StartLoad()
-    {
-        StartCoroutine(ResourcesLoad());
+        LocalToEnemyManager.ResetScenes(SceneData.scenes_to_reset);
     }
 
     IEnumerator ResourcesLoad()

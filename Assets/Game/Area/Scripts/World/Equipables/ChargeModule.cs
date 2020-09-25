@@ -65,6 +65,13 @@ public class ChargeModule : MonoBehaviour
         }
     }
 
+    public void ForceCharges()
+    {
+        callback_HoldThePower.Invoke(true);
+        manual_success = false;
+        charges++;
+    }
+
     public void ResetCooldown()
     {
         anim = false;

@@ -48,14 +48,15 @@ public class NewSceneStreamer : MonoBehaviour
         {
             Debug.Log("LoadNeighbor");
             StartCoroutine(LoadNeighbors(currentScene, localref[currentScene].SceneData.scenes_to_view));
+            
         }
 
         failsafeTime = Time.realtimeSinceStartup + maxLoadWaitTime;
         while ((loading.Count > 0) && (Time.realtimeSinceStartup < failsafeTime)) { yield return null; }
 
-       // currentScene = "";
+        LocalToEnemyManager.OnLoadScene(sceneName);
 
-        yield return null;
+         yield return null;
     }
 
     IEnumerator LoadNeighbors(string currentScene, string[] neighbors)
