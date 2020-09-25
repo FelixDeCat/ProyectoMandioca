@@ -70,7 +70,6 @@ public class UI_CurrentItem : UI_Base
         {
             if (timer_use < 1f)
             {
-                Debug.Log("ONUSE: " + timer_use);
                 timer_use = timer_use + 2 * Time.deltaTime;
                 img_aux.gameObject.transform.localScale = Vector3.Lerp(scaledScale, originalScale, timer_use);
                 img_aux.color = Color.Lerp(new Color(1, 1, 1, 1), new Color(1,1,1,0), timer_use);

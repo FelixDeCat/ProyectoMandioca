@@ -14,32 +14,40 @@ public class NPC_Anims : MonoBehaviour
     //NPC_Animation_Play_Jacinta_Cry
     //NPC_Animation_Play_Jacinta_Thanks
 
+    public bool useCommands = true;
+
 
 
     private void Start()
     {
-        Command
-            .AddBranch(new CommandBranch("NPC")
-                .AddBranch(new CommandBranch("Anim")
-                    .AddBranch(new CommandBranch("Play")
-                        .AddBranch(new CommandBranch(npc_Name)
-                            .AddLeaf(Play_Explainning, "Explainning")
-                            .AddLeaf(Play_GiveAReward, "GiveAReward")
-                            .AddLeaf(Play_Idle, "Idle")
-                            .AddLeaf(Play_Accept, "Accept")
-                            .AddLeaf(Play_Reject, "Reject")
-                            .AddLeaf(Play_Cry, "Cry")
-                            .AddLeaf(Play_Thanks, "Thanks")
-                            ))
-                    .AddBranch(new CommandBranch("Stop")
-                        .AddBranch(new CommandBranch(npc_Name)
-                            .AddLeaf(Stop_Crying, "Cry")
-                            ))
-                    ));
-
+        if (useCommands)
+        {
+            Command
+               .AddBranch(new CommandBranch("NPC")
+                   .AddBranch(new CommandBranch("Anim")
+                       .AddBranch(new CommandBranch("Play")
+                           .AddBranch(new CommandBranch(npc_Name)
+                               .AddLeaf(Play_Explainning, "Explainning")
+                               .AddLeaf(Play_GiveAReward, "GiveAReward")
+                               .AddLeaf(Play_Idle, "Idle")
+                               .AddLeaf(Play_Accept, "Accept")
+                               .AddLeaf(Play_Reject, "Reject")
+                               .AddLeaf(Play_Cry, "Cry")
+                               .AddLeaf(Play_Thanks, "Thanks")
+                               ))
+                       .AddBranch(new CommandBranch("Stop")
+                           .AddBranch(new CommandBranch(npc_Name)
+                               .AddLeaf(Stop_Crying, "Cry")
+                               ))
+                       ));
+        }
         //NPC_Animation_Play_Jacinta_Reject
     }
 
+    [Range(0,1)]
+    public float death_anim_cursor;
+    public void PlayDeath(string s) => myAnim.SetFloat("Death", death_anim_cursor);
+    public void PlayResurrect(string s) => myAnim.SetFloat("Death", -1);
 
     public void Play_Explainning(string s) => myAnim.SetBool("Explaining", true);
     public void Play_GiveAReward(string s) => myAnim.SetTrigger("GiveAReward");

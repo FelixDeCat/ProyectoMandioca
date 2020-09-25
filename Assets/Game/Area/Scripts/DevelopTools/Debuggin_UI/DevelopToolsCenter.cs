@@ -43,7 +43,6 @@ public class DevelopToolsCenter : MonoBehaviour
             c.GetCharacterAttack().ChangeDamageBase(20);
         }
 
-        
         return "C:=> " + (val ? "normal" : "Divine Force");
     }
 

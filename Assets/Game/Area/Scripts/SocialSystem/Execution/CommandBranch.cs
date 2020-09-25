@@ -40,7 +40,7 @@ public class CommandBranch
     public CommandBranch AddBranch(CommandBranch subBranch)
     {
         if (!branches.ContainsKey(subBranch.Root)) branches.Add(subBranch.Root, subBranch.ExecuteCommand);
-        else Debug.LogError("OJO que se esta repitiendo la configuracion");
+        else Debug.LogWarning("OJO que se esta repitiendo la configuracion");
         return this;
     }
 
