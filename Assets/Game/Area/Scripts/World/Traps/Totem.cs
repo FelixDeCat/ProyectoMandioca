@@ -3,15 +3,12 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 
-public abstract class Totem : PlayObject
+public abstract class Totem : EnemyBase
 {
     [SerializeField] protected CastingBar myCastingBar = null;
     [SerializeField] protected EffectStunnerStunned effectStun = null;
     [SerializeField] protected float timeToCast = 5f;
     [SerializeField] protected TotemFeedback feedback = null;
-    [SerializeField] protected DamageReceiver damageReceiver = null;
-    [SerializeField] _Base_Life_System life = null;
-    [SerializeField] protected Animator anim = null;
 
     [SerializeField] bool instantStart = false;
 
@@ -28,12 +25,11 @@ public abstract class Totem : PlayObject
 
     protected override void OnInitialize()
     {
+        base.OnInitialize();
+
         effectStun.AddStartCallback(GetStunned);
         effectStun.AddEndCallback(StunOver);
         feedback.Initialize(StartCoroutine);
-
-        life.Initialize(life.life, () => { }, () => { }, () => { });
-        damageReceiver.AddDead((x) => Dead()).AddTakeDamage((x) => InternalTakeDamage()).AddInmuneFeedback(InmuneFeedback).Initialize(transform, null, life);
 
         AudioManager.instance.GetSoundPool(ac_TakeDamage.name, AudioGroups.GAME_FX, ac_TakeDamage);
         ParticlesManager.Instance.GetParticlePool(ps_TakeDamage.name, ps_TakeDamage);
@@ -84,9 +80,8 @@ public abstract class Totem : PlayObject
 
     protected virtual void InternalStartCast() { }
 
-    protected override void OnUpdate()
+    protected override void OnUpdateEntity()
     {
-
         if (stuned) return;
 
         if (onUpdate)
@@ -156,27 +151,18 @@ public abstract class Totem : PlayObject
 
     protected virtual void InternalStunOver() { }
 
-    protected void TakeDamageFeedback()
+    protected override void TakeDamageFeedback(DamageData damageData)
+    {
+        InternalTakeDamage();
+    }
+
+    protected void TakeDamage()
     {
         ParticlesManager.Instance.PlayParticle(ps_TakeDamage.name, myCastingBar.transform.position);
         AudioManager.instance.PlaySound(ac_TakeDamage.name);
     }
 
-    protected virtual void InmuneFeedback()
-    {
-
-    }
-
     protected abstract void InternalTakeDamage();
-
-    protected virtual void Dead()
-    {
-        PauseManager.Instance.RemoveToPause(this);
-        feedback.StopAll();
-        casting = false;
-        timerCasting = 0;
-        feedback.InterruptCharge();
-    }
 
     protected override void OnTurnOn() { }
 
@@ -194,13 +180,27 @@ public abstract class Totem : PlayObject
     protected override void OnFixedUpdate() { }
     protected override void OnPause()
     {
-        animSpeed = anim.speed;
-        anim.speed = 0;
+        base.OnPause();
         feedback.pause = true;
     }
     protected override void OnResume()
     {
-        anim.speed = animSpeed;
+        base.OnPause();
         feedback.pause = false;
+    }
+
+    protected override void Die(Vector3 dir)
+    {
+        PauseManager.Instance.RemoveToPause(this);
+        feedback.StopAll();
+        casting = false;
+        timerCasting = 0;
+        feedback.InterruptCharge();
+    }
+    protected override bool IsDamage() => false;
+
+    protected override void OnReset()
+    {
+        Debug.Log("reseteo");
     }
 }

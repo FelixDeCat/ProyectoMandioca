@@ -35,6 +35,6 @@ public class TotemSpawner : Totem
 
     protected override void InternalTakeDamage()
     {
-        TakeDamageFeedback();
+        TakeDamage();
     }
 }

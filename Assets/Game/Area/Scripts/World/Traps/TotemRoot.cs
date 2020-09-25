@@ -31,7 +31,7 @@ public class TotemRoot : Totem
 
         animEvent.Add_Callback("TeleportAnim", TeleportForAnim);
 
-        damageReceiver.AddInvulnerability(Damagetype.All);
+        dmgReceiver.AddInvulnerability(Damagetype.All);
     }
 
 
@@ -63,9 +63,9 @@ public class TotemRoot : Totem
         ParticlesManager.Instance.PlayParticle(onRootParticles.name, myChar.transform.position);
     }
 
-    protected override void Dead()
+    protected override void Die(Vector3 dir)
     {
-        base.Dead();
+        base.Die(dir);
 
         gameObject.SetActive(false);
     }
@@ -73,14 +73,14 @@ public class TotemRoot : Totem
     protected override void InternalStunOver()
     {
         base.InternalStunOver();
-        damageReceiver.AddInvulnerability(Damagetype.All);
+        dmgReceiver.AddInvulnerability(Damagetype.All);
         Teleport();
     }
 
     void Teleport()
     {
         col.enabled = false;
-        anim.SetTrigger("Teleport");
+        animator.SetTrigger("Teleport");
     }
 
     void TeleportForAnim()
@@ -110,7 +110,7 @@ public class TotemRoot : Totem
     {
         if (stuned)
         {
-            TakeDamageFeedback(); return;
+            TakeDamage(); return;
         }
         InterruptCast();
         Teleport();
@@ -126,8 +126,8 @@ public class TotemRoot : Totem
     protected override void InternalGetStunned()
     {
         base.InternalGetStunned();
-        damageReceiver.RemoveInvulnerability(Damagetype.All);
-        anim.SetTrigger("Stunned");
+        dmgReceiver.RemoveInvulnerability(Damagetype.All);
+        animator.SetTrigger("Stunned");
     }
 
     private void OnDrawGizmosSelected()

@@ -88,9 +88,9 @@ GameObject:
   - component: {fileID: 5418283773829121568}
   - component: {fileID: 9037253006551151823}
   - component: {fileID: 9037253006551151822}
-  - component: {fileID: 9037253006551151821}
   - component: {fileID: 9037253006551151820}
   - component: {fileID: 2391683297736210123}
+  - component: {fileID: 9123760614636944009}
   m_Layer: 17
   m_Name: enemy_static_BIG_Carnivorous Plant
   m_TagString: Untagged
@@ -128,27 +128,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   poolname: 
-  character: {fileID: 0}
-  attractionForce: 20
-  centerPoint: {fileID: 2648700628315034496}
-  mode: 5
-  damageReceiver: {fileID: 8458836295599002036}
-  data: {fileID: 9037253006551151822}
-  lifeSystem: {fileID: 9037253006551151821}
-  anim: {fileID: 657010498528157176}
-  animEvent: {fileID: 5238906765844302779}
-  characterLayer:
-    serializedVersion: 2
-    m_Bits: 256
-  radious: 0.56
-  dmg: 5
-  timeToDamage: 1.5
-  dmgType: 1
-  attackCD: 2
-  attFeedback: {fileID: 3393807229382521376, guid: f992890440275b44a9f16c57967dc8be,
-    type: 3}
-  hitParticle: {fileID: 3632140750100566763, guid: 48fe3e230b37f29449856c4f0dc77ca3,
-    type: 3}
+  death: 0
   OnDeath:
     m_PersistentCalls:
       m_Calls:
@@ -163,6 +143,28 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+  dmgData: {fileID: 9037253006551151822}
+  dmgReceiver: {fileID: 8458836295599002036}
+  lifesystem: {fileID: 9123760614636944009}
+  rootTransform: {fileID: 2648700628315034496}
+  animator: {fileID: 657010498528157176}
+  character: {fileID: 0}
+  attractionForce: 20
+  centerPoint: {fileID: 2648700628315034496}
+  mode: 5
+  animEvent: {fileID: 5238906765844302779}
+  characterLayer:
+    serializedVersion: 2
+    m_Bits: 256
+  radious: 0.56
+  dmg: 5
+  timeToDamage: 1.5
+  dmgType: 1
+  attackCD: 2
+  attFeedback: {fileID: 3393807229382521376, guid: f992890440275b44a9f16c57967dc8be,
+    type: 3}
+  hitParticle: {fileID: 3632140750100566763, guid: 48fe3e230b37f29449856c4f0dc77ca3,
+    type: 3}
 --- !u!114 &9037253006551151822
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -187,19 +189,6 @@ MonoBehaviour:
   damageTime: 0
   attackDir: {x: 0, y: 0, z: 0}
   owner: {fileID: 0}
---- !u!114 &9037253006551151821
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 9037253006551151667}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f843a0694e17b4a41833c93e4ceba1c5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  life: 50
 --- !u!135 &9037253006551151820
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -228,6 +217,19 @@ MonoBehaviour:
   myPlayObjects: []
   debug: 1
   acty: 0
+--- !u!114 &9123760614636944009
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9037253006551151667}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c723e3c00a7a4d7449fa334ace120619, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  life: 50
 --- !u!1001 &2517121446010166168
 PrefabInstance:
   m_ObjectHideFlags: 0

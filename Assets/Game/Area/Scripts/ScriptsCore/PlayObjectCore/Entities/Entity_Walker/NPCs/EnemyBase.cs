@@ -7,7 +7,6 @@ using System;
 public abstract class EnemyBase : NPCBase
 {
     #region Variables
-    public abstract void IAInitialize(CombatDirector director);
     [HideInInspector] public bool death;
 
     #endregion

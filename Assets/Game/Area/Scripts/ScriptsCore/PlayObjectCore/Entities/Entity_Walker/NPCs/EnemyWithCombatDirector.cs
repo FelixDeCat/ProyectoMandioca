@@ -16,6 +16,8 @@ public abstract class EnemyWithCombatDirector : EnemyBase
         combatElement.Initialize(distancePos, director);
     }
 
+    public abstract void IAInitialize(CombatDirector director);
+
     public override void ResetEntity()
     {
         base.ResetEntity();

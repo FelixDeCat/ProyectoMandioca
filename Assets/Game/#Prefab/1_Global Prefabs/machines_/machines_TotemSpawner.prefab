@@ -481,11 +481,11 @@ GameObject:
   - component: {fileID: 4277370849907742740}
   - component: {fileID: 733329249212940524}
   - component: {fileID: 6957385476745589170}
-  - component: {fileID: 6957385476745589069}
   - component: {fileID: 6957385476745589068}
   - component: {fileID: 6584907970953118379}
   - component: {fileID: 2002780023586082695}
   - component: {fileID: 1360838975454296036}
+  - component: {fileID: 3329274628910516182}
   m_Layer: 10
   m_Name: Totem
   m_TagString: Untagged
@@ -542,19 +542,6 @@ MonoBehaviour:
     m_keys: 
     m_values: []
   knockbackMultiplier: 0
---- !u!114 &6957385476745589069
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6957385476745589071}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f843a0694e17b4a41833c93e4ceba1c5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  life: 60
 --- !u!114 &6957385476745589068
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -571,7 +558,7 @@ MonoBehaviour:
   model_destroyedVersion: {fileID: 6168699904583695201, guid: 8d200e06934df434292a182cbb653111,
     type: 3}
   damageReceiver: {fileID: 6957385476745589170}
-  _lifeSytstem: {fileID: 6957385476745589069}
+  _lifeSytstem: {fileID: 3329274628910516182}
   destroyedSound: {fileID: 8300000, guid: f9747fee7dd9074468d71d7d3be31a6a, type: 3}
   OnTakeDamage:
     m_PersistentCalls:
@@ -594,7 +581,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8989527451079fb4883b710b46e485d1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  poolname: 
+  poolname: totem_spawner
+  death: 0
+  OnDeath:
+    m_PersistentCalls:
+      m_Calls: []
+  dmgData: {fileID: 0}
+  dmgReceiver: {fileID: 6957385476745589170}
+  lifesystem: {fileID: 3329274628910516182}
+  rootTransform: {fileID: 4277370849907742740}
+  animator: {fileID: 3406945294113330326}
   myCastingBar: {fileID: 4649853781803036712}
   effectStun: {fileID: 6560466390998238969}
   timeToCast: 3
@@ -607,9 +603,6 @@ MonoBehaviour:
     percentToAppear: 0.07
     startPos: {fileID: 5161167843159163672}
     pause: 0
-  damageReceiver: {fileID: 6957385476745589170}
-  life: {fileID: 6957385476745589069}
-  anim: {fileID: 3406945294113330326}
   instantStart: 0
   ps_TakeDamage: {fileID: 8820520791516950862, guid: 10120aedbfd3f6b4cac0dd1fb398e749,
     type: 3}
@@ -640,7 +633,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   dmgReceiver: {fileID: 6957385476745589170}
-  lifeSystem: {fileID: 6957385476745589069}
+  lifeSystem: {fileID: 3329274628910516182}
   percentTier:
     m_keys:
     - 0.6
@@ -655,6 +648,19 @@ MonoBehaviour:
       - {fileID: 2171555956386074101}
       - {fileID: 3182650259918092875}
   force: 5
+--- !u!114 &3329274628910516182
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6957385476745589071}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c723e3c00a7a4d7449fa334ace120619, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  life: 60
 --- !u!1 &7550636117506159910
 GameObject:
   m_ObjectHideFlags: 0

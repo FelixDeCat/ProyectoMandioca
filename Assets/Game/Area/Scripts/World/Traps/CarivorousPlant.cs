@@ -4,16 +4,12 @@ using UnityEngine;
 using System.Linq;
 using UnityEngine.Events;
 
-public class CarivorousPlant : EntityBase
+public class CarivorousPlant : EnemyBase
 {
     public CharacterHead character;
     [SerializeField] float attractionForce = 500;
     [SerializeField] Transform centerPoint = null;
     [SerializeField] ForceMode mode = ForceMode.Acceleration;
-    [SerializeField] DamageReceiver damageReceiver = null;
-    [SerializeField] DamageData data = null;
-    [SerializeField] _Base_Life_System lifeSystem = null;
-    [SerializeField] Animator anim = null;
     [SerializeField] AnimEvent animEvent = null;
     [SerializeField] LayerMask characterLayer = 0;
 
@@ -25,7 +21,6 @@ public class CarivorousPlant : EntityBase
     bool attackRecall;
     float attackTimer;
     float timer;
-    float animSpeed;
 
     [SerializeField] ParticleSystem attFeedback = null;
     ParticleSystem attFXTemp;
@@ -36,18 +31,12 @@ public class CarivorousPlant : EntityBase
     bool inDmg;
     bool antibug;
 
-    public UnityEvent OnDeath;
-
     protected override void OnInitialize()
     {
+        base.OnInitialize();
         on = true;
 
-        damageReceiver.AddDead(DeadPlant).AddTakeDamage((x) => TakeDamage()).Initialize(centerPoint, null, lifeSystem);
-
-        data.SetDamage(dmg).SetDamageType(dmgType).SetDamageInfo(DamageInfo.NonBlockAndParry).Initialize(this);
-        lifeSystem.Initialize();
-        lifeSystem.CreateADummyLifeSystem();
-        //if (!inDmg) plant?.SetBlendShapeWeight(0, 0);
+        dmgData.SetDamage(dmg).SetDamageType(dmgType).SetDamageInfo(DamageInfo.NonBlockAndParry).Initialize(this);
 
         ParticlesManager.Instance.GetParticlePool(attFeedback.name, attFeedback);
         ParticlesManager.Instance.GetParticlePool(hitParticle.name, hitParticle);
@@ -58,7 +47,7 @@ public class CarivorousPlant : EntityBase
         On();
     }
 
-    protected override void OnUpdate()
+    protected override void OnUpdateEntity()
     {
         if (!on) return;
 
@@ -66,9 +55,6 @@ public class CarivorousPlant : EntityBase
         {
             Vector3 att = centerPoint.position - character.transform.position;
             att.y = 0.1f;
-            //float prom = Vector3.Distance(centerPoint.position, character.transform.position) - 2f;
-            //float lerp = Mathf.Lerp(100, 0, prom);
-            //if (!inDmg) plant?.SetBlendShapeWeight(0, lerp);
 
             var overlap = Physics.OverlapSphere(centerPoint.position, radious, characterLayer).Select(x => x.GetComponent<DamageReceiver>()).ToList();
 
@@ -96,7 +82,7 @@ public class CarivorousPlant : EntityBase
 
             if (timer >= timeToDamage)
             {
-                anim.SetTrigger("Attack");
+                animator.SetTrigger("Attack");
                 inDmg = true;
                 timer = 0;
             }
@@ -116,24 +102,17 @@ public class CarivorousPlant : EntityBase
 
     void DamageCharacter()
     {
-        if(isZero)
-            character?.GetComponent<DamageReceiver>().TakeDamage(data.SetPositionAndDirection(centerPoint.position, Vector3.zero));
+        if (isZero)
+            character?.GetComponent<DamageReceiver>().TakeDamage(dmgData.SetPositionAndDirection(centerPoint.position, Vector3.zero));
 
         inDmg = false;
 
         attackRecall = true;
     }
 
-    void TakeDamage()
+    protected override void Die(Vector3 dir)
     {
-        anim.SetBool("Hit", true);
-
-        ParticlesManager.Instance.PlayParticle(hitParticle.name, centerPoint.position + Vector3.up);
-    }
-
-    void DeadPlant(Vector3 dir)
-    {
-        anim.SetTrigger("Dead");
+        animator.SetTrigger("Dead");
         OnDeath.Invoke();
         OnOffTrap(false);
     }
@@ -204,14 +183,16 @@ public class CarivorousPlant : EntityBase
 
     protected override void OnFixedUpdate() { }
 
-    protected override void OnPause()
+    protected override void OnReset()
     {
-        animSpeed = anim.speed;
-        anim.speed = 0;
+        animator.Play("Idle");
     }
 
-    protected override void OnResume()
+    protected override void TakeDamageFeedback(DamageData data)
     {
-        anim.speed = animSpeed;
+        animator.SetBool("Hit", true);
+        ParticlesManager.Instance.PlayParticle(hitParticle.name, centerPoint.position + Vector3.up);
     }
+
+    protected override bool IsDamage() => false;
 }

@@ -5,7 +5,7 @@ using System;
 using Tools.StateMachine;
 using UnityEngine.Events;
 
-public class ABossGenericClean : EnemyBase
+public class ABossGenericClean : EnemyWithCombatDirector
 {
     [Header("Boss Options")]
     [SerializeField] int life = 8;
