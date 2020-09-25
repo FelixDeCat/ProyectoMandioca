@@ -1,15 +1,15 @@
 ﻿using UnityEngine;
 public class SkillActive_SpinAndStun : SkillActivas
 {
-    [Header("Spin And Stun Settings")]
-    [SerializeField] float spinDuration = 5;
-    [SerializeField] float spinSpeed = 12;
-    [SerializeField] float stunDuration = 3f;
+    //[Header("Spin And Stun Settings")]
+    //[SerializeField] float spinDuration = 5;
+    //[SerializeField] float spinSpeed = 12;
+    //[SerializeField] float stunDuration = 3f;
     
     protected override void OnOneShotExecute() 
     {
-        Debug.Log("SPIN");
-        Main.instance.GetChar().StartSpin(spinDuration, spinSpeed, stunDuration); 
+        //Debug.Log("SPIN");
+        //Main.instance.GetChar().StartSpin(spinDuration, spinSpeed, stunDuration); 
     }
     #region en desuso
     protected override void OnBeginSkill()

@@ -5,10 +5,10 @@ using UnityEngine.Events;
 
 public class PistonOneShot : Piston
 {
-    [SerializeField] AnimPalanca animPalanca;
-    [SerializeField] bool notCanComeBack;
-    [SerializeField] AudioClip timerSound;
-    [SerializeField] UnityEvent onEndReach;
+    [SerializeField] AnimPalanca animPalanca = null;
+    [SerializeField] bool notCanComeBack = false;
+    [SerializeField] AudioClip timerSound = null;
+    [SerializeField] UnityEvent onEndReach = null;
 
     Palanca palanca;
 
@@ -28,7 +28,9 @@ public class PistonOneShot : Piston
             pingponglerp.ConfigueTimeStopsSides(staypositiontime_go, staypositiontime_back);
         }
     }
-    protected override void Update() {
+
+    protected override void Update()
+    {
         pingponglerp.Updatear();
     }
 

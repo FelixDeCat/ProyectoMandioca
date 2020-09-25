@@ -6,13 +6,13 @@ public class ExplosiveShroom : EntityBase
 {
     DamageData data;
 
-    [SerializeField] int damage;
+    [SerializeField] int damage = 5;
     [SerializeField] float knockback = 500f;
     [SerializeField] float explosionRange = 3;
 
     [SerializeField] float explosionDelay = 1f;
     [SerializeField] float delayBetweenParticleAndExplosion = 0.3f;
-    [SerializeField] ParticleSystem particles;
+    [SerializeField] ParticleSystem particles = null;
 
 
     public void Explode()

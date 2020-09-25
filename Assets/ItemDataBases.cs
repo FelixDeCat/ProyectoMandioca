@@ -5,7 +5,7 @@ using System;
 
 public class ItemDataBases : MonoBehaviour
 {
-    [SerializeField] Item[] database;
+    [SerializeField] Item[] database = new Item[1];
 
     public Dictionary<int, Item> items_bautizados = new Dictionary<int, Item>();
 
@@ -28,7 +28,6 @@ public class ItemDataBases : MonoBehaviour
                 items_bautizados[database[i].id] = database[i];
             }
         }
-
 
        // Command.Configure(CatchCommand, "Item", "item", "ITEM");
     }

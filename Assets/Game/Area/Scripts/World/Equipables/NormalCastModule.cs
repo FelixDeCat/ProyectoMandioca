@@ -17,7 +17,7 @@ public class NormalCastModule : MonoBehaviour
     bool manual_success = false;
 
 
-    [SerializeField] float casting;
+    [SerializeField] float casting = 2;
     public float CastTime { get { return casting; } }
     float timer = 0;
     bool anim;

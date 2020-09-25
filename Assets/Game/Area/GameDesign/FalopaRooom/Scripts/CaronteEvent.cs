@@ -10,13 +10,13 @@ public class CaronteEvent : MonoBehaviour
     public static CaronteEvent instance;
 
     [Header("Settings")]
-    [SerializeField] GameObject carontePP;
-    [SerializeField] LayerMask mask;
-    [SerializeField] LayerMask floor;
-    [SerializeField] SoulShard_Controller ss_controller;
-    [SerializeField] CaronteHand hand_pf;
-    [SerializeField] Ente caronte_pf;
-    [SerializeField] float delayedHand;
+    [SerializeField] GameObject carontePP = null;
+    [SerializeField] LayerMask mask = 0;
+    [SerializeField] LayerMask floor = 1<<21;
+    [SerializeField] SoulShard_Controller ss_controller = null;
+    [SerializeField] CaronteHand hand_pf = null;
+    [SerializeField] Ente caronte_pf = null;
+    [SerializeField] float delayedHand = 5;
 
     float _count;
    public bool _spawnedHand = false;

@@ -4,15 +4,12 @@ using UnityEngine;
 
 public class CaronteSkill_RagingPoolsOfFire : GOAP_Skills_Base
 {
-    [SerializeField] CustomSpawner fireSpawner;
+    [SerializeField] CustomSpawner fireSpawner = null;
 
     protected override void OnExecute()
     {
-        
         fireSpawner.ActivateSpawner();
         owner.GetComponentInChildren<Animator>().SetTrigger("ragingPools");
-        
-        
     }
 
 

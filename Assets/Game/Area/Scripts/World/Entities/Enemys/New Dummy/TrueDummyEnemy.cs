@@ -34,7 +34,7 @@ public class TrueDummyEnemy : EnemyWithCombatDirector
     [SerializeField] Color onHitColor = Color.white;
     [SerializeField] float onHitFlashTime = 0.1f;
     [SerializeField] RagdollComponent ragdoll = null;
-    [SerializeField] Transform warningAttack_pos;
+    [SerializeField] Transform warningAttack_pos = null;
 
     [SerializeField] EffectBase petrifyEffect = null;
     EventStateMachine<DummyEnemyInputs> sm;

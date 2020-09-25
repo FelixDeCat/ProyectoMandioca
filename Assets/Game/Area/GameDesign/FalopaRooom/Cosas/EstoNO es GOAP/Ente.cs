@@ -20,11 +20,11 @@ namespace GOAP
         public event Action OnTakeDmg = delegate { };
         public event Action<Vector3> OnDeath = delegate { };
 
-        [SerializeField] Transform _root;
+        [SerializeField] Transform _root = null;
         public Transform Root() => _root;
         Rigidbody _rb;
 
-        CharacterHead character;
+        //CharacterHead character;
 
         public AttackSensor attackSensor;
         public DamageReceiver damagereciever;
@@ -50,7 +50,7 @@ namespace GOAP
         float currentSpeed;
 
         [Header("Feedback")]
-        [SerializeField] ParticleSystem takeDamage_fb;
+        [SerializeField] ParticleSystem takeDamage_fb = null;
 
         void FixedUpdate()
         {

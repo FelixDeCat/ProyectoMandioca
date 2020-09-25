@@ -18,7 +18,7 @@ public class NewSceneStreamer : MonoBehaviour
 
     Dictionary<string, LocalSceneHandler> localref = new Dictionary<string, LocalSceneHandler>();
 
-    [SerializeField] float maxLoadWaitTime;
+    [SerializeField] float maxLoadWaitTime = 5;
 
     bool IsLoaded(string sceneName) => loaded.Contains(sceneName);
     bool IsLoading(string sceneName) => loading.Contains(sceneName);

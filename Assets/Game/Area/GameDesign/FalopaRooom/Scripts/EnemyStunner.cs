@@ -13,10 +13,8 @@ public class EnemyStunner : WalkingEntity
     [SerializeField] Vector3 particleOffset = new Vector3(0.25f, 0, 0.065f);
     [SerializeField] ParticleSystem onRootParticles = null;
 
-    [SerializeField] CombatArea spawneablePosition = null;
-
-    [SerializeField] Transform spawnPointsParent;
-    [SerializeField] Transform[] spawnPoints;
+    [SerializeField] Transform spawnPointsParent = null;
+    [SerializeField] Transform[] spawnPoints = new Transform[1];
     int lastTP = -1;
 
     CastingBar castingBar;

@@ -11,7 +11,7 @@ public class Berseker : MonoBehaviour
     public float fadeOutTime;
     float time;
     float frames = 10;
-    bool oneTime = true;
+    //bool oneTime = true;
 
     private void Start()
     {
@@ -45,7 +45,7 @@ public class Berseker : MonoBehaviour
 
     IEnumerator fadeShaderOut()
     {
-        oneTime = false;
+        //oneTime = false;
         enterBerserk.SetFloat("_Value", 1);
 
         time = fadeOutTime / frames;

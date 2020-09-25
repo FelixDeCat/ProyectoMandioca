@@ -4,6 +4,6 @@ using UnityEngine;
 
 public class DialogExecutor : MonoBehaviour
 {
-    int id_Exe = 0;
+    //int id_Exe = 0;
     //public int Id_Exe 
 }

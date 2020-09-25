@@ -12,9 +12,9 @@ namespace Tools.Testing
     public class DirectBegin_Scene : MonoBehaviour
     {
         public bool LockMouse;
-        [SerializeField] LocalPackageLoadComponent packageToLoad;
+        [SerializeField] LocalPackageLoadComponent packageToLoad = null;
 
-        [SerializeField] GameObject[] toIgnoreIfThisIsNotTheMoment;
+        [SerializeField] GameObject[] toIgnoreIfThisIsNotTheMoment = new GameObject[1];
         
         public void Awake()
         {

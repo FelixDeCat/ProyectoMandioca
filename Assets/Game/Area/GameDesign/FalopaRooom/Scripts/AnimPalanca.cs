@@ -5,7 +5,7 @@ using UnityEngine;
 public class AnimPalanca : MonoBehaviour
 {
     Animator myAnim;
-    [SerializeField] GameObject[] objsTurnOff;
+    [SerializeField] GameObject[] objsTurnOff = new GameObject[0];
 
     bool isOn = false;
     private void Awake()

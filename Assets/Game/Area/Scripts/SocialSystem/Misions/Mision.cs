@@ -74,7 +74,7 @@ public class Mision: ScriptableObject
         {
             mision_end_callback_simple.Invoke();
         }
-        catch (System.NullReferenceException ex) { Debug.LogWarning("No tiene linkeado un Fase Handler"); }
+        catch { Debug.LogWarning("No tiene linkeado un Fase Handler"); }
         
     }
 }

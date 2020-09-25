@@ -19,7 +19,7 @@ public class BoomerangShield : MonoBehaviour
     [SerializeField] private Vector3 v3 = Vector3.zero;
     [SerializeField] private float rotSpeed = 5;
     
-    [SerializeField] LayerMask raycastMask;
+    [SerializeField] LayerMask raycastMask = 0;
 
     CharacterHead _hero;
     GameObject _shield;
@@ -35,7 +35,7 @@ public class BoomerangShield : MonoBehaviour
     [Header("Particles")]
     [SerializeField] private ParticleSystem flying = null;
 
-    [SerializeField] private GameObject auxShield;
+    [SerializeField] private GameObject auxShield = null;
     
     //Sonidos
     //[SerializeField] private AudioClip _flingShield_Sound = null;

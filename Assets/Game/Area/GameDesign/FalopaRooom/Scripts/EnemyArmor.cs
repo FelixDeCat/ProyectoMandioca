@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class EnemyArmor : MonoBehaviour
 {
-    [SerializeField] DamageReceiver armoredObject;
+    [SerializeField] DamageReceiver armoredObject = null;
 
     private void Start()
     {

@@ -17,6 +17,11 @@ public struct MisionItemKey
         var key = (MisionItemKey)obj;
         return key.id == id && key.index == index;
     }
+
+    public override int GetHashCode()
+    {
+        return base.GetHashCode();
+    }
 }
 
 public class MisionManager : MonoBehaviour

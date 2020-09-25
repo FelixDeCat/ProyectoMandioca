@@ -5,9 +5,8 @@ using UnityEngine;
 
 public class CaronteSkill_HandOfDead : GOAP_Skills_Base
 {
-
-    [SerializeField] HandOfDead_Handler hand_pf;
-    [SerializeField] int handsToSpawn;
+    [SerializeField] HandOfDead_Handler hand_pf = null;
+    [SerializeField] int handsToSpawn = 4;
 
     protected override void OnExecute()
     {

@@ -5,8 +5,7 @@ public class TotemRoot : Totem
 {
     [SerializeField] private float range = 20;
     [SerializeField] bool squaredRange = false;
-    [SerializeField] Vector3 squareRange;
-
+    [SerializeField] Vector3 squareRange = Vector3.zero;
 
     [SerializeField] private float effectDuration = 10;
 

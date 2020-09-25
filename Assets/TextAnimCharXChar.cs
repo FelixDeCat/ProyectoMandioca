@@ -15,8 +15,8 @@ public class TextAnimCharXChar : MonoBehaviour
     public bool inAnimation;
 
     //new 
-    bool anim = false;
-    float timer;
+    //bool anim = false;
+    //float timer;
 
     public void BeginAnim(string _txt, Action _OnEnd, float _timeSpacing = 0.04f)
     {

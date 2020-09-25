@@ -10,11 +10,11 @@ public class UI_CurrentItem : UI_Base
     [SerializeField] TextMeshProUGUI txt_cant = null;
     [SerializeField] Image img = null;
     
-    [SerializeField] GenericBar_Sprites cooldownBar;
-    [SerializeField] GenericBar_Sprites castingbar;
-    [SerializeField] ParticleSystem part_endLoad;
-    [SerializeField] GameObject onPress;
-    [SerializeField] GameObject HoldThePower;
+    [SerializeField] GenericBar_Sprites cooldownBar = null;
+    [SerializeField] GenericBar_Sprites castingbar = null;
+    [SerializeField] ParticleSystem part_endLoad = null;
+    [SerializeField] GameObject onPress = null;
+    [SerializeField] GameObject HoldThePower = null;
 
     [SerializeField] Image img_aux = null;
     public float anim_scale_on_use = 0.2f;
@@ -29,8 +29,6 @@ public class UI_CurrentItem : UI_Base
         img.sprite = _img;
         img_aux.sprite = _img;
         // img_aux.enabled = false;
-
-       
     }
     
     public void SetCastingBar(float current, float max)

@@ -4,11 +4,11 @@ using UnityEngine;
 
 public class MisionSoundDataBase : MonoBehaviour
 {
-    [SerializeField] AudioClip openPanel;
-    [SerializeField] AudioClip NewMissionAdded;
-    [SerializeField] AudioClip MissionCompleted;
-    [SerializeField] AudioClip MissionFinished;
-    [SerializeField] AudioClip OneItemMisionCompleted;
+    [SerializeField] AudioClip openPanel = null;
+    [SerializeField] AudioClip NewMissionAdded = null;
+    [SerializeField] AudioClip MissionCompleted = null;
+    [SerializeField] AudioClip MissionFinished = null;
+    [SerializeField] AudioClip OneItemMisionCompleted = null;
 
     void Start()
     {

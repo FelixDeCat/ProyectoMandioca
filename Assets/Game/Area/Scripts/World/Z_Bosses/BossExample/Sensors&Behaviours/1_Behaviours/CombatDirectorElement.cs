@@ -15,8 +15,6 @@ public class CombatDirectorElement : MonoBehaviour, ICombatDirector
     public bool Combat;
     public bool Attacking {get; set;}
 
-    [SerializeField] UnityEvent CanAttack = null;
-
     public void Initialize(float _distancePos, CombatDirector _director)
     {
         director = _director;

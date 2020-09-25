@@ -62,10 +62,8 @@ public class CharacterHead : CharacterControllable
     bool canAddComboHit = true;
     [SerializeField] ComboWomboSystem combo_system = new ComboWomboSystem();
 
-    [SerializeField] AudioClip chargeSound;
+    [SerializeField] AudioClip chargeSound = null;
     [SerializeField] GameObject go_StunFeedback = null;
-    float spinDuration;
-    float spinSpeed;
     float stunDuration;
 
     public Action ChangeWeaponPassives = delegate { };
@@ -93,7 +91,7 @@ public class CharacterHead : CharacterControllable
     [Header("Parry & Block Options")]
     public CharacterBlock charBlock;
 
-    [SerializeField] float knockbackOnParry = 650;
+    //[SerializeField] float knockbackOnParry = 650;
 
     [SerializeField] float parryRecall = 0;
     [SerializeField] float takeDamageRecall = 0;
@@ -626,16 +624,6 @@ public class CharacterHead : CharacterControllable
     }
     #endregion
 
-    #region Spin
-    public void StartSpin(float _spinDuration, float _spinSpeed, float _stunDuration)
-    {
-        spinDuration = _spinDuration;
-        spinSpeed = _spinSpeed;
-        stunDuration = _stunDuration;
-        stateMachine.SendInput(PlayerInputs.SPIN);
-    }
-    #endregion
-
     #region Pause & Resume
     Vector3 force;
     float animSpeed;
@@ -691,9 +679,6 @@ public class CharacterHead : CharacterControllable
         charAttack.ConfigureDealsSuscessful(DealSucessfullNormal, DealSucessfullHeavy, KillInNormal, KillInHeavy, BreakObject);
         charAttack.Attack(isHeavyRelease);
     }
-
-    bool combo;
-    void OnComboIsLoaded() => combo = true;
 
     #region Resultados de los ataques
     void DealSucessfullNormal()

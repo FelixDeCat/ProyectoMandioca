@@ -4,11 +4,11 @@ using UnityEngine;
 
 public class HealthBerries : MonoBehaviour
 {
-    [SerializeField] int healthAmount;
+    [SerializeField] int healthAmount = 5;
 
-    [SerializeField] ParticleSystem feedback;
+    [SerializeField] ParticleSystem feedback = null;
 
-   public void ConsumeBerries()
+    public void ConsumeBerries()
     {
         if (feedback != null) feedback.Play();
 

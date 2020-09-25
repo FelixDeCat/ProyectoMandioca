@@ -7,11 +7,11 @@ public class SoulShard_Controller : MonoBehaviour
 {
     public event Action OnSSRecolected;
 
-    [SerializeField] float radious, heightSpawn;
-    [SerializeField] int shardsAmount;
-    [SerializeField] Transform spot;
-    [SerializeField] LayerMask mask;
-    [SerializeField] SoulShard ss_pf;
+    [SerializeField] float radious = 3, heightSpawn = 3;
+    [SerializeField] int shardsAmount = 3;
+    [SerializeField] Transform spot = null;
+    [SerializeField] LayerMask mask = 0;
+    [SerializeField] SoulShard ss_pf = null;
 
     int _recolected = 0;
     List<SoulShard> ss_pool = new List<SoulShard>();

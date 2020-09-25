@@ -8,8 +8,8 @@ public class UIMessageLogger : SingleObjectPool<UI_Comp_Message>
     public static UIMessageLogger instance;
     void Awake() => instance = this;
 
-    [SerializeField] RectTransform parent;
-    [SerializeField] UI_Comp_Message model;
+    [SerializeField] RectTransform parent = null;
+    [SerializeField] UI_Comp_Message model = null;
     public void LogMessage(MsgLogData data)
     {
         var comp = Get();

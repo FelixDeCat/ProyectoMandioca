@@ -5,12 +5,11 @@ using System;
 
 public class CaronteHand : MonoBehaviour
 {
-
     public Action OnGrabPlayer;
     public Action OnMissPlayer;
 
-    [SerializeField] float distanceToGrab;
-    [SerializeField] AnimEvent animEvent;
+    [SerializeField] float distanceToGrab = 5;
+    [SerializeField] AnimEvent animEvent = null;
 
     private void Start()
     {

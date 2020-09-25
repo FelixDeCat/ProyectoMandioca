@@ -212,7 +212,7 @@ public class JabaliEnemy : EnemyWithCombatDirector
         Attack_Result takeDmg = e.TakeDamage(dmgData);
 
 
-        if (takeDmg == Attack_Result.parried || takeDmg == Attack_Result.blocked) e.GetComponent<CharacterHead>().UnequipShield((e.transform.position - transform.position).normalized);
+        if (takeDmg == Attack_Result.parried && unequipShield || takeDmg == Attack_Result.blocked && unequipShield) e.GetComponent<CharacterHead>().UnequipShield((e.transform.position - transform.position).normalized);
 
         if (e.GetComponent<CharacterHead>())
             pushAttack.Stop();

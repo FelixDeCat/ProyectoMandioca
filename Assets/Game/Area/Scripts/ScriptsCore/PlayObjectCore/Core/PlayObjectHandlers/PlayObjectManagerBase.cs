@@ -14,7 +14,7 @@ public class PlayObjectManagerBase : LoadComponent
     public static PlayObjectManagerBase instance;
     private void Awake() => instance = this;
 
-    [SerializeField] Transform parent;
+    [SerializeField] Transform parent = null;
     [SerializeField] List<PlayObject> playobjects = new List<PlayObject>();
     public List<PlayObject> PlayObjects { get { return playobjects; } }
     Action callbackSubscribeNewChanges;

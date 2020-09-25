@@ -7,8 +7,8 @@ using UnityEngine.Serialization;
 
 public class CrowEnemy : EnemyWithCombatDirector
 {
-    [SerializeField] bool showGizmoCombatDistance;
-    [SerializeField] bool showGizmoDistancePos;
+    [SerializeField] bool showGizmoCombatDistance = false;
+    [SerializeField] bool showGizmoDistancePos = false;
     public AnimationCurve animEmisive;
 
 
@@ -20,7 +20,6 @@ public class CrowEnemy : EnemyWithCombatDirector
     [SerializeField] float throwForce = 6;
     [SerializeField] float cdToCast = 2;
     [SerializeField] int damage = 2;
-    [SerializeField] float knockback = 20;
     [SerializeField] float attackRecall = 2;
     [SerializeField] LineOfSight lineOfSight = null;
 

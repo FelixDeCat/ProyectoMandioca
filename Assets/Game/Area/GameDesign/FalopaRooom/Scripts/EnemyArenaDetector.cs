@@ -5,14 +5,14 @@ using UnityEngine;
 public class EnemyArenaDetector : MonoBehaviour
 {
     bool activateDetector;
-    [SerializeField] Transform _pivot;
-    [SerializeField] float _cooldown;
-    [SerializeField] float _delayActivation;
-    [SerializeField] float _sizeOfSphere;
-    [SerializeField] LayerMask _mask;
+    [SerializeField] Transform _pivot = null;
+    [SerializeField] float _cooldown = 3;
+    [SerializeField] float _delayActivation = 3;
+    [SerializeField] float _sizeOfSphere = 20;
+    [SerializeField] LayerMask _mask = 0;
     List<Collider> colliders = new List<Collider>();
     public List<GameObject> walls = new List<GameObject>();
-    // Start is called before the first frame update
+
     void Start()
     {
         var _collider = GetComponents<Collider>();
@@ -27,13 +27,10 @@ public class EnemyArenaDetector : MonoBehaviour
         StartCoroutine(DetectorOfEnemys());
     }
 
-   
-
     IEnumerator DetectorOfEnemys()
     {
         while (true)
         {
-            
             if (activateDetector)
             {
                 yield return new WaitForSeconds(_cooldown);

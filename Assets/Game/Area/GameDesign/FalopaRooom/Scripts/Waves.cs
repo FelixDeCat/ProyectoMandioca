@@ -6,11 +6,11 @@ public class Waves : MonoBehaviour
 {
     protected float _speed;
     float _lifeTime;
-    [SerializeField] protected GameObject spawner;
-    [SerializeField] bool canDamageEnemy;
+    [SerializeField] protected GameObject spawner = null;
+    [SerializeField] bool canDamageEnemy = false;
 
     protected DamageData dmgDATA;
-    // Start is called before the first frame update
+
     protected virtual void Start()
     {
         dmgDATA = GetComponent<DamageData>();
@@ -19,7 +19,6 @@ public class Waves : MonoBehaviour
         dmgDATA.SetDamage(5).SetDamageType(Damagetype.Normal);
     }
 
-    // Update is called once per frame
     protected virtual void FixedUpdate()
     {
         transform.position += transform.forward * _speed * Time.deltaTime;
@@ -54,7 +53,6 @@ public class Waves : MonoBehaviour
     {
         if (canDamageEnemy && other.gameObject.GetComponent<EnemyBase>())
         {
-
             DamageReceiver enemy = other.gameObject.GetComponent<DamageReceiver>();
 
             enemy.TakeDamage(dmgDATA);
@@ -68,8 +66,6 @@ public class Waves : MonoBehaviour
             DamageReceiver character = other.gameObject.GetComponent<DamageReceiver>();
 
             character.TakeDamage(dmgDATA);
-
         }
-
     }
 }

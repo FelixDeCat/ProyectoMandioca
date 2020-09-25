@@ -13,18 +13,13 @@ public class CameraRotate : MonoBehaviour
     [SerializeField] public List<BezierPoint> bezierPoints = new List<BezierPoint>();
     [SerializeField] float sliderTime = 1;
 
-    [SerializeField] Transform lookAtTrans;
-
-    //[SerializeField] float _speedToReturn;
-    //[SerializeField] float _speedAwayFromMesh;
+    [SerializeField] Transform lookAtTrans = null;
 
     [SerializeField] float minDistance = 2.5f;
 
     [Header("Horizontal")]
     [SerializeField] GameObject rotatorX = null;
     [SerializeField] float sensitivityHorizontal = 0.5f;
-
-    float _distance;
     CharacterHead myChar;
 
     [SerializeField] LayerMask _mask = 0<<21;

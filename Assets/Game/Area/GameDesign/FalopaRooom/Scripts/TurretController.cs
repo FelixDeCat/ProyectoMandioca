@@ -5,7 +5,6 @@ using UnityEngine;
 public class TurretController : MonoBehaviour
 {
     [SerializeField] List<GameObject> turretsGroups = new List<GameObject>();
-    [SerializeField] bool active = false;
 
     [SerializeField] float shootingTime = 20;
 
@@ -47,15 +46,5 @@ public class TurretController : MonoBehaviour
             }
             yield return null;
         }
-    }
-
-    public void TurnOn()
-    {
-        active = true;
-    }
-
-    public void TurnOff()
-    {
-        active = false;
     }
 }

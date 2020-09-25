@@ -7,8 +7,8 @@ using UnityEngine.UI;
 public class CastingBar : MonoBehaviour
 {
     //Settings
-    [SerializeField] Image castingBar_img = null;
-    [SerializeField] GameObject castingBar = null;
+    //[SerializeField] Image castingBar_img = null;
+    //[SerializeField] GameObject castingBar = null;
 
     //Setters
     public float castingTime;

@@ -5,10 +5,10 @@ using UnityEngine;
 
 public class HandOfDead_Handler : MonoBehaviour
 {
-    [SerializeField] float speed;
-    [SerializeField] Transform _root;
+    [SerializeField] float speed = 5;
+    [SerializeField] Transform _root = null;
     public Transform Root => _root;
-    [SerializeField] float _lifeTime;
+    [SerializeField] float _lifeTime = 4;
 
     DamageData dmgDATA;
 
@@ -16,7 +16,7 @@ public class HandOfDead_Handler : MonoBehaviour
     public event Action<HandOfDead_Handler> OnReachedDestination;
 
     Vector3 _dir;
-   public float _count;
+    public float _count;
 
     public void Initialize(Transform from, Vector3 to,  int damage)
     {
@@ -24,12 +24,10 @@ public class HandOfDead_Handler : MonoBehaviour
         _dir = to;
         _root.position = from.position;
         _root.forward = new Vector3(to.x, 0, to.z);
-       
     }
 
     public void GrabPlayer()
     {
-
         if (Main.instance.GetChar().DamageReceiver().TakeDamage(dmgDATA) == Attack_Result.inmune)
             return;
 
@@ -44,13 +42,11 @@ public class HandOfDead_Handler : MonoBehaviour
 
         if (_count >= _lifeTime)
         {
-            //No me salio
             Debug.Log("entro aca");
             _count = 0;
             OnReachedDestination?.Invoke(this);
             Destroy(gameObject);
         }
-
     }
 
     private void FixedUpdate()

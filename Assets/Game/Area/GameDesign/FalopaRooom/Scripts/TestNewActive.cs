@@ -5,9 +5,8 @@ using UnityEngine;
 public class TestNewActive : SpawnWaves
 {
     float count;
-    [SerializeField] float cd;
+    [SerializeField] float cd = 0.5f;
     bool canShoot;
-
 
     void Update()
     {

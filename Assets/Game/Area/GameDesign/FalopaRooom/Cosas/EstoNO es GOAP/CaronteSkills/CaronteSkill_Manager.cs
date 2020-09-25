@@ -6,10 +6,10 @@ namespace GOAP
 {
     public class CaronteSkill_Manager : MonoBehaviour
     {
-        [SerializeField] Transform _root;
+        [SerializeField] Transform _root = null;
         Dictionary<string, GOAP_Skills_Base> skillRegistry = new Dictionary<string, GOAP_Skills_Base>();
 
-    void Start()
+        void Start()
         {
             foreach (Transform skill in transform)
             {

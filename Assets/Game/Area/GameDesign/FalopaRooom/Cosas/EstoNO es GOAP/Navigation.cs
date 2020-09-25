@@ -10,8 +10,7 @@ namespace GOAP
     {
         public static Navigation instance;
         public List<Waypoint> _waypoints = new List<Waypoint>();
-        [SerializeField] LayerMask mask;
-
+        [SerializeField] LayerMask mask = 0;
 
         public void LocalizeNodes()
         {
@@ -23,7 +22,6 @@ namespace GOAP
 
         public void GetSurfacePos(Transform node)
         {
-
             RaycastHit hit;
 
             if (Physics.Raycast(node.position, Vector3.down, out hit, Mathf.Infinity, mask, QueryTriggerInteraction.Ignore))
@@ -42,14 +40,12 @@ namespace GOAP
                 {
                     _waypoints.Add(wp);
                 }
-                    
             }
 
             foreach(Waypoint wp in _waypoints)
             {
                 wp.InitializeNodes();
             }
-
         }
 
         public bool Reachable(Vector3 from, Vector3 to, List<Tuple<Vector3, Vector3>> debugRayList = null)

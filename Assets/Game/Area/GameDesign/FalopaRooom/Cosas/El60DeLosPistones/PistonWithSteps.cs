@@ -6,9 +6,9 @@ using System.Linq;
 
 public class PistonWithSteps : MonoBehaviour
 {
-    [SerializeField] Transform _root;
+    [SerializeField] Transform _root = null;
     [SerializeField] List<Transform> nodes = new List<Transform>();
-    [SerializeField] Transform parent;
+    [SerializeField] Transform parent = null;
 
     public float speed;
 
@@ -16,7 +16,6 @@ public class PistonWithSteps : MonoBehaviour
     int currentNode = 0;
     bool isMoving = false;
 
-    // Update is called once per frame
     void FixedUpdate()
     {
         if(isMoving)

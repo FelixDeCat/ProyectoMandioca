@@ -10,7 +10,7 @@ public class DestructibleSystem : MonoBehaviour
 
     [SerializeField] Float_TDListDictionary percentTier = new Float_TDListDictionary();
     int maxLife;
-    [SerializeField] float force;
+    [SerializeField] float force = 15;
 
     private void Start()
     {

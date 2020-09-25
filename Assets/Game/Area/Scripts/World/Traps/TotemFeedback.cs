@@ -11,7 +11,6 @@ public class TotemFeedback
 
     [SerializeField] ParticleSystem chargeParticle = null;
     ParticleSystem chargeParticleTemp;
-    [SerializeField, Range(0, 1)] float percentToAppear = 0.5f;
 
     [SerializeField] Transform startPos = null;
 

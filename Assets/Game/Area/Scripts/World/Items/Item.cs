@@ -29,4 +29,9 @@ public class Item : ScriptableObject
         var itm = (Item)other;
         return itm.id == id;
     }
+
+    public override int GetHashCode()
+    {
+        return base.GetHashCode();
+    }
 }
