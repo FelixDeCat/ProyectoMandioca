@@ -34,7 +34,7 @@ public class LoadSceneHandler : MonoBehaviour
         }
     }
 
-    public void LoadAScene(string scene, bool loadScreen = true)
+    public void LoadAScene(string scene, bool loadScreen = true, LoadSceneMode mode = LoadSceneMode.Single)
     {
         SceneToLoad = scene;
 
@@ -46,7 +46,7 @@ public class LoadSceneHandler : MonoBehaviour
         }
         else
         {
-            StartCoroutine(Load().GetEnumerator());
+            StartCoroutine(Load(true, mode).GetEnumerator());
         }
     }
 
@@ -62,12 +62,12 @@ public class LoadSceneHandler : MonoBehaviour
         StartCoroutine(Load().GetEnumerator());
     }
 
-    IEnumerable Load(bool loadScene = true)
+    IEnumerable Load(bool loadScene = true, LoadSceneMode mode = LoadSceneMode.Single)
     {
         yield return ComponentsToLoad().GetEnumerator();
         if (loadScene) if (!stayHere) 
             { 
-                yield return LoadAsyncScene(); 
+                yield return LoadAsyncScene(mode); 
             }
         loadscreen.SetActive(false);
     }
@@ -94,11 +94,11 @@ public class LoadSceneHandler : MonoBehaviour
 
     #region Scene
     AsyncOperation asyncLoad;
-    IEnumerator LoadAsyncScene()
+    IEnumerator LoadAsyncScene(LoadSceneMode mode = LoadSceneMode.Single)
     {
         if (SceneManager.GetActiveScene().name != SceneToLoad)
         {
-            asyncLoad = SceneManager.LoadSceneAsync(SceneToLoad);
+            asyncLoad = SceneManager.LoadSceneAsync(SceneToLoad, mode);
             asyncLoad.completed += Completed;
             asyncLoad.allowSceneActivation = false;
             while (!asyncLoad.isDone)

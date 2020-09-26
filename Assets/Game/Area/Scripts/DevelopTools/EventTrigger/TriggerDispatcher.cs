@@ -16,15 +16,9 @@ public class TriggerDispatcher : MonoBehaviour
         OnTriggerEnterEvent.AddListener(callback);
     }
 
-    
     [SerializeField] TriggerReceiver[] receivers = new TriggerReceiver[0];
 
     [SerializeField] Entities entitiesThatCanTrigger = Entities.all;
-
-    public void RecibounEntero(int pepe)
-    {
-        Debug.Log(pepe);
-    }
 
     private void OnTriggerEnter(Collider other)
     {
