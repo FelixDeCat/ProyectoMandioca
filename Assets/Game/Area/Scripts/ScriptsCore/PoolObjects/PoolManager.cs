@@ -37,7 +37,7 @@ public class PoolManager : MonoBehaviour
         var playObjPool = new GameObject($"{poolName} objPool").AddComponent<ObjectPool_PlayObject>();
         playObjPool.transform.SetParent(transform);
         obj.poolname = poolName;
-        playObjPool.Configure(obj);
+        playObjPool.Configure(obj, poolName);
         playObjPool.Initialize(prewarm);
         _itemRegistry.Add(poolName, playObjPool);
         return playObjPool;
