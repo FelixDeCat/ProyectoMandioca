@@ -6,7 +6,7 @@ public abstract class EnemyWithCombatDirector : EnemyBase
 {
     [SerializeField] protected CombatDirectorElement combatElement = null;
     [SerializeField, Range(0.5f, 30)] protected float distancePos = 1.5f;
-    [SerializeField] protected float combatDistance = 20;
+    public float combatDistance = 20;
     protected CombatDirector director;
 
     protected override void OnInitialize()
@@ -15,6 +15,8 @@ public abstract class EnemyWithCombatDirector : EnemyBase
         director = Main.instance.GetCombatDirector();
         combatElement.Initialize(distancePos, director);
     }
+
+    public void SetRange(float distance) => combatElement.distancePos = distance;
 
     public abstract void IAInitialize(CombatDirector director);
 

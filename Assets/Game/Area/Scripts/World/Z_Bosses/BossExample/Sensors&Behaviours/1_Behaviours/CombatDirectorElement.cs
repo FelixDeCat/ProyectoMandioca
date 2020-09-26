@@ -7,7 +7,7 @@ using System;
 public class CombatDirectorElement : MonoBehaviour, ICombatDirector
 {
     [Header("TEMP:/Combat director")]
-    float distancePos = 1.5f;
+    [HideInInspector] public float distancePos = 1.5f;
     bool withPos;
 
     CombatDirector director;

@@ -6,9 +6,9 @@ public class ProxyEnemyBase : MonoBehaviour
 {
     public EnemyBase myEnemy;
 
-    public virtual void SpawnEnemy(string myScene)
+    public virtual void SpawnEnemy(EnemyBase enemy)
     {
-        EnemyManager.Instance.SpawnEnemy(myEnemy.name, myScene, myEnemy);
-        Destroy(this.gameObject);
+        enemy.transform.position = transform.position;
+        enemy.transform.rotation = transform.rotation;
     }
 }
