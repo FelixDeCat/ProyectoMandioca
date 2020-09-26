@@ -6,13 +6,13 @@ using UnityEngine;
 using UnityEngine.Rendering.PostProcessing;
 
 [Serializable]
-[PostProcess( typeof( FogPPSRenderer ), PostProcessEvent.AfterStack, "Fog", true )]
+[PostProcess( typeof( FogPPSRenderer ), PostProcessEvent.BeforeTransparent, "Fog", true )]
 public sealed class FogPPSSettings : PostProcessEffectSettings
 {
 	[Tooltip( "Radius" )]
-	public FloatParameter _Radius = new FloatParameter { value = 0f };
+	public FloatParameter _Radius = new FloatParameter { value = 12f };
 	[Tooltip( "Fall Off" )]
-	public FloatParameter _FallOff = new FloatParameter { value = 0f };
+	public FloatParameter _FallOff = new FloatParameter { value = 3f };
 	[Tooltip( "Fog Color" )]
 	public ColorParameter _FogColor = new ColorParameter { value = new Color(1f,0f,0f,0f) };
 }
