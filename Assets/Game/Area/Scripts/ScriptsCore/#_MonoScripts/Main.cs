@@ -173,8 +173,8 @@ public class Main : MonoBehaviour
     public BaseRoom GetRoom() => _currentRoom;
     public CustomCamera GetMyCamera() => myCamera;
     public void CameraShake() => myCamera.BeginShakeCamera();
-    public void Vibrate() => rumble.OneShootRumble();
-    public void Vibrate(float _strengh = 1, float _time_to_rumble = 0.2f) => rumble.OneShootRumble(_strengh, _time_to_rumble);
+    public void Vibrate() { if(character.getInput.input_type == CharacterInput.InputType.Joystick)  rumble.OneShootRumble(); }
+    public void Vibrate(float _strengh = 1, float _time_to_rumble = 0.2f) { if (character.getInput.input_type == CharacterInput.InputType.Joystick) rumble.OneShootRumble(_strengh, _time_to_rumble); }
     public TimeManager GetTimeManager() => timeManager;
 
 

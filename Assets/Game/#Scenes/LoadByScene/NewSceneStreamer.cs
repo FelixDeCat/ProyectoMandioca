@@ -48,7 +48,6 @@ public class NewSceneStreamer : MonoBehaviour
         {
             Debug.Log("LoadNeighbor");
             StartCoroutine(LoadNeighbors(currentScene, localref[currentScene].SceneData.scenes_to_view));
-            
         }
 
         failsafeTime = Time.realtimeSinceStartup + maxLoadWaitTime;
@@ -115,6 +114,8 @@ public class NewSceneStreamer : MonoBehaviour
         {
             EndLoad(sceneName, LoadScreen, LoadNeighbor, OnEnd);
         }
+
+        CustomOperation op = new CustomOperation();
 
         yield return null;
     }
