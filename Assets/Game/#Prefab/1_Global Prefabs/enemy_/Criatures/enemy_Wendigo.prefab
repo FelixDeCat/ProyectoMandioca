@@ -1039,20 +1039,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   poolname: 
-  attacking: 0
   death: 0
   OnDeath:
     m_PersistentCalls:
       m_Calls: []
-  Invinsible: 0
-  combatDistance: 20
-  combat: 0
-  distancePos: 1.5
   dmgData: {fileID: 8851705996999269494}
   dmgReceiver: {fileID: 4538564803222110690}
   lifesystem: {fileID: 4538564803222110691}
   rootTransform: {fileID: 4538564803222110688}
   animator: {fileID: 4209156339845887800}
+  combatElement: {fileID: 0}
+  distancePos: 1.5
+  combatDistance: 20
   life: 150
   stateMachineHandler: {fileID: 1909525048760699114}
   inputSender: {fileID: 1909525048760699115}
@@ -2055,32 +2053,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ff75dc29d3fc49948a4cd32e471d0274, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  owner: {fileID: 4538564803568822472}
-  CanAttack:
-    m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 7811500142054990130}
-        m_MethodName: OnAttack
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-      - m_Target: {fileID: 7811500141660457674}
-        m_MethodName: OnAttack
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+  Combat: 0
 --- !u!1 &3536763260287666395
 GameObject:
   m_ObjectHideFlags: 0
@@ -4095,7 +4068,7 @@ SkinnedMeshRenderer:
   m_RendererPriority: 0
   m_Materials:
   - {fileID: 2100000, guid: 83923b08cdc5483499d4eed409262b9e, type: 2}
-  - {fileID: 2100000, guid: 83923b08cdc5483499d4eed409262b9e, type: 2}
+  - {fileID: 2100000, guid: dc0803dd6ebef1541adad7c4601cb49a, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
