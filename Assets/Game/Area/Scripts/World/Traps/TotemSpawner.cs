@@ -26,6 +26,12 @@ public class TotemSpawner : Totem
         else return true;
     }
 
+    protected override void InternalTotemExit()
+    {
+        base.InternalTotemExit();
+        StopAllCoroutines();
+    }
+
     IEnumerator CheckMaxSpawn()
     {
         yield return new WaitForSeconds(1);

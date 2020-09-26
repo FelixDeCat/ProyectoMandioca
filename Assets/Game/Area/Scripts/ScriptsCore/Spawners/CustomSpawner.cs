@@ -5,7 +5,7 @@ using UnityEngine;
 using UnityEngine.Events;
 using Random = UnityEngine.Random;
 
-public class CustomSpawner : PlayObject
+public class CustomSpawner : MonoBehaviour
 {
     private ObjectPool_PlayObject _poolPlayObject;
     private float _waveCount;
@@ -24,7 +24,7 @@ public class CustomSpawner : PlayObject
     [SerializeField] private int maxSpawn = 10;
     public int currentSpawn;
     [SerializeField] bool noUpdate = false;
-
+    bool canupdate;
 
     [Header("***--Wave Settings--***")]
     [SerializeField] private int totalAmount = 20;
@@ -46,9 +46,9 @@ public class CustomSpawner : PlayObject
     public void DestroySpawner() { Destroy(gameObject); }
 
     //Una state machine XD
-    protected override void OnUpdate()
+    void Update()
     {
-        if (!noUpdate) return;
+        if (!noUpdate || !canupdate) return;
         if (currentSpawn >= maxSpawn) return;
 
         switch (mode)
@@ -140,26 +140,8 @@ public class CustomSpawner : PlayObject
 
     public void SpawnPrefab(Vector3 pos) { spot.SpawnPrefab(pos, _poolPlayObject, this); currentSpawn += 1; }
 
-    protected override void OnInitialize()
-    {
-
-    }
-
-    protected override void OnTurnOn()
-    {
-
-    }
-
-    protected override void OnTurnOff()
-    {
-
-    }
-
     private void OnDrawGizmos()
     {       
         Gizmos.DrawWireSphere(spawnSpot.position, spawnRadius);
     }
-    protected override void OnFixedUpdate(){}
-    protected override void OnPause(){}
-    protected override void OnResume(){}
 }

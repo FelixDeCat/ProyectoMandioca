@@ -60,6 +60,8 @@ public class PropDestructible : BaseDestructible
             }
         }
 
+        Off();
+
         if (destroy)
         {
             if (dest_part != null)

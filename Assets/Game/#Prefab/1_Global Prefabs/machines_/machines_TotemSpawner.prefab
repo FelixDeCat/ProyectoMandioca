@@ -75,8 +75,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8b64c0ffff844424e87460f587313497, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  castingBar_img: {fileID: 2754925314059565410}
-  castingBar: {fileID: 2451186653199819453}
   castingTime: 3
 --- !u!1 &615179186395022214
 GameObject:
@@ -87,6 +85,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 615179186395022213}
+  - component: {fileID: 5162584254767064864}
   - component: {fileID: 615179186395022211}
   m_Layer: 0
   m_Name: machines_TotemSpawner
@@ -112,6 +111,70 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &5162584254767064864
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 615179186395022214}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8989527451079fb4883b710b46e485d1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  poolname: machines_TotemSpawner
+  death: 0
+  OnDeath:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 6957385476745589068}
+        m_MethodName: Off
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  dmgData: {fileID: 0}
+  dmgReceiver: {fileID: 6957385476745589170}
+  lifesystem: {fileID: 3329274628910516182}
+  rootTransform: {fileID: 4277370849907742740}
+  animator: {fileID: 3406945294113330326}
+  OnResetEnemy:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 6957385476745589068}
+        m_MethodName: OnReset
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  myCastingBar: {fileID: 4649853781803036712}
+  effectStun: {fileID: 6560466390998238969}
+  timeToCast: 3
+  feedback:
+    goToPos: {fileID: 3958526303383395777, guid: 9e3854d97844ae747993f6893668c5b0,
+      type: 3}
+    timeToGoPos: 1
+    chargeParticle: {fileID: 2953673145211013142, guid: 560ae8d399aa93f4db18b114d3b1a7e7,
+      type: 3}
+    startPos: {fileID: 5161167843159163672}
+    pause: 0
+  destructFeedback: {fileID: 1360838975454296036}
+  instantStart: 0
+  ps_TakeDamage: {fileID: 8820520791516950862, guid: 10120aedbfd3f6b4cac0dd1fb398e749,
+    type: 3}
+  ac_TakeDamage: {fileID: 8300000, guid: d75633d9edd4e42cd9ff7565ea6ec81c, type: 3}
+  spawner: {fileID: 615179186395022211}
 --- !u!114 &615179186395022211
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -124,7 +187,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 54ce2c5200eb84661acd393ff1737954, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  poolname: 
   mode: 0
   prefab: {fileID: 3901963547881250307, guid: 2a69aece938c0a04da1666b0c4108765, type: 3}
   spawnRadius: 7.36
@@ -140,6 +202,7 @@ MonoBehaviour:
       m_Bits: 2097152
     spawnSpot: {fileID: 0}
   maxSpawn: 10
+  currentSpawn: 0
   noUpdate: 0
   totalAmount: 0
   totalTime: 20
@@ -482,7 +545,6 @@ GameObject:
   - component: {fileID: 733329249212940524}
   - component: {fileID: 6957385476745589170}
   - component: {fileID: 6957385476745589068}
-  - component: {fileID: 6584907970953118379}
   - component: {fileID: 2002780023586082695}
   - component: {fileID: 1360838975454296036}
   - component: {fileID: 3329274628910516182}
@@ -567,47 +629,8 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   NoInitialize: 0
-  destroy: 1
+  destroy: 0
   dest_part: {fileID: 0}
---- !u!114 &6584907970953118379
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6957385476745589071}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8989527451079fb4883b710b46e485d1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  poolname: totem_spawner
-  death: 0
-  OnDeath:
-    m_PersistentCalls:
-      m_Calls: []
-  dmgData: {fileID: 0}
-  dmgReceiver: {fileID: 6957385476745589170}
-  lifesystem: {fileID: 3329274628910516182}
-  rootTransform: {fileID: 4277370849907742740}
-  animator: {fileID: 3406945294113330326}
-  myCastingBar: {fileID: 4649853781803036712}
-  effectStun: {fileID: 6560466390998238969}
-  timeToCast: 3
-  feedback:
-    goToPos: {fileID: 3958526303383395777, guid: 9e3854d97844ae747993f6893668c5b0,
-      type: 3}
-    timeToGoPos: 1
-    chargeParticle: {fileID: 2953673145211013142, guid: 560ae8d399aa93f4db18b114d3b1a7e7,
-      type: 3}
-    percentToAppear: 0.07
-    startPos: {fileID: 5161167843159163672}
-    pause: 0
-  instantStart: 0
-  ps_TakeDamage: {fileID: 8820520791516950862, guid: 10120aedbfd3f6b4cac0dd1fb398e749,
-    type: 3}
-  ac_TakeDamage: {fileID: 8300000, guid: d75633d9edd4e42cd9ff7565ea6ec81c, type: 3}
-  spawner: {fileID: 615179186395022211}
 --- !u!114 &2002780023586082695
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -824,7 +847,7 @@ PrefabInstance:
         type: 3}
       propertyPath: OnTriggerEnterEvent.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
-      objectReference: {fileID: 6584907970953118379}
+      objectReference: {fileID: 5162584254767064864}
     - target: {fileID: 649438286006094192, guid: 4bfaa79e47a9b4846b913e024a49a402,
         type: 3}
       propertyPath: OnTriggerEnterEvent.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName

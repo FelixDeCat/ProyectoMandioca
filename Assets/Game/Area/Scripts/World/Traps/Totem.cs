@@ -9,6 +9,7 @@ public abstract class Totem : EnemyBase
     [SerializeField] protected EffectStunnerStunned effectStun = null;
     [SerializeField] protected float timeToCast = 5f;
     [SerializeField] protected TotemFeedback feedback = null;
+    [SerializeField] protected DestructibleSystem destructFeedback = null;
 
     [SerializeField] bool instantStart = false;
 
@@ -32,6 +33,8 @@ public abstract class Totem : EnemyBase
 
         AudioManager.instance.GetSoundPool(ac_TakeDamage.name, AudioGroups.GAME_FX, ac_TakeDamage);
         ParticlesManager.Instance.GetParticlePool(ps_TakeDamage.name, ps_TakeDamage);
+
+        destructFeedback.Initialize();
     }
 
     public void OnTotemEnter()
@@ -190,16 +193,17 @@ public abstract class Totem : EnemyBase
 
     protected override void Die(Vector3 dir)
     {
-        PauseManager.Instance.RemoveToPause(this);
         feedback.StopAll();
         casting = false;
         timerCasting = 0;
         feedback.InterruptCharge();
+        ReturnToSpawner();
     }
     protected override bool IsDamage() => false;
 
     protected override void OnReset()
     {
-        Debug.Log("reseteo");
+        OnTotemExit();
+        destructFeedback.OnReset();
     }
 }

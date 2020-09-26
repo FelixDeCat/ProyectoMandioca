@@ -55,6 +55,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1567385402993676856}
   - component: {fileID: 1567385402993676857}
+  - component: {fileID: 4895487837612210138}
   m_Layer: 10
   m_Name: machines_TotemRoot
   m_TagString: Untagged
@@ -92,6 +93,67 @@ MonoBehaviour:
   isCircle: 0
   cubeArea: {x: 30, y: 20}
   circleRadius: 10
+--- !u!114 &4895487837612210138
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1567385402993676858}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7a21eab686788a34aa15e2fa375c9acf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  poolname: machines_TotemRoot
+  death: 0
+  OnDeath:
+    m_PersistentCalls:
+      m_Calls: []
+  dmgData: {fileID: 0}
+  dmgReceiver: {fileID: 1567385403649229925}
+  lifesystem: {fileID: 5383484165193690159}
+  rootTransform: {fileID: 2364999888898351091}
+  animator: {fileID: 7969059386190144152}
+  OnResetEnemy:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 4388119331017653163}
+        m_MethodName: OnReset
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  myCastingBar: {fileID: 2364999888898351088}
+  effectStun: {fileID: 5527026160657295832}
+  timeToCast: 5
+  feedback:
+    goToPos: {fileID: 3958526303383395777, guid: 9e3854d97844ae747993f6893668c5b0,
+      type: 3}
+    timeToGoPos: 1
+    chargeParticle: {fileID: 2953673145211013142, guid: 560ae8d399aa93f4db18b114d3b1a7e7,
+      type: 3}
+    startPos: {fileID: 7415140046702433984}
+    pause: 0
+  destructFeedback: {fileID: 550714314266337063}
+  instantStart: 0
+  ps_TakeDamage: {fileID: 8820520791516950862, guid: 10120aedbfd3f6b4cac0dd1fb398e749,
+    type: 3}
+  ac_TakeDamage: {fileID: 8300000, guid: d75633d9edd4e42cd9ff7565ea6ec81c, type: 3}
+  range: 20
+  squaredRange: 0
+  squareRange: {x: 0, y: 0, z: 0}
+  effectDuration: 3
+  onRootParticles: {fileID: 8318455371538277365}
+  spawneablePosition: {fileID: 1567385402993676857}
+  effectOwner: 3
+  animEvent: {fileID: 4319036408484558063}
+  col: {fileID: 1567385403649229930}
 --- !u!1 &2364999888076193402
 GameObject:
   m_ObjectHideFlags: 0
@@ -352,7 +414,6 @@ GameObject:
   - component: {fileID: 1567385403649229930}
   - component: {fileID: 1567385403649229925}
   - component: {fileID: 5207076468062944552}
-  - component: {fileID: 5475189127070787873}
   - component: {fileID: 550714314266337063}
   - component: {fileID: 4388119331017653163}
   - component: {fileID: 5383484165193690159}
@@ -393,8 +454,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8b64c0ffff844424e87460f587313497, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  castingBar_img: {fileID: 2364999888713449103}
-  castingBar: {fileID: 2364999888076193402}
   castingTime: 5
 --- !u!54 &1567385403649229929
 Rigidbody:
@@ -457,53 +516,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 31c654aceed85c84397fac2e8e3003a9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &5475189127070787873
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2364999888898351089}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7a21eab686788a34aa15e2fa375c9acf, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  poolname: 
-  death: 0
-  OnDeath:
-    m_PersistentCalls:
-      m_Calls: []
-  dmgData: {fileID: 0}
-  dmgReceiver: {fileID: 1567385403649229925}
-  lifesystem: {fileID: 5383484165193690159}
-  rootTransform: {fileID: 2364999888898351091}
-  animator: {fileID: 7969059386190144152}
-  myCastingBar: {fileID: 2364999888898351088}
-  effectStun: {fileID: 5527026160657295832}
-  timeToCast: 5
-  feedback:
-    goToPos: {fileID: 3958526303383395777, guid: 9e3854d97844ae747993f6893668c5b0,
-      type: 3}
-    timeToGoPos: 1
-    chargeParticle: {fileID: 2953673145211013142, guid: 560ae8d399aa93f4db18b114d3b1a7e7,
-      type: 3}
-    percentToAppear: 0.4
-    startPos: {fileID: 7415140046702433984}
-    pause: 0
-  instantStart: 0
-  ps_TakeDamage: {fileID: 8820520791516950862, guid: 10120aedbfd3f6b4cac0dd1fb398e749,
-    type: 3}
-  ac_TakeDamage: {fileID: 8300000, guid: d75633d9edd4e42cd9ff7565ea6ec81c, type: 3}
-  range: 20
-  squaredRange: 0
-  squareRange: {x: 0, y: 0, z: 0}
-  effectDuration: 3
-  onRootParticles: {fileID: 8318455371538277365}
-  spawneablePosition: {fileID: 1567385402993676857}
-  effectOwner: 3
-  animEvent: {fileID: 4319036408484558063}
-  col: {fileID: 1567385403649229930}
 --- !u!114 &550714314266337063
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -555,7 +567,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   NoInitialize: 0
-  destroy: 1
+  destroy: 0
   dest_part: {fileID: 0}
 --- !u!114 &5383484165193690159
 MonoBehaviour:

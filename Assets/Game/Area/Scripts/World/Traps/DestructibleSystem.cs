@@ -9,16 +9,29 @@ public class DestructibleSystem : MonoBehaviour
     [SerializeField] _Base_Life_System lifeSystem = null;
 
     [SerializeField] Float_TDListDictionary percentTier = new Float_TDListDictionary();
+    Float_TDListDictionary internalTier = new Float_TDListDictionary();
     int maxLife;
     [SerializeField] float force = 15;
 
-    private void Start()
+    public void Initialize()
     {
         if (percentTier.Count <= 0) return;
 
-        dmgReceiver?.AddTakeDamage(TakeDamage).Initialize(null, null, lifeSystem);
+        dmgReceiver?.AddTakeDamage(TakeDamage);
 
         maxLife = lifeSystem.life;
+        foreach (var item in percentTier)
+            internalTier.Add(item.Key, item.Value);
+    }
+
+    public void OnReset()
+    {
+        maxLife = lifeSystem.life;
+        foreach (var item in percentTier)
+        {
+            internalTier.Add(item.Key, item.Value);
+            for (int v = 0; v < percentTier[item.Key].Count; v++) percentTier[item.Key][v].OnReset();
+        }
     }
 
     void TakeDamage(DamageData data)
@@ -26,7 +39,7 @@ public class DestructibleSystem : MonoBehaviour
         List<float> percents = new List<float>();
         float per = (float)lifeSystem.Life / (float)maxLife;
 
-        foreach (var item in percentTier)
+        foreach (var item in internalTier)
         {
             if (item.Key >= per) percents.Add(item.Key);
         }
@@ -38,10 +51,10 @@ public class DestructibleSystem : MonoBehaviour
                 for (int v = 0; v < percentTier[percents[i]].Count; v++)
                 {
                     Vector3 dir = (percentTier[percents[i]][v].transform.position - transform.position).normalized;
-                    percentTier[percents[i]][v].DropPiece(dir, force);
+                    internalTier[percents[i]][v].DropPiece(dir, force);
                 }
 
-                percentTier.Remove(percents[i]);
+                internalTier.Remove(percents[i]);
             }
         }
     }

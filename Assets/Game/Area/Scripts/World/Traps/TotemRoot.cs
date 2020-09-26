@@ -22,17 +22,28 @@ public class TotemRoot : Totem
     {
         base.OnInitialize();
 
-        myChar = Main.instance.GetChar();
-
-        StartCoroutine(CheckDistance());
-
         ParticlesManager.Instance.GetParticlePool(onRootParticles.name, onRootParticles);
 
         animEvent.Add_Callback("TeleportAnim", TeleportForAnim);
-
-        dmgReceiver.AddInvulnerability(Damagetype.All);
     }
 
+    protected override void OnTurnOn()
+    {
+        base.OnTurnOn();
+        myChar = Main.instance.GetChar();
+        StartCoroutine(CheckDistance());
+        dmgReceiver.AddInvulnerability(Damagetype.All);
+        animator.enabled = true;
+    }
+
+    protected override void OnTurnOff()
+    {
+        base.OnTurnOff();
+        animator.ResetTrigger("Teleport");
+        animator.Play("idle");
+        animator.enabled = false;
+        col.enabled = true;
+    }
 
     IEnumerator CheckDistance()
     {
@@ -60,13 +71,6 @@ public class TotemRoot : Totem
         myChar.GetComponent<EffectReceiver>().TakeEffect(effectOwner, effectDuration);
 
         ParticlesManager.Instance.PlayParticle(onRootParticles.name, myChar.transform.position);
-    }
-
-    protected override void Die(Vector3 dir)
-    {
-        base.Die(dir);
-
-        gameObject.SetActive(false);
     }
 
     protected override void InternalStunOver()

@@ -12,6 +12,8 @@ public class TotemDestruible : MonoBehaviour
         render = GetComponent<Renderer>();
     }
 
+    public void OnReset() => render.enabled = true;
+
     public void DropPiece(Vector3 dir, float force)
     {
         render.enabled = false;
