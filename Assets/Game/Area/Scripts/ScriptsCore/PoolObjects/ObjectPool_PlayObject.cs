@@ -5,9 +5,12 @@ using UnityEngine;
 
 public class ObjectPool_PlayObject : SingleObjectPool<PlayObject>
 {
-    public void Configure(PlayObject obj)
+    public string MyName { get; private set; }
+
+    public void Configure(PlayObject obj, string name)
     {
         prefab = obj;
+        MyName = name;
     }
 
     public PlayObject GetPlayObject(float destroyTime = 0)

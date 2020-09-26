@@ -11,7 +11,7 @@ public abstract class PlayObject : MonoBehaviour, IPauseable
     public string poolname;
     bool isOn;
     public CustomSpawner Spawner { private get; set; }
-    public ObjectPool_PlayObject Pool { private get; set; }
+    public ObjectPool_PlayObject Pool { get; set; }
 
     bool alreadyInitialized = false;
     public void Initialize() { if (!alreadyInitialized) { OnInitialize(); alreadyInitialized = true; } }

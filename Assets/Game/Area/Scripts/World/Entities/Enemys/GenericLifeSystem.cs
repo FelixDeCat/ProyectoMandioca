@@ -71,4 +71,9 @@ public class GenericLifeSystem : _Base_Life_System
         
         onFinishCallback.Invoke();
     }
+
+    public void ChangeLife(int newLife)
+    {
+        lifesystem.SetLife(newLife);
+    }
 }

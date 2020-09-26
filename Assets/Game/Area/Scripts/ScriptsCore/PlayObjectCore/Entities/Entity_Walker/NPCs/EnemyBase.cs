@@ -8,6 +8,7 @@ public abstract class EnemyBase : NPCBase
 {
     #region Variables
     [HideInInspector] public bool death;
+    public string CurrentScene { get; set; }
 
     #endregion
 
@@ -19,7 +20,7 @@ public abstract class EnemyBase : NPCBase
     [Header("BaseThings")]
     [SerializeField] protected DamageData dmgData;
     [SerializeField] protected DamageReceiver dmgReceiver;
-    [SerializeField] protected GenericLifeSystem lifesystem = null;
+    [SerializeField] public GenericLifeSystem lifesystem = null;
     protected Rigidbody rb;
     [SerializeField] protected Transform rootTransform = null;
     [SerializeField] protected Animator animator = null;
