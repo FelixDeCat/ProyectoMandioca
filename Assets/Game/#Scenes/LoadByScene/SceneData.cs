@@ -7,4 +7,5 @@ public class SceneData : ScriptableObject
 {
     public string[] scenes_to_view;
     public string[] scenes_to_reset;
+    public GameObject[] DetailLayerPrefabs;
 }

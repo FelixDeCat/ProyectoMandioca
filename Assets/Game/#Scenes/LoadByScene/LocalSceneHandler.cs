@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngineInternal;
 
 /// <summary>
 /// aca no voy a hacer getters ni setters... quiero que sea todo lo mas directo posible
@@ -15,7 +16,16 @@ public class LocalSceneHandler : LoadComponent
         var trigger = GetComponentInChildren<TriggerDispatcher>();
         trigger.SubscribeToEnter(OnEnterToThisScene);
 
-        yield return ResourcesLoad();
+        if (string.IsNullOrEmpty(prefabname)) yield break;
+        ResourceRequest req = Resources.LoadAsync<GameObject>(prefabname);
+        while (req.progress < 0.9f)
+        {
+            yield return null;
+        }
+        while (!req.isDone) yield return null;
+
+        Instantiate(req.asset, this.transform);
+
         yield return null;
     }
 
@@ -23,18 +33,6 @@ public class LocalSceneHandler : LoadComponent
     {
         NewSceneStreamer.instance.LoadScene(SceneData.name, false, true);
         LocalToEnemyManager.ResetScenes(SceneData.scenes_to_reset);
-    }
-
-    IEnumerator ResourcesLoad()
-    {
-        if (string.IsNullOrEmpty(prefabname)) yield break;
-        ResourceRequest req = Resources.LoadAsync<GameObject>(prefabname);
-        while (req.progress < 0.9f)
-        {
-            yield return null;
-        }
-        Instantiate(req.asset, this.transform);
-        yield return null;
     }
 
 }

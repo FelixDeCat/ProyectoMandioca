@@ -4,6 +4,7 @@ using UnityEngine;
 using System;
 using UnityEngine.SceneManagement;
 using System.Threading;
+using UnityEngine.Scripting;
 
 public class NewSceneStreamer : MonoBehaviour
 {
@@ -36,10 +37,8 @@ public class NewSceneStreamer : MonoBehaviour
 
     IEnumerator LoadCurrentScene(string sceneName, bool LoadScreen = false, bool LoadNeighbor = false, Action OnEnd = null)
     {
-        Debug.Log("Cargando la: " + sceneName);
-
         currentScene = sceneName;
-        if (!IsLoaded(currentScene)) yield return LoadAsyncAdditive(sceneName, LoadScreen, LoadNeighbor, OnEnd);
+        if (!IsLoaded(currentScene)) yield return LoadAsyncAdditive(sceneName, LoadScreen, LoadNeighbor, true, OnEnd);
 
         float failsafeTime = Time.realtimeSinceStartup + maxLoadWaitTime;
         while ((loading.Count > 0) && (Time.realtimeSinceStartup < failsafeTime)) { yield return null; }
@@ -63,12 +62,15 @@ public class NewSceneStreamer : MonoBehaviour
         Debug.Log("LoadNeighbor coroutine");
         for (int i = 0; i < neighbors.Length; i++)
         {
-            yield return LoadAsyncAdditive(neighbors[i], false, false, null);
+            if (!loaded.Contains(neighbors[i]))
+            {
+                yield return LoadAsyncAdditive(neighbors[i], false, false, false, null);
+            }
         }
         HashSet<string> to_unload = new HashSet<string>(loaded);
         to_unload.ExceptWith(neighbors);
         to_unload.Remove(currentScene);
-        foreach (var u in to_unload)
+        foreach (var u in to_unload)//cambiarlo por algo mas performante
         {
             Destroy(GameObject.Find(u));
             loaded.Remove(u);
@@ -82,7 +84,7 @@ public class NewSceneStreamer : MonoBehaviour
         }
     }
 
-    IEnumerator LoadAsyncAdditive(string sceneName, bool LoadScreen = false, bool LoadNeighbor = false, Action OnEnd = null)
+    IEnumerator LoadAsyncAdditive(string sceneName, bool LoadScreen = false, bool LoadNeighbor = false, bool exe = true, Action OnEnd = null)
     {
         if (LoadScreen)
         {
@@ -95,13 +97,15 @@ public class NewSceneStreamer : MonoBehaviour
         if (!IsLoading(sceneName) && !IsLoaded(sceneName))
         {
             loading.Add(sceneName);
+            
             AsyncOperation asyncOperation = SceneManager.LoadSceneAsync(sceneName, LoadSceneMode.Additive);
+            
             while (asyncOperation.progress < 0.9f)
             {
-                if (LoadScreen)
-                {
-                    //bla bla bla
-                }
+                yield return null;
+            }
+            while (!asyncOperation.isDone)
+            {
                 yield return null;
             }
             //yield return new WaitForEndOfFrame();
@@ -113,24 +117,21 @@ public class NewSceneStreamer : MonoBehaviour
         else
         {
             EndLoad(sceneName, LoadScreen, LoadNeighbor, OnEnd);
+            
         }
-
-        CustomOperation op = new CustomOperation();
 
         yield return null;
     }
 
     void EndLoad(string sceneName, bool LoadScreen = false, bool LoadNeighbor = false, Action OnEnd = null)
     {
-        Debug.Log("EndLoad");
         loading.Remove(sceneName);
         loaded.Add(sceneName);
-        Debug.Log("hashset");
 
+        //optimizar esto ;) con lo de "para probar"... agregarle que si no terminó la operacion no continue
         GameObject go = GameObject.Find(sceneName);
         if (go != null)
         {
-            Debug.Log("hay go con este nombre");
             var local = go.GetComponent<LocalSceneHandler>();
             if (local != null) { 
                 RegisterLocalScene(sceneName, local);
