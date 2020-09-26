@@ -119,6 +119,9 @@ public class JabaliEnemy : EnemyWithCombatDirector
     {
         ragdoll.Ragdoll(false, Vector3.zero);
         death = false;
+        chargeOk = true;
+        cargeTimer = 0;
+        friendly = true;
         sm.SendInput(JabaliInputs.DISABLE);
     }
 
@@ -182,8 +185,6 @@ public class JabaliEnemy : EnemyWithCombatDirector
     protected override void OnFixedUpdate() { }
     protected override void OnTurnOff()
     {
-        if (sm.Current.Name == "Die") gameObject.SetActive(false);
-
         sm.SendInput(JabaliInputs.DISABLE);
         combatElement.ExitCombat();
         groundSensor?.TurnOff();
@@ -405,6 +406,7 @@ public class JabaliEnemy : EnemyWithCombatDirector
             .Done();
 
         ConfigureState.Create(dead)
+            .SetTransition(JabaliInputs.DISABLE, disable)
             .Done();
 
         ConfigureState.Create(disable)
@@ -438,7 +440,7 @@ public class JabaliEnemy : EnemyWithCombatDirector
 
         new JabaliStun(petrified, sm, StartStun, TickStun, EndStun);
 
-        new JabaliDeath(dead, sm, ragdoll, sounds.dead.name).SetThis(combatElement).SetDirector(director);
+        new JabaliDeath(dead, sm, ragdoll, sounds.dead.name, ReturnToSpawner).SetThis(combatElement).SetDirector(director);
 
         disable.OnEnter += (input) => DisableObject();
 

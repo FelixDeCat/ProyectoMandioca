@@ -7,7 +7,7 @@ public class CaronteSkill_RagingPoolsOfFire : GOAP_Skills_Base
     [SerializeField] CustomSpawner fireSpawner = null;
     [SerializeField] FirePools firePools;
 
-    float _count;
+    float _timer;
     [SerializeField] float duration;
 
 
@@ -51,11 +51,11 @@ public class CaronteSkill_RagingPoolsOfFire : GOAP_Skills_Base
 
     protected override void OnUpdate()
     {
-        _count += Time.deltaTime;
+        _timer += Time.deltaTime;
 
-        if(_count >= duration)
+        if(_timer >= duration)
         {
-            _count = 0;
+            _timer = 0;
             owner.GetComponentInChildren<Animator>().SetTrigger("finishSkill");
             OnFinishSkill?.Invoke();
             Off();

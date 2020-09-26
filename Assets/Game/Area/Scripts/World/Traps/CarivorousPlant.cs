@@ -34,7 +34,6 @@ public class CarivorousPlant : EnemyBase
     protected override void OnInitialize()
     {
         base.OnInitialize();
-        on = true;
 
         dmgData.SetDamage(dmg).SetDamageType(dmgType).SetDamageInfo(DamageInfo.NonBlockAndParry).Initialize(this);
 
@@ -43,8 +42,6 @@ public class CarivorousPlant : EnemyBase
 
         animEvent.Add_Callback("DealDamage", DamageCharacter);
         animEvent.Add_Callback("DissapearPlant", DissappearPlant);
-
-        On();
     }
 
     protected override void OnUpdateEntity()
@@ -117,7 +114,7 @@ public class CarivorousPlant : EnemyBase
         OnOffTrap(false);
     }
 
-    void DissappearPlant() => gameObject.SetActive(false);
+    void DissappearPlant() => ReturnToSpawner();
 
     public void OnOffTrap(bool b)
     {
@@ -177,15 +174,41 @@ public class CarivorousPlant : EnemyBase
         Gizmos.DrawWireSphere(centerPoint.position, radious);
     }
 
-    protected override void OnTurnOn() { }
+    protected override void OnTurnOn()
+    {
+        on = true;
+        animator.enabled = true;
+    }
 
-    protected override void OnTurnOff() { }
+    protected override void OnTurnOff()
+    {
+        on = false;
+        animator.enabled = false;
+        if (attFXTemp)
+        {
+            ParticlesManager.Instance.StopParticle(attFeedback.name, attFXTemp);
+            attFXTemp = null;
+        }
+        antibug = false;
+
+        character?.GetCharMove().StopForceBool();
+        isZero = false;
+        character = null;
+
+        attackTimer = 0;
+        attackRecall = false;
+    }
 
     protected override void OnFixedUpdate() { }
 
     protected override void OnReset()
     {
-        animator.Play("Idle");
+        animator.enabled = true;
+        if (attFXTemp)
+        {
+            ParticlesManager.Instance.StopParticle(attFeedback.name, attFXTemp);
+            attFXTemp = null;
+        }
     }
 
     protected override void TakeDamageFeedback(DamageData data)

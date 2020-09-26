@@ -141,7 +141,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   poolname: 
-  model_destroyedVersion: {fileID: 7370496262025782177, guid: 30fd5bf5dd980314398c3d338f4fc805,
+  model_destroyedVersion: {fileID: 7370496262025782177, guid: 5e9e9ccee9f3a414bbe7601c59f0985f,
     type: 3}
   damageReceiver: {fileID: 2908605004755374866}
   _lifeSytstem: {fileID: 2908605004755374868}
@@ -151,8 +151,20 @@ MonoBehaviour:
       m_Calls: []
   OnDestroyed:
     m_PersistentCalls:
-      m_Calls: []
-  destroy: 1
+      m_Calls:
+      - m_Target: {fileID: 0}
+        m_MethodName: LoseArmor
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  NoInitialize: 0
+  destroy: 0
   dest_part: {fileID: 0}
 --- !u!1 &5260735001682701973
 GameObject:

@@ -5,6 +5,7 @@ using UnityEngine;
 public class EnemyArmor : MonoBehaviour
 {
     [SerializeField] DamageReceiver armoredObject = null;
+    [SerializeField] PropDestructible armor = null;
 
     private void Start()
     {
@@ -15,6 +16,16 @@ public class EnemyArmor : MonoBehaviour
     public void LoseArmor()
     {
         StartCoroutine(DelayedBrokeArmor());
+        armor.gameObject.SetActive(false);
+    }
+
+    public void OnReset()
+    {
+        armoredObject.AddInvulnerability(Damagetype.Normal);
+        armoredObject.AddInvulnerability(Damagetype.Heavy);
+        StopAllCoroutines();
+        armor.gameObject.SetActive(true);
+        armor.OnReset();
     }
 
     IEnumerator DelayedBrokeArmor()

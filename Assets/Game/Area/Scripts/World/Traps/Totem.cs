@@ -21,7 +21,6 @@ public abstract class Totem : EnemyBase
     bool casting;
     float timerCasting;
     protected bool stuned;
-    float animSpeed;
 
     protected override void OnInitialize()
     {
@@ -185,7 +184,7 @@ public abstract class Totem : EnemyBase
     }
     protected override void OnResume()
     {
-        base.OnPause();
+        base.OnResume();
         feedback.pause = false;
     }
 

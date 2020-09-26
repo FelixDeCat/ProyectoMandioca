@@ -96,7 +96,7 @@ public class CrowEnemy : EnemyWithCombatDirector
         else
             sm.SendInput(CrowInputs.IDLE);
 
-        timerToCast = cdToCast;
+        stopCD = true;
     }
     protected override void OnUpdateEntity()
     {
@@ -160,6 +160,10 @@ public class CrowEnemy : EnemyWithCombatDirector
 
     protected override void OnReset()
     {
+        if (castPartTemp != null)
+            ParticlesManager.Instance.StopParticle(castPartTemp.name, castPartTemp);
+        timerToCast = 0;
+        stopCD = true;
         ragdoll.Ragdoll(false, Vector3.zero);
         death = false;
         sm.SendInput(CrowInputs.DISABLE);
@@ -226,8 +230,6 @@ public class CrowEnemy : EnemyWithCombatDirector
     protected override void OnFixedUpdate() { }
     protected override void OnTurnOff()
     {
-        if (sm.Current.Name == "Die") gameObject.SetActive(false);
-
         sm.SendInput(CrowInputs.DISABLE);
         combatElement.ExitCombat();
     }
@@ -296,6 +298,7 @@ public class CrowEnemy : EnemyWithCombatDirector
             .Done();
 
         ConfigureState.Create(die)
+            .SetTransition(CrowInputs.DISABLE, disable)
             .Done();
 
         ConfigureState.Create(disable)
@@ -317,7 +320,7 @@ public class CrowEnemy : EnemyWithCombatDirector
 
         new DummyStunState<CrowInputs>(petrified, sm);
 
-        new CrowDead(die, sm, ragdoll).SetAnimator(animator).SetDirector(director).SetRigidbody(rb);
+        new CrowDead(die, sm, ragdoll, ReturnToSpawner).SetAnimator(animator).SetDirector(director).SetRigidbody(rb);
 
         new DummyDisableState<CrowInputs>(disable, sm, EnableObject, DisableObject);
     }

@@ -17,7 +17,9 @@ public class RagdollComponent : MonoBehaviour
     [SerializeField] Transform parentBonesToFind = null;
 
     Bone[] myBones;
-    Vector3[] transformpositions;
+
+    Vector3 principalBonePos;
+    Quaternion principalBoneRot;
 
     private void Awake()
     {
@@ -63,9 +65,17 @@ public class RagdollComponent : MonoBehaviour
 
         if (active)
         {
+            principalBonePos = principalBone.transform.localPosition;
+            principalBoneRot = principalBone.transform.localRotation;
+
             Vector3 temp = dir * explosionForce;
 
             principalBone.GetComponent<Rigidbody>().AddForce(temp, ForceMode.Impulse);
+        }
+        else
+        {
+            principalBone.transform.localPosition = principalBonePos;
+            principalBone.transform.localRotation = principalBoneRot;
         }
     }
 

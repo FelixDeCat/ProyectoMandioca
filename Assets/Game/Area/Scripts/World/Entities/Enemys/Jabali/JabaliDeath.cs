@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using System;
 
 namespace Tools.StateMachine
 {
@@ -8,11 +9,14 @@ namespace Tools.StateMachine
         float timer;
         bool desactive;
         string deadSound;
+        Action OnDissappear;
 
-        public JabaliDeath(EState<JabaliEnemy.JabaliInputs> myState, EventStateMachine<JabaliEnemy.JabaliInputs> _sm, RagdollComponent _ragdoll, string _deadSound) : base(myState, _sm)
+        public JabaliDeath(EState<JabaliEnemy.JabaliInputs> myState, EventStateMachine<JabaliEnemy.JabaliInputs> _sm, RagdollComponent _ragdoll,
+            string _deadSound, Action _OnDissappear) : base(myState, _sm)
         {
             ragdoll = _ragdoll;
             deadSound = _deadSound;
+            OnDissappear = _OnDissappear;
         }
 
         protected override void Enter(EState<JabaliEnemy.JabaliInputs> input)
@@ -37,7 +41,9 @@ namespace Tools.StateMachine
 
             if (timer >= 8)
             {
-                ragdoll.gameObject.SetActive(false);
+                timer = 0;
+                desactive = false;
+                OnDissappear?.Invoke();
             }
         }
     }

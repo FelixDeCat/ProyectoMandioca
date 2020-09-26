@@ -20,8 +20,6 @@ public class GenericLifeSystem : _Base_Life_System
     {
         CreateLifeBar();
     }
-
-    public void ResetLifeSystem() => lifesystem.ResetLife();
     protected void CreateLifeBar()
     {
         Initialize();

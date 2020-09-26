@@ -20,6 +20,12 @@ public class PropDestructible : BaseDestructible
         if (savedDestroyedVersion) savedDestroyedVersion.gameObject.SetActive(false);
     }
 
+    public void OnReset()
+    {
+        _lifeSytstem.ResetLifeSystem();
+        Calculate();
+    }
+
     protected override void OnDestroyDestructible()
     {
         if (savedDestroyedVersion)

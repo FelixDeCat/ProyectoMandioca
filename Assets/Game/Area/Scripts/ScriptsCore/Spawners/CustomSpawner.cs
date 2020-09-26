@@ -22,7 +22,7 @@ public class CustomSpawner : PlayObject
     [SerializeField] private Transform spawnSpot = null;
     public SpawnerSpot spot = new SpawnerSpot();
     [SerializeField] private int maxSpawn = 10;
-    int currentSpawn;
+    public int currentSpawn;
     [SerializeField] bool noUpdate = false;
 
 

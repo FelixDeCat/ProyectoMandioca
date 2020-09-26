@@ -23,6 +23,8 @@ public class _Base_Life_System : MonoBehaviour
     {
         lifesystem.Config(life, LoseLife, GainLife, Death);
     }
+
+    public void ResetLifeSystem() => lifesystem.ResetLife();
     void LoseLife() { }
     void GainLife() { }
     void Death() { }

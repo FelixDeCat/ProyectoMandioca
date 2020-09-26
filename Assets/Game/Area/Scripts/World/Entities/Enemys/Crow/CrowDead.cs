@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -9,10 +10,12 @@ namespace Tools.StateMachine
         RagdollComponent ragdoll;
         float timer;
         bool desactive;
+        Action OnDissappear;
 
-        public CrowDead(EState<CrowEnemy.CrowInputs> myState, EventStateMachine<CrowEnemy.CrowInputs> _sm, RagdollComponent _ragdoll) : base(myState, _sm)
+        public CrowDead(EState<CrowEnemy.CrowInputs> myState, EventStateMachine<CrowEnemy.CrowInputs> _sm, RagdollComponent _ragdoll, Action _OnDissappear) : base(myState, _sm)
         {
             ragdoll = _ragdoll;
+            OnDissappear = _OnDissappear;
         }
 
         protected override void Enter(EState<CrowEnemy.CrowInputs> last)
@@ -37,7 +40,11 @@ namespace Tools.StateMachine
             }
 
             if (timer >= 8)
-                ragdoll.gameObject.SetActive(false);
+            {
+                desactive = false;
+                timer = 0;
+                OnDissappear?.Invoke();
+            }
         }
     }
 }

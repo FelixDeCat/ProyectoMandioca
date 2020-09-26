@@ -25,6 +25,7 @@ public abstract class EnemyBase : NPCBase
     [SerializeField] protected Transform rootTransform = null;
     [SerializeField] protected Animator animator = null;
     float currentAnimSpeed;
+    [SerializeField] UnityEvent OnResetEnemy = null;
 
     protected override void OnInitialize()
     {
@@ -37,6 +38,7 @@ public abstract class EnemyBase : NPCBase
     {
         StopAllCoroutines();
         lifesystem.ResetLifeSystem();
+        OnResetEnemy?.Invoke();
         OnReset();
     }
 
