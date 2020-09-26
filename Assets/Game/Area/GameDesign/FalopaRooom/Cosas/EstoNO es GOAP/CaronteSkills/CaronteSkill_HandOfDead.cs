@@ -62,7 +62,8 @@ public class CaronteSkill_HandOfDead : GOAP_Skills_Base
             owner.GetComponent<Rigidbody>().MovePosition(hand.Root.transform.position);
         }
 
-        //OnFinishSkill?.Invoke();
+        owner.GetComponentInChildren<Animator>().SetTrigger("finishSkill");
+        OnFinishSkill?.Invoke();
         Destroy(hand.gameObject);
     }
 

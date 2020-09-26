@@ -29,7 +29,7 @@ namespace GOAP
 
         }
 
-        void Start()
+        void Awake()
         {
             instance = this;
 

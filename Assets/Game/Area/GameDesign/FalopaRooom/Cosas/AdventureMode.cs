@@ -19,16 +19,12 @@ public class AdventureMode : MonoBehaviour
 
     void AdventureModeSpeed()
     {
-        if (CaronteEvent.instance.caronteActive) return;
-
         Debug.Log("Velocidad de aventura");
         _hero.GetCharMove().SetSpeed(startingSpeed * speedScaler);
     }
 
     void CombatModeSpeed()
     {
-        if (CaronteEvent.instance.caronteActive) return;
-
         Debug.Log("Velocidad de combate");
         _hero.GetCharMove().SetSpeed();
     }

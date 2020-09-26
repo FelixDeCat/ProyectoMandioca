@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class CaronteScene_Handler : MonoBehaviour
 {
@@ -15,7 +16,7 @@ public class CaronteScene_Handler : MonoBehaviour
 
     void OnPlayerDeath()
     {
-        LoadSceneHandler.instance.LoadAScene("Caronte");
+        SceneManager.LoadScene("Caronte", LoadSceneMode.Additive);
+        //LoadSceneHandler.instance.LoadAScene("Caronte");
     }
-
 }

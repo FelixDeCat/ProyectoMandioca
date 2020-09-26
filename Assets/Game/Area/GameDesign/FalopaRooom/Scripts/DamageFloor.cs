@@ -9,22 +9,19 @@ public class DamageFloor : PlayObject
     [SerializeField] ParticleSystem telegraphAttack = null;
     //[SerializeField] ParticleSystem fireAttack = null;
 
-    void Start()
+    void OnEnable()
     {
-        dmgDATA = GetComponent<DamageData>();
-        dmgDATA.SetDamage(5);
 
-        StartCoroutine(SpawnDamageFloor());
+      
     }
+
 
     IEnumerator SpawnDamageFloor()
     {
         yield return new WaitForSeconds(3);
         
         GetComponent<BoxCollider>().enabled = true;
-        //GetComponent<MeshRenderer>().enabled = true;
-        
-        Destroy(gameObject, 3);
+       
     }
 
     private void OnTriggerEnter(Collider other)
@@ -39,17 +36,21 @@ public class DamageFloor : PlayObject
 
     protected override void OnInitialize()
     {
-        
+
+        dmgDATA = GetComponent<DamageData>();
+        dmgDATA.SetDamage(5000);
+
+        StartCoroutine(SpawnDamageFloor());
     }
 
     protected override void OnTurnOn()
     {
-       
+
     }
 
     protected override void OnTurnOff()
     {
-       
+        Debug.Log("Se apaga");
     }
 
     protected override void OnUpdate()

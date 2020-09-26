@@ -81,8 +81,8 @@ namespace GOAP
             //Animation
             _anim = GetComponentInChildren<Animator>();
             _animEvent = GetComponentInChildren<AnimEvent>();
-            _animEvent.Add_Callback("meleeAttack", OnMeleeAttackHit);
-            _animEvent.Add_Callback("finishAttack", OnFinishMeleeAttackAnimation);
+            //_animEvent.Add_Callback("meleeAttack", OnMeleeAttackHit);
+            //_animEvent.Add_Callback("finishAttack", OnFinishMeleeAttackAnimation);
             _animEvent.Add_Callback("finishSkill", OnFinishSkillCast);
 
             //prendo y apago el sensor cuando la animacion lo pide

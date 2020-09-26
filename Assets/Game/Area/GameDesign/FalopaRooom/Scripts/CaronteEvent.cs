@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using System;
 using GOAP;
+using UnityEngine.SceneManagement;
 
 
 public class CaronteEvent : MonoBehaviour
@@ -17,6 +18,8 @@ public class CaronteEvent : MonoBehaviour
     [SerializeField] CaronteHand hand_pf = null;
     [SerializeField] Ente caronte_pf = null;
     [SerializeField] float delayedHand = 5;
+    [SerializeField] float delayedCaronteSpawn = 5;
+    [SerializeField] Transform caronteSpawnSpot;
 
     float _count;
    public bool _spawnedHand = false;
@@ -33,32 +36,41 @@ public class CaronteEvent : MonoBehaviour
 
     public void Start()
     {     
-        //character = Main.instance.GetChar();
+        character = Main.instance.GetChar();
         //character.Life.ADD_EVENT_OnCaronteDeathEvent(OnPlayerDeath);
         //character.Life.ADD_EVENT_OnCaronteDeathEvent(TurnOnCarontePP);
         ss_controller.OnSSRecolected += () => OnDefeatCaronte(Vector3.zero);
 
-       
-    }
-
-    //void OnPlayerDeath()
-    //{
         
-    //    LoadSceneHandler.instance.LoadAScene("Caronte");
-    //}
+    }
 
     private void Update()
     {
-        if (!_spawnedHand) return;
+        if (caronteActive) return;
 
         _count += Time.deltaTime;
 
-        if(_count >= delayedHand)
+        if (_count >= delayedCaronteSpawn)
         {
             _count = 0;
-            _spawnedHand = false;
-            SpawnHand();
+            SpawnCaronte();
         }
+
+        //HandTimer();
+    }
+
+    void HandTimer()
+    {
+        //if (!_spawnedHand) return;
+
+        //_count += Time.deltaTime;
+
+        //if(_count >= delayedHand)
+        //{
+        //    _count = 0;
+        //    _spawnedHand = false;
+        //    SpawnHand();
+        //}
     }
 
 
@@ -68,17 +80,17 @@ public class CaronteEvent : MonoBehaviour
     
 
 
-        carontePP.SetActive(true);
-        _spawnedHand = true;
+        //carontePP.SetActive(true);
+        //_spawnedHand = true;
 
         //Apago a todos
-        enemies = Tools.Extensions.Extensions.FindInRadius<PlayObject>(Main.instance.GetChar(), 1000, mask);
+        //enemies = Tools.Extensions.Extensions.FindInRadius<PlayObject>(Main.instance.GetChar(), 1000, mask);
 
-        foreach (PlayObject po in enemies)
-        {
-            po.Off();
-            po.gameObject.SetActive(false);
-        }
+        //foreach (PlayObject po in enemies)
+        //{
+        //    po.Off();
+        //    po.gameObject.SetActive(false);
+        //}
      
     }
 
@@ -121,24 +133,27 @@ public class CaronteEvent : MonoBehaviour
         WorldState.instance.ente = caronte;
         caronte.OnDeath += OnDefeatCaronte;
         caronte.OnDeath += (v3) => Destroy(caronte.gameObject);
-        caronte.transform.position = GetSurfacePos();
+        caronte.transform.position = caronteSpawnSpot.position; 
+        //caronte.transform.position = GetSurfacePos();
 
 
         caronte.Initialize();
-        //stopMovement = false;
-        return;
     }
 
 
 
     void OnDefeatCaronte(Vector3 v3)
     {
-        TurnOffCarontePP();
+        character.GetCharMove().SetSpeed();
         character.Life.Heal(Mathf.RoundToInt(character.Life.GetMax() * 0.25f));
         character.Life.AllowCaronteEvent();
-        character.GetCharMove().SetSpeed();
-        
+        UnloadScene();
 
+    }
+
+    void UnloadScene()
+    {
+        SceneManager.UnloadSceneAsync("Caronte");
     }
 
     public void TurnOffCarontePP()

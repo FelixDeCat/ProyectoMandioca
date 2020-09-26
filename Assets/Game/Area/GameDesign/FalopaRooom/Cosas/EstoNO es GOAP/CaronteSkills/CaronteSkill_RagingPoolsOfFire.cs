@@ -5,10 +5,16 @@ using UnityEngine;
 public class CaronteSkill_RagingPoolsOfFire : GOAP_Skills_Base
 {
     [SerializeField] CustomSpawner fireSpawner = null;
+    [SerializeField] FirePools firePools;
+
+    float _count;
+    [SerializeField] float duration;
+
 
     protected override void OnExecute()
     {
-        fireSpawner.ActivateSpawner();
+        On();
+        firePools.Activate();
         owner.GetComponentInChildren<Animator>().SetTrigger("ragingPools");
     }
 
@@ -20,7 +26,7 @@ public class CaronteSkill_RagingPoolsOfFire : GOAP_Skills_Base
 
     protected override void OnInitialize()
     {
-        OnFinishSkill += () => { fireSpawner.StopSpawner(); fireSpawner.ResetSpawner(); };
+        firePools = FindObjectOfType<FirePools>();
     }
 
     protected override void OnPause()
@@ -45,6 +51,14 @@ public class CaronteSkill_RagingPoolsOfFire : GOAP_Skills_Base
 
     protected override void OnUpdate()
     {
+        _count += Time.deltaTime;
 
+        if(_count >= duration)
+        {
+            _count = 0;
+            owner.GetComponentInChildren<Animator>().SetTrigger("finishSkill");
+            OnFinishSkill?.Invoke();
+            Off();
+        }
     }
 }

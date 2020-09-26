@@ -42,7 +42,6 @@ public class HandOfDead_Handler : MonoBehaviour
 
         if (_count >= _lifeTime)
         {
-            Debug.Log("entro aca");
             _count = 0;
             OnReachedDestination?.Invoke(this);
             Destroy(gameObject);

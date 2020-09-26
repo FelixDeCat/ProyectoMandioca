@@ -16,13 +16,14 @@ public class SoulShard_controller : MonoBehaviour
     int _recolected = 0;
     List<SoulShard> ss_pool = new List<SoulShard>();
 
-    void Start()
+    void Awake()
     {
         CacheShards();
     }
 
     void CacheShards()
     {
+        
         for (int i = 0; i < shardsAmount; i++)
         {
             var a = Instantiate<SoulShard>(ss_pf, transform);
@@ -53,8 +54,9 @@ public class SoulShard_controller : MonoBehaviour
 
     public void ReleaseShards()
     {
+        Debug.Log("PONGO LAS SHARDS");
         _recolected = 0;
-        spot.position = Main.instance.GetChar().Root.position;
+        //spot.position = Main.instance.GetChar().Root.position;
         foreach (SoulShard ss in ss_pool)
         {
             ss.transform.position = GetSurfacePos();

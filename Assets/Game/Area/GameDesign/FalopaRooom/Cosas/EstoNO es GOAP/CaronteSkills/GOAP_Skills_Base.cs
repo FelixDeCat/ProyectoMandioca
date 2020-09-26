@@ -14,6 +14,7 @@ public abstract class GOAP_Skills_Base : MonoBehaviour
 
     public float CD_time;
     public bool isAvaliable;
+    public bool stopSkillByCode;
     public bool instantSkill;
     public string skillName;
     protected Transform owner;
