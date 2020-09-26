@@ -22,6 +22,7 @@ public class LoadSceneHandler : MonoBehaviour
     public GenericBar GetMasterBar() => master_genbar_Scene;
 
     string SceneToLoad;
+    HashSet<string> loaded = new HashSet<string>();
 
     public List<LoadComponent> loadCOmponents;
 
@@ -64,12 +65,16 @@ public class LoadSceneHandler : MonoBehaviour
 
     IEnumerable Load(bool loadScene = true, LoadSceneMode mode = LoadSceneMode.Single)
     {
-        yield return ComponentsToLoad().GetEnumerator();
-        if (loadScene) if (!stayHere) 
-            { 
-                yield return LoadAsyncScene(mode); 
-            }
-        loadscreen.SetActive(false);
+        if (!loaded.Contains(SceneToLoad))
+        {
+            yield return ComponentsToLoad().GetEnumerator();
+            if (loadScene) if (!stayHere)
+                {
+                    yield return LoadAsyncScene(mode);
+                    loaded.Add(SceneToLoad);
+                }
+            loadscreen.SetActive(false);
+        }
     }
 
     public IEnumerable LoadComponents(LoadComponent[] newLoadComponents, Action endCoroutine)

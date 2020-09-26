@@ -129,7 +129,7 @@ public class CaronteEvent : MonoBehaviour
      
         character.GetCharMove().SetSpeed(character.GetCharMove().GetDefaultSpeed * .6f);
 
-        caronte = GameObject.Instantiate<Ente>(caronte_pf);
+        caronte = GameObject.Instantiate<Ente>(caronte_pf, this.transform);
         WorldState.instance.ente = caronte;
         caronte.OnDeath += OnDefeatCaronte;
         caronte.OnDeath += (v3) => Destroy(caronte.gameObject);
