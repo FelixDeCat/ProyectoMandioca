@@ -19,7 +19,7 @@ public class Debug_Interactables : SingleObjectPool<GenericLabel>
 
         for (int i = 0; i < interacts.Count; i++)
         {
-            if (interacts[i].gameObject == null) return;
+            if (interacts[i] == null) return;
 
             if (interacts[i].Equals(sensor.Most_Close))
             {
