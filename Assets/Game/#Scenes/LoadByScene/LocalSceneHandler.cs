@@ -10,6 +10,7 @@ public class LocalSceneHandler : LoadComponent
 {
     public SceneData SceneData;
     public string prefabname;
+    public LoadComponent[] loads;
 
     protected override IEnumerator LoadMe()
     {
@@ -27,6 +28,12 @@ public class LocalSceneHandler : LoadComponent
         Instantiate(req.asset, this.transform);
 
         yield return null;
+
+
+        for (int i = 0; i < loads.Length; i++)
+        {
+            yield return loads[i].Load();
+        }
     }
 
     public void OnEnterToThisScene()
