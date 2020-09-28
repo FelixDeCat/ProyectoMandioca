@@ -17,6 +17,7 @@ public abstract class EnemyWithCombatDirector : EnemyBase
     }
 
     public void SetRange(float distance) => combatElement.distancePos = distance;
+    public float GetRange() => combatElement.distancePos;
 
     public abstract void IAInitialize(CombatDirector director);
 

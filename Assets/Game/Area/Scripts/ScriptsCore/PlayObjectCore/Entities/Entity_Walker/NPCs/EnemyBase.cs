@@ -37,6 +37,7 @@ public abstract class EnemyBase : NPCBase
     public virtual void ResetEntity()
     {
         StopAllCoroutines();
+        EnemyManager.Instance.DeleteEnemy(this);
         lifesystem.ResetLifeSystem();
         OnResetEnemy?.Invoke();
         OnReset();

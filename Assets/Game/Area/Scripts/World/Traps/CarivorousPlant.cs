@@ -7,14 +7,14 @@ using UnityEngine.Events;
 public class CarivorousPlant : EnemyBase
 {
     public CharacterHead character;
-    [SerializeField] float attractionForce = 500;
+    public float attractionForce = 500;
     [SerializeField] Transform centerPoint = null;
     [SerializeField] ForceMode mode = ForceMode.Acceleration;
     [SerializeField] AnimEvent animEvent = null;
     [SerializeField] LayerMask characterLayer = 0;
 
     [SerializeField] float radious = 3f;
-    [SerializeField] int dmg = 5;
+    public int dmg = 5;
     [SerializeField] float timeToDamage = 3;
     [SerializeField] Damagetype dmgType = Damagetype.Normal;
     [SerializeField] float attackCD = 2;

@@ -8,6 +8,9 @@ using UnityEngine.SceneManagement;
 
 public class CharacterInput : MonoBehaviour
 {
+    private const string Load = "0_Load";
+    private const string Menu = "NuevoMenu";
+
     public enum InputType { Joystick, Mouse, Other }
     public InputType input_type;
 
@@ -95,7 +98,7 @@ public class CharacterInput : MonoBehaviour
         DevelopTools.UI.Debug_UI_Tools.instance.CreateToogle("Input de Rotacion", true, ChangeRotation);
         LoadSceneHandler.instance.OnEndLoad += (x) =>
         {
-            if (x != 12 && x != 0 && inMenu)
+            if (x != Menu && x != Load && inMenu)
                 inMenu = false;
         };
     }

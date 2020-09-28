@@ -8,7 +8,7 @@ public class SpawnerSpot
     public float radious = 4;
     [SerializeField] float heightSpawn = 20;
     [SerializeField] LayerMask mask = 1 << 21;
-    [SerializeField] public Transform spawnSpot;
+    public Transform spawnSpot;
 
     public void Initialize(Transform _spawnSpot = null, float _radious = -1)
     {

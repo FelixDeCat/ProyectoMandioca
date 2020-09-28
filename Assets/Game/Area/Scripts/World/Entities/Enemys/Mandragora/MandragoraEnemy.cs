@@ -34,9 +34,9 @@ public class MandragoraEnemy : EnemyWithCombatDirector
     [SerializeField] PlayObject trapToDie = null;
     [SerializeField] float trapDuration = 5;
     [SerializeField] Transform rootToTrap = null;
-    [SerializeField] bool mandragoraIsTrap = false;
+    public bool mandragoraIsTrap = false;
     [SerializeField] TriggerDispatcher trigger = null;
-    [SerializeField] SpawnerSpot spawnerSpot = null;
+    public SpawnerSpot spawnerSpot = null;
 
     [Header("Feedback")]
     [SerializeField] AnimEvent anim = null;
