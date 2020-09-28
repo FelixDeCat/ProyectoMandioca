@@ -17,20 +17,15 @@ public abstract class Interactable : MonoBehaviour
     protected Action _executeAction;
     public float delayTime;
     protected bool updateDelay;
-    bool canInteract = true;
     
     public UnityEvent UE_OnEnter;
     public UnityEvent UE_OnExit;
     public Func<bool> predicate = delegate { return true; };
-    public bool CanInteract { get { return canInteract; } }
-    public void SetInteract(bool val) => canInteract = val;
     public void SetPredicate(Func<bool> _pred) => predicate = _pred;
 
     public void Enter(WalkingEntity entity)
     {
-        if (!canInteract) return;
         if (!predicate.Invoke()) return;
-
         if (!autoexecute) if (feedback.Length > 0) foreach (var fdbck in feedback) fdbck.Show();
         OnEnter(entity);
         UE_OnEnter.Invoke();
@@ -38,7 +33,6 @@ public abstract class Interactable : MonoBehaviour
     public void Exit()
     {
         if (!predicate.Invoke()) return;
-
         if (feedback.Length > 0) foreach (var fdbck in feedback) fdbck.Hide();
         OnExit();
         UE_OnExit.Invoke();
@@ -47,7 +41,6 @@ public abstract class Interactable : MonoBehaviour
     }
     public void Execute(WalkingEntity entity)
     {
-        if (!canInteract) return;
         if (!predicate.Invoke()) return;
 
         if (!_withDelay)

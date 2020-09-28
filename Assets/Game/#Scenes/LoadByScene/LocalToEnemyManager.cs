@@ -2,6 +2,10 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// esto lo tiré en gamecore, borrá esto cuando lo leas
+/// </summary>
+
 public class LocalToEnemyManager : MonoBehaviour
 {
     public static LocalToEnemyManager instance; private void Awake() => instance = this;

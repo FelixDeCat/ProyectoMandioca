@@ -10,8 +10,11 @@ public class InteractSensor : MonoBehaviour
     public bool isclose;
 
     List<Interactable> interactables;
+    public List<Interactable> Interacts { get { return interactables; } }
     Interactable current;
+    
     Interactable most_close;
+    public Interactable Most_Close { get { return most_close; } }
 
     public List<Interactable> filtered = new List<Interactable>();
 
@@ -72,6 +75,7 @@ public class InteractSensor : MonoBehaviour
             if (interactables[i].autoexecute && Vector3.Distance(interactables[i].transform.position, transform.position) < interactables[i].distancetoInteract)
             {
                 interactables[i].Execute(collector);
+                can_show_info = true;
             }
             else
             {
