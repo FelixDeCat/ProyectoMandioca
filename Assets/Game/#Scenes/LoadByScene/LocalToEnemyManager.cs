@@ -16,6 +16,8 @@ public class LocalToEnemyManager : MonoBehaviour
 
     void Reset(string[] scenes)
     {
+        if (scenes == null) return;
+        for (int i = 0; i < scenes.Length; i++) EnemyManager.Instance?.OnResetState(scenes[i]);
         // <-----
     }
     void LoadScene(string scene)
@@ -24,11 +26,12 @@ public class LocalToEnemyManager : MonoBehaviour
     }
     void UnLoadScene(string scene)
     {
+        EnemyManager.Instance.OnSaveStateEnemies(scene);
         // <-----
     }
     void SendEnemyScene(string scene, EnemyBase enemy)
     {
-        // <-----
+        EnemyManager.Instance.ChangeEnemyScene(scene, enemy);
     }
 }
 

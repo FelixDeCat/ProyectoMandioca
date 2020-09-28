@@ -11,26 +11,37 @@ public class EnemyManager : MonoBehaviour
 
     Dictionary<string, List<EnemyBase>> enemiesPerScenes = new Dictionary<string, List<EnemyBase>>();
 
-    private void Awake() => Instance = this;
+    private void Awake() { Instance = this; }
 
-    public void OnLoadEnemies(string sceneName)
+    public void OnLoadEnemies(string sceneName, ProxyEnemyBase[] enemiesToCharge)
     {
         enemiesPerScenes.Add(sceneName, new List<EnemyBase>());
 
         if (!scenesStates.ContainsKey(sceneName))
         {
+            for (int i = 0; i < enemiesToCharge.Length; i++)
+            {
+                var aux = SpawnEnemy<EnemyBase>(enemiesToCharge[i].myEnemy.name, sceneName, enemiesToCharge[i].myEnemy);
+                enemiesToCharge[i].SpawnEnemy(aux);
+                Destroy(enemiesToCharge[i].gameObject);
+            }
 
+            enemiesToCharge = new ProxyEnemyBase[0];
+
+            Debug.Log("Cargo Nuevos");
         }
         else
         {
             for (int i = 0; i < scenesStates[sceneName].Count; i++)
             {
-                var aux = SpawnEnemy(scenesStates[sceneName][i].poolName, sceneName);
+                var aux = SpawnEnemy<EnemyBase>(scenesStates[sceneName][i].poolName, sceneName);
                 scenesStates[sceneName][i].LoadState(aux);
             }
 
             scenesStates[sceneName].Clear();
             scenesStates.Remove(sceneName);
+
+            Debug.Log("Había estado guardado");
         }
     }
 
@@ -38,6 +49,8 @@ public class EnemyManager : MonoBehaviour
     {
         if (!scenesStates.ContainsKey(sceneName)) scenesStates.Add(sceneName, new List<EnemiesSaveStates<EnemyBase>>());
         else scenesStates[sceneName].Clear();
+
+        if (!enemiesPerScenes.ContainsKey(sceneName)) enemiesPerScenes.Add(sceneName, new List<EnemyBase>());
 
         for (int i = 0; i < enemiesPerScenes[sceneName].Count; i++)
         {
@@ -80,9 +93,10 @@ public class EnemyManager : MonoBehaviour
         enemiesPerScenes.Clear();
     }
 
-    public EnemyBase SpawnEnemy(string poolName, string sceneToSpawn, EnemyBase prefab = null)
+    public T SpawnEnemy<T>(string poolName, string sceneToSpawn, T prefab = null) where T : EnemyBase
     {
-        var aux = PoolManager.instance.GetObjectPool(poolName, prefab).GetPlayObject().GetComponent<EnemyBase>();
+        var aux = PoolManager.instance.GetObjectPool(poolName, prefab).GetPlayObject().GetComponent<T>();
+        aux.On();
         aux.CurrentScene = sceneToSpawn;
         enemiesPerScenes[sceneToSpawn].Add(aux);
         return aux;
@@ -96,6 +110,8 @@ public static class EnemySaveConverterAux
         var state = new EnemiesSaveStates<T>();
 
         if (enemy.GetComponent<MandragoraEnemy>()) state = new MandragoraSaveState<T>();
+        else if (enemy.GetComponent<CarivorousPlant>()) state = new CarnPlantSaveState<T>();
+        else if (enemy.GetComponent<EnemyWithCombatDirector>()) state = new EnemiesRangeSaveState<T>();
 
         return state;
     }
