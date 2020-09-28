@@ -17,18 +17,19 @@ public class LocalSceneHandler : LoadComponent
         var trigger = GetComponentInChildren<TriggerDispatcher>();
         trigger.SubscribeToEnter(OnEnterToThisScene);
 
-        if (string.IsNullOrEmpty(prefabname)) yield break;
-        ResourceRequest req = Resources.LoadAsync<GameObject>(prefabname);
-        while (req.progress < 0.9f)
+        if (!string.IsNullOrEmpty(prefabname))
         {
+            ResourceRequest req = Resources.LoadAsync<GameObject>(prefabname);
+            while (req.progress < 0.9f)
+            {
+                yield return null;
+            }
+            while (!req.isDone) yield return null;
+
+            Instantiate(req.asset, this.transform);
+
             yield return null;
         }
-        while (!req.isDone) yield return null;
-
-        Instantiate(req.asset, this.transform);
-
-        yield return null;
-
 
         for (int i = 0; i < loads.Length; i++)
         {
