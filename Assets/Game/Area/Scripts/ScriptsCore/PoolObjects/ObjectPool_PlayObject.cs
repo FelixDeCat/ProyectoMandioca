@@ -17,11 +17,10 @@ public class ObjectPool_PlayObject : SingleObjectPool<PlayObject>
     {
         var temp = Get();
         temp.Pool = this;
+        temp.Initialize();
         temp.On(); 
-
         if (destroyTime > 0)
             temp.gameObject.AddComponent<ReturnToPool>().timeToReturn = destroyTime;
-
         return temp;
     }
 

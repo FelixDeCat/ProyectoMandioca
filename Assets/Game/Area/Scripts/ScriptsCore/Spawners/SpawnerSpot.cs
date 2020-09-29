@@ -19,6 +19,7 @@ public class SpawnerSpot
 
     public PlayObject SpawnPrefab(Vector3 pos, ObjectPool_PlayObject _poolObject, CustomSpawner spawner = null)
     {
+        if (_poolObject == null) { Debug.LogWarning("!!!! Aca tira un error, el ObjectPool es nulo y no me deja spawnear la mandragoras secundarias, por ahora lo catcheo para que anden las mandragoras normales"); return null; }
         var newObject = _poolObject.Get();
         newObject.Initialize();
         newObject.On();

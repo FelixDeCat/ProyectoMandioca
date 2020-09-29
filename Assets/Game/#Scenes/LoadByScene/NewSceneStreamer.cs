@@ -26,6 +26,7 @@ public class NewSceneStreamer : MonoBehaviour
 
     private void Start()
     {
+        //GCHandle.DisableGC();
         LoadScene(firstScene, false, true);
     }
 
