@@ -121,7 +121,7 @@ public class CaronteEvent : MonoBehaviour
         caronteActive = true;
 
         character.Life.Heal(25);
-        ss_controller.ReleaseShards();
+        //ss_controller.ReleaseShards();
 
         Navigation.instance.transform.position = character.transform.position;
         Navigation.instance.LocalizeNodes();

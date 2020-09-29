@@ -16,6 +16,7 @@ namespace GOAP
         public event Action<Ente, Item> OnStayItem = delegate { };
         public event Action OnFinishAttack = delegate { };
         public event Action OnFinishSkill = delegate { };
+        public event Action OnSkillAction = delegate { };
         public event Action OnMeleeAttack = delegate { };
         public event Action OnTakeDmg = delegate { };
         public event Action<Vector3> OnDeath = delegate { };
@@ -84,6 +85,7 @@ namespace GOAP
             //_animEvent.Add_Callback("meleeAttack", OnMeleeAttackHit);
             //_animEvent.Add_Callback("finishAttack", OnFinishMeleeAttackAnimation);
             _animEvent.Add_Callback("finishSkill", OnFinishSkillCast);
+            _animEvent.Add_Callback("skillAction", SkillAction);
 
             //prendo y apago el sensor cuando la animacion lo pide
             OnMeleeAttack += () => attackSensor.gameObject.SetActive(true);
@@ -100,6 +102,7 @@ namespace GOAP
         void OnMeleeAttackHit() => OnMeleeAttack?.Invoke();
         void OnFinishMeleeAttackAnimation() => OnFinishAttack?.Invoke();
         void OnFinishSkillCast() => OnFinishSkill?.Invoke();
+        void SkillAction() => OnSkillAction?.Invoke();
 
 
 

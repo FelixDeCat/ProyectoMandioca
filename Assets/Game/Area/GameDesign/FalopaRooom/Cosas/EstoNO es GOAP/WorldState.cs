@@ -36,6 +36,9 @@ namespace GOAP
 
             allItems.Add(characterhead.GetComponent<Item>());
 
+            values["HandOfDead"] = true;
+            values["RagingPoolsOfFire"] = true;
+
         }
        
 
@@ -46,7 +49,7 @@ namespace GOAP
 
             ente = FindObjectOfType<Ente>();
             snap.allItems = allItems.Where(x => x != null && x.interactuable).ToList();
-            snap.values.UpdateWith(values); 
+            //snap.values.UpdateWith(values); 
 
             /// ////
 
@@ -59,9 +62,14 @@ namespace GOAP
             foreach (var s in snap.skills)
             {
                 snap.allItems.Add(s.Value.GetComponent<Item>());
+                snap.values.Add(s.Key, s.Value.isAvaliable);
             }
 
-            snapDebug = snap;
+
+
+            //snapDebug = snap;
+            //snap.handActive = ente.skillManager.GetAllSkills["HandOfDead"];
+            //snap.poolActive = ente.skillManager.GetAllSkills["RagingPoolsOfFire"];
             return snap;
         }
 
@@ -82,6 +90,8 @@ namespace GOAP
         public List<Item> allItems = new List<Item>();
         public Dictionary<string, bool> values = new Dictionary<string, bool>();
         public Dictionary<string, GOAP_Skills_Base> skills = new Dictionary<string, GOAP_Skills_Base>();
+        public bool handActive;
+        public bool poolActive;
         //public EnteDATA eData;
         public Transform charRoot;
         public int charLife;

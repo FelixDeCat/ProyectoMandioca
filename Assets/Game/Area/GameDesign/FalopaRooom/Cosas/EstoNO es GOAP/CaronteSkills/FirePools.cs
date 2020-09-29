@@ -18,6 +18,8 @@ public class FirePools : MonoBehaviour
     float _count;
     [SerializeField] float _duration;
 
+    bool active;
+
     void Start()
     {
         df_pool = PoolManager.instance.GetObjectPool("DamageFloor", df_pf, 9);
@@ -26,12 +28,14 @@ public class FirePools : MonoBehaviour
 
     public void Activate()
     {
+        active = true;
         GetRandomSpots();
         SpawnPoolsInSpots();
     }
 
     private void Update()
     {
+        if (!active) return;
 
         _count += Time.deltaTime;
 
@@ -40,7 +44,8 @@ public class FirePools : MonoBehaviour
             _count = 0;
 
             ResetPools();
-            OnFinishDuration?.Invoke();
+            active = false;
+            //OnFinishDuration?.Invoke();
 
         }
     }
@@ -63,6 +68,7 @@ public class FirePools : MonoBehaviour
         {
             var df = df_pool.GetPlayObject();
             df.transform.position = t.position;
+            df.GetComponent<DamageFloor>().Activar();
             currentObjs.Add(df);
         }
     }

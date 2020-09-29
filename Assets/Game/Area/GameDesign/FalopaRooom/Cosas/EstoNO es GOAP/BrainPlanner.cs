@@ -103,22 +103,22 @@ namespace GOAP
                     //    }),
                     new GoapAction("useSkill handOfDead")
                         .SetCost(handOfDead)
-                        .Pre(gS =>  gS.skills["HandOfDead"].isAvaliable && gS.distanceToHero >= 5)
+                        .Pre(gS =>  gS.values["HandOfDead"] && gS.distanceToHero >= 5)
 
                         .Effect(gS =>
                         {
-                            gS.skills["HandOfDead"].isAvaliable = false;
+                            gS.values["HandOfDead"] = false;
                             gS.charLife -= 10;
                             gS.distanceToHero = 1;
                         }),
                      new GoapAction("useSkill ragingPoolsOfFire")
                         .SetCost(handOfDead)
-                        .Pre(gS =>  gS.skills["RagingPoolsOfFire"].isAvaliable && gS.distanceToHero <= 5)
+                        .Pre(gS =>  gS.values["RagingPoolsOfFire"] && gS.distanceToHero >= 5)
 
                         .Effect(gS =>
                         {
-                            gS.skills["RagingPoolsOfFire"].isAvaliable = false;
-                            gS.charLife -= 10;
+                            gS.values["RagingPoolsOfFire"] = false;
+                            gS.charLife -= 20;
                         }),
                     new GoapAction("GoTo hero")
                         .SetCost(move)

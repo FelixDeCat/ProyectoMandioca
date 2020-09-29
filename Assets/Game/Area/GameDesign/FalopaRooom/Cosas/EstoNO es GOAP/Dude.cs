@@ -65,9 +65,15 @@ namespace GOAP
                 _currentSkill = _ent.skillManager.GetSkill(_target.GetComponent<GOAP_Skills_Base>().skillName);
                 Debug.Log("uso el skill " + _currentSkill.skillName);
 
-                if(!_currentSkill.stopSkillByCode)
+                if (!_currentSkill.isAvaliable)
                 {
-                    _ent.OnFinishSkill += _currentSkill.OnFinishSkill;
+                    FailedStep();
+                    return;
+                }
+
+                if (!_currentSkill.stopSkillByCode)
+                {
+                    _ent.OnFinishSkill += _currentSkill.EndSkill;
                     _ent.OnFinishSkill += NextStep;
                 }
                 else
@@ -75,7 +81,7 @@ namespace GOAP
                     _currentSkill.OnFinishSkill += NextStep;
                 }
                 
-                _currentSkill.isAvaliable = false;
+                //_currentSkill.isAvaliable = false;
                 _currentSkill.Execute();
             };
 

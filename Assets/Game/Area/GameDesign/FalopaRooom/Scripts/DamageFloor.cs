@@ -34,13 +34,17 @@ public class DamageFloor : PlayObject
         }
     }
 
+    public void Activar()
+    {
+        StartCoroutine(SpawnDamageFloor());
+    }
+
     protected override void OnInitialize()
     {
-
         dmgDATA = GetComponent<DamageData>();
         dmgDATA.SetDamage(5000);
 
-        StartCoroutine(SpawnDamageFloor());
+        
     }
 
     protected override void OnTurnOn()

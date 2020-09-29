@@ -22,20 +22,30 @@ public abstract class GOAP_Skills_Base : MonoBehaviour
 
     float _count = 0;
 
-    public void Initialize(Transform owner) { if (!alreadyInitialized) { OnInitialize(); alreadyInitialized = true; this.owner = owner; heroRoot = Main.instance.GetChar().Root; } OnFinishSkill += StartCD; isAvaliable = true; }
+    public void Initialize(Transform owner) { if (!alreadyInitialized) { OnInitialize(); alreadyInitialized = true; this.owner = owner; heroRoot = Main.instance.GetChar().Root; }; /*isAvaliable = true;*/ }
     public void On() { if (!isOn) { isOn = true; canUpdate = true; OnTurnOn(); } }
     public void Off() { if (isOn) { isOn = false; canUpdate = false; OnTurnOff(); } }
     public void Pause() { canUpdate = false; OnPause(); }
     public void Resume() { canUpdate = true; OnResume(); }
-    public void Execute() { Debug.Log(skillName + " SE EJECUTA"); OnExecute();  }
+    public void EndSkill() { StartCD(); OnEndSkill(); }
+    public void Execute() { Debug.Log(skillName + " SE EJECUTA"); OnExecute();  isAvaliable = false; }
     
     private void StartCD() { Debug.Log("Inicio Cd de " + skillName);  On(); }
    
-    private void Update() { if (canUpdate) OnUpdate(); CD(); }
+    private void Update()
+    {
+        if (canUpdate)
+        {
+            OnUpdate();
+            CD();
+        }
+    }
+        
     private void FixedUpdate() { if (canUpdate) OnFixedUpdate(); }
 
     void CD()
     {
+        Debug.Log("estoy contando?");
         _count += Time.deltaTime;
 
         if(_count >= CD_time)
@@ -58,6 +68,7 @@ public abstract class GOAP_Skills_Base : MonoBehaviour
     protected abstract void OnResume();
 
     protected abstract void OnExecute();
+    protected abstract void OnEndSkill();
 
 
 }

@@ -10,9 +10,10 @@ public class CaronteSkill_HandOfDead : GOAP_Skills_Base
 
     protected override void OnExecute()
     {
-       
+        //isAvaliable = false;
         owner.GetComponentInChildren<Animator>().SetTrigger("handOfDead");
         StartCoroutine(TimeBetweenHands());
+        
         
     }
 
@@ -40,7 +41,7 @@ public class CaronteSkill_HandOfDead : GOAP_Skills_Base
         var characterPos = Main.instance.GetChar().Root;
         var dir = characterPos.position - owner.position;
         dir = dir.normalized;
-
+        owner.transform.LookAt(dir);
 
         hand.Initialize(owner, dir, 1000);
 
@@ -62,11 +63,15 @@ public class CaronteSkill_HandOfDead : GOAP_Skills_Base
             owner.GetComponent<Rigidbody>().MovePosition(hand.Root.transform.position);
         }
 
-        owner.GetComponentInChildren<Animator>().SetTrigger("finishSkill");
-        OnFinishSkill?.Invoke();
+        EndSkill();
         Destroy(hand.gameObject);
     }
 
+    protected override void OnEndSkill()
+    {
+        owner.GetComponentInChildren<Animator>().SetTrigger("finishSkill");
+        OnFinishSkill?.Invoke();
+    }
     protected override void OnFixedUpdate(){}
 
     protected override void OnInitialize()
@@ -99,5 +104,4 @@ public class CaronteSkill_HandOfDead : GOAP_Skills_Base
         
     }
 
-  
 }
