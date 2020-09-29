@@ -13,7 +13,7 @@ public class TestUINewSceneStreamer : MonoBehaviour
     {
         currentScene.text = streamer.currentScene;
         Print(streamer.loaded, t_loaded);
-        Print(streamer.loaded, t_loading);
+        Print(streamer.loading, t_loading);
     }
     public void Print(HashSet<string> hash, TextMeshProUGUI txt)
     {
