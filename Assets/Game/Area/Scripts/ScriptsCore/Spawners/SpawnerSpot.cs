@@ -17,16 +17,22 @@ public class SpawnerSpot
         if(_spawnSpot) spawnSpot = _spawnSpot;
     }
 
-    public PlayObject SpawnPrefab(Vector3 pos, ObjectPool_PlayObject _poolObject, CustomSpawner spawner = null)
+    public PlayObject SpawnPrefab(Vector3 pos, PlayObject prefabToSpawn, string sceneToSpawn = null, CustomSpawner spawner = null)
     {
-        if (_poolObject == null) { Debug.LogWarning("!!!! Aca tira un error, el ObjectPool es nulo y no me deja spawnear la mandragoras secundarias, por ahora lo catcheo para que anden las mandragoras normales"); return null; }
-        var newObject = _poolObject.Get();
-        newObject.Initialize();
-        newObject.On();
+        PlayObject newObject = null;
+
+        if (prefabToSpawn.GetComponent<EnemyBase>())
+        {
+            newObject = EnemyManager.Instance.SpawnEnemy(prefabToSpawn.name, sceneToSpawn, prefabToSpawn.GetComponent<EnemyBase>());
+            newObject.GetComponent<EnemyBase>().SpawnEnemy();
+
+        }
+        else
+        {
+            newObject = PoolManager.instance.GetObjectPool(prefabToSpawn.name, prefabToSpawn).GetPlayObject();
+        }
         newObject.transform.position = pos;
         newObject.Spawner = spawner;
-        newObject.Pool = _poolObject;
-        newObject.GetComponent<EnemyBase>()?.SpawnEnemy();
         return newObject;
     }
 

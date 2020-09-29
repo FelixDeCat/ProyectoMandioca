@@ -53,9 +53,12 @@ public class EnemyManager : MonoBehaviour
 
         for (int i = 0; i < enemiesPerScenes[sceneName].Count; i++)
         {
-            var aux = EnemySaveConverterAux.CreateEnemyState(enemiesPerScenes[sceneName][i]);
-            aux.SaveState(enemiesPerScenes[sceneName][i]);
-            scenesStates[sceneName].Add(aux);
+            if (!enemiesPerScenes[sceneName][i].death)
+            {
+                var aux = EnemySaveConverterAux.CreateEnemyState(enemiesPerScenes[sceneName][i]);
+                aux.SaveState(enemiesPerScenes[sceneName][i]);
+                scenesStates[sceneName].Add(aux);
+            }
             PoolManager.instance.ReturnObject(enemiesPerScenes[sceneName][i]);
         }
 
@@ -77,7 +80,7 @@ public class EnemyManager : MonoBehaviour
 
     public void DeleteEnemy(EnemyBase enemy)
     {
-        if(enemiesPerScenes.ContainsKey(enemy.CurrentScene)) enemiesPerScenes[enemy.CurrentScene].Remove(enemy);
+        if(!string.IsNullOrEmpty(enemy.CurrentScene) && enemiesPerScenes.ContainsKey(enemy.CurrentScene)) enemiesPerScenes[enemy.CurrentScene].Remove(enemy);
     }
 
     public void OnResetState(string sceneName)
@@ -99,7 +102,7 @@ public class EnemyManager : MonoBehaviour
     {
         var aux = PoolManager.instance.GetObjectPool(poolName, prefab).GetPlayObject().GetComponent<T>();
         aux.CurrentScene = sceneToSpawn;
-        enemiesPerScenes[sceneToSpawn].Add(aux);
+        if (!string.IsNullOrEmpty(sceneToSpawn) && enemiesPerScenes.ContainsKey(sceneToSpawn)) enemiesPerScenes[sceneToSpawn].Add(aux);
         return aux;
     }
 }

@@ -138,7 +138,7 @@ public class CustomSpawner : MonoBehaviour
         currentSpawn -= 1;
     }
 
-    public void SpawnPrefab(Vector3 pos) { spot.SpawnPrefab(pos, _poolPlayObject, this); currentSpawn += 1; }
+    public void SpawnPrefab(Vector3 pos, string sceneName = null) { spot.SpawnPrefab(pos, prefab, sceneName, this); currentSpawn += 1; }
 
     private void OnDrawGizmos()
     {       

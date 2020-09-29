@@ -103,10 +103,9 @@ public class MandragoraEnemy : EnemyWithCombatDirector
 
         if (!mandragoraIsTrap) return;
         spawnerSpot.Initialize();
-        
-        //for (int i = 0; i < enemiesTypes.Count; i++)
-        //    PoolManager.instance.GetObjectPool(enemiesTypes[i].name, enemiesTypes[i]);
 
+        for (int i = 0; i < enemiesTypes.Count; i++)
+            PoolManager.instance.GetObjectPool(enemiesTypes[i].name, enemiesTypes[i]);
     }
 
     public override void SpawnEnemy()
@@ -132,10 +131,8 @@ public class MandragoraEnemy : EnemyWithCombatDirector
         for (int i = 0; i < enemiesToSpawn; i++)
         {
             int index = UnityEngine.Random.Range(0, enemiesTypes.Count);
-
             
-            var enemy = spawnerSpot.SpawnPrefab(spawnerSpot.GetSurfacePos(), PoolManager.instance.GetObjectPool(enemiesTypes[index].name));
-            
+            var enemy = spawnerSpot.SpawnPrefab(spawnerSpot.GetSurfacePos(), enemiesTypes[index], CurrentScene);
         }
 
         mandragoraIsTrap = false;

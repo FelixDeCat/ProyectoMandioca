@@ -12,7 +12,7 @@ public class TotemSpawner : Totem
         {
             Vector3 pos = spawner.spot.GetSurfacePos();
 
-            feedback.StartGoToFeedback(pos, (x) => spawner.SpawnPrefab(pos));
+            feedback.StartGoToFeedback(pos, (x) => spawner.SpawnPrefab(pos, CurrentScene));
         }
     }
 
