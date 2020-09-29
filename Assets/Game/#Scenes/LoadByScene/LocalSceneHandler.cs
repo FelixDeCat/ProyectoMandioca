@@ -10,7 +10,7 @@ public class LocalSceneHandler : LoadComponent
 {
     public SceneData SceneData;
     public string prefabname;
-    public LoadComponent[] loads;
+    public LoadComponent[] loads = new LoadComponent[0];
 
     protected override IEnumerator LoadMe()
     {

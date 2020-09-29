@@ -91,6 +91,7 @@ namespace DevelopTools
             for (int i = 0; i < amount; i++)
             {
                 var newObject = GameObject.Instantiate(prefab, transform);
+                newObject.GetComponent<PlayObject>()?.Initialize();
                 newObject.gameObject.SetActive(false);
                 objects.Enqueue(newObject);
                 if (auto_exp && objects.Count > auto_size) auto_size = objects.Count;

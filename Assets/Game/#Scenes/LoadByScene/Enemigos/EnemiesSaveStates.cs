@@ -41,7 +41,7 @@ public class EnemiesRangeSaveState<T> : EnemiesSaveStates<T> where T : EnemyBase
 
     public override void LoadState(T enemy)
     {
-        base.SaveState(enemy);
+        base.LoadState(enemy);
         var temp = enemy.GetComponent<EnemyWithCombatDirector>();
         temp.SetRange(rangeToAttack);
         temp.combatDistance = rangeToCombat;
@@ -65,7 +65,7 @@ public class MandragoraSaveState<T> : EnemiesRangeSaveState<T> where T : EnemyBa
 
     public override void LoadState(T enemy)
     {
-        base.SaveState(enemy);
+        base.LoadState(enemy);
         var temp = enemy.GetComponent<MandragoraEnemy>();
         temp.mandragoraIsTrap = isTrap;
         temp.spawnerSpot.spawnSpot.position = spawnPos;
@@ -90,7 +90,7 @@ public class CarnPlantSaveState<T> : EnemiesSaveStates<T> where T : EnemyBase
 
     public override void LoadState(T enemy)
     {
-        base.SaveState(enemy);
+        base.LoadState(enemy);
         var temp = enemy.GetComponent<CarivorousPlant>();
         temp.dmg = dmg;
         temp.attractionForce = attForce;

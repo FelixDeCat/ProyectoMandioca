@@ -16,7 +16,7 @@ public class GenericLifeSystem : _Base_Life_System
     public void AddEventOnDeath(Action listener) { DeadCallback += listener; }
     public void RemoveEventOnDeath(Action listener) { DeadCallback -= listener; DeadCallback = delegate { }; }
 
-    private void Start()
+    private void Awake()
     {
         CreateLifeBar();
     }

@@ -23,7 +23,6 @@ public class EnemyManager : MonoBehaviour
             {
                 var aux = SpawnEnemy<EnemyBase>(enemiesToCharge[i].myEnemy.name, sceneName, enemiesToCharge[i].myEnemy);
                 enemiesToCharge[i].SpawnEnemy(aux);
-                Destroy(enemiesToCharge[i].gameObject);
             }
 
             enemiesToCharge = new ProxyEnemyBase[0];
@@ -61,13 +60,16 @@ public class EnemyManager : MonoBehaviour
         }
 
         enemiesPerScenes.Remove(sceneName);
+
+        Debug.Log("Guardo " + sceneName);
     }
 
     public void ChangeEnemyScene(string sceneName, EnemyBase enemy)
     {
-        if(sceneName != enemy.CurrentScene)
+        if(enemy.CurrentScene != null && sceneName != enemy.CurrentScene)
         {
             enemiesPerScenes[enemy.CurrentScene].Remove(enemy);
+            if (!enemiesPerScenes.ContainsKey(sceneName)) enemiesPerScenes.Add(sceneName, new List<EnemyBase>());
             enemiesPerScenes[sceneName].Add(enemy);
             enemy.CurrentScene = sceneName;
         }
@@ -96,7 +98,6 @@ public class EnemyManager : MonoBehaviour
     public T SpawnEnemy<T>(string poolName, string sceneToSpawn, T prefab = null) where T : EnemyBase
     {
         var aux = PoolManager.instance.GetObjectPool(poolName, prefab).GetPlayObject().GetComponent<T>();
-        aux.On();
         aux.CurrentScene = sceneToSpawn;
         enemiesPerScenes[sceneToSpawn].Add(aux);
         return aux;
