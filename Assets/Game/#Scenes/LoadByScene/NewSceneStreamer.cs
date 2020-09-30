@@ -88,6 +88,7 @@ public class NewSceneStreamer : MonoBehaviour
         StartCoroutine(localref[sceneName].ExecuteLoadParameter(hotScenesParameters[sceneName]));
         hotScenesParameters.Remove(sceneName);
     }
+    
 
     IEnumerator LoadNeighbors(string currentScene, SceneData data)
     {

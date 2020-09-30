@@ -96,7 +96,7 @@ public class LocalSceneHandler : LoadComponent
             }
             else
             {
-                yield return new WaitForSecondsRealtime(0.3f);
+                yield return new WaitForSecondsRealtime(0.6f);
                 yield return Inst(go, preftype);
                 yield return null;
             }
