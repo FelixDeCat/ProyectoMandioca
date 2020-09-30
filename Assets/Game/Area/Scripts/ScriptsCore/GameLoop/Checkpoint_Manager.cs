@@ -30,6 +30,7 @@ public class Checkpoint_Manager : MonoBehaviour
 
     public bool NoInstanciate = false;
     bool caronteloop = false;
+    public bool caronteIsActive = false;
 
     private void Awake() 
     { 

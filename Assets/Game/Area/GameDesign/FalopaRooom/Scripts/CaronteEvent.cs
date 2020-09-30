@@ -153,6 +153,7 @@ public class CaronteEvent : MonoBehaviour
 
     public void OnExitTheAqueronte()
     {
+        Checkpoint_Manager.instance.caronteIsActive = false;
         Fades_Screens.instance.Black();
         character.GetCharMove().SetSpeed();
         character.Life.Heal(Mathf.RoundToInt(character.Life.GetMax() * 0.25f));
