@@ -19,6 +19,8 @@ public class NewSceneStreamer : MonoBehaviour
 
     Dictionary<string, LocalSceneHandler> localref = new Dictionary<string, LocalSceneHandler>();
     Dictionary<string, SceneData.Detail_Parameter> hotScenesParameters = new Dictionary<string, SceneData.Detail_Parameter>();
+    Dictionary<string, Scene> scenes = new Dictionary<string, Scene>();
+    public Scene GetSceneByName(string sceneName) { return scenes[sceneName]; }
 
     [SerializeField] float maxLoadWaitTime = 5;
 
@@ -212,6 +214,8 @@ public class NewSceneStreamer : MonoBehaviour
     {
         loading.Remove(scene.name);
         loaded.Add(scene.name);
+
+        if(!scenes.ContainsKey(scene.name)) scenes.Add(scene.name, scene);
 
         GameObject firstGameobject = scene.GetRootGameObjects()[0];
 
