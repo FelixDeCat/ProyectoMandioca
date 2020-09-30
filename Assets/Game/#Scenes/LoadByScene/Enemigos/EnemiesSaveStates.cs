@@ -10,6 +10,7 @@ public class EnemiesSaveStates<T> where T : EnemyBase
     protected Vector3 rotation;
     protected Vector3 position;
     protected int life;
+    protected Int_IntDictionary myIDs = new Int_IntDictionary();
 
     public virtual void SaveState(T enemy)
     {
@@ -17,6 +18,11 @@ public class EnemiesSaveStates<T> where T : EnemyBase
         position = enemy.transform.position;
         life = enemy.lifesystem.Life;
         poolName = enemy.Pool.MyName;
+        var aux = enemy.GetComponent<ExecuteItemMision>();
+        if (aux)
+        {
+            foreach (var item in aux.IDs) myIDs.Add(item.Key, item.Value);
+        }
     }
 
     public virtual void LoadState(T enemy)
@@ -24,6 +30,11 @@ public class EnemiesSaveStates<T> where T : EnemyBase
         enemy.transform.localEulerAngles = rotation;
         enemy.transform.position = position;
         enemy.lifesystem.ChangeLife(life);
+        var aux = enemy.GetComponent<ExecuteItemMision>();
+        if (aux)
+        {
+            foreach (var item in myIDs) aux.AddID(item.Key, item.Value);
+        }
     }
 }
 public class EnemiesRangeSaveState<T> : EnemiesSaveStates<T> where T : EnemyBase

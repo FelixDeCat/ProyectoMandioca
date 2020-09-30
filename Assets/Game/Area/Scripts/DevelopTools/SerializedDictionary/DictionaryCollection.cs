@@ -17,3 +17,6 @@ public class TotemDestruibleStorage : SerializableDictionary.Storage<List<TotemD
 
 [Serializable]
 public class Float_TDListDictionary : SerializableDictionary<float, List<TotemDestruible>, TotemDestruibleStorage> { }
+
+[Serializable]
+public class Int_IntDictionary : SerializableDictionary<int, int> { }
