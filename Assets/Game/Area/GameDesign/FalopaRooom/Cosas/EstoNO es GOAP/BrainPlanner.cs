@@ -120,6 +120,15 @@ namespace GOAP
                             gS.values["RagingPoolsOfFire"] = false;
                             gS.charLife -= 20;
                         }),
+                     //new GoapAction("useSkill FlameThrower")
+                     //   .SetCost(handOfDead)
+                     //   .Pre(gS =>  gS.values["FlameThrower"] && gS.distanceToHero >= 5)
+
+                     //   .Effect(gS =>
+                     //   {
+                     //       gS.values["RagingPoolsOfFire"] = false;
+                     //       gS.charLife -= 20;
+                     //   }),
                     new GoapAction("GoTo hero")
                         .SetCost(move)
                         //.Pre(gS =>  gS.distanceToHero > 2f)

@@ -25,6 +25,6 @@ public class FastHardcodedFunctions : MonoBehaviour
 
     public void F_CaronteOn()
     {
-
+        Main.instance.GetChar().Life.caronteEventAvaliable = true;
     }
 }

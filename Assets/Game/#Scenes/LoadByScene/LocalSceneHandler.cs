@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
 using UnityEngineInternal;
+using UnityEngine.SceneManagement;
 
 /// <summary>
 /// aca no voy a hacer getters ni setters... quiero que sea todo lo mas directo posible
@@ -13,18 +14,21 @@ public class LocalSceneHandler : LoadComponent
     public string prefabname;
     public LoadComponent[] loads = new LoadComponent[0];
 
+    string myName;
 
-    GameObject landmark;
-    GameObject gameplay;
-    GameObject low_detail;
-    GameObject medium_detail;
-    GameObject hight_detail;
+    [SerializeField] GameObject landmark;
+    [SerializeField] GameObject gameplay;
+    [SerializeField] GameObject low_detail;
+    [SerializeField] GameObject medium_detail;
+    [SerializeField] GameObject hight_detail;
 
 
     protected override IEnumerator LoadMe()
     {
         var trigger = GetComponentInChildren<TriggerDispatcher>();
         trigger.SubscribeToEnter(OnEnterToThisScene);
+
+        myName = this.gameObject.name;
 
         if (!string.IsNullOrEmpty(prefabname))
         {
@@ -53,14 +57,30 @@ public class LocalSceneHandler : LoadComponent
         {
             case SceneData.Detail_Parameter.none: break;
             case SceneData.Detail_Parameter.full_load:
-                yield return Inst(gameplay, PrefabType.gameplay);
+                yield return ExecuteSwitching(gameplay, ExeParam.show, PrefabType.gameplay);
                 yield return ExecuteSwitching(low_detail, ExeParam.show, PrefabType.low);
                 yield return ExecuteSwitching(medium_detail, ExeParam.show, PrefabType.med);
                 yield return ExecuteSwitching(hight_detail, ExeParam.show, PrefabType.high);
                 break;
-            case SceneData.Detail_Parameter.top_to_landmark: break;
-            case SceneData.Detail_Parameter.top_to_low: break;
-            case SceneData.Detail_Parameter.top_to_medium: break;
+            case SceneData.Detail_Parameter.top_to_landmark:
+                yield return ExecuteSwitching(landmark, ExeParam.show, PrefabType.landmark);
+                yield return ExecuteSwitching(gameplay, ExeParam.shutdown, PrefabType.gameplay);
+                yield return ExecuteSwitching(low_detail, ExeParam.shutdown, PrefabType.low);
+                yield return ExecuteSwitching(medium_detail, ExeParam.shutdown, PrefabType.med);
+                yield return ExecuteSwitching(hight_detail, ExeParam.shutdown, PrefabType.high);
+                break;
+            case SceneData.Detail_Parameter.top_to_low:
+                yield return ExecuteSwitching(gameplay, ExeParam.show, PrefabType.gameplay);
+                yield return ExecuteSwitching(low_detail, ExeParam.show, PrefabType.low);
+                yield return ExecuteSwitching(medium_detail, ExeParam.shutdown, PrefabType.med);
+                yield return ExecuteSwitching(hight_detail, ExeParam.shutdown, PrefabType.high);
+                break;
+            case SceneData.Detail_Parameter.top_to_medium:
+                yield return ExecuteSwitching(gameplay, ExeParam.show, PrefabType.gameplay);
+                yield return ExecuteSwitching(low_detail, ExeParam.show, PrefabType.low);
+                yield return ExecuteSwitching(medium_detail, ExeParam.show, PrefabType.med);
+                yield return ExecuteSwitching(hight_detail, ExeParam.shutdown, PrefabType.high);
+                break;
             case SceneData.Detail_Parameter.destroy_and_go_landmark: break;
             case SceneData.Detail_Parameter.destroy_and_go_low: break;
             case SceneData.Detail_Parameter.destroy_and_go_medium: break;
@@ -80,8 +100,8 @@ public class LocalSceneHandler : LoadComponent
             }
             else
             {
-                yield return new WaitForSecondsRealtime(0.3f);
-                yield return Inst(go, preftype);
+                yield return new WaitForSecondsRealtime(0.6f);
+                yield return Inst(preftype);
                 yield return null;
             }
         }
@@ -95,15 +115,40 @@ public class LocalSceneHandler : LoadComponent
         }
     }
 
-    IEnumerator Inst(GameObject go, PrefabType prefType)
+    IEnumerator Inst(PrefabType prefType)
     {
         switch (prefType)
         {
-            case PrefabType.gameplay: if (SceneData.gameplay) go = Instantiate(SceneData.gameplay); yield return null; break;
-            case PrefabType.landmark: if (SceneData.landmark) go = Instantiate(SceneData.landmark); yield return null; break;
-            case PrefabType.low: if (SceneData.low_detail) go = Instantiate(SceneData.low_detail); yield return null; break;
-            case PrefabType.med: if (SceneData.medium_detail) go = Instantiate(SceneData.medium_detail); yield return null; break;
-            case PrefabType.high: if (SceneData.hight_detail) go = Instantiate(SceneData.hight_detail); yield return null; break;
+            case PrefabType.gameplay:
+                if (SceneData.gameplay) gameplay = Instantiate(SceneData.gameplay);
+                SceneManager.MoveGameObjectToScene(gameplay, NewSceneStreamer.instance.GetSceneByName(myName));
+                gameplay.transform.SetParent(this.transform);
+                yield return null;
+                break;
+            case PrefabType.landmark:
+                if (SceneData.landmark) landmark = Instantiate(SceneData.landmark);
+                SceneManager.MoveGameObjectToScene(landmark, NewSceneStreamer.instance.GetSceneByName(myName));
+                landmark.transform.SetParent(this.transform);
+                yield return null;
+                break;
+            case PrefabType.low:
+                if (SceneData.low_detail) low_detail = Instantiate(SceneData.low_detail);
+                SceneManager.MoveGameObjectToScene(low_detail, NewSceneStreamer.instance.GetSceneByName(myName));
+                low_detail.transform.SetParent(this.transform);
+                yield return null;
+                break;
+            case PrefabType.med:
+                if (SceneData.medium_detail) medium_detail = Instantiate(SceneData.medium_detail);
+                SceneManager.MoveGameObjectToScene(medium_detail, NewSceneStreamer.instance.GetSceneByName(myName));
+                medium_detail.transform.SetParent(this.transform);
+                yield return null;
+                break;
+            case PrefabType.high:
+                if (SceneData.hight_detail) hight_detail = Instantiate(SceneData.hight_detail);
+                SceneManager.MoveGameObjectToScene(hight_detail, NewSceneStreamer.instance.GetSceneByName(myName));
+                hight_detail.transform.SetParent(this.transform);
+                yield return null;
+                break;
         }
     }
 

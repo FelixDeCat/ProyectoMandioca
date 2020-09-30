@@ -151,9 +151,31 @@ public class CaronteEvent : MonoBehaviour
 
     }
 
-    void UnloadScene()
+    public void OnExitTheAqueronte()
     {
-        SceneManager.UnloadSceneAsync("Caronte");
+        Checkpoint_Manager.instance.caronteIsActive = false;
+        Fades_Screens.instance.Black();
+        character.GetCharMove().SetSpeed();
+        character.Life.Heal(Mathf.RoundToInt(character.Life.GetMax() * 0.25f));
+        character.Life.AllowCaronteEvent();
+        StartCoroutine(UnloadScene());
+    }
+
+    IEnumerator UnloadScene()
+    {
+        var operation = SceneManager.UnloadSceneAsync("Caronte");
+
+        if (operation.progress < 0.9f)
+        {
+            yield return null;
+        }
+
+        Checkpoint_Manager.instance.SpawnChar();
+
+        
+
+        yield return operation;
+
     }
 
     public void TurnOffCarontePP()

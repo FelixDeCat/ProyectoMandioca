@@ -725,6 +725,7 @@ public class CharacterHead : CharacterControllable
     }
     void ActiveCombo()
     {
+        Life.Heal(Mathf.RoundToInt(Life.GetMax() * .13f));
         IsComboWomboActive = true;
         feedbacks.particles.HeavyLoaded.Play();
     }

@@ -54,7 +54,7 @@ public class DamageFloor : PlayObject
 
     protected override void OnTurnOff()
     {
-        Debug.Log("Se apaga");
+        GetComponent<BoxCollider>().enabled = false;
     }
 
     protected override void OnUpdate()
