@@ -14,6 +14,7 @@ namespace GOAP
         public int meleeAttack;
         public int handOfDead;
         public int ragingPoolsOfFire;
+        public int flameThrower;
         public int move;
 
         private readonly List<Tuple<Vector3, Vector3>> _debugRayList = new List<Tuple<Vector3, Vector3>>();
@@ -32,7 +33,8 @@ namespace GOAP
             var typeDict = new Dictionary<string, ItemType>() {
               { "hero", ItemType.hero }, 
               { "handOfDead", ItemType.skill },
-              { "ragingPoolsOfFire", ItemType.skill }
+              { "ragingPoolsOfFire", ItemType.skill },
+              { "flameThrower", ItemType.skill }
         };
             var actDict = new Dictionary<string, ActionEntity>() {
               { "AttackMelee", ActionEntity.MeleeAttack },
@@ -120,15 +122,15 @@ namespace GOAP
                             gS.values["RagingPoolsOfFire"] = false;
                             gS.charLife -= 20;
                         }),
-                     //new GoapAction("useSkill FlameThrower")
-                     //   .SetCost(handOfDead)
-                     //   .Pre(gS =>  gS.values["FlameThrower"] && gS.distanceToHero >= 5)
+                     new GoapAction("useSkill flameThrower")
+                        .SetCost(handOfDead)
+                        .Pre(gS =>  gS.values["FlameThrower"] && gS.distanceToHero <= 3)
 
-                     //   .Effect(gS =>
-                     //   {
-                     //       gS.values["RagingPoolsOfFire"] = false;
-                     //       gS.charLife -= 20;
-                     //   }),
+                        .Effect(gS =>
+                        {
+                            gS.values["FlameThrower"] = false;
+                            gS.charLife -= 20;
+                        }),
                     new GoapAction("GoTo hero")
                         .SetCost(move)
                         //.Pre(gS =>  gS.distanceToHero > 2f)
