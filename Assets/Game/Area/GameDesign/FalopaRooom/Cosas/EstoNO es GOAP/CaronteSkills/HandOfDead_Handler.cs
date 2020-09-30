@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Tools.Extensions;
 
 public class HandOfDead_Handler : MonoBehaviour
 {
@@ -24,6 +25,8 @@ public class HandOfDead_Handler : MonoBehaviour
         _dir = to;
         _root.position = from.position;
         _root.forward = new Vector3(to.x, 0, to.z);
+
+        StartCoroutine(CheckIfDoorIsClose());
     }
 
     public void GrabPlayer()
@@ -43,6 +46,7 @@ public class HandOfDead_Handler : MonoBehaviour
         if (_count >= _lifeTime)
         {
             _count = 0;
+            //CheckIfDoorIsClose();
             OnReachedDestination?.Invoke(this);
             Destroy(gameObject);
         }
@@ -51,5 +55,23 @@ public class HandOfDead_Handler : MonoBehaviour
     private void FixedUpdate()
     {
         _root.transform.position += _dir * speed * Time.fixedDeltaTime; 
+    }
+
+    IEnumerator CheckIfDoorIsClose()
+    {
+        while(true)
+        {
+            var d = Extensions.FindInRadius<CaronteExitDoor>(_root.position, 10);
+
+            if (d.Count > 0)
+            {
+                d[0].HandHit();
+                OnReachedDestination?.Invoke(this);
+                Destroy(gameObject);
+            }
+
+            yield return new WaitForSeconds(.3f);
+        }
+        
     }
 }

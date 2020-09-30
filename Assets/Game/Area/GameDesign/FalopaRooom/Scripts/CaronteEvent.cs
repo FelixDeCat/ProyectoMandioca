@@ -151,6 +151,14 @@ public class CaronteEvent : MonoBehaviour
 
     }
 
+    public void OnExitTheAqueronte()
+    {
+        character.GetCharMove().SetSpeed();
+        character.Life.Heal(Mathf.RoundToInt(character.Life.GetMax() * 0.25f));
+        character.Life.AllowCaronteEvent();
+        UnloadScene();
+    }
+
     void UnloadScene()
     {
         SceneManager.UnloadSceneAsync("Caronte");
