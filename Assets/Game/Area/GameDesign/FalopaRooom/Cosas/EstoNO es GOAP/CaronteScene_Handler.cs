@@ -16,7 +16,8 @@ public class CaronteScene_Handler : MonoBehaviour
 
     void OnPlayerDeath()
     {
-        //SceneManager.LoadScene("Caronte", LoadSceneMode.Additive);
+        LoadSceneHandler.instance.QuitSceneFromLoaded("Caronte");
+        Checkpoint_Manager.instance.CaronteLoop(true);
         LoadSceneHandler.instance.LoadAScene("Caronte", false ,LoadSceneMode.Additive);
     }
 }

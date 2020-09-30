@@ -35,6 +35,11 @@ public class LoadSceneHandler : MonoBehaviour
         }
     }
 
+    public void QuitSceneFromLoaded(string sceneName)
+    {
+        loaded.Remove(sceneName);
+    }
+
     public void LoadAScene(string scene, bool loadScreen = true, LoadSceneMode mode = LoadSceneMode.Single)
     {
         SceneToLoad = scene;

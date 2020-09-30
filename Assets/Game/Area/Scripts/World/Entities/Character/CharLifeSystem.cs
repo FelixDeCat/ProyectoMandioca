@@ -17,7 +17,7 @@ public class CharLifeSystem: _Base_Life_System
     public event Action death = delegate { };
     public event Action caronte = delegate { };
 
-    [SerializeField] bool caronteEventAvaliable;
+    public bool caronteEventAvaliable;
 
     bool oneShotCaronte = false;
 

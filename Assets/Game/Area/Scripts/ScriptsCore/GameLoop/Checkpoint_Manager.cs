@@ -28,9 +28,12 @@ public class Checkpoint_Manager : MonoBehaviour
 
     public float posToRespawn = -20;
 
+    public bool NoInstanciate = false;
+    bool caronteloop = false;
+
     private void Awake() 
     { 
-        instance = this;
+        if(!NoInstanciate) instance = this;
 
         allCheckpoints = transform.GetComponentsInChildren<Checkpoint_Spot>().ToList();
         foreach (var cp in allCheckpoints)
@@ -68,12 +71,28 @@ public class Checkpoint_Manager : MonoBehaviour
         }
     }
 
+    Vector3 lastcharposition;
+    public void CaronteLoop(bool val) 
+    { 
+        caronteloop = val;
+        lastcharposition = Main.instance.GetChar().transform.position;
+    }
+
     public void SpawnChar()
     {
-        
         Fades_Screens.instance.Black();
         Main.instance.GetChar().StopMovement();
-        Main.instance.GetChar().transform.position = _activeCheckPoint.GetPosition;
+        
+        if (caronteloop)
+        {
+            Main.instance.GetChar().transform.position = lastcharposition;
+            caronteloop = false;
+        }
+        else
+        {
+            Main.instance.GetChar().transform.position = _activeCheckPoint.GetPosition;
+        }
+        
         Main.instance.GetCombatDirector().AddNewTarget(Main.instance.GetChar());
         Main.instance.GetMyCamera().InstantPosition();
         Invoke("Wait", 0.75f);
