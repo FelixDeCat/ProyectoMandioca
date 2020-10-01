@@ -16,9 +16,13 @@ public class SoulShard_controller : MonoBehaviour
     int _recolected = 0;
     List<SoulShard> ss_pool = new List<SoulShard>();
 
+    CaronteExitDoor caronteExitDoor;
+
     void Awake()
     {
         CacheShards();
+
+        caronteExitDoor = FindObjectOfType<CaronteExitDoor>();
     }
 
     void CacheShards()
@@ -35,13 +39,15 @@ public class SoulShard_controller : MonoBehaviour
 
     void OnRecolectShard()
     {
-        _recolected++;
+        caronteExitDoor.HandHit();
 
-        if (_recolected >= shardsAmount)
-        {
-            Debug.Log("juntaste todas");
-            OnSSRecolected?.Invoke();
-        }
+        //_recolected++;
+
+        //if (_recolected >= shardsAmount)
+        //{
+        //    Debug.Log("juntaste todas");
+        //    OnSSRecolected?.Invoke();
+        //}
     }
 
     public void ReturnShardsToPool()

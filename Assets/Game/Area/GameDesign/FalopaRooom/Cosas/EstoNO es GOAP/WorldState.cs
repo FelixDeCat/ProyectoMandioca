@@ -21,9 +21,9 @@ namespace GOAP
         [Header("MANDIOCA")]
         public WorldStateSnapShot snapDebug;
         public Item objectiveTEST;
+        public float DEBUGdistanceToHero;
 
-
-//        public EnteDATA enteDATA;
+        //        public EnteDATA enteDATA;
         private void Awake()
         {
             if (instance == null)
@@ -65,7 +65,7 @@ namespace GOAP
                 snap.values.Add(s.Key, s.Value.isAvaliable);
             }
 
-
+            //snap.distanceToHero = 
 
             //snapDebug = snap;
             //snap.handActive = ente.skillManager.GetAllSkills["HandOfDead"];

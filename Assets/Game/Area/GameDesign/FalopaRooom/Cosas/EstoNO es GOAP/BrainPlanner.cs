@@ -17,6 +17,8 @@ namespace GOAP
         public int flameThrower;
         public int move;
 
+        public float distanceDebug;
+
         private readonly List<Tuple<Vector3, Vector3>> _debugRayList = new List<Tuple<Vector3, Vector3>>();
 
         public void StartPlanning() => StartCoroutine(Plan());
@@ -29,6 +31,7 @@ namespace GOAP
 
             var actions = CreatePossibleActionsList();
 
+            distanceDebug = snap.distanceToHero;
 
             var typeDict = new Dictionary<string, ItemType>() {
               { "hero", ItemType.hero }, 
@@ -124,7 +127,7 @@ namespace GOAP
                         }),
                      new GoapAction("useSkill flameThrower")
                         .SetCost(handOfDead)
-                        .Pre(gS =>  gS.values["FlameThrower"] && gS.distanceToHero <= 3)
+                        .Pre(gS =>  gS.values["FlameThrower"] && gS.distanceToHero <= 8)
 
                         .Effect(gS =>
                         {

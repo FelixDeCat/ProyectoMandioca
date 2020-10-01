@@ -17,6 +17,7 @@ public abstract class GOAP_Skills_Base : MonoBehaviour
     public bool stopSkillByCode;
     public bool instantSkill;
     public string skillName;
+    public float range;
     protected Transform owner;
     protected Transform heroRoot;
 

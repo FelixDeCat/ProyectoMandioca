@@ -71,6 +71,13 @@ namespace GOAP
                     return;
                 }
 
+                if (!Check_SkillRange(_currentSkill.range))
+                {
+                    Debug.Log("EL SKILL NO LLEGA");
+                    FailedStep();
+                    return;
+                }
+
                 if (!_currentSkill.stopSkillByCode)
                 {
                     _ent.OnFinishSkill += _currentSkill.EndSkill;
@@ -204,6 +211,7 @@ namespace GOAP
         }
 
         bool Check_MeleeRangeHero(){return Vector3.Distance(_target.transform.position, _ent.transform.position) <= 5f ? true:false;}
+        bool Check_SkillRange(float range){return Vector3.Distance(Main.instance.GetChar().Root.position, _ent.transform.position) <= range ? true:false; }
 
         void MeleeAttack()
         {

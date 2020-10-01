@@ -16,7 +16,7 @@ public class CaronteExitDoor : MonoBehaviour
         _hitcount++;
         hitDoorFeedback.Play();
 
-        if (_hitcount >= 3)
+        if (_hitcount >= 5)
             myCol.enabled = false;
 
         foreach (var item in barrotes)
