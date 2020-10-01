@@ -122,3 +122,53 @@ public class CarnPlantSaveState<T> : EnemiesSaveStates<T> where T : EnemyBase
         temp.transform.localScale = scale;
     }
 }
+
+public class TotemSpawnerState<T> : EnemiesSaveStates<T> where T : EnemyBase
+{
+    protected Vector3 spawnPos;
+    protected float radiousSpawn;
+    protected int maxSpawn;
+    protected int currentSpawn;
+    protected int waveAmmount;
+    protected PlayObject prefab;
+    protected Vector3 triggerPos;
+    protected Vector3 triggerCenter;
+    protected Vector3 triggerSize;
+    protected float castingTime;
+
+    public override void SaveState(T enemy)
+    {
+        base.SaveState(enemy);
+        var temp = enemy.GetComponent<CustomSpawner>();
+        spawnPos = temp.spot.spawnSpot.position;
+        radiousSpawn = temp.spot.radious;
+        maxSpawn = temp.maxSpawn;
+        currentSpawn = temp.currentSpawn;
+        waveAmmount = temp.waveAmount;
+        prefab = temp.prefab;
+        var aux = temp.GetComponentInChildren<BoxCollider>();
+        triggerPos = aux.transform.position;
+        triggerSize = aux.size;
+        triggerCenter = aux.center;
+        var aux2 = temp.GetComponentInChildren<CastingBar>();
+        castingTime = aux2.castingTime;
+    }
+
+    public override void LoadState(T enemy)
+    {
+        base.LoadState(enemy);
+        var temp = enemy.GetComponent<CustomSpawner>();
+        temp.spot.spawnSpot.position = spawnPos;
+        temp.spot.radious = radiousSpawn;
+        temp.maxSpawn = maxSpawn;
+        temp.currentSpawn = currentSpawn;
+        temp.waveAmount = waveAmmount;
+        temp.ChangePool(prefab);
+        var aux = temp.GetComponentInChildren<BoxCollider>();
+        aux.transform.position = triggerPos;
+        aux.size = triggerSize;
+        aux.center = triggerCenter;
+        var aux2 = temp.GetComponentInChildren<CastingBar>();
+        aux2.castingTime = castingTime;
+    }
+}

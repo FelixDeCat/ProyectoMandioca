@@ -44,6 +44,8 @@ public class GenericEnemyMove : MonoBehaviour
         float y = groundSensor != null ? groundSensor.VelY : rb.velocity.y;
         rb.velocity = new Vector3(dir.x * currentSpeed, y, dir.z * currentSpeed);
 
+        Debug.Log(rb.velocity + " / " + currentSpeed);
+
         return dir.normalized;
     }
 

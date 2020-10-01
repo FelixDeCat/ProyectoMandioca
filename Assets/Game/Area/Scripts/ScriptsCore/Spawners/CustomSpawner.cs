@@ -14,14 +14,14 @@ public class CustomSpawner : MonoBehaviour
     
     [Header("__*General Settings*__")]
     [SerializeField] private SpawnMode mode = SpawnMode.Waves;
-    [SerializeField] private PlayObject prefab = null;
+    [SerializeField] public PlayObject prefab = null;
     [SerializeField] private float spawnRadius = 5;
     [SerializeField] private float waveFrec = 1;
     public int waveAmount = 5;
     [SerializeField] private bool infiniteSpawner = false;
     [SerializeField] private Transform spawnSpot = null;
     public SpawnerSpot spot = new SpawnerSpot();
-    [SerializeField] private int maxSpawn = 10;
+    [SerializeField] public int maxSpawn = 10;
     public int currentSpawn;
     [SerializeField] bool noUpdate = false;
     bool canupdate;
@@ -36,8 +36,8 @@ public class CustomSpawner : MonoBehaviour
 
     private void Start()
     {
-        _poolPlayObject = PoolManager.instance.GetObjectPool(prefab.name, prefab);
         spot.Initialize(spawnSpot, spawnRadius);
+        ChangePool(prefab);
     }
 
     //Se activa el spawner
@@ -136,6 +136,12 @@ public class CustomSpawner : MonoBehaviour
 
         _poolPlayObject.ReturnToPool(newobject);
         currentSpawn -= 1;
+    }
+
+    public void ChangePool(PlayObject newPrefab)
+    {
+        prefab = newPrefab;
+        _poolPlayObject = PoolManager.instance.GetObjectPool(prefab.name, prefab);
     }
 
     public void SpawnPrefab(Vector3 pos, string sceneName = null) { spot.SpawnPrefab(pos, prefab, sceneName, this); currentSpawn += 1; }

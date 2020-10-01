@@ -20,8 +20,6 @@ public class ProxyMandragora : ProxyEnemyRange
         temp.enemiesToSpawn = enemiesToSpawn;
         var aux = temp.GetComponentInChildren<BoxCollider>();
         aux.transform.position = trigger.transform.position;
-        //aux.center = trigger.center;
-        //aux.size = trigger.size;
     }
 
     protected override void OnDrawGizmos()

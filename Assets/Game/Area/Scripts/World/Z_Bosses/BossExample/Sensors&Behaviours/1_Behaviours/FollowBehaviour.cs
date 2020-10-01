@@ -10,7 +10,7 @@ public class FollowBehaviour : MonoBehaviour
     public Vector3 Direction { get { return (Destiny - Origin).normalized; } }
 
     [SerializeField] GenericEnemyMove genericEnemyMove = null;
-    [SerializeField] CharacterGroundSensor groundSensor = null;
+    public CharacterGroundSensor groundSensor = null;
 
     Transform root;
     Rigidbody rb;
@@ -37,10 +37,7 @@ public class FollowBehaviour : MonoBehaviour
 
     void Update()
     {
-        if (lookat)
-        {
-            genericEnemyMove.Rotation(Direction);
-        }
+        if (lookat) genericEnemyMove.Rotation(Direction);
 
         if (follow)
         {
@@ -54,6 +51,5 @@ public class FollowBehaviour : MonoBehaviour
             genericEnemyMove.MoveWRigidbodyV(forwardFix *-1);
             genericEnemyMove.Rotation(forwardFix);
         }
-        
     }
 }

@@ -11,5 +11,7 @@ public class Generic_Death : MonoStateBase
     }
     protected override void OnExit() { }
     protected override void OnOneAwake() { }
-    protected override void OnUpdate() { }
+    protected override void OnUpdate()
+    {
+    }
 }

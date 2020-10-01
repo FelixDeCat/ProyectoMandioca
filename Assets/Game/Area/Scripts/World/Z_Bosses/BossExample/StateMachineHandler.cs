@@ -26,11 +26,8 @@ public class StateMachineHandler : MonoBehaviour
         {
             if (linkersCaptured[i].linker == stateBase._monoStateBaseOptions.Linker)
             {
-
                 linkersCaptured[i].Configure(stateBase.Begin, stateBase.Exit, stateBase.Refresh);
             }
         }
     }
-
-    
 }

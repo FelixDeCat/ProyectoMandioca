@@ -37,21 +37,20 @@ public class ABossGenericClean : EnemyWithCombatDirector
             TakeDamageFeedback,
             DeathVector);
 
-        //quitar esto de aca... cuando tenga la grilla esto tiene que volar
-        sensors_and_behaviours.Sensor.StartSensors();
-
 
         fastSubscriber.animevent.Add_Callback("Wendigo_Walk", feedbackManager.Play_Sound_WendigoWalk);
     }
 
     protected override void OnTurnOff() 
     {
+        sensors_and_behaviours.Sensor.StopSensors();
         //Debug.LogWarning("se esta apagando");
         //sensors_and_behaviours.Sensor.StartSensors(); 
         //inputSender.Execute(false); 
     }
     protected override void OnTurnOn() 
-    { 
+    {
+        sensors_and_behaviours.Sensor.StartSensors();
         //Debug.LogWarning("se esta prendiendo"); 
         //sensors_and_behaviours.Sensor.StopSensors(); 
         //inputSender.Execute(true); 
@@ -68,8 +67,8 @@ public class ABossGenericClean : EnemyWithCombatDirector
     }
     public void OnEndRagdollFall()
     {
-        gameObject.SetActive(false);
         EntityDeath.Invoke();
+        ReturnToSpawner();
     }
 
     void DeathBoss()
@@ -84,7 +83,8 @@ public class ABossGenericClean : EnemyWithCombatDirector
 
     protected override void OnReset()
     {
-        //lo de el ragdoll
+        sensors_and_behaviours.Behaviours.ragdollComponent.Ragdoll(false, Vector3.zero);
+        death = false;
     }
 
     void TakeDamageFeedback(Vector3 owner)
