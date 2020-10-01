@@ -94,6 +94,7 @@ public class NewSceneStreamer : MonoBehaviour
 
     IEnumerator LoadNeighbors(string currentScene, SceneData data)
     {
+        if (data == null) yield break;
         SceneData.SceneParameter[] parameters = data.sceneparam;
 
         //HashSet<string> currents_neigbors = new HashSet<string>();

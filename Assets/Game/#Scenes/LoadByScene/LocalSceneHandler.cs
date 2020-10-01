@@ -121,30 +121,35 @@ public class LocalSceneHandler : LoadComponent
         {
             case PrefabType.gameplay:
                 if (SceneData.gameplay) gameplay = Instantiate(SceneData.gameplay);
+                else yield break;
                 SceneManager.MoveGameObjectToScene(gameplay, NewSceneStreamer.instance.GetSceneByName(myName));
                 gameplay.transform.SetParent(this.transform);
                 yield return null;
                 break;
             case PrefabType.landmark:
                 if (SceneData.landmark) landmark = Instantiate(SceneData.landmark);
+                else yield break;
                 SceneManager.MoveGameObjectToScene(landmark, NewSceneStreamer.instance.GetSceneByName(myName));
                 landmark.transform.SetParent(this.transform);
                 yield return null;
                 break;
             case PrefabType.low:
                 if (SceneData.low_detail) low_detail = Instantiate(SceneData.low_detail);
+                else yield break;
                 SceneManager.MoveGameObjectToScene(low_detail, NewSceneStreamer.instance.GetSceneByName(myName));
                 low_detail.transform.SetParent(this.transform);
                 yield return null;
                 break;
             case PrefabType.med:
                 if (SceneData.medium_detail) medium_detail = Instantiate(SceneData.medium_detail);
+                else yield break;
                 SceneManager.MoveGameObjectToScene(medium_detail, NewSceneStreamer.instance.GetSceneByName(myName));
                 medium_detail.transform.SetParent(this.transform);
                 yield return null;
                 break;
             case PrefabType.high:
                 if (SceneData.hight_detail) hight_detail = Instantiate(SceneData.hight_detail);
+                else yield break;
                 SceneManager.MoveGameObjectToScene(hight_detail, NewSceneStreamer.instance.GetSceneByName(myName));
                 hight_detail.transform.SetParent(this.transform);
                 yield return null;
