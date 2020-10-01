@@ -16,11 +16,11 @@ public class LocalSceneHandler : LoadComponent
 
     string myName;
 
-    [SerializeField] GameObject landmark;
-    [SerializeField] GameObject gameplay;
-    [SerializeField] GameObject low_detail;
-    [SerializeField] GameObject medium_detail;
-    [SerializeField] GameObject hight_detail;
+    GameObject landmark;
+    GameObject gameplay;
+    GameObject low_detail;
+    GameObject medium_detail;
+    GameObject hight_detail;
 
 
     protected override IEnumerator LoadMe()
