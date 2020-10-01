@@ -30,7 +30,7 @@ public class MandragoraEnemy : EnemyWithCombatDirector
 
     [Header("Spawn Options")]
     [SerializeField] List<EnemyBase> enemiesTypes = new List<EnemyBase>();
-    [SerializeField, Range(1, 25)] float enemiesToSpawn = 5;
+    [SerializeField, Range(1, 25)] public int enemiesToSpawn = 5;
     [SerializeField] PlayObject trapToDie = null;
     [SerializeField] float trapDuration = 5;
     [SerializeField] Transform rootToTrap = null;

@@ -7,6 +7,8 @@ public class ProxyMandragora : ProxyEnemyRange
     [SerializeField] bool isTrap = true;
     [SerializeField] Transform spawnSpot = null;
     [SerializeField] float radious = 7;
+    [SerializeField] BoxCollider trigger = null;
+    [SerializeField] int enemiesToSpawn = 3;
 
     public override void SpawnEnemy(EnemyBase enemy)
     {
@@ -15,12 +17,17 @@ public class ProxyMandragora : ProxyEnemyRange
         temp.mandragoraIsTrap = isTrap;
         temp.spawnerSpot.spawnSpot.position = spawnSpot.position;
         temp.spawnerSpot.radious = radious;
+        temp.enemiesToSpawn = enemiesToSpawn;
+        var aux = temp.GetComponentInChildren<BoxCollider>();
+        aux.transform.position = trigger.transform.position;
+        //aux.center = trigger.center;
+        //aux.size = trigger.size;
     }
 
     protected override void OnDrawGizmos()
     {
         base.OnDrawGizmos();
 
-        Gizmos.DrawWireSphere(spawnSpot.position, radious);
+        if(spawnSpot) Gizmos.DrawWireSphere(spawnSpot.position, radious);
     }
 }
