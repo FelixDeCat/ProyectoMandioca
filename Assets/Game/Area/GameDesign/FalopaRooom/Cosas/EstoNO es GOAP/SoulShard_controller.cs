@@ -21,8 +21,13 @@ public class SoulShard_controller : MonoBehaviour
     void Awake()
     {
         caronteExitDoor = FindObjectOfType<CaronteExitDoor>();
-        CacheShards();
+      
+        _recolected = 0;
+    }
 
+    private void Start()
+    {
+        CacheShards();
     }
 
     void CacheShards()
@@ -30,44 +35,29 @@ public class SoulShard_controller : MonoBehaviour
         
         for (int i = 0; i < shardsAmount; i++)
         {
-            var a = Instantiate<SoulShard>(ss_pf, transform).SetDestination(caronteExitDoor.transform.position);
+            var a = Instantiate<SoulShard>(ss_pf, transform).SetDestination(caronteExitDoor.ShardsDoorPositions()[i].position);
             a.OnReachDoor += OnRecolectShard;
             a.gameObject.SetActive(false);
             ss_pool.Add(a);
         }
     }
 
-    void OnRecolectShard()
+    void OnRecolectShard(SoulShard ss)
     {
-        caronteExitDoor.HandHit();
+        _recolected++;
+        caronteExitDoor.HandHit(ss);
 
-        //_recolected++;
-
-        //if (_recolected >= shardsAmount)
-        //{
-        //    Debug.Log("juntaste todas");
-        //    OnSSRecolected?.Invoke();
-        //}
+        if(_recolected < shardsAmount)
+        {
+            ReleaseShard();
+        }
+  
     }
 
-    public void ReturnShardsToPool()
+    public void ReleaseShard()
     {
-        foreach (SoulShard ss in ss_pool)
-        {
-            ss.TurnOff();
-        }
-    }
-
-    public void ReleaseShards()
-    {
-        Debug.Log("PONGO LAS SHARDS");
-        _recolected = 0;
-        //spot.position = Main.instance.GetChar().Root.position;
-        foreach (SoulShard ss in ss_pool)
-        {
-            ss.transform.position = GetSurfacePos();
-            ss.TurnOn();
-        }
+        ss_pool[_recolected].transform.position = GetSurfacePos() + Vector3.up;
+        ss_pool[_recolected].gameObject.SetActive(true);
     }
 
     public Vector3 GetSurfacePos()

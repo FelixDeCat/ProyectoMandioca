@@ -121,7 +121,7 @@ public class CaronteEvent : MonoBehaviour
         caronteActive = true;
 
         character.Life.Heal(25);
-        ss_controller.ReleaseShards();
+        ss_controller.ReleaseShard();
 
         Navigation.instance.transform.position = character.transform.position;
         Navigation.instance.LocalizeNodes();
@@ -185,7 +185,7 @@ public class CaronteEvent : MonoBehaviour
         if(caronte!= null)
             Destroy(caronte.gameObject);
 
-        ss_controller.ReturnShardsToPool();
+        //ss_controller.ReturnShardsToPool();
 
         carontePP.SetActive(false);
         caronteActive = false;

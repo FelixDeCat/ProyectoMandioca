@@ -6,7 +6,9 @@ using UnityEngine;
 public class SoulShard : MonoBehaviour
 {
     public event Action OnGrabSoulShard;
-    public event Action OnReachDoor;
+    public event Action<SoulShard> OnReachDoor;
+
+    [SerializeField] ParticleSystem grabbedFeedback;
 
     [SerializeField] float speed;
 
@@ -20,6 +22,7 @@ public class SoulShard : MonoBehaviour
 
     public void GrabSoulShard()
     {
+        
         OnGrabSoulShard?.Invoke();
         StartCoroutine(GoUp());
         
@@ -43,14 +46,15 @@ public class SoulShard : MonoBehaviour
     {
         Vector3 dir = (dest - transform.position).normalized;
 
-        while(Vector3.Distance(transform.position, dest) >= 2)
+        
+        while (Vector3.Distance(transform.position, dest) >= 2)
         {
             transform.position += dir * speed * Time.fixedDeltaTime;
             yield return new WaitForFixedUpdate();
         }
 
-        OnReachDoor?.Invoke();
-        TurnOff();
+        OnReachDoor?.Invoke(this);
+        //Destroy(gameObject);
     }
 
     public void TurnOn()
@@ -58,9 +62,5 @@ public class SoulShard : MonoBehaviour
         gameObject.SetActive(true);
     }
 
-    public void TurnOff()
-    {
-        gameObject.SetActive(false);
-    }
 
 }

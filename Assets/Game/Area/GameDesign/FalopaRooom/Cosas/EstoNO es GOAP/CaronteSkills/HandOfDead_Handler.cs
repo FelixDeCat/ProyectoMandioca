@@ -26,7 +26,7 @@ public class HandOfDead_Handler : MonoBehaviour
         _root.position = from.position;
         _root.forward = new Vector3(to.x, 0, to.z);
 
-        StartCoroutine(CheckIfDoorIsClose());
+        //StartCoroutine(CheckIfDoorIsClose());
     }
 
     public void GrabPlayer()
@@ -57,21 +57,21 @@ public class HandOfDead_Handler : MonoBehaviour
         _root.transform.position += _dir * speed * Time.fixedDeltaTime; 
     }
 
-    IEnumerator CheckIfDoorIsClose()
-    {
-        while(true)
-        {
-            var d = Extensions.FindInRadius<CaronteExitDoor>(_root.position, 10);
+    //IEnumerator CheckIfDoorIsClose()
+    //{
+    //    while(true)
+    //    {
+    //        var d = Extensions.FindInRadius<CaronteExitDoor>(_root.position, 10);
 
-            if (d.Count > 0)
-            {
-                d[0].HandHit();
-                OnReachedDestination?.Invoke(this);
-                Destroy(gameObject);
-            }
+    //        if (d.Count > 0)
+    //        {
+    //            d[0].HandHit();
+    //            OnReachedDestination?.Invoke(this);
+    //            Destroy(gameObject);
+    //        }
 
-            yield return new WaitForSeconds(.3f);
-        }
+    //        yield return new WaitForSeconds(.3f);
+    //    }
         
-    }
+    //}
 }
