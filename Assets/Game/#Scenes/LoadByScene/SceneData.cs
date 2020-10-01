@@ -5,7 +5,6 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "SceneData", menuName = "Scenes/Streaming/SceneData", order = 1)]
 public class SceneData : ScriptableObject
 {
-    public string[] scenes_to_view;
     public string[] scenes_to_reset;
     public SceneParameter[] sceneparam;
     public GameObject landmark;
