@@ -9,7 +9,7 @@ public class CharacterHead : CharacterControllable
     {
         IDLE, MOVE, BEGIN_BLOCK, BLOCK, END_BLOCK, PARRY, CHARGE_ATTACK, RELEASE_ATTACK,
         TAKE_DAMAGE, DEAD, ROLL, SPIN, STUN, PLAYER_LOCK_ON, ON_SKILL, ON_LOOK_SHOLDER,
-        ON_MENU_ENTER, ON_MENU_EXIT, FALLING
+        ON_MENU_ENTER, ON_MENU_EXIT, FALLING, CHARGE_BOOMERANG_SHIELD, RELEASE_BOOMERANG_SHIELD
     };
 
     Action ChildrensUpdates;
@@ -243,6 +243,8 @@ public class CharacterHead : CharacterControllable
         var LookAtOverSholder = new EState<PlayerInputs>("LookAtOverSholder");
         var onMenues = new EState<PlayerInputs>("OnMenues");
         var falling = new EState<PlayerInputs>("Falling");
+        var boomerangCharge = new EState<PlayerInputs>("BoomerangCharge");
+        var boomerangRelease = new EState<PlayerInputs>("BoomerangRelease");
 
         ConfigureState.Create(idle)
             .SetTransition(PlayerInputs.MOVE, move)
@@ -251,6 +253,7 @@ public class CharacterHead : CharacterControllable
             //.SetTransition(PlayerInputs.PARRY, parry)
             .SetTransition(PlayerInputs.ROLL, roll)
             .SetTransition(PlayerInputs.CHARGE_ATTACK, attackCharge)
+            .SetTransition(PlayerInputs.CHARGE_BOOMERANG_SHIELD, boomerangCharge)
             .SetTransition(PlayerInputs.TAKE_DAMAGE, takeDamage)
             .SetTransition(PlayerInputs.DEAD, dead)
             .SetTransition(PlayerInputs.STUN, stun)
@@ -265,6 +268,7 @@ public class CharacterHead : CharacterControllable
             .SetTransition(PlayerInputs.ROLL, roll)
             .SetTransition(PlayerInputs.TAKE_DAMAGE, takeDamage)
             .SetTransition(PlayerInputs.CHARGE_ATTACK, attackCharge)
+            .SetTransition(PlayerInputs.CHARGE_BOOMERANG_SHIELD, boomerangCharge)
             .SetTransition(PlayerInputs.DEAD, dead)
             .SetTransition(PlayerInputs.STUN, stun)
             .SetTransition(PlayerInputs.ON_SKILL, onSkill)
@@ -278,6 +282,7 @@ public class CharacterHead : CharacterControllable
             //.SetTransition(PlayerInputs.PARRY, parry)
             .SetTransition(PlayerInputs.ROLL, roll)
             .SetTransition(PlayerInputs.CHARGE_ATTACK, attackCharge)
+            .SetTransition(PlayerInputs.CHARGE_BOOMERANG_SHIELD, boomerangCharge)
             .SetTransition(PlayerInputs.TAKE_DAMAGE, takeDamage)
             .SetTransition(PlayerInputs.DEAD, dead)
             .SetTransition(PlayerInputs.ON_SKILL, onSkill)
@@ -293,6 +298,7 @@ public class CharacterHead : CharacterControllable
             //.SetTransition(PlayerInputs.PARRY, parry)
             .SetTransition(PlayerInputs.ROLL, roll)
             .SetTransition(PlayerInputs.CHARGE_ATTACK, attackCharge)
+            .SetTransition(PlayerInputs.CHARGE_BOOMERANG_SHIELD, boomerangCharge)
             //.SetTransition(PlayerInputs.TAKE_DAMAGE, takeDamage)
             .SetTransition(PlayerInputs.DEAD, dead)
             // .SetTransition(PlayerInputs.SPIN, spin)
@@ -376,11 +382,30 @@ public class CharacterHead : CharacterControllable
             .SetTransition(PlayerInputs.ON_MENU_ENTER, onMenues)
             .SetTransition(PlayerInputs.MOVE, move)
             .SetTransition(PlayerInputs.CHARGE_ATTACK, attackCharge)
+            .SetTransition(PlayerInputs.CHARGE_BOOMERANG_SHIELD, boomerangCharge)
             .SetTransition(PlayerInputs.BEGIN_BLOCK, beginBlock)
             .SetTransition(PlayerInputs.DEAD, dead)
             .SetTransition(PlayerInputs.ROLL, roll)
             .SetTransition(PlayerInputs.FALLING, falling)
             .Done();
+
+        ConfigureState.Create(boomerangCharge)
+            .SetTransition(PlayerInputs.RELEASE_BOOMERANG_SHIELD, boomerangRelease)
+            .SetTransition(PlayerInputs.ON_MENU_ENTER, onMenues)
+            .SetTransition(PlayerInputs.DEAD, dead)
+            .Done();
+
+        ConfigureState.Create(boomerangRelease)
+           .SetTransition(PlayerInputs.IDLE, idle)
+           .SetTransition(PlayerInputs.ON_MENU_ENTER, onMenues)
+           .SetTransition(PlayerInputs.MOVE, move)
+           .SetTransition(PlayerInputs.CHARGE_ATTACK, attackCharge)
+           .SetTransition(PlayerInputs.CHARGE_BOOMERANG_SHIELD, boomerangCharge)
+           .SetTransition(PlayerInputs.BEGIN_BLOCK, beginBlock)
+           .SetTransition(PlayerInputs.DEAD, dead)
+           .SetTransition(PlayerInputs.ROLL, roll)
+           .SetTransition(PlayerInputs.FALLING, falling)
+           .Done();
 
         ConfigureState.Create(takeDamage)
             .SetTransition(PlayerInputs.IDLE, idle)
@@ -454,6 +479,15 @@ public class CharacterHead : CharacterControllable
             .SetLeftAxis(GetLeftHorizontal, GetLeftVertical)
             .SetAttack(charAttack)
             .SetLeftAxis(GetLeftHorizontal, GetLeftVertical).SetFeedbacks(feedbacks);
+
+        new CharBoomerangCharge(boomerangCharge, anim_base, stateMachine)
+            .SetLeftAxis(GetLeftHorizontal, GetLeftVertical)
+            .SetMovement(this.move);
+
+        new CharBoomerangRelease(boomerangRelease, stateMachine, ThrowCallback)
+            .SetMovement(this.move)
+            .SetLeftAxis(GetLeftHorizontal, GetLeftVertical);
+
 
         new CharTakeDmg(takeDamage, stateMachine, () => takeDamageRecall, charanim);
 
@@ -614,15 +648,20 @@ public class CharacterHead : CharacterControllable
     Action<Vector3> throwCallback;
     public void ThrowSomething(Action<Vector3> throwInPosition)
     {
-        //Main.instance.GetChar().charanim.StartThrow();
         throwCallback = throwInPosition;
-        ThrowCallback();
+        stateMachine.SendInput(PlayerInputs.RELEASE_BOOMERANG_SHIELD);
+        //Main.instance.GetChar().charanim.StartThrow();
     }
     void ThrowCallback()
     {
         throwCallback.Invoke(escudo.transform.position);
     }
     #endregion
+
+    public void ChargeThrowShield()
+    {
+        stateMachine.SendInput(PlayerInputs.CHARGE_BOOMERANG_SHIELD);
+    }
 
     #region Pause & Resume
     Vector3 force;

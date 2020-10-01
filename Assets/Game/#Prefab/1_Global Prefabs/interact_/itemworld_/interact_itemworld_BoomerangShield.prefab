@@ -297,6 +297,20 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+  EV_Equip_Update:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 4727598802959696924}
+        m_MethodName: OnUpdate
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &4727598802959696924
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -310,13 +324,17 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   throwRange: 10
-  radius: 5
+  damageRadius: 5
   spinDuration: 3
   throwSpeed: 17
   returnSpeed: 17
-  distanceToTriggerCatch: 2
-  damage: 1
+  distanceToCatch: 3
   damageType: 1
+  damagePerTick: 1
+  timeBetweenTicks: 0.2
+  spinSpeed: 4
+  shortSpinDuration: 1.5
+  shortThrowRange: 2
   v3: {x: 0, y: 0, z: 1}
   rotSpeed: 25
   raycastMask:

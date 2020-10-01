@@ -7,18 +7,23 @@ public class BoomerangShield : MonoBehaviour
 {
     [Header("Properties")]
     [SerializeField] float throwRange = 4;
-    [SerializeField] float radius = 5;
+    [SerializeField] float damageRadius = 5;
     [SerializeField] float spinDuration = 5;
     [SerializeField] float throwSpeed = 5;
     [SerializeField] float returnSpeed = 5;
-    [SerializeField] float distanceToTriggerCatch = 3;
-    [SerializeField] int damage = 1;
+    [SerializeField] float distanceToCatch = 3;
     [SerializeField] Damagetype damageType = Damagetype.Normal;
-    
+
+    [SerializeField] int damagePerTick = 1;
+    [SerializeField] float timeBetweenTicks = 0.2f;
+
+    [Header("ShortCast")]
+    [SerializeField] float spinSpeed = 4;
+    [SerializeField] float shortSpinDuration = 1.5f;
+    [SerializeField] float shortThrowRange = 2;
     //rotation
     [SerializeField] private Vector3 v3 = Vector3.zero;
     [SerializeField] private float rotSpeed = 5;
-    
     [SerializeField] LayerMask raycastMask = 0;
 
     CharacterHead _hero;
@@ -28,15 +33,15 @@ public class BoomerangShield : MonoBehaviour
 
     Vector3 spinPosition;
     Vector3 startingPos;
+    Vector3 startingRot;
 
+    bool shortCast = false;
     //[SerializeField] private ParticleSystem sparks = null;
     ////[SerializeField] private ParticleSystem auraZone = null;
-    ///
     [Header("Particles")]
     [SerializeField] private ParticleSystem flying = null;
-
     [SerializeField] private GameObject auxShield = null;
-    
+
     //Sonidos
     //[SerializeField] private AudioClip _flingShield_Sound = null;
     //private const string _flingShield_SoundName = "flingShield";
@@ -45,17 +50,7 @@ public class BoomerangShield : MonoBehaviour
     //[SerializeField] private AudioClip pickUp_skill = null;
     //private const string _pickupSkill = "pickUp_skill";
 
-    public enum boomerangShieldStates
-    {
-        unequiped,
-        idle,
-        isGoing,
-        isSpinning,
-        isReturning
-    }
-
-    boomerangShieldStates shieldStates = boomerangShieldStates.unequiped;
-
+    bool isFlying = false;
 
     DamageData dmgData;
 
@@ -69,11 +64,19 @@ public class BoomerangShield : MonoBehaviour
     ///////////////////////////////////////
     public void OnPress()
     {
-        
+        //_hero.GetCharMove().SetSpeed(0);
+        //_hero.GetCharMove().StopForce();
+        //_hero.GetCharMove().StopForceBool(true);
+        //_hero.BlockRoll = true;
+
+        _hero.ChargeThrowShield();
     }
+
     public void OnStopUse()
     {
-
+        //_hero.GetCharMove().SetSpeed();
+        //_hero.GetCharMove().StopForceBool();
+        //_hero.BlockRoll = false;
     }
 
     ///////////////////////////////////////
@@ -85,57 +88,64 @@ public class BoomerangShield : MonoBehaviour
         _shield = _hero.escudo;
         dmgData = auxShield.GetComponent<DamageData>();
         dmgData.Initialize(_hero);
-        dmgData.SetDamage(damage).SetDamageTick(false).SetDamageType(damageType).SetKnockback(0).SetPositionAndDirection(_shield.transform.position);
+        dmgData.SetDamage(damagePerTick).SetDamageTick(false).SetDamageType(damageType).SetKnockback(0).SetPositionAndDirection(_shield.transform.position);
 
         auxParent = auxShield.transform.parent;
-        shieldStates = boomerangShieldStates.idle;
-        
     }
     public void UnEQuip()
     {
-        shieldStates = boomerangShieldStates.unequiped;
     }
-    
+
     ///////////////////////////////////////
     //  EXECUTE SKILL
     ///////////////////////////////////////
+
     public void OnExecute(int charges)
     {
-        Debug.Log("CARGAS: " + charges);
-
-        if (shieldStates == boomerangShieldStates.idle)
+        if (!isFlying)
         {
-            
-           _hero.ThrowSomething(ThrowShield);
+            if (charges == 0) shortCast = true;
+            else shortCast = false;
+            _hero.ThrowSomething(ThrowShield);
         }
     }
-    Transform auxParent= null;
+
+    Transform auxParent = null;
 
     public void ThrowShield(Vector3 position)
     {
         auxShield.transform.SetParent(null);
-        auxShield.transform.rotation = Quaternion.Euler(new Vector3(-   90,0,0));
-        _hero.ToggleBlock(false);
+        auxShield.transform.rotation = Quaternion.Euler(new Vector3(-90, 0, 0));       
         auxShield.SetActive(true);
         _shield.SetActive(false);
-
-        flying.Play();
         
+        flying.Play();
+
         RaycastHit hit;
-        if (Physics.Raycast(transform.position, _hero.GetCharMove().GetRotatorDirection(), out hit, throwRange, raycastMask))
+        if (!shortCast && Physics.Raycast(transform.position, _hero.GetCharMove().GetRotatorDirection(), out hit, throwRange, raycastMask))
         {
             spinPosition = hit.point - _hero.GetCharMove().GetRotatorDirection();
         }
-        else
+        else if (!shortCast)
         {
             spinPosition = _shield.transform.position + _hero.GetCharMove().GetRotatorDirection() * throwRange;
         }
+        else
+        {
+            spinPosition = _shield.transform.position + _hero.GetCharMove().GetRotatorDirection() * shortThrowRange;
+        }
 
         startingPos = _shield.transform.position;
+        startingRot = _hero.GetCharMove().GetRotatorDirection();
 
+        isFlying = true;
 
         timeCount = 0;
-        shieldStates = boomerangShieldStates.isGoing;
+
+        if (shortCast) StartCoroutine(ThrowShort());
+        else StartCoroutine(ThrowLong());
+
+        StartCoroutine(StartDamage());
     }
 
     public void OnEnd()
@@ -146,82 +156,118 @@ public class BoomerangShield : MonoBehaviour
         auxShield.SetActive(false);
         timeCount = 0;
 
-        shieldStates = boomerangShieldStates.idle;
         auxShield.transform.position = _shield.transform.position;
+
+        isFlying = false;
 
         //AudioManager.instance.StopAllSounds(_rotatingShield_SoundName);
     }
 
-    private void Update()
+
+    IEnumerator ThrowShort()
     {
-        auxShield.transform.Rotate(v3 * rotSpeed);
-                
-        if(shieldStates != boomerangShieldStates.idle && shieldStates != boomerangShieldStates.unequiped)
+        Vector3 dir = spinPosition - startingPos;
+        dir = dir.normalized;
+
+        flying.transform.forward = -dir;
+
+        while (Vector3.Distance(auxShield.transform.position, spinPosition) > 1.5f)
         {
-            var enemiesClose = Extensions.FindInRadius<DamageReceiver>(auxShield.transform.position, radius);
-
-            foreach (DamageReceiver enemy in enemiesClose)
-            {
-                if (enemy.GetComponent<EntityBase>() != _hero)
-                    enemy.TakeDamage(dmgData);
-            }
+            flying.transform.position = auxShield.transform.position;
+            auxShield.transform.position += Time.deltaTime * throwSpeed * dir;
+            yield return new WaitForEndOfFrame();
         }
-
-        if (shieldStates == boomerangShieldStates.isGoing)
-        {
-            var dir = spinPosition - startingPos;
-            dir = dir.normalized;
-
-            flying.transform.position = auxShield.transform.position ;
-            flying.transform.forward = -dir;
-
-            if (Vector3.Distance(auxShield.transform.position, spinPosition) > .5f)
-            {
-                auxShield.transform.position += Time.deltaTime * throwSpeed * dir;
-            }
-            else
-            {
-                flying.Stop();
-                var totems = Extensions.FindInRadius<Totem>(auxShield.transform.position, radius);
-                foreach (var totem in totems)
-                {
-                    totem.GetComponent<EffectReceiver>().TakeEffect(EffectName.OnPetrify, 1.5f);
-                }
-                var palancas = Extensions.FindInRadius<Palanca>(auxShield.transform.position, radius);                
-                foreach (var palanca in palancas)
-                {
-                    palanca.OnExecute(_hero);
-                }
-                shieldStates = boomerangShieldStates.isSpinning;
-            }
-        }
-        else if (shieldStates == boomerangShieldStates.isSpinning)
+        
+        while (timeCount < shortSpinDuration)
         {
             timeCount += Time.deltaTime;
-            
-            if (timeCount > spinDuration)
-            {
-                shieldStates = boomerangShieldStates.isReturning;
-                flying.Play();
-                timeCount = 0;
-            }
+            float timerAux = timeCount * spinSpeed;
+            Debug.Log(timerAux);
+            auxShield.transform.position = _shield.transform.position + startingRot * Mathf.Cos(timerAux) * shortThrowRange + Vector3.Cross(startingRot, Vector3.up) * Mathf.Sin(timerAux) * -shortThrowRange;
+            yield return new WaitForEndOfFrame();
         }
-        else if (shieldStates == boomerangShieldStates.isReturning)
-        {
-            var dir = _shield.transform.position - auxShield.transform.position;
-            dir = dir.normalized;
-            
-            flying.transform.position = auxShield.transform.position;
-            flying.transform.forward = -dir;
 
-            if (Vector3.Distance(auxShield.transform.position, _shield.transform.position) >= distanceToTriggerCatch)
-            {
-                auxShield.transform.position += Time.deltaTime * (returnSpeed *  1 + Time.deltaTime) * dir;
-            }
-            else
-            {
-                OnEnd();
-            }
+        dir = _shield.transform.position - auxShield.transform.position;
+        dir = dir.normalized;
+
+        flying.transform.forward = -dir;
+
+        while (Vector3.Distance(auxShield.transform.position, _shield.transform.position) >= distanceToCatch)
+        {
+            flying.transform.position = auxShield.transform.position;
+            auxShield.transform.position += Time.deltaTime * (returnSpeed * 1 + Time.deltaTime) * dir;
+            yield return new WaitForEndOfFrame();
         }
+        OnEnd();
+
+    }
+
+    IEnumerator ThrowLong()
+    {
+        var dir = spinPosition - startingPos;
+        dir = dir.normalized;
+
+        flying.transform.forward = -dir;
+
+        while (Vector3.Distance(auxShield.transform.position, spinPosition) > 1.5f)
+        {
+            flying.transform.position = auxShield.transform.position;
+            auxShield.transform.position += Time.deltaTime * throwSpeed * dir;
+            yield return new WaitForEndOfFrame();
+        }
+        //StartSpin
+        flying.Stop();
+        var totems = Extensions.FindInRadius<Totem>(auxShield.transform.position, damageRadius);
+        foreach (var totem in totems)
+        {
+            totem.GetComponent<EffectReceiver>().TakeEffect(EffectName.OnPetrify, 1.5f);
+        }
+        var palancas = Extensions.FindInRadius<Palanca>(auxShield.transform.position, damageRadius);
+        foreach (var palanca in palancas)
+        {
+            palanca.OnExecute(_hero);
+        }
+
+        yield return new WaitForSeconds(spinDuration);
+
+        //StartReturn
+        flying.Play();
+
+        while (Vector3.Distance(auxShield.transform.position, _shield.transform.position) >= distanceToCatch)
+        {
+            dir = _shield.transform.position - auxShield.transform.position;
+            dir = dir.normalized;
+            flying.transform.forward = -dir;
+            flying.transform.position = auxShield.transform.position;
+            auxShield.transform.position += Time.deltaTime * (returnSpeed * 1 + Time.deltaTime) * dir;
+            yield return new WaitForEndOfFrame();
+        }
+        OnEnd();
+    }
+
+    IEnumerator StartDamage()
+    {
+        while(isFlying)
+        {
+            DealDamageNearbyEnemies();
+            yield return new WaitForSeconds(timeBetweenTicks);
+        }
+    }
+
+    public void DealDamageNearbyEnemies()
+    {
+        var enemiesClose = Extensions.FindInRadius<DamageReceiver>(auxShield.transform.position, damageRadius);
+
+        foreach (DamageReceiver enemy in enemiesClose)
+        {
+            if (enemy.GetComponent<EntityBase>() != _hero)
+                enemy.TakeDamage(dmgData);
+        }
+    }
+
+    public void OnUpdate()
+    {
+        if (!isFlying)
+            auxShield.transform.Rotate(v3 * rotSpeed);
     }
 }

@@ -15,7 +15,7 @@ public class EquipedItem : Usable
     [Header("States")]
     public UnityEvent EV_Equip;
     public UnityEvent EV_Unequip;
-
+    public UnityEvent EV_Equip_Update;
 
     ///////////////////////////////////////////////////////////
     /// E Q U I P A B L E
@@ -30,7 +30,10 @@ public class EquipedItem : Usable
         base.UnEquip();
         EV_Unequip.Invoke();
     }
-    protected override void OnUpdateEquipation() {  }
+    protected override void OnUpdateEquipation()
+    {
+        EV_Equip_Update.Invoke();
+    }
 
     ///////////////////////////////////////////////////////////
     /// U S A B L E
