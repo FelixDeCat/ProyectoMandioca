@@ -211,6 +211,7 @@ public class NewSceneStreamer : MonoBehaviour
 
     #region para probar despues
 
+    GameObject current;
     void OnSceneLoaded(Scene scene, LoadSceneMode sceneMode)
     {
         loading.Remove(scene.name);
@@ -218,17 +219,30 @@ public class NewSceneStreamer : MonoBehaviour
 
         if(!scenes.ContainsKey(scene.name)) scenes.Add(scene.name, scene);
 
-        GameObject firstGameobject = scene.GetRootGameObjects()[0];
-
-        var localscript = firstGameobject.GetComponent<LocalSceneHandler>();
-        if (localscript != null)
+        current = null;
+        var aux = scene.GetRootGameObjects();
+        for (int i = 0; i < aux.Length; i++)
         {
-            RegisterLocalScene(scene.name, localscript);
-            StartCoroutine(localscript.Load());
+            if (aux[i].name == scene.name)
+            {
+                current = aux[i];
+            }
         }
-        else
+
+        if (current != null)
         {
-            throw new System.Exception("recibí una escena sin LocalSceneHandler");
+            var localscript = current.GetComponent<LocalSceneHandler>();
+            if (localscript != null)
+            {
+
+                RegisterLocalScene(scene.name, localscript);
+                Debug.LogError("register local scene");
+                StartCoroutine(localscript.Load());
+            }
+            else
+            {
+                throw new System.Exception("recibí una escena sin LocalSceneHandler");
+            }
         }
 
         ExecuteParameterByScene(scene.name);
