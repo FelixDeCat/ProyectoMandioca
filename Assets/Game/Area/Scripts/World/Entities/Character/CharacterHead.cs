@@ -24,6 +24,7 @@ public class CharacterHead : CharacterControllable
 
     [Header("Movement Options")]
     float slowSpeed = 2;
+    AdventureMode _advMode;
 
     public Transform rayPivot;
 
@@ -81,7 +82,10 @@ public class CharacterHead : CharacterControllable
 
     [SerializeField] CharLifeSystem lifesystem = null;
     public CharLifeSystem Life => lifesystem;
-
+    //Para saber si estoy en lo de caronte
+    [SerializeField] bool _imInHell = false;
+    public bool ImInHell() => _imInHell;
+    
     Rigidbody rb;
 
     [HideInInspector]
@@ -117,6 +121,8 @@ public class CharacterHead : CharacterControllable
            .ADD_EVENT_OnLoseLife(OnLoseLife)
            .ADD_EVENT_Death(OnDeath)
            .ADD_EVENT_OnChangeValue(OnChangeLife);
+
+        _advMode = GetComponent<AdventureMode>();
     }
 
     protected override void OnInitialize()
@@ -134,6 +140,10 @@ public class CharacterHead : CharacterControllable
         ChildrensUpdates += move.OnUpdate;
         move.SetCallbacks(OnBeginRoll, OnEndRoll);
         slowSpeed = move.GetDefaultSpeed * .6f;
+
+        //Asi se que estoy en el infierno
+        lifesystem.ADD_EVENT_OnCaronteDeathEvent(() => _imInHell = true);
+        lifesystem.ADD_EVENT_OnCaronteDeathEvent(() => _advMode.UnregisterEvents());
 
         charBlock
             .Initialize()
@@ -516,6 +526,15 @@ public class CharacterHead : CharacterControllable
 
     #endregion
 
+    #region Caronte
+    public void ReturnFromHell()
+    {
+        _imInHell = false;
+        _advMode.RegisterEvents();
+    }
+
+    #endregion
+
     #region Combat Check
     bool combat;
     public Action UpWeaponsAction = delegate { };
@@ -885,7 +904,9 @@ public class CharacterHead : CharacterControllable
                 return;
             }
             stateMachine.SendInput(PlayerInputs.ROLL);
-            SetNormalSpeed();
+
+            if(!ImInHell())
+                SetNormalSpeed();
         }
     }
     public void AddListenerToDash(Action listener) => move.Dash += listener;

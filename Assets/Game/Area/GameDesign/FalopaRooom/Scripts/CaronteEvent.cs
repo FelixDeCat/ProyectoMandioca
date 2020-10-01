@@ -153,6 +153,7 @@ public class CaronteEvent : MonoBehaviour
 
     public void OnExitTheAqueronte()
     {
+        character.ReturnFromHell();
         Checkpoint_Manager.instance.caronteIsActive = false;
         Fades_Screens.instance.Black();
         character.GetCharMove().SetSpeed();
@@ -194,6 +195,8 @@ public class CaronteEvent : MonoBehaviour
             po.On();
         }
         Debug.Log("desactiva caronte");
+
+     
 
     }
 

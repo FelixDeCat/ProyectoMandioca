@@ -13,8 +13,7 @@ public class AdventureMode : MonoBehaviour
     {
         _hero = GetComponent<CharacterHead>();
         startingSpeed = _hero.GetCharMove().GetDefaultSpeed;
-        _hero.UpWeaponsAction += CombatModeSpeed;
-        _hero.DownWeaponsAction += AdventureModeSpeed;
+        RegisterEvents();
     }
 
     void AdventureModeSpeed()
@@ -27,5 +26,17 @@ public class AdventureMode : MonoBehaviour
     {
         Debug.Log("Velocidad de combate");
         _hero.GetCharMove().SetSpeed();
+    }
+
+    public void UnregisterEvents()
+    {
+        _hero.UpWeaponsAction -= CombatModeSpeed;
+        _hero.DownWeaponsAction -= AdventureModeSpeed;
+    }
+
+    public void RegisterEvents()
+    {
+        _hero.UpWeaponsAction += CombatModeSpeed;
+        _hero.DownWeaponsAction += AdventureModeSpeed;
     }
 }

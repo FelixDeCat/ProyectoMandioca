@@ -20,9 +20,9 @@ public class SoulShard_controller : MonoBehaviour
 
     void Awake()
     {
+        caronteExitDoor = FindObjectOfType<CaronteExitDoor>();
         CacheShards();
 
-        caronteExitDoor = FindObjectOfType<CaronteExitDoor>();
     }
 
     void CacheShards()
@@ -30,8 +30,8 @@ public class SoulShard_controller : MonoBehaviour
         
         for (int i = 0; i < shardsAmount; i++)
         {
-            var a = Instantiate<SoulShard>(ss_pf, transform);
-            a.OnGrabSoulShard += OnRecolectShard;
+            var a = Instantiate<SoulShard>(ss_pf, transform).SetDestination(caronteExitDoor.transform.position);
+            a.OnReachDoor += OnRecolectShard;
             a.gameObject.SetActive(false);
             ss_pool.Add(a);
         }
