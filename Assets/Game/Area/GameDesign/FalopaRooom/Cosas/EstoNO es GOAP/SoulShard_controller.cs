@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class SoulShard_controller : MonoBehaviour
 {
-    public event Action OnSSRecolected;
+    //public event Action OnSSRecolected;
 
     [SerializeField] float radious = 3, heightSpawn = 3;
     [SerializeField] int shardsAmount = 3;

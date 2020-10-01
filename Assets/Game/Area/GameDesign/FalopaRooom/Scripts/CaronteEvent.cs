@@ -21,6 +21,8 @@ public class CaronteEvent : MonoBehaviour
     [SerializeField] float delayedCaronteSpawn = 5;
     [SerializeField] Transform caronteSpawnSpot;
 
+    CaronteCinematic_Controller cinematic;
+
     float _count;
    public bool _spawnedHand = false;
 
@@ -37,11 +39,10 @@ public class CaronteEvent : MonoBehaviour
     public void Start()
     {     
         character = Main.instance.GetChar();
-        //character.Life.ADD_EVENT_OnCaronteDeathEvent(OnPlayerDeath);
-        //character.Life.ADD_EVENT_OnCaronteDeathEvent(TurnOnCarontePP);
-        ss_controller.OnSSRecolected += () => OnDefeatCaronte(Vector3.zero);
+        cinematic = GetComponent<CaronteCinematic_Controller>();
 
-        
+        cinematic.StartCinematic();
+        cinematic.OnFinishCinematic += SpawnCaronte;
     }
 
     private void Update()
@@ -53,68 +54,10 @@ public class CaronteEvent : MonoBehaviour
         if (_count >= delayedCaronteSpawn)
         {
             _count = 0;
-            SpawnCaronte();
+            //SpawnCaronte();
         }
-
-        //HandTimer();
     }
 
-    void HandTimer()
-    {
-        //if (!_spawnedHand) return;
-
-        //_count += Time.deltaTime;
-
-        //if(_count >= delayedHand)
-        //{
-        //    _count = 0;
-        //    _spawnedHand = false;
-        //    SpawnHand();
-        //}
-    }
-
-
-    public void TurnOnCarontePP()
-    {
-
-    
-
-
-        //carontePP.SetActive(true);
-        //_spawnedHand = true;
-
-        //Apago a todos
-        //enemies = Tools.Extensions.Extensions.FindInRadius<PlayObject>(Main.instance.GetChar(), 1000, mask);
-
-        //foreach (PlayObject po in enemies)
-        //{
-        //    po.Off();
-        //    po.gameObject.SetActive(false);
-        //}
-     
-    }
-
-    void SpawnHand()
-    {
-        //Inicializo mano
-        var mano = GameObject.Instantiate<CaronteHand>(hand_pf);
-        mano.transform.position = character.Root.position; //- new Vector3(0, 13, -2);
-
-
-
-        mano.OnMissPlayer += SpawnCaronte;
-        mano.OnGrabPlayer += () =>
-        {
-
-            character.Life.Heal(1);
-            var dData = mano.GetComponent<DamageData>().SetDamage(200).SetDamageInfo(DamageInfo.NonBlockAndParry);
-            if (character.DamageReceiver().TakeDamage(dData) == Attack_Result.inmune)
-            {
-                //SpawnCaronte();
-            }
-            TurnOffCarontePP();
-        };
-    }
 
     void SpawnCaronte()
     {
@@ -131,10 +74,9 @@ public class CaronteEvent : MonoBehaviour
 
         caronte = GameObject.Instantiate<Ente>(caronte_pf, this.transform);
         WorldState.instance.ente = caronte;
-        caronte.OnDeath += OnDefeatCaronte;
-        caronte.OnDeath += (v3) => Destroy(caronte.gameObject);
-        caronte.transform.position = caronteSpawnSpot.position; 
-        //caronte.transform.position = GetSurfacePos();
+        //caronte.OnDeath += OnDefeatCaronte;
+        //caronte.OnDeath += (v3) => Destroy(caronte.gameObject);
+        caronte.transform.position = caronteSpawnSpot.position;
 
 
         caronte.Initialize();
@@ -142,14 +84,6 @@ public class CaronteEvent : MonoBehaviour
 
 
 
-    void OnDefeatCaronte(Vector3 v3)
-    {
-        character.GetCharMove().SetSpeed();
-        character.Life.Heal(Mathf.RoundToInt(character.Life.GetMax() * 0.25f));
-        character.Life.AllowCaronteEvent();
-        UnloadScene();
-
-    }
 
     public void OnExitTheAqueronte()
     {
@@ -179,26 +113,6 @@ public class CaronteEvent : MonoBehaviour
 
     }
 
-    public void TurnOffCarontePP()
-    {
-
-        if(caronte!= null)
-            Destroy(caronte.gameObject);
-
-        //ss_controller.ReturnShardsToPool();
-
-        carontePP.SetActive(false);
-        caronteActive = false;
-        foreach (PlayObject po in enemies)
-        {
-            po.gameObject.SetActive(true);
-            po.On();
-        }
-        Debug.Log("desactiva caronte");
-
-     
-
-    }
 
     #region aux func
     public Vector3 GetSurfacePos()
@@ -222,4 +136,33 @@ public class CaronteEvent : MonoBehaviour
     }
     #endregion
 
+    //void OnDefeatCaronte(Vector3 v3)
+    //{
+    //    character.GetCharMove().SetSpeed();
+    //    character.Life.Heal(Mathf.RoundToInt(character.Life.GetMax() * 0.25f));
+    //    character.Life.AllowCaronteEvent();
+    //    UnloadScene();
+
+    //}
+
+    //public void TurnOffCarontePP()
+    //{
+
+    //    if(caronte!= null)
+    //        Destroy(caronte.gameObject);
+
+    //    //ss_controller.ReturnShardsToPool();
+
+    //    carontePP.SetActive(false);
+    //    caronteActive = false;
+    //    foreach (PlayObject po in enemies)
+    //    {
+    //        po.gameObject.SetActive(true);
+    //        po.On();
+    //    }
+    //    Debug.Log("desactiva caronte");
+
+     
+
+    //}
 }

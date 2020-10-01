@@ -35,7 +35,7 @@ public class HandOfDead_Handler : MonoBehaviour
             return;
 
         OnGrabPlayer?.Invoke(this);
-        CaronteEvent.instance.TurnOffCarontePP();
+        //CaronteEvent.instance.TurnOffCarontePP();
         Destroy(gameObject);
     }
 
