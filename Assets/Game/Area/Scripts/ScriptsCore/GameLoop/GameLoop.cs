@@ -28,12 +28,14 @@ public class GameLoop : MonoBehaviour
     public void REMOVE_EVENT_BackFromHell(Action _callback) { OnBackToHell += _callback; }
     #endregion
 
+    bool startGame;
     void Start()
     {
         character = Main.instance.GetChar();
         character.Life.ADD_EVENT_Death(OnPlayerDeath);
         TooglesConfig();
         SoundAmbience();
+        startGame = true;
     }
 
     void OnPlayerDeath()
@@ -161,7 +163,8 @@ public class GameLoop : MonoBehaviour
 
     private void Update()
     {
-        if (character.Root.transform.position.y < 100)
+        if (!startGame) return;
+        if (character.transform.position.y < -100)
         {
             Checkpoint_Manager.instance.SpawnChar();
         }
