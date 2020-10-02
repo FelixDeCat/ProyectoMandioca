@@ -158,5 +158,13 @@ public class GameLoop : MonoBehaviour
         AudioManager.instance.GetSoundPool("ambiente", AudioGroups.MUSIC, ambience, true);
         AudioManager.instance.PlaySound("ambiente");
     }
+
+    private void Update()
+    {
+        if (character.Root.transform.position.y < 100)
+        {
+            Checkpoint_Manager.instance.SpawnChar();
+        }
+    }
     #endregion
 }
