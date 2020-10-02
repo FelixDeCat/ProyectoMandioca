@@ -49,7 +49,8 @@ public class Checkpoint_Manager : MonoBehaviour
             currentNormal = checkpoint; 
         }
         else
-        { 
+        {
+            currentNormal = checkpoint;
             currentImportant = checkpoint; 
         }
     }

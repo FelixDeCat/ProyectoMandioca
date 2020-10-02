@@ -136,7 +136,8 @@ public class UI_Comp_Message : MonoBehaviour
     void Filldata()
     {
         descrip_text.text = data.Message;
-        if (data.Img) { item_img.sprite = data.Img; }
+        if (data.Img) { item_img.enabled = true; item_img.sprite = data.Img; }
+        else { item_img.enabled = false; }
         bkg_img.color = data.Bkg_Color;
         descrip_text.color = data.Text_Color;
     }

@@ -25,6 +25,7 @@ public class MsgLogData
     {
         message = _message;
         time = _time;
+        img = null;
     }
     public MsgLogData(string _message, Sprite _img, bool stay_block = false)
     {
@@ -44,6 +45,7 @@ public class MsgLogData
         time = _time;
         bkg_color = _bkg;
         text_color = _text;
+        img = null;
     }
     public MsgLogData(string _message, Color _bkg, Color _text, bool stay_block = false)
     {
@@ -52,6 +54,7 @@ public class MsgLogData
         stay = stay_block;
         bkg_color = _bkg;
         text_color = _text;
+        img = null;
     }
     public MsgLogData(string _message, Sprite _img, Color _bkg, Color _text, float _time)
     {
