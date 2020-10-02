@@ -30,7 +30,7 @@ public class Checkpoint_Manager : MonoBehaviour
 
     public bool NoInstanciate = false;
     bool caronteloop = false;
-    public bool caronteIsActive = false;
+    
 
     private void Awake() 
     { 
@@ -72,28 +72,11 @@ public class Checkpoint_Manager : MonoBehaviour
         }
     }
 
-    Vector3 lastcharposition;
-    public void CaronteLoop(bool val) 
-    { 
-        caronteloop = val;
-        lastcharposition = Main.instance.GetChar().transform.position;
-    }
-
     public void SpawnChar()
     {
         Fades_Screens.instance.Black();
         Main.instance.GetChar().StopMovement();
-        
-        if (caronteloop)
-        {
-            Main.instance.GetChar().transform.position = lastcharposition;
-            caronteloop = false;
-        }
-        else
-        {
-            Main.instance.GetChar().transform.position = _activeCheckPoint.GetPosition;
-        }
-        
+        Main.instance.GetChar().transform.position = _activeCheckPoint.GetPosition;
         Main.instance.GetCombatDirector().AddNewTarget(Main.instance.GetChar());
         Main.instance.GetMyCamera().InstantPosition();
         Invoke("Wait", 0.75f);

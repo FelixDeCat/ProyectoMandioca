@@ -142,8 +142,8 @@ public class CharacterHead : CharacterControllable
         slowSpeed = move.GetDefaultSpeed * .6f;
 
         //Asi se que estoy en el infierno
-        lifesystem.ADD_EVENT_OnCaronteDeathEvent(() => _imInHell = true);
-        lifesystem.ADD_EVENT_OnCaronteDeathEvent(() => _advMode.UnregisterEvents());
+        GameLoop.instance.ADD_EVENT_GoToHell(() => HellMode(true));
+        GameLoop.instance.ADD_EVENT_BackFromHell(() => HellMode(false));
 
         charBlock
             .Initialize()
@@ -527,10 +527,19 @@ public class CharacterHead : CharacterControllable
     #endregion
 
     #region Caronte
-    public void ReturnFromHell()
+
+    void HellMode(bool val)
     {
-        _imInHell = false;
-        _advMode.RegisterEvents();
+        if (val)
+        {
+            _imInHell = true;
+            _advMode.UnregisterEvents();
+        }
+        else
+        {
+            _imInHell = false;
+            _advMode.RegisterEvents();
+        }
     }
 
     #endregion

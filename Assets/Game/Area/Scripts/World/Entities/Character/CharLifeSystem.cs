@@ -8,18 +8,11 @@ public class CharLifeSystem: _Base_Life_System
 {
     public FrontendStatBase frontendLife;
 
-    private bool godMode = false;
-
     public event Action<int, int> lifechange = delegate { };
 
     public event Action loselife = delegate { };
     public event Action gainlife = delegate { };
     public event Action death = delegate { };
-    public event Action caronte = delegate { };
-
-    public bool caronteEventAvaliable;
-
-    bool oneShotCaronte = false;
 
     CharFeedbacks feedbacks = null;
 
@@ -29,21 +22,11 @@ public class CharLifeSystem: _Base_Life_System
         lifesystem.Config(life, EVENT_OnLoseLife, EVENT_OnGainLife, EVENT_OnDeath, life);
 
         lifesystem.AddCallback_LifeChange(OnLifeChange);
-        Debug_UI_Tools.instance.CreateToogle("GODMODE", false, ToogleDebug);
-        Debug_UI_Tools.instance.CreateToogle("CARONTE", false, ToggleCaronte);
+        
         ADD_EVENT_OnChangeValue(Main.instance.gameUiController.OnChangeLife);
         
         return this;
     }
-
-    string ToggleCaronte(bool val)
-    {
-        caronteEventAvaliable = !caronteEventAvaliable;
-        return "C:=> " + (val ? "ON" : "OFF");
-    }
-
-
-    string ToogleDebug(bool active) { godMode = active; ; return active ? "debug activado" : "debug desactivado"; }
 
     //////////////////////////////////////////////////////////////////////////////////
     /// EVENTS Subscribers
@@ -56,8 +39,6 @@ public class CharLifeSystem: _Base_Life_System
     public CharLifeSystem REMOVE_EVENT_OnGainLife(Action _callback) { gainlife -= _callback; return this; }
     public CharLifeSystem ADD_EVENT_Death(Action _callback) { death += _callback; return this; }
     public CharLifeSystem REMOVE_EVENT_Death(Action _callback) { death -= _callback; return this; }
-    public CharLifeSystem ADD_EVENT_OnCaronteDeathEvent(Action _callback) { caronte += _callback; return this; }
-    public CharLifeSystem REMOVE_EVENT_OnCaronteDeathEvent(Action _callback) { caronte -= _callback; return this; }
 
     //////////////////////////////////////////////////////////////////////////////////
     /// CALLBACKS
@@ -68,31 +49,14 @@ public class CharLifeSystem: _Base_Life_System
     }
     void EVENT_OnLoseLife() { loselife.Invoke();}
 
-
     void EVENT_OnGainLife()
     {
         if(feedbacks != null) feedbacks.sounds.Play_TakeHeal();
         gainlife.Invoke();
     }
-
     void EVENT_OnDeath()
     {
-        if (caronteEventAvaliable && !oneShotCaronte)
-        {
-            oneShotCaronte = true;
-            caronte?.Invoke();
-            return;
-        }
-
-        
-        if (!godMode)
-        {
-            if(caronteEventAvaliable)
-                oneShotCaronte = false;
-            
-            death.Invoke();
-        }
-            
+        death.Invoke();
     }
 
     //////////////////////////////////////////////////////////////////////////////////
@@ -106,16 +70,9 @@ public class CharLifeSystem: _Base_Life_System
     {
         Main.instance.gameUiController.ResetYellowHeart();
         lifesystem.ResetLife();
-        
     }
 
     public void AddHealth(int _val) => lifesystem.IncreaseLife(_val);
     public int GetLife() => (int)lifesystem.Life;
     public int GetMax() => lifesystem.GetMax();
-    public void AllowCaronteEvent()
-    {
-        oneShotCaronte = false;
-    }
-
-
 }
