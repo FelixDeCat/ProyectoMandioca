@@ -10,6 +10,9 @@ public abstract class Interactable : MonoBehaviour
     [Header("Interactable Settings")]
     public float distancetoInteract = 1f;
     public bool autoexecute;
+    bool autoexe_in_CD = false;
+    float timer_cd;
+    public float cd_autoexecute;
     public Transform pointToMessage;
     public FeedbackInteractBase[] feedback;
     public bool _withDelay;
@@ -17,7 +20,7 @@ public abstract class Interactable : MonoBehaviour
     protected Action _executeAction;
     public float delayTime;
     protected bool updateDelay;
-    
+
     public UnityEvent UE_OnEnter;
     public UnityEvent UE_OnExit;
     public Func<bool> predicate = delegate { return true; };
@@ -44,7 +47,14 @@ public abstract class Interactable : MonoBehaviour
         if (!predicate.Invoke()) return;
 
         if (!_withDelay)
-            OnExecute(entity);
+        {
+            if (!autoexe_in_CD)
+            {
+                autoexe_in_CD = true;
+                timer_cd = 0; 
+                OnExecute(entity);
+            }
+        }
         else
             updateDelay = true;
     }
@@ -53,6 +63,19 @@ public abstract class Interactable : MonoBehaviour
         if (updateDelay)
         {
             DelayExecute(delayTime);
+        }
+
+        if (autoexe_in_CD)
+        {
+            if (timer_cd < cd_autoexecute)
+            {
+                timer_cd = timer_cd + 1 * Time.deltaTime;
+            }
+            else
+            {
+                timer_cd = 0;
+                autoexe_in_CD = false;
+            }
         }
     }
     public virtual void DelayExecute(float loadTime)

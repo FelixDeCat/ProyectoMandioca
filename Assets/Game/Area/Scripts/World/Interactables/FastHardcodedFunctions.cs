@@ -29,4 +29,10 @@ public class FastHardcodedFunctions : MonoBehaviour
         MsgLogData msgLogData = new MsgLogData("caronte activado", new Color(0, 0, 0,0), new Color(1,1,1,1), 1f);
         GameMessage.Log(msgLogData);
     }
+    public void F_CaronteOff()
+    {
+        GameLoop.instance.DEBUG_FORCE_ActivateCaronte();
+        MsgLogData msgLogData = new MsgLogData("caronte desactivado", new Color(0, 0, 0, 0), new Color(1, 1, 1, 1), 1f);
+        GameMessage.Log(msgLogData);
+    }
 }

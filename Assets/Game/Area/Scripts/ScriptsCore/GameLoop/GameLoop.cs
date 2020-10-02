@@ -17,6 +17,7 @@ public class GameLoop : MonoBehaviour
     bool have_caronte;
     bool caronteIsActive = false;
     public void DEBUG_FORCE_ActivateCaronte() => have_caronte = true;
+    public void DEBUG_FORCE_DeactivateCaronte() => have_caronte = false;
 
     #region [GO / BACK] Caronte Hell EVENTS
     public event Action OnGoToHell = delegate { };
