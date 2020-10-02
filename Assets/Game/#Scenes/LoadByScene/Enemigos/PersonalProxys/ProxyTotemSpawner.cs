@@ -21,6 +21,7 @@ public class ProxyTotemSpawner : ProxyEnemyBase
         temp.maxSpawn = maxSpawns;
         temp.waveAmount = wavesAmmount;
         temp.ChangePool(prefab);
+        temp.currentSpawn = 0;
         var aux = temp.GetComponentInChildren<BoxCollider>();
         aux.transform.position = trigger.transform.position;
         aux.size = trigger.size;
