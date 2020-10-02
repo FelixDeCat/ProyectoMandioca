@@ -26,13 +26,13 @@ public class FastHardcodedFunctions : MonoBehaviour
     public void F_CaronteOn()
     {
         GameLoop.instance.DEBUG_FORCE_ActivateCaronte();
-        MsgLogData msgLogData = new MsgLogData("caronte activado", new Color(0, 0, 0,0), new Color(1,1,1,1), 1f);
+        MsgLogData msgLogData = new MsgLogData("pierdes: bendicion de atenea", new Color(0, 0, 0,0), new Color(1,1,1,1), 1f);
         GameMessage.Log(msgLogData);
     }
     public void F_CaronteOff()
     {
-        GameLoop.instance.DEBUG_FORCE_ActivateCaronte();
-        MsgLogData msgLogData = new MsgLogData("caronte desactivado", new Color(0, 0, 0, 0), new Color(1, 1, 1, 1), 1f);
+        GameLoop.instance.DEBUG_FORCE_DeactivateCaronte();
+        MsgLogData msgLogData = new MsgLogData("obtienes: bendicion de atenea", new Color(0, 0, 0, 0), new Color(1, 1, 1, 1), 1f);
         GameMessage.Log(msgLogData);
     }
 }

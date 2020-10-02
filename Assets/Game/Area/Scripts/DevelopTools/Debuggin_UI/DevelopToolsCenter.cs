@@ -24,7 +24,7 @@ public class DevelopToolsCenter : MonoBehaviour
         DevelopTools.UI.Debug_UI_Tools.instance.CreateToogle("Armas", false, Armas);
         DevelopTools.UI.Debug_UI_Tools.instance.CreateToogle("NormalAttack", true, GodDamage);
     }
-    string Armas(bool val)
+    public string Armas(bool val)
     {
         Main.instance.GetChar().ToggleShield(val);
         Main.instance.GetChar().ToggleSword(val);
