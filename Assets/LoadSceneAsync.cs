@@ -9,7 +9,10 @@ public class LoadSceneAsync : MonoBehaviour
     public void BeginLoad(string scene)
     {
         SceneToLoad = scene;
-        StartCoroutine(LoadAsyncScene());
+
+        LoadSceneHandler.instance.LoadAScene(SceneToLoad);
+
+       // StartCoroutine(LoadAsyncScene());
     }
 
     AsyncOperation asyncLoad;
