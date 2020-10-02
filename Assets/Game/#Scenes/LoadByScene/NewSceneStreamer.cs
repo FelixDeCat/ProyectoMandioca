@@ -27,24 +27,35 @@ public class NewSceneStreamer : MonoBehaviour
     bool IsLoaded(string sceneName) => loaded.Contains(sceneName);
     bool IsLoading(string sceneName) => loading.Contains(sceneName);
 
+    Action OnEnd = delegate { };
+
     private void Start()
     {
         SceneManager.sceneLoaded += OnSceneLoaded;
         SceneManager.sceneUnloaded += OnSceneUnLoaded;
+        Fades_Screens.instance.Black();
         //GCHandle.DisableGC();
-        LoadScene(firstScene, false, true);
+        LoadScene(firstScene, false, true, EndLoad);
+    }
+    public void EndLoad()
+    {
+        Fades_Screens.instance.FadeOff(() => { });
+        Checkpoint_Manager.instance.SpawnChar();
     }
 
     public void LoadScene(string sceneName, bool LoadScreen = false, bool LoadNeighbor = false, Action OnEnd = null)
     {
+        this.OnEnd = OnEnd;
         if (string.IsNullOrEmpty(sceneName) || string.Equals(sceneName, currentScene)) return;
-        StartCoroutine(LoadCurrentScene(sceneName, LoadScreen, LoadNeighbor, OnEnd));
+        
+        StartCoroutine(LoadCurrentScene(sceneName, LoadScreen, LoadNeighbor));
     }
+    
 
-    IEnumerator LoadCurrentScene(string sceneName, bool LoadScreen = false, bool LoadNeighbor = false, Action OnEnd = null)
+    IEnumerator LoadCurrentScene(string sceneName, bool LoadScreen = false, bool LoadNeighbor = false)
     {
         currentScene = sceneName;
-        if (!IsLoaded(currentScene)) yield return LoadAsyncAdditive(sceneName, LoadScreen, LoadNeighbor, true, OnEnd);
+        if (!IsLoaded(currentScene)) yield return LoadAsyncAdditive(sceneName, LoadScreen, LoadNeighbor, true);
 
         float failsafeTime = Time.realtimeSinceStartup + maxLoadWaitTime;
         while ((loading.Count > 0) && (Time.realtimeSinceStartup < failsafeTime)) { yield return null; }
@@ -61,7 +72,9 @@ public class NewSceneStreamer : MonoBehaviour
 
         LocalToEnemyManager.OnLoadScene(sceneName);
 
-         yield return null;
+        if (OnEnd != null) { OnEnd.Invoke(); OnEnd = delegate { }; }
+
+        yield return null;
     }
 
     void TryToExecuteParameter(string sceneName, SceneData.Detail_Parameter parameter)
@@ -102,7 +115,7 @@ public class NewSceneStreamer : MonoBehaviour
             
             if (!loaded.Contains(parameters[i].scene))
             {
-                yield return LoadAsyncAdditive(parameters[i].scene, false, false, false, null);
+                yield return LoadAsyncAdditive(parameters[i].scene, false, false, false);
             }
 
             TryToExecuteParameter(parameters[i].scene, parameters[i].detail);
@@ -128,14 +141,12 @@ public class NewSceneStreamer : MonoBehaviour
         */
     }
 
-    IEnumerator LoadAsyncAdditive(string sceneName, bool LoadScreen = false, bool LoadNeighbor = false, bool exe = true, Action OnEnd = null)
+    IEnumerator LoadAsyncAdditive(string sceneName, bool LoadScreen = false, bool LoadNeighbor = false, bool exe = true)
     {
         if (LoadScreen)
         {
-            //Fades_Screens.instance.Black();
+            Fades_Screens.instance.Black();
             //LoadSceneHandler.instance.On_LoadScreen();
-            //Fades_Screens.instance.FadeOff(() => { });
-
         }
 
         if (!IsLoading(sceneName) && !IsLoaded(sceneName))
@@ -152,39 +163,14 @@ public class NewSceneStreamer : MonoBehaviour
             {
                 yield return null;
             }
-            //yield return new WaitForEndOfFrame();
-            //Fades_Screens.instance.FadeOn(() => { });
-            yield return asyncOperation;
+            //Fades_Screens.instance.FadeOff(() => { });
 
-           // EndLoad(sceneName, LoadScreen, LoadNeighbor, OnEnd);
-        }
-        else
-        {
-           // EndLoad(sceneName, LoadScreen, LoadNeighbor, OnEnd);
             
+            yield return asyncOperation;
         }
 
         yield return null;
     }
-    //void EndLoad(string sceneName, bool LoadScreen = false, bool LoadNeighbor = false, Action OnEnd = null)
-    //{
-    //    loading.Remove(sceneName);
-    //    loaded.Add(sceneName);
-
-    //    //optimizar esto ;) con lo de "para probar"... agregarle que si no terminó la operacion no continue
-    //    GameObject go = GameObject.Find(sceneName);
-    //    if (go != null)
-    //    {
-    //        var local = go.GetComponent<LocalSceneHandler>();
-    //        if (local != null) { 
-    //            RegisterLocalScene(sceneName, local);
-    //            StartCoroutine(local.Load());
-    //        }
-    //    }
-
-    //    if (OnEnd != null) OnEnd.Invoke();
-    //}
-
 
     #region Registry Zone
     public void RegisterLocalScene(string sceneName, LocalSceneHandler sceneLocalScript)

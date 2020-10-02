@@ -16,8 +16,8 @@ public class Fades_Screens : MonoBehaviour
     public bool Anim=true;
     [SerializeField] bool startOn = false;
     private void Awake() { instance = this; if(startOn) canvas_group.alpha = 1; }
-    public void Black() { canvas_group.alpha = 1; }
-    public void Transparent() { canvas_group.alpha = 0; }
+    public void Black() { Anim = false; canvas_group.alpha = 1; }
+    public void Transparent() { Anim = false; canvas_group.alpha = 0; }
     public void FadeOn(Action FadeOnEndCallback)
     {
         EndOn = FadeOnEndCallback;

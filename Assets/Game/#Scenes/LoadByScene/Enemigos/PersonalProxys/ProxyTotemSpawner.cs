@@ -16,7 +16,10 @@ public class ProxyTotemSpawner : ProxyEnemyBase
     {
         base.SpawnEnemy(enemy);
         var temp = enemy.GetComponent<CustomSpawner>();
-        temp.spot.spawnSpot.position = spawnSpot.position;
+
+        if (temp.spot.spawnSpot != null) temp.spot.spawnSpot.position = spawnSpot.position;
+        else { Debug.Log("-> " + enemy.gameObject.name + " no tiene spawnSpot"); }
+
         temp.spot.radious = radious;
         temp.maxSpawn = maxSpawns;
         temp.waveAmount = wavesAmmount;

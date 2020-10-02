@@ -14,10 +14,27 @@ public class InteractableTeleport : Interactable
     public bool mostrar_Descripcion = true;
     public Transform transform_destino;
     public string sceneToChange;
+    public bool UseLocalSceneStreamer;
     public override void OnExecute(WalkingEntity entity) 
-    { 
-        if(teleportType == TeleportType.change_posicional) Main.instance.GetChar().transform.position = transform_destino.position;
+    {
+        if (teleportType == TeleportType.change_posicional) 
+        {
+            if (!UseLocalSceneStreamer)
+            {
+                Main.instance.GetChar().transform.position = transform_destino.position;
+            }
+            else
+            {
+                NewSceneStreamer.instance.LoadScene(sceneToChange, false, true, EndLoad);
+                //Main.instance.GetChar().transform.position = transform_destino.position;
+            }
+           
+        }
         if (teleportType == TeleportType.change_scene) Fades_Screens.instance.FadeOn(On_FadeOn_Ended);
+    }
+    void EndLoad()
+    {
+        Main.instance.GetChar().transform.position = transform_destino.position;
     }
 
     public void On_FadeOn_Ended()

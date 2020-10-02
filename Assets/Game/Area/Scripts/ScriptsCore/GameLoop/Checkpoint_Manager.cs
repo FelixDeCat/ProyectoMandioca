@@ -75,29 +75,37 @@ public class Checkpoint_Manager : MonoBehaviour
 
         if (togo != null)
         {
-            Debug.Log("tengo checkpoint");
-            chr.transform.position = togo.Mytranform.position;
-            chr.transform.eulerAngles = togo.Mytranform.eulerAngles;
+            if (togo.sceneName != "" && string.IsNullOrEmpty(togo.sceneName))
+            {
+                NewSceneStreamer.instance.LoadScene(togo.sceneName, true, true);
+            }
+            else
+            {
+                PositionateChar(togo.Mytranform);
+            }
         }
         else
         {
             if (spawnpoint)
             {
-                Debug.Log("tengo spawpoint");
-                chr.transform.position = spawnpoint.position;
-                chr.transform.eulerAngles = spawnpoint.eulerAngles;
+                PositionateChar(spawnpoint);
             }
             else
             {
-                Debug.Log("no tengo nada");
-                chr.transform.position = Vector3.zero;
-                chr.transform.eulerAngles = Vector3.zero;
+                PositionateChar();
             }
         }
 
         Main.instance.GetCombatDirector().AddNewTarget(Main.instance.GetChar());
         Main.instance.GetMyCamera().InstantPosition();
         Invoke("Wait", 0.75f);
+    }
+
+    void PositionateChar(Transform tr = null)
+    {
+        var chr = Main.instance.GetChar();
+        chr.transform.position = tr != null ? tr.position : Vector3.zero;
+        chr.transform.eulerAngles = tr != null ? tr.eulerAngles : Vector3.zero;
     }
     public void Wait()
     {
