@@ -21,69 +21,87 @@ using System.Linq;
 
 public class Checkpoint_Manager : MonoBehaviour
 {
-    public static Checkpoint_Manager instance; 
-
-    public Checkpoint_Spot _activeCheckPoint;
-    public List<Checkpoint_Spot> allCheckpoints = new List<Checkpoint_Spot>();
-
-    public float posToRespawn = -20;
-
-    public bool NoInstanciate = false;
-    bool caronteloop = false;
-    
-
-    private void Awake() 
-    { 
-        if(!NoInstanciate) instance = this;
-
-        allCheckpoints = transform.GetComponentsInChildren<Checkpoint_Spot>().ToList();
-        foreach (var cp in allCheckpoints)
-        {
-            cp.OnCheckPointActivated += UpdateCurrentCheckpoint;
-        }
-
-        _activeCheckPoint = allCheckpoints[0];
+    public static Checkpoint_Manager instance;
+    private void Awake()
+    {
+        if (instance == null) instance = this;
+        else Destroy(this.gameObject);
     }
 
-    private void Start()
+    public Checkpoint currentNormal;
+    public Checkpoint currentImportant;
+    public Transform spawnpoint;
+    public List<Checkpoint> AllCheckPoint = new List<Checkpoint>();
+
+    public void SubscribeSpawnPoint(Transform spawnpoint) => this.spawnpoint = spawnpoint;
+    public void ConfigureCheckPoint(Checkpoint checkpoint, ref Action<Checkpoint> callback)
     {
-        GameLoop.instance.SubscribeCheckpoint(this);
+        AllCheckPoint.Add(checkpoint);
+        if (currentNormal == null && !checkpoint.IsImportant) currentNormal = checkpoint;
+        if (currentImportant == null && checkpoint.IsImportant) currentImportant = checkpoint;
+        callback = SetSpawn;
+    }
+
+    void SetSpawn(Checkpoint checkpoint)
+    {
+        if (!checkpoint.IsImportant) 
+        {
+            currentNormal = checkpoint; 
+        }
+        else
+        { 
+            currentImportant = checkpoint; 
+        }
+    }
+
+
+    public void StartGame()
+    {
         Fades_Screens.instance.Black();
         Fades_Screens.instance.FadeOff(() => { });
 
-        if (Main.instance.CanGoToCheckPoint)
-        {
-            SpawnChar();
-        }
-
-        if (!Main.instance.CanGoToCheckPoint) Main.instance.ResetGoCheckPoints();
+        currentNormal = AllCheckPoint[0];
+        SpawnChar();
     }
 
-    void UpdateCurrentCheckpoint(Checkpoint_Spot cp)
+    public void SpawnChar(bool important = false)
     {
-        _activeCheckPoint = cp;
-    }
+        var chr = Main.instance.GetChar();
 
-    private void Update()
-    {
-        if (Main.instance.GetChar().transform.position.y < posToRespawn)
-        {
-           SpawnChar();
-        }
-    }
-
-    public void SpawnChar()
-    {
         Fades_Screens.instance.Black();
-        Main.instance.GetChar().StopMovement();
-        Main.instance.GetChar().transform.position = _activeCheckPoint.GetPosition;
+        chr.StopMovement();
+
+        var togo = important ? currentImportant : currentNormal;
+
+        if (togo != null)
+        {
+            Debug.Log("tengo checkpoint");
+            chr.transform.position = togo.Mytranform.position;
+            chr.transform.eulerAngles = togo.Mytranform.eulerAngles;
+        }
+        else
+        {
+            if (spawnpoint)
+            {
+                Debug.Log("tengo spawpoint");
+                chr.transform.position = spawnpoint.position;
+                chr.transform.eulerAngles = spawnpoint.eulerAngles;
+            }
+            else
+            {
+                Debug.Log("no tengo nada");
+                chr.transform.position = Vector3.zero;
+                chr.transform.eulerAngles = Vector3.zero;
+            }
+        }
+
         Main.instance.GetCombatDirector().AddNewTarget(Main.instance.GetChar());
         Main.instance.GetMyCamera().InstantPosition();
         Invoke("Wait", 0.75f);
     }
     public void Wait()
     {
-        Fades_Screens.instance.FadeOff(()=> { });
+        Fades_Screens.instance.FadeOff(() => { });
     }
 }
 

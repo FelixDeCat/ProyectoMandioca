@@ -32,7 +32,7 @@ namespace Tools.Testing
             }
             else
             {
-                
+                Fades_Screens.instance.Black();
                 //Debug.Log("entro mas veces aca");
                 if (LockMouse)
                 {

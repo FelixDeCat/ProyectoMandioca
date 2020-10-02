@@ -10,7 +10,6 @@ public class LoadSceneAsync : MonoBehaviour
     {
         SceneToLoad = scene;
         StartCoroutine(LoadAsyncScene());
-        Main.instance.IgnoreCheckPoints();
     }
 
     AsyncOperation asyncLoad;

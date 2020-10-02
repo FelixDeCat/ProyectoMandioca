@@ -11,9 +11,6 @@ public class GameLoop : MonoBehaviour
 
     [SerializeField] private AudioClip ambience = null;
 
-    Checkpoint_Manager checkpointmanager;
-    public void SubscribeCheckpoint(Checkpoint_Manager checkpointmanager) => this.checkpointmanager = checkpointmanager;
-
     private bool godMode = false;
     CharacterHead character;
 
@@ -118,7 +115,7 @@ public class GameLoop : MonoBehaviour
     public void FastResurrect()
     {
         Main.instance.GetChar().Life.Heal_AllHealth();
-        checkpointmanager.SpawnChar();
+        Checkpoint_Manager.instance.SpawnChar();
     }
 
 
