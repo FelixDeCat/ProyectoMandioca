@@ -5,22 +5,30 @@ using Tools.Extensions;
 
 public class BoomerangShield : MonoBehaviour
 {
-    [Header("Properties")]
+    [Header("LongCast Properties")]
     [SerializeField] float throwRange = 4;
     [SerializeField] float damageRadius = 5;
     [SerializeField] float spinDuration = 5;
-    [SerializeField] float throwSpeed = 5;
-    [SerializeField] float returnSpeed = 5;
     [SerializeField] float distanceToCatch = 3;
+    //[SerializeField] float throwSpeed = 5f;
+    [Header("El tiempo es el triple de lo que pongas")]
+    [SerializeField] float throwTravelTime = 1f;
+    [SerializeField] float returnTime = 1f;
+    //[SerializeField] int returnSpeed = 5;
     [SerializeField] Damagetype damageType = Damagetype.Normal;
 
+
+    [Header("Common Properties")]
     [SerializeField] int damagePerTick = 1;
     [SerializeField] float timeBetweenTicks = 0.2f;
 
-    [Header("ShortCast")]
+    [Header("ShortCast Properties")]
     [SerializeField] float spinSpeed = 4;
     [SerializeField] float shortSpinDuration = 1.5f;
     [SerializeField] float shortThrowRange = 2;
+    [Header("El tiempo es el triple de lo que pongas")]
+    [SerializeField] float shortThrowTravelTime = 1f;
+    [SerializeField] float shortReturnTime = 1f;
     //rotation
     [SerializeField] private Vector3 v3 = Vector3.zero;
     [SerializeField] private float rotSpeed = 5;
@@ -171,18 +179,26 @@ public class BoomerangShield : MonoBehaviour
 
         flying.transform.forward = -dir;
 
-        while (Vector3.Distance(auxShield.transform.position, spinPosition) > 1.5f)
+        float cant = 100f * shortThrowTravelTime;      
+        for (int i = 0; i < cant; i++)
         {
             flying.transform.position = auxShield.transform.position;
-            auxShield.transform.position += Time.deltaTime * throwSpeed * dir;
-            yield return new WaitForEndOfFrame();
+            float aux = i / cant;
+            auxShield.transform.position = Vector3.Lerp(_shield.transform.position, _shield.transform.position + startingRot * shortThrowRange, aux);
+            yield return new WaitForSeconds(0.01f);
         }
+
+        //while (Vector3.Distance(auxShield.transform.position, spinPosition) > 1.5f)
+        //{
+        //    flying.transform.position = auxShield.transform.position;
+        //    auxShield.transform.position += Time.deltaTime * throwSpeed * dir;
+        //    yield return new WaitForEndOfFrame();
+        //}
         
         while (timeCount < shortSpinDuration)
         {
             timeCount += Time.deltaTime;
             float timerAux = timeCount * spinSpeed;
-            Debug.Log(timerAux);
             auxShield.transform.position = _shield.transform.position + startingRot * Mathf.Cos(timerAux) * shortThrowRange + Vector3.Cross(startingRot, Vector3.up) * Mathf.Sin(timerAux) * -shortThrowRange;
             yield return new WaitForEndOfFrame();
         }
@@ -192,28 +208,43 @@ public class BoomerangShield : MonoBehaviour
 
         flying.transform.forward = -dir;
 
-        while (Vector3.Distance(auxShield.transform.position, _shield.transform.position) >= distanceToCatch)
+        //while (Vector3.Distance(auxShield.transform.position, _shield.transform.position) >= distanceToCatch)
+        //{
+        //    flying.transform.position = auxShield.transform.position;
+        //    auxShield.transform.position += Time.deltaTime * (returnSpeed * 1 + Time.deltaTime) * dir;
+        //    yield return new WaitForEndOfFrame();
+        //}
+
+        cant = shortReturnTime * 100f;
+        for (int i = 0; i < cant; i++)
         {
+            float aux = i / cant;
             flying.transform.position = auxShield.transform.position;
-            auxShield.transform.position += Time.deltaTime * (returnSpeed * 1 + Time.deltaTime) * dir;
-            yield return new WaitForEndOfFrame();
+            auxShield.transform.position = Vector3.Lerp(_shield.transform.position + startingRot * shortThrowRange, _shield.transform.position, aux);
+            yield return new WaitForSeconds(0.01f);
         }
         OnEnd();
-
     }
 
     IEnumerator ThrowLong()
     {
         var dir = spinPosition - startingPos;
-        dir = dir.normalized;
-
+        //dir = dir.normalized;
         flying.transform.forward = -dir;
-
-        while (Vector3.Distance(auxShield.transform.position, spinPosition) > 1.5f)
+        //while (Vector3.Distance(auxShield.transform.position, spinPosition) > 1.5f)
+        //{
+        //    flying.transform.position = auxShield.transform.position;
+        //    auxShield.transform.position += Time.deltaTime * throwSpeed * dir;
+        //    yield return new WaitForEndOfFrame();
+        //}        
+        
+        float cant = 100 * throwTravelTime;
+        for (float i = 0; i < cant; i++)
         {
+            float aux = i / cant;
+            auxShield.transform.position = Vector3.Lerp(startingPos, spinPosition, aux);
             flying.transform.position = auxShield.transform.position;
-            auxShield.transform.position += Time.deltaTime * throwSpeed * dir;
-            yield return new WaitForEndOfFrame();
+            yield return new WaitForSeconds(0.01f);
         }
         //StartSpin
         flying.Stop();
@@ -233,14 +264,23 @@ public class BoomerangShield : MonoBehaviour
         //StartReturn
         flying.Play();
 
-        while (Vector3.Distance(auxShield.transform.position, _shield.transform.position) >= distanceToCatch)
+        //while (Vector3.Distance(auxShield.transform.position, _shield.transform.position) >= distanceToCatch)
+        //{
+        //    dir = _shield.transform.position - auxShield.transform.position;
+        //    dir = dir.normalized;
+        //    flying.transform.forward = -dir;
+        //    flying.transform.position = auxShield.transform.position;
+        //    auxShield.transform.position += Time.deltaTime * (returnSpeed * 1 + Time.deltaTime) * dir;
+        //    yield return new WaitForEndOfFrame();
+        //}
+        cant = returnTime * 100f;
+        for (int i = 0; i < cant; i++)
         {
+            float aux = i / cant;
             dir = _shield.transform.position - auxShield.transform.position;
-            dir = dir.normalized;
             flying.transform.forward = -dir;
-            flying.transform.position = auxShield.transform.position;
-            auxShield.transform.position += Time.deltaTime * (returnSpeed * 1 + Time.deltaTime) * dir;
-            yield return new WaitForEndOfFrame();
+            flying.transform.position = auxShield.transform.position = Vector3.Lerp(spinPosition, _shield.transform.position, aux);
+            yield return new WaitForSeconds(0.01f);
         }
         OnEnd();
     }
