@@ -24,6 +24,8 @@ public class CharacterInput : MonoBehaviour
     public UnityEvFloat RightHorizontal;
     public UnityEvFloat RightVertical;
 
+    public UnityEvFloat MouseScrollWheel;
+
     public UnityEvFloat ChangeWeapon;
     public UnityEvent Dash;
 
@@ -123,9 +125,9 @@ public class CharacterInput : MonoBehaviour
             LeftHorizontal.Invoke(Input.GetAxis(InputControl.HORIZONTAL));
             LeftVertical.Invoke(Input.GetAxis(InputControl.VERTICAL));
         }
-        
+
         if (input_type == InputType.Joystick) JoystickInputs();
-        else if (input_type == InputType.Mouse) MouseInputs();
+        else if (input_type == InputType.Mouse) { MouseInputs(); ScrollWheel(); }
         if (Input.GetButtonDown("Dash")) Dash.Invoke();
 
         if (Input.GetButtonDown("Block")) OnBlock.Invoke();
@@ -190,6 +192,8 @@ public class CharacterInput : MonoBehaviour
                 SendMessage(isJoystick);
             }
         }
+
+
     }
 
     public JoystickMessage joystickMessage;
@@ -224,8 +228,13 @@ public class CharacterInput : MonoBehaviour
         //RightVertical.Invoke(VerticalAux * VMult);
         RightHorizontal.Invoke(Input.GetAxis("RightHorizontal"));
         RightVertical.Invoke(Input.GetAxis("RightVertical"));
-
     }
+
+    public void ScrollWheel()
+    {
+        MouseScrollWheel.Invoke(Input.GetAxis("Mouse ScrollWheel"));
+    }
+
 
     /// <summary>
     /// su es true usa mouse

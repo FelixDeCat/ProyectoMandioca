@@ -1669,6 +1669,7 @@ MonoBehaviour:
   shieldInteractable: {fileID: 7739727447231561118}
   big_damage_limit_percent: 0.3
   lifesystem: {fileID: 3415322764738061175}
+  _imInHell: 0
   isBuffed: 0
   charBlock:
     timeToParry: 0.6
@@ -1800,6 +1801,20 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+  MouseScrollWheel:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 811403726877958338}
+        m_MethodName: Zoom
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   ChangeWeapon:
     m_PersistentCalls:
       m_Calls:
@@ -1920,7 +1935,18 @@ MonoBehaviour:
       m_Calls: []
   OnDpad_Down:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 0}
+        m_MethodName: UEVENT_PRESS_DOWN_UseWaist1
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   OnDpad_Left:
     m_PersistentCalls:
       m_Calls: []
@@ -1960,7 +1986,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 0}
-        m_MethodName: UseWaist1
+        m_MethodName: UEVENT_PRESS_DOWN_UseFirstHandSkill
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -1972,13 +1998,46 @@ MonoBehaviour:
         m_CallState: 2
   RTrigger_Release:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 0}
+        m_MethodName: UEVENT_PRESS_UP_UseFirstHandSkill
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   LTrigger:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 0}
+        m_MethodName: UEVENT_PRESS_DOWN_UseSecondHandSkill
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   LTrigger_Release:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 0}
+        m_MethodName: UEVENT_PRESS_UP_UseSecondHandSkill
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   R_Stick_Central_Button:
     m_PersistentCalls:
       m_Calls: []
@@ -2046,7 +2105,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   life: 25
   frontendLife: {fileID: 0}
-  caronteEventAvaliable: 1
 --- !u!114 &5960508338141535377
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -19864,6 +19922,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   distancetoInteract: 2
   autoexecute: 0
+  cd_autoexecute: 0
   pointToMessage: {fileID: 9009753856529897949}
   feedback:
   - {fileID: 2736833269091309436}
