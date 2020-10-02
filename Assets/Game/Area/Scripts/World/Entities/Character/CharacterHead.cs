@@ -769,6 +769,7 @@ public class CharacterHead : CharacterControllable
     }
     void DealSucessfullHeavy()
     {
+        Debug.Log("DFSIJFNSEIFHJB");
         ChangeHeavy(false);
         Main.instance.Vibrate(1f, 0.2f);
         Main.instance.CameraShake();
@@ -792,13 +793,14 @@ public class CharacterHead : CharacterControllable
     }
     void ActiveCombo()
     {
-        Life.Heal(Mathf.RoundToInt(Life.GetMax() * .13f));
+        
         IsComboWomboActive = true;
         feedbacks.particles.HeavyLoaded.Play();
     }
 
     void ResetCombo()
     {
+        IsComboWomboActive = false;
         charAttack.ResetHeavyAttackTime();
     }
 
@@ -825,6 +827,9 @@ public class CharacterHead : CharacterControllable
     bool isHeavyRelease;
     void ReleaseInHeavy()
     {
+        if(IsComboWomboActive)
+            Life.Heal(Mathf.RoundToInt(Life.GetMax() * .13f));
+
         ChangeHeavy(true);
         ChangeDamageAttack((int)charAttack.Dmg_Heavy);
         ChangeAngleAttack(charAttack.AttackAngle * 2);
