@@ -33,6 +33,11 @@ public class CaronteEvent : MonoBehaviour
         cinematic = GetComponent<CaronteCinematic_Controller>();
         cinematic.StartCinematic();
         cinematic.OnFinishCinematic += SpawnCaronte;
+
+        character.ToggleAttack(false);
+        character.ToggleBlock(false);
+        character.ToggleShield(false);
+        character.ToggleSword(false);
     }
 
     void SpawnCaronte()
@@ -50,6 +55,11 @@ public class CaronteEvent : MonoBehaviour
 
     public void OnExitTheAqueronte()
     {
+        character.ToggleAttack(true);
+        character.ToggleBlock(true);
+        character.ToggleShield(true);
+        character.ToggleSword(true);
+
         GameLoop.instance.Resurrect(true);
     }
 
