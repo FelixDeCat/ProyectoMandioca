@@ -53,7 +53,6 @@ public class NewSceneStreamer : MonoBehaviour
 
         if (LoadNeighbor)
         {
-            Debug.Log("LoadNeighbor");
             StartCoroutine(LoadNeighbors(currentScene, localref[currentScene].SceneData));
         }
 
@@ -236,7 +235,6 @@ public class NewSceneStreamer : MonoBehaviour
             {
 
                 RegisterLocalScene(scene.name, localscript);
-                Debug.LogError("register local scene");
                 StartCoroutine(localscript.Load());
             }
             else
@@ -244,7 +242,6 @@ public class NewSceneStreamer : MonoBehaviour
                 throw new System.Exception("recibí una escena sin LocalSceneHandler");
             }
         }
-
         ExecuteParameterByScene(scene.name);
     }
     void OnSceneUnLoaded(Scene scene)

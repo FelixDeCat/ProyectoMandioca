@@ -26,8 +26,6 @@ public class EnemyManager : MonoBehaviour
             }
 
             enemiesToCharge = new ProxyEnemyBase[0];
-
-            Debug.Log("Cargo Nuevos");
         }
         else
         {
@@ -39,8 +37,6 @@ public class EnemyManager : MonoBehaviour
 
             scenesStates[sceneName].Clear();
             scenesStates.Remove(sceneName);
-
-            Debug.Log("Había estado guardado");
         }
     }
 
@@ -63,8 +59,6 @@ public class EnemyManager : MonoBehaviour
         }
 
         enemiesPerScenes.Remove(sceneName);
-
-        Debug.Log("Guardo " + sceneName);
     }
 
     public void ChangeEnemyScene(string sceneName, EnemyBase enemy)

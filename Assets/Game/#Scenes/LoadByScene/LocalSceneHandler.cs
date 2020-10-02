@@ -12,7 +12,7 @@ public class LocalSceneHandler : LoadComponent
 {
     public SceneData SceneData;
     public string prefabname;
-    public LoadComponent[] loads = new LoadComponent[0];
+    public GenericAsyncLocalScene[] loads = new GenericAsyncLocalScene[0];
 
     string myName;
 
@@ -46,13 +46,13 @@ public class LocalSceneHandler : LoadComponent
 
         for (int i = 0; i < loads.Length; i++)
         {
+            loads[i].SetSceneData(in SceneData);
             yield return loads[i].Load();
         }
     }
 
     public IEnumerator ExecuteLoadParameter(SceneData.Detail_Parameter detail_parameter)
     {
-        Debug.Log("Ejecutando: " + this.gameObject.name + " param: " + detail_parameter.ToString());
         switch (detail_parameter)
         {
             case SceneData.Detail_Parameter.none: break;
@@ -85,6 +85,19 @@ public class LocalSceneHandler : LoadComponent
             case SceneData.Detail_Parameter.destroy_and_go_low: break;
             case SceneData.Detail_Parameter.destroy_and_go_medium: break;
         }
+
+        for (int i = 0; i < loads.Length; i++)
+        {
+            if (loads[i].param_to_enter == detail_parameter)
+            {
+                loads[i].Enter();
+            }
+            if (loads[i].param_to_exit == detail_parameter)
+            {
+                loads[i].Exit();
+            }
+        }
+
         yield return null;
     }
     enum ExeParam { show, shutdown, destroy }

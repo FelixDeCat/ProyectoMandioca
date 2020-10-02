@@ -13,6 +13,14 @@ public class Checkpoint_Spot : MonoBehaviour
 
     public Vector3 GetPosition => custom_pos != null ? custom_pos.position : this.transform.position;
 
+
+    [SerializeField] bool isAImportantCheckPoint;
+    Action<string> returnScene;
+    public void ConfigureCheckPoint(Action<string> callbackScene)
+    {
+        returnScene = callbackScene;
+    }
+
     private void Start()
     {
         _checkpointManager = FindObjectOfType<Checkpoint_Manager>();

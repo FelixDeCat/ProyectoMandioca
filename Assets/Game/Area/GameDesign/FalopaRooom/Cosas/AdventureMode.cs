@@ -18,13 +18,11 @@ public class AdventureMode : MonoBehaviour
 
     void AdventureModeSpeed()
     {
-        Debug.Log("Velocidad de aventura");
         _hero.GetCharMove().SetSpeed(startingSpeed * speedScaler);
     }
 
     void CombatModeSpeed()
     {
-        Debug.Log("Velocidad de combate");
         _hero.GetCharMove().SetSpeed();
     }
 
