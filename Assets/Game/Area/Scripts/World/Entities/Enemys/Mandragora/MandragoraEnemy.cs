@@ -105,7 +105,7 @@ public class MandragoraEnemy : EnemyWithCombatDirector
         spawnerSpot.Initialize();
 
         for (int i = 0; i < enemiesTypes.Count; i++)
-            PoolManager.instance.GetObjectPool(enemiesTypes[i].name, enemiesTypes[i]);
+            PoolManager.instance.GetObjectPool("enemy_Mandragora", enemiesTypes[i]);
     }
 
     public override void SpawnEnemy()
@@ -113,6 +113,7 @@ public class MandragoraEnemy : EnemyWithCombatDirector
         animator.SetBool("entry", true);
         mandragoraIsTrap = false;
         AudioManager.instance.PlaySound(sounds.mandragoraSpawn_Clip.name);
+        trigger.gameObject.SetActive(false);
         base.SpawnEnemy();
     }
 
@@ -153,6 +154,7 @@ public class MandragoraEnemy : EnemyWithCombatDirector
     {
         ragdoll.Ragdoll(false, Vector3.zero);
         death = false;
+        trigger.gameObject.SetActive(true);
         sm.SendInput(MandragoraInputs.DISABLE);
     }
     public override void IAInitialize(CombatDirector _director)
