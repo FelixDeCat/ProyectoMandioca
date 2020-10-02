@@ -41,16 +41,18 @@ public class CameraRotate : MonoBehaviour
     [SerializeField] Transform camConfig = null;
 
     [SerializeField] Vector3 offsetVec = new Vector3(0, 2f, 0);
+    float zoomDist;
 
     private void Start()
     {
         myChar = Main.instance.GetChar();
 
         raycastDist = Vector3.Distance(rotatorX.transform.position, myChar.transform.position + offsetVec);
+        zoomDist = raycastDist;
 
         initialVector = transform.position - (myChar.transform.position + offsetVec);
         initialVector.x = 0;
-
+                
         Debug_UI_Tools.instance.CreateSlider("HorSens", sensitivityHorizontal, minHorSens, maxHorSens, ChangeSensitivityHor);
         Debug_UI_Tools.instance.CreateSlider("VertSens", sensitivityVertical, minVertSens, maxVertSens, ChangeSensitivityVer);
         Debug_UI_Tools.instance.CreateToogle("Invert Horizontal", false, InvertAxisHor);
@@ -173,6 +175,22 @@ public class CameraRotate : MonoBehaviour
         return "";
     }
 
+    public void MoveCamBehindChar()
+    {
+        var dir = -Main.instance.GetChar().GetCharMove().GetRotatorDirection();
+    }
+
+    public Vector2 zoomLimits;
+    public void Zoom(float axis)
+    {
+        if (zoomDist + axis < zoomLimits.x || zoomDist + axis > zoomLimits.y) return;
+        
+        Debug.Log(zoomDist +axis);
+
+        zoomDist += axis;
+        Vector3 dir = rotatorX.transform.position - (myChar.transform.position + offsetVec);
+        rotatorX.transform.position += dir * axis;
+    }
 
     public void RotateHorizontal(float axis)
     {
