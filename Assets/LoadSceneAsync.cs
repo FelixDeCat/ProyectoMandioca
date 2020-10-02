@@ -10,7 +10,22 @@ public class LoadSceneAsync : MonoBehaviour
     {
         SceneToLoad = scene;
 
-        LoadSceneHandler.instance.LoadAScene(SceneToLoad);
+        bool canLoad = true;
+
+        for (int i = 0; i < SceneManager.sceneCount; i++)
+        {
+            if (SceneToLoad == SceneManager.GetSceneAt(i).name)
+            {
+                canLoad = false;
+            }
+        }
+
+        if (!canLoad) return;
+
+        if (SceneManager.GetActiveScene().name != SceneToLoad)
+        {
+            LoadSceneHandler.instance.LoadAScene(SceneToLoad);
+        }
 
        // StartCoroutine(LoadAsyncScene());
     }
