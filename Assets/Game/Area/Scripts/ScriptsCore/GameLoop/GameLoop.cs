@@ -70,14 +70,28 @@ public class GameLoop : MonoBehaviour
             character.GetCharMove().SetSpeed();
             character.Life.Heal(Mathf.RoundToInt(character.Life.GetMax() * 0.25f));
             caronteIsActive = false;
-            StartCoroutine(UnloadScene());
+            StartCoroutine(UnloadScene(win_caronte_battle));
         }
         else
         {
-
+            /////////////////////////////////////////////////////////////////////////////////////////////
+            /*
+             *  ¿porqué copio exactamente lo mismo acá si se puede ejecutar una sola vez?
+             *  no lo sé, quizas me volví loco... o quizá quiera recordale algo a mi yo del futuro
+             */
+            /////////////////////////////////////////////////////////////////////////////////////////////
+            OnBackToHell.Invoke();
+            Fades_Screens.instance.Black();
+            character.GetCharMove().SetSpeed();
+            character.Life.Heal_AllHealth();
+            caronteIsActive = false;
+            StartCoroutine(UnloadScene(win_caronte_battle));
+            // :thinking:
+            // por ahora voy a dejarlo asi, pero acá iría toda la cinematica de la mano que te agarra
+            // con su fade correspondiente
         }
     }
-    IEnumerator UnloadScene()
+    IEnumerator UnloadScene(bool win)
     {
         var operation = SceneManager.UnloadSceneAsync("Caronte");
 
@@ -86,7 +100,8 @@ public class GameLoop : MonoBehaviour
             yield return null;
         }
 
-        Checkpoint_Manager.instance.SpawnChar();
+        //xq el win va invertido? porque si gano deberia ir al checkpoint mas cercano... y para el checkpoint mas cercano es [inportant = false]
+        Checkpoint_Manager.instance.SpawnChar(!win);
 
         yield return operation;
 
