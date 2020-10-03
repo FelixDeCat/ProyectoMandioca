@@ -25,6 +25,9 @@ namespace GOAP
         public Transform Root() => _root;
         Rigidbody _rb;
 
+        [Header("Shooter skills")]
+        public Transform lefthand_Shooter;
+
         //CharacterHead character;
 
         public AttackSensor attackSensor;
