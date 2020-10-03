@@ -32,8 +32,8 @@ public class SkillActive_LightBounce : SkillActivas
     protected override void OnStart()
     {
         base.OnStart();
-        lightAura.SetActive(false);
-        lightBeam.SetActive(false);
+       // lightAura.SetActive(false);
+       // lightBeam.SetActive(false);
 
         dmgData = GetComponent<DamageData>();
         dmgData.Initialize(Main.instance.GetChar());

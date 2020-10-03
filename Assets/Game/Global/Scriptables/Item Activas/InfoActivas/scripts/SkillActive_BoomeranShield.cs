@@ -58,7 +58,7 @@ public class SkillActive_BoomeranShield : SkillActivas
     protected override void OnStart()
     {
         base.OnStart();
-        auxShield.SetActive(false);
+       // auxShield.SetActive(false);
     }
 
     protected override void OnBeginSkill()
