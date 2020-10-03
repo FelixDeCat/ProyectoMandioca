@@ -15,12 +15,14 @@ public class ElevatorButton : Interactable
     {
         _myElevator.activate(true);
     }
-  
+
+    public override void OnInterrupt()
+    {
+
+    }
+
     public override void OnExit()
     {
         WorldItemInfo.instance.Hide();
-       
     }
-
-   
 }

@@ -42,6 +42,10 @@ public class InteractableTeleport : Interactable
         Scenes.Load(sceneToChange);
     }
 
+    public override void OnInterrupt()
+    {
+    }
+
     public override void OnExit() => WorldItemInfo.instance.Hide();
     public override void OnEnter(WalkingEntity entity)
     {

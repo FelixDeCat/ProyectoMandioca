@@ -58,6 +58,14 @@ public abstract class Interactable : MonoBehaviour
         else
             updateDelay = true;
     }
+    public void InterruptExecute()
+    {
+        if (!predicate.Invoke()) return;
+        OnInterrupt();
+        currentTime = 0;
+        updateDelay = false;
+    }
+
     protected virtual void Update()
     {
         if (updateDelay)
@@ -91,6 +99,6 @@ public abstract class Interactable : MonoBehaviour
     public abstract void OnExecute(WalkingEntity collector);
     public abstract void OnExit();
 
-
+    public abstract void OnInterrupt();
 
 }

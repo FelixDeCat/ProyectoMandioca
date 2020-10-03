@@ -28,6 +28,10 @@ public class AccionActive : Interactable
         
     }
 
+    public override void OnInterrupt()
+    {
+    }
+
     public override void OnEnter(WalkingEntity entity)
     {
         WorldItemInfo.instance.Show(this.transform.position, tiitle, message, action);

@@ -25,6 +25,10 @@ public class EnemySpawner : Interactable
         WorldItemInfo.instance.Show(transform.position, "Enemy Spawn", "Spawnea enemigos", "Spawn");
     }
 
+    public override void OnInterrupt()
+    {
+    }
+
     private void OnDrawGizmos()
     {
         foreach (var t in posToSpawn)

@@ -14,8 +14,13 @@ public class Palanca : Interactable
 
     public override void OnExecute(WalkingEntity collector)
     {
+        Debug.Log("activado pá");
         Excecute.Invoke();
         WorldItemInfo.instance.Hide();
+    }
+
+    public override void OnInterrupt()
+    {
     }
 
     public override void OnExit()

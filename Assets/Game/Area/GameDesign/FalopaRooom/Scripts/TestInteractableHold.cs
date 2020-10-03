@@ -10,6 +10,9 @@ public class TestInteractableHold : Interactable
     public bool destroy = true;
     public UnityEvent customDestroy;
     public UnityEvent UE_EndDelayExecute;
+    bool executing;
+
+    public void ExecuteBool(bool b) => executing = b;
 
     public string actionName = "hold to grab";
 
@@ -18,6 +21,7 @@ public class TestInteractableHold : Interactable
     {
         _executeAction += DestroyGameObject;
         _executeAction += UE_EndDelayExecute.Invoke;
+        SetPredicate(() => !executing);
     }
     public override void OnEnter(WalkingEntity entity)
     {
@@ -27,6 +31,12 @@ public class TestInteractableHold : Interactable
     public override void OnExecute(WalkingEntity collector)
     {
         _executeAction();
+        WorldItemInfo.instance.Hide();
+    }
+
+    public override void OnInterrupt()
+    {
+        _loadBar.fillAmount = 0;
     }
 
     public override void OnExit()

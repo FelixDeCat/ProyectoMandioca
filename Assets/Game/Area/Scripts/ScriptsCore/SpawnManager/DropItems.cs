@@ -21,6 +21,10 @@ public class DropItems : Interactable
         WorldItemInfo.instance.Hide();
     }
 
+    public override void OnInterrupt()
+    {
+    }
+
     public override void OnEnter(WalkingEntity entity)
     {
         WorldItemInfo.instance.Show(posToDrop.position, "Drop items", "Dropea items", "Drop");

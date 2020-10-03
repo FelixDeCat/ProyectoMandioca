@@ -13,13 +13,16 @@ public class NPC_Interactable : Interactable
     {
         if(mostrarFeedback)
         WorldItemInfo.instance.Show(pointToMessage.position, nombre_NPC, "", "hablar", false, false);
-
-       
     }
 
     public override void OnExecute(WalkingEntity collector)
     {
         UE_OnExecute.Invoke();
+    }
+
+    public override void OnInterrupt()
+    {
+        throw new System.NotImplementedException();
     }
 
     public override void OnExit()

@@ -43,7 +43,7 @@ public class InteractSensor : MonoBehaviour
     {
         if (most_close != null)
         {
-            most_close.Exit();
+            most_close.InterruptExecute();
         }
         calculate_fast_recollection = false;
         timerfastrec = 0;
@@ -112,6 +112,7 @@ public class InteractSensor : MonoBehaviour
         if (I_Have_Good_Distace_To_Interact())
         {
             isclose = true;
+            isExit = false;
 
             if (can_show_info)
             {
@@ -129,7 +130,7 @@ public class InteractSensor : MonoBehaviour
 
             if (!cooldown_to_next_recollection && !most_close._withDelay)
             {
-                if (most_close.autoexecute || can_fast_recollecion)
+                if (most_close.autoexecute)
                 {
                     cooldown_to_next_recollection = true;
                     most_close.Execute(collector);
@@ -140,14 +141,16 @@ public class InteractSensor : MonoBehaviour
         }
         else
         {
+            if (isExit) return;
             isclose = false;
             most_close.Exit();
             WorldItemInfo.instance.Hide();
             can_show_info = true;
+            isExit = true;
         }
     }
 
-
+    bool isExit;
     [Header("Fast Recollection")]
     [Range(0f, 1f)]
     public float time_to_fast_recollection = 0.5f;

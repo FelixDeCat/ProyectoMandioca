@@ -64,4 +64,8 @@ public class HealthPickUp : Interactable
     {
         
     }
+
+    public override void OnInterrupt()
+    {
+    }
 }

@@ -17,6 +17,10 @@ public class SaveLocation : Interactable
 
     }
 
+    public override void OnInterrupt()
+    {
+    }
+
     public override void OnEnter(WalkingEntity entity)
     {
         WorldItemInfo.instance.Show(pointToMessage.position, "punto de guardado", "###", "guardar");

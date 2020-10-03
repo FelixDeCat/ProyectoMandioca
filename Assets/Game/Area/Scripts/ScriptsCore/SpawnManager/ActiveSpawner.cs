@@ -22,6 +22,10 @@ public class ActiveSpawner : Interactable
         }
     }
 
+    public override void OnInterrupt()
+    {
+    }
+
     public override void OnEnter(WalkingEntity entity)
     {
         WorldItemInfo.instance.Show(transform.position, "Active Dropper", "Droppea activas", "Drop");

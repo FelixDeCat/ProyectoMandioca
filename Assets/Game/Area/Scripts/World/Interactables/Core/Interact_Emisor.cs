@@ -19,6 +19,10 @@ public class Interact_Emisor : Interactable
 
     public override void OnExit() => WorldItemInfo.instance.Hide();
 
+    public override void OnInterrupt()
+    {
+    }
+
     public override void OnEnter(WalkingEntity entity)
     {
         WorldItemInfo.instance.Show(pointToMessage.position,

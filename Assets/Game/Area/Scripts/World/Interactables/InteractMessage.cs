@@ -27,4 +27,8 @@ public class InteractMessage : Interactable
         WorldItemInfo.instance.Show(pointToMessage.position, "Interactuable", "Esto es un interactuable", "interactuar");
         if (feedback.Length > 0) foreach (var i in feedback) i.Show();
     }
+
+    public override void OnInterrupt()
+    {
+    }
 }

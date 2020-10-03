@@ -24,7 +24,9 @@ public class OpenUIBases : Interactable
         }
     }
 
-
+    public override void OnInterrupt()
+    {
+    }
     public override void OnExecute(WalkingEntity entity)
     {
         ui_to_open.Open();

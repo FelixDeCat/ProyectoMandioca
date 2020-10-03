@@ -15,4 +15,8 @@ public class InteractDevelop : Interactable
     public override void OnEnter(WalkingEntity entity) => WorldItemInfo.instance.Show(pointToMessage.position, title, description, interactinfo, false, true);
     public override void OnExecute(WalkingEntity collector) { UE_Execute.Invoke(); }
     public override void OnExit() { WorldItemInfo.instance.Hide(); }
+
+    public override void OnInterrupt()
+    {
+    }
 }

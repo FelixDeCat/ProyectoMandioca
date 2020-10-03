@@ -15,6 +15,7 @@ public class CharacterAttack
     [SerializeField] float heavyAttackTime = 1f;
     [SerializeField] LayerMask enemyLayer = 1 << 10;
     [SerializeField] DamageData data = null;
+    [SerializeField] float bashDashPetrifyTime = 3;
 
     public float Dmg_normal { get => dmg_normal; }
     public float Dmg_Heavy { get => dmg_heavy; }
@@ -145,19 +146,19 @@ public class CharacterAttack
 
         if (Physics.Raycast(forwardPos.position + Vector3.up, forwardPos.forward, out hit, 2, enemyLayer))
         {
-            hit.collider.GetComponent<EffectReceiver>()?.TakeEffect(EffectName.OnPetrify, 1.5f);
+            hit.collider.GetComponent<EffectReceiver>()?.TakeEffect(EffectName.OnPetrify, bashDashPetrifyTime);
             inHit = true;
         }
 
         if (Physics.Raycast(forwardPos.position + Vector3.up, forwardPos.forward + forwardPos.right, out hit, 2, enemyLayer))
         {
-            hit.collider.GetComponent<EffectReceiver>()?.TakeEffect(EffectName.OnPetrify, 1.5f);
+            hit.collider.GetComponent<EffectReceiver>()?.TakeEffect(EffectName.OnPetrify, bashDashPetrifyTime);
             inHit = true;
         }
 
         if (Physics.Raycast(forwardPos.position + Vector3.up, forwardPos.forward - forwardPos.right, out hit, 2, enemyLayer))
         {
-            hit.collider.GetComponent<EffectReceiver>()?.TakeEffect(EffectName.OnPetrify, 1.5f);
+            hit.collider.GetComponent<EffectReceiver>()?.TakeEffect(EffectName.OnPetrify, bashDashPetrifyTime);
             inHit = true;
         }
         if (inHit)

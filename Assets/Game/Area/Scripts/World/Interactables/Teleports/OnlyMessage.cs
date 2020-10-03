@@ -24,6 +24,10 @@ public class OnlyMessage : Interactable
         
     }
 
+    public override void OnInterrupt()
+    {
+    }
+
     public override void OnEnter(WalkingEntity entity)
     {
         WorldItemInfo.instance.Show(pointToMessage.position, tiitle, message, "", true);

@@ -86,4 +86,8 @@ public class InteractCollect : Interactable
 
     }
 
+    public override void OnInterrupt()
+    {
+    }
+
 }
