@@ -6,6 +6,8 @@ Shader "Effects/Deformation"
 	{
 		[NoScaleOffset]_TextureSample0("Texture Sample 0", 2D) = "bump" {}
 		_IntensityDeformation("Intensity Deformation", Range( 0 , 1)) = 0
+		_SpeedX("Speed X", Float) = 0
+		_SpeedY("Speed Y", Float) = 0
 
 	}
 	
@@ -52,7 +54,7 @@ Shader "Effects/Deformation"
 			#pragma multi_compile_instancing
 			#include "UnityCG.cginc"
 			#include "UnityShaderVariables.cginc"
-			#include "UnityStandardUtils.cginc"
+			#define ASE_NEEDS_VERT_POSITION
 
 
 			struct appdata
@@ -77,20 +79,11 @@ Shader "Effects/Deformation"
 
 			ASE_DECLARE_SCREENSPACE_TEXTURE( _GrabTexture )
 			uniform sampler2D _TextureSample0;
+			uniform float _SpeedX;
+			uniform float _SpeedY;
 			uniform float _IntensityDeformation;
-			inline float4 ASE_ComputeGrabScreenPos( float4 pos )
-			{
-				#if UNITY_UV_STARTS_AT_TOP
-				float scale = -1.0;
-				#else
-				float scale = 1.0;
-				#endif
-				float4 o = pos;
-				o.y = pos.w * 0.5f;
-				o.y = ( pos.y - o.y ) * _ProjectionParams.x * scale + o.y;
-				return o;
-			}
-			
+			UNITY_DECLARE_DEPTH_TEXTURE( _CameraDepthTexture );
+			uniform float4 _CameraDepthTexture_TexelSize;
 
 			
 			v2f vert ( appdata v )
@@ -100,14 +93,17 @@ Shader "Effects/Deformation"
 				UNITY_INITIALIZE_VERTEX_OUTPUT_STEREO(o);
 				UNITY_TRANSFER_INSTANCE_ID(v, o);
 
+				float3 objectToViewPos = UnityObjectToViewPos(v.vertex.xyz);
+				float eyeDepth = -objectToViewPos.z;
+				o.ase_texcoord1.z = eyeDepth;
 				float4 ase_clipPos = UnityObjectToClipPos(v.vertex);
 				float4 screenPos = ComputeScreenPos(ase_clipPos);
-				o.ase_texcoord1 = screenPos;
+				o.ase_texcoord2 = screenPos;
 				
-				o.ase_texcoord2.xy = v.ase_texcoord.xy;
+				o.ase_texcoord1.xy = v.ase_texcoord.xy;
 				
 				//setting value to unused interpolator channels and avoid initialization warnings
-				o.ase_texcoord2.zw = 0;
+				o.ase_texcoord1.w = 0;
 				float3 vertexValue = float3(0, 0, 0);
 				#if ASE_ABSOLUTE_VERTEX_POS
 				vertexValue = v.vertex.xyz;
@@ -134,12 +130,20 @@ Shader "Effects/Deformation"
 #ifdef ASE_NEEDS_FRAG_WORLD_POSITION
 				float3 WorldPosition = i.worldPos;
 #endif
-				float4 screenPos = i.ase_texcoord1;
-				float4 ase_grabScreenPos = ASE_ComputeGrabScreenPos( screenPos );
-				float4 ase_grabScreenPosNorm = ase_grabScreenPos / ase_grabScreenPos.w;
-				float2 uv08 = i.ase_texcoord2.xy * float2( 1,1 ) + float2( 0,0 );
-				float2 panner7 = ( 1.0 * _Time.y * float2( 0.08,0 ) + uv08);
-				float4 screenColor1 = UNITY_SAMPLE_SCREENSPACE_TEXTURE(_GrabTexture,( float3( (ase_grabScreenPosNorm).xy ,  0.0 ) + UnpackScaleNormal( tex2D( _TextureSample0, panner7 ), _IntensityDeformation ) ).xy);
+				float2 appendResult10 = (float2(_SpeedX , _SpeedY));
+				float2 uv08 = i.ase_texcoord1.xy * float2( 1,1 ) + float2( 0,0 );
+				float2 panner7 = ( 1.0 * _Time.y * appendResult10 + uv08);
+				float3 tex2DNode4 = UnpackNormal( tex2D( _TextureSample0, panner7 ) );
+				float eyeDepth = i.ase_texcoord1.z;
+				float4 screenPos = i.ase_texcoord2;
+				float4 ase_screenPosNorm = screenPos / screenPos.w;
+				ase_screenPosNorm.z = ( UNITY_NEAR_CLIP_VALUE >= 0 ) ? ase_screenPosNorm.z : ase_screenPosNorm.z * 0.5 + 0.5;
+				float eyeDepth7_g1 = LinearEyeDepth(SAMPLE_DEPTH_TEXTURE( _CameraDepthTexture, ase_screenPosNorm.xy ));
+				float2 temp_output_21_0_g1 = ( (tex2DNode4).xy * ( _IntensityDeformation / max( eyeDepth , 0.1 ) ) * saturate( ( eyeDepth7_g1 - eyeDepth ) ) );
+				float eyeDepth26_g1 = LinearEyeDepth(SAMPLE_DEPTH_TEXTURE( _CameraDepthTexture, ( float4( temp_output_21_0_g1, 0.0 , 0.0 ) + ase_screenPosNorm ).xy ));
+				float2 temp_output_15_0_g1 = (( float4( ( temp_output_21_0_g1 * saturate( ( eyeDepth26_g1 - eyeDepth ) ) ), 0.0 , 0.0 ) + ase_screenPosNorm )).xy;
+				float2 temp_output_10_0_g1 = ( ( floor( ( temp_output_15_0_g1 * (_CameraDepthTexture_TexelSize).zw ) ) + 0.5 ) * (_CameraDepthTexture_TexelSize).xy );
+				float4 screenColor1 = UNITY_SAMPLE_SCREENSPACE_TEXTURE(_GrabTexture,temp_output_10_0_g1);
 				
 				
 				finalColor = screenColor1;
@@ -154,23 +158,31 @@ Shader "Effects/Deformation"
 }
 /*ASEBEGIN
 Version=18301
-0;350;970;339;1327.949;164.4107;1.684498;True;False
-Node;AmplifyShaderEditor.TextureCoordinatesNode;8;-1121.914,115.5282;Inherit;False;0;-1;2;3;2;SAMPLER2D;;False;0;FLOAT2;1,1;False;1;FLOAT2;0,0;False;5;FLOAT2;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
+0;385;949;304;1541.011;-165.8524;1;True;False
+Node;AmplifyShaderEditor.RangedFloatNode;11;-1242.011,146.8524;Inherit;False;Property;_SpeedX;Speed X;2;0;Create;True;0;0;False;0;False;0;0;0;0;0;1;FLOAT;0
+Node;AmplifyShaderEditor.RangedFloatNode;12;-1276.011,241.8524;Inherit;False;Property;_SpeedY;Speed Y;3;0;Create;True;0;0;False;0;False;0;-0.04;0;0;0;1;FLOAT;0
+Node;AmplifyShaderEditor.TextureCoordinatesNode;8;-1172.914,19.5282;Inherit;False;0;-1;2;3;2;SAMPLER2D;;False;0;FLOAT2;1,1;False;1;FLOAT2;0,0;False;5;FLOAT2;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
+Node;AmplifyShaderEditor.DynamicAppendNode;10;-1095.011,161.8524;Inherit;False;FLOAT2;4;0;FLOAT;0;False;1;FLOAT;0;False;2;FLOAT;0;False;3;FLOAT;0;False;1;FLOAT2;0
 Node;AmplifyShaderEditor.PannerNode;7;-910.409,115.1738;Inherit;False;3;0;FLOAT2;0,0;False;2;FLOAT2;0.08,0;False;1;FLOAT;1;False;1;FLOAT2;0
-Node;AmplifyShaderEditor.RangedFloatNode;6;-1034.943,246.5579;Inherit;False;Property;_IntensityDeformation;Intensity Deformation;1;0;Create;True;0;0;False;0;False;0;0.011;0;1;0;1;FLOAT;0
+Node;AmplifyShaderEditor.SamplerNode;4;-739.4144,96.70186;Inherit;True;Property;_TextureSample0;Texture Sample 0;0;1;[NoScaleOffset];Create;True;0;0;False;0;False;-1;None;0a432e2e86428b84c8fd98fe571f59c6;True;0;True;bump;Auto;True;Object;-1;Auto;Texture2D;6;0;SAMPLER2D;;False;1;FLOAT2;0,0;False;2;FLOAT;0;False;3;FLOAT2;0,0;False;4;FLOAT2;0,0;False;5;FLOAT;1;False;5;FLOAT3;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
+Node;AmplifyShaderEditor.RangedFloatNode;6;-1008.943,318.5579;Inherit;False;Property;_IntensityDeformation;Intensity Deformation;1;0;Create;True;0;0;False;0;False;0;0.333;0;1;0;1;FLOAT;0
+Node;AmplifyShaderEditor.FunctionNode;9;-429.5827,328.1185;Inherit;False;DepthMaskRefraction;-1;;1;61527528047409b4d97706299350589d;2,27,0,4,0;2;18;FLOAT3;0,0,0;False;29;FLOAT;0.02;False;1;FLOAT2;0
 Node;AmplifyShaderEditor.GrabScreenPosition;2;-851.0532,-78.2673;Inherit;False;0;0;5;FLOAT4;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
 Node;AmplifyShaderEditor.ComponentMaskNode;5;-606.2686,-44.26114;Inherit;False;True;True;False;False;1;0;FLOAT4;0,0,0,0;False;1;FLOAT2;0
-Node;AmplifyShaderEditor.SamplerNode;4;-691.1251,96.70186;Inherit;True;Property;_TextureSample0;Texture Sample 0;0;1;[NoScaleOffset];Create;True;0;0;False;0;False;-1;None;0a432e2e86428b84c8fd98fe571f59c6;True;0;True;bump;Auto;True;Object;-1;Auto;Texture2D;6;0;SAMPLER2D;;False;1;FLOAT2;0,0;False;2;FLOAT;0;False;3;FLOAT2;0,0;False;4;FLOAT2;0,0;False;5;FLOAT;0.32;False;5;FLOAT3;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
 Node;AmplifyShaderEditor.SimpleAddOpNode;3;-370.1092,4.495056;Inherit;False;2;2;0;FLOAT2;0,0;False;1;FLOAT3;0,0,0;False;1;FLOAT3;0
-Node;AmplifyShaderEditor.ScreenColorNode;1;-269.8884,-5.204952;Inherit;False;Global;_GrabScreen0;Grab Screen 0;0;0;Create;True;0;0;False;0;False;Object;-1;False;False;1;0;FLOAT2;0,0;False;5;COLOR;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
+Node;AmplifyShaderEditor.ScreenColorNode;1;-160.2325,-5.204952;Inherit;False;Global;_GrabScreen0;Grab Screen 0;0;0;Create;True;0;0;False;0;False;Object;-1;False;False;1;0;FLOAT2;0,0;False;5;COLOR;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
 Node;AmplifyShaderEditor.TemplateMultiPassMasterNode;0;0,0;Float;False;True;-1;2;ASEMaterialInspector;0;1;Effects/Deformation;0770190933193b94aaa3065e307002fa;True;Unlit;0;0;Unlit;2;True;0;1;False;-1;0;False;-1;0;1;False;-1;0;False;-1;True;0;False;-1;0;False;-1;False;False;False;False;False;False;True;0;False;-1;True;0;False;-1;True;True;True;True;True;0;False;-1;False;False;False;True;False;255;False;-1;255;False;-1;255;False;-1;7;False;-1;1;False;-1;1;False;-1;1;False;-1;7;False;-1;1;False;-1;1;False;-1;1;False;-1;True;1;False;-1;True;3;False;-1;True;True;0;False;-1;0;False;-1;True;1;RenderType=Opaque=RenderType;True;2;0;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;1;LightMode=ForwardBase;False;0;;0;0;Standard;1;Vertex Position,InvertActionOnDeselection;1;0;1;True;False;;0
+WireConnection;10;0;11;0
+WireConnection;10;1;12;0
 WireConnection;7;0;8;0
-WireConnection;5;0;2;0
+WireConnection;7;2;10;0
 WireConnection;4;1;7;0
-WireConnection;4;5;6;0
+WireConnection;9;18;4;0
+WireConnection;9;29;6;0
+WireConnection;5;0;2;0
 WireConnection;3;0;5;0
 WireConnection;3;1;4;0
-WireConnection;1;0;3;0
+WireConnection;1;0;9;0
 WireConnection;0;0;1;0
 ASEEND*/
-//CHKSM=C85FC2974B89159CCAA1550EFB73B524D09DC75D
+//CHKSM=83E04033E2FA3C83B9436C416DBFC05049F49A2D
