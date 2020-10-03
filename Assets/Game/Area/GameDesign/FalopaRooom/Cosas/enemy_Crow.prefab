@@ -501,21 +501,21 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   poolname: 
-  attacking: 0
   death: 0
   OnDeath:
     m_PersistentCalls:
       m_Calls: []
-  Invinsible: 0
-  combatDistance: 20
-  combat: 0
-  distancePos: 15
-  combatElement: {fileID: 835024532532866824}
   dmgData: {fileID: 0}
   dmgReceiver: {fileID: 4391981835475488202}
   lifesystem: {fileID: 4630227783671809447}
   rootTransform: {fileID: 6864829657923913771}
   animator: {fileID: 9200313123033323931}
+  OnResetEnemy:
+    m_PersistentCalls:
+      m_Calls: []
+  combatElement: {fileID: 835024532532866824}
+  distancePos: 15
+  combatDistance: 20
   showGizmoCombatDistance: 0
   showGizmoDistancePos: 0
   animEmisive:
@@ -531,7 +531,6 @@ MonoBehaviour:
   throwForce: 13
   cdToCast: 2
   damage: 2
-  knockback: 20
   attackRecall: 2
   lineOfSight: {fileID: 4480938453018473712}
   recallTime: 2
@@ -670,11 +669,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   distancePos: 15
-  combatDistance: 20
   Combat: 0
-  CanAttack:
-    m_PersistentCalls:
-      m_Calls: []
 --- !u!1 &4849633355957029835
 GameObject:
   m_ObjectHideFlags: 0
