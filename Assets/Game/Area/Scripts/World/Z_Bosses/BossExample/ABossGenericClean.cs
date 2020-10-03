@@ -50,7 +50,14 @@ public class ABossGenericClean : EnemyWithCombatDirector
     }
     protected override void OnTurnOn() 
     {
+        sensors_and_behaviours.Initialize(this);
+        rb = sensors_and_behaviours.rigidBody;
+        feedbackManager.SetRoot(rootTransform);
+        stateMachineHandler.Initialize(sensors_and_behaviours, fastSubscriber, inputSender, feedbackManager);
+
+
         sensors_and_behaviours.Sensor.StartSensors();
+        
         //Debug.LogWarning("se esta prendiendo"); 
         //sensors_and_behaviours.Sensor.StopSensors(); 
         //inputSender.Execute(true); 
@@ -63,6 +70,7 @@ public class ABossGenericClean : EnemyWithCombatDirector
         sensors_and_behaviours.Behaviours.followBehaviour.StopLookAt();
         sensors_and_behaviours.Behaviours.followBehaviour.StopScape();
         sensors_and_behaviours.Behaviours.combatDirectorComponent.ExitCombat();
+        sensors_and_behaviours.Sensor.StopSensors();
         sensors_and_behaviours.Behaviours.ragdollComponent.ActivateRagdoll(dir == Vector3.zero ? rootTransform.forward : dir , OnEndRagdollFall);
     }
     public void OnEndRagdollFall()

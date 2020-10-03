@@ -55,7 +55,7 @@ public abstract class EnemyBase : NPCBase
     {
         if (animator == null) return;
         currentAnimSpeed = animator.speed;
-        animator.speed = 0;
+        //animator.speed = 0;
     }
 
     protected override void OnResume()
