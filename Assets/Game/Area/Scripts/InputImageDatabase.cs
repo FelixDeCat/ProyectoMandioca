@@ -22,7 +22,11 @@ public class InputImageDatabase : MonoBehaviour
         selectSkill,
         useSkill_L,
         useSkill_R,
-        evade
+        evade, 
+        slot1,
+        slot2,
+        slot3,
+        slot4,
     }
     SpriteDataBaseInput current;
     public SpriteDataBaseInput Joystick;
@@ -38,6 +42,10 @@ public class InputImageDatabase : MonoBehaviour
         if (type == InputImageType.selectSkill) return current.selectSkill;
         if (type == InputImageType.useSkill_L) return current.useLSkill;
         if (type == InputImageType.useSkill_R) return current.useRSkill;
+        if (type == InputImageType.slot1) return current.slot1;
+        if (type == InputImageType.slot2) return current.slot2;
+        if (type == InputImageType.slot3) return current.slot3;
+        if (type == InputImageType.slot4) return current.slot4;
         if (type == InputImageType.evade) return current.evade;
         return null;
     }
@@ -60,4 +68,8 @@ public class SpriteDataBaseInput
     public Sprite useLSkill;
     public Sprite useRSkill;
     public Sprite evade;
+    public Sprite slot1;
+    public Sprite slot2;
+    public Sprite slot3;
+    public Sprite slot4;
 }

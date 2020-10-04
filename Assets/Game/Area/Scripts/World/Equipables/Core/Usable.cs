@@ -104,8 +104,8 @@ public abstract class Usable : Equipable
     #endregion
     #region Update & LoopGame
     protected override void Update() { base.Update(); if (canUpdateUse) OnUpdateUse(); }
-    public override void Pause() { base.Pause(); canUpdateUse = false; }
-    public override void Resume() { base.Resume(); canUpdateUse = true; }
+    public override void Pause() { base.Pause(); /*canUpdateUse = false;*/ }
+    public override void Resume() { base.Resume(); /*canUpdateUse = true;*/ }
     #endregion
     #region Predicate
     #region PREDICADO OPCIONAL - 2 formas de usar - (Leeme)

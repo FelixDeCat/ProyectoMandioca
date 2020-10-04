@@ -44,6 +44,11 @@ public class LoadSceneHandler : MonoBehaviour
     {
         SceneToLoad = scene;
 
+        if (loaded.Contains(scene))
+        {
+            loaded.Remove(scene);
+        }
+
         if (loadScreen)
         {
             loadscreen.SetActive(true);

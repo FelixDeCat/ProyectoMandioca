@@ -112,6 +112,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   distancetoInteract: 2
   autoexecute: 0
+  cd_autoexecute: 0
   pointToMessage: {fileID: 3463167518530328404}
   feedback:
   - {fileID: 1466267241324049101}
@@ -261,6 +262,9 @@ MonoBehaviour:
   EV_EndUse:
     m_PersistentCalls:
       m_Calls: []
+  EV_Execute:
+    m_PersistentCalls:
+      m_Calls: []
   EV_UpdateUse:
     m_PersistentCalls:
       m_Calls: []
@@ -268,6 +272,9 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   EV_Unequip:
+    m_PersistentCalls:
+      m_Calls: []
+  EV_Equip_Update:
     m_PersistentCalls:
       m_Calls: []
 --- !u!114 &174193560860247825
@@ -387,6 +394,7 @@ MonoBehaviour:
   ownTransform: 0
   toscale: {fileID: 1854495556832180652}
   cant_to_scale: {x: 0.5, y: 0.5, z: 0.5}
+  playOnAwake: 1
 --- !u!1 &6412079499095620716
 GameObject:
   m_ObjectHideFlags: 0
@@ -632,6 +640,21 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2372085057310058342, guid: fb8f468d5b925da4a8b2468260b960b4,
+        type: 3}
+      propertyPath: m_LocalScale.x
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 2372085057310058342, guid: fb8f468d5b925da4a8b2468260b960b4,
+        type: 3}
+      propertyPath: m_LocalScale.y
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 2372085057310058342, guid: fb8f468d5b925da4a8b2468260b960b4,
+        type: 3}
+      propertyPath: m_LocalScale.z
+      value: 0.5
       objectReference: {fileID: 0}
     - target: {fileID: 4699440550007515634, guid: fb8f468d5b925da4a8b2468260b960b4,
         type: 3}
