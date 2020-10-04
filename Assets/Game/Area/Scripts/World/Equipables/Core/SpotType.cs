@@ -22,6 +22,7 @@ public enum SpotType
     Waist1,
     Waist2,
     Waist3,
+    Waist4,
     FirstHandSkill,
     SecondHandSkill
 }

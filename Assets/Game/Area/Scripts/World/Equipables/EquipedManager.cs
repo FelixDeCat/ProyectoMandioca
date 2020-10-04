@@ -36,12 +36,27 @@ public class EquipedManager : MonoBehaviour
     }
 
     #region UEVENTS
+    //waist1
     public void UEVENT_PRESS_DOWN_UseWaist1() => UseItem(SpotType.Waist1, true);
     public void UEVENT_PRESS_UP_UseWaist1() => UseItem(SpotType.Waist1, false);
+    //waist1
+    public void UEVENT_PRESS_DOWN_UseWaist2() => UseItem(SpotType.Waist2, true);
+    public void UEVENT_PRESS_UP_UseWaist2() => UseItem(SpotType.Waist2, false);
+    //waist1
+    public void UEVENT_PRESS_DOWN_UseWaist3() => UseItem(SpotType.Waist3, true);
+    public void UEVENT_PRESS_UP_UseWaist3() => UseItem(SpotType.Waist3, false);
+    //waist1
+    public void UEVENT_PRESS_DOWN_UseWaist4() => UseItem(SpotType.Waist4, true);
+    public void UEVENT_PRESS_UP_UseWaist4() => UseItem(SpotType.Waist4, false);
+
+    //FirstHand
     public void UEVENT_PRESS_DOWN_UseFirstHandSkill() => UseItem(SpotType.FirstHandSkill, true);
     public void UEVENT_PRESS_UP_UseFirstHandSkill() => UseItem(SpotType.FirstHandSkill, false);
+
+    //SecondHand
     public void UEVENT_PRESS_DOWN_UseSecondHandSkill() => UseItem(SpotType.SecondHandSkill, true);
     public void UEVENT_PRESS_UP_UseSecondHandSkill() => UseItem(SpotType.SecondHandSkill, false);
+
     #endregion
     public void UseItem(SpotType spot, bool pressDown)
     {
@@ -61,17 +76,23 @@ public class EquipedManager : MonoBehaviour
                 // este es el caso de la piedra que se ejecuta en el PressUp
                 // o en el caso de alguna animacion o casteo de algun consumible
 
-
-                if (data.RemoveAItem(1)) data.Use_PressDown();
-                else { /*feedback de no tengo mas*/ }
-
-                if (data.INotHaveEnoughtQuantity) data.Unequip();
+                if (pressDown) //esto esta para que no vuelva a entrar si es pressup
+                {
+                    if (data.RemoveAItem(1)) data.Use_PressDown();
+                    if (data.INotHaveEnoughtQuantity) data.Unequip();
+                    data.EnablePendingToRelease(true);
+                }
+                else
+                {
+                    data.Use_PressUp();
+                }
             }
             else
             {
                 if (pressDown)
                 {
                     data.Use_PressDown();
+                    data.EnablePendingToRelease(true);
                 }
                 else
                 {
@@ -79,7 +100,17 @@ public class EquipedManager : MonoBehaviour
                 }
             }
         }
-        else { /*tiro feedback de que no se puede usar en ese lugar*/ }
+        else
+        {
+            if (data.PendingToRelease)
+            {
+                data.EnablePendingToRelease(false);
+                data.Use_PressUp();
+            }
+        }
+
+
+
         RefreshUI();
     }
 
@@ -155,6 +186,9 @@ public class EquipedManager : MonoBehaviour
         Transform parent;
         EquipedItem itemBehaviour;
         ItemInInventory item;
+        bool pendingToRelease;
+
+        public bool PendingToRelease { get => pendingToRelease; }
         #region Getters
         public Transform Parent { get => parent; }
         public EquipedItem ItemBehaviour { get => itemBehaviour; }
@@ -165,6 +199,7 @@ public class EquipedManager : MonoBehaviour
         public void SetParent(Transform _parent) => this.parent = _parent;
         public void SetItemBehaviour(EquipedItem _itemBehaviour) => this.itemBehaviour = _itemBehaviour;
         public void SetItemInInventory(ItemInInventory _item) => this.item = _item;
+        public void EnablePendingToRelease(bool val) => pendingToRelease = val;
         #endregion
 
         internal EquipedItem BehaviourInSpot()
@@ -241,13 +276,13 @@ public class EquipedManager : MonoBehaviour
             }
         }
         public bool CanUse => itemBehaviour.CanUse();
-        public bool IHaveEnoughtQuantity 
+        public bool IHaveEnoughtQuantity
         {
             get
             {
                 if (item == null) return false;
                 else return item.cant > 0;
-            } 
+            }
         }
         public bool INotHaveEnoughtQuantity
         {
