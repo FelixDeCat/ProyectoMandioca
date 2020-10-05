@@ -14,6 +14,8 @@ GameObject:
   - component: {fileID: 5552516860588613040}
   - component: {fileID: 7880741453172112812}
   - component: {fileID: 5507332463156249848}
+  - component: {fileID: 3004399480493191350}
+  - component: {fileID: 3004399480493195081}
   m_Layer: 0
   m_Name: atenea interact
   m_TagString: Untagged
@@ -28,9 +30,9 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3796502392253647831}
-  m_LocalRotation: {x: -0, y: 0.94152033, z: -0, w: -0.33695632}
+  m_LocalRotation: {x: 0, y: 0.94152063, z: -0, w: -0.33695546}
   m_LocalPosition: {x: 193.4, y: 57.45, z: 163.73}
-  m_LocalScale: {x: 0.6786793, y: 0.67867947, z: 0.6786793}
+  m_LocalScale: {x: 0.6786803, y: 0.67867947, z: 0.6786803}
   m_Children:
   - {fileID: 8443997345037359287}
   m_Father: {fileID: 0}
@@ -48,18 +50,30 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cfb6f4d620fc22949b66b08170c43333, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  distancetoInteract: 4
+  distancetoInteract: 6
   autoexecute: 1
+  cd_autoexecute: 0
   pointToMessage: {fileID: 0}
   feedback: []
-  _withDelay: 0
+  _withDelay: 1
   delayTime: 0
   UE_OnEnter:
     m_PersistentCalls:
       m_Calls: []
   UE_OnExit:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 5507332463156249848}
+        m_MethodName: EndCinematic
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   UE_OnExecute:
     m_PersistentCalls:
       m_Calls:
@@ -166,6 +180,47 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ff86d6598c22d1c4084b04ce0eecd200, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  cinematica: {fileID: 0}
+--- !u!114 &3004399480493191350
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3796502392253647831}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1244458034cf97446ac19d4d075a2ac6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ID: 4
+  UE_EndMision:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 3004399480493195081}
+        m_MethodName: Execute
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+--- !u!114 &3004399480493195081
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3796502392253647831}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a04821f449f46ad49811241327f86081, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  dialogToDispatch: {fileID: 11400000, guid: 6ef6f7de702948d4b8c3f7a46601f632, type: 2}
 --- !u!1 &8443997345037359286
 GameObject:
   m_ObjectHideFlags: 0
