@@ -81,9 +81,6 @@ public class LocalSceneHandler : LoadComponent
                 yield return ExecuteSwitching(medium_detail, ExeParam.show, PrefabType.med);
                 yield return ExecuteSwitching(hight_detail, ExeParam.shutdown, PrefabType.high);
                 break;
-            case SceneData.Detail_Parameter.destroy_and_go_landmark: break;
-            case SceneData.Detail_Parameter.destroy_and_go_low: break;
-            case SceneData.Detail_Parameter.destroy_and_go_medium: break;
         }
 
         for (int i = 0; i < loads.Length; i++)

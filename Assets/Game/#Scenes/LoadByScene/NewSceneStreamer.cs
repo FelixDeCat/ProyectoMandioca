@@ -35,7 +35,7 @@ public class NewSceneStreamer : MonoBehaviour
         SceneManager.sceneUnloaded += OnSceneUnLoaded;
         Fades_Screens.instance.Black();
         //GCHandle.DisableGC();
-        LoadScene(firstScene, false, true, EndLoad);
+        LoadScene(firstScene, true, true, EndLoad);
     }
     public void EndLoad()
     {
@@ -120,25 +120,36 @@ public class NewSceneStreamer : MonoBehaviour
 
             TryToExecuteParameter(parameters[i].scene, parameters[i].detail);
         }
-
-        //por ahora no quiero descargar
-        /*
+        
         HashSet<string> to_unload = new HashSet<string>(loaded);
-        to_unload.ExceptWith(currents_neigbors);
+        HashSet<string> neigbors = new HashSet<string>();
+        for (int i = 0; i < parameters.Length; i++)
+        {
+            neigbors.Add(parameters[i].scene);
+        }
+        to_unload.ExceptWith(neigbors);
         to_unload.Remove(currentScene);
+        
         foreach (var u in to_unload)//cambiarlo por algo mas performante
         {
-            Destroy(GameObject.Find(u));
-            loaded.Remove(u);
-            var op = SceneManager.UnloadSceneAsync(u);
-            while (op.progress < 0.9f)
+            if (localref.ContainsKey(u))
             {
-                yield return null;
+                localref[u].ExecuteLoadParameter(SceneData.Detail_Parameter.top_to_landmark);
             }
-            yield return op;
-            LocalToEnemyManager.OnUnLoadScene(u);
+
+            //Destroy(GameObject.Find(u));
+            //loaded.Remove(u);
+            //var op = SceneManager.UnloadSceneAsync(u);
+            //while (op.progress < 0.9f)
+            //{
+            //    yield return null;
+            //}
+            //yield return op;
+            //LocalToEnemyManager.OnUnLoadScene(u);
+
+
         }
-        */
+        
     }
 
     IEnumerator LoadAsyncAdditive(string sceneName, bool LoadScreen = false, bool LoadNeighbor = false, bool exe = true)

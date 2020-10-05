@@ -19,10 +19,7 @@ public class SceneData : ScriptableObject
         full_load,
         top_to_landmark,
         top_to_low,
-        top_to_medium,
-        destroy_and_go_landmark,
-        destroy_and_go_low,
-        destroy_and_go_medium,
+        top_to_medium
     }
     [System.Serializable]
     public class SceneParameter
