@@ -52,11 +52,13 @@ namespace Tools.StateMachine
                     myEnemy.Attacking = false;
                     combatDirector.AttackRelease(enemy, enemy.CurrentTarget());
                     attackTimes = 0;
+                    anim.SetInteger("AttackTime", 0);
                 }
                 else
                 {
                     timer = 0;
                     cdToAttack *= 2;
+                    anim.SetInteger("AttackTime", 1);
                 }
             }
         }

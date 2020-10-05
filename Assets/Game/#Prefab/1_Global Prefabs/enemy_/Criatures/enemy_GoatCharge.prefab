@@ -1,5 +1,24 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!114 &5735071754009111437
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2053978455245300194}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9ed4272fdebc3654da10aced1e90563c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  viewDistance: 10
+  viewAngle: 10
+  layermask:
+    serializedVersion: 2
+    m_Bits: 256
+  offset: {x: 0, y: 0, z: 0}
+  DrawGizmos: 0
 --- !u!1 &2323185506054157487
 GameObject:
   m_ObjectHideFlags: 0
@@ -9774,6 +9793,23 @@ ParticleSystemRenderer:
   m_Mesh2: {fileID: 0}
   m_Mesh3: {fileID: 0}
   m_MaskInteraction: 0
+--- !u!114 &6701929289808320187
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3677654348933948294}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2ba062441dc433d489f9d3d965e189f2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _lm:
+    serializedVersion: 2
+    m_Bits: 256
+  radious: 4
+  rot: {fileID: 293843520634246214}
 --- !u!1 &3951395813138206299
 GameObject:
   m_ObjectHideFlags: 0
@@ -9784,7 +9820,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3951395813138206300}
   - component: {fileID: 3951395813138206274}
-  - component: {fileID: 3951395813138206273}
+  - component: {fileID: 7911272125176215781}
   - component: {fileID: 2220049257524496936}
   - component: {fileID: 4369836194751585076}
   - component: {fileID: 3951395813138206272}
@@ -9834,7 +9870,7 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 112
   m_CollisionDetection: 0
---- !u!114 &3951395813138206273
+--- !u!114 &7911272125176215781
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -9843,10 +9879,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 3951395813138206299}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b23b56a7e3b50d04ab5a9bed885dd321, type: 3}
+  m_Script: {fileID: 11500000, guid: f6c4f0d21eac9b04bb9fb7dcc77b9a59, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  poolname: jabalies
+  poolname: goat
   death: 0
   OnDeath:
     m_PersistentCalls:
@@ -9855,7 +9891,7 @@ MonoBehaviour:
   dmgReceiver: {fileID: 2220049257524496936}
   lifesystem: {fileID: 3951395813138206301}
   rootTransform: {fileID: 293843520634246214}
-  animator: {fileID: 0}
+  animator: {fileID: 4922549414233505419}
   OnResetEnemy:
     m_PersistentCalls:
       m_Calls: []
@@ -9863,7 +9899,7 @@ MonoBehaviour:
   distancePos: 2.5
   combatDistance: 20
   movement: {fileID: 6733651048786057550}
-  lineOfSight: {fileID: 0}
+  lineOfSight: {fileID: 5735071754009111437}
   groundSensor: {fileID: 2813422273276361586}
   animEmisive:
     serializedVersion: 2
@@ -9873,11 +9909,12 @@ MonoBehaviour:
     m_RotationOrder: 4
   headAttack: {fileID: 3951395813138206272}
   pushAttack: {fileID: 3952242282522720112}
+  stompAttack: {fileID: 6701929289808320187}
   normalDistance: 9
   timeParried: 2
-  friendly: 1
-  normalDamage: 2
-  normalAttAnticipation: 0.3
+  goatType: 0
+  normalDamage: 4
+  normalAttAnticipation: 0.5
   cdToHeadAttack: 1
   normalKockback: 30
   pushDamage: 4
@@ -9888,17 +9925,18 @@ MonoBehaviour:
   chargeSpeed: 15
   chargeDuration: 2
   pushKnockback: 80
-  unequipShield: 1
   tdRecall: 0.5
-  anim: {fileID: 0}
+  anim: {fileID: 1977945493765460456}
   ragdoll: {fileID: 6885159979840151130}
-  onHitColor: {r: 1, g: 0, b: 0, a: 0}
+  onHitColor: {r: 1, g: 0, b: 0.04412794, a: 1}
   onHitFlashTime: 20
   petrifyEffect: {fileID: 1826450666108122238}
   particles:
     hitParticle: {fileID: 3632140750100566763, guid: 48fe3e230b37f29449856c4f0dc77ca3,
       type: 3}
     chargeFeedback: {fileID: 6104078838794585879}
+    stompParticle: {fileID: 2915597443917667638, guid: bf32aa152e880e94e896cf2727437513,
+      type: 3}
   sounds:
     takeDamage: {fileID: 8300000, guid: 5dc887321b243984898e21d2fc9430c0, type: 3}
     pushAnticipation: {fileID: 8300000, guid: b0b37857d3ade8c43a6e0e62a7920a52, type: 3}
@@ -9981,9 +10019,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   myCollider:
-  - {fileID: 0}
+  - {fileID: 6196249987741586598}
+  - {fileID: 6571328966113164016}
   myRigidbody: {fileID: 3951395813138206274}
-  anim: {fileID: 0}
+  anim: {fileID: 4922549414233505419}
   explosionForce: 60
   principalBone: {fileID: 0}
   useParentBones: 0
@@ -10512,7 +10551,7 @@ PrefabInstance:
     - target: {fileID: 1217046971132713521, guid: a4ad128d506acf549a7277253fffb883,
         type: 3}
       propertyPath: lenght
-      value: 0.6
+      value: 0.21
       objectReference: {fileID: 0}
     - target: {fileID: 1217046971132713521, guid: a4ad128d506acf549a7277253fffb883,
         type: 3}
@@ -10532,7 +10571,7 @@ PrefabInstance:
     - target: {fileID: 2751453651156627006, guid: a4ad128d506acf549a7277253fffb883,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: -0.137
+      value: 0.03
       objectReference: {fileID: 0}
     - target: {fileID: 2751453651156627006, guid: a4ad128d506acf549a7277253fffb883,
         type: 3}
@@ -10576,12 +10615,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a4ad128d506acf549a7277253fffb883, type: 3}
---- !u!4 &1281197024854658941 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 2751453651156627006, guid: a4ad128d506acf549a7277253fffb883,
-    type: 3}
-  m_PrefabInstance: {fileID: 4028638518851641667}
-  m_PrefabAsset: {fileID: 0}
 --- !u!114 &2813422273276361586 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 1217046971132713521, guid: a4ad128d506acf549a7277253fffb883,
@@ -10594,6 +10627,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bc9c473c0a3d9d848a4e1c9638f0fd1a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!4 &1281197024854658941 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 2751453651156627006, guid: a4ad128d506acf549a7277253fffb883,
+    type: 3}
+  m_PrefabInstance: {fileID: 4028638518851641667}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &4533085466892084335
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -10663,12 +10702,42 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: cd3fbd5b41329d94ab8bf6fd1f4955ca, type: 3}
+--- !u!1 &3677654348933948294 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1000192827473676265, guid: cd3fbd5b41329d94ab8bf6fd1f4955ca,
+    type: 3}
+  m_PrefabInstance: {fileID: 4533085466892084335}
+  m_PrefabAsset: {fileID: 0}
+--- !u!95 &4922549414233505419 stripped
+Animator:
+  m_CorrespondingSourceObject: {fileID: 8843004417933794020, guid: cd3fbd5b41329d94ab8bf6fd1f4955ca,
+    type: 3}
+  m_PrefabInstance: {fileID: 4533085466892084335}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &3087898542340396017 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 1455413009759598494, guid: cd3fbd5b41329d94ab8bf6fd1f4955ca,
     type: 3}
   m_PrefabInstance: {fileID: 4533085466892084335}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &2053978455245300194 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 2479781020902425997, guid: cd3fbd5b41329d94ab8bf6fd1f4955ca,
+    type: 3}
+  m_PrefabInstance: {fileID: 4533085466892084335}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1977945493765460456 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 2709992442017297799, guid: cd3fbd5b41329d94ab8bf6fd1f4955ca,
+    type: 3}
+  m_PrefabInstance: {fileID: 4533085466892084335}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2053978455245300194}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2cd0e1cf35d48c34a93c6a494b926756, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &5503084135524752949
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -10745,7 +10814,7 @@ PrefabInstance:
         type: 3}
       propertyPath: anim
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 4922549414233505419}
     - target: {fileID: 6608334436493518605, guid: 0eaf7fc8a16763f41bc669ca1e8c7f50,
         type: 3}
       propertyPath: m_Name
