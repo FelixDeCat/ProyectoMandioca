@@ -249,7 +249,7 @@ public class GoatEnemy : EnemyWithCombatDirector
 
     void DealDamage() => headAttack.ManualTriggerAttack();
 
-    void StompAttack() => stompAttack.ManualTriggerAttack();
+    void StompAttack() { stompAttack.ManualTriggerAttack(); ParticlesManager.Instance.PlayParticle(particles.stompParticle.name, stompAttack.transform.position); }
     #endregion
 
     #region TakeDamage Things
