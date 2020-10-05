@@ -109,6 +109,7 @@ public static class EnemySaveConverterAux
 
         if (enemy.GetComponent<MandragoraEnemy>()) state = new MandragoraSaveState<T>();
         else if (enemy.GetComponent<CarivorousPlant>()) state = new CarnPlantSaveState<T>();
+        else if (enemy.GetComponent<TotemSpawner>()) state = new TotemSpawnerState<T>();
         else if (enemy.GetComponent<EnemyWithCombatDirector>()) state = new EnemiesRangeSaveState<T>();
 
         return state;

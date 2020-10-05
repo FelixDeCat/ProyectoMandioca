@@ -75,6 +75,7 @@ public class CharacterHead : CharacterControllable
     [Header("Interactable")]
     public InteractSensor sensor;
     [SerializeField] Interactable shieldInteractable = null;
+    [SerializeField] Interactable swordInteractable = null;
 
     [Header("Life Options")]
     [Range(0f, 1f)]
@@ -891,6 +892,19 @@ public class CharacterHead : CharacterControllable
         stateMachine.SendInput(PlayerInputs.END_BLOCK);
 
         ToggleShield(false);
+    }
+
+    public void UnequipSword(Vector3 dir)
+    {
+        if (!canAttack) return;
+
+        swordInteractable.gameObject.SetActive(true);
+        swordInteractable.transform.SetParent(null);
+        swordInteractable.transform.SetPositionAndRotation(charBlock.shield.transform.position, charBlock.shield.transform.rotation);
+        swordInteractable.GetComponent<Rigidbody>()?.AddForce(dir * 20, ForceMode.Impulse);
+        stateMachine.SendInput(PlayerInputs.RELEASE_ATTACK);
+
+        ToggleSword(false);
     }
 
     //<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<

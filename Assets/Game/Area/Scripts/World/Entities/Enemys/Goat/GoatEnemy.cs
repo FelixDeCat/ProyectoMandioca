@@ -6,6 +6,8 @@ using System;
 
 using GoatInputs = JabaliEnemy.JabaliInputs;
 
+public enum GoatType { UnequipSword, Stomp, DoubleAttack }
+
 public class GoatEnemy : EnemyWithCombatDirector
 {
     [Header("Move Options")]
@@ -18,10 +20,12 @@ public class GoatEnemy : EnemyWithCombatDirector
     [Header("Combat Options")]
     [SerializeField] CombatComponent headAttack = null;
     [SerializeField] JabaliPushComponent pushAttack = null;
+    [SerializeField] GoatStompComponent stompAttack = null;
     [SerializeField] float normalDistance = 9;
     [SerializeField] float timeParried = 2;
 
     [Header("NormalAttack")]
+    [SerializeField] GoatType goatType;
     [SerializeField] int normalDamage = 4;
     [SerializeField] float normalAttAnticipation = 0.5f;
     [SerializeField] float cdToHeadAttack = 1;
@@ -65,6 +69,7 @@ public class GoatEnemy : EnemyWithCombatDirector
     {
         public ParticleSystem hitParticle;
         public GameObject chargeFeedback;
+        public ParticleSystem stompParticle;
     }
 
     [Serializable]
@@ -89,6 +94,7 @@ public class GoatEnemy : EnemyWithCombatDirector
 
         headAttack.Configure(HeadAttack);
         pushAttack.Configure(PushRelease, StunAfterCharge);
+        stompAttack.Configure(StompRelease);
         lineOfSight.Configurate(rootTransform);
         AudioManager.instance.GetSoundPool(sounds.dead.name, AudioGroups.JABALI, sounds.dead);
         AudioManager.instance.GetSoundPool(sounds.headAttack.name, AudioGroups.JABALI, sounds.headAttack);
@@ -96,10 +102,13 @@ public class GoatEnemy : EnemyWithCombatDirector
         AudioManager.instance.GetSoundPool(sounds.pushEnter.name, AudioGroups.JABALI, sounds.pushEnter);
         AudioManager.instance.GetSoundPool(sounds.pushLoop.name, AudioGroups.JABALI, sounds.pushLoop, true);
         AudioManager.instance.GetSoundPool(sounds.takeDamage.name, AudioGroups.JABALI, sounds.takeDamage);
+
         ParticlesManager.Instance.GetParticlePool(particles.hitParticle.name, particles.hitParticle);
+        ParticlesManager.Instance.GetParticlePool(particles.stompParticle.name, particles.stompParticle);
         movement.Configure(rootTransform, rb, groundSensor);
 
         anim.Add_Callback("DealDamage", DealDamage);
+        anim.Add_Callback("StompDamage", StompAttack);
         Main.instance.AddEntity(this);
 
         IAInitialize(Main.instance.GetCombatDirector());
@@ -199,31 +208,48 @@ public class GoatEnemy : EnemyWithCombatDirector
     #region Attack Things
     public void HeadAttack(DamageReceiver e)
     {
-        dmgData.SetDamage(normalDamage).SetDamageTick(false).SetDamageType(Damagetype.Normal).SetKnockback(normalKockback)
+        dmgData.SetDamage(normalDamage).SetDamageTick(false).SetDamageType(Damagetype.Normal).SetKnockback(normalKockback).SetDamageInfo(DamageInfo.Normal)
             .SetPositionAndDirection(transform.position);
         Attack_Result takeDmg = e.TakeDamage(dmgData);
 
         if (takeDmg == Attack_Result.parried)
+        {
             sm.SendInput(GoatInputs.PARRIED);
+            return;
+        }
+
+        if (goatType == GoatType.UnequipSword) e.GetComponent<CharacterHead>()?.UnequipShield(transform.forward);
+    }
+
+    void StompRelease(DamageReceiver e)
+    {
+        dmgData.SetDamage(normalDamage).SetDamageTick(false).SetDamageType(Damagetype.Normal).SetDamageInfo(DamageInfo.NonBlockAndParry).SetKnockback(normalKockback)
+    .SetPositionAndDirection(transform.position, (e.transform.position - stompAttack.transform.position).normalized);
+        e.TakeDamage(dmgData);
     }
 
     void PushRelease(DamageReceiver e)
     {
-        dmgData.SetDamage(pushDamage).SetDamageTick(false).SetDamageType(Damagetype.StealShield).SetKnockback(pushKnockback)
+        dmgData.SetDamage(pushDamage).SetDamageTick(false).SetDamageType(Damagetype.StealShield).SetKnockback(pushKnockback).SetDamageInfo(DamageInfo.Normal)
             .SetPositionAndDirection(transform.position, transform.forward);
         Attack_Result takeDmg = e.TakeDamage(dmgData);
 
-
-        if (takeDmg == Attack_Result.parried || takeDmg == Attack_Result.blocked) e.GetComponent<CharacterHead>().UnequipShield((e.transform.position - transform.position).normalized);
+        if (takeDmg == Attack_Result.parried || takeDmg == Attack_Result.blocked) e.GetComponent<CharacterHead>()?.UnequipShield(transform.forward);
 
         if (e.GetComponent<CharacterHead>())
+        {
+            chargeOk = false;
             pushAttack.Stop();
+            sm.SendInput(GoatInputs.IDLE);
+            animator.SetTrigger("PlayerCollision");
+        }
     }
 
     void PushAttack() => pushAttack.ManualTriggerAttack();
 
-    public void DealDamage() => headAttack.ManualTriggerAttack();
+    void DealDamage() => headAttack.ManualTriggerAttack();
 
+    void StompAttack() => stompAttack.ManualTriggerAttack();
     #endregion
 
     #region TakeDamage Things
@@ -360,6 +386,7 @@ public class GoatEnemy : EnemyWithCombatDirector
             .SetTransition(GoatInputs.PETRIFIED, petrified)
             .SetTransition(GoatInputs.DEAD, dead)
             .SetTransition(GoatInputs.DISABLE, disable)
+            .SetTransition(GoatInputs.HEAD_ANTICIP, headAnt)
             .Done();
 
         ConfigureState.Create(takeDamage)
@@ -411,9 +438,21 @@ public class GoatEnemy : EnemyWithCombatDirector
             .SetAnimator(animator).SetRigidbody(rb).SetRoot(rootTransform)
             .SetThis(combatElement).SetDirector(director);
 
-        new JabaliAttackAnticipation(headAnt, sm, movement, normalAttAnticipation).SetAnimator(animator).SetDirector(director).SetThis(combatElement).SetRoot(rootTransform);
-
-        new JabaliHeadAttack(headAttack, sm, cdToHeadAttack, sounds.headAttack.name).SetAnimator(animator).SetDirector(director).SetThis(combatElement);
+        if(goatType == GoatType.DoubleAttack)
+        {
+            new GoatTwoAttackAnt(headAnt, sm, movement, normalAttAnticipation).SetAnimator(animator).SetThis(combatElement).SetRoot(rootTransform);
+            new GoatTwoAttack(headAttack, sm, cdToHeadAttack, sounds.headAttack.name).SetAnimator(animator).SetDirector(director).SetThis(combatElement);
+        }
+        else if(goatType == GoatType.Stomp)
+        {
+            new GoatStompAnt(headAnt, sm, normalAttAnticipation).SetAnimator(animator).SetThis(combatElement).SetRoot(rootTransform);
+            new GoatStomp(headAttack, sm, cdToHeadAttack, sounds.headAttack.name).SetAnimator(animator).SetDirector(director).SetThis(combatElement);
+        }
+        else
+        {
+            new GoatAttackAnt(headAnt, sm, movement, normalAttAnticipation).SetAnimator(animator).SetThis(combatElement).SetRoot(rootTransform);
+            new GoatAttack(headAttack, sm, cdToHeadAttack, sounds.headAttack.name).SetAnimator(animator).SetDirector(director).SetThis(combatElement);
+        }
 
         new JabaliTD(takeDamage, sm, tdRecall).SetAnimator(animator);
 

@@ -216,7 +216,11 @@ public class JabaliEnemy : EnemyWithCombatDirector
         if (takeDmg == Attack_Result.parried && unequipShield || takeDmg == Attack_Result.blocked && unequipShield) e.GetComponent<CharacterHead>().UnequipShield((e.transform.position - transform.position).normalized);
 
         if (e.GetComponent<CharacterHead>())
+        {
+            chargeOk = false;
             pushAttack.Stop();
+            sm.SendInput(JabaliInputs.IDLE);
+        }
     }
 
     void PushAttack() => pushAttack.ManualTriggerAttack();

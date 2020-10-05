@@ -18,7 +18,6 @@ namespace Tools.StateMachine
         float timer;
         float timePush;
 
-
         public JabaliPushAttack(EState<JabaliEnemy.JabaliInputs> myState, EventStateMachine<JabaliEnemy.JabaliInputs> _sm, float _speed, Action _DealDamage,
                                 GameObject _feedbackCharge, Action _PlayCombat, string _wooshSound, float _chargeDuration, CharacterGroundSensor _groundSensor) : base(myState, _sm)
         {
