@@ -17,9 +17,10 @@ namespace Tools.StateMachine
 
         float timer;
         float timePush;
+        bool isGoat;
 
         public JabaliPushAttack(EState<JabaliEnemy.JabaliInputs> myState, EventStateMachine<JabaliEnemy.JabaliInputs> _sm, float _speed, Action _DealDamage,
-                                GameObject _feedbackCharge, Action _PlayCombat, string _wooshSound, float _chargeDuration, CharacterGroundSensor _groundSensor) : base(myState, _sm)
+                                GameObject _feedbackCharge, Action _PlayCombat, string _wooshSound, float _chargeDuration, CharacterGroundSensor _groundSensor, bool _isGoat = false) : base(myState, _sm)
         {
             maxSpeed = _speed;
             pushSpeed = maxSpeed / 1.5f;
@@ -29,6 +30,7 @@ namespace Tools.StateMachine
             pool = AudioManager.instance.GetSoundPool(_wooshSound);
             timePush = _chargeDuration;
             groundSensor = _groundSensor;
+            isGoat = _isGoat;
         }
 
         protected override void Enter(EState<JabaliEnemy.JabaliInputs> input)
@@ -38,6 +40,8 @@ namespace Tools.StateMachine
             feedbackCharge.GetComponentsInChildren<ParticleSystem>()
                 .ToList()
                 .ForEach(x => x.Play());
+
+            if (isGoat) anim.SetBool("ToIdle", false);
             PlayCombat();
             anim.SetTrigger("ChargeOk");
             source = pool.Get();
@@ -75,6 +79,8 @@ namespace Tools.StateMachine
             feedbackCharge.GetComponentsInChildren<ParticleSystem>()
                 .ToList()
                 .ForEach(x => x.Stop());
+
+            if (isGoat && JabaliEnemy.JabaliInputs.IDLE == input) anim.SetBool("ToIdle", true);
 
             base.Exit(input);
             rb.velocity = Vector3.zero;

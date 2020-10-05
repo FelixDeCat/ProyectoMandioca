@@ -218,7 +218,7 @@ public class GoatEnemy : EnemyWithCombatDirector
             return;
         }
 
-        if (goatType == GoatType.UnequipSword) e.GetComponent<CharacterHead>()?.UnequipShield(transform.forward);
+        if (goatType == GoatType.UnequipSword) e.GetComponent<CharacterHead>()?.UnequipSword(transform.forward);
     }
 
     void StompRelease(DamageReceiver e)
@@ -434,7 +434,7 @@ public class GoatEnemy : EnemyWithCombatDirector
         new JabaliCharge(chargePush, sm, chargeTime, sounds.pushAnticipation.name, sounds.pushEnter.name, movement).SetAnimator(animator).SetDirector(director)
             .SetThis(combatElement).SetRigidbody(rb).SetRoot(rootTransform);
 
-        new JabaliPushAttack(push, sm, chargeSpeed, PushAttack, particles.chargeFeedback, pushAttack.Play, sounds.pushLoop.name, chargeDuration, groundSensor)
+        new JabaliPushAttack(push, sm, chargeSpeed, PushAttack, particles.chargeFeedback, pushAttack.Play, sounds.pushLoop.name, chargeDuration, groundSensor, true)
             .SetAnimator(animator).SetRigidbody(rb).SetRoot(rootTransform)
             .SetThis(combatElement).SetDirector(director);
 

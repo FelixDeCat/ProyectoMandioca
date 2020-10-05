@@ -6,14 +6,18 @@ namespace Tools.StateMachine
 {
     public class GoatTwoAttack : JabaliStates
     {
-        float cdToAttack;
+        float cdToAttackCurrent;
+        float cdToAttackMinus;
+        float cdToAttackSum;
         float timer;
         string attackSound;
         int attackTimes;
 
         public GoatTwoAttack(EState<JabaliEnemy.JabaliInputs> myState, EventStateMachine<JabaliEnemy.JabaliInputs> _sm, float _cdToAttack, string _attackSound) : base(myState, _sm)
         {
-            cdToAttack = _cdToAttack/2;
+            cdToAttackMinus = _cdToAttack/2;
+            cdToAttackSum = _cdToAttack;
+            cdToAttackCurrent = cdToAttackMinus;
             attackSound = _attackSound;
         }
 
@@ -29,7 +33,7 @@ namespace Tools.StateMachine
         {
             timer += Time.deltaTime;
 
-            if (timer >= cdToAttack)
+            if (timer >= cdToAttackCurrent)
             {
                 if(attackTimes >= 1) sm.SendInput(JabaliEnemy.JabaliInputs.IDLE);
                 else
@@ -47,7 +51,7 @@ namespace Tools.StateMachine
                 if (input != JabaliEnemy.JabaliInputs.HEAD_ANTICIP)
                 {
                     timer = 0;
-                    cdToAttack /= 2;
+                    cdToAttackCurrent = cdToAttackMinus;
                     var myEnemy = enemy;
                     myEnemy.Attacking = false;
                     combatDirector.AttackRelease(enemy, enemy.CurrentTarget());
@@ -57,7 +61,7 @@ namespace Tools.StateMachine
                 else
                 {
                     timer = 0;
-                    cdToAttack *= 2;
+                    cdToAttackCurrent = cdToAttackSum;
                     anim.SetInteger("AttackTime", 1);
                 }
             }

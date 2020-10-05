@@ -900,8 +900,8 @@ public class CharacterHead : CharacterControllable
 
         swordInteractable.gameObject.SetActive(true);
         swordInteractable.transform.SetParent(null);
-        swordInteractable.transform.SetPositionAndRotation(charBlock.shield.transform.position, charBlock.shield.transform.rotation);
-        swordInteractable.GetComponent<Rigidbody>()?.AddForce(dir * 20, ForceMode.Impulse);
+        swordInteractable.transform.SetPositionAndRotation(currentWeapon.transform.position, currentWeapon.transform.rotation);
+        swordInteractable.GetComponent<Rigidbody>()?.AddForce(dir * 5, ForceMode.Impulse);
         stateMachine.SendInput(PlayerInputs.RELEASE_ATTACK);
 
         ToggleSword(false);
