@@ -55,12 +55,19 @@ public class Checkpoint_Manager : MonoBehaviour
         }
     }
 
+    public void StopGame()
+    {
+        Fades_Screens.instance.Black(); Fades_Screens.instance.FadeOff(() => { });
+        LoadSceneHandler.instance.On_LoadScreen();
+        var chr = Main.instance.GetChar();
+        chr.StopMovement();
+        chr.Pause();
+    }
 
     public void StartGame()
     {
-        Fades_Screens.instance.Black();
-        Fades_Screens.instance.FadeOff(() => { });
-
+        Fades_Screens.instance.Black(); Fades_Screens.instance.FadeOff(() => { });
+        LoadSceneHandler.instance.Off_LoadScreen();
         currentNormal = AllCheckPoint[0];
         SpawnChar();
     }
@@ -69,8 +76,8 @@ public class Checkpoint_Manager : MonoBehaviour
     {
         var chr = Main.instance.GetChar();
 
-        Fades_Screens.instance.Black();
         chr.StopMovement();
+        chr.Resume();
 
         var togo = important ? currentImportant : currentNormal;
 
@@ -99,7 +106,7 @@ public class Checkpoint_Manager : MonoBehaviour
 
         Main.instance.GetCombatDirector().AddNewTarget(Main.instance.GetChar());
         Main.instance.GetMyCamera().InstantPosition();
-        Invoke("Wait", 0.75f);
+        Invoke("Wait", 1f);
     }
 
     void PositionateChar(Transform tr = null)

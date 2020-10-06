@@ -6,7 +6,7 @@ public abstract class TriggerReceiver : MonoBehaviour
 
     public void Execute(params object[] parameters)
     {
-        Debug.Log("ENTRO AL EXECUTE");
+        //Debug.Log("ENTRO AL EXECUTE");
 
         if (has_one_Shot)
         {

@@ -33,26 +33,25 @@ public class NewSceneStreamer : MonoBehaviour
     {
         SceneManager.sceneLoaded += OnSceneLoaded;
         SceneManager.sceneUnloaded += OnSceneUnLoaded;
-        Fades_Screens.instance.Black();
+        Checkpoint_Manager.instance.StopGame();
         //GCHandle.DisableGC();
-        LoadScene(firstScene, true, true, EndLoad);
+        LoadScene(firstScene, true, true, EndLoad, true);
     }
     public void EndLoad()
     {
-        Fades_Screens.instance.FadeOff(() => { });
-        Checkpoint_Manager.instance.SpawnChar();
+        Checkpoint_Manager.instance.StartGame();
     }
 
-    public void LoadScene(string sceneName, bool LoadScreen = false, bool LoadNeighbor = false, Action OnEnd = null)
+    public void LoadScene(string sceneName, bool LoadScreen = false, bool LoadNeighbor = false, Action OnEnd = null, bool waitToLoad = false)
     {
         this.OnEnd = OnEnd;
         if (string.IsNullOrEmpty(sceneName) || string.Equals(sceneName, currentScene)) return;
         
-        StartCoroutine(LoadCurrentScene(sceneName, LoadScreen, LoadNeighbor));
+        StartCoroutine(LoadCurrentScene(sceneName, LoadScreen, LoadNeighbor,  waitToLoad));
     }
     
 
-    IEnumerator LoadCurrentScene(string sceneName, bool LoadScreen = false, bool LoadNeighbor = false)
+    IEnumerator LoadCurrentScene(string sceneName, bool LoadScreen = false, bool LoadNeighbor = false, bool waitToLoad = false)
     {
         currentScene = sceneName;
         if (!IsLoaded(currentScene)) yield return LoadAsyncAdditive(sceneName, LoadScreen, LoadNeighbor, true);
@@ -64,7 +63,15 @@ public class NewSceneStreamer : MonoBehaviour
 
         if (LoadNeighbor)
         {
-            StartCoroutine(LoadNeighbors(currentScene, localref[currentScene].SceneData));
+            if (waitToLoad)
+            {
+                yield return LoadNeighbors(currentScene, localref[currentScene].SceneData);
+            }
+            else
+            {
+                StartCoroutine(LoadNeighbors(currentScene, localref[currentScene].SceneData));
+            }
+            
         }
 
         failsafeTime = Time.realtimeSinceStartup + maxLoadWaitTime;
@@ -72,7 +79,15 @@ public class NewSceneStreamer : MonoBehaviour
 
         LocalToEnemyManager.OnLoadScene(sceneName);
 
-        if (OnEnd != null) { OnEnd.Invoke(); OnEnd = delegate { }; }
+        if (OnEnd != null)
+        {
+            OnEnd.Invoke();
+            OnEnd = delegate { };
+        }
+        else
+        {
+            Debug.LogWarning("El OnEnd es null");
+        }
 
         yield return null;
     }
@@ -134,9 +149,10 @@ public class NewSceneStreamer : MonoBehaviour
         {
             if (localref.ContainsKey(u))
             {
-                localref[u].ExecuteLoadParameter(SceneData.Detail_Parameter.top_to_landmark);
+                yield return localref[u].ExecuteLoadParameter(SceneData.Detail_Parameter.top_to_landmark);
             }
 
+            #region en desuso, era para descargar las que estaban lejos
             //Destroy(GameObject.Find(u));
             //loaded.Remove(u);
             //var op = SceneManager.UnloadSceneAsync(u);
@@ -146,10 +162,11 @@ public class NewSceneStreamer : MonoBehaviour
             //}
             //yield return op;
             //LocalToEnemyManager.OnUnLoadScene(u);
+            #endregion
 
 
         }
-        
+
     }
 
     IEnumerator LoadAsyncAdditive(string sceneName, bool LoadScreen = false, bool LoadNeighbor = false, bool exe = true)

@@ -185,7 +185,7 @@ public class CameraRotate : MonoBehaviour
     {
         if (zoomDist + axis < zoomLimits.x || zoomDist + axis > zoomLimits.y) return;
         
-        Debug.Log(zoomDist +axis);
+        //Debug.Log(zoomDist +axis);
 
         zoomDist += axis;
         Vector3 dir = rotatorX.transform.position - (myChar.transform.position + offsetVec);

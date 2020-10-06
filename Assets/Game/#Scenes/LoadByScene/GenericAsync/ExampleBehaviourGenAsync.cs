@@ -17,11 +17,11 @@ public class ExampleBehaviourGenAsync : GenericAsyncLocalScene
 
     protected override void OnEnter()
     {
-        Debug.Log("Entro en: " + param_to_enter.ToString()); 
+        //Debug.Log("Entro en: " + param_to_enter.ToString()); 
     }
 
     protected override void OnExit()
     {
-        Debug.Log("Salgo en: " + param_to_exit.ToString()); 
+       // Debug.Log("Salgo en: " + param_to_exit.ToString()); 
     }
 }
