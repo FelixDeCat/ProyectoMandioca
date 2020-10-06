@@ -13,6 +13,7 @@ public class PistonOneShot : Piston
     Palanca palanca;
 
     bool status = true;
+    bool oneshot;
     
     public override void Start()
     {
@@ -54,6 +55,10 @@ public class PistonOneShot : Piston
 
     public void StartPistonInf()
     {
-        pingponglerp.Play(1);
+        if (!oneshot)
+        {
+            pingponglerp.Play(1);
+            oneshot = true;
+        }
     }
 }

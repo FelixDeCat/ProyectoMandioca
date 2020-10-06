@@ -667,7 +667,7 @@ public class CharacterHead : CharacterControllable
         CanExecute.Invoke();
         CanExecute = delegate { };
     }
-    void GetBackControl()
+    public void GetBackControl()
     {
         stateMachine.SendInput(PlayerInputs.IDLE);
     }

@@ -61,7 +61,7 @@ public class Checkpoint_Manager : MonoBehaviour
         LoadSceneHandler.instance.On_LoadScreen();
         var chr = Main.instance.GetChar();
         chr.StopMovement();
-        chr.Pause();
+        //chr.Pause();
     }
 
     public void StartGame()
@@ -78,6 +78,7 @@ public class Checkpoint_Manager : MonoBehaviour
 
         chr.StopMovement();
         chr.Resume();
+        chr.GetBackControl();
 
         var togo = important ? currentImportant : currentNormal;
 
