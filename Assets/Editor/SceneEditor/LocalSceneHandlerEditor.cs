@@ -7,7 +7,7 @@ using UnityEngine.SceneManagement;
 
 [CustomEditor(typeof(LocalSceneHandler))]
 public class LocalSceneHandlerEditor : Editor
-{
+{/*
     LocalSceneHandler _handler;
     string sceneName;
     GameObject _landmark { get => _handler.SceneData.landmarkInScene; set => _handler.SceneData.landmarkInScene = value; }
@@ -15,9 +15,6 @@ public class LocalSceneHandlerEditor : Editor
     GameObject _lowdetail { get => _handler.SceneData.low_detailInScene; set => _handler.SceneData.low_detailInScene = value; }
     GameObject _mediumDetail { get => _handler.SceneData.medium_detailInScene; set => _handler.SceneData.medium_detailInScene = value; }
     GameObject _highDetail { get => _handler.SceneData.hightDetailInScene; set => _handler.SceneData.hightDetailInScene = value; }
-    /*
-    
-    */
     void OnEnable()
     {
         _handler = (LocalSceneHandler)target;
@@ -55,23 +52,11 @@ public class LocalSceneHandlerEditor : Editor
             _lowdetail = EditorGUILayout.ObjectField("Lowdetail:", _lowdetail, typeof(GameObject), false) as GameObject;
             _mediumDetail = EditorGUILayout.ObjectField("MediumDetail:", _mediumDetail, typeof(GameObject), false) as GameObject;
             _highDetail = EditorGUILayout.ObjectField("HighDetail:", _highDetail, typeof(GameObject), false) as GameObject;
-            /*
-            */
 
             EditorGUI.EndDisabledGroup();
 
             //Debug. Te limpia las referencias para que despues puedas cargarlo de nuevo
-            /*
-            if (GUILayout.Button("Reset Variables"))
-            {
-                _landmark = null;
-                _gameplay = null;
-                _lowdetail = null;
-                _mediumDetail = null;
-                _highDetail = null;
 
-            }
-*/
             //Boton de carga
             if (GUILayout.Button("Load Scene"))
             {
@@ -170,4 +155,5 @@ public class LocalSceneHandlerEditor : Editor
             }
         }
     }
+    */
 }
