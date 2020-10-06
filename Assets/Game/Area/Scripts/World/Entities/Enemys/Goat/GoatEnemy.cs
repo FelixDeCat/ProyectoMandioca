@@ -88,6 +88,8 @@ public class GoatEnemy : EnemyWithCombatDirector
     {
         base.OnInitialize();
 
+        Debug.Log("Cabra Initialixe");
+
         var smr = GetComponentInChildren<SkinnedMeshRenderer>();
         if (smr != null)
             myMat = smr.materials;
@@ -195,12 +197,14 @@ public class GoatEnemy : EnemyWithCombatDirector
     protected override void OnFixedUpdate() { }
     protected override void OnTurnOff()
     {
+        Debug.Log("Cabra TurnOff");
         sm.SendInput(GoatInputs.DISABLE);
         combatElement.ExitCombat();
         groundSensor?.TurnOff();
     }
     protected override void OnTurnOn()
     {
+        Debug.Log("Cabra TurnON");
         sm.SendInput(GoatInputs.IDLE);
         groundSensor?.TurnOn();
     }

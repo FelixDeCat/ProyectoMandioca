@@ -9,16 +9,19 @@ namespace Tools.StateMachine
     {
         Action<bool> ChangeAttacking;
         CharacterAnimator anim;
+        ParticleSystem trail;
 
-        public CharBashDash(EState<CharacterHead.PlayerInputs> myState, EventStateMachine<CharacterHead.PlayerInputs> _sm, Action<bool> _ChangeAttack, CharacterAnimator _anim) : base(myState, _sm)
+        public CharBashDash(EState<CharacterHead.PlayerInputs> myState, EventStateMachine<CharacterHead.PlayerInputs> _sm, Action<bool> _ChangeAttack, CharacterAnimator _anim, ParticleSystem _trail) : base(myState, _sm)
         {
             ChangeAttacking = _ChangeAttack;
             anim = _anim;
+            trail = _trail;
         }
 
         protected override void Enter(EState<CharacterHead.PlayerInputs> input)
         {
             charMove.StartBashDash();
+            trail.gameObject.SetActive(true);
         }
 
         protected override void Update()
@@ -30,6 +33,7 @@ namespace Tools.StateMachine
         protected override void Exit(CharacterHead.PlayerInputs input)
         {
             base.Exit(input);
+            trail.gameObject.SetActive(false);
             ChangeAttacking?.Invoke(false);
             charBlock.SetOnBlock(false);
             anim.Block(false);

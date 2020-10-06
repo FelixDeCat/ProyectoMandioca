@@ -469,7 +469,10 @@ public class CharacterHead : CharacterControllable
             .SetLeftAxis(GetLeftHorizontal, GetLeftVertical)
             .SetBlock(charBlock);
 
-        new CharBashDash(bashDash, stateMachine, ChangeAttack, charanim).SetMovement(this.move).SetAttack(charAttack).SetBlock(charBlock);
+        new CharBashDash(bashDash, stateMachine, ChangeAttack, charanim, feedbacks.particles.trailBashDash)
+            .SetMovement(this.move)
+            .SetAttack(charAttack)
+            .SetBlock(charBlock);
 
         new CharParry(parry, stateMachine, parryRecall, ChangeAttack)
             .SetMovement(this.move)
@@ -517,6 +520,8 @@ public class CharacterHead : CharacterControllable
 
         groundSensor.SetFallingSystem(this.move.fallMaxDistance, () => stateMachine.SendInput(PlayerInputs.FALLING), tempFalling.ActivateCD);
     }
+
+    
 
     float GetLeftHorizontal() => moveX;
     float GetLeftVertical() => moveY;
