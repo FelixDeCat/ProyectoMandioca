@@ -5,7 +5,13 @@ using UnityEngine;
 public class TotemSpawner : Totem
 {
     [SerializeField] CustomSpawner spawner = null;
+    [SerializeField] protected AudioClip ac_Summon;
 
+    protected override void OnInitialize()
+    {
+        base.OnInitialize();
+        AudioManager.instance.GetSoundPool(ac_Summon.name, AudioGroups.GAME_FX, ac_Summon);
+    }
     protected override void InternalEndCast()
     {
         for (int i = 0; i < spawner.waveAmount; i++)
@@ -14,6 +20,7 @@ public class TotemSpawner : Totem
 
             feedback.StartGoToFeedback(pos, (x) => spawner.SpawnPrefab(pos, CurrentScene));
         }
+        AudioManager.instance.PlaySound(ac_Summon.name, transform);
     }
 
     protected override bool InternalCondition()

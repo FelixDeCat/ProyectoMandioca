@@ -14,7 +14,9 @@ public abstract class Totem : EnemyBase
     [SerializeField] bool instantStart = false;
 
     [SerializeField] ParticleSystem ps_TakeDamage = null;
-    [SerializeField] AudioClip ac_TakeDamage = null;
+    [SerializeField] protected AudioClip ac_TakeDamage = null;
+    [SerializeField] protected AudioClip ac_Die;
+    [SerializeField] protected AudioClip ac_Charge;
 
     float timer;
     protected bool onUpdate;
@@ -26,7 +28,8 @@ public abstract class Totem : EnemyBase
     protected override void OnInitialize()
     {
         base.OnInitialize();
-
+        AudioManager.instance.GetSoundPool(ac_Die.name, AudioGroups.GAME_FX, ac_Die);
+        AudioManager.instance.GetSoundPool(ac_Charge.name, AudioGroups.GAME_FX, ac_Charge);
         effectStun.AddStartCallback(GetStunned);
         effectStun.AddEndCallback(StunOver);
         feedback.Initialize(StartCoroutine);
@@ -108,6 +111,7 @@ public abstract class Totem : EnemyBase
                     casting = false;
                     timerCasting = 0;
                     feedback.StartChargeFeedback(EndCast);
+                    AudioManager.instance.PlaySound(ac_Charge.name, transform);
                 }
             }
 
@@ -198,6 +202,7 @@ public abstract class Totem : EnemyBase
         timerCasting = 0;
         feedback.InterruptCharge();
         ReturnToSpawner();
+        AudioManager.instance.PlaySound(ac_Die.name, transform);
     }
     protected override bool IsDamage() => false;
 
