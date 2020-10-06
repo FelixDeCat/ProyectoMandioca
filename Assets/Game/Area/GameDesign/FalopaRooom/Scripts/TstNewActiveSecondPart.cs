@@ -4,23 +4,27 @@ using UnityEngine;
 
 public class TstNewActiveSecondPart : SpawnWaves
 {
-    Transform[] allChilds;
+    public Transform[] allChilds;
 
     [SerializeField] float countToKMS;
+
+    float timer = 0;
 
     void Start()
     {
         allChilds = new Transform[this.transform.childCount];
         for (int i = 0; i < allChilds.Length; i++)
         {
+
             allChilds[i] = this.transform.GetChild(i);
         }
+
     }
 
     void Update()
     {
-        if (Time.deltaTime >= countToKMS)
-            GameObject.Destroy(this.gameObject);
+        timer += Time.deltaTime;
+        if (timer >= countToKMS) Destroy(gameObject);
     }
 
 
@@ -30,14 +34,13 @@ public class TstNewActiveSecondPart : SpawnWaves
 
         if (other.gameObject.tag == "EditorOnly")
         {
-            GameObject.Destroy(other.gameObject);
-            Spawn();
-            /*
+            Destroy(other.gameObject);
+
             for (int i = 0; i < allChilds.Length; i++)
             {
-                = allChilds[i].transform.position;
-
-            }*/
+                Spawn(allChilds[i].transform.position, allChilds[i].transform.forward);
+            }
+            Destroy(gameObject);
         }
     }
 }
