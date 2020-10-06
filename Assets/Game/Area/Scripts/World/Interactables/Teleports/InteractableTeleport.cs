@@ -19,14 +19,13 @@ public class InteractableTeleport : Interactable
     {
         if (teleportType == TeleportType.change_posicional) 
         {
-            Checkpoint_Manager.instance.StopGame();
-
             if (!UseLocalSceneStreamer)
             {
                 Main.instance.GetChar().transform.position = transform_destino.position;
             }
             else
             {
+                Checkpoint_Manager.instance.StopGame();
                 NewSceneStreamer.instance.LoadScene(sceneToChange, false, true, EndLoad, true);
                 //Main.instance.GetChar().transform.position = transform_destino.position;
             }
