@@ -61,6 +61,11 @@ public class CameraRotate : MonoBehaviour
 
     float prevDist = 0f;
 
+    private void Update()
+    {
+        //if (Input.GetKeyDown(KeyCode.Space)) MoveCamBehindChar();
+    }
+
     private void LateUpdate()
     {
         if (Input.GetKeyDown(KeyCode.Y)) { Cursor.lockState = CursorLockMode.Locked; Cursor.visible = false; }
@@ -73,6 +78,7 @@ public class CameraRotate : MonoBehaviour
             direction = rotatorX.transform.position - (myChar.transform.position + offsetVec);
             if (Physics.Raycast(myChar.transform.position + offsetVec, direction, out hit, raycastDist, _mask))
             {
+                colliding = true;
                 if (hit.distance > minDistance )
                 {
                     Vector3 dir = hit.point - direction.normalized;
@@ -82,6 +88,7 @@ public class CameraRotate : MonoBehaviour
             }
             else if (Vector3.Distance(myChar.transform.position, camConfig.position) < raycastDist)
             {
+                colliding = false;
                 camConfig.transform.position = rotatorX.transform.position;
             }
         }
@@ -91,6 +98,7 @@ public class CameraRotate : MonoBehaviour
             float dist = direction.magnitude;
             if (!IgnoreCollisionsBezier && Physics.Raycast(myChar.transform.position + offsetVec, direction, out hit, dist, _mask))
             {
+                colliding = true;
                 float distance = hit.distance;
                 if (distance > minDistance)
                 {
@@ -108,48 +116,13 @@ public class CameraRotate : MonoBehaviour
             }
             else
             {
+                colliding = false;
                 camConfig.transform.position = Extensions.GetPointOnBezierCurve(bezierPoints[0], bezierPoints[1], sliderTime);
                 camConfig.transform.rotation = bezierPoints[0].transform.rotation;
             }
         }
     }
-    //Dejo esto aca por si se rompe algo
-    void CALCULODEDIST()
-    {
-        if (Input.GetKeyDown(KeyCode.Y)) { Cursor.lockState = CursorLockMode.Locked; Cursor.visible = false; }
-        if (Input.GetKeyDown(KeyCode.U)) { Cursor.lockState = CursorLockMode.None; Cursor.visible = true; }
-
-        RaycastHit hit;
-
-        Vector3 direction;
-        if (!UseBezier) direction = rotatorX.transform.position - (myChar.transform.position + offsetVec);
-        else direction = Extensions.GetPointOnBezierCurve(bezierPoints[0], bezierPoints[1], sliderTime) - (myChar.transform.position + offsetVec);
-
-        if (Physics.Raycast(myChar.transform.position + offsetVec, direction, out hit, raycastDist, _mask))
-        {
-            if (hit.distance > minDistance)
-            {
-                Vector3 dir = hit.point - direction.normalized;
-                camConfig.position = dir;
-                return;
-            }
-        }
-        else if (!UseBezier && Vector3.Distance(myChar.transform.position, camConfig.position) < raycastDist)
-        {
-            camConfig.transform.position = rotatorX.transform.position;
-        }
-        else if (UseBezier)
-        {
-            camConfig.transform.position = Extensions.GetPointOnBezierCurve(bezierPoints[0], bezierPoints[1], sliderTime);
-            camConfig.transform.rotation = bezierPoints[0].transform.rotation;
-        }
-
-        //Esto creo que no va
-        //rotatorX.transform.position = Extensions.GetPointOnBezierCurve(bezierPoints[0], bezierPoints[1], sliderTime);
-        //rotatorX.transform.rotation = bezierPoints[0].transform.rotation;
-        
-    }
-
+    
     string ChangeSensitivityHor(float val)
     {
         sensitivityHorizontal = val;
@@ -177,18 +150,21 @@ public class CameraRotate : MonoBehaviour
 
     public void MoveCamBehindChar()
     {
-        var dir = -Main.instance.GetChar().GetCharMove().GetRotatorDirection();
+        var dir = Main.instance.GetChar().GetCharMove().GetRotatorDirection();
+        Vector3 dirAux = rotatorX.transform.position - (myChar.transform.position + offsetVec);
+        Debug.Log(dirAux);
+        //rotatorX.transform.position = (myChar.transform.position + offsetVec) -dir * dirAux.x;
     }
 
     public Vector2 zoomLimits;
     public void Zoom(float axis)
-    {
-        if (zoomDist + axis < zoomLimits.x || zoomDist + axis > zoomLimits.y) return;
-        
-        //Debug.Log(zoomDist +axis);
-
-        zoomDist += axis;
+    {                
+        if (UseBezier || colliding) return;
         Vector3 dir = rotatorX.transform.position - (myChar.transform.position + offsetVec);
+        Vector3 aux = rotatorX.transform.position + dir * axis;
+        float dist = Vector3.Distance(aux, myChar.transform.position + offsetVec);
+        if (dist < zoomLimits.x || dist > zoomLimits.y) return; 
+
         rotatorX.transform.position += dir * axis;
     }
 
