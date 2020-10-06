@@ -4,9 +4,13 @@ using UnityEngine;
 
 public class TestNewActive : SpawnWaves
 {
-    float count;
-    [SerializeField] float cd = 0.5f;
+    float countShoot;
+    float countOrb;
+    [SerializeField] float cdShoot = 0.5f;
+    [SerializeField] float cdOrb = 1;
     bool canShoot;
+    bool canOrb;
+    [SerializeField] GameObject bolita;
 
     void Update()
     {
@@ -14,19 +18,35 @@ public class TestNewActive : SpawnWaves
         {
             Spawn();
             canShoot = false;
-            count = 0;
+            countShoot = 0;
             Main.instance.GetChar().SetSlow();
         }
 
         if (Input.GetKeyUp(KeyCode.Joystick1Button5))
             Main.instance.GetChar().SetNormalSpeed();
 
+        if(canOrb && Input.GetAxis("xbox_axis_TRIGGERS") == 1 )
+        {
+            GameObject orb = GameObject.Instantiate(bolita);
+            orb.transform.position = transform.position;
+            canOrb = false;
+            countOrb = 0;
+        }
+
         if (canShoot == false)
         {
-            count += Time.deltaTime;
+            countShoot += Time.deltaTime;
 
-            if (count >= cd)
+            if (countShoot >= cdShoot)
                 canShoot = true;
+        }
+
+        if (canOrb == false)
+        {
+            countOrb += Time.deltaTime;
+
+            if (countOrb >= cdOrb)
+                canOrb = true;
         }
     }
 }
