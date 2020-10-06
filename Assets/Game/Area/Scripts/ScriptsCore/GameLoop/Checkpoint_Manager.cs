@@ -77,7 +77,7 @@ public class Checkpoint_Manager : MonoBehaviour
         var chr = Main.instance.GetChar();
 
         chr.StopMovement();
-        chr.Resume();
+        //chr.Resume();
         chr.GetBackControl();
 
         var togo = important ? currentImportant : currentNormal;
