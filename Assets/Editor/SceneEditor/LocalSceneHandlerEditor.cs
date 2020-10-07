@@ -10,6 +10,7 @@ public class LocalSceneHandlerEditor : Editor
 {
     LocalSceneHandler _handler;
     string sceneName;
+    SceneData _data { get => _handler.SceneData; set => _handler.SceneData = value; }
     GameObject _landmark { get => _handler.SceneData.landmarkInScene; set => _handler.SceneData.landmarkInScene = value; }
     GameObject _gameplay { get => _handler.SceneData.gameplayInScene; set => _handler.SceneData.gameplayInScene = value; }
     GameObject _lowdetail { get => _handler.SceneData.low_detailInScene; set => _handler.SceneData.low_detailInScene = value; }
@@ -46,6 +47,10 @@ public class LocalSceneHandlerEditor : Editor
 
             //Forma de ver si las variables cargaron. Eso solo visual
             EditorGUI.BeginDisabledGroup(true);
+
+            _data = EditorGUILayout.ObjectField("my data:", _data, typeof(SceneData), false) as SceneData;
+
+            EditorGUILayout.Space();
 
             _landmark = EditorGUILayout.ObjectField("Landmark:", _landmark, typeof(GameObject), false) as GameObject;
             _gameplay = EditorGUILayout.ObjectField("Lowdetail:", _gameplay, typeof(GameObject), false) as GameObject;
