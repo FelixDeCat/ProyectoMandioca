@@ -113,10 +113,13 @@ public class LocalSceneHandler : LoadComponent
                 yield return new WaitForSecondsRealtime(0.6f);
                 yield return Inst(preftype);
                 yield return null;
-                var aux = go.GetComponent<AsyncLoaderHandler>();
-                if (aux != null)
+                if (go != null)
                 {
-                    yield return aux.Load();
+                    var aux = go.GetComponent<AsyncLoaderHandler>();
+                    if (aux != null)
+                    {
+                        yield return aux.Load();
+                    }
                 }
             }
         }
