@@ -113,6 +113,11 @@ public class LocalSceneHandler : LoadComponent
                 yield return new WaitForSecondsRealtime(0.6f);
                 yield return Inst(preftype);
                 yield return null;
+                if (preftype == PrefabType.gameplay) go = gameplay;
+                if (preftype == PrefabType.high) go = hight_detail;
+                if (preftype == PrefabType.med) go = medium_detail;
+                if (preftype == PrefabType.low) go = low_detail;
+                if (preftype == PrefabType.landmark) go = landmark;
                 if (go != null)
                 {
                     var aux = go.GetComponent<AsyncLoaderHandler>();

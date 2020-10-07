@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -15,6 +16,7 @@ public class EnemyManager : MonoBehaviour
 
     public void OnLoadEnemies(string sceneName, ProxyEnemyBase[] enemiesToCharge)
     {
+        if (enemiesPerScenes.ContainsKey(sceneName)) return;
         enemiesPerScenes.Add(sceneName, new List<EnemyBase>());
 
         if (!scenesStates.ContainsKey(sceneName))
@@ -63,7 +65,7 @@ public class EnemyManager : MonoBehaviour
 
     public void ChangeEnemyScene(string sceneName, EnemyBase enemy)
     {
-        if(enemy.CurrentScene != null && sceneName != enemy.CurrentScene)
+        if (enemy.CurrentScene != null && sceneName != enemy.CurrentScene)
         {
             enemiesPerScenes[enemy.CurrentScene].Remove(enemy);
             if (!enemiesPerScenes.ContainsKey(sceneName)) enemiesPerScenes.Add(sceneName, new List<EnemyBase>());
@@ -74,7 +76,7 @@ public class EnemyManager : MonoBehaviour
 
     public void DeleteEnemy(EnemyBase enemy)
     {
-        if(!string.IsNullOrEmpty(enemy.CurrentScene) && enemiesPerScenes.ContainsKey(enemy.CurrentScene)) enemiesPerScenes[enemy.CurrentScene].Remove(enemy);
+        if (!string.IsNullOrEmpty(enemy.CurrentScene) && enemiesPerScenes.ContainsKey(enemy.CurrentScene)) enemiesPerScenes[enemy.CurrentScene].Remove(enemy);
     }
 
     public void OnResetState(string sceneName)
