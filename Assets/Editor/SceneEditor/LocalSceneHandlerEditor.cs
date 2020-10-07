@@ -7,7 +7,7 @@ using UnityEngine.SceneManagement;
 
 [CustomEditor(typeof(LocalSceneHandler))]
 public class LocalSceneHandlerEditor : Editor
-{/*
+{
     LocalSceneHandler _handler;
     string sceneName;
     GameObject _landmark { get => _handler.SceneData.landmarkInScene; set => _handler.SceneData.landmarkInScene = value; }
@@ -155,5 +155,5 @@ public class LocalSceneHandlerEditor : Editor
             }
         }
     }
-    */
+
 }

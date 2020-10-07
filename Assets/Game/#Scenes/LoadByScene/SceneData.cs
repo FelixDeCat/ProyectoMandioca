@@ -13,6 +13,17 @@ public class SceneData : ScriptableObject
     public GameObject medium_detail;
     public GameObject hight_detail;
 
+    //EditorVariables
+    //[HideInInspector]
+    public GameObject landmarkInScene;
+    [HideInInspector]
+    public GameObject gameplayInScene;
+    [HideInInspector]
+    public GameObject low_detailInScene;
+    [HideInInspector]
+    public GameObject medium_detailInScene;
+    [HideInInspector]
+    public GameObject hightDetailInScene;
     public enum Detail_Parameter
     {
         none,
