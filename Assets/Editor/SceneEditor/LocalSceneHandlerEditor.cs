@@ -27,11 +27,7 @@ public class LocalSceneHandlerEditor : Editor
         //Checkea si hay un scriptableobject en el espacio
         if (!_handler.SceneData)
         {
-            if (GUILayout.Button("Create Scriptable Object!"))
-            {
-                //TODO Crear scriptable object donde deberia
-                Debug.Log("jsdfjsfjd");
-            }
+            _data = EditorGUILayout.ObjectField("my data:", _data, typeof(SceneData), false) as SceneData;
         }
         else
         {
