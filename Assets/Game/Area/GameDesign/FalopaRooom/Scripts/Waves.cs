@@ -10,13 +10,14 @@ public class Waves : MonoBehaviour
     [SerializeField] bool canDamageEnemy = false;
 
     protected DamageData dmgDATA;
+    [SerializeField] int damage = 5;
 
     protected virtual void Start()
     {
         dmgDATA = GetComponent<DamageData>();
         if (canDamageEnemy)
             dmgDATA.Initialize(Main.instance.GetChar());
-        dmgDATA.SetDamage(5).SetDamageType(Damagetype.Normal);
+        dmgDATA.SetDamage(damage).SetDamageType(Damagetype.Normal);
     }
 
     protected virtual void FixedUpdate()

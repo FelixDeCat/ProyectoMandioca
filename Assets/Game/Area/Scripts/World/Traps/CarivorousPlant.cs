@@ -25,7 +25,8 @@ public class CarivorousPlant : EnemyBase
     [SerializeField] ParticleSystem attFeedback = null;
     ParticleSystem attFXTemp;
     [SerializeField] ParticleSystem hitParticle = null;
-
+    [SerializeField] AudioClip _getHit_Clip;
+    [SerializeField] AudioClip _death_Clip;
     bool on;
     bool isZero;
     bool inDmg;
@@ -34,7 +35,8 @@ public class CarivorousPlant : EnemyBase
     protected override void OnInitialize()
     {
         base.OnInitialize();
-
+        AudioManager.instance.GetSoundPool(_getHit_Clip.name, AudioGroups.GAME_FX, _getHit_Clip);
+        AudioManager.instance.GetSoundPool(_death_Clip.name, AudioGroups.GAME_FX, _death_Clip);
         dmgData.SetDamage(dmg).SetDamageType(dmgType).SetDamageInfo(DamageInfo.NonBlockAndParry).Initialize(this);
 
         ParticlesManager.Instance.GetParticlePool(attFeedback.name, attFeedback);
@@ -109,6 +111,7 @@ public class CarivorousPlant : EnemyBase
 
     protected override void Die(Vector3 dir)
     {
+        AudioManager.instance.PlaySound(_death_Clip.name, transform);
         animator.SetTrigger("Dead");
         OnDeath.Invoke();
         OnOffTrap(false);
@@ -213,6 +216,8 @@ public class CarivorousPlant : EnemyBase
 
     protected override void TakeDamageFeedback(DamageData data)
     {
+        AudioManager.instance.PlaySound(_getHit_Clip.name, transform);
+
         animator.SetBool("Hit", true);
         ParticlesManager.Instance.PlayParticle(hitParticle.name, centerPoint.position + Vector3.up);
     }

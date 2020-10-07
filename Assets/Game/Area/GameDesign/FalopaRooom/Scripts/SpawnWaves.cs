@@ -24,6 +24,14 @@ public class SpawnWaves : MonoBehaviour
         wave = wave.SetSpeed(speed).SetLifeTime(lifeTime);
     }
 
+    public void Spawn(Vector3 pos, Vector3 forward)
+    {
+        var wave = Instantiate(_wave);
+        wave.transform.position = pos;
+        wave.transform.forward = forward;
+        wave = wave.SetSpeed(speed).SetLifeTime(lifeTime);
+    }
+
     [SerializeField] bool onlyBorders = false;
 
     [SerializeField] bool drawGizmos = false;
