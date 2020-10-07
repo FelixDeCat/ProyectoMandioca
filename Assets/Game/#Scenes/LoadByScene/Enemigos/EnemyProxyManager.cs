@@ -6,19 +6,29 @@ public class EnemyProxyManager : LoadComponent
 {
     [SerializeField] string sceneName = "";
     [SerializeField] ProxyEnemyBase[] proxys = new ProxyEnemyBase[0];
+    bool AlreadyProcessed = false;
 
     protected void Start()
     {
-        EnemyManager.Instance.OnLoadEnemies(sceneName, proxys);
-
-        for (int i = 0; i < proxys.Length; i++) Destroy(proxys[i].gameObject);
-
-        proxys = new ProxyEnemyBase[0];
+        if(!AlreadyProcessed) StartCoroutine(Process());
     }
 
     protected override IEnumerator LoadMe()
     {
-        yield return null;
-        Debug.Log("Me cargo bien chetardo");
+        AlreadyProcessed = true;
+        yield return Process();
+    }
+
+    IEnumerator Process()
+    {
+        EnemyManager.Instance.OnLoadEnemies(sceneName, proxys);
+
+        for (int i = 0; i < proxys.Length; i++) 
+        { 
+            Destroy(proxys[i].gameObject);
+            yield return null;
+        }
+
+        proxys = new ProxyEnemyBase[0];
     }
 }

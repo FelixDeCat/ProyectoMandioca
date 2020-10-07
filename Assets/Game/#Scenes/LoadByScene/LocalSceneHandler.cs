@@ -63,7 +63,6 @@ public class LocalSceneHandler : LoadComponent
                 yield return ExecuteSwitching(hight_detail, ExeParam.show, PrefabType.high);
                 break;
             case SceneData.Detail_Parameter.top_to_landmark:
-                Debug.Log("lo mando a landmark...");
                 yield return ExecuteSwitching(landmark, ExeParam.show, PrefabType.landmark);
                 yield return ExecuteSwitching(gameplay, ExeParam.shutdown, PrefabType.gameplay);
                 yield return ExecuteSwitching(low_detail, ExeParam.shutdown, PrefabType.low);
@@ -114,6 +113,11 @@ public class LocalSceneHandler : LoadComponent
                 yield return new WaitForSecondsRealtime(0.6f);
                 yield return Inst(preftype);
                 yield return null;
+                var aux = go.GetComponent<AsyncLoaderHandler>();
+                if (aux != null)
+                {
+                    yield return aux.Load();
+                }
             }
         }
         else if (exe == ExeParam.shutdown)
