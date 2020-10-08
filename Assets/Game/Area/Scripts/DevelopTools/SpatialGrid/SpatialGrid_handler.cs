@@ -26,12 +26,12 @@ public class SpatialGrid_handler : MonoBehaviour
     public void SetCurrentSpatial(SpatialGrid _current)
     {
         _grid = _current;
-        StartCoroutine(CheckGrid());
+        //StartCoroutine(CheckGrid());
     }
 
     public void ResumeCheck()
     {
-        StartCoroutine(CheckGrid());
+        //StartCoroutine(CheckGrid());
     }
 
     public void StopSpatialGrid()

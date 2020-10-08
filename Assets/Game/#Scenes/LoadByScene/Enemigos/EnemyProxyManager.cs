@@ -14,7 +14,7 @@ public class EnemyProxyManager : LoadComponent
 
     protected void Start()//por si mi parent no viene con Loader
     {
-        if (!AlreadyProcessed)
+        if (!AlreadyProcessed && Application.isPlaying)
         {
             AlreadyProcessed = true;
             Debug.Log("Enter by Start");
