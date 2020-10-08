@@ -7,13 +7,13 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Waterfall 3
-  m_Shader: {fileID: 4800000, guid: 5a04f7fc3f41ff54c8305b2f212f241c, type: 3}
+  m_Name: AteneaShield
+  m_Shader: {fileID: 4800000, guid: ea495804ec91c144399ab93337739f0c, type: 3}
   m_ShaderKeywords: 
-  m_LightmapFlags: 0
+  m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
-  m_CustomRenderQueue: 2500
+  m_CustomRenderQueue: -1
   stringTagMap: {}
   disabledShaderPasses: []
   m_SavedProperties:
@@ -39,20 +39,20 @@ Material:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
-    - _LinesEffect:
-        m_Texture: {fileID: 2800000, guid: d2541958b8fc6e141be326cf49d23d2c, type: 3}
+    - _FlowMap:
+        m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MainTex:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
-    - _Mask:
-        m_Texture: {fileID: 2800000, guid: 90661785b0793484e90c446b0200617d, type: 3}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
     - _MetallicGlossMap:
         m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _Noise:
+        m_Texture: {fileID: 2800000, guid: 85b0fe455db181d4ebd25c8a834985e1, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _OcclusionMap:
@@ -63,67 +63,42 @@ Material:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
-    - _RefractionTexture:
-        m_Texture: {fileID: 2800000, guid: b95aaa7d1c88648499fca391b3005ca6, type: 3}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    - _TextureSample0:
-        m_Texture: {fileID: 2800000, guid: b95aaa7d1c88648499fca391b3005ca6, type: 3}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    - _TextureSample1:
-        m_Texture: {fileID: 2800000, guid: 38fc7d99d9c15324d92e6f1b77b0127e, type: 3}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    - _TextureSample2:
+    - _TextureSample3:
         m_Texture: {fileID: 2800000, guid: f039d4efae7db944d8ed64056cb2363b, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
-    - _WavesNormal:
-        m_Texture: {fileID: 2800000, guid: 831a7437f10404247926861810c67698, type: 3}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    - _texcoord:
+    - _TextureSample4:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     m_Floats:
     - _BumpScale: 1
-    - _CascadeIntensity: 11.7
-    - _CascadeSpeed: 0.171
     - _Cutoff: 0.5
     - _DetailNormalMapScale: 1
-    - _DistanceFoam: 4.72
     - _DstBlend: 0
-    - _FacetIntensity: 0.1
-    - _FallOffDepth: 0.74
-    - _Float0: 0.26
-    - _FoamIntensity: 1
+    - _EmissionIntensity: 1
+    - _Flow: 0.041
+    - _FresnelScale: 9.35
     - _GlossMapScale: 1
     - _Glossiness: 0.5
     - _GlossyReflections: 1
-    - _LinesFlowMap: 0.951
-    - _MainOpacityIntensity: 1
+    - _HardnessMask: 1.4
+    - _HardnessNoise: 4.44
+    - _MaskBot: -20
     - _Metallic: 0
     - _Mode: 0
-    - _NormalWavesScale: 0.033
     - _OcclusionStrength: 1
-    - _OpacityIntensityCollision: 1
+    - _OpacityIntensity: 1
     - _Parallax: 0.02
-    - _Refraction: 0.302
-    - _Smoothness: 1
     - _SmoothnessTextureChannel: 0
     - _SpecularHighlights: 1
-    - _SpeedWavesX: 0
-    - _SpeedWavesY: 0.2
+    - _Speed: 0.05
     - _SrcBlend: 1
     - _UVSec: 0
     - _ZWrite: 1
-    - __dirty: 0
     m_Colors:
     - _Color: {r: 1, g: 1, b: 1, a: 1}
-    - _DepthColor: {r: 0.4339621, g: 0.4339621, b: 0.4339621, a: 0}
-    - _Dir: {r: 0.5, g: 1, b: 0, a: 0}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
-    - _FoamColor: {r: 0.42552283, g: 0.71182287, b: 0.881, a: 0}
-    - _MainColor: {r: 0.13171932, g: 0.58401173, b: 0.75471693, a: 0}
+    - _FresnelColor: {r: 0.6273585, g: 1, b: 1, a: 0}
+    - _MainColor: {r: 0.5896226, g: 0.8649391, b: 1, a: 0}
+    - _NoiseColor: {r: 0.6179246, g: 0.91908985, b: 1, a: 0}
