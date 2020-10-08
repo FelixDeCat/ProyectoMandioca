@@ -12,6 +12,9 @@ public class CombatDirectorStorage : SerializableDictionary.Storage<List<CombatD
 [Serializable]
 public class EntityBase_CDListDictionary : SerializableDictionary<EntityBase, List<CombatDirectorElement>, CombatDirectorStorage> { }
 
+[SerializeField]
+public class EnemyBase_IntDictionary : SerializableDictionary<EnemyBase, int> { }
+
 [Serializable]
 public class TotemDestruibleStorage : SerializableDictionary.Storage<List<TotemDestruible>> { }
 

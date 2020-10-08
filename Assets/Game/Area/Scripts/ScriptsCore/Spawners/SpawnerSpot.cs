@@ -17,7 +17,7 @@ public class SpawnerSpot
         if(_spawnSpot) spawnSpot = _spawnSpot;
     }
 
-    public PlayObject SpawnPrefab(Vector3 pos, PlayObject prefabToSpawn, string sceneToSpawn = null, CustomSpawner spawner = null)
+    public PlayObject SpawnPrefab(Vector3 pos, PlayObject prefabToSpawn, string sceneToSpawn = null, ISpawner spawner = null)
     {
         PlayObject newObject = null;
 
@@ -25,7 +25,6 @@ public class SpawnerSpot
         {
             newObject = EnemyManager.Instance.SpawnEnemy(prefabToSpawn.name, sceneToSpawn, prefabToSpawn.GetComponent<EnemyBase>());
             newObject.GetComponent<EnemyBase>().SpawnEnemy();
-
         }
         else
         {
