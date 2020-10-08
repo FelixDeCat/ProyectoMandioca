@@ -20,7 +20,6 @@ public class LocalSceneHandlerEditor : Editor
     {
         _handler = (LocalSceneHandler)target;
         sceneName = SceneManager.GetActiveScene().name;
-        ResetVariables();
 
     }
     public override void OnInspectorGUI()
