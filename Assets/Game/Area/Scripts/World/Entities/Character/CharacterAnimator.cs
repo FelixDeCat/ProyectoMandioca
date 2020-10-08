@@ -4,7 +4,7 @@ public class CharacterAnimator : BaseAnimator
 {
     public CharacterAnimator(Animator _anim) : base(_anim) { }
     public void Move(float dirX, float dirY)
-    {
+    {       
         myAnim.SetFloat("moveX", dirX);
         myAnim.SetFloat("moveY", dirY);
     }
