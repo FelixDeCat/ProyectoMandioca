@@ -57,29 +57,43 @@ public class LocalSceneHandlerEditor : Editor
             EditorGUI.EndDisabledGroup();
 
             //Debug. Te limpia las referencias para que despues puedas cargarlo de nuevo
-
+            if (GUILayout.Button("Reset Variables"))
+            {
+                _landmark = null;
+                _gameplay = null;
+                _lowdetail = null;
+                _mediumDetail = null;
+                _highDetail = null;
+            }
             //Boton de carga
             if (GUILayout.Button("Load Scene"))
             {
+                string path;
+
                 //Landmark
-                _landmark = Instantiate(_handler.SceneData.landmark);
-                _landmark.name = _handler.SceneData.landmark.name;
+                path = AssetDatabase.GetAssetPath(_handler.SceneData.landmark);
+                _landmark = PrefabUtility.InstantiatePrefab(_handler.SceneData.hight_detail) as GameObject;
+                PrefabUtility.UnpackPrefabInstance(_landmark, PrefabUnpackMode.OutermostRoot, InteractionMode.AutomatedAction);
 
                 //Gameplay
-                _gameplay = Instantiate(_handler.SceneData.gameplay);
-                _gameplay.name = _handler.SceneData.gameplay.name;
+                path = AssetDatabase.GetAssetPath(_handler.SceneData.gameplay);
+                _gameplay = PrefabUtility.InstantiatePrefab(_handler.SceneData.gameplay) as GameObject;
+                PrefabUtility.UnpackPrefabInstance(_gameplay, PrefabUnpackMode.OutermostRoot, InteractionMode.AutomatedAction);
 
                 //Low Detail
-                _lowdetail = Instantiate(_handler.SceneData.low_detail);
-                _lowdetail.name = _handler.SceneData.low_detail.name;
+                path = AssetDatabase.GetAssetPath(_handler.SceneData.low_detail);
+                _lowdetail = PrefabUtility.InstantiatePrefab(_handler.SceneData.low_detail) as GameObject;
+                PrefabUtility.UnpackPrefabInstance(_lowdetail, PrefabUnpackMode.OutermostRoot, InteractionMode.AutomatedAction);
 
                 //Medium Detail
-                _mediumDetail = Instantiate(_handler.SceneData.medium_detail);
-                _mediumDetail.name = _handler.SceneData.medium_detail.name;
+                path = AssetDatabase.GetAssetPath(_handler.SceneData.medium_detail);
+                _mediumDetail = PrefabUtility.InstantiatePrefab(_handler.SceneData.medium_detail) as GameObject;
+                PrefabUtility.UnpackPrefabInstance(_mediumDetail, PrefabUnpackMode.OutermostRoot, InteractionMode.AutomatedAction);
 
                 //HighDetail
-                _highDetail = Instantiate(_handler.SceneData.hight_detail);
-                _highDetail.name = _handler.SceneData.hight_detail.name;
+                path = AssetDatabase.GetAssetPath(_handler.SceneData.hight_detail);
+                _highDetail = PrefabUtility.InstantiatePrefab(_handler.SceneData.hight_detail) as GameObject;
+                PrefabUtility.UnpackPrefabInstance(_highDetail, PrefabUnpackMode.OutermostRoot, InteractionMode.AutomatedAction);
 
             }
 
