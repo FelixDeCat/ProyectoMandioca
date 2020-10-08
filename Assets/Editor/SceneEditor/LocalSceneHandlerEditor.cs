@@ -20,10 +20,12 @@ public class LocalSceneHandlerEditor : Editor
     {
         _handler = (LocalSceneHandler)target;
         sceneName = SceneManager.GetActiveScene().name;
+        ResetVariables();
 
     }
     public override void OnInspectorGUI()
     {
+
         //Checkea si hay un scriptableobject en el espacio
         if (!_handler.SceneData)
         {
@@ -59,11 +61,7 @@ public class LocalSceneHandlerEditor : Editor
             //Debug. Te limpia las referencias para que despues puedas cargarlo de nuevo
             if (GUILayout.Button("Reset Variables"))
             {
-                _landmark = null;
-                _gameplay = null;
-                _lowdetail = null;
-                _mediumDetail = null;
-                _highDetail = null;
+
             }
             //Boton de carga
             if (GUILayout.Button("Load Scene"))
@@ -170,5 +168,13 @@ public class LocalSceneHandlerEditor : Editor
             }
         }
     }
+    public void ResetVariables()
+    {
+        _landmark = null;
+        _gameplay = null;
+        _lowdetail = null;
+        _mediumDetail = null;
+        _highDetail = null;
 
+    }
 }
