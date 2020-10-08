@@ -25,7 +25,7 @@ public class TestInteractableHold : Interactable
     }
     public override void OnEnter(WalkingEntity entity)
     {
-        if(!string.IsNullOrEmpty(actionName)) WorldItemInfo.instance.Show(pointToMessage.position, "Object", "Hold to grab object", actionName, false, false);
+        if(!string.IsNullOrEmpty(actionName)) WorldItemInfo.instance.Show(pointToMessage.position, "Object", "Hold to grab object", actionName, true, false);
     }
 
     public override void OnExecute(WalkingEntity collector)
