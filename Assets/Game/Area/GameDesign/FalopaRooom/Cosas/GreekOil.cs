@@ -19,11 +19,16 @@ public class GreekOil : MonoBehaviour
     public void OnPress() => Debug.Log("GreekOil=> OnPress"); // presiono tecla
     public void OnRelease() => Debug.Log("GreekOil=> OnRelease"); // la suelto
     public void OnUpdateUse() => Debug.Log("GreekOil=> OnUpdateUse"); // se updatea mientras la tengo apretada
-    public void OnExecute() => Debug.Log("GreekOil=> OnExecute"); // El Uso mero mero
+    public void OnExecute() => FireInTheSword(); //Debug.Log("GreekOil=> OnExecute"); // El Uso mero mero
 
 
     public void FireInTheSword()
     {
+        Main.instance.GetChar().GetCharacterAttack().Add_callback_SecondaryEffect(EscribirAlgo);
+    }
 
+    void EscribirAlgo(EffectReceiver alQueAfecto)
+    {
+        Debug.Log(alQueAfecto.name);
     }
 }

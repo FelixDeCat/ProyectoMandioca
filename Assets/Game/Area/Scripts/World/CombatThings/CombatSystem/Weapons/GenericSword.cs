@@ -30,7 +30,7 @@ public class GenericSword : Weapon
                     .SetPositionAndDirection(_head.transform.position, _head.DirAttack);
 
                 var attackResult = entities[i].TakeDamage(data);
-
+                
                 AttackResult?.Invoke(attackResult,dmg_type, entities[i]); 
             }
         }

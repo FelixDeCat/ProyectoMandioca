@@ -48,6 +48,7 @@ public class CharacterAttack
     Action callback_ReceiveEntity = delegate { };
 
     Action DealSuccesfullNormal;
+    Action<EffectReceiver> ApplySecondaryEffect;
     Action DealSuccesfullHeavy;
     Action KillSuccesfullNormal;
     Action KillSuccesfullHeavy;
@@ -80,6 +81,10 @@ public class CharacterAttack
     public void Add_callback_Heavy_attack(Action callback) { HeavyAttack += callback; }
     public void Remove_callback_Normal_attack(Action callback) { NormalAttack -= callback; }
     public void Remove_callback_Heavy_attack(Action callback) { HeavyAttack -= callback; }
+
+
+    public void Add_callback_SecondaryEffect(Action<EffectReceiver> callback) { ApplySecondaryEffect += callback; }
+    public void Remove_callback_SecondaryEffect(Action<EffectReceiver> callback) { ApplySecondaryEffect -= callback; }
 
     public void ChangeHeavyAttackTime(float newTime) => currentHeavyAttackTime = newTime;
 
@@ -280,8 +285,14 @@ public class CharacterAttack
         switch (attack_result)
         {
             case Attack_Result.sucessful:
-                if (damage_type == Damagetype.Heavy) DealSuccesfullHeavy();
-                else DealSuccesfullNormal(); break;
+                if (damage_type == Damagetype.Heavy) { DealSuccesfullHeavy(); ApplySecondaryEffect?.Invoke(entityToDamage.GetComponent<EffectReceiver>()); }
+                else
+                {
+                    DealSuccesfullNormal();
+                    ApplySecondaryEffect?.Invoke(entityToDamage.GetComponent<EffectReceiver>());
+                }
+
+                break;
             case Attack_Result.blocked:
                 {
 

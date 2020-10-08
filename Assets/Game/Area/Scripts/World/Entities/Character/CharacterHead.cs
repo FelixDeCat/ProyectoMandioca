@@ -765,7 +765,6 @@ public class CharacterHead : CharacterControllable
 
         if (canAddComboHit)
         {
-            
 
             canAddComboHit = false;
             combo_system.AddHit();
@@ -775,7 +774,7 @@ public class CharacterHead : CharacterControllable
     }
     void DealSucessfullHeavy()
     {
-        Debug.Log("DFSIJFNSEIFHJB");
+       
         ChangeHeavy(false);
         Main.instance.Vibrate(1f, 0.2f);
         Main.instance.CameraShake();
