@@ -66,30 +66,30 @@ public class LocalSceneHandlerEditor : Editor
             if (GUILayout.Button("Load Scene"))
             {
                 string path;
-
+                Scene currentScene = _handler.gameObject.scene;
                 //Landmark
                 path = AssetDatabase.GetAssetPath(_handler.SceneData.landmark);
-                _landmark = PrefabUtility.InstantiatePrefab(_handler.SceneData.hight_detail) as GameObject;
+                _landmark = PrefabUtility.InstantiatePrefab(_handler.SceneData.hight_detail, currentScene) as GameObject;
                 PrefabUtility.UnpackPrefabInstance(_landmark, PrefabUnpackMode.OutermostRoot, InteractionMode.AutomatedAction);
 
                 //Gameplay
                 path = AssetDatabase.GetAssetPath(_handler.SceneData.gameplay);
-                _gameplay = PrefabUtility.InstantiatePrefab(_handler.SceneData.gameplay) as GameObject;
+                _gameplay = PrefabUtility.InstantiatePrefab(_handler.SceneData.gameplay, currentScene) as GameObject;
                 PrefabUtility.UnpackPrefabInstance(_gameplay, PrefabUnpackMode.OutermostRoot, InteractionMode.AutomatedAction);
 
                 //Low Detail
                 path = AssetDatabase.GetAssetPath(_handler.SceneData.low_detail);
-                _lowdetail = PrefabUtility.InstantiatePrefab(_handler.SceneData.low_detail) as GameObject;
+                _lowdetail = PrefabUtility.InstantiatePrefab(_handler.SceneData.low_detail, currentScene) as GameObject;
                 PrefabUtility.UnpackPrefabInstance(_lowdetail, PrefabUnpackMode.OutermostRoot, InteractionMode.AutomatedAction);
 
                 //Medium Detail
                 path = AssetDatabase.GetAssetPath(_handler.SceneData.medium_detail);
-                _mediumDetail = PrefabUtility.InstantiatePrefab(_handler.SceneData.medium_detail) as GameObject;
+                _mediumDetail = PrefabUtility.InstantiatePrefab(_handler.SceneData.medium_detail, currentScene) as GameObject;
                 PrefabUtility.UnpackPrefabInstance(_mediumDetail, PrefabUnpackMode.OutermostRoot, InteractionMode.AutomatedAction);
 
                 //HighDetail
                 path = AssetDatabase.GetAssetPath(_handler.SceneData.hight_detail);
-                _highDetail = PrefabUtility.InstantiatePrefab(_handler.SceneData.hight_detail) as GameObject;
+                _highDetail = PrefabUtility.InstantiatePrefab(_handler.SceneData.hight_detail, currentScene) as GameObject;
                 PrefabUtility.UnpackPrefabInstance(_highDetail, PrefabUnpackMode.OutermostRoot, InteractionMode.AutomatedAction);
 
             }
