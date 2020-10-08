@@ -13,7 +13,6 @@ public class EquipedManager : MonoBehaviour
     private void Awake()
     {
         instance = this;
-
     }
 
     internal void SetSpotsInTransforms(Spot[] _spots)

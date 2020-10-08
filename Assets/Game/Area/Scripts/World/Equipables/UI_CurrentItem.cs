@@ -24,8 +24,11 @@ public class UI_CurrentItem : UI_Base
 
     public void SetItem(string _cant, Sprite _img, bool showNumber = true)
     {
-        txt_cant.text = _cant;
-        txt_cant.gameObject.SetActive(showNumber);
+        if (txt_cant)
+        {
+            txt_cant.text = _cant;
+            txt_cant?.gameObject.SetActive(showNumber);
+        }
         img.sprite = _img;
         img_aux.sprite = _img;
         // img_aux.enabled = false;
@@ -101,8 +104,8 @@ public class UI_CurrentItem : UI_Base
     public void Cooldown_End() 
     {
         img.color = Color.white;
-        part_endLoad.Play();
-        cooldownBar.SetImageColor(new Color(0,0,0,0));
+        //cooldownBar.SetImageColor(new Color(0, 0, 0, 0));
+        if (part_endLoad) part_endLoad.Play();
     }
     #endregion
 
@@ -117,15 +120,15 @@ public class UI_CurrentItem : UI_Base
     public void Casting_Begin()
     {
         StopAnimFail();
-        onPress.gameObject.SetActive(true);
+        if(onPress) onPress.SetActive(true);
     }
     public void Casting_End()
     {
-        onPress.gameObject.SetActive(false);
+        if (onPress) onPress.SetActive(false);
     }
     public void Casting_HoldThePower(bool val)
     {
-        HoldThePower?.SetActive(val);
+        if (HoldThePower) HoldThePower.SetActive(val);
     }
     public void Casting_Fail()
     {
@@ -139,7 +142,7 @@ public class UI_CurrentItem : UI_Base
     }
     void StopAnimFail()
     {
-        castingbar.SetImageOriginalColor();
+        castingbar?.SetImageOriginalColor();
         animFail = false;
         timer_anim_fail = 0;
     }
@@ -151,7 +154,7 @@ public class UI_CurrentItem : UI_Base
             if (timer_anim_fail < 1f)
             {
                 timer_anim_fail = timer_anim_fail + 2f * Time.deltaTime;
-                castingbar.SetImageColor(Color.Lerp(Color.red, new Color(1,0,0,0), timer_anim_fail));
+                castingbar?.SetImageColor(Color.Lerp(Color.red, new Color(1,0,0,0), timer_anim_fail));
             }
             else
             {

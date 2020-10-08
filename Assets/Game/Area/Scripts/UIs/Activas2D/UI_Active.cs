@@ -8,6 +8,7 @@ public class UI_Active : MonoBehaviour, ISubmitHandler
 {
     public Image img;
     public Image bkg;
+    public Image skill;
 
     public ParticleSystem particle;
 
@@ -23,7 +24,7 @@ public class UI_Active : MonoBehaviour, ISubmitHandler
 
     public void SetSprite(Sprite sp)
     {
-        img.sprite = sp;
+        skill.sprite = sp;
         bkg.sprite = sp;
     }
 
