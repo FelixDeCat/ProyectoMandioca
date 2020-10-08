@@ -24,6 +24,7 @@ public class CharacterMovement
     float timerDash;
     float currentCD;
     float cdTimer;
+    float currentVelY;
     float currentDashSpeed;
     private Vector3 dashDir;
     public bool InDash { get; private set; }
@@ -152,7 +153,32 @@ public class CharacterMovement
         }
 
         if (movX >= 0.1 || movX <= -0.1 || movY >= 0.1 || movY <= -0.1)
-            anim.Move(0, Mathf.Abs(movX) + Mathf.Abs(movY));
+        {
+
+            var checkRay = Physics.Raycast(rotTransform.position + Vector3.up*1.2f, rotTransform.forward, 1.3f);
+            
+            if (checkRay)
+            {
+              
+
+                currentVelY -= Time.deltaTime * 0.3f;
+              
+                Debug.Log(currentVelY);
+                if ( currentVelY <= 0.1)
+                {
+                    anim.Move(0, 0);
+                }
+                anim.Move(0,currentVelY);
+            }
+            else
+            {
+                anim.Move(0, (Mathf.Abs(movX) + Mathf.Abs(movY)));
+                currentVelY = (Mathf.Abs(movX) + Mathf.Abs(movY));
+            }
+               
+            
+      
+        }
         else
             anim.Move(0, 0);
 
@@ -179,7 +205,7 @@ public class CharacterMovement
 
     }
     #endregion
-
+    
     bool forcing;
 
     public void MovementAddForce(Vector3 dir, float force, ForceMode mode)
@@ -521,6 +547,7 @@ public class CharacterMovement
         dashDir = Vector3.zero;
         dashCdOk = true;
     }
-
+    
+  
     #endregion
 }
