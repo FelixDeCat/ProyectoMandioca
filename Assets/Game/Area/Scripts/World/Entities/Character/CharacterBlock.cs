@@ -61,24 +61,23 @@ public class CharacterBlock : EntityBlock
 
     public void SetBlockCharges(int chargesAmmount)
     {
-        currentBlockCharges += chargesAmmount;
+        //currentBlockCharges += chargesAmmount;
 
-        if(currentBlockCharges <= 0)
-        {
-            currentBlockCharges = 0;
-            callback_EndBlock();
-        }
-        else if (currentBlockCharges >= maxBlockCharges)
-        {
-            currentBlockCharges = maxBlockCharges;
-            timerCharges = 0;
-        }
+        //if(currentBlockCharges <= 0)
+        //{
+        //    currentBlockCharges = 0;
+        //    callback_EndBlock();
+        //}
+        //else if (currentBlockCharges >= maxBlockCharges)
+        //{
+        //    currentBlockCharges = maxBlockCharges;
+        //    timerCharges = 0;
+        //}
 
-        Main.instance.gameUiController.shieldsController.RefreshUI(currentBlockCharges, maxBlockCharges);
+        //Main.instance.gameUiController.shieldsController.RefreshUI(currentBlockCharges, maxBlockCharges);
     }
 
     public bool CanUseCharge() => currentBlockCharges > maxBlockCharges-1;
-
 
     void ParryFeedback()
     {

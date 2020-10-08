@@ -8,8 +8,6 @@ using UnityEngine.UI;
 public class GameUI_controller : MonoBehaviour
 {
     [SerializeField] Canvas myCanvas = null; public Canvas MyCanvas { get => myCanvas; }
-
-    public UI2D_Shields_controller shieldsController;
     
     [Header("--XX--Canvas containers--XX--")]
     //[SerializeField] private RectTransform leftCanvas = null;
@@ -27,19 +25,8 @@ public class GameUI_controller : MonoBehaviour
     public FrontendStatBase lifeHeart;
     
 
-    #region Config
-
-    private void Start()
-    {
-        Main.instance.eventManager.SubscribeToEvent(GameEvents.GAME_INITIALIZE, Initialize);
-    }
-    void Initialize(){shieldsController = GetComponent<UI2D_Shields_controller>();}
-
-    #endregion
-
     #region Public methods
     
-    public void RefreshShields_UI(int currentShields, int maxShields) =>  shieldsController.RefreshUI(currentShields, maxShields);
     //public RectTransform GetRectCanvas() => completeCanvas;
     
     public bool openUI { get; private set; }

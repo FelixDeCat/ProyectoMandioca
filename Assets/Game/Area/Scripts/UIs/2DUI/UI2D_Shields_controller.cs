@@ -90,17 +90,17 @@ public class UI2D_Shields_controller : MonoBehaviour
     /// Muestra los shields que tenias
     /// </summary>
     public void ShowShields()
-    {
+    {   
         RefreshUI(prevShieldCount, 3);
     }
 
-    private void Update()
-    {
-        RotateShields();
+    //private void Update()
+    //{
+    //    RotateShields();
         
-        PingPong();
+    //    PingPong();
         
-    }
+    //}
 
     #region Rotaciones que a nadie le gustan
 

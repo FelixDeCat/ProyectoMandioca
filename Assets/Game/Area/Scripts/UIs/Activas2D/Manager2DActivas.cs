@@ -16,7 +16,6 @@ public class Manager2DActivas : MonoBehaviour
     {
         var basevenetdata = new UnityEngine.EventSystems.BaseEventData(Main.instance.GetMyEventSystem().GetMyEventSystem());
         ui_actives[index].OnSubmit(basevenetdata);
-
     }
 
     public void InitializeAllBlocked()
