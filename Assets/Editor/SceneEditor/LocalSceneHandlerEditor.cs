@@ -19,7 +19,7 @@ public class LocalSceneHandlerEditor : Editor
     void OnEnable()
     {
         _handler = (LocalSceneHandler)target;
-        sceneName = SceneManager.GetActiveScene().name;
+        sceneName = _handler.gameObject.scene.name;
 
     }
     public override void OnInspectorGUI()
