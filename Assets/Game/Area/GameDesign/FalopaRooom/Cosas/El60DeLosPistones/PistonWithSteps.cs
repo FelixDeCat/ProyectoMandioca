@@ -6,21 +6,23 @@ using System.Linq;
 
 public class PistonWithSteps : MonoBehaviour
 {
-    [SerializeField] Transform _root = null;
-    [SerializeField] List<Transform> nodes = new List<Transform>();
+    [SerializeField] protected Transform _root = null;
+    [SerializeField] protected List<Transform> nodes = new List<Transform>();
     [SerializeField] Transform parent = null;
+    
+    public event Action OnReachDestination;
 
     public float speed;
 
-    Vector3 _dir;
-    int currentNode = 0;
+    protected Vector3 _dir;
+    protected int currentNode = 0;
     bool isMoving = false;
 
-    void FixedUpdate()
+    void  FixedUpdate()
     {
         if(isMoving)
         {
-            _root.transform.position += _dir * speed * Time.fixedDeltaTime;
+            Move();   
             
             if (Vector3.Distance(_root.position, nodes[currentNode].position) <= 0.5f)
             {
@@ -35,10 +37,16 @@ public class PistonWithSteps : MonoBehaviour
                 {
                     _root.position = nodes[currentNode].position;
                     isMoving = false;
+                    OnReachDestination?.Invoke();
                 }
                 
             }
         }
+    }
+
+    public virtual void Move()
+    {
+        _root.transform.position += _dir * speed * Time.fixedDeltaTime;
     }
 
     public void StickPlayerToPlatform()
