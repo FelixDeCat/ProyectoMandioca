@@ -4,6 +4,12 @@ using UnityEngine;
 
 public class BommerangShiledFeedbacks : MonoBehaviour
 {
+    private void Start()
+    {
+
+
+    }
+
     public void Play_ThrowActive()
     {
     

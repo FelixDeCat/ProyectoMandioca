@@ -49,6 +49,8 @@ public class BoomerangShield : MonoBehaviour
     [Header("Particles")]
     [SerializeField] private ParticleSystem flying = null;
     [SerializeField] private GameObject auxShield = null;
+    [SerializeField] BommerangShiledFeedbacks feedbacks;
+
 
     //Sonidos
     //[SerializeField] private AudioClip _flingShield_Sound = null;
