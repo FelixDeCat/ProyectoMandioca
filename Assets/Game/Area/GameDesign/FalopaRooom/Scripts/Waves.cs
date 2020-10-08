@@ -8,6 +8,7 @@ public class Waves : MonoBehaviour
     float _lifeTime;
     [SerializeField] protected GameObject spawner = null;
     [SerializeField] bool canDamageEnemy = false;
+    public bool canHitOrb = true;
 
     protected DamageData dmgDATA;
     [SerializeField] int damage = 5;

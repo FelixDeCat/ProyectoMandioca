@@ -11,6 +11,7 @@ public class TestNewActive : SpawnWaves
     bool canShoot;
     bool canOrb;
     [SerializeField] GameObject bolita;
+    public int maxOrbs = 2;
 
     void Update()
     {
@@ -25,8 +26,9 @@ public class TestNewActive : SpawnWaves
         if (Input.GetKeyUp(KeyCode.Joystick1Button5))
             Main.instance.GetChar().SetNormalSpeed();
 
-        if(canOrb && Input.GetAxis("xbox_axis_TRIGGERS") == 1 )
+        if(canOrb && Input.GetKeyDown(KeyCode.Joystick1Button0) && maxOrbs > 0)
         {
+            maxOrbs--;
             GameObject orb = GameObject.Instantiate(bolita);
             orb.transform.position = transform.position;
             canOrb = false;

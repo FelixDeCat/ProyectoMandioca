@@ -24,11 +24,12 @@ public class SpawnWaves : MonoBehaviour
         wave = wave.SetSpeed(speed).SetLifeTime(lifeTime);
     }
 
-    public void Spawn(Vector3 pos, Vector3 forward)
+    public void Spawn(Vector3 pos, Vector3 forward, bool canHitOrb)
     {
         var wave = Instantiate(_wave);
         wave.transform.position = pos;
         wave.transform.forward = forward;
+        wave.canHitOrb = canHitOrb;
         wave = wave.SetSpeed(speed).SetLifeTime(lifeTime);
     }
 

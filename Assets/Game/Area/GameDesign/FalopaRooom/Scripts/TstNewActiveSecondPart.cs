@@ -5,13 +5,17 @@ using UnityEngine;
 public class TstNewActiveSecondPart : SpawnWaves
 {
     public Transform[] allChilds;
+    TestNewActive activeParent;
 
     [SerializeField] float countToKMS;
+
 
     float timer = 0;
 
     void Start()
     {
+        activeParent = FindObjectOfType<TestNewActive>();
+
         allChilds = new Transform[this.transform.childCount];
         for (int i = 0; i < allChilds.Length; i++)
         {
@@ -24,7 +28,11 @@ public class TstNewActiveSecondPart : SpawnWaves
     void Update()
     {
         timer += Time.deltaTime;
-        if (timer >= countToKMS) Destroy(gameObject);
+        if (timer >= countToKMS)
+        {
+            Destroy(gameObject);
+            activeParent.maxOrbs++;
+        }
     }
 
 
@@ -32,14 +40,17 @@ public class TstNewActiveSecondPart : SpawnWaves
     {
 
 
-        if (other.gameObject.tag == "EditorOnly")
+        if (other.gameObject.tag == "EditorOnly" && other.gameObject.GetComponent<Waves>().canHitOrb == true )
         {
             Destroy(other.gameObject);
 
             for (int i = 0; i < allChilds.Length; i++)
             {
-                Spawn(allChilds[i].transform.position, allChilds[i].transform.forward);
+                Spawn(allChilds[i].transform.position, allChilds[i].transform.forward, false);
+                
             }
+            activeParent.maxOrbs++;
+
             Destroy(gameObject);
         }
     }
