@@ -128,7 +128,6 @@ public class TotemSpawnerState<T> : EnemiesSaveStates<T> where T : EnemyBase
     protected Vector3 spawnPos;
     protected float radiousSpawn;
     protected int maxSpawn;
-    protected int currentSpawn;
     protected int waveAmmount;
     protected PlayObject prefab;
     protected Vector3 triggerPos;
@@ -143,7 +142,6 @@ public class TotemSpawnerState<T> : EnemiesSaveStates<T> where T : EnemyBase
         spawnPos = temp.spot.spawnSpot.position;
         radiousSpawn = temp.spot.radious;
         maxSpawn = temp.maxSpawn;
-        currentSpawn = temp.currentSpawn;
         waveAmmount = temp.waveAmount;
         prefab = temp.prefab;
         var aux = temp.GetComponentInChildren<BoxCollider>();
@@ -161,7 +159,6 @@ public class TotemSpawnerState<T> : EnemiesSaveStates<T> where T : EnemyBase
         temp.spot.spawnSpot.position = spawnPos;
         temp.spot.radious = radiousSpawn;
         temp.maxSpawn = maxSpawn;
-        temp.currentSpawn = currentSpawn;
         temp.waveAmount = waveAmmount;
         temp.ChangePool(prefab);
         var aux = temp.GetComponentInChildren<BoxCollider>();

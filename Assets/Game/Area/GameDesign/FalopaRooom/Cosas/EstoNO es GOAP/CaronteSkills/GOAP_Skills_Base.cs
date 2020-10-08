@@ -57,6 +57,10 @@ public abstract class GOAP_Skills_Base : MonoBehaviour
         }
     }
 
+    public bool IsUsable() { if (isAvaliable && InternalCondition()) return true; else return false; }
+
+    protected virtual bool InternalCondition() => true;
+
     /////////////////////////////////////////////////////////////
     /// ABSTRACTS QUE SE IMPLEMENTAN EN LOS CHILDS
     /////////////////////////////////////////////////////////////

@@ -10,7 +10,7 @@ public abstract class PlayObject : MonoBehaviour, IPauseable
 
     public string poolname;
     bool isOn;
-    public CustomSpawner Spawner { private get; set; }
+    public ISpawner Spawner { private get; set; }
     public ObjectPool_PlayObject Pool { get; set; }
 
     bool alreadyInitialized = false;
@@ -34,7 +34,7 @@ public abstract class PlayObject : MonoBehaviour, IPauseable
     protected abstract void OnResume();
     public virtual void ReturnToSpawner()
     {
-        if (Spawner) Spawner.ReturnObject(this);
+        if (Spawner != null) Spawner.ReturnObject(this);
         else if (Pool) Pool.ReturnPlayObject(this);
         else
         {

@@ -5,7 +5,7 @@ using UnityEngine;
 using UnityEngine.Events;
 using Random = UnityEngine.Random;
 
-public class CustomSpawner : MonoBehaviour
+public class CustomSpawner : MonoBehaviour, ISpawner
 {
     private ObjectPool_PlayObject _poolPlayObject;
     private float _waveCount;
@@ -31,7 +31,7 @@ public class CustomSpawner : MonoBehaviour
     [Header("***--Time Settings--***")]
     [SerializeField] private float totalTime = 15;
 
-
+    List<PlayObject> mySpawns = new List<PlayObject>();
     private enum SpawnMode{Time, Waves}
 
     private void Start()
@@ -43,7 +43,6 @@ public class CustomSpawner : MonoBehaviour
     //Se activa el spawner
     public void ActivateSpawner(){ canupdate = true; }
     public void StopSpawner() { canupdate = false; ; }
-    public void DestroySpawner() { Destroy(gameObject); }
 
     //Una state machine XD
     void Update()
@@ -124,14 +123,17 @@ public class CustomSpawner : MonoBehaviour
         _totalCount = 0;
         _amountSpawned = 0;
         currentSpawn = 0;
+        for (int i = 0; i < mySpawns.Count; i++)
+            mySpawns[i].Spawner = null;
+        mySpawns.Clear();
     }
 
     public void ToggleInfiniteSpawner(){ infiniteSpawner = !infiniteSpawner; }
 
     public void ReturnObject(PlayObject newobject)
     {
+        mySpawns.Remove(newobject);
         newobject.Spawner = null;
-        newobject.Pool = null;
         newobject.Off();
 
         _poolPlayObject.ReturnToPool(newobject);
@@ -144,7 +146,7 @@ public class CustomSpawner : MonoBehaviour
         _poolPlayObject = PoolManager.instance.GetObjectPool(prefab.name, prefab);
     }
 
-    public void SpawnPrefab(Vector3 pos, string sceneName = null) { spot.SpawnPrefab(pos, prefab, sceneName, this); currentSpawn += 1; }
+    public void SpawnPrefab(Vector3 pos, string sceneName = null) { mySpawns.Add(spot.SpawnPrefab(pos, prefab, sceneName, this)); currentSpawn += 1; }
 
     private void OnDrawGizmos()
     {       
