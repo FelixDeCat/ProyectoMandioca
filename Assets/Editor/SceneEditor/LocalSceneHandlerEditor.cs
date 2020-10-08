@@ -69,7 +69,7 @@ public class LocalSceneHandlerEditor : Editor
                 Scene currentScene = _handler.gameObject.scene;
                 //Landmark
                 path = AssetDatabase.GetAssetPath(_handler.SceneData.landmark);
-                _landmark = PrefabUtility.InstantiatePrefab(_handler.SceneData.hight_detail, currentScene) as GameObject;
+                _landmark = PrefabUtility.InstantiatePrefab(_handler.SceneData.landmark, currentScene) as GameObject;
                 PrefabUtility.UnpackPrefabInstance(_landmark, PrefabUnpackMode.OutermostRoot, InteractionMode.AutomatedAction);
 
                 //Gameplay
