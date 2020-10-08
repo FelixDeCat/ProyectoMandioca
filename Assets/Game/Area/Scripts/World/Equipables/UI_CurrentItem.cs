@@ -21,7 +21,6 @@ public class UI_CurrentItem : UI_Base
     Vector3 originalScale;
     Vector3 scaledScale;
 
-
     public void SetItem(string _cant, Sprite _img, bool showNumber = true)
     {
         if (txt_cant)

@@ -11,8 +11,6 @@ public class OutlineFeedback : FeedbackInteractBase
     [SerializeField] Material[] myMat = new Material[1];
     [SerializeField] float mainOpacityOn = 0.3f;
     [SerializeField] float borderOpacityOn = 1;
-
-    const string mainOpacity = "_MainOpacity";
     const string borderOpacity = "_OpacityOutline";
 
     public string shader_name;
@@ -20,8 +18,7 @@ public class OutlineFeedback : FeedbackInteractBase
     private void Start()
     {
         myMat = parentWithMaterials.GetComponentsInChildren<Renderer>()
-            .Where(x =>  x.materials.Length > 1)
-            .Select(x => x.materials[1])
+            .Select(x => x.material)
             .ToArray();
     }
 
@@ -31,7 +28,6 @@ public class OutlineFeedback : FeedbackInteractBase
         {
             if (myMat[i].shader.name == shader_name)
             {
-                myMat[i].SetFloat(mainOpacity, mainOpacityOn);
                 myMat[i].SetFloat(borderOpacity, borderOpacityOn);
             }
         }
@@ -43,7 +39,6 @@ public class OutlineFeedback : FeedbackInteractBase
         {
             if (myMat[i].shader.name == shader_name)
             {
-                myMat[i].SetFloat(mainOpacity, 0);
                 myMat[i].SetFloat(borderOpacity, 0);
             }
         }
