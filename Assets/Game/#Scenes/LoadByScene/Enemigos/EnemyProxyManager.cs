@@ -17,7 +17,6 @@ public class EnemyProxyManager : LoadComponent
         if (!AlreadyProcessed && Application.isPlaying)
         {
             AlreadyProcessed = true;
-            Debug.Log("Enter by Start");
             StartCoroutine(Process());
         }
     }
@@ -37,7 +36,6 @@ public class EnemyProxyManager : LoadComponent
     {
         if (!AlreadyProcessed)
         {
-            Debug.Log("Enter by External Loader");
             yield return Process();
         }
         else yield return null;

@@ -18,7 +18,7 @@ public class NewSceneStreamer : MonoBehaviour
     public string firstScene;
 
     Dictionary<string, LocalSceneHandler> localref = new Dictionary<string, LocalSceneHandler>();
-    Dictionary<string, SceneData.Detail_Parameter> hotScenesParameters = new Dictionary<string, SceneData.Detail_Parameter>();
+    //Dictionary<string, SceneData.Detail_Parameter> hotScenesParameters = new Dictionary<string, SceneData.Detail_Parameter>();
     Dictionary<string, Scene> scenes = new Dictionary<string, Scene>();
     public Scene GetSceneByName(string sceneName) { return scenes[sceneName]; }
 
@@ -32,10 +32,10 @@ public class NewSceneStreamer : MonoBehaviour
     private void Start()
     {
         SceneManager.sceneLoaded += OnSceneLoaded;
-        SceneManager.sceneUnloaded += OnSceneUnLoaded;
+       // SceneManager.sceneUnloaded += OnSceneUnLoaded;
         Checkpoint_Manager.instance.StopGame();
         //GCHandle.DisableGC();
-        LoadScene(firstScene, true, true, EndLoad, true);
+        LoadScene(firstScene, false, true, EndLoad, false);
     }
     public void EndLoad()
     {
@@ -54,10 +54,21 @@ public class NewSceneStreamer : MonoBehaviour
     IEnumerator LoadCurrentScene(string sceneName, bool LoadScreen = false, bool LoadNeighbor = false, bool waitToLoad = false)
     {
         currentScene = sceneName;
-        if (!IsLoaded(currentScene)) yield return LoadAsyncAdditive(sceneName, LoadScreen, LoadNeighbor, true);
+        //lo de siempre
+        //if (!IsLoaded(currentScene)) yield return LoadAsyncAdditive(sceneName, LoadScreen, LoadNeighbor, true);
+
+        if (!IsLoaded(currentScene)) 
+        { 
+            StartCoroutine(LoadAsyncAdditive(sceneName, LoadScreen, LoadNeighbor, true)); 
+        }
 
         float failsafeTime = Time.realtimeSinceStartup + maxLoadWaitTime;
         while ((loading.Count > 0) && (Time.realtimeSinceStartup < failsafeTime)) { yield return null; }
+
+        while (!localref.ContainsKey(currentScene))
+        {
+            yield return null;
+        }
 
         TryToExecuteParameter(sceneName, SceneData.Detail_Parameter.full_load);
 
@@ -74,8 +85,8 @@ public class NewSceneStreamer : MonoBehaviour
             
         }
 
-        failsafeTime = Time.realtimeSinceStartup + maxLoadWaitTime;
-        while ((loading.Count > 0) && (Time.realtimeSinceStartup < failsafeTime)) { yield return null; }
+        //failsafeTime = Time.realtimeSinceStartup + maxLoadWaitTime;
+        //while ((loading.Count > 0) && (Time.realtimeSinceStartup < failsafeTime)) { yield return null; }
 
         LocalToEnemyManager.OnLoadScene(sceneName);
 
@@ -86,7 +97,7 @@ public class NewSceneStreamer : MonoBehaviour
         }
         else
         {
-            Debug.LogWarning("El OnEnd es null");
+           // Debug.LogWarning("El OnEnd es null");
         }
 
         yield return null;
@@ -94,29 +105,33 @@ public class NewSceneStreamer : MonoBehaviour
 
     void TryToExecuteParameter(string sceneName, SceneData.Detail_Parameter parameter)
     {
-        if (localref.ContainsKey(sceneName))
-        {
-            StartCoroutine( localref[sceneName].ExecuteLoadParameter(parameter));
-            if (hotScenesParameters.ContainsKey(sceneName)) hotScenesParameters.Remove(sceneName);
-        }
-        else
-        {
-            if (!hotScenesParameters.ContainsKey(sceneName))
-            {
-                hotScenesParameters.Add(sceneName, parameter);
-            }
-            else
-            {
-                hotScenesParameters[sceneName] = parameter;
-            }
-        }
+        StartCoroutine(localref[sceneName].ExecuteLoadParameter(parameter));
+
+
+        //if (localref.ContainsKey(sceneName))
+        //{
+            
+        //    //if (hotScenesParameters.ContainsKey(sceneName)) hotScenesParameters.Remove(sceneName);
+        //}
+        //else
+        //{
+        //    Debug.Log("No tengo la key");
+        //    if (!hotScenesParameters.ContainsKey(sceneName))
+        //    {
+        //        hotScenesParameters.Add(sceneName, parameter);
+        //    }
+        //    else
+        //    {
+        //        hotScenesParameters[sceneName] = parameter;
+        //    }
+        //}
     }
-    void ExecuteParameterByScene(string sceneName)
-    {
-        if (!localref.ContainsKey(sceneName) || !hotScenesParameters.ContainsKey(sceneName)) return;
-        StartCoroutine(localref[sceneName].ExecuteLoadParameter(hotScenesParameters[sceneName]));
-        hotScenesParameters.Remove(sceneName);
-    }
+    //void ExecuteParameterByScene(string sceneName)
+    //{
+    //    if (!localref.ContainsKey(sceneName) || !hotScenesParameters.ContainsKey(sceneName)) return;
+    //    StartCoroutine(localref[sceneName].ExecuteLoadParameter(hotScenesParameters[sceneName]));
+    //    hotScenesParameters.Remove(sceneName);
+    //}
     
 
     IEnumerator LoadNeighbors(string currentScene, SceneData data)
@@ -183,10 +198,10 @@ public class NewSceneStreamer : MonoBehaviour
             
             AsyncOperation asyncOperation = SceneManager.LoadSceneAsync(sceneName, LoadSceneMode.Additive);
             
-            while (asyncOperation.progress < 0.9f)
-            {
-                yield return null;
-            }
+            //while (asyncOperation.progress < 0.9f)
+            //{
+            //    yield return null;
+            //}
             while (!asyncOperation.isDone)
             {
                 yield return null;
@@ -194,7 +209,7 @@ public class NewSceneStreamer : MonoBehaviour
             //Fades_Screens.instance.FadeOff(() => { });
 
             
-            yield return asyncOperation;
+            //yield return asyncOperation;
         }
 
         yield return null;
@@ -209,10 +224,7 @@ public class NewSceneStreamer : MonoBehaviour
         }
         else
         {
-            if (localref[sceneName] == null)
-            {
-                localref[sceneName] = sceneLocalScript;
-            }
+            localref[sceneName] = sceneLocalScript;
         }
     }
     public void UnregisterLocalScene(string sceneName)
@@ -227,10 +239,14 @@ public class NewSceneStreamer : MonoBehaviour
     GameObject current;
     void OnSceneLoaded(Scene scene, LoadSceneMode sceneMode)
     {
-        loading.Remove(scene.name);
-        loaded.Add(scene.name);
+        StartCoroutine(SceneLoaded(scene));
+    }
 
-        if(!scenes.ContainsKey(scene.name)) scenes.Add(scene.name, scene);
+    IEnumerator SceneLoaded(Scene scene)
+    {
+        loading.Remove(scene.name); 
+
+        if (!scenes.ContainsKey(scene.name)) scenes.Add(scene.name, scene);
 
         current = null;
         var aux = scene.GetRootGameObjects();
@@ -239,6 +255,7 @@ public class NewSceneStreamer : MonoBehaviour
             if (aux[i].name == scene.name)
             {
                 current = aux[i];
+                yield return null;
             }
         }
 
@@ -256,11 +273,14 @@ public class NewSceneStreamer : MonoBehaviour
                 throw new System.Exception("recibí una escena sin LocalSceneHandler");
             }
         }
-        ExecuteParameterByScene(scene.name);
+        //ExecuteParameterByScene(scene.name);
+
+        loaded.Add(scene.name);
     }
+
     void OnSceneUnLoaded(Scene scene)
     {
-        UnregisterLocalScene(scene.name);
+       // UnregisterLocalScene(scene.name);
     }
     #endregion
 

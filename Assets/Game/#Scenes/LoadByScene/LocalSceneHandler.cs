@@ -110,14 +110,42 @@ public class LocalSceneHandler : LoadComponent
             }
             else
             {
-                yield return new WaitForSecondsRealtime(0.6f);
-                yield return Inst(preftype);
-                yield return null;
-                if (preftype == PrefabType.gameplay) go = gameplay;
-                if (preftype == PrefabType.high) go = hight_detail;
-                if (preftype == PrefabType.med) go = medium_detail;
-                if (preftype == PrefabType.low) go = low_detail;
-                if (preftype == PrefabType.landmark) go = landmark;
+                if (preftype == PrefabType.gameplay)
+                {
+                    StartCoroutine(Inst(preftype));
+                    while (gameplay == null) yield return null;
+                    go = gameplay;
+                }
+                if (preftype == PrefabType.landmark)
+                {
+                    StartCoroutine(Inst(preftype));
+                    while (landmark == null) yield return null;
+                    go = landmark;
+                }
+                if (preftype == PrefabType.low)
+                {
+                    StartCoroutine(Inst(preftype));
+                    while (low_detail == null) yield return null;
+                    go = low_detail;
+                }
+                if (preftype == PrefabType.med)
+                {
+                    StartCoroutine(Inst(preftype));
+                    while (medium_detail == null) yield return null;
+                    go = medium_detail;
+                }
+                if (preftype == PrefabType.high)
+                {
+                    StartCoroutine(Inst(preftype));
+                    while (hight_detail == null) yield return null;
+                    go = hight_detail;
+                }
+
+                //if (preftype == PrefabType.gameplay) go = gameplay;
+                //if (preftype == PrefabType.high) go = hight_detail;
+                //if (preftype == PrefabType.med) go = medium_detail;
+                //if (preftype == PrefabType.low) go = low_detail;
+                //if (preftype == PrefabType.landmark) go = landmark;
                 if (go != null)
                 {
                     var aux = go.GetComponent<AsyncLoaderHandler>();
@@ -146,36 +174,36 @@ public class LocalSceneHandler : LoadComponent
         switch (prefType)
         {
             case PrefabType.gameplay:
-                if (SceneData.gameplay) gameplay = Instantiate(SceneData.gameplay);
-                else yield break;
+                gameplay = null;
+                gameplay = Instantiate(SceneData.gameplay);
                 SceneManager.MoveGameObjectToScene(gameplay, NewSceneStreamer.instance.GetSceneByName(myName));
                 gameplay.transform.SetParent(this.transform);
                 yield return null;
                 break;
             case PrefabType.landmark:
-                if (SceneData.landmark) landmark = Instantiate(SceneData.landmark);
-                else yield break;
+                landmark = null;
+                landmark = Instantiate(SceneData.landmark);
                 SceneManager.MoveGameObjectToScene(landmark, NewSceneStreamer.instance.GetSceneByName(myName));
                 landmark.transform.SetParent(this.transform);
                 yield return null;
                 break;
             case PrefabType.low:
-                if (SceneData.low_detail) low_detail = Instantiate(SceneData.low_detail);
-                else yield break;
+                low_detail = null;
+                low_detail = Instantiate(SceneData.low_detail);
                 SceneManager.MoveGameObjectToScene(low_detail, NewSceneStreamer.instance.GetSceneByName(myName));
                 low_detail.transform.SetParent(this.transform);
                 yield return null;
                 break;
             case PrefabType.med:
-                if (SceneData.medium_detail) medium_detail = Instantiate(SceneData.medium_detail);
-                else yield break;
+                medium_detail = null;
+                 medium_detail = Instantiate(SceneData.medium_detail);
                 SceneManager.MoveGameObjectToScene(medium_detail, NewSceneStreamer.instance.GetSceneByName(myName));
                 medium_detail.transform.SetParent(this.transform);
                 yield return null;
                 break;
             case PrefabType.high:
-                if (SceneData.hight_detail) hight_detail = Instantiate(SceneData.hight_detail);
-                else yield break;
+                hight_detail = null;
+                hight_detail = Instantiate(SceneData.hight_detail);
                 SceneManager.MoveGameObjectToScene(hight_detail, NewSceneStreamer.instance.GetSceneByName(myName));
                 hight_detail.transform.SetParent(this.transform);
                 yield return null;
