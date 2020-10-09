@@ -35,7 +35,7 @@ public class NewSceneStreamer : MonoBehaviour
        // SceneManager.sceneUnloaded += OnSceneUnLoaded;
         Checkpoint_Manager.instance.StopGame();
         //GCHandle.DisableGC();
-        LoadScene(firstScene, false, true, EndLoad, false);
+        LoadScene(firstScene, true, true, EndLoad, false);
     }
     public void EndLoad()
     {
@@ -54,8 +54,6 @@ public class NewSceneStreamer : MonoBehaviour
     IEnumerator LoadCurrentScene(string sceneName, bool LoadScreen = false, bool LoadNeighbor = false, bool waitToLoad = false)
     {
         currentScene = sceneName;
-        //lo de siempre
-        //if (!IsLoaded(currentScene)) yield return LoadAsyncAdditive(sceneName, LoadScreen, LoadNeighbor, true);
 
         if (!IsLoaded(currentScene)) 
         { 
@@ -186,11 +184,11 @@ public class NewSceneStreamer : MonoBehaviour
 
     IEnumerator LoadAsyncAdditive(string sceneName, bool LoadScreen = false, bool LoadNeighbor = false, bool exe = true)
     {
-        if (LoadScreen)
-        {
-            Fades_Screens.instance.Black();
-            //LoadSceneHandler.instance.On_LoadScreen();
-        }
+        //if (LoadScreen)
+        //{
+        //    Fades_Screens.instance.Black();
+        //    //LoadSceneHandler.instance.On_LoadScreen();
+        //}
 
         if (!IsLoading(sceneName) && !IsLoaded(sceneName))
         {

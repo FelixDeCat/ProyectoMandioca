@@ -52,6 +52,7 @@ public class TriggerDispatcher : MonoBehaviour
 
     public bool CheckCollision(Collider other)
     {
+        if (other == null) return false;
         switch (entitiesThatCanTrigger)
         {
             case Entities.all:
