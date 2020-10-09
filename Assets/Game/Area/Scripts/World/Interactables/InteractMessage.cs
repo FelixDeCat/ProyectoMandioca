@@ -6,7 +6,7 @@ public class InteractMessage : Interactable
 {
 
     //para mensajes muy simples
-
+    [Multiline(5)]
     public string message = "simple message";
 
     public override void OnExecute(WalkingEntity collector)
@@ -19,13 +19,12 @@ public class InteractMessage : Interactable
 
     public override void OnExit()
     {
-        if (feedback.Length > 0) foreach (var i in feedback) i.Hide();
+        WorldItemInfo.instance.Hide();
     }
 
     public override void OnEnter(WalkingEntity entity)
     {
-        WorldItemInfo.instance.Show(pointToMessage.position, "Interactuable", "Esto es un interactuable", "interactuar");
-        if (feedback.Length > 0) foreach (var i in feedback) i.Show();
+        WorldItemInfo.instance.Show(pointToMessage ? pointToMessage.position : this.transform.position, "Interactuable", message, "interactuar");
     }
 
     public override void OnInterrupt()

@@ -75,7 +75,7 @@ public class InteractCollect : Interactable
                     item.description, 
                     "agarrar", 
                     false, 
-                    false);
+                    true);
             }
         }
         else
