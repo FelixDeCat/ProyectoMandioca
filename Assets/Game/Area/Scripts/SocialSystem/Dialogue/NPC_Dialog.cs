@@ -13,6 +13,7 @@ public class NPC_Dialog : MonoBehaviour
     bool oneshot = false;
 
     public bool stopAllOnDialogue = true;
+    public bool showButtons = false;
 
     private void Awake()
     {
@@ -26,14 +27,14 @@ public class NPC_Dialog : MonoBehaviour
         {
             if (!oneshot)
             {
-                if (currentDialoge) DialogueManager.instance.StartDialogue(currentDialoge, stopAllOnDialogue);
+                if (currentDialoge) DialogueManager.instance.StartDialogue(currentDialoge, stopAllOnDialogue, showButtons);
                 WorldItemInfo.instance.Hide();
             }
             oneshot = true;
         }
         else
         {
-            if (currentDialoge) DialogueManager.instance.StartDialogue(currentDialoge, stopAllOnDialogue);
+            if (currentDialoge) DialogueManager.instance.StartDialogue(currentDialoge, stopAllOnDialogue, showButtons);
             WorldItemInfo.instance.Hide();
         }
     }

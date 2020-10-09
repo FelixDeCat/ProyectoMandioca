@@ -18,7 +18,7 @@ public class TextAnimCharXChar : MonoBehaviour
     //bool anim = false;
     //float timer;
 
-    public void BeginAnim(string _txt, Action _OnEnd, float _timeSpacing = 0.04f)
+    public void BeginAnim(string _txt, Action _OnEnd, float _timeSpacing = 0.01f)
     {
         txtmesh.text = "";
         completeText = new char[0];

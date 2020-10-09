@@ -21,6 +21,7 @@ public class DialogueManager : MonoBehaviour
     public float cooldownSpamforcedialog = 0.3f;
 
     bool can_not_move = false;
+    bool showButtons;
 
     JoystickBasicInput joystick;
 
@@ -36,8 +37,9 @@ public class DialogueManager : MonoBehaviour
         joystick.Refresh();
     }
 
-    public void StartDialogue(DialogueTree treedialog, bool _can_not_move = true)
+    public void StartDialogue(DialogueTree treedialog, bool _can_not_move = true, bool _showButtons = true)
     {
+        showButtons = _showButtons;
         anim.Open(true);
         frontend.Open();
         if(_can_not_move) Main.instance.GetChar().InputGoToMenues(true);
@@ -235,12 +237,12 @@ public class DialogueManager : MonoBehaviour
             }
             else
             {
-                frontend.TurnOn_ButtonExit(true);
+                if(showButtons) frontend.TurnOn_ButtonExit(true);
             }
         }
         else
         {
-            frontend.TurnOn_ButtonNext(true);
+            if(showButtons) frontend.TurnOn_ButtonNext(true);
         }
     }
 
