@@ -9,6 +9,10 @@ public class LocalManagerGlobalFases : LoadComponent
 
     public LocalGlobalFase[] localfases = new LocalGlobalFase[0];
 
+    private void Start()
+    {
+        StartCoroutine(Load());
+    }
 
     protected override IEnumerator LoadMe()
     {

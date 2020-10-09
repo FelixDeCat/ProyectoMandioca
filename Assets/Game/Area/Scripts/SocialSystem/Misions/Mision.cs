@@ -126,6 +126,14 @@ namespace Misions.Core
             return aux;
         }
         internal void SetItemsMision(ItemMision[] items) => mision_item = items;
+        internal void ModifyItemMision(int index, int cant = 1, string _name = "default")
+        {
+            if (index < mision_item.Length)
+            {
+                mision_item[index].SetCurrentValue(cant);
+                mision_item[index].SetName(_name);
+            }
+        }
         internal void ActivateMision() => isactive = true;
         internal void DeactivateMision() => isactive = false;
         internal void SetCompletedMision() => completed = true;

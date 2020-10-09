@@ -4,7 +4,7 @@ public abstract class TriggerReceiver : MonoBehaviour
     [SerializeField] protected bool has_one_Shot = false;
     bool oneshot;
 
-    public void Execute(params object[] parameters)
+    public void Execute(Collider coll)
     {
         //Debug.Log("ENTRO AL EXECUTE");
 
@@ -13,14 +13,14 @@ public abstract class TriggerReceiver : MonoBehaviour
             if (!oneshot)
             {
                 oneshot = true;
-                OnExecute(parameters);
+                OnExecute(coll);
             }
         }
         else
         {
-            OnExecute(parameters);
+            OnExecute(coll);
         }
     }
 
-    protected abstract void OnExecute(params object[] parameters);
+    protected abstract void OnExecute(Collider coll);
 }

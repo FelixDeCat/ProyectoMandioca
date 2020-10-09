@@ -4,10 +4,9 @@ using UnityEngine;
 
 public class EnemyReceiver : TriggerReceiver
 {
-    protected override void OnExecute(params object[] parameters)
+    protected override void OnExecute(Collider col)
     {
         var nameparent = transform.parent.gameObject.name;
-        var col = (Collider)parameters[0];
 
         var enemy = col.gameObject.GetComponent<EnemyBase>();
 

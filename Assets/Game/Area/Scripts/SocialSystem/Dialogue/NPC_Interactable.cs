@@ -8,11 +8,12 @@ public class NPC_Interactable : Interactable
     public UnityEvent UE_OnExecute;
     public string nombre_NPC;
     public bool mostrarFeedback = true;
+    public bool custom_cartelito = false;
 
     public override void OnEnter(WalkingEntity entity)
     {
         if(mostrarFeedback)
-        WorldItemInfo.instance.Show(pointToMessage.position, nombre_NPC, "", "hablar", false, false);
+        if(!custom_cartelito) WorldItemInfo.instance.Show(pointToMessage.position, nombre_NPC, "", "hablar", false, false);
     }
 
     public override void OnExecute(WalkingEntity collector)
@@ -22,11 +23,11 @@ public class NPC_Interactable : Interactable
 
     public override void OnInterrupt()
     {
-        throw new System.NotImplementedException();
+        
     }
 
     public override void OnExit()
     {
-        WorldItemInfo.instance.Hide();
+        if (!custom_cartelito) WorldItemInfo.instance.Hide();
     }
 }

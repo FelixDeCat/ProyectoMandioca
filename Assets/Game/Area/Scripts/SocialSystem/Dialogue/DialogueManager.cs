@@ -20,6 +20,8 @@ public class DialogueManager : MonoBehaviour
 
     public float cooldownSpamforcedialog = 0.3f;
 
+    bool can_not_move = false;
+
     JoystickBasicInput joystick;
 
     private void Awake()
@@ -34,18 +36,19 @@ public class DialogueManager : MonoBehaviour
         joystick.Refresh();
     }
 
-    public void StartDialogue(DialogueTree treedialog)
+    public void StartDialogue(DialogueTree treedialog, bool _can_not_move = true)
     {
         anim.Open(true);
         frontend.Open();
-        Main.instance.GetChar().InputGoToMenues(true);
+        if(_can_not_move) Main.instance.GetChar().InputGoToMenues(true);
         tree = treedialog;
-
         ShowInScreen();
-
-        //bloquear el movimiento al character
     }
-
+    public void Close(bool _can_not_move = true)
+    {
+        can_not_move = _can_not_move;
+        OnClose();
+    }
     public void OnClose()
     {
         tree = null;
@@ -53,7 +56,7 @@ public class DialogueManager : MonoBehaviour
         currentNode = 0;
         anim.Open(true);
         frontend.Close();
-        Invoke("SendInputCharCanMove",0.01f);
+        if(can_not_move) Invoke("SendInputCharCanMove",0.01f);
     }
     void SendInputCharCanMove()
     {

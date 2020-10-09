@@ -25,6 +25,7 @@ public class ItemMision
     internal bool Store_This_Item { get { return store_this_item; } }
 
     public void SetCurrentValue(int val) => currentvalue = (byte)val;
+    public void SetName(string _name) => name = _name;
 
     public override string ToString()
     {

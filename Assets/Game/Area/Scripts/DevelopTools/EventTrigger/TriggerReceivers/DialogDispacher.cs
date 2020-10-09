@@ -11,7 +11,7 @@ public class DialogDispacher : TriggerReceiver
         has_one_Shot = true;
     }
 
-    protected override void OnExecute(params object[] parameters)
+    protected override void OnExecute(Collider col)
     {
         FastMessage.instance.Print("Esta es tu primer habilidad pasiva, esta estará activada todo el tiempo", 5f, photoExample);
     }
