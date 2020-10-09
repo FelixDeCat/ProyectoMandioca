@@ -5,7 +5,7 @@ public class ExecuteObjetive : MonoBehaviour
 {
     public enum ObjetiveType { DeathEntity, Generic }
     public ObjetiveType type;
-    Action execute;
+    Action execute = delegate { };
 
     ////////////////////////////////////////////////////////
     /// GLOBAL SUBSCRIPTION

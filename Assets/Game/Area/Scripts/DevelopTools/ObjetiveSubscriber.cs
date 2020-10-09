@@ -30,6 +30,8 @@ public class ObjetiveSubscriber : MonoBehaviour
 
     void CatchedObjetives(Collider[] colls)
     {
+
+        Debug.Log("Catch: " + colls.Length + " colls" );
         objetive_cant = colls.Length;
 
         // Logica de Overrideo de Misiones
@@ -42,6 +44,8 @@ public class ObjetiveSubscriber : MonoBehaviour
             //recorro todos los colls
             for (int i = 0; i < colls.Length; i++)
             {
+                Debug.Log("Col catched: > " + colls[i].gameObject.name);
+
                 //obtengo los execute item mision
                 var exes_item_mision = colls[i].gameObject.GetComponentsInChildren<ExecuteItemMision>();
                 bool hasAExecute = false;
