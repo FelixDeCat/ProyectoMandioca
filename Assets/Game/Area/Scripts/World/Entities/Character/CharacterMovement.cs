@@ -163,7 +163,6 @@ public class CharacterMovement
 
                 currentVelY -= Time.deltaTime * 0.3f;
               
-                Debug.Log(currentVelY);
                 if ( currentVelY <= 0.1)
                 {
                     anim.Move(0, 0);

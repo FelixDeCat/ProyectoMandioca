@@ -26,21 +26,21 @@ public class NPC_Dialog : MonoBehaviour
         {
             if (!oneshot)
             {
-                if (currentDialoge) DialogueManager.instance.StartDialogue(currentDialoge, !stopAllOnDialogue);
+                if (currentDialoge) DialogueManager.instance.StartDialogue(currentDialoge, stopAllOnDialogue);
                 WorldItemInfo.instance.Hide();
             }
             oneshot = true;
         }
         else
         {
-            if (currentDialoge) DialogueManager.instance.StartDialogue(currentDialoge, !stopAllOnDialogue);
+            if (currentDialoge) DialogueManager.instance.StartDialogue(currentDialoge, stopAllOnDialogue);
             WorldItemInfo.instance.Hide();
         }
     }
 
     public void StopDialogue()
     {
-        DialogueManager.instance.Close(!stopAllOnDialogue);
+        DialogueManager.instance.Close(stopAllOnDialogue);
     }
 
     public void GoToFase(int newfase)
