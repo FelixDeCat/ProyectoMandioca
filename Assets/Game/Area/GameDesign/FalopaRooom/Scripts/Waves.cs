@@ -5,11 +5,10 @@ using UnityEngine;
 public class Waves : MonoBehaviour
 {
     protected float _speed;
-    float _lifeTime;
+    protected float _lifeTime;
     [SerializeField] protected GameObject spawner = null;
-    [SerializeField] bool canDamageEnemy = false;
-    public bool canHitOrb = true;
-
+    [SerializeField] protected bool canDamageEnemy = false;
+    public bool canHitOrb = false;
     protected DamageData dmgDATA;
     [SerializeField] int damage = 5;
 
@@ -26,7 +25,7 @@ public class Waves : MonoBehaviour
         transform.position += transform.forward * _speed * Time.deltaTime;
     }
 
-    private void Update()
+    protected virtual void Update()
     {
         _lifeTime -= Time.deltaTime;
         if (_lifeTime <= 0)
@@ -45,7 +44,7 @@ public class Waves : MonoBehaviour
         return this;
     }
 
-    public Waves SetSpawner(GameObject spawner)
+    public Waves SetSpawner(GameObject spawner) 
     {
         this.spawner = spawner;
         return this;

@@ -6,12 +6,14 @@ using Tools.Extensions;
 public class ElectricSword : MonoBehaviour
 {
     [Header ("Fast")]
-    [SerializeField] Waves _wave = null;
+    [SerializeField] Waves electricBullet = null;
     [SerializeField] int speed = 5;
     [SerializeField] float lifeTime = 2;
 
     [Header("Orb")]
-    [SerializeField] GameObject electricOrb;
+    [SerializeField] ElectricOrb electricOrb;
+    [SerializeField] int orbSpeed = 5;
+    [SerializeField] float orbLifeTime = 2;
 
     CharacterHead myChar;
 
@@ -49,19 +51,18 @@ public class ElectricSword : MonoBehaviour
 
     void ExecuteShort()
     {
-        Debug.Log("ExecuteShort");
-        var wave = Instantiate(_wave);
-        wave.transform.position = myChar.transform.position;
+        var wave = Instantiate(electricBullet);
+        wave.transform.position = myChar.transform.position + Vector3.up; ;
         wave.transform.forward = myChar.GetCharMove().GetRotatorDirection();
         wave = wave.SetSpeed(speed).SetLifeTime(lifeTime);
     }
 
     void ExecuteLong()
     {
-        Debug.Log("ExecuteLong");
-        var orb = Instantiate(electricOrb);
-        orb.transform.position = myChar.transform.position;
-        orb.transform.forward = myChar.transform.forward;
+        ElectricOrb orb = Instantiate(electricOrb);
+        orb.transform.position = myChar.transform.position + Vector3.up;
+        orb.transform.forward = myChar.GetCharMove().GetRotatorDirection();
+        orb.SetSpeed(orbSpeed).SetLifeTime(orbLifeTime);
     }
 
     public void OnEnd()

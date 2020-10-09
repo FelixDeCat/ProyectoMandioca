@@ -38,8 +38,6 @@ public class TstNewActiveSecondPart : SpawnWaves
 
     private void OnTriggerEnter(Collider other)
     {
-
-
         if (other.gameObject.tag == "EditorOnly" && other.gameObject.GetComponent<Waves>().canHitOrb == true )
         {
             Destroy(other.gameObject);
