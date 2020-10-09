@@ -26,6 +26,10 @@ public class MainTutorial : MonoBehaviour
     {
         ChangeFase(FASE_ACTIVO_DOCTOR);
         farm_armored_ent_Objetive.BeginObjetive(Armored_Ent_Killed);
+    }
+
+    public void BeginPlantsMision()
+    {
         MisionManager.instancia.AddMision(MisionsDataBase.instance.GetMision(Plants_Recollection_ID), All_Curative_Plants_Recollected);
     }
 
