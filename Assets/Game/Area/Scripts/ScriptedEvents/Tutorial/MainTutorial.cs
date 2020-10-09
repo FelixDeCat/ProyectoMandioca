@@ -35,11 +35,13 @@ public class MainTutorial : MonoBehaviour
 
     void All_Curative_Plants_Recollected(int ID)
     {
+        Debug.Log("Plantas recolectadas");
         doc_req_plants_mision_ended = true;
         DoctorRequirements();
     }
     void Armored_Ent_Killed()
     {
+        Debug.Log("Ent con armadura matado");
         doc_req_armored_ent_killed = true;
         DoctorRequirements();
     }
