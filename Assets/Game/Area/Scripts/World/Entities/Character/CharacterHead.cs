@@ -576,7 +576,7 @@ public class CharacterHead : CharacterControllable
             inTrap = value;
             if (value == true && !attacking)
                 UpWeaponsFunction();
-            else if (value == false && !attacking && !combat)
+            else if (value == false && !attacking)
                 StartCoroutine(DownWeaponsCoroutine());
         }
         get => inTrap;
@@ -590,7 +590,7 @@ public class CharacterHead : CharacterControllable
             attacking = value;
             if (value == true && !inTrap)
                 UpWeaponsFunction();
-            else if (value == false && !inTrap && !combat)
+            else if (value == false && !inTrap)
                 StartCoroutine(DownWeaponsCoroutine());
         }
         get => attacking;
@@ -604,7 +604,7 @@ public class CharacterHead : CharacterControllable
         bool isOver = false;
         while (!isOver)
         {
-            if (attacking || inTrap || combat) yield break;
+            if (attacking || inTrap || !UpWeapons) yield break;
 
             timer += Time.deltaTime;
 
@@ -631,6 +631,26 @@ public class CharacterHead : CharacterControllable
 
         UpWeaponsAction?.Invoke();
     }
+
+    public void EVENT_WeaponsToggle()
+    {
+        if(canAttack || canBlock)
+
+        if (!UpWeapons)
+        {
+            Attacking = true;
+        }
+        else
+        {
+            attacking = false;
+            inTrap = false;
+            combat = false;
+            charanim.InCombat(0);
+            UpWeapons = false;
+            DownWeaponsAction?.Invoke();
+        }
+    }
+
     #endregion
 
     #region Menues
