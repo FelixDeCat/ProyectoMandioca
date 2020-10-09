@@ -651,7 +651,8 @@ public class CharacterHead : CharacterControllable
             combat = false;
             charanim.InCombat(0);
             UpWeapons = false;
-            DownWeaponsAction?.Invoke();
+                imUsingItemOnWeapon = false;
+                DownWeaponsAction?.Invoke();
         }
     }
 
@@ -685,6 +686,7 @@ public class CharacterHead : CharacterControllable
     #region Item Effects
     public void TurnOnGreekOilEffect(float duration)
     {
+        DownWeaponsAction += TurnOffGreekOilEffect;
         imUsingItemOnWeapon = true;
         StartCoroutine(StartEffectOnSword(duration));
         feedbacks.particles.fire_greekOil.gameObject.SetActive(true);
@@ -707,6 +709,7 @@ public class CharacterHead : CharacterControllable
 
     public void TurnOffGreekOilEffect()
     {
+        DownWeaponsAction -= TurnOffGreekOilEffect;
         imUsingItemOnWeapon = false;
         charAttack.Remove_callback_SecondaryEffect(PrenderFuegoAEnemigo);
         feedbacks.particles.fire_greekOil.gameObject.SetActive(false);
