@@ -1,33 +1,5 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!114 &-6905113963788870302
-MonoBehaviour:
-  m_ObjectHideFlags: 3
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 556797029e73b2347956b6579e77e05b, type: 3}
-  m_Name: DepthOfField
-  m_EditorClassIdentifier: 
-  active: 1
-  enabled:
-    overrideState: 1
-    value: 1
-  focusDistance:
-    overrideState: 1
-    value: 2.92
-  aperture:
-    overrideState: 1
-    value: 5
-  focalLength:
-    overrideState: 1
-    value: 45
-  kernelSize:
-    overrideState: 1
-    value: 3
 --- !u!114 &-2561986656294881030
 MonoBehaviour:
   m_ObjectHideFlags: 3
@@ -46,10 +18,10 @@ MonoBehaviour:
     value: 1
   intensity:
     overrideState: 1
-    value: 1
+    value: 0.8
   threshold:
     overrideState: 1
-    value: 1
+    value: 0.5
   softKnee:
     overrideState: 0
     value: 0.5
@@ -131,7 +103,7 @@ MonoBehaviour:
     value: -12
   tint:
     overrideState: 1
-    value: 12
+    value: 4
   colorFilter:
     overrideState: 0
     value: {r: 1, g: 1, b: 1, a: 1}
@@ -140,7 +112,7 @@ MonoBehaviour:
     value: 0
   saturation:
     overrideState: 1
-    value: 10
+    value: -19
   brightness:
     overrideState: 0
     value: 0
@@ -149,7 +121,7 @@ MonoBehaviour:
     value: 0.1
   contrast:
     overrideState: 1
-    value: 5
+    value: -11
   mixerRedOutRedIn:
     overrideState: 0
     value: 100
@@ -1386,6 +1358,31 @@ MonoBehaviour:
       - 0.5
       - 0.5
       - 0.5
+--- !u!114 &-796489243246998058
+MonoBehaviour:
+  m_ObjectHideFlags: 3
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: abc0b71c0a6142d49bce109f569ab7b2, type: 3}
+  m_Name: FogPPSSettings
+  m_EditorClassIdentifier: 
+  active: 1
+  enabled:
+    overrideState: 1
+    value: 1
+  _Radius:
+    overrideState: 1
+    value: 17.31
+  _FallOff:
+    overrideState: 1
+    value: 1.7
+  _FogColor:
+    overrideState: 1
+    value: {r: 0.7783019, g: 0.8125481, b: 1, a: 0}
 --- !u!114 &11400000
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1401,8 +1398,8 @@ MonoBehaviour:
   settings:
   - {fileID: -2296105866641821522}
   - {fileID: -2561986656294881030}
-  - {fileID: -6905113963788870302}
   - {fileID: 8958292161395342729}
+  - {fileID: -796489243246998058}
 --- !u!114 &8958292161395342729
 MonoBehaviour:
   m_ObjectHideFlags: 3
@@ -1430,7 +1427,7 @@ MonoBehaviour:
     value: {x: 0.5, y: 0.5}
   intensity:
     overrideState: 1
-    value: 0.129
+    value: 0.175
   smoothness:
     overrideState: 0
     value: 0.2
