@@ -16,6 +16,7 @@ public class CharParticles
     public ParticleSystem hitParticle = null;
     public ParticleSystem trailBashDash = null;
     public ParticleSystem bashDashHit = null;
+    public ParticleSystem fire_greekOil = null;
 
     public void Initialize()
     {

@@ -65,7 +65,11 @@ public class CharacterHead : CharacterControllable
 
     [SerializeField] AudioClip chargeSound = null;
     [SerializeField] GameObject go_StunFeedback = null;
+
     float stunDuration;
+
+    //Items
+    bool imUsingItemOnWeapon = false;
 
     public Action ChangeWeaponPassives = delegate { };
 
@@ -562,7 +566,7 @@ public class CharacterHead : CharacterControllable
             combat = value;
             //if (value == true && !attacking && !inTrap)
             //    UpWeaponsFunction();
-            if (value == false && !attacking && !inTrap)
+            if (value == false && !attacking && !inTrap && !imUsingItemOnWeapon)
                 StartCoroutine(DownWeaponsCoroutine());
         }
         get => combat;
@@ -604,7 +608,7 @@ public class CharacterHead : CharacterControllable
         bool isOver = false;
         while (!isOver)
         {
-            if (attacking || inTrap || !UpWeapons) yield break;
+            if (attacking || inTrap || !UpWeapons || imUsingItemOnWeapon) yield break;
 
             timer += Time.deltaTime;
 
@@ -675,6 +679,37 @@ public class CharacterHead : CharacterControllable
     {
         move.SetSpeed(10);
         Slowed = false;
+    }
+    #endregion
+
+    #region Item Effects
+    public void TurnOnGreekOilEffect(float duration)
+    {
+        imUsingItemOnWeapon = true;
+        StartCoroutine(StartEffectOnSword(duration));
+        feedbacks.particles.fire_greekOil.gameObject.SetActive(true);
+    }
+
+    IEnumerator StartEffectOnSword(float duration)
+    {
+        charAttack.Add_callback_SecondaryEffect(PrenderFuegoAEnemigo);
+        float count = 0;
+
+        while (count < duration)
+        {
+            count += Time.deltaTime;
+            yield return new WaitForEndOfFrame();
+        }
+        TurnOffGreekOilEffect();      
+    }
+
+    void PrenderFuegoAEnemigo(EffectReceiver alQueAfecto){alQueAfecto.TakeEffect(EffectName.OnFire);}
+
+    public void TurnOffGreekOilEffect()
+    {
+        imUsingItemOnWeapon = false;
+        charAttack.Remove_callback_SecondaryEffect(PrenderFuegoAEnemigo);
+        feedbacks.particles.fire_greekOil.gameObject.SetActive(false);
     }
     #endregion
 
