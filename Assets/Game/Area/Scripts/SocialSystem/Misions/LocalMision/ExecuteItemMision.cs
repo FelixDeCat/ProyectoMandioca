@@ -5,6 +5,12 @@ using UnityEngine;
 public class ExecuteItemMision : MonoBehaviour
 {
     public Int_IntDictionary IDs = new Int_IntDictionary();
+    public int IdToExecute;
+    public int indexItem;
+    public void Execute()
+    {
+        MisionManager.instancia.AddMisionItem(IdToExecute, indexItem);
+    }
 
     public void Execute(int Id)
     {

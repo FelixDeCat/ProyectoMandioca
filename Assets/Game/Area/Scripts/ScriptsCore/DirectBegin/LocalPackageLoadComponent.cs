@@ -9,7 +9,7 @@ public class LocalPackageLoadComponent : MonoBehaviour
     LoadComponent[] componentsToLoad = new LoadComponent[0];
     public void LoadComponents()
     {
-        Fades_Screens.instance.Black();
+        //Fades_Screens.instance.Black();
         
         componentsToLoad = GetComponentsInChildren<LoadComponent>();
         //for (int i = 0; i < componentsToLoad.Length; i++) Debug.Log("Component Load: " + componentsToLoad[i].gameObject.name);
