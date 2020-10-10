@@ -37,6 +37,8 @@ public class CharacterAnimator : BaseAnimator
         myAnim.SetFloat("InCombat", val);
     }
 
+    public void SetInteract(bool val) => myAnim.SetBool("Interact", val);
+
     public void SetTypeDamge(int val) => myAnim.SetFloat("DamageType", val);
 
     public void OnHit() => myAnim.SetTrigger("Hit");

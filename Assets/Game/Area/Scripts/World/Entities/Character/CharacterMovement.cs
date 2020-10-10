@@ -201,12 +201,12 @@ public class CharacterMovement
         //    else
         //        anim.Move(0, 0);
         //}
-
     }
-    #endregion
 
+    #endregion
+    #region Knockback y demás fuerzas
     bool forcing;
-    public bool addForce;
+    bool addForce;
     float timerForce;
     public void MovementAddForce(Vector3 dir, float force, ForceMode mode)
     {
@@ -234,6 +234,23 @@ public class CharacterMovement
         if (forcing) return;
         _rb.AddForce(rotTransform.transform.forward * moveForce, ForceMode.VelocityChange);
     }
+
+    public void AddForceToVelocity(Vector3 forceToApply)
+    {
+        if (forceToApply == Vector3.zero) return;
+
+        ResetForce();
+        addForce = true;
+        _rb.AddForce(forceToApply, ForceMode.Impulse);
+    }
+
+    void ResetForce()
+    {
+        timerForce = 0;
+        addForce = false;
+        _rb.velocity = Vector3.zero;
+    }
+    #endregion
 
     #region ROTATION
     //Joystick Derecho, Rotacion
@@ -355,11 +372,7 @@ public class CharacterMovement
         {
             timerForce += Time.deltaTime;
 
-            if (timerForce >= 0.7f)
-            {
-                addForce = false;
-                timerForce = 0;
-            }
+            if (timerForce >= 0.5f) ResetForce();
         }
     }
 

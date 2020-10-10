@@ -140,7 +140,7 @@ public class CharacterHead : CharacterControllable
         charanim = new CharacterAnimator(anim_base);
         customCam = FindObjectOfType<CustomCamera>();
 
-        move.Initialize(GetComponent<Rigidbody>(), rot, charanim, feedbacks, groundSensor);
+        move.Initialize(rb, rot, charanim, feedbacks, groundSensor);
         InDash += move.InCD;
         ChildrensUpdates += move.OnUpdate;
         move.SetCallbacks(OnBeginRoll, OnEndRoll);
@@ -164,7 +164,7 @@ public class CharacterHead : CharacterControllable
             .SetIsDamage(() => move.InDash)
             .AddDead(Dead)
             .AddTakeDamage(TakeDamageFeedback)
-            .Initialize(rot, rb, lifesystem);
+            .Initialize(rot, null, lifesystem, move.AddForceToVelocity);
 
         charAttack
             .SetAnimator(charanim)
@@ -790,15 +790,6 @@ public class CharacterHead : CharacterControllable
     }
     void OnChangeLife(int current, int max) { }
 
-    public void AddForceToVelocity(Vector3 forceToApply)
-    {
-        if (move.addForce || forceToApply == Vector3.zero) return;
-
-        rb.velocity = Vector3.zero;
-        move.addForce = true;
-        rb.AddForce(forceToApply, ForceMode.Impulse);
-    }
-
     #endregion
 
     #region Attack
@@ -1113,10 +1104,13 @@ public class CharacterHead : CharacterControllable
             charanim.HeavyAttack();
             IsComboWomboActive = false;
         }
+        else
+            charanim.SetInteract(true);
     }
     public void UNITY_EVENT_OnInteractUp()
     {
         sensor.OnInteractUp();
+        charanim.SetInteract(false);
     }
     #endregion
 

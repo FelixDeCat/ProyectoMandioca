@@ -17,6 +17,7 @@ public class DamageReceiver : MonoBehaviour
     Action<DamageData> takeDmg;
     Action<Vector3> OnDead;
     Action InmuneFeedback;
+    Action<Vector3> OwnKnockback;
     Func<bool> IsDmg;
     bool IsNotDestructible = false;
     Transform ownerRoot;
@@ -30,11 +31,12 @@ public class DamageReceiver : MonoBehaviour
     Rigidbody rb;
 
     #region Builder
-    public void Initialize(Transform _ownerRoot, Rigidbody _rb,_Base_Life_System lifeSystem)
+    public void Initialize(Transform _ownerRoot, Rigidbody _rb,_Base_Life_System lifeSystem, Action<Vector3> _OwnKnockback = null)
     {
         if (_ownerRoot != null) ownerRoot = _ownerRoot;
         if (_rb != null) rb = _rb;
         if (lifeSystem != null) _LifeSystem = lifeSystem;
+        OwnKnockback = _OwnKnockback;
     }
 
     public DamageReceiver AddDead(Action<Vector3> _OnDead)
@@ -125,20 +127,12 @@ public class DamageReceiver : MonoBehaviour
 
         Vector3 aux = (ownerRoot.position - data.owner_position).normalized;
 
-        if(rb)
-        {
-            if(data.damageType == Damagetype.Heavy)
-            {
-                Vector3 knockbackForce = aux * data.knockbackForce + data.attackDir;
-                rb.AddForce(knockbackForce * knockbackMultiplier * 5, ForceMode.Impulse);
-            }
-            else
-            {
-                Vector3 knockbackForce = aux * data.knockbackForce + data.attackDir;
-                rb.AddForce(knockbackForce * knockbackMultiplier, ForceMode.Impulse);
-            }
-            
-        }
+        Vector3 knockbackForce = aux * data.knockbackForce + data.attackDir;
+        knockbackForce.y = 0;
+        if (rb)
+            rb.AddForce(Vector3.up + knockbackForce * knockbackMultiplier, ForceMode.Impulse);
+        else
+            OwnKnockback?.Invoke(Vector3.up + knockbackForce * knockbackMultiplier);
 
         bool death = _LifeSystem.Hit(dmg);
 

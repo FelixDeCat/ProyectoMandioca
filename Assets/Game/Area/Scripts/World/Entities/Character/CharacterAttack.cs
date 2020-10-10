@@ -91,7 +91,7 @@ public class CharacterAttack
     public void ForceHeavy()
     {
         HeavyAttack.Invoke();
-        data.SetDamageType(Damagetype.Heavy);
+        data.SetDamageType(Damagetype.Heavy).SetKnockback(2500);
         move.AttackMovement(10);
         feedbacks.particles.feedbackHeavy.Stop();
         oneshot = false;
@@ -237,13 +237,15 @@ public class CharacterAttack
         if (buttonPressedTime < currentHeavyAttackTime)
         {
             NormalAttack.Invoke();
-            data.SetDamageType(Damagetype.Normal);
+            data.SetDamageType(Damagetype.Normal)
+                .SetKnockback(500);
             move.AttackMovement(4);
         }
         else
         {
             HeavyAttack.Invoke();
-            data.SetDamageType(Damagetype.Heavy);
+            data.SetDamageType(Damagetype.Heavy)
+                .SetKnockback(2500);
             move.AttackMovement(10);
             feedbacks.sounds.Play_heavySwing();
         }
