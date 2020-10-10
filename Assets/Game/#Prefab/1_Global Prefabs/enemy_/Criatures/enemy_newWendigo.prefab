@@ -861,9 +861,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7558905649155081534}
+  - component: {fileID: 7558905649155081523}
   - component: {fileID: 7558905649155081533}
   - component: {fileID: 7558905649155081532}
-  - component: {fileID: 7558905649155081523}
   - component: {fileID: 7558905649155081522}
   - component: {fileID: 7558905649155081521}
   - component: {fileID: 7558905649155081520}
@@ -892,6 +892,53 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &7558905649155081523
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7558905649155081525}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 937fadfde7c3197469526c608f6ebb73, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  poolname: 
+  death: 0
+  OnDeath:
+    m_PersistentCalls:
+      m_Calls: []
+  dmgData: {fileID: 0}
+  dmgReceiver: {fileID: 7558905649155081521}
+  lifesystem: {fileID: 7558905649155081520}
+  rootTransform: {fileID: 7558905649894271092}
+  animator: {fileID: 0}
+  OnResetEnemy:
+    m_PersistentCalls:
+      m_Calls: []
+  combatElement: {fileID: 7558905649155081526}
+  distancePos: 12
+  combatDistance: 15
+  showCombatDistance: 1
+  showAttackRange: 1
+  rotationSpeed: 0
+  throwObject: {fileID: 0}
+  shootPivot: {fileID: 0}
+  throwForce: 6
+  cdToCast: 2
+  damage: 2
+  attackRecall: 2
+  lineOfSight: {fileID: 0}
+  recallTime: 1
+  anim: {fileID: 0}
+  onHitColor: {r: 1, g: 1, b: 1, a: 1}
+  onHitFlashTime: 0.1
+  ragdoll: {fileID: 0}
+  petrifyEffect: {fileID: 0}
+  sounds:
+    takeDmgSound: {fileID: 0}
+    attackSound: {fileID: 0}
 --- !u!114 &7558905649155081533
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -925,18 +972,6 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 0.4019887, y: 2.0022402, z: 0.60934377}
   m_Center: {x: -0.14608443, y: 0.93491507, z: -0.19532812}
---- !u!114 &7558905649155081523
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7558905649155081525}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 937fadfde7c3197469526c608f6ebb73, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!54 &7558905649155081522
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -1397,16 +1432,6 @@ PrefabInstance:
       propertyPath: anim
       value: 
       objectReference: {fileID: 4834077281249191345}
-    - target: {fileID: 6126649117267208779, guid: 0eaf7fc8a16763f41bc669ca1e8c7f50,
-        type: 3}
-      propertyPath: petrifyParticles
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 6126649117267208779, guid: 0eaf7fc8a16763f41bc669ca1e8c7f50,
-        type: 3}
-      propertyPath: endPetrifyParticles
-      value: 
-      objectReference: {fileID: 0}
     - target: {fileID: 6608334436493518605, guid: 0eaf7fc8a16763f41bc669ca1e8c7f50,
         type: 3}
       propertyPath: m_Name
