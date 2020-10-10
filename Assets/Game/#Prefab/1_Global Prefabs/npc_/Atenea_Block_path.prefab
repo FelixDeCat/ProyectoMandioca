@@ -896,8 +896,6 @@ GameObject:
   - component: {fileID: 7503728607809901982}
   - component: {fileID: 5909728238693984946}
   - component: {fileID: 5852001445266858144}
-  - component: {fileID: 5852001445266858150}
-  - component: {fileID: 5852001445266858151}
   m_Layer: 0
   m_Name: Atenea_Block_path
   m_TagString: Untagged
@@ -981,66 +979,6 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1, y: 1.6195095, z: 1}
   m_Center: {x: 0, y: 0.93767166, z: 0}
---- !u!114 &5852001445266858150
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1946527556430476315}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e6ebbc43fbf19b44e9bd02fe5b6d104d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  dialogues:
-  - {fileID: 0}
-  currentDialoge: {fileID: 11400000, guid: c906477fe9b20cb4399905164c0b3a9f, type: 2}
-  useOneShot: 0
-  stopAllOnDialogue: 1
-  showButtons: 0
---- !u!114 &5852001445266858151
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1946527556430476315}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: cfb6f4d620fc22949b66b08170c43333, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  distancetoInteract: 1
-  autoexecute: 1
-  cd_autoexecute: 0
-  pointToMessage: {fileID: 0}
-  feedback: []
-  _withDelay: 0
-  delayTime: 0
-  UE_OnEnter:
-    m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 5852001445266858150}
-        m_MethodName: Talk
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-  UE_OnExit:
-    m_PersistentCalls:
-      m_Calls: []
-  UE_OnExecute:
-    m_PersistentCalls:
-      m_Calls: []
-  nombre_NPC: 
-  mostrarFeedback: 1
-  custom_cartelito: 0
 --- !u!1 &2064548264772139978
 GameObject:
   m_ObjectHideFlags: 0
