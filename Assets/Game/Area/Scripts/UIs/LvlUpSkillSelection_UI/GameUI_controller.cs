@@ -19,6 +19,9 @@ public class GameUI_controller : MonoBehaviour
     public Text skillInfoTxt;
     public Text skillName;
     public GameObject skillInfoContainer;
+    [SerializeField] Image combatStateImage = null;
+    [SerializeField] Sprite[] combatStatesSprites = new Sprite[0];
+
 
     private SkillManager_Pasivas _skillManagerPasivas;
 
@@ -58,5 +61,10 @@ public class GameUI_controller : MonoBehaviour
             CloseGameMenu();
             Set_Closed_UI();
         }
+    }
+
+    public void ChangeCombat(int stateIndex)
+    {
+        combatStateImage.sprite = combatStatesSprites[stateIndex];
     }
 }

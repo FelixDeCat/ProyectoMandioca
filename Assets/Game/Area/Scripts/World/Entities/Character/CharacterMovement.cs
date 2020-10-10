@@ -155,28 +155,24 @@ public class CharacterMovement
         if (movX >= 0.1 || movX <= -0.1 || movY >= 0.1 || movY <= -0.1)
         {
 
-            var checkRay = Physics.Raycast(rotTransform.position + Vector3.up*1.2f, rotTransform.forward, 1.3f);
+            var checkRay = Physics.Raycast(rotTransform.position + Vector3.up*1.2f, rotTransform.forward, 1.3f, 2 << 0 & 15,QueryTriggerInteraction.Ignore);
             
             if (checkRay)
             {
-              
-
                 currentVelY -= Time.deltaTime * 0.3f;
               
                 if ( currentVelY <= 0.1)
                 {
                     anim.Move(0, 0);
+                    return;
                 }
                 anim.Move(0,currentVelY);
             }
             else
             {
-                anim.Move(0, (Mathf.Abs(movX) + Mathf.Abs(movY)));
-                currentVelY = (Mathf.Abs(movX) + Mathf.Abs(movY));
+                currentVelY = Mathf.Abs(movX) + Mathf.Abs(movY);
+                anim.Move(0, currentVelY);
             }
-               
-            
-      
         }
         else
             anim.Move(0, 0);

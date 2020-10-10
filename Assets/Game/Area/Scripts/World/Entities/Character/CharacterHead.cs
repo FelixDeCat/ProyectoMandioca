@@ -621,10 +621,7 @@ public class CharacterHead : CharacterControllable
             }
         }
 
-        charanim.InCombat(0);
-        UpWeapons = false;
-        DownWeaponsAction?.Invoke();
-        // Debug.Log(combat.ToString() + attacking.ToString() + inTrap.ToString());
+        DownWeaponsFunction();
     }
 
     void UpWeaponsFunction()
@@ -634,6 +631,19 @@ public class CharacterHead : CharacterControllable
         UpWeapons = true;
 
         UpWeaponsAction?.Invoke();
+
+        Main.instance.gameUiController.ChangeCombat(1);
+    }
+    void DownWeaponsFunction()
+    {
+        attacking = false;
+        inTrap = false;
+        combat = false;
+        charanim.InCombat(0);
+        UpWeapons = false;
+        DownWeaponsAction?.Invoke();
+        imUsingItemOnWeapon = false;
+        Main.instance.gameUiController.ChangeCombat(0);
     }
 
     public void EVENT_WeaponsToggle()
@@ -646,13 +656,7 @@ public class CharacterHead : CharacterControllable
         }
         else
         {
-            attacking = false;
-            inTrap = false;
-            combat = false;
-            charanim.InCombat(0);
-            UpWeapons = false;
-                imUsingItemOnWeapon = false;
-                DownWeaponsAction?.Invoke();
+            DownWeaponsFunction();
         }
     }
 
