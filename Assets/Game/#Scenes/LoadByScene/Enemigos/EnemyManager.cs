@@ -23,8 +23,13 @@ public class EnemyManager : MonoBehaviour
         {
             for (int i = 0; i < enemiesToCharge.Length; i++)
             {
-                var aux = SpawnEnemy<EnemyBase>(enemiesToCharge[i].myEnemy.name, sceneName, enemiesToCharge[i].myEnemy);
-                enemiesToCharge[i].SpawnEnemy(aux);
+                try
+                {
+                    var aux = SpawnEnemy<EnemyBase>(enemiesToCharge[i].myEnemy.name, sceneName, enemiesToCharge[i].myEnemy);
+                    enemiesToCharge[i].SpawnEnemy(aux);
+                }
+                catch (NullReferenceException) { Debug.LogWarning("!!!!!!En la escena: " + sceneName + " hay un proxy descarrilado"); }
+               
             }
 
             enemiesToCharge = new ProxyEnemyBase[0];

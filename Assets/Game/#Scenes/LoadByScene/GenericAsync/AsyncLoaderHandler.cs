@@ -25,7 +25,7 @@ public class AsyncLoaderHandler : GenericAsyncLocalScene
     {
         for (int i = 0; i < components.Length; i++)
         {
-            yield return components[i].Load();
+            yield return components[i]?.Load();
         }
         yield return null;
     }

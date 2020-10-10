@@ -130,17 +130,19 @@ public class PrefabLightmapData : MonoBehaviour
         {
             var info = infos[i];
 
-            info.renderer.lightmapIndex = lightmapOffsetIndex[info.lightmapIndex];
-            info.renderer.lightmapScaleOffset = info.lightmapOffsetScale;
-
-            // You have to release shaders.
-            Material[] mat = info.renderer.sharedMaterials;
-            for (int j = 0; j < mat.Length; j++)
+            if (info.renderer != null)
             {
-                if (mat[j] != null && Shader.Find(mat[j].shader.name) != null)
-                    mat[j].shader = Shader.Find(mat[j].shader.name);
-            }
+                info.renderer.lightmapIndex = lightmapOffsetIndex[info.lightmapIndex];
+                info.renderer.lightmapScaleOffset = info.lightmapOffsetScale;
 
+                // You have to release shaders.
+                Material[] mat = info.renderer.sharedMaterials;
+                for (int j = 0; j < mat.Length; j++)
+                {
+                    if (mat[j] != null && Shader.Find(mat[j].shader.name) != null)
+                        mat[j].shader = Shader.Find(mat[j].shader.name);
+                }
+            }
         }
 
         for (int i = 0; i < lightsInfo.Length; i++)

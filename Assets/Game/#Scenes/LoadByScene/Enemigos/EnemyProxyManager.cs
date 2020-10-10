@@ -47,7 +47,7 @@ public class EnemyProxyManager : LoadComponent
 
         for (int i = 0; i < proxys.Length; i++)
         {
-            if (proxys[i].gameObject) Destroy(proxys[i].gameObject);
+            if (proxys[i]) Destroy(proxys[i].gameObject);
             yield return null;
         }
 
