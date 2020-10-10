@@ -213,8 +213,6 @@ public class TrueDummyEnemy : EnemyWithCombatDirector
     .SetPositionAndDirection(transform.position);
         Attack_Result takeDmg = e.TakeDamage(dmgData);
 
-        
-
         if (takeDmg == Attack_Result.parried)
         {
             combatComponent.Stop();

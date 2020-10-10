@@ -135,6 +135,10 @@ public class CharacterMovement
     {
         Vector3 auxNormalized = Vector3.zero;
 
+        float absVal = Mathf.Abs(movX) + Mathf.Abs(movY);
+
+        if (absVal >= 1.5f) { movX = Mathf.Clamp(movX, -0.75f, 0.75f); movY = Mathf.Clamp(movY, -0.75f, 0.75f); }
+
         Vector3 right = Vector3.Cross(Vector3.up, myCamera.forward);
         Vector3 forward = Vector3.Cross(right, Vector3.up);
 
@@ -143,7 +147,7 @@ public class CharacterMovement
 
         Rotation(auxNormalized.normalized.x, auxNormalized.normalized.z);
 
-        if (!forcing)
+        if (!forcing && !addForce)
             _rb.velocity = new Vector3(auxNormalized.x, isGrounded.VelY, auxNormalized.z);
 
         if (currentSpeed <= 0)
@@ -170,7 +174,7 @@ public class CharacterMovement
             }
             else
             {
-                currentVelY = Mathf.Abs(movX) + Mathf.Abs(movY);
+                currentVelY = absVal;
                 anim.Move(0, currentVelY);
             }
         }
@@ -200,9 +204,10 @@ public class CharacterMovement
 
     }
     #endregion
-    
-    bool forcing;
 
+    bool forcing;
+    public bool addForce;
+    float timerForce;
     public void MovementAddForce(Vector3 dir, float force, ForceMode mode)
     {
         if (!forcing)
@@ -345,6 +350,17 @@ public class CharacterMovement
                 candamagefall = true;
             }
         }
+
+        if (addForce)
+        {
+            timerForce += Time.deltaTime;
+
+            if (timerForce >= 0.7f)
+            {
+                addForce = false;
+                timerForce = 0;
+            }
+        }
     }
 
     public void StopRoll()
@@ -394,35 +410,35 @@ public class CharacterMovement
 
         dashDir = rotTransform.forward;
 
-        float dotX = Vector3.Dot(rotTransform.forward, dashDir);
-        float dotY = Vector3.Dot(rotTransform.right, dashDir);
+        //float dotX = Vector3.Dot(rotTransform.forward, dashDir);
+        //float dotY = Vector3.Dot(rotTransform.right, dashDir);
 
         dashDir = new Vector3(dashDir.x, 0, dashDir.z);
 
         #region calculo para mandarselo al BlendTree
-        if (dotX >= 0.5f)
-        {
-            anim.SetVerticalRoll(1);
-            anim.SetHorizontalRoll(0);
-        }
-        else if (dotX <= -0.5f)
-        {
-            anim.SetVerticalRoll(-1);
-            anim.SetHorizontalRoll(0);
-        }
-        else
-        {
-            if (dotY >= 0.5f)
-            {
-                anim.SetVerticalRoll(0);
-                anim.SetHorizontalRoll(1);
-            }
-            else if (dotY <= -0.5f)
-            {
-                anim.SetVerticalRoll(0);
-                anim.SetHorizontalRoll(-1);
-            }
-        }
+        //if (dotX >= 0.5f)
+        //{
+        //    anim.SetVerticalRoll(1);
+        //    anim.SetHorizontalRoll(0);
+        //}
+        //else if (dotX <= -0.5f)
+        //{
+        //    anim.SetVerticalRoll(-1);
+        //    anim.SetHorizontalRoll(0);
+        //}
+        //else
+        //{
+        //    if (dotY >= 0.5f)
+        //    {
+        //        anim.SetVerticalRoll(0);
+        //        anim.SetHorizontalRoll(1);
+        //    }
+        //    else if (dotY <= -0.5f)
+        //    {
+        //        anim.SetVerticalRoll(0);
+        //        anim.SetHorizontalRoll(-1);
+        //    }
+        //}
         #endregion
 
         anim.Dash(true);

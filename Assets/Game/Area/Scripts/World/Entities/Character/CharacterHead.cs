@@ -790,6 +790,15 @@ public class CharacterHead : CharacterControllable
     }
     void OnChangeLife(int current, int max) { }
 
+    public void AddForceToVelocity(Vector3 forceToApply)
+    {
+        if (move.addForce || forceToApply == Vector3.zero) return;
+
+        rb.velocity = Vector3.zero;
+        move.addForce = true;
+        rb.AddForce(forceToApply, ForceMode.Impulse);
+    }
+
     #endregion
 
     #region Attack
