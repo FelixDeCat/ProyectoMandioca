@@ -8,6 +8,7 @@ public class ComboWomboSystem
 {
 
     Action OnComboReady;
+    Action OnComboResetFeedback;
 
     int hitCount;
     public int hitsNeededToCombo;
@@ -18,8 +19,8 @@ public class ComboWomboSystem
     float _count;
     bool comboRunning;
 
-    public void AddCallback_OnComboready(Action callback) => OnComboReady += callback;
-    public void RemoveCallback_OnComboready(Action callback) => OnComboReady -= callback;
+    public void AddCallback_OnComboready(Action callback) => OnComboReady = callback;
+    public void AddCallback_OnComboReset(Action callback) => OnComboResetFeedback = callback;
 
     public void Initialize(int hitsNeeded,AudioClip sound)
     {
@@ -41,6 +42,7 @@ public class ComboWomboSystem
            
             if (_count >= timeToCombo)
             {
+                OnComboResetFeedback.Invoke();
                 ClearCombo();
             }
         }
@@ -70,8 +72,8 @@ public class ComboWomboSystem
 
     void ClearCombo()
     {
-      
-        hitCount = 0;
+        
+          hitCount = 0;
         _count = 0;
         comboRunning = false;
     }

@@ -60,6 +60,7 @@ public class CharacterHead : CharacterControllable
     CustomCamera customCam;
     [SerializeField] float timeToDownWeapons = 5;
     public bool IsComboWomboActive;
+    Action callback_IsComboTime_Enable, callback_IsComboTime_Disable = delegate { };
     bool canAddComboHit = true;
     [SerializeField] ComboWomboSystem combo_system = new ComboWomboSystem();
 
@@ -175,7 +176,10 @@ public class CharacterHead : CharacterControllable
 
         //COMBOWOMBO
         if (IsComboWomboActive)
+        {
             combo_system.AddCallback_OnComboready(ActiveCombo);
+            combo_system.AddCallback_OnComboReset(EndTime_DeactiveCombo);
+        }
 
         //COMBOWOMBO
 
@@ -822,12 +826,8 @@ public class CharacterHead : CharacterControllable
         Main.instance.Vibrate(0.7f, 0.1f);
         Main.instance.CameraShake();
 
-        
-
-
         if (canAddComboHit)
         {
-
             canAddComboHit = false;
             combo_system.AddHit();
             StartCoroutine(CDToAddComboHit());
@@ -858,17 +858,26 @@ public class CharacterHead : CharacterControllable
     {
         Main.instance.CameraShake();
     }
+    public void ComboWombo_Subscribe(Action enter, Action exit) { callback_IsComboTime_Enable = enter; callback_IsComboTime_Disable = exit; }
     void ActiveCombo()
     {
-        
         IsComboWomboActive = true;
         feedbacks.particles.HeavyLoaded.Play();
+        callback_IsComboTime_Enable?.Invoke();
+    }
+    void EndTime_DeactiveCombo()
+    {
+        Invoke("DelayDisableCallback", 0.1f);
     }
 
     void ResetCombo()
     {
         IsComboWomboActive = false;
         charAttack.ResetHeavyAttackTime();
+    }
+    void DelayDisableCallback()
+    {
+        callback_IsComboTime_Disable?.Invoke();
     }
 
     IEnumerator CDToAddComboHit()

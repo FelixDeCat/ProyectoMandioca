@@ -4,12 +4,17 @@ using UnityEngine;
 
 public class LookAtCamera : MonoBehaviour
 {
+    CustomCamera cam;
+
+    private void Start()
+    {
+        cam = Main.instance.GetMyCamera();
+    }
+
     private void Update()
     {
-        var cam = Main.instance.GetMyCamera();
         if (cam == null) return;
-        Vector3 dir = Main.instance.GetMyCamera().transform.forward;
-
+        Vector3 dir = cam.transform.forward;
         transform.forward = dir;
     }
 }

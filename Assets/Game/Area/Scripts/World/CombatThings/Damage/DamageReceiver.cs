@@ -12,6 +12,7 @@ public class DamageReceiver : MonoBehaviour
     [SerializeField] float knockbackMultiplier = 1;
 
     bool blockEntity;
+
     bool parryEntity;
 
     Action<DamageData> takeDmg;
