@@ -145,7 +145,9 @@ public class CharacterMovement
         auxNormalized += right.normalized * (movX * currentSpeed);
         auxNormalized += forward.normalized * (movY * currentSpeed);
 
-        Rotation(auxNormalized.normalized.x, auxNormalized.normalized.z);
+        Rotation(auxNormalized.normalized.x, auxNormalized.normalized.z);   
+        
+        anim.Grounded(isGrounded);
 
         if (!forcing && !addForce)
             _rb.velocity = new Vector3(auxNormalized.x, isGrounded.VelY, auxNormalized.z);
