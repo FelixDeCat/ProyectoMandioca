@@ -35,7 +35,7 @@ public class UI_CurrentItem : UI_Base
     
     public void SetCastingBar(float current, float max)
     {
-        castingbar?.Configure(max, 0.01f);
+        castingbar?.Configure(max, 1);
         castingbar?.SetValue(current);
     }
     protected override void OnStart()
@@ -98,7 +98,7 @@ public class UI_CurrentItem : UI_Base
     public void Cooldown_Begin() 
     {
         img.color = new Color(0, 0, 0, 0.5f);
-        cooldownBar.SetImageOriginalColor();
+        //cooldownBar.SetImageOriginalColor();
     }
     public void Cooldown_End() 
     {
@@ -113,7 +113,7 @@ public class UI_CurrentItem : UI_Base
     float timer_anim_fail = 0;
     public void Casting_RefreshCurrentValue(float current, float max)
     {
-        castingbar?.Configure(max, 0.01f);
+        castingbar?.Configure(max, 1);
         castingbar?.SetValue(current);
     }
     public void Casting_Begin()

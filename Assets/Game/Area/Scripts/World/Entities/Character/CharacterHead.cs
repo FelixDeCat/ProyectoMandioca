@@ -1106,20 +1106,25 @@ public class CharacterHead : CharacterControllable
     #region Interact
     public void UNITY_EVENT_OnInteractDown()
     {
-        sensor.OnInteractDown();
+        var temp = sensor.OnInteractDown();
+
+        if(temp != null)
+        {
+            if(temp.delayTime > 0) charanim.SetInteract(true, 0);
+            else charanim.SetInteract(true, 1);
+        }
+
         if (IsComboWomboActive)
         {
             charAttack.ForceHeavy();
             charanim.HeavyAttack();
             IsComboWomboActive = false;
         }
-        else
-            charanim.SetInteract(true);
     }
     public void UNITY_EVENT_OnInteractUp()
     {
         sensor.OnInteractUp();
-        charanim.SetInteract(false);
+        charanim.SetInteract(false, 0);
     }
     #endregion
 

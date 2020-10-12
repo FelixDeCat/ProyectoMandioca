@@ -38,7 +38,7 @@ public class CharacterAnimator : BaseAnimator
         myAnim.SetFloat("InCombat", val);
     }
 
-    public void SetInteract(bool val) => myAnim.SetBool("Interact", val);
+    public void SetInteract(bool val, int interactType) { myAnim.SetBool("Interact", val); myAnim.SetInteger("InteractType", interactType); }
 
     public void SetTypeDamge(int val) => myAnim.SetFloat("DamageType", val);
 

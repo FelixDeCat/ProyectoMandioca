@@ -27,17 +27,19 @@ public class InteractSensor : MonoBehaviour
         can_show_info = true;
     }
 
-    public void OnInteractDown()
+    public Interactable OnInteractDown()
     {
-        if (!can_interact) return;
-
-        if (isclose && most_close != null)
-        {
-            most_close.Execute(collector);
-        }
+        if (!can_interact) return null;
 
         calculate_fast_recollection = true;
         timerfastrec = 0;
+        if (isclose && most_close != null)
+        {
+            most_close.Execute(collector);
+            return most_close;
+        }
+
+        return null;
     }
     public void OnInteractUp()
     {
