@@ -57,6 +57,7 @@ public class WendigoEnemy : EnemyWithCombatDirector
     }
     protected override void OnInitialize()     //Inicia las cosas
     {
+        //TODO view
         //cosas
         base.OnInitialize();
         Main.instance.eventManager.TriggerEvent(GameEvents.ENEMY_SPAWN, new object[] { this });
@@ -97,9 +98,23 @@ public class WendigoEnemy : EnemyWithCombatDirector
         stopCD = true;
     }
 
+    public enum WendigoInputs { IDLE, PREPARERANGE, PREPAREMELEE, RANGEAR, MELEEAR, PETRIFY, DEATH, DISABLED };
     private void SetStates()
     {
-        throw new NotImplementedException();
+        //Settacion de estados
+        var idle = new EState<WendigoInputs>("Idle");
+        var prepRange = new EState<WendigoInputs>("PrepareRange");
+        var prepMelee = new EState<WendigoInputs>("PrepareMelee");
+        var range = new EState<WendigoInputs>("RangeAttack");
+        var melee = new EState<WendigoInputs>("MeleeAttack");
+        var petry = new EState<WendigoInputs>("Petrify");
+        var death = new EState<WendigoInputs>("Death");
+        var disable = new EState<WendigoInputs>("Disabled");
+
+        //Crear y Transiciones
+
+        //Iniciacion de clases de estados
+
     }
 
     protected override void OnUpdateEntity()
@@ -117,7 +132,6 @@ public class WendigoEnemy : EnemyWithCombatDirector
     }
     //Attack
     //StateMachin
-    public enum WendigoInputs { IDLE };
     void DisableObject()
     {
         canupdate = false;
