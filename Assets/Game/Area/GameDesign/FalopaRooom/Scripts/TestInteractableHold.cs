@@ -16,42 +16,51 @@ public class TestInteractableHold : Interactable
 
     public string actionName = "hold to grab";
 
+    bool oneshot;
+
     [SerializeField] Image _loadBar = null;
     private void Start()
     {
-        _executeAction += DestroyGameObject;
-        _executeAction += UE_EndDelayExecute.Invoke;
+        _executeAction += OnEndDelayExecute;
+
         SetPredicate(() => !executing);
     }
     public override void OnEnter(WalkingEntity entity)
     {
-        if(!string.IsNullOrEmpty(actionName)) WorldItemInfo.instance.Show(pointToMessage.position, "Object", "Hold to grab object", actionName, true, false);
+        if (!string.IsNullOrEmpty(actionName)) WorldItemInfo.instance.Show(pointToMessage.position, "Object", "Hold to grab object", actionName, true, false);
     }
 
     public override void OnExecute(WalkingEntity collector)
     {
-        _executeAction();
-        WorldItemInfo.instance.Hide();
+        if (!oneshot)
+        {
+            oneshot = true;
+            _executeAction();
+            WorldItemInfo.instance.Hide();
+        }
     }
 
     public override void OnInterrupt()
     {
+        oneshot = false;
         _loadBar.fillAmount = 0;
     }
 
     public override void OnExit()
     {
+        oneshot = false;
         WorldItemInfo.instance.Hide();
         _loadBar.fillAmount = 0;
     }
-    public override void DelayExecute(float loadTime)
+    public override void DelayExecute()
     {
-        base.DelayExecute(loadTime);
+        base.DelayExecute();
         float amount = (currentTime / delayTime);
-        _loadBar.fillAmount=amount;
+        _loadBar.fillAmount = amount;
     }
-    void DestroyGameObject()
+    void OnEndDelayExecute()
     {
+        UE_EndDelayExecute.Invoke();
         execute?.Invoke();
         if (destroy) Destroy(this.gameObject);
         else

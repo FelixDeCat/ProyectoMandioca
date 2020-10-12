@@ -23,6 +23,8 @@ public abstract class Interactable : MonoBehaviour
 
     public UnityEvent UE_OnEnter;
     public UnityEvent UE_OnExit;
+    public UnityEvent PressDown;
+    public UnityEvent PressUp;
     public Func<bool> predicate = delegate { return true; };
     public void SetPredicate(Func<bool> _pred) => predicate = _pred;
 
@@ -39,6 +41,7 @@ public abstract class Interactable : MonoBehaviour
         if (feedback.Length > 0) foreach (var fdbck in feedback) fdbck.Hide();
         OnExit();
         UE_OnExit.Invoke();
+        PressUp.Invoke();
         currentTime = 0;
         updateDelay = false;
     }
@@ -46,21 +49,26 @@ public abstract class Interactable : MonoBehaviour
     {
         if (!predicate.Invoke()) return;
 
+        PressDown.Invoke();
+
         if (!_withDelay)
         {
             if (!autoexe_in_CD)
             {
                 autoexe_in_CD = true;
-                timer_cd = 0; 
+                timer_cd = 0;
                 OnExecute(entity);
             }
         }
         else
+        {
             updateDelay = true;
+        }
     }
     public void InterruptExecute()
     {
         if (!predicate.Invoke()) return;
+        PressUp.Invoke();
         OnInterrupt();
         currentTime = 0;
         updateDelay = false;
@@ -70,7 +78,7 @@ public abstract class Interactable : MonoBehaviour
     {
         if (updateDelay)
         {
-            DelayExecute(delayTime);
+            DelayExecute();
         }
 
         if (autoexe_in_CD)
@@ -83,22 +91,29 @@ public abstract class Interactable : MonoBehaviour
             {
                 timer_cd = 0;
                 autoexe_in_CD = false;
+
             }
         }
     }
-    public virtual void DelayExecute(float loadTime)
+    public virtual void DelayExecute()
     {
-        currentTime += Time.deltaTime;
-
-        if (loadTime <= currentTime)
+        if (updateDelay)
         {
-            OnExecute(Main.instance.GetChar());
+            if (currentTime < delayTime)
+            {
+                currentTime = currentTime + 1 * Time.deltaTime;
+            }
+            else
+            {
+                OnExecute(Main.instance.GetChar());
+                currentTime = 0;
+                updateDelay = false;
+            }
         }
     }
     public abstract void OnEnter(WalkingEntity entity);
     public abstract void OnExecute(WalkingEntity collector);
     public abstract void OnExit();
-
     public abstract void OnInterrupt();
 
 }

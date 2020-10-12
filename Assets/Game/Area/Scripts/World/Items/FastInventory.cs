@@ -61,6 +61,7 @@ public class FastInventory : UI_Base
     }
     public void Add(Item item, int cant)
     {
+        Debug.Log("recibí " + cant + " " + item.name);
         if (!inventory.ContainsKey(item.id))
         {
             ItemInInventory newSlot = new ItemInInventory(item, cant);
@@ -68,10 +69,15 @@ public class FastInventory : UI_Base
         }
         else
         {
-            inventory[item.id].cant = cant;
+            inventory[item.id].cant += cant;
         }
 
-        GameMessage.Log(new MsgLogData(item.name, item.img, new Color(0,0,0,0), Color.black, 1f));
+        if (item.equipable)
+        {
+            EquipedManager.instance.EquipItem(item);
+        }
+
+        GameMessage.Log(new MsgLogData(item.name, item.img, new Color(0,0,0,0), Color.white, 1f));
 
         RefreshScreen();
     }

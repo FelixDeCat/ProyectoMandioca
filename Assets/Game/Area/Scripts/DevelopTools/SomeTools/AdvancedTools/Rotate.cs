@@ -21,10 +21,12 @@ public class Rotate : MonoBehaviour {
     public bool constant_movement;
 
     bool play = true;
+    public bool playOnAwake = true;
 
     private void Awake()
     {
         timer = timetochangerandom + 1;
+        play = playOnAwake;
     }
 
     public void Play() => play = true;
