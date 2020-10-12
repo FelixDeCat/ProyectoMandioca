@@ -65,6 +65,7 @@ public class CharacterMovement
 
     float original_angular_drag = 0.05f;
     const float snorlax_angular_drag = 1000f;
+    float groundedPrecautionTimer;
 
     public float GetDefaultSpeed => speed;
     public bool TeleportActive
@@ -145,9 +146,22 @@ public class CharacterMovement
         auxNormalized += right.normalized * (movX * currentSpeed);
         auxNormalized += forward.normalized * (movY * currentSpeed);
 
-        Rotation(auxNormalized.normalized.x, auxNormalized.normalized.z);   
-        
-        anim.Grounded(isGrounded);
+        Rotation(auxNormalized.normalized.x, auxNormalized.normalized.z);
+
+        if(absVal > 0) isGrounded.SnapToGround(_rb.transform);
+
+        if (!isGrounded.IsInGround)
+        {
+            groundedPrecautionTimer += Time.deltaTime;
+
+            if(groundedPrecautionTimer >= 0.3f)
+                anim.Grounded(false);
+        }
+        else
+        {
+            groundedPrecautionTimer = 0;
+            anim.Grounded(true);
+        }
 
         if (!forcing && !addForce)
             _rb.velocity = new Vector3(auxNormalized.x, isGrounded.VelY, auxNormalized.z);

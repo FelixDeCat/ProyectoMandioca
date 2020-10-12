@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Threading;
 using UnityEngine;
 
 public class CharacterGroundSensor : MonoBehaviour
@@ -17,7 +18,7 @@ public class CharacterGroundSensor : MonoBehaviour
 
     bool isGrounded;
     float timer;
-
+    bool dontSnap;
     public float VelY { get; private set; }
     public bool IsInGround { get => isGrounded; private set { } }
     bool on;
@@ -125,9 +126,36 @@ public class CharacterGroundSensor : MonoBehaviour
         lastY = y;
     }
 
+    float timerToSnap;
+    public void SnapToGround(Transform transformToSnap)
+    {
+        if (dontSnap)
+        {
+            timerToSnap += Time.deltaTime;
+
+            if (timerToSnap >= 1.5f)
+            {
+                dontSnap = false;
+                timerToSnap = 0;
+            }
+
+            return;
+        }
+
+        RaycastHit hit;
+        if (Physics.Raycast(transform.position + transform.forward * 0.08f, -transform.up, out hit, 0.3f, floorMask))
+        {
+            if (Mathf.Abs(hit.point.y - transformToSnap.position.y) <= 0.05f) return;
+
+            transformToSnap.position = new Vector3(transformToSnap.position.x, hit.point.y, transformToSnap.position.z);
+        }
+    }
+
     public void AddForce(float force)
     {
         VelY += force;
+        dontSnap = true;
+        timerToSnap = 0;
     }
 
     private void OnDrawGizmos()
