@@ -98,11 +98,12 @@ public class WendigoEnemy : EnemyWithCombatDirector
         stopCD = true;
     }
 
-    public enum WendigoInputs { IDLE, PREPARERANGE, PREPAREMELEE, RANGEAR, MELEEAR, PETRIFY, DEATH, DISABLED };
+    public enum WendigoInputs { IDLE, OBSERVATION, PREPARERANGE, PREPAREMELEE, RANGEAR, MELEEAR, PETRIFY, DEATH, DISABLED };
     private void SetStates()
     {
         //Settacion de estados
         var idle = new EState<WendigoInputs>("Idle");
+        var obs = new EState<WendigoInputs>("Observation");
         var prepRange = new EState<WendigoInputs>("PrepareRange");
         var prepMelee = new EState<WendigoInputs>("PrepareMelee");
         var range = new EState<WendigoInputs>("RangeAttack");
@@ -112,11 +113,44 @@ public class WendigoEnemy : EnemyWithCombatDirector
         var disable = new EState<WendigoInputs>("Disabled");
 
         //Crear y Transiciones
+        ConfigureState.Create(idle)
+        .SetTransition(WendigoInputs.OBSERVATION, obs);
+
+        ConfigureState.Create(obs)
+        .SetTransition(WendigoInputs.IDLE, idle)
+        .SetTransition(WendigoInputs.PREPARERANGE, prepRange)
+        .SetTransition(WendigoInputs.PREPAREMELEE, prepMelee)
+        .SetTransition(WendigoInputs.OBSERVATION, obs)
+        .SetTransition(WendigoInputs.DEATH, death)
+        .Done();
+
+        ConfigureState.Create(prepRange)
+        .SetTransition(WendigoInputs.OBSERVATION, obs)
+        .SetTransition(WendigoInputs.RANGEAR, range)
+        .SetTransition(WendigoInputs.PETRIFY, petry)
+        .SetTransition(WendigoInputs.DEATH, death)
+        .Done();
+
+        ConfigureState.Create(prepMelee)
+       .SetTransition(WendigoInputs.OBSERVATION, obs)
+        .SetTransition(WendigoInputs.MELEEAR, melee)
+        .SetTransition(WendigoInputs.PETRIFY, petry)
+        .SetTransition(WendigoInputs.DEATH, death)
+        .Done();
+
+        ConfigureState.Create(range)
+               .SetTransition(WendigoInputs.OBSERVATION, obs)
+               .Done();
+
+        ConfigureState.Create(melee)
+               .SetTransition(WendigoInputs.OBSERVATION, obs)
+               .Done();
 
         //Iniciacion de clases de estados
 
     }
 
+    //NotChecked
     protected override void OnUpdateEntity()
     {
         //Cosas, hay que estudiar primero
