@@ -112,7 +112,7 @@ public class WendigoEnemy : EnemyWithCombatDirector
         var death = new EState<WendigoInputs>("Death");
         var disable = new EState<WendigoInputs>("Disabled");
 
-        //Crear y Transiciones
+        //Crear y Transiciones. Tree en Discord
         ConfigureState.Create(idle)
         .SetTransition(WendigoInputs.OBSERVATION, obs);
 
@@ -145,6 +145,8 @@ public class WendigoEnemy : EnemyWithCombatDirector
         ConfigureState.Create(melee)
                .SetTransition(WendigoInputs.OBSERVATION, obs)
                .Done();
+
+        //ConfigureState.Create(petry)
 
         //Iniciacion de clases de estados
 
