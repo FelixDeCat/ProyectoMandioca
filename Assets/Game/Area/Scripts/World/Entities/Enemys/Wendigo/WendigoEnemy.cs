@@ -11,6 +11,9 @@ public class WendigoEnemy : EnemyWithCombatDirector
     [SerializeField] bool showAttackRange = false;
     [SerializeField] float rotationSpeed;
 
+    [SerializeField] WendigoView view;
+
+    //No esta checkeado
     [Header("Combat Options")]
     [SerializeField] Throwable throwObject = null;
     [SerializeField] Transform shootPivot = null;
@@ -41,20 +44,6 @@ public class WendigoEnemy : EnemyWithCombatDirector
     [SerializeField] EffectBase petrifyEffect = null;
     EventStateMachine<WendigoInputs> sm;
 
-    public DataBaseWendigoParticles particles;
-    public DataBaseWendigoSounds sounds;
-    public class DataBaseWendigoParticles
-    {
-        public ParticleSystem castParticles = null;
-        public ParticleSystem takeDmg = null;
-    }
-
-    [System.Serializable]
-    public class DataBaseWendigoSounds
-    {
-        public AudioClip takeDmgSound;
-        public AudioClip attackSound;
-    }
     protected override void OnInitialize()     //Inicia las cosas
     {
         //TODO view
@@ -114,7 +103,8 @@ public class WendigoEnemy : EnemyWithCombatDirector
 
         //Crear y Transiciones. Tree en Discord
         ConfigureState.Create(idle)
-        .SetTransition(WendigoInputs.OBSERVATION, obs);
+        .SetTransition(WendigoInputs.OBSERVATION, obs)
+        .Done();
 
         ConfigureState.Create(obs)
         .SetTransition(WendigoInputs.IDLE, idle)
@@ -146,17 +136,76 @@ public class WendigoEnemy : EnemyWithCombatDirector
                .SetTransition(WendigoInputs.OBSERVATION, obs)
                .Done();
 
-        //ConfigureState.Create(petry)
+        ConfigureState.Create(petry)
+       .SetTransition(WendigoInputs.OBSERVATION, obs)
+        .SetTransition(WendigoInputs.DEATH, death)
+               .Done();
+
+        ConfigureState.Create(death)
+        .SetTransition(WendigoInputs.DISABLED, disable)
+        .Done();
+
+        ConfigureState.Create(disable)
+        .SetTransition(WendigoInputs.IDLE, idle)
+        .Done();
 
         //Iniciacion de clases de estados
 
-    }
+        sm = new EventStateMachine<WendigoInputs>(idle, null);
 
-    //NotChecked
+        new WendigoIdle(idle, view, sm);
+        new WendigoObservation(obs, view, sm);
+
+        //var head = Main.instance.GetChar();   //Es necesario?
+
+    }
+    protected override void OnTurnOn()
+    {
+        view.Sign("TurnOn");
+    }
+    protected override void OnTurnOff()
+    {
+        view.Sign("TurnOff");
+    }
     protected override void OnUpdateEntity()
     {
         //Cosas, hay que estudiar primero
+
+        //Si no esta muerto
+        if (!death)
+        {
+            float dist = Vector3.Distance(Main.instance.GetChar().transform.position, transform.position);
+            Debug.Log(dist);
+            //Si esta en combate
+            if (combatElement.Combat)
+            {
+                //Si no esta en la combatDistance
+                if (dist >= combatDistance)
+                {
+                    sm.SendInput(WendigoInputs.IDLE);
+                    combatElement.ExitCombat();
+                }
+            }
+
+            //No esta en combate
+            if (!combatElement.Combat && combatElement.Target == null)
+            {
+                //Si esta en la combatdistance
+                if (dist <= combatDistance)
+                {
+                    combatElement.EnterCombat();
+                    sm.SendInput(WendigoInputs.OBSERVATION);
+                }
+
+            }
+        }
+        //Update de StateMachine
+        if (sm != null)
+            sm.Update();
+
+        Debug.Log(sm.Current.Name);
     }
+    //NotChecked
     protected override void OnPause()
     {
         base.OnPause();
@@ -172,6 +221,7 @@ public class WendigoEnemy : EnemyWithCombatDirector
     {
         canupdate = false;
         combatElement.Combat = false;
+
     }
 
     void EnableObject() => Initialize();
@@ -203,19 +253,9 @@ public class WendigoEnemy : EnemyWithCombatDirector
         return base.ToString();
     }
 
-    protected override void OnTurnOn()
-    {
-        throw new System.NotImplementedException();
-    }
-
-    protected override void OnTurnOff()
-    {
-        throw new System.NotImplementedException();
-    }
-
     protected override void OnFixedUpdate()
     {
-        throw new System.NotImplementedException();
+        //throw new System.NotImplementedException();
     }
 
     public override void ReturnToSpawner()
