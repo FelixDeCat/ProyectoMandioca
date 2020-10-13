@@ -7,23 +7,21 @@ public class SetEmission : MonoBehaviour
 {
     public Material material;
 
+
     [Range(0,1)]
     public float EmissionIntensity;
 
     private void Awake()
     {
-        var sceneName = SceneManager.GetActiveScene();
+        material.SetFloat("_EmissionIntensity", 0);
+    }
 
-
-        if (sceneName.name == "LevyDungeon")
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.gameObject.GetComponent<CharacterHead>())
         {
             material.SetFloat("_EmissionIntensity", EmissionIntensity);
         }
-        else
-            material.SetFloat("_EmissionIntensity", 0);
-
-
     }
-
 
 }
