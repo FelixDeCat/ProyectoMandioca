@@ -418,9 +418,9 @@ public class CharacterHead : CharacterControllable
            .SetTransition(PlayerInputs.IDLE, idle)
            .SetTransition(PlayerInputs.ON_MENU_ENTER, onMenues)
            .SetTransition(PlayerInputs.MOVE, move)
-           .SetTransition(PlayerInputs.CHARGE_ATTACK, attackCharge)
-           .SetTransition(PlayerInputs.CHARGE_BOOMERANG_SHIELD, boomerangCharge)
-           .SetTransition(PlayerInputs.BEGIN_BLOCK, beginBlock)
+           //.SetTransition(PlayerInputs.CHARGE_ATTACK, attackCharge)
+           //.SetTransition(PlayerInputs.CHARGE_BOOMERANG_SHIELD, boomerangCharge)
+           //.SetTransition(PlayerInputs.BEGIN_BLOCK, beginBlock)
            .SetTransition(PlayerInputs.DEAD, dead)
            .SetTransition(PlayerInputs.ROLL, roll)
            .SetTransition(PlayerInputs.FALLING, falling)
@@ -502,11 +502,11 @@ public class CharacterHead : CharacterControllable
             .SetAttack(charAttack)
             .SetLeftAxis(GetLeftHorizontal, GetLeftVertical).SetFeedbacks(feedbacks);
 
-        new CharBoomerangCharge(boomerangCharge, anim_base, stateMachine)
+        new CharBoomerangCharge(boomerangCharge, charanim, stateMachine)
             .SetLeftAxis(GetLeftHorizontal, GetLeftVertical)
             .SetMovement(this.move);
 
-        new CharBoomerangRelease(boomerangRelease, stateMachine, ThrowCallback)
+        new CharBoomerangRelease(boomerangRelease, stateMachine, ThrowCallback, charanim)
             .SetMovement(this.move)
             .SetLeftAxis(GetLeftHorizontal, GetLeftVertical);
 
@@ -529,14 +529,9 @@ public class CharacterHead : CharacterControllable
         groundSensor.SetFallingSystem(this.move.fallMaxDistance, () => stateMachine.SendInput(PlayerInputs.FALLING), tempFalling.ActivateCD);
     }
 
-    
-
     float GetLeftHorizontal() => moveX;
     float GetLeftVertical() => moveY;
-    float GetRightHorizontal() => rotateX;
-    float GetRightVertical() => rotateY;
     float GetStunDuration() => stunDuration;
-
 
     #endregion
 
@@ -652,7 +647,13 @@ public class CharacterHead : CharacterControllable
 
     public void EVENT_WeaponsToggle()
     {
-        if(canAttack || canBlock)
+        if (!canAttack && !canBlock ||
+            stateMachine.Current.Name == "Begin_Block" ||
+            stateMachine.Current.Name == "Block" ||
+            stateMachine.Current.Name == "End_Block" ||
+            stateMachine.Current.Name == "Charge_Attack" ||
+            stateMachine.Current.Name == "Release_Attack" ||
+            stateMachine.Current.Name == "Roll") return;
 
         if (!UpWeapons)
         {
@@ -755,6 +756,7 @@ public class CharacterHead : CharacterControllable
     void ThrowCallback()
     {
         throwCallback.Invoke(escudo.transform.position);
+        charanim.StartThrow(false);
     }
     #endregion
 

@@ -8,10 +8,13 @@ namespace Tools.StateMachine
     public class CharBoomerangRelease : CharacterStates
     {
         Action throwShield;
+        CharacterAnimator anim;
+        float timer;
 
-        public CharBoomerangRelease(EState<CharacterHead.PlayerInputs> myState, EventStateMachine<CharacterHead.PlayerInputs> _sm, Action _throwShield ): base(myState, _sm)
+        public CharBoomerangRelease(EState<CharacterHead.PlayerInputs> myState, EventStateMachine<CharacterHead.PlayerInputs> _sm, Action _throwShield, CharacterAnimator _anim): base(myState, _sm)
         {
             throwShield = _throwShield;
+            anim = _anim;
         }
 
         protected override void Enter(EState<CharacterHead.PlayerInputs> input)
@@ -19,19 +22,26 @@ namespace Tools.StateMachine
             Main.instance.GetChar().ToggleBlock(false);
             Debug.Log("Entra CharBoomerangRelease");
             throwShield.Invoke();
+            anim.ThrowShield(true);
         }
-
 
         protected override void Update()
         {
             Debug.Log("Entra Update CharBoomerangRelease");
-            if (LeftHorizontal() == 0 && LeftVertical() == 0)
+
+            timer += Time.deltaTime;
+
+            if (timer > 1)
             {
-                sm.SendInput(CharacterHead.PlayerInputs.IDLE);
-            }
-            else
-            {
-                sm.SendInput(CharacterHead.PlayerInputs.MOVE);
+                timer = 0;
+                if (LeftHorizontal() == 0 && LeftVertical() == 0)
+                {
+                    sm.SendInput(CharacterHead.PlayerInputs.IDLE);
+                }
+                else
+                {
+                    sm.SendInput(CharacterHead.PlayerInputs.MOVE);
+                }
             }
         }
         protected override void FixedUpdate()
@@ -46,7 +56,7 @@ namespace Tools.StateMachine
         protected override void Exit(CharacterHead.PlayerInputs input)
         {
             Debug.Log("Entra exit CharBoomerangRelease");
-
+            anim.ThrowShield(false);
         }
     }
 }

@@ -6,9 +6,9 @@ namespace Tools.StateMachine
 {
     public class CharBoomerangCharge : CharacterStates
     { 
-        Animator anim;
+        CharacterAnimator anim;
 
-        public CharBoomerangCharge(EState<CharacterHead.PlayerInputs> myState, Animator _anim, EventStateMachine<CharacterHead.PlayerInputs> _sm) : base(myState, _sm)
+        public CharBoomerangCharge(EState<CharacterHead.PlayerInputs> myState, CharacterAnimator _anim, EventStateMachine<CharacterHead.PlayerInputs> _sm) : base(myState, _sm)
         {
             anim = _anim;
         }
@@ -17,6 +17,7 @@ namespace Tools.StateMachine
         {
             charMove.MovementHorizontal(0);
             charMove.MovementVertical(0);
+            anim.StartThrow(true);
         }
         protected override void Update()
         {
@@ -35,6 +36,7 @@ namespace Tools.StateMachine
 
         protected override void Exit(CharacterHead.PlayerInputs input)
         {
+            anim.StartThrow(false);
         }
     }
 }
