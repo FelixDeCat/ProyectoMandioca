@@ -9,8 +9,6 @@ public class GameLoop : MonoBehaviour
 {
     public static GameLoop instance; private void Awake() => instance = this;
 
-    [SerializeField] private AudioClip ambience = null;
-
     private bool godMode = false;
     CharacterHead character;
 
@@ -34,7 +32,6 @@ public class GameLoop : MonoBehaviour
         character = Main.instance.GetChar();
         character.Life.ADD_EVENT_Death(OnPlayerDeath);
         TooglesConfig();
-        SoundAmbience();
         startGame = true;
     }
 
@@ -154,12 +151,7 @@ public class GameLoop : MonoBehaviour
         return active ? "debug activado" : "debug desactivado";
     }
     #endregion
-    #region Sounds
-    void SoundAmbience()
-    {
-        AudioManager.instance.GetSoundPool("ambiente", AudioGroups.MUSIC, ambience, true);
-        AudioManager.instance.PlaySound("ambiente");
-    }
+
 
     private void Update()
     {
@@ -169,5 +161,4 @@ public class GameLoop : MonoBehaviour
             Checkpoint_Manager.instance.SpawnChar();
         }
     }
-    #endregion
 }
