@@ -163,6 +163,7 @@ public class NewSceneStreamer : MonoBehaviour
             if (localref.ContainsKey(u))
             {
                 yield return localref[u].ExecuteLoadParameter(SceneData.Detail_Parameter.top_to_landmark);
+                LocalToEnemyManager.OnUnLoadScene(u);
             }
 
             #region en desuso, era para descargar las que estaban lejos
@@ -278,7 +279,7 @@ public class NewSceneStreamer : MonoBehaviour
 
     void OnSceneUnLoaded(Scene scene)
     {
-       // UnregisterLocalScene(scene.name);
+        UnregisterLocalScene(scene.name);
     }
     #endregion
 
