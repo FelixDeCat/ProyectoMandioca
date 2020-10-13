@@ -15,6 +15,7 @@ public class CharacterGroundSensor : MonoBehaviour
 
     [SerializeField] float gravityMultiplier = 0.2f;
     [SerializeField] float maxAceleration = 15;
+    [SerializeField] float maxhHeight = 1f;
 
     bool isGrounded;
     float timer;
@@ -55,7 +56,6 @@ public class CharacterGroundSensor : MonoBehaviour
 
         isFalling = false;
     }
-
 
     IEnumerator OnUpdate()
     {
@@ -143,12 +143,33 @@ public class CharacterGroundSensor : MonoBehaviour
         }
 
         RaycastHit hit;
-        if (Physics.Raycast(transform.position + transform.forward * 0.08f, -transform.up, out hit, 0.3f, floorMask))
+        if (!Slope(transformToSnap))
         {
-            if (Mathf.Abs(hit.point.y - transformToSnap.position.y) <= 0.05f) return;
+            if (Physics.Raycast(transform.position, -transform.up, out hit, 0.3f, floorMask))
+            {
+                if (Mathf.Abs(hit.point.y - transformToSnap.position.y) <= 0.05f) return;
+
+                transformToSnap.position = new Vector3(transformToSnap.position.x, hit.point.y, transformToSnap.position.z);
+            }
+        }
+    }
+
+    bool Slope(Transform transformToSnap)
+    {
+        return false; //Para que no rompa para mañana
+
+        RaycastHit hit;
+        if (Physics.Raycast(transform.position + transform.forward * 0.35f + transform.up * 0.35f, -transform.up, out hit, 0.4f, floorMask))
+        {
+            var temp = Mathf.Abs(hit.point.y - transformToSnap.position.y);
+            if (hit.point.y <= transformToSnap.position.y || temp <= 0.05f || temp >=maxhHeight) return false;
 
             transformToSnap.position = new Vector3(transformToSnap.position.x, hit.point.y, transformToSnap.position.z);
+
+            Debug.Log("stoy slopeando: " + temp);
+            return true;
         }
+        return false;
     }
 
     public void AddForce(float force)
