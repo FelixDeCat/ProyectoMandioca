@@ -2,12 +2,15 @@
 using System.Collections.Generic;
 using UnityEngine;
 using Tools.Extensions;
+using UnityEngine.Events;
 
 public class EntusiastaRompiendoRamas : PistonWithSteps
 {
     [SerializeField] Transform _rootRot;
     [SerializeField] Animator _anim;
     [SerializeField] AnimEvent _animEvent;
+
+    public UnityEvent OnFinishMyObjetive;
 
     private void Start()
     {
@@ -17,6 +20,7 @@ public class EntusiastaRompiendoRamas : PistonWithSteps
 
     public void StartWalkingAnim()
     {
+        Debug.Log("Inicia a caminar");
         _anim.SetTrigger("run");
     }
 
@@ -28,6 +32,7 @@ public class EntusiastaRompiendoRamas : PistonWithSteps
 
     public override void Move()
     {
+        Debug.Log("Se empieza a mover");
         _root.transform.position += _root.forward * speed * Time.fixedDeltaTime;
         _rootRot.LookAt(nodes[currentNode]);
     }
@@ -42,5 +47,7 @@ public class EntusiastaRompiendoRamas : PistonWithSteps
         {
             item.GetComponent<DamageReceiver>().TakeDamage(data);
         }
+
+        OnFinishMyObjetive.Invoke();
     }
 }

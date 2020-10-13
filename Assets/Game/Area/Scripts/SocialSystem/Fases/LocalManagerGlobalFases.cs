@@ -9,14 +9,26 @@ public class LocalManagerGlobalFases : LoadComponent
 
     public LocalGlobalFase[] localfases = new LocalGlobalFase[0];
 
+    public bool Manual_job;
+
     private void Start()
     {
-        StartCoroutine(Load());
+        if (!Manual_job)
+        {
+            StartCoroutine(Load());
+        }
+        else
+        {
+            foreach (var aux in localfases)
+            {
+                aux.AutoRefresh();
+            }
+        }
     }
 
     protected override IEnumerator LoadMe()
     {
-        localfases = GetComponentsInChildren<LocalGlobalFase>();
+        localfases = FindObjectsOfType<LocalGlobalFase>();
 
         foreach (var aux in localfases)
         {
