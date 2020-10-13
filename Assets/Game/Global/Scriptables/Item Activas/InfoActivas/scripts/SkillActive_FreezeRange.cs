@@ -38,9 +38,9 @@ public class SkillActive_FreezeRange : SkillActivas
         freezeSmoke.Play();
         freezeNova.Play();
 
-        atenea.gameObject.SetActive(true);
-        atenea.GoToHero();
-        atenea.Anim_Freeze();
+        //atenea.gameObject.SetActive(true);
+        //atenea.GoToHero();
+        //atenea.Anim_Freeze();
         
         
         List<EffectReceiver> enemies = Extensions.FindInRadius<EffectReceiver>(_hero.transform, range);

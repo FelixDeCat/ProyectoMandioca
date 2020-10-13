@@ -41,9 +41,9 @@ public class SkillActive_RainArrows : SkillActivas
     }
     protected override void OnStartUse() 
     {
-        atenea.gameObject.SetActive(true);
-        atenea.GoToHero();
-        atenea.Anim_Arrows();
+        //atenea.gameObject.SetActive(true);
+        //atenea.GoToHero();
+        //atenea.Anim_Arrows();
     }
     protected override void OnStopUse()
     {
