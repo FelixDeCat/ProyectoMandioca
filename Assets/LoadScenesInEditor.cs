@@ -2,12 +2,16 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+#if UNITY_EDITOR
 using UnityEditor.SceneManagement;
+#endif
 using System.Linq;
+
 
 [ExecuteInEditMode]
 public class LoadScenesInEditor : MonoBehaviour
 {
+#if UNITY_EDITOR
     public bool BUTTON_LOAD;
     public bool BUTTON_UNLOAD;
     public string scenes;
@@ -45,4 +49,5 @@ public class LoadScenesInEditor : MonoBehaviour
             hashscenes.Clear();
         }
     }
+#endif
 }
