@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using Tools.Extensions;
+using UnityEngine.Events;
 
 public class FallByBezier : MonoBehaviour
 {
@@ -12,6 +13,7 @@ public class FallByBezier : MonoBehaviour
 
     [SerializeField] GameObject objToFall = null;
 
+    public UnityEvent OnEndFall;
 
     public void FallOnHit()
     {
@@ -29,5 +31,7 @@ public class FallByBezier : MonoBehaviour
 
             yield return new WaitForSeconds(0.01f);
         }
+
+        OnEndFall.Invoke();
     }
 }
