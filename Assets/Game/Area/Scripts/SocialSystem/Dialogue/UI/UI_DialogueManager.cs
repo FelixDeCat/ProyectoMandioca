@@ -10,6 +10,7 @@ public class UI_DialogueManager : UI_Base
     public TextMeshProUGUI dialogue;
     public GameObject[] buttonOptionsGos;
     public ButtonOption[] buttonOptions;
+    public TextMeshProUGUI npc_name;
 
     public TextAnimCharXChar textAnim;
 
@@ -39,6 +40,11 @@ public class UI_DialogueManager : UI_Base
 
         buttonNext.gameObject.SetActive(false);
         buttonExit.gameObject.SetActive(false);
+    }
+
+    public void SetName(string _name)
+    {
+        npc_name.text = _name;
     }
 
     public void SetPhoto(Sprite sp)
