@@ -17,6 +17,26 @@ public class ExecutionManager : MonoBehaviour
         {
             executables[i].SetID(i);
         }
+
+        Command
+               .AddBranch(new CommandBranch("ExecutionManager")
+                           .AddLeaf(Execute, "Execute")
+                           );
+    }
+
+    public void Execute(string s)
+    {
+        var aux = s.Split('s');
+        if (aux.Length >= 1)
+        {
+            Execute(int.Parse(aux[aux.Length-1]));
+        }
+        else
+        {
+            Execute(int.Parse(s));
+        }
+
+        
     }
 
     public bool CanExecute(int id) => executables[id].CanExecute;
