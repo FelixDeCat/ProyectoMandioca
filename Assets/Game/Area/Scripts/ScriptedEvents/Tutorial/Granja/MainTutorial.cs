@@ -10,6 +10,7 @@ public class MainTutorial : MonoBehaviour
     public const int FASE_ACTIVO_DOCTOR = 2;
     public const int FASE_PLANTAS_ENTREGADAS = 3;
     public const int FASE_ATENEA_DEJA_PASAR = 4;
+    public const int FASE_ARMORED_ENT_ASESINATADO = 5;
 
     public ObjetiveSubscriber jacinta_ents_Objetive;
     public ObjetiveSubscriber farm_armored_ent_Objetive;
@@ -35,7 +36,7 @@ public class MainTutorial : MonoBehaviour
     void FinishObjetive_All_Jacinta_Ents_Killed() => ChangeFase(FASE_ACTIVO_DOCTOR);
     void FinishObjetive_Way_To_Doctor_Cleared() => ChangeFase(FASE_CAMINO_A_DOCTOR_DESPEJADO);
     void FinishObjetive_Curative_Plants_Recollected(int ID) { objetive_plants = true; DoctorRequirements(); }
-    void FinishObjetive_Armored_Ent_Killed() { objetive_armored_ent = true; DoctorRequirements(); }
+    void FinishObjetive_Armored_Ent_Killed() { ChangeFase(FASE_ARMORED_ENT_ASESINATADO); objetive_armored_ent = true; DoctorRequirements(); }
     void DoctorRequirements()
     {
         if (objetive_armored_ent && objetive_plants)

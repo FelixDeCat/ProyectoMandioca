@@ -42,6 +42,7 @@ public class DialogueManager : MonoBehaviour
         showButtons = _showButtons;
         anim.Open(true);
         frontend.Open();
+        frontend.SetName(treedialog.treeName);
         if(_can_not_move) Main.instance.GetChar().InputGoToMenues(true);
         tree = treedialog;
         ShowInScreen();
