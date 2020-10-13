@@ -152,7 +152,7 @@ Shader "BreakeableShader"
 }
 /*ASEBEGIN
 Version=18301
-0;379;945;310;933.1216;-116.8584;1.722418;True;False
+779;548;482;273;534.3818;-148.7231;1.722418;False;False
 Node;AmplifyShaderEditor.SimpleTimeNode;11;-1262.255,271.6878;Inherit;False;1;0;FLOAT;2.81;False;1;FLOAT;0
 Node;AmplifyShaderEditor.RangedFloatNode;14;-1248.133,342.979;Inherit;False;Property;_FresnelFrec;Fresnel Frec;3;0;Create;True;0;0;False;0;False;0;1;0;0;0;1;FLOAT;0
 Node;AmplifyShaderEditor.SimpleMultiplyOpNode;12;-1050.886,284.6452;Inherit;True;2;2;0;FLOAT;0;False;1;FLOAT;0;False;1;FLOAT;0
@@ -181,4 +181,4 @@ WireConnection;0;0;2;0
 WireConnection;0;1;18;0
 WireConnection;0;2;4;0
 ASEEND*/
-//CHKSM=9E16FF96C4B91B909C07617ADF6A2136C3E0200A
+//CHKSM=02AD8CB2EA02ECAAE8C5B16F733992B44D2FEBAC
