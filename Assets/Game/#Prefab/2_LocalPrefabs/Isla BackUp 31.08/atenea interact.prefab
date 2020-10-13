@@ -11,8 +11,6 @@ GameObject:
   - component: {fileID: 4003978540622786130}
   - component: {fileID: 8357061843922566068}
   - component: {fileID: 8443997345079905556}
-  - component: {fileID: 5552516860588613040}
-  - component: {fileID: 7880741453172112812}
   - component: {fileID: 5507332463156249848}
   - component: {fileID: 3004399480493191350}
   - component: {fileID: 3004399480493195081}
@@ -74,6 +72,12 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+  PressDown:
+    m_PersistentCalls:
+      m_Calls: []
+  PressUp:
+    m_PersistentCalls:
+      m_Calls: []
   UE_OnExecute:
     m_PersistentCalls:
       m_Calls:
@@ -88,7 +92,7 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-      - m_Target: {fileID: 7880741453172112812}
+      - m_Target: {fileID: 0}
         m_MethodName: OnExecute
         m_Mode: 1
         m_Arguments:
@@ -112,6 +116,7 @@ MonoBehaviour:
         m_CallState: 2
   nombre_NPC: 
   mostrarFeedback: 0
+  custom_cartelito: 0
 --- !u!114 &8443997345079905556
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -128,46 +133,8 @@ MonoBehaviour:
   - {fileID: 11400000, guid: a73325b7be997ab4c87afc62866bc91e, type: 2}
   currentDialoge: {fileID: 11400000, guid: a73325b7be997ab4c87afc62866bc91e, type: 2}
   useOneShot: 1
---- !u!114 &5552516860588613040
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3796502392253647831}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a04821f449f46ad49811241327f86081, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  dialogToDispatch: {fileID: 11400000, guid: 6ef6f7de702948d4b8c3f7a46601f632, type: 2}
---- !u!114 &7880741453172112812
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3796502392253647831}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1244458034cf97446ac19d4d075a2ac6, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  ID: 4
-  UE_EndMision:
-    m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 5552516860588613040}
-        m_MethodName: Execute
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+  stopAllOnDialogue: 1
+  showButtons: 0
 --- !u!114 &5507332463156249848
 MonoBehaviour:
   m_ObjectHideFlags: 0
