@@ -11,6 +11,10 @@ public class AteneaComboWombo : MonoBehaviour
     [SerializeField] UnityEvent OnIsActive;
     [SerializeField] UnityEvent OnIsDeactive;
 
+    float timer;
+    bool begin_timer;
+
+
     private void Start()
     {
         combat_Maniqui = this.gameObject.GetComponent<Combat_Maniqui>();
@@ -24,9 +28,7 @@ public class AteneaComboWombo : MonoBehaviour
 
     void ComboWombo_IsActive()
     {
-        Debug.Log("COMBO WOMBO ACTIVO");
-        iscombowomboactive = true;
-        OnIsActive.Invoke();
+        Reactivate();
     }
 
     void ComboWombo_IsDeactive()
@@ -34,5 +36,31 @@ public class AteneaComboWombo : MonoBehaviour
         Debug.Log("COMBO WOMBO DESACTIVADO");
         iscombowomboactive = false;
         OnIsDeactive.Invoke();
+    }
+
+    void Reactivate()
+    {
+        iscombowomboactive = true;
+        OnIsActive.Invoke();
+        begin_timer = true;
+        timer = 0;
+    }
+
+    private void Update()
+    {
+        if (begin_timer)
+        {
+            if (timer < 1.5f)
+            {
+                timer = timer +1 * Time.deltaTime;
+            }
+            else
+            {
+                timer = 0; 
+                begin_timer = false;
+                ComboWombo_IsDeactive();
+            }
+
+        }
     }
 }
