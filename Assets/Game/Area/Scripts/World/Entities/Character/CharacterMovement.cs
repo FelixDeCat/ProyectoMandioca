@@ -62,6 +62,7 @@ public class CharacterMovement
     [SerializeField] float jumpSpeed = 9;
     [SerializeField] float jumpCD = 1;
     [SerializeField] float jumpTime = 0.5f;
+    [SerializeField] LayerMask obstacleMask = 3 << 0 & 15 & 21;
 
     float original_angular_drag = 0.05f;
     const float snorlax_angular_drag = 1000f;
@@ -154,7 +155,7 @@ public class CharacterMovement
         {
             groundedPrecautionTimer += Time.deltaTime;
 
-            if(groundedPrecautionTimer >= 0.3f)
+            if(groundedPrecautionTimer >= 0.7f)
                 anim.Grounded(false);
         }
         else
@@ -174,8 +175,7 @@ public class CharacterMovement
 
         if (movX >= 0.1 || movX <= -0.1 || movY >= 0.1 || movY <= -0.1)
         {
-
-            var checkRay = Physics.Raycast(rotTransform.position + Vector3.up*1.2f, rotTransform.forward, 1.3f, 2 << 0 & 15,QueryTriggerInteraction.Ignore);
+            var checkRay = Physics.Raycast(rotTransform.position + Vector3.up*1.2f, rotTransform.forward, 1.3f, obstacleMask,QueryTriggerInteraction.Ignore);
             
             if (checkRay)
             {

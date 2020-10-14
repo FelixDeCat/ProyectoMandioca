@@ -156,8 +156,6 @@ public class CharacterGroundSensor : MonoBehaviour
 
     bool Slope(Transform transformToSnap)
     {
-        return false; //Para que no rompa para mañana
-
         RaycastHit hit;
         if (Physics.Raycast(transform.position + transform.forward * 0.35f + transform.up * 0.35f, -transform.up, out hit, 0.4f, floorMask))
         {
