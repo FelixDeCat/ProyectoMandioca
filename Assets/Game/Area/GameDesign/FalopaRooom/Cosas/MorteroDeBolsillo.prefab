@@ -442,8 +442,9 @@ GameObject:
   - component: {fileID: 2104768023040165988}
   - component: {fileID: 7462721397005041086}
   - component: {fileID: 4897248026375593966}
-  - component: {fileID: 9006611933736020782}
   - component: {fileID: 9006611933736020783}
+  - component: {fileID: 9006611933736020782}
+  - component: {fileID: 7421516112916690717}
   m_Layer: 0
   m_Name: equiped
   m_TagString: Untagged
@@ -480,6 +481,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   EV_BeginUse:
     m_PersistentCalls:
+      m_Calls: []
+  EV_EndUse:
+    m_PersistentCalls:
+      m_Calls: []
+  EV_Execute:
+    m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 9006611933736020783}
         m_MethodName: OnCollectItem
@@ -492,12 +499,6 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-  EV_EndUse:
-    m_PersistentCalls:
-      m_Calls: []
-  EV_Execute:
-    m_PersistentCalls:
-      m_Calls: []
   EV_UpdateUse:
     m_PersistentCalls:
       m_Calls: []
@@ -523,6 +524,20 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   cooldown: 2
+--- !u!114 &9006611933736020783
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 510395924520092790}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4c028cc701541d84c987dafdf1e10b4f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  item: {fileID: 11400000, guid: c3ff1acc92f0717449942d732855378c, type: 2}
+  cant: 1
 --- !u!114 &9006611933736020782
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -537,7 +552,29 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   counter_predicate:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 7462721397005041086}
+        m_MethodName: SetModelFunction
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 9006611933736020783}
+        m_MethodName: Configure_CustomPredicate
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   OnConsume:
     m_PersistentCalls:
       m_Calls:
@@ -555,7 +592,7 @@ MonoBehaviour:
   items_requirements:
   - item: {fileID: 11400000, guid: f1df2d399ac352949bd082f517873d91, type: 2}
     cant: 3
---- !u!114 &9006611933736020783
+--- !u!114 &7421516112916690717
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -564,11 +601,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 510395924520092790}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4c028cc701541d84c987dafdf1e10b4f, type: 3}
+  m_Script: {fileID: 11500000, guid: cdcd17ef3e4816c43ad649ac9709b1d6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  item: {fileID: 11400000, guid: c3ff1acc92f0717449942d732855378c, type: 2}
-  cant: 1
+  cast_type: 1
+  casting: 1
 --- !u!1 &535582781142097213
 GameObject:
   m_ObjectHideFlags: 0
