@@ -7530,6 +7530,8 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 3f6ceb806fd02c043844754e85b075ca, type: 2}
   currentDialoge: {fileID: 11400000, guid: 3f6ceb806fd02c043844754e85b075ca, type: 2}
   useOneShot: 1
+  stopAllOnDialogue: 1
+  showButtons: 0
 --- !u!4 &216815029
 Transform:
   m_ObjectHideFlags: 0
@@ -9359,6 +9361,8 @@ MonoBehaviour:
   IDs:
     m_keys: 
     m_values: 
+  IdToExecute: 0
+  indexItem: 0
 --- !u!4 &248605359 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 5775757230759414316, guid: 45d745a24aee140468191e128e040173,
@@ -29546,6 +29550,75 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 602431055}
   m_PrefabAsset: {fileID: 0}
+--- !u!1001 &604511018
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 2372085057310058342, guid: fb8f468d5b925da4a8b2468260b960b4,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 1069.88
+      objectReference: {fileID: 0}
+    - target: {fileID: 2372085057310058342, guid: fb8f468d5b925da4a8b2468260b960b4,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 313.85706
+      objectReference: {fileID: 0}
+    - target: {fileID: 2372085057310058342, guid: fb8f468d5b925da4a8b2468260b960b4,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -129.34
+      objectReference: {fileID: 0}
+    - target: {fileID: 2372085057310058342, guid: fb8f468d5b925da4a8b2468260b960b4,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2372085057310058342, guid: fb8f468d5b925da4a8b2468260b960b4,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2372085057310058342, guid: fb8f468d5b925da4a8b2468260b960b4,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2372085057310058342, guid: fb8f468d5b925da4a8b2468260b960b4,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2372085057310058342, guid: fb8f468d5b925da4a8b2468260b960b4,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 26
+      objectReference: {fileID: 0}
+    - target: {fileID: 2372085057310058342, guid: fb8f468d5b925da4a8b2468260b960b4,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2372085057310058342, guid: fb8f468d5b925da4a8b2468260b960b4,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2372085057310058342, guid: fb8f468d5b925da4a8b2468260b960b4,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4699440550007515634, guid: fb8f468d5b925da4a8b2468260b960b4,
+        type: 3}
+      propertyPath: m_Name
+      value: Potion model
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: fb8f468d5b925da4a8b2468260b960b4, type: 3}
 --- !u!1001 &604575891
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -43372,6 +43445,8 @@ MonoBehaviour:
   IDs:
     m_keys: 
     m_values: 
+  IdToExecute: 0
+  indexItem: 0
 --- !u!4 &806212469 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 5775757230759414316, guid: 45d745a24aee140468191e128e040173,
@@ -65782,6 +65857,8 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 764732c3fa64e56499d08f6b7ef8b147, type: 2}
   currentDialoge: {fileID: 11400000, guid: 764732c3fa64e56499d08f6b7ef8b147, type: 2}
   useOneShot: 1
+  stopAllOnDialogue: 1
+  showButtons: 0
 --- !u!4 &1248648148
 Transform:
   m_ObjectHideFlags: 0
@@ -70738,6 +70815,8 @@ MonoBehaviour:
   - {fileID: 11400000, guid: cc052bb825de5954e9903c63fa31a4b9, type: 2}
   currentDialoge: {fileID: 11400000, guid: cc052bb825de5954e9903c63fa31a4b9, type: 2}
   useOneShot: 1
+  stopAllOnDialogue: 1
+  showButtons: 0
 --- !u!4 &1381982892
 Transform:
   m_ObjectHideFlags: 0
@@ -71244,7 +71323,7 @@ PrefabInstance:
     - target: {fileID: 3028518528670049724, guid: 9428227ea7032754ca0848e5958615bf,
         type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3028518528670049726, guid: 9428227ea7032754ca0848e5958615bf,
         type: 3}
@@ -89540,6 +89619,8 @@ MonoBehaviour:
   IDs:
     m_keys: 
     m_values: 
+  IdToExecute: 0
+  indexItem: 0
 --- !u!4 &1662987015 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 5775757230759414316, guid: 45d745a24aee140468191e128e040173,

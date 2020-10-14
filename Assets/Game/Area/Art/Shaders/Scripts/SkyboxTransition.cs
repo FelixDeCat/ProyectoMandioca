@@ -35,6 +35,8 @@ public class SkyboxTransition : MonoBehaviour
         if (other.gameObject.GetComponent<CharacterHead>())
         {
             SetNigth();
+
+           
         }
     }
 
