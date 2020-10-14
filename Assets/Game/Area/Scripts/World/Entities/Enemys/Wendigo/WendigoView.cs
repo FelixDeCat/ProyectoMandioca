@@ -9,13 +9,35 @@ namespace Tools.StateMachine
     {
         [SerializeField]
         TMP_Text debugText;
+        [SerializeField]
+        TMP_Text distanceText;
+
+        [SerializeField] Animator anim;
 
         public DataBaseWendigoParticles particles;
         public DataBaseWendigoSounds sounds;
 
-        public void Sign(string _text)
+        public void DebugText(string _state)
         {
-            debugText.text = _text;
+            debugText.text = _state;
+        }
+        public void DistanceText(string _dist)
+        {
+            distanceText.text = _dist;
+        }
+        //Funciones con particulas, sonidos y animacion
+        public void Movement(float vel)
+        {
+            anim.SetFloat("velocity", vel);
+        }
+        public void ExitMov()
+        {
+            anim.SetFloat("velocity", 0);
+            anim.SetTrigger("exitRun");
+        }
+        public void Kick()
+        {
+            anim.SetTrigger("Kick");
         }
 
     }

@@ -9,11 +9,15 @@ public class WendigoEnemy : EnemyWithCombatDirector
     //DistancePos = attackRange
     [SerializeField] bool showCombatDistance = false;
     [SerializeField] bool showAttackRange = false;
-    [SerializeField] float rotationSpeed;
-
     [SerializeField] WendigoView view;
+    [SerializeField] GenericEnemyMove moveComponent;
+    [SerializeField] RagdollComponent ragdoll = null;
+    [SerializeField] CharacterGroundSensor groundSensor;
+
+    bool isMelee;
 
     //No esta checkeado
+    [SerializeField] float rotationSpeed;
     [Header("Combat Options")]
     [SerializeField] Throwable throwObject = null;
     [SerializeField] Transform shootPivot = null;
@@ -38,9 +42,7 @@ public class WendigoEnemy : EnemyWithCombatDirector
     private Material[] myMat;
     [SerializeField] Color onHitColor = Color.white;
     [SerializeField] float onHitFlashTime = 0.1f;
-    [SerializeField] RagdollComponent ragdoll = null;
     ParticleSystem castPartTemp;
-
     [SerializeField] EffectBase petrifyEffect = null;
     EventStateMachine<WendigoInputs> sm;
 
@@ -50,6 +52,7 @@ public class WendigoEnemy : EnemyWithCombatDirector
         //cosas
         base.OnInitialize();
         Main.instance.eventManager.TriggerEvent(GameEvents.ENEMY_SPAWN, new object[] { this });
+        moveComponent.Configure(rootTransform, rb, groundSensor);
 
         //Particulas
 
@@ -154,18 +157,20 @@ public class WendigoEnemy : EnemyWithCombatDirector
         sm = new EventStateMachine<WendigoInputs>(idle, null);
 
         new WendigoIdle(idle, view, sm);
-        new WendigoObservation(obs, view, sm);
+        new WendigoObservation(obs, view, moveComponent, combatElement, sm).SetRigidbody(rb).SetRoot(rootTransform);
+        new WendigoPrepareMelee(prepMelee, view, sm);
+        new WendigoMelee(melee, view, sm);
 
         //var head = Main.instance.GetChar();   //Es necesario?
 
     }
     protected override void OnTurnOn()
     {
-        view.Sign("TurnOn");
+        view.DebugText("TurnOn");
     }
     protected override void OnTurnOff()
     {
-        view.Sign("TurnOff");
+        view.DebugText("TurnOff");
     }
     protected override void OnUpdateEntity()
     {
@@ -175,10 +180,21 @@ public class WendigoEnemy : EnemyWithCombatDirector
         if (!death)
         {
             float dist = Vector3.Distance(Main.instance.GetChar().transform.position, transform.position);
-            Debug.Log(dist);
+            view.DistanceText(dist.ToString());
             //Si esta en combate
             if (combatElement.Combat)
             {
+                //Si es Melee (auspiciado por el TriggerDispatcher)
+                if (isMelee)
+                {
+                    //El unico que puede disparar el ataque es el PrepareMelee
+                    sm.SendInput(WendigoInputs.PREPAREMELEE);
+                }
+                else
+                {
+                    sm.SendInput(WendigoInputs.OBSERVATION);
+                }
+
                 //Si no esta en la combatDistance
                 if (dist >= combatDistance)
                 {
@@ -196,7 +212,6 @@ public class WendigoEnemy : EnemyWithCombatDirector
                     combatElement.EnterCombat();
                     sm.SendInput(WendigoInputs.OBSERVATION);
                 }
-
             }
         }
         //Update de StateMachine
@@ -205,7 +220,6 @@ public class WendigoEnemy : EnemyWithCombatDirector
 
         Debug.Log(sm.Current.Name);
     }
-    //NotChecked
     protected override void OnPause()
     {
         base.OnPause();
@@ -214,6 +228,9 @@ public class WendigoEnemy : EnemyWithCombatDirector
     protected override void OnReset()
     {
         //Reset
+        ragdoll.Ragdoll(false, Vector3.zero);
+        death = false;
+        sm.SendInput(WendigoInputs.DISABLED);
     }
     //Attack
     //StateMachin
@@ -237,6 +254,12 @@ public class WendigoEnemy : EnemyWithCombatDirector
         }
 
     }
+
+    public void PlayerInMelee(bool isit)
+    {
+        isMelee = isit;
+    }
+    //NotChecked
 
     public override int GetHashCode()
     {
