@@ -59,7 +59,6 @@ GameObject:
   - component: {fileID: 3458814436821353526}
   - component: {fileID: 1933154255302635671}
   - component: {fileID: 8449518503374469748}
-  - component: {fileID: 2064540019165673317}
   - component: {fileID: 2577320187140131354}
   m_Layer: 0
   m_Name: interact_collect_HojasCurativas
@@ -135,6 +134,12 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+  PressDown:
+    m_PersistentCalls:
+      m_Calls: []
+  PressUp:
+    m_PersistentCalls:
+      m_Calls: []
   execute:
     m_PersistentCalls:
       m_Calls:
@@ -160,7 +165,7 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-      - m_Target: {fileID: 2064540019165673317}
+      - m_Target: {fileID: 0}
         m_MethodName: OnExecute
         m_Mode: 1
         m_Arguments:
@@ -333,22 +338,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   item: {fileID: 11400000, guid: f1df2d399ac352949bd082f517873d91, type: 2}
---- !u!114 &2064540019165673317
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3458814436821353525}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1244458034cf97446ac19d4d075a2ac6, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  ID: 3
-  UE_EndMision:
-    m_PersistentCalls:
-      m_Calls: []
+  cant: 1
 --- !u!114 &2577320187140131354
 MonoBehaviour:
   m_ObjectHideFlags: 0
