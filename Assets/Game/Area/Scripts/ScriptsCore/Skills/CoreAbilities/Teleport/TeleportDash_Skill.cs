@@ -22,13 +22,16 @@ public class TeleportDash_Skill : SkillBase
         if (_movement == null)
             _movement = _hero.GetCharMove();
         
-        _hero.ChangeDashForTeleport();
-        _movement.ConfigureTeleport(teleportDistance, intro, outro, endCD);
+        //_hero.ChangeDashForTeleport();
+        //_movement.ConfigureTeleport(teleportDistance, intro, outro, endCD);
 
         AudioManager.instance.GetSoundPool("TeleportAudio", AudioGroups.GAME_FX, teleportAudio);
     }
 
-    protected override void OnEndSkill(){_hero.ChangeTeleportForDash();}
+    protected override void OnEndSkill()
+    {
+        //_hero.ChangeTeleportForDash();
+    }
 
     protected override void OnUpdateSkill(){}
 

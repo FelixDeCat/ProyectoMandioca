@@ -40,7 +40,7 @@ public class SkillActive_Buff : SkillActivas
     }
     protected override void OnStartUse()
     {
-        mychar.ActivateBuffState(damageBuff, damageResistance, speedAcceleration, timeScale, timeDuration);
+        //mychar.ActivateBuffState(damageBuff, damageResistance, speedAcceleration, timeScale, timeDuration);
         AudioManager.instance.PlaySound("slowmo_enter");
         berserkParticle.transform.position = mychar.transform.position;
         berserkParticle.Play();
@@ -50,11 +50,11 @@ public class SkillActive_Buff : SkillActivas
     }
     protected override void OnStopUse()
     {
-        mychar.DesactivateBuffState(damageBuff);
-        AudioManager.instance.PlaySound("slowmo_exit", OnEndSound);
-        brightParticle.Stop();
+        //mychar.DesactivateBuffState(damageBuff);
+        //AudioManager.instance.PlaySound("slowmo_exit", OnEndSound);
+        //brightParticle.Stop();
     }
-    public void OnEndSound() => mychar.DesactivateBuffState(damageBuff);
+    //public void OnEndSound() => mychar.DesactivateBuffState(damageBuff);
 
     protected override void OnUpdateUse()
     {

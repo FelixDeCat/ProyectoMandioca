@@ -8,22 +8,16 @@ public class CharacterHead : CharacterControllable
     public enum PlayerInputs
     {
         IDLE, MOVE, BEGIN_BLOCK, BLOCK, END_BLOCK, PARRY, CHARGE_ATTACK, RELEASE_ATTACK,
-        TAKE_DAMAGE, DEAD, ROLL, SPIN, STUN, PLAYER_LOCK_ON, ON_SKILL, ON_LOOK_SHOLDER,
-        ON_MENU_ENTER, ON_MENU_EXIT, FALLING, CHARGE_BOOMERANG_SHIELD, RELEASE_BOOMERANG_SHIELD
+        TAKE_DAMAGE, DEAD, ROLL, STUN, ON_MENU_ENTER, ON_MENU_EXIT, FALLING, CHARGE_BOOMERANG_SHIELD, RELEASE_BOOMERANG_SHIELD, ENVAINAR
     };
 
     Action ChildrensUpdates;
     [SerializeField] CharacterInput _charInput = null;
-
     [SerializeField] bool StartWithoutWeapons = false;
-
-    [Header("Dash Options")]
-    [SerializeField] float teleportCD = 2;
     public bool Slowed { get; private set; }
     Func<bool> InDash;
 
     [Header("Movement Options")]
-    float slowSpeed = 2;
     AdventureMode _advMode;
 
     public Transform rayPivot;
@@ -45,7 +39,6 @@ public class CharacterHead : CharacterControllable
     [SerializeField] float timeScale = 1;
     [SerializeField] float slowDuration = 2;
     [SerializeField] float speedAnim = 1;
-
 
     [Header("Animations")]
     [SerializeField] Animator anim_base = null;
@@ -101,17 +94,13 @@ public class CharacterHead : CharacterControllable
     [Header("Parry & Block Options")]
     public CharacterBlock charBlock;
 
-    //[SerializeField] float knockbackOnParry = 650;
-
     [SerializeField] float parryRecall = 0;
     [SerializeField] float takeDamageRecall = 0;
     public Transform ShieldForward;
-
     [SerializeField] CharFeedbacks feedbacks = null;
 
     private bool blockRoll;
     public bool BlockRoll { set { blockRoll = value; } }
-
 
     [HideInInspector] private bool canAttack = false;
     public void ToggleAttack(bool val) => canAttack = val;
@@ -127,12 +116,11 @@ public class CharacterHead : CharacterControllable
            .ADD_EVENT_OnLoseLife(OnLoseLife)
            .ADD_EVENT_Death(OnDeath)
            .ADD_EVENT_OnChangeValue(OnChangeLife);
-
-        _advMode = GetComponent<AdventureMode>();
     }
 
     protected override void OnInitialize()
     {
+        _advMode = GetComponent<AdventureMode>();
         Main.instance.GetCombatDirector().AddNewTarget(this);
         rb = GetComponent<Rigidbody>();
         combo_system.SetSound(chargeSound);
@@ -145,7 +133,6 @@ public class CharacterHead : CharacterControllable
         InDash += move.InCD;
         ChildrensUpdates += move.OnUpdate;
         move.SetCallbacks(OnBeginRoll, OnEndRoll);
-        slowSpeed = move.GetDefaultSpeed * .6f;
 
         //Asi se que estoy en el infierno
         GameLoop.instance.ADD_EVENT_GoToHell(() => HellMode(true));
@@ -174,19 +161,14 @@ public class CharacterHead : CharacterControllable
             .SetForward(rot)
             .Initialize(this);
 
-        //COMBOWOMBO
         if (IsComboWomboActive)
         {
             combo_system.AddCallback_OnComboready(ActiveCombo);
             combo_system.AddCallback_OnComboReset(EndTime_DeactiveCombo);
         }
 
-        //COMBOWOMBO
-
         charAttack.Add_callback_Normal_attack(ReleaseInNormal);
         charAttack.Add_callback_Heavy_attack(ReleaseInHeavy);
-
-        charAttack.FirstAttackReady(true);
 
         charAnimEvent.Add_Callback("CheckAttackType", CheckAttackType);
 
@@ -204,13 +186,7 @@ public class CharacterHead : CharacterControllable
         charAnimEvent.Add_Callback("OnThrow", ThrowCallback);
         debug_options.StartDebug();
 
-        //  DevelopTools.UI.Debug_UI_Tools.instance.CreateToogle("Speed for testing", false, ToogleSpeed);
-        // DevelopTools.UI.Debug_UI_Tools.instance.CreateToogle("Use LockOn", false, UseLockOn);
-
         SetStates();
-
-        originalNormal = charAttack.Dmg_normal;
-        originalHeavy = charAttack.Dmg_Heavy;
 
         if (StartWithoutWeapons)
         {
@@ -238,9 +214,13 @@ public class CharacterHead : CharacterControllable
         combo_system.OnUpdate();
     }
 
+    public void GetBackControl()
+    {
+        stateMachine.SendInput(PlayerInputs.IDLE);
+    }
+
     #region SET STATES
     EventStateMachine<PlayerInputs> stateMachine;
-
 
     public Transform GetLookatPosition() { return lookatPosition; }
     void SetStates()
@@ -257,82 +237,46 @@ public class CharacterHead : CharacterControllable
         var takeDamage = new EState<PlayerInputs>("Take_Damage");
         var dead = new EState<PlayerInputs>("Dead");
         var stun = new EState<PlayerInputs>("Stun");
-        var onSkill = new EState<PlayerInputs>("OnSkill");
         var bashDash = new EState<PlayerInputs>("BashDash");
-        var LookAtOverSholder = new EState<PlayerInputs>("LookAtOverSholder");
         var onMenues = new EState<PlayerInputs>("OnMenues");
         var falling = new EState<PlayerInputs>("Falling");
         var boomerangCharge = new EState<PlayerInputs>("BoomerangCharge");
         var boomerangRelease = new EState<PlayerInputs>("BoomerangRelease");
+        var envainar = new EState<PlayerInputs>("Envainar");
 
         ConfigureState.Create(idle)
             .SetTransition(PlayerInputs.MOVE, move)
             .SetTransition(PlayerInputs.ON_MENU_ENTER, onMenues)
             .SetTransition(PlayerInputs.BEGIN_BLOCK, beginBlock)
-            //.SetTransition(PlayerInputs.PARRY, parry)
             .SetTransition(PlayerInputs.ROLL, roll)
             .SetTransition(PlayerInputs.CHARGE_ATTACK, attackCharge)
             .SetTransition(PlayerInputs.CHARGE_BOOMERANG_SHIELD, boomerangCharge)
             .SetTransition(PlayerInputs.TAKE_DAMAGE, takeDamage)
             .SetTransition(PlayerInputs.DEAD, dead)
             .SetTransition(PlayerInputs.STUN, stun)
-            .SetTransition(PlayerInputs.ON_SKILL, onSkill)
-            .SetTransition(PlayerInputs.ON_LOOK_SHOLDER, LookAtOverSholder)
             .SetTransition(PlayerInputs.FALLING, falling)
-            .Done();
-
-        ConfigureState.Create(LookAtOverSholder)
-            .SetTransition(PlayerInputs.BEGIN_BLOCK, beginBlock)
-            .SetTransition(PlayerInputs.ON_MENU_ENTER, onMenues)
-            .SetTransition(PlayerInputs.ROLL, roll)
-            .SetTransition(PlayerInputs.TAKE_DAMAGE, takeDamage)
-            .SetTransition(PlayerInputs.CHARGE_ATTACK, attackCharge)
-            .SetTransition(PlayerInputs.CHARGE_BOOMERANG_SHIELD, boomerangCharge)
-            .SetTransition(PlayerInputs.DEAD, dead)
-            .SetTransition(PlayerInputs.STUN, stun)
-            .SetTransition(PlayerInputs.ON_SKILL, onSkill)
-            .SetTransition(PlayerInputs.ON_LOOK_SHOLDER, idle)
+            .SetTransition(PlayerInputs.ENVAINAR, envainar)
             .Done();
 
         ConfigureState.Create(move)
             .SetTransition(PlayerInputs.IDLE, idle)
             .SetTransition(PlayerInputs.ON_MENU_ENTER, onMenues)
             .SetTransition(PlayerInputs.BEGIN_BLOCK, beginBlock)
-            //.SetTransition(PlayerInputs.PARRY, parry)
             .SetTransition(PlayerInputs.ROLL, roll)
             .SetTransition(PlayerInputs.CHARGE_ATTACK, attackCharge)
             .SetTransition(PlayerInputs.CHARGE_BOOMERANG_SHIELD, boomerangCharge)
             .SetTransition(PlayerInputs.TAKE_DAMAGE, takeDamage)
             .SetTransition(PlayerInputs.DEAD, dead)
-            .SetTransition(PlayerInputs.ON_SKILL, onSkill)
             .SetTransition(PlayerInputs.STUN, stun)
-            .SetTransition(PlayerInputs.ON_LOOK_SHOLDER, LookAtOverSholder)
             .SetTransition(PlayerInputs.FALLING, falling)
-            .Done();
-
-        ConfigureState.Create(onSkill)
-            .SetTransition(PlayerInputs.IDLE, idle)
-            .SetTransition(PlayerInputs.BEGIN_BLOCK, beginBlock)
-            .SetTransition(PlayerInputs.ON_MENU_ENTER, onMenues)
-            //.SetTransition(PlayerInputs.PARRY, parry)
-            .SetTransition(PlayerInputs.ROLL, roll)
-            .SetTransition(PlayerInputs.CHARGE_ATTACK, attackCharge)
-            .SetTransition(PlayerInputs.CHARGE_BOOMERANG_SHIELD, boomerangCharge)
-            //.SetTransition(PlayerInputs.TAKE_DAMAGE, takeDamage)
-            .SetTransition(PlayerInputs.DEAD, dead)
-            // .SetTransition(PlayerInputs.SPIN, spin)
-            .SetTransition(PlayerInputs.STUN, stun)
-            .SetTransition(PlayerInputs.ON_LOOK_SHOLDER, LookAtOverSholder)
             .Done();
 
         ConfigureState.Create(beginBlock)
              .SetTransition(PlayerInputs.BLOCK, block)
              .SetTransition(PlayerInputs.END_BLOCK, endBlock)
              .SetTransition(PlayerInputs.ON_MENU_ENTER, onMenues)
-             //.SetTransition(PlayerInputs.CHARGE_ATTACK, attackCharge)
              .SetTransition(PlayerInputs.ROLL, bashDash)
              .SetTransition(PlayerInputs.PARRY, parry)
-             //.SetTransition(PlayerInputs.TAKE_DAMAGE, takeDamage)
              .SetTransition(PlayerInputs.DEAD, dead)
              .Done();
 
@@ -368,7 +312,6 @@ public class CharacterHead : CharacterControllable
             .SetTransition(PlayerInputs.ON_MENU_ENTER, onMenues)
             .SetTransition(PlayerInputs.MOVE, move)
             .SetTransition(PlayerInputs.DEAD, dead)
-            //.SetTransition(PlayerInputs.CHARGE_ATTACK, attackCharge)
             .Done();
 
         ConfigureState.Create(falling)
@@ -418,9 +361,6 @@ public class CharacterHead : CharacterControllable
            .SetTransition(PlayerInputs.IDLE, idle)
            .SetTransition(PlayerInputs.ON_MENU_ENTER, onMenues)
            .SetTransition(PlayerInputs.MOVE, move)
-           //.SetTransition(PlayerInputs.CHARGE_ATTACK, attackCharge)
-           //.SetTransition(PlayerInputs.CHARGE_BOOMERANG_SHIELD, boomerangCharge)
-           //.SetTransition(PlayerInputs.BEGIN_BLOCK, beginBlock)
            .SetTransition(PlayerInputs.DEAD, dead)
            .SetTransition(PlayerInputs.ROLL, roll)
            .SetTransition(PlayerInputs.FALLING, falling)
@@ -448,10 +388,6 @@ public class CharacterHead : CharacterControllable
         new CharIdle(idle, stateMachine, charanim)
             .SetLeftAxis(GetLeftHorizontal, GetLeftVertical)
             .SetMovement(this.move);
-
-        new CharLookOverSholder(LookAtOverSholder, stateMachine)
-            .SetLeftAxis(GetLeftHorizontal, GetLeftVertical)
-            .SetCustomCamera(customCam);
 
         new CharOnMenues(onMenues, stateMachine)
             .SetLeftAxis(GetLeftHorizontal, GetLeftVertical)
@@ -521,9 +457,6 @@ public class CharacterHead : CharacterControllable
         CharFalling tempFalling = new CharFalling(falling, stateMachine);
         tempFalling.SetAnimator(charanim).SetMovement(this.move).SetLeftAxis(GetLeftHorizontal, GetLeftVertical);
 
-        new CharOnSkill(onSkill, stateMachine, CanExecuteSkill)
-            .SetMovement(this.move);
-
         new CharDead(dead, stateMachine);
 
         groundSensor.SetFallingSystem(this.move.fallMaxDistance, () => stateMachine.SendInput(PlayerInputs.FALLING), tempFalling.ActivateCD);
@@ -554,22 +487,11 @@ public class CharacterHead : CharacterControllable
     #endregion
 
     #region Combat Check
-    bool combat;
+    public bool Combat { get; set; }
+
+
     public Action UpWeaponsAction = delegate { };
     public Action DownWeaponsAction = delegate { };
-    public bool Combat
-    {
-        set
-        {
-            if (value == combat) return;
-            combat = value;
-            //if (value == true && !attacking && !inTrap)
-            //    UpWeaponsFunction();
-            if (value == false && !attacking && !inTrap && !imUsingItemOnWeapon)
-                StartCoroutine(DownWeaponsCoroutine());
-        }
-        get => combat;
-    }
     bool inTrap;
     public bool InTrap
     {
@@ -637,7 +559,7 @@ public class CharacterHead : CharacterControllable
     {
         attacking = false;
         inTrap = false;
-        combat = false;
+        Combat = false;
         charanim.InCombat(0);
         UpWeapons = false;
         DownWeaponsAction?.Invoke();
@@ -656,13 +578,9 @@ public class CharacterHead : CharacterControllable
             stateMachine.Current.Name == "Roll") return;
 
         if (!UpWeapons)
-        {
             Attacking = true;
-        }
         else
-        {
             DownWeaponsFunction();
-        }
     }
 
     #endregion
@@ -675,9 +593,9 @@ public class CharacterHead : CharacterControllable
     #endregion
 
     #region Status Effect
-    public void SetSlow()
+    public void SetSlow(float slowness = 3)
     {
-        move.SetSpeed(slowSpeed);
+        move.SetSpeed(slowness);
         Slowed = true;
     }
     public void SetNormalSpeed()
@@ -685,9 +603,9 @@ public class CharacterHead : CharacterControllable
         move.SetSpeed();
         Slowed = false;
     }
-    public void SetFastSpeed()
+    public void SetFastSpeed(float fastess = 10)
     {
-        move.SetSpeed(10);
+        move.SetSpeed(fastess);
         Slowed = false;
     }
     #endregion
@@ -725,45 +643,23 @@ public class CharacterHead : CharacterControllable
     }
     #endregion
 
-    #region SkillRequest
-    public Action RequestExecuteASkill(Action request)
-    {
-        stateMachine.SendInput(PlayerInputs.ON_SKILL);
-        CanExecute = request;
-        return GetBackControl;
-    }
-    Action CanExecute = delegate { };
-    void CanExecuteSkill()
-    {
-        Debug.Log("canExecuteSkill");
-        CanExecute.Invoke();
-        CanExecute = delegate { };
-    }
-    public void GetBackControl()
-    {
-        stateMachine.SendInput(PlayerInputs.IDLE);
-    }
-    #endregion
-
     #region Throw Something
     Action<Vector3> throwCallback;
     public void ThrowSomething(Action<Vector3> throwInPosition)
     {
         throwCallback = throwInPosition;
         stateMachine.SendInput(PlayerInputs.RELEASE_BOOMERANG_SHIELD);
-        //Main.instance.GetChar().charanim.StartThrow();
     }
     void ThrowCallback()
     {
         throwCallback.Invoke(escudo.transform.position);
         charanim.StartThrow(false);
     }
-    #endregion
-
     public void ChargeThrowShield()
     {
         stateMachine.SendInput(PlayerInputs.CHARGE_BOOMERANG_SHIELD);
     }
+    #endregion
 
     #region Pause & Resume
     Vector3 force;
@@ -799,7 +695,6 @@ public class CharacterHead : CharacterControllable
     #endregion
 
     #region Attack
-    /////////////////////////////////////////////////////////////////
     void RightAttacktFeedback() { feedbacks.particles.slash_right.Play(); }
     void LeftAttacktFeedback() { feedbacks.particles.slash_left.Play(); }
     public Vector3 DirAttack { get; private set; }
@@ -808,9 +703,7 @@ public class CharacterHead : CharacterControllable
     public void EVENT_OnAttackBegin()
     {
         if (!canAttack) return;
-        //if (stateMachine.Current.Name != "Release_Attack")
         stateMachine.SendInput(PlayerInputs.CHARGE_ATTACK);
-
         charAttack.UnfilteredAttack();
     }
     public void EVENT_OnAttackEnd() { stateMachine.SendInput(PlayerInputs.RELEASE_ATTACK); }
@@ -824,7 +717,6 @@ public class CharacterHead : CharacterControllable
     #region Resultados de los ataques
     void DealSucessfullNormal()
     {
-        //Main.instance.GetTimeManager().DoHitStop();
         Main.instance.Vibrate(0.7f, 0.1f);
         Main.instance.CameraShake();
 
@@ -834,11 +726,9 @@ public class CharacterHead : CharacterControllable
             combo_system.AddHit();
             StartCoroutine(CDToAddComboHit());
         }
-
     }
     void DealSucessfullHeavy()
     {
-       
         ChangeHeavy(false);
         Main.instance.Vibrate(1f, 0.2f);
         Main.instance.CameraShake();
@@ -919,33 +809,15 @@ public class CharacterHead : CharacterControllable
 
     bool HeavyAttackRealease() { return isHeavyRelease; }
 
-    ///////////BigWeaponSkill
-
     public void ChangeDamageAttack(int newDamageValue) => charAttack.ChangeDamageBase(newDamageValue);
     public float ChangeRangeAttack(float newRangeValue = -1) => charAttack.CurrentWeapon.ModifyAttackrange(newRangeValue);
     public float ChangeAngleAttack(float newAngleValue = -1) => charAttack.CurrentWeapon.ModifyAttackAngle(newAngleValue);
     public CharacterAttack GetCharacterAttack() => charAttack;
-    private void OnDrawGizmos()
-    {
-        if (charAttack == null)
-            return;
-
-        Vector3 initPos = rot.position + Vector3.up;
-
-        Gizmos.color = Color.blue;
-        Gizmos.DrawLine(initPos, initPos + rot.forward * 2);
-        Gizmos.DrawLine(initPos, initPos + (rot.forward + rot.right) * 2);
-        Gizmos.DrawLine(initPos, initPos + (rot.forward - rot.right) * 2);
-    }
-
-    /////////////////////////////////////////////////////////////////
     #endregion
 
     #region Block & Parry
-    //>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
     public void UNITYEVENT_PressDown_Block()
     {
-        //Puesto para no poder bloquear cuando el personaje tira el escudo en el boomeranSkill
         if (!canBlock)
             return;
         if (charBlock.CurrentBlockCharges > 0)
@@ -983,8 +855,6 @@ public class CharacterHead : CharacterControllable
 
         ToggleSword(false);
     }
-
-    //<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
     #endregion
 
     #region Roll
@@ -994,7 +864,6 @@ public class CharacterHead : CharacterControllable
     }
     void OnEndRoll()
     {
-        //desactivar trail o feedback x del roll
         stateMachine.SendInput(PlayerInputs.IDLE);
     }
     public void RollDash()
@@ -1002,12 +871,6 @@ public class CharacterHead : CharacterControllable
         if (!groundSensor.IsInGround || blockRoll) return;
         if (!InDash() && move.CanUseDash)
         {
-            //Chequeo si tengo el teleport activado. Sino, sigo normalmente con el roll
-            if (move.TeleportActive)
-            {
-                if (move.CheckIfCanTeleport()) stateMachine.SendInput(PlayerInputs.ROLL);
-                return;
-            }
             stateMachine.SendInput(PlayerInputs.ROLL);
 
             if(!ImInHell())
@@ -1016,21 +879,6 @@ public class CharacterHead : CharacterControllable
     }
     public void AddListenerToDash(Action listener) => move.Dash += listener;
     public void RemoveListenerToDash(Action listener) => move.Dash -= listener;
-    public void ChangeDashForTeleport()
-    {
-        move.SetDashCD(teleportCD);
-        move.TeleportActive = true;
-        move.Dash -= move.Roll;
-        move.Dash += move.Teleport;
-    }
-    public void ChangeTeleportForDash()
-    {
-        move.SetDashCD();
-        move.TeleportActive = false;
-        move.Dash -= move.Teleport;
-        move.Dash += move.Roll;
-    }
-
     public CharacterMovement GetCharMove()
     {
         return move;
@@ -1142,31 +990,6 @@ public class CharacterHead : CharacterControllable
     }
     #endregion
 
-    #region BuffedState
-    float originalNormal;
-    float originalHeavy;
-    public void ActivateBuffState(float damageBuff, float damageReceived, float speedAcceleration, float scale, float duration)
-    {
-        charanim.SetUpdateMode(AnimatorUpdateMode.UnscaledTime);
-        isBuffed = true;
-        // dmg_normal = originalNormal + damageBuff;
-        // dmg_heavy = originalHeavy + damageBuff;
-        move.SetSpeed(move.GetDefaultSpeed + speedAcceleration);
-        dmgReceived = damageReceived;
-        Main.instance.GetTimeManager().DoSlowMo(scale);
-    }
-    public void DesactivateBuffState(float damageBuff)
-    {
-        charanim.SetUpdateMode(AnimatorUpdateMode.Normal);
-        isBuffed = false;
-        //dmg_normal = originalNormal;
-        // dmg_heavy = originalHeavy;
-        move.SetSpeed();
-        dmgReceived = 1;
-        Main.instance.GetTimeManager().StopSlowMo();
-    }
-    #endregion
-
     #region Stun
     public void GetStunned(float _stunDuration)
     {
@@ -1203,46 +1026,5 @@ public class CharacterHead : CharacterControllable
         base.OnReceiveItem(itemworld);
     }
     #endregion
-    #region Change Weapon
-    bool isValue;
-    public void ChangeTheWeapon(float w)
-    {
-        //if (!isValue && !charAttack.inAttack)
-        //{
-        //    if (w == 1 || w == -1)
-        //    {
-        //        charAttack.ChangeWeapon((int)w);
-        //        ChangeWeaponPassives();
-        //        feedbackCW.Stop();
-        //        feedbackCW.Play();
-        //        isValue = true;
-        //    }
-        //}
-        //else
-        //{
-        //    if (w != 1 && w != -1)
-        //    {
-        //        isValue = false;
-        //    }
-        //}
-    }
-    public void ChangeDamage(float f)
-    {
-        charAttack.BuffOrNerfDamage(f);
-    }
-
     #endregion
-    #region Guilt
-    public Action<int> AddScreamAction = delegate { };
-    public void CollectScream()
-    {
-        AddScreamAction(1);
-    }
-    #endregion
-    #endregion
-
-    public void UEVENT_ShootOverSholder()
-    {
-        stateMachine.SendInput(PlayerInputs.ON_LOOK_SHOLDER);
-    }
 }

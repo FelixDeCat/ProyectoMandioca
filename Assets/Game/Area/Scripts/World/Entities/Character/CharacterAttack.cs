@@ -36,9 +36,7 @@ public class CharacterAttack
     Action HeavyAttack;
 
     bool oneshot;
-
     public bool inAttack;
-    private bool firstAttack;
 
     List<Weapon> myWeapons;
     Weapon currentWeapon;
@@ -81,7 +79,6 @@ public class CharacterAttack
     public void Add_callback_Heavy_attack(Action callback) { HeavyAttack += callback; }
     public void Remove_callback_Normal_attack(Action callback) { NormalAttack -= callback; }
     public void Remove_callback_Heavy_attack(Action callback) { HeavyAttack -= callback; }
-
 
     public void Add_callback_SecondaryEffect(Action<EffectReceiver> callback) { ApplySecondaryEffect += callback; }
     public void Remove_callback_SecondaryEffect(Action<EffectReceiver> callback) { ApplySecondaryEffect -= callback; }
@@ -178,12 +175,10 @@ public class CharacterAttack
     #region PRE-ATTACK
     public void ANIM_EVENT_OpenComboWindow()
     {
-        //DebugCustom.Log("Attack", "Combo Window", "open");
         hitstore.OpenWindow();
     }
     public void ANIM_EVENT_CloseComboWindow()
     {
-        //DebugCustom.Log("Attack", "Combo Window", "close");
         anim.Combo(hitstore.Use());
         hitstore.CloseWindow();
     }
@@ -191,7 +186,6 @@ public class CharacterAttack
     public void UnfilteredAttack()
     {
         c++;
-        //DebugCustom.Log("Attack", "AttackPress", c);
         hitstore.TryStore();
     }
 
@@ -276,7 +270,6 @@ public class CharacterAttack
     void CALLBACK_DealDamage(Attack_Result attack_result, Damagetype damage_type, DamageReceiver entityToDamage)
     {
         callback_ReceiveEntity();
-        FirstAttackReady(false);//esto tambien es de obligacion... tampoco debería estar aca
 
         if (entityToDamage.GetComponent<BaseDestructible>())
         {
@@ -308,23 +301,6 @@ public class CharacterAttack
                 else KillSuccesfullNormal(); break;
         }
     }
-    #endregion
-
-    //estos callbacks creo que estan solo funcionando para lo de obligacion...
-    //hay que unificar las cosas
-    public void AddCAllback_ReceiveEntity(Action _cb) => callback_ReceiveEntity += _cb;
-    public void RemoveCAllback_ReceiveEntity(Action _cb)
-    {
-        callback_ReceiveEntity -= _cb;
-        callback_ReceiveEntity = delegate { };
-    }
-
-    #region cosas de Obligacion
-    //toodo esto tampoco deberia estar aca
-    public void ActiveFirstAttack() => firstAttack = true;
-    public void DeactiveFirstAttack() => firstAttack = false;
-    public bool IsFirstAttack() => firstAttack;
-    public void FirstAttackReady(bool ready) => firstAttack = ready;
     #endregion
 }
 

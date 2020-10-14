@@ -196,27 +196,6 @@ public class CharacterMovement
         }
         else
             anim.Move(0, 0);
-
-        //if (rotX >= 0.3 || rotX <= -0.3 || rotY >= 0.3 || rotY <= -0.3)
-        //{
-
-        //    if (movX <= 0.1 && movX >= -0.1 && movY <= 0.1 && movY >= -0.1)
-        //        anim.Move(0, 0);
-        //    else
-        //    {
-        //        if (Mathf.Abs(rotTransform.forward.z) >= Mathf.Abs(rotTransform.forward.x))
-        //            anim.Move(-movX * rotTransform.right.x, movY * rotTransform.forward.z);
-        //        else
-        //            anim.Move(-movY * rotTransform.right.z, movX * rotTransform.forward.x);
-        //    }
-        //}
-        //else
-        //{
-        //    if (movX >= 0.1 || movX <= -0.1 || movY >= 0.1 || movY <= -0.1)
-        //        anim.Move(0, 1);
-        //    else
-        //        anim.Move(0, 0);
-        //}
     }
 
     #endregion
@@ -403,11 +382,8 @@ public class CharacterMovement
         dashCdOk = true;
     }
 
-
     public void ANIM_EVENT_RollEnded()
     {
-        //este es el que viene desde evento del animator
-        //se ejecuta cuando la animacion terminó
         StopRoll();
     }
 
@@ -436,43 +412,11 @@ public class CharacterMovement
         EndRoll = StopRoll;
         if (InDash) return;
 
-
         dashDir = rotTransform.forward;
-
-        //float dotX = Vector3.Dot(rotTransform.forward, dashDir);
-        //float dotY = Vector3.Dot(rotTransform.right, dashDir);
 
         dashDir = new Vector3(dashDir.x, 0, dashDir.z);
 
-        #region calculo para mandarselo al BlendTree
-        //if (dotX >= 0.5f)
-        //{
-        //    anim.SetVerticalRoll(1);
-        //    anim.SetHorizontalRoll(0);
-        //}
-        //else if (dotX <= -0.5f)
-        //{
-        //    anim.SetVerticalRoll(-1);
-        //    anim.SetHorizontalRoll(0);
-        //}
-        //else
-        //{
-        //    if (dotY >= 0.5f)
-        //    {
-        //        anim.SetVerticalRoll(0);
-        //        anim.SetHorizontalRoll(1);
-        //    }
-        //    else if (dotY <= -0.5f)
-        //    {
-        //        anim.SetVerticalRoll(0);
-        //        anim.SetHorizontalRoll(-1);
-        //    }
-        //}
-        #endregion
-
         anim.Dash(true);
-
-        //feedback... luego ponerselo a un ANIM EVENT para que suene cuando tocas el suelo
         feedbacks.sounds.Play_Dash();
 
         RollForAnim();
@@ -483,86 +427,7 @@ public class CharacterMovement
 
     public bool InCD() => InDash || dashCdOk ? true : false;
 
-    //Pulir para que quede mas lindo
-    public void Teleport()
-    {
-        //RollForAnim();
-        //AudioManager.instance.PlaySound("TeleportAudio", rotTransform);
-        //introTeleport_ps.transform.position = _rb.position;
-        //introTeleport_ps.Play();
-
-        //InDash = true;
-        //dashCdOk = true;
-        //if (movX != 0 || movY != 0)
-        //    dashDir = new Vector3(movX, 0, movY);
-        //else
-        //    dashDir = rotTransform.forward;
-
-        //dashDir.Normalize();
-
-        //_rb.position = _rb.position + (dashDir * _teleportDistance);
-        //outroTeleport_ps.transform.position = _rb.position + dashDir * _teleportDistance - dashDir * 1.5f;
-        //outroTeleport_ps.Play();
-    }
-
-    //Puli esto Fran
-    void BlockedTeleport(float distance)
-    {
-        RollForAnim();
-
-        introTeleport_ps.transform.position = _rb.position;
-        introTeleport_ps.Play();
-
-        InDash = true;
-        dashCdOk = true;
-
-        _rb.position = _rb.position + (dashDir * distance);
-        outroTeleport_ps.transform.position = _rb.position;
-        outroTeleport_ps.Play();
-    }
-
-    //arreglar esto
-    public bool CheckIfCanTeleport()
-    {
-        if (movX != 0 || movY != 0)
-            dashDir = new Vector3(movX, 0, movY); //Actualizo direccion
-        else
-            dashDir = rotTransform.forward;
-
-        var player = Main.instance.GetChar(); //con esto consigo el punto de donde sale el rayo
-        RaycastHit hit;
-        if (Physics.Raycast(player.rayPivot.position, dashDir, out hit, _teleportDistance * 2, 1 << 20))
-        {
-            var aux = Vector3.Distance(hit.point, _rb.position); //veo la distancia a donde pego el rayo
-            Debug.Log(aux);
-            if (aux <= 2f)//esto es para que no traspase la pared
-            {
-                BlockedTeleport(0);
-                return false;
-            }
-
-            BlockedTeleport(aux - aux / 3); //lo tiro un poquito antes de la pared
-            Debug.Log("Le pego a la pared invisible y me teleporto a ella");
-            return false;
-        }
-        else
-        {
-            //Si llega aca, va todo normal
-            Debug.Log("Puedo hacer teleport");
-            return true;
-        }
-    }
-
     public Vector3 GetRotatorDirection() => rotTransform.forward;
-
-    public void ConfigureTeleport(float teleportDistance, ParticleSystem intro, ParticleSystem outro, ParticleSystem endCD)
-    {
-        introTeleport_ps = intro;
-        outroTeleport_ps = outro;
-        endTeleport = endCD;
-        _teleportDistance = teleportDistance;
-    }
-
     #endregion
 
     #region BASH DASH
