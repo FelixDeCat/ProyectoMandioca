@@ -6560,6 +6560,7 @@ GameObject:
   m_Component:
   - component: {fileID: 484481675}
   - component: {fileID: 484481674}
+  - component: {fileID: 484481676}
   - component: {fileID: 484481673}
   m_Layer: 0
   m_Name: Atenea (1)
@@ -6581,8 +6582,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   myAnim: {fileID: 484481674}
-  events: {fileID: 0}
-  renders: []
+  events: {fileID: 484481676}
+  renders:
+  - {fileID: 1506724848}
+  - {fileID: 1965237381}
+  - {fileID: 486400715}
 --- !u!95 &484481674
 Animator:
   serializedVersion: 3
@@ -6622,6 +6626,18 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 17
   m_LocalEulerAnglesHint: {x: 0, y: -165.00002, z: 0}
+--- !u!114 &484481676
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 484481672}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2cd0e1cf35d48c34a93c6a494b926756, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &486286874
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -31777,6 +31793,11 @@ PrefabInstance:
     - target: {fileID: 5521373744999486536, guid: 7565578013363b54393e3b67fb36e663,
         type: 3}
       propertyPath: m_SizeDelta.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8009520162060432706, guid: 7565578013363b54393e3b67fb36e663,
+        type: 3}
+      propertyPath: m_Enabled
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8009520163315482639, guid: 7565578013363b54393e3b67fb36e663,

@@ -19,7 +19,7 @@ public class Atenea : MonoBehaviour
     bool animdisapear;
     float current_opacity;
  
-    private void Awake() { 
+    private void Start() { 
         myAnim = GetComponent<Animator>();
         events.Add_Callback("ev_freeze", BeginDisapear);
         mats = new Material[renders.Length];
