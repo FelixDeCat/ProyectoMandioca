@@ -196,6 +196,12 @@ MonoBehaviour:
   UE_OnExit:
     m_PersistentCalls:
       m_Calls: []
+  PressDown:
+    m_PersistentCalls:
+      m_Calls: []
+  PressUp:
+    m_PersistentCalls:
+      m_Calls: []
   item: {fileID: 11400000, guid: 8f5650f0e20952448882145579981b50, type: 2}
   canrecolectoranim: 0
   to_collect:
@@ -228,6 +234,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   item: {fileID: 11400000, guid: 8f5650f0e20952448882145579981b50, type: 2}
+  cant: 1
 --- !u!54 &89412025459804050
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -404,13 +411,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f8c9758fc87b3a44283df8fff0a8624f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  throwRange: 10
-  damageRadius: 5
+  throwRange: 5
+  damageRadius: 0
   spinDuration: 3
   distanceToCatch: 3
   throwTravelTime: 0.3
   returnTime: 0.3
   damageType: 1
+  gloryHole: {fileID: 0}
   damagePerTick: 1
   timeBetweenTicks: 0.2
   spinSpeed: 4
