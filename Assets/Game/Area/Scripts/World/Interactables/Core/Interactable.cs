@@ -30,9 +30,8 @@ public abstract class Interactable : MonoBehaviour
 
     public void Enter(WalkingEntity entity)
     {
-        if (!predicate.Invoke()) { Debug.Log(this.gameObject.name + " > El predicado el False"); return; }
+        if (!predicate.Invoke()) { return; }
         if (!autoexecute) if (feedback.Length > 0) foreach (var fdbck in feedback) fdbck.Show();
-        Debug.Log("On Enter");
         OnEnter(entity);
         UE_OnEnter.Invoke();
     }
@@ -40,7 +39,6 @@ public abstract class Interactable : MonoBehaviour
     {
         if (!predicate.Invoke()) return;
         if (feedback.Length > 0) foreach (var fdbck in feedback) fdbck.Hide();
-        Debug.Log("On Exit");
         OnExit();
         UE_OnExit.Invoke();
         PressUp.Invoke();

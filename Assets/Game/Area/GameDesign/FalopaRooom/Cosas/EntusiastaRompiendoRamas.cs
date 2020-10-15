@@ -20,7 +20,6 @@ public class EntusiastaRompiendoRamas : PistonWithSteps
 
     public void StartWalkingAnim()
     {
-        Debug.Log("Inicia a caminar");
         _anim.SetTrigger("run");
     }
 
@@ -32,7 +31,6 @@ public class EntusiastaRompiendoRamas : PistonWithSteps
 
     public override void Move()
     {
-        Debug.Log("Se empieza a mover");
         _root.transform.position += _root.forward * speed * Time.fixedDeltaTime;
         _rootRot.LookAt(nodes[currentNode]);
     }

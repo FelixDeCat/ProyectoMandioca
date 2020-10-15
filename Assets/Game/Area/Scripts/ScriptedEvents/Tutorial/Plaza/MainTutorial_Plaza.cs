@@ -18,7 +18,6 @@ public class MainTutorial_Plaza : MonoBehaviour
 
     void FinishObjetive_CuervoAsesinado() 
     {
-        Debug.Log("Cambio de fase");
         ChangeFase(FASE_CAMINO_LIBERADO_PARA_ENTUSIASTA);
     }
 

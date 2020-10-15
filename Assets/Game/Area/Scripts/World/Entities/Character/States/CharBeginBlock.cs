@@ -36,7 +36,6 @@ namespace Tools.StateMachine
             var info = anim.GetCurrentAnimatorStateInfo(1);
             if (info.IsName("BlockStay"))
             {
-                Debug.Log("blockeo");
                 sm.SendInput(CharacterHead.PlayerInputs.BLOCK);
             }
         }

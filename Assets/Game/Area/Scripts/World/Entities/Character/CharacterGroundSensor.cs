@@ -164,7 +164,6 @@ public class CharacterGroundSensor : MonoBehaviour
 
             transformToSnap.position = new Vector3(transformToSnap.position.x, hit.point.y, transformToSnap.position.z);
 
-            Debug.Log("stoy slopeando: " + temp);
             return true;
         }
         return false;

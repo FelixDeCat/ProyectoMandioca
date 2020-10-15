@@ -165,7 +165,6 @@ public class CharacterAttack
         }
         if (inHit)
         {
-            Debug.Log("hago el bahs dash");
             feedbacks.sounds.Play_DashBashHit();
             feedbacks.particles.bashDashHit.Play();
         }
