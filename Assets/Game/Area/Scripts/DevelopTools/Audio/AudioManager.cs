@@ -20,7 +20,6 @@ public class AudioManager : MonoBehaviour
     private Dictionary<AudioGroups, AudioMixerGroup> _audioMixers = new Dictionary<AudioGroups, AudioMixerGroup>();
 
     public static AudioManager instance;
-    Action OnEnd;
 
     private void Awake()
     {
@@ -94,7 +93,6 @@ public class AudioManager : MonoBehaviour
     {
         if (_soundRegistry.ContainsKey(soundPoolName))
         {
-            OnEnd = callbackEnd;
             var soundPool = _soundRegistry[soundPoolName];
             
             AudioSource aS = soundPool.Get();
@@ -108,15 +106,9 @@ public class AudioManager : MonoBehaviour
             soundPool.soundPoolPlaying = true;
             if (trackingTransform != null) aS.transform.position = trackingTransform.position;
             aS.Play();
-         
-
-
-            AudioEndChecker checker = new AudioEndChecker();
-            checker.CheckIfEnded(callbackEnd, aS);
-            Main.instance.GetRefreshSubscriber().SubscribeToRefresh(checker.Refresh);
 
             if (!aS.loop)
-                StartCoroutine(ReturnSoundToPool(aS, soundPoolName));
+                StartCoroutine(ReturnSoundToPool(aS, soundPoolName, callbackEnd));
         }
         else
         {
@@ -194,10 +186,11 @@ public class AudioManager : MonoBehaviour
     /// <param name="aS"></param>
     /// <param name="sT"></param>
     /// <returns></returns>
-    private IEnumerator ReturnSoundToPool(AudioSource aS, string sT)
+    private IEnumerator ReturnSoundToPool(AudioSource aS, string sT, Action EndCallback = null)
     {
         yield return new WaitForSeconds(aS.clip.length);
-        
+
+        EndCallback?.Invoke();
         _soundRegistry[sT].ReturnToPool(aS);
     }
 }

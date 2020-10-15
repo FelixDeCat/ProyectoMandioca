@@ -450,7 +450,6 @@ public class CharacterHead : CharacterControllable
         new CharTakeDmg(takeDamage, stateMachine, () => takeDamageRecall, charanim);
 
         new CharStun(stun, stateMachine)
-            .Configurate(GetStunDuration, go_StunFeedback)
             .SetMovement(this.move)
             .SetAnimator(charanim);
 

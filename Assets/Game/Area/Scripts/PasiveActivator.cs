@@ -17,7 +17,6 @@ public class PasiveActivator : MonoBehaviour
             {
                 Main.instance.ShowMessagePasivasFirst();
 
-                Main.instance.GetPasivesNoBranchesManager().Equip(skillInfo);
                 isActive = true;
             }
             Main.instance.gameUiController.skillImage.sprite = skillInfo.img_actived;

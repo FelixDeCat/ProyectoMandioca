@@ -27,13 +27,9 @@ public class Main : MonoBehaviour
     [SerializeField] CharacterHead character = null;
     [SerializeField] List<PlayObject> allentities = new List<PlayObject>();
     public List<PlayObject> AllEntities { get { return allentities; } }
-    [SerializeField] SkillManager_PasivasNoBranches pasives_nobranches = null;
-    [SerializeField] SkillManager_ActivasNueva actives = null;
-    [SerializeField] LevelSystem levelSystem = null;
     [SerializeField] TimeManager timeManager = null;
     [SerializeField] Spawner spawner = null;
     [SerializeField] CombatDirector combatDirector = null;
-    [SerializeField] RefreshSubscriber refreshSubscriber = null;
 
     public GameUI_controller gameUiController;
 
@@ -152,15 +148,7 @@ public class Main : MonoBehaviour
     public List<EnemyBase> GetNoOptimizedListEnemies() => FindObjectsOfType<EnemyBase>().ToList();
     //public List<Destructible_Normal> GetNoOptimizedDestructibles() => FindObjectsOfType<Destructible_Normal>().ToList();
     public List<EntityBase> GetNoOptimizedListEntities() => FindObjectsOfType<EntityBase>().ToList();
-
-    public SkillManager_PasivasNoBranches GetPasivesNoBranchesManager() => pasives_nobranches;
-
-    public SkillManager_ActivasNueva GetActivesManager() => actives;
-
-    public LevelSystem GetLevelSystem() => levelSystem;
-
     public List<Minion> GetMinions() => GetListOfComponent<Minion>();
-    public RefreshSubscriber GetRefreshSubscriber() => refreshSubscriber;
     public CombatDirector GetCombatDirector() => combatDirector;
     public MyEventSystem GetMyEventSystem() => MyEventSystem.instance;
     public bool Ui_Is_Open() => gameUiController.openUI;

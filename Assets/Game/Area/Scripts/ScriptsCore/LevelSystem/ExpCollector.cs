@@ -8,6 +8,5 @@ public class ExpCollector : MonoBehaviour
 
     public void Collect()
     {
-        Main.instance.GetLevelSystem().AddExperiencie(cant_exp_to_collect);
     }
 }
