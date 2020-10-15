@@ -455,7 +455,6 @@ public class CharacterHead : CharacterControllable
             .SetMovement(this.move)
             .SetLeftAxis(GetLeftHorizontal, GetLeftVertical);
 
-
         new CharTakeDmg(takeDamage, stateMachine, () => takeDamageRecall, charanim);
 
         new CharStun(stun, stateMachine)
