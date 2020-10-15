@@ -7,17 +7,22 @@ public class PPTransition : MonoBehaviour
 {
     public PostProcessVolume volumeEntry;
     public PostProcessVolume volumeExit;
+    
+    private Animator _animEntry;
+    private Animator _animExit;
 
-    public float transitionSpeed;
+
+
 
     public void Transition()
     {
-       // while (volumeEntry.weight<1 && volumeExit.weight>0)
-      //  {
-            volumeEntry.weight = Time.deltaTime + transitionSpeed;
-            volumeExit.weight = Time.deltaTime - transitionSpeed;
-     //   }
-       
+        _animEntry = volumeEntry.gameObject.GetComponent<Animator>();
+        _animEntry.SetTrigger("Start");
+
+        _animExit = volumeExit.gameObject.GetComponent<Animator>();
+        _animExit.SetTrigger("Exit");
+
+
 
     }
 
