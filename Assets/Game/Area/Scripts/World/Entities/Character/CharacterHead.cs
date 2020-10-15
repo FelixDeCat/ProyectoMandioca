@@ -269,6 +269,7 @@ public class CharacterHead : CharacterControllable
             .SetTransition(PlayerInputs.DEAD, dead)
             .SetTransition(PlayerInputs.STUN, stun)
             .SetTransition(PlayerInputs.FALLING, falling)
+            .SetTransition(PlayerInputs.ENVAINAR, envainar)
             .Done();
 
         ConfigureState.Create(beginBlock)
@@ -380,6 +381,14 @@ public class CharacterHead : CharacterControllable
             .SetTransition(PlayerInputs.FALLING, falling)
             .Done();
 
+        ConfigureState.Create(envainar)
+            .SetTransition(PlayerInputs.IDLE, idle)
+            .SetTransition(PlayerInputs.ON_MENU_ENTER, onMenues)
+            .SetTransition(PlayerInputs.MOVE, move)
+            .SetTransition(PlayerInputs.FALLING, falling)
+            .SetTransition(PlayerInputs.DEAD, dead)
+            .Done();
+
         ConfigureState.Create(dead)
             .Done();
 
@@ -452,6 +461,8 @@ public class CharacterHead : CharacterControllable
         new CharStun(stun, stateMachine)
             .SetMovement(this.move)
             .SetAnimator(charanim);
+
+        new CharEnvainar(envainar, stateMachine, DownWeaponsFunction, UpWeaponsFunction, () => !canAttack && !canBlock ? false : true, () => UpWeapons);
 
         CharFalling tempFalling = new CharFalling(falling, stateMachine);
         tempFalling.SetAnimator(charanim).SetMovement(this.move).SetLeftAxis(GetLeftHorizontal, GetLeftVertical);
@@ -568,18 +579,7 @@ public class CharacterHead : CharacterControllable
 
     public void EVENT_WeaponsToggle()
     {
-        if (!canAttack && !canBlock ||
-            stateMachine.Current.Name == "Begin_Block" ||
-            stateMachine.Current.Name == "Block" ||
-            stateMachine.Current.Name == "End_Block" ||
-            stateMachine.Current.Name == "Charge_Attack" ||
-            stateMachine.Current.Name == "Release_Attack" ||
-            stateMachine.Current.Name == "Roll") return;
-
-        if (!UpWeapons)
-            Attacking = true;
-        else
-            DownWeaponsFunction();
+        stateMachine.SendInput(PlayerInputs.ENVAINAR);
     }
 
     #endregion
