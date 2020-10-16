@@ -19,7 +19,6 @@ public class TestInteractableHold : Interactable
 
     bool oneshot;
 
-    [SerializeField] Image _loadBar = null;
     private void Start()
     {
         _executeAction += OnEndDelayExecute;
@@ -28,8 +27,6 @@ public class TestInteractableHold : Interactable
     }
     public override void OnEnter(WalkingEntity entity)
     {
-        //if (!string.IsNullOrEmpty(actionName)) WorldItemInfo.instance.Show(pointToMessage.position, "Object", "Hold to grab object", actionName, true, false);
-
         ContextualBarSimple.instance.Show();
         ContextualBarSimple.instance.Set_Sprite_Photo(image_to_interact);
     }
@@ -41,32 +38,24 @@ public class TestInteractableHold : Interactable
             oneshot = true;
             _executeAction();
             ContextualBarSimple.instance.Hide();
-            // WorldItemInfo.instance.Hide();
         }
     }
 
     public override void OnInterrupt()
     {
         oneshot = false;
-        _loadBar.fillAmount = 0;
         ContextualBarSimple.instance.Hide();
     }
 
     public override void OnExit()
     {
         oneshot = false;
-       // WorldItemInfo.instance.Hide();
         ContextualBarSimple.instance.Hide();
-        _loadBar.fillAmount = 0;
     }
     public override void DelayExecute()
     {
         base.DelayExecute();
-
         ContextualBarSimple.instance.Set_Values_Load_Bar(delayTime, currentTime);
-
-        float amount = (currentTime / delayTime);
-        _loadBar.fillAmount = amount;
     }
     void OnEndDelayExecute()
     {
