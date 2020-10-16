@@ -10,6 +10,7 @@ public class TestInteractableHold : Interactable
     public bool destroy = true;
     public UnityEvent customDestroy;
     public UnityEvent UE_EndDelayExecute;
+    public Sprite image_to_interact;
     bool executing;
 
     public void ExecuteBool(bool b) => executing = b;
@@ -27,7 +28,10 @@ public class TestInteractableHold : Interactable
     }
     public override void OnEnter(WalkingEntity entity)
     {
-        if (!string.IsNullOrEmpty(actionName)) WorldItemInfo.instance.Show(pointToMessage.position, "Object", "Hold to grab object", actionName, true, false);
+        //if (!string.IsNullOrEmpty(actionName)) WorldItemInfo.instance.Show(pointToMessage.position, "Object", "Hold to grab object", actionName, true, false);
+
+        ContextualBarSimple.instance.Show();
+        ContextualBarSimple.instance.Set_Sprite_Photo(image_to_interact);
     }
 
     public override void OnExecute(WalkingEntity collector)
@@ -36,7 +40,8 @@ public class TestInteractableHold : Interactable
         {
             oneshot = true;
             _executeAction();
-            WorldItemInfo.instance.Hide();
+            ContextualBarSimple.instance.Hide();
+            // WorldItemInfo.instance.Hide();
         }
     }
 
@@ -44,17 +49,22 @@ public class TestInteractableHold : Interactable
     {
         oneshot = false;
         _loadBar.fillAmount = 0;
+        ContextualBarSimple.instance.Hide();
     }
 
     public override void OnExit()
     {
         oneshot = false;
-        WorldItemInfo.instance.Hide();
+       // WorldItemInfo.instance.Hide();
+        ContextualBarSimple.instance.Hide();
         _loadBar.fillAmount = 0;
     }
     public override void DelayExecute()
     {
         base.DelayExecute();
+
+        ContextualBarSimple.instance.Set_Values_Load_Bar(delayTime, currentTime);
+
         float amount = (currentTime / delayTime);
         _loadBar.fillAmount = amount;
     }

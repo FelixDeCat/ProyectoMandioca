@@ -13,7 +13,13 @@ public class ContextualBarSimple : MonoBehaviour
         myRect = GetComponent<RectTransform>();
         Catch_Initial_Values();
     }
-   
+    private void Start()
+    {
+        canvas_group.alpha = 0;
+        generic_bar_fill.Configure(1, 0.01f);
+        generic_bar_fill.SetValue(0);
+    }
+
     [SerializeField] GenericBar_Sprites generic_bar_fill;
     [Header("Auxiliar Components")]
     [SerializeField] Image photo_image;
@@ -34,7 +40,7 @@ public class ContextualBarSimple : MonoBehaviour
     void Reset_All()
     {
         generic_bar_fill.Configure(1, 0.01f);
-        generic_bar_fill.SetValue(1);
+        generic_bar_fill.SetValue(0);
         photo_image.sprite = null;
     }
 
@@ -47,9 +53,11 @@ public class ContextualBarSimple : MonoBehaviour
     public ContextualBarSimple Hide()
     {
         canvas_group.alpha = 0;
+        Reset_All();
         return this;
     }
 
+    public void ResetBar() { generic_bar_fill.Configure(1, 0.01f); generic_bar_fill.SetValue(0); }
     public ContextualBarSimple Set_Sprite_Photo(Sprite val, bool hasBackground = true) { photo_image.sprite = val; return this; }
     public ContextualBarSimple Set_Values_Load_Bar(float max, float current) { generic_bar_fill.Configure(max, 0.01f); generic_bar_fill.SetValue(current); return this; }
 
