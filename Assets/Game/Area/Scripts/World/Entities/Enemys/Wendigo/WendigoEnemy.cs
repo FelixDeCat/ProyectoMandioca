@@ -12,9 +12,9 @@ public class WendigoEnemy : EnemyWithCombatDirector
     [SerializeField] WendigoView view;
     [SerializeField] GenericEnemyMove moveComponent;
     [SerializeField] RagdollComponent ragdoll = null;
-    [SerializeField] CharacterGroundSensor groundSensor;
-
+    CharacterGroundSensor groundSensor;
     bool isMelee;
+    [SerializeField] SphereCollider meleeCollider;
 
     //No esta checkeado
     [SerializeField] float rotationSpeed;
@@ -159,7 +159,7 @@ public class WendigoEnemy : EnemyWithCombatDirector
         new WendigoIdle(idle, view, sm);
         new WendigoObservation(obs, view, moveComponent, combatElement, sm).SetRigidbody(rb).SetRoot(rootTransform);
         new WendigoPrepareMelee(prepMelee, view, sm);
-        new WendigoMelee(melee, view, sm);
+        new WendigoMelee(melee, view, dmgData, meleeCollider, sm).SetDirector(director);
 
         //var head = Main.instance.GetChar();   //Es necesario?
 
@@ -187,16 +187,20 @@ public class WendigoEnemy : EnemyWithCombatDirector
                 //Si es Melee (auspiciado por el TriggerDispatcher)
                 if (isMelee)
                 {
-                    //El unico que puede disparar el ataque es el PrepareMelee
-                    sm.SendInput(WendigoInputs.PREPAREMELEE);
+                    if (sm.Current.Name != "PrepareMelee")
+                    {
+
+                        //El unico que puede disparar el ataque es el PrepareMelee
+                        sm.SendInput(WendigoInputs.PREPAREMELEE);
+                    }
                 }
-                else
+                else if (sm.Current.Name != "Observation")
                 {
                     sm.SendInput(WendigoInputs.OBSERVATION);
                 }
 
                 //Si no esta en la combatDistance
-                if (dist >= combatDistance)
+                if (dist >= combatDistance && sm.Current.Name != "Idle")
                 {
                     sm.SendInput(WendigoInputs.IDLE);
                     combatElement.ExitCombat();
@@ -207,7 +211,7 @@ public class WendigoEnemy : EnemyWithCombatDirector
             if (!combatElement.Combat && combatElement.Target == null)
             {
                 //Si esta en la combatdistance
-                if (dist <= combatDistance)
+                if (dist <= combatDistance && sm.Current.Name != "Observation")
                 {
                     combatElement.EnterCombat();
                     sm.SendInput(WendigoInputs.OBSERVATION);
@@ -308,7 +312,7 @@ public class WendigoEnemy : EnemyWithCombatDirector
 
     protected override void TakeDamageFeedback(DamageData data)
     {
-        throw new System.NotImplementedException();
+        //Aca va el view
     }
 
     protected override void Die(Vector3 dir)
@@ -318,7 +322,8 @@ public class WendigoEnemy : EnemyWithCombatDirector
 
     protected override bool IsDamage()
     {
-        throw new System.NotImplementedException();
+        if (cooldown || sm.Current.Name == "Death") return true;
+        else return false;
     }
 
     protected override void InmuneFeedback()

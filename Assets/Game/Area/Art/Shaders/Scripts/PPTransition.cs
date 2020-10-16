@@ -11,16 +11,22 @@ public class PPTransition : MonoBehaviour
     private Animator _animEntry;
     private Animator _animExit;
 
+    public bool change;
 
-
+   
 
     public void Transition()
     {
         _animEntry = volumeEntry.gameObject.GetComponent<Animator>();
-        _animEntry.SetTrigger("Start");
+        //_animEntry.SetTrigger("Start");
 
         _animExit = volumeExit.gameObject.GetComponent<Animator>();
-        _animExit.SetTrigger("Exit");
+        //_animExit.SetTrigger("Exit");
+
+        change = !change;
+
+        _animEntry.SetBool("Start",change);
+        _animExit.SetBool("Start", change);
 
 
 
