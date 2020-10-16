@@ -27,26 +27,25 @@ public abstract class EnemyWithCombatDirector : EnemyBase
         combatElement.ResetCombat();
     }
 
-    public IEnumerator OnHitted(Material[] myMat, float onHitFlashTime, Color onHitColor)
+    public IEnumerator OnHitted(float onHitFlashTime, Color onHitColor)
     {
         var smr = GetComponentInChildren<SkinnedMeshRenderer>();
         if (smr != null)
         {
-            myMat = smr.materials;
             Material[] mats = smr.materials;
-            smr.materials = mats; // ??
             for (int i = 0; i < onHitFlashTime; i++)
             {
                 if (i < (onHitFlashTime / 2f))
                 {
-                    mats[1].SetColor("_EmissionColor", Color.Lerp(Color.black, onHitColor, i / (onHitFlashTime / 2f)));
+                    mats[0].SetColor("_EmissionColor", Color.Lerp(Color.black, onHitColor, i / (onHitFlashTime / 2f)));
                 }
                 else
                 {
-                    mats[1].SetColor("_EmissionColor", Color.Lerp(onHitColor, Color.black, (i - (onHitFlashTime / 2f)) / (onHitFlashTime / 2f)));
+                    mats[0].SetColor("_EmissionColor", Color.Lerp(onHitColor, Color.black, (i - (onHitFlashTime / 2f)) / (onHitFlashTime / 2f)));
                 }
                 yield return new WaitForSeconds(0.01f);
             }
+            mats[0].SetColor("_EmissionColor", Color.black);
         }
     }
 }

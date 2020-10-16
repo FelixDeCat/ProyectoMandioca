@@ -266,7 +266,7 @@ public class GoatEnemy : EnemyWithCombatDirector
         ParticlesManager.Instance.PlayParticle(particles.hitParticle.name, transform.position);
         cooldown = true;
 
-        StartCoroutine(OnHitted(myMat, onHitFlashTime, onHitColor));
+        StartCoroutine(OnHitted(onHitFlashTime, onHitColor));
     }
 
     protected override void Die(Vector3 dir)

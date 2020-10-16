@@ -44,7 +44,7 @@ public class TestInteractableHold : Interactable
     public override void OnInterrupt()
     {
         oneshot = false;
-        ContextualBarSimple.instance.Hide();
+        ContextualBarSimple.instance.Set_Values_Load_Bar(delayTime, 0);
     }
 
     public override void OnExit()

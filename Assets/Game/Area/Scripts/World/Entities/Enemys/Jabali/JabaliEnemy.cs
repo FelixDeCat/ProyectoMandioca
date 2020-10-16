@@ -251,7 +251,7 @@ public class JabaliEnemy : EnemyWithCombatDirector
         ParticlesManager.Instance.PlayParticle(particles.hitParticle.name, transform.position);
         cooldown = true;
 
-        StartCoroutine(OnHitted(myMat, onHitFlashTime, onHitColor));
+        StartCoroutine(OnHitted(onHitFlashTime, onHitColor));
     }
 
     public void ToCombat()

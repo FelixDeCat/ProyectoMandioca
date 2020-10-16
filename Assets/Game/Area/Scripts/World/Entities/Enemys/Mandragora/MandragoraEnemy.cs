@@ -255,7 +255,7 @@ public class MandragoraEnemy : EnemyWithCombatDirector
         ParticlesManager.Instance.PlayParticle(particles.greenblood.name, transform.position + Vector3.up);
         cooldown = true;
 
-        StartCoroutine(OnHitted(myMat, onHitFlashTime, onHitColor));
+        StartCoroutine(OnHitted(onHitFlashTime, onHitColor));
     }
 
     protected override void Die(Vector3 dir)
