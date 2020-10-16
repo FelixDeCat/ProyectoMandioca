@@ -526,8 +526,6 @@ public class CharacterHead : CharacterControllable
 
     #region Combat Check
     public bool Combat { get; set; }
-
-
     public Action UpWeaponsAction = delegate { };
     public Action DownWeaponsAction = delegate { };
     bool inTrap;
@@ -608,6 +606,16 @@ public class CharacterHead : CharacterControllable
     public void EVENT_WeaponsToggle()
     {
         stateMachine.SendInput(PlayerInputs.ENVAINAR);
+    }
+
+    public void CombatEnter()
+    {
+        Combat = true;
+    }
+
+    public void CombatExit()
+    {
+        Combat = false;
     }
 
     #endregion
