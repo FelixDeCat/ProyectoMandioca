@@ -14,6 +14,8 @@ public class CharSounds
     [SerializeField] AudioClip dashGemido=null;
     [SerializeField] AudioClip dashBashHit = null;
     [SerializeField] AudioClip heavySwing = null;
+    [SerializeField] AudioClip offFightMusic = null;
+    [SerializeField] AudioClip onFightMusic = null;
     public void Initialize()
     {
         AudioManager.instance.GetSoundPool(takeHeal.name,           AudioGroups.GAME_FX, takeHeal);
@@ -27,6 +29,8 @@ public class CharSounds
         AudioManager.instance.GetSoundPool(dashGemido.name,              AudioGroups.GAME_FX, dashGemido);
         AudioManager.instance.GetSoundPool(dashBashHit.name, AudioGroups.GAME_FX, dashBashHit);
         AudioManager.instance.GetSoundPool(heavySwing.name, AudioGroups.GAME_FX, heavySwing);
+        AudioManager.instance.GetSoundPool(offFightMusic.name, AudioGroups.GAME_FX, offFightMusic);
+        AudioManager.instance.GetSoundPool(onFightMusic.name, AudioGroups.GAME_FX, onFightMusic);
     }
     public void Play_TakeHeal() =>          AudioManager.instance.PlaySound(takeHeal.name);
     public void Play_SwingSword() =>        AudioManager.instance.PlaySound(swingSword.name);
@@ -38,4 +42,16 @@ public class CharSounds
     public void Play_Block() =>             AudioManager.instance.PlaySound(block.name);
     public void Play_DashBashHit() =>       AudioManager.instance.PlaySound(dashBashHit.name);
     public void Play_heavySwing() =>        AudioManager.instance.PlaySound(heavySwing.name);
+    public void Play_OnFightMusic() => AudioManager.instance.PlaySound(onFightMusic.name);
+    public void Play_OffFightMusic() => AudioManager.instance.PlaySound(offFightMusic.name);
+    public void NewOffFightMusic(AudioClip music)
+    {
+        offFightMusic = music;
+        AudioManager.instance.GetSoundPool(offFightMusic.name, AudioGroups.GAME_FX, offFightMusic);
+    }
+    public void NewOnFightMusic(AudioClip music)
+    {
+        onFightMusic = music;
+        AudioManager.instance.GetSoundPool(onFightMusic.name, AudioGroups.GAME_FX, onFightMusic);
+    }
 }

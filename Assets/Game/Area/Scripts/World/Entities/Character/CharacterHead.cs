@@ -611,11 +611,13 @@ public class CharacterHead : CharacterControllable
     public void CombatEnter()
     {
         Combat = true;
+        feedbacks.sounds.Play_OnFightMusic();
     }
 
     public void CombatExit()
     {
         Combat = false;
+        feedbacks.sounds.Play_OffFightMusic();
     }
 
     #endregion
