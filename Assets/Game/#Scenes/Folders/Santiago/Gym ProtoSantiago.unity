@@ -633,9 +633,6 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-  OnTriggerStayEvent:
-    m_PersistentCalls:
-      m_Calls: []
   OnTriggerExitEvent:
     m_PersistentCalls:
       m_Calls: []
@@ -1616,7 +1613,7 @@ PrefabInstance:
     - target: {fileID: 7286616644490792654, guid: 713dc017cb3ecec44b2a839013e03f84,
         type: 3}
       propertyPath: m_RootOrder
-      value: 1
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 7286616644490792654, guid: 713dc017cb3ecec44b2a839013e03f84,
         type: 3}
@@ -1695,9 +1692,6 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-  OnTriggerStayEvent:
-    m_PersistentCalls:
-      m_Calls: []
   OnTriggerExitEvent:
     m_PersistentCalls:
       m_Calls: []
@@ -1919,7 +1913,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 4
+  m_RootOrder: 8
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &86615711
 MonoBehaviour:
@@ -1933,8 +1927,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 744f97f03a0b3c04aa2dd5b3ea260cd2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  data:
-    sceneToJump: default
+  LockMouse: 0
+  packageToLoad: {fileID: 0}
+  toIgnoreIfThisIsNotTheMoment:
+  - {fileID: 0}
 --- !u!1 &89501073
 GameObject:
   m_ObjectHideFlags: 0
@@ -2269,9 +2265,6 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-  OnTriggerStayEvent:
-    m_PersistentCalls:
-      m_Calls: []
   OnTriggerExitEvent:
     m_PersistentCalls:
       m_Calls: []
@@ -2602,9 +2595,6 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-  OnTriggerStayEvent:
-    m_PersistentCalls:
-      m_Calls: []
   OnTriggerExitEvent:
     m_PersistentCalls:
       m_Calls: []
@@ -2672,6 +2662,22 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 104480003}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!1 &107352881
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 743023071}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 743023072}
+  m_Layer: 0
+  m_Name: Missing Prefab (Dummy)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
 --- !u!1 &109634634
 GameObject:
   m_ObjectHideFlags: 0
@@ -3017,11 +3023,20 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d5a1adabb334c4b1a99c8cb139897124, type: 3}
---- !u!4 &116613480 stripped
+--- !u!4 &116613480
 Transform:
+  m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 116613479}
   m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1791856763}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 1961367314}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &118999633
 GameObject:
   m_ObjectHideFlags: 0
@@ -3583,9 +3598,6 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-  OnTriggerStayEvent:
-    m_PersistentCalls:
-      m_Calls: []
   OnTriggerExitEvent:
     m_PersistentCalls:
       m_Calls: []
@@ -4039,9 +4051,6 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-  OnTriggerStayEvent:
-    m_PersistentCalls:
-      m_Calls: []
   OnTriggerExitEvent:
     m_PersistentCalls:
       m_Calls: []
@@ -4412,7 +4421,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 20
+  m_RootOrder: 24
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &177091623
 GameObject:
@@ -4474,9 +4483,6 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-  OnTriggerStayEvent:
-    m_PersistentCalls:
-      m_Calls: []
   OnTriggerExitEvent:
     m_PersistentCalls:
       m_Calls: []
@@ -4604,9 +4610,6 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-  OnTriggerStayEvent:
-    m_PersistentCalls:
-      m_Calls: []
   OnTriggerExitEvent:
     m_PersistentCalls:
       m_Calls: []
@@ -4864,9 +4867,6 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-  OnTriggerStayEvent:
-    m_PersistentCalls:
-      m_Calls: []
   OnTriggerExitEvent:
     m_PersistentCalls:
       m_Calls: []
@@ -5166,9 +5166,6 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-  OnTriggerStayEvent:
-    m_PersistentCalls:
-      m_Calls: []
   OnTriggerExitEvent:
     m_PersistentCalls:
       m_Calls: []
@@ -5328,6 +5325,22 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 198246892}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!1 &199436397
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 1386891619}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1386891620}
+  m_Layer: 0
+  m_Name: Missing Prefab (Dummy)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
 --- !u!1 &202793549
 GameObject:
   m_ObjectHideFlags: 0
@@ -5681,6 +5694,7 @@ MonoBehaviour:
   random_range: 0
   timetochangerandom: 1
   constant_movement: 0
+  playOnAwake: 1
 --- !u!23 &217555428
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -5787,9 +5801,6 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-  OnTriggerStayEvent:
-    m_PersistentCalls:
-      m_Calls: []
   OnTriggerExitEvent:
     m_PersistentCalls:
       m_Calls: []
@@ -6711,9 +6722,6 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-  OnTriggerStayEvent:
-    m_PersistentCalls:
-      m_Calls: []
   OnTriggerExitEvent:
     m_PersistentCalls:
       m_Calls: []
@@ -6966,9 +6974,6 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-  OnTriggerStayEvent:
-    m_PersistentCalls:
-      m_Calls: []
   OnTriggerExitEvent:
     m_PersistentCalls:
       m_Calls: []
@@ -7299,9 +7304,6 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-  OnTriggerStayEvent:
-    m_PersistentCalls:
-      m_Calls: []
   OnTriggerExitEvent:
     m_PersistentCalls:
       m_Calls: []
@@ -7521,9 +7523,6 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-  OnTriggerStayEvent:
-    m_PersistentCalls:
-      m_Calls: []
   OnTriggerExitEvent:
     m_PersistentCalls:
       m_Calls: []
@@ -7711,7 +7710,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 10
+  m_RootOrder: 14
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &288123591
 GameObject:
@@ -7906,6 +7905,7 @@ MonoBehaviour:
   random_range: 0
   timetochangerandom: 1
   constant_movement: 0
+  playOnAwake: 1
 --- !u!1 &290724330
 GameObject:
   m_ObjectHideFlags: 0
@@ -8185,9 +8185,6 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-  OnTriggerStayEvent:
-    m_PersistentCalls:
-      m_Calls: []
   OnTriggerExitEvent:
     m_PersistentCalls:
       m_Calls: []
@@ -8440,9 +8437,6 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-  OnTriggerStayEvent:
-    m_PersistentCalls:
-      m_Calls: []
   OnTriggerExitEvent:
     m_PersistentCalls:
       m_Calls: []
@@ -8570,9 +8564,6 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-  OnTriggerStayEvent:
-    m_PersistentCalls:
-      m_Calls: []
   OnTriggerExitEvent:
     m_PersistentCalls:
       m_Calls: []
@@ -8820,6 +8811,7 @@ MonoBehaviour:
   random_range: 0
   timetochangerandom: 1
   constant_movement: 0
+  playOnAwake: 1
 --- !u!1 &315736157
 GameObject:
   m_ObjectHideFlags: 0
@@ -9508,9 +9500,6 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-  OnTriggerStayEvent:
-    m_PersistentCalls:
-      m_Calls: []
   OnTriggerExitEvent:
     m_PersistentCalls:
       m_Calls: []
@@ -9717,9 +9706,6 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-  OnTriggerStayEvent:
-    m_PersistentCalls:
-      m_Calls: []
   OnTriggerExitEvent:
     m_PersistentCalls:
       m_Calls: []
@@ -10018,9 +10004,6 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-  OnTriggerStayEvent:
-    m_PersistentCalls:
-      m_Calls: []
   OnTriggerExitEvent:
     m_PersistentCalls:
       m_Calls: []
@@ -10761,11 +10744,24 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   distancetoInteract: 1
   autoexecute: 0
+  cd_autoexecute: 0
   pointToMessage: {fileID: 591422324}
   feedback:
   - {fileID: 388467878}
   _withDelay: 0
   delayTime: 0
+  UE_OnEnter:
+    m_PersistentCalls:
+      m_Calls: []
+  UE_OnExit:
+    m_PersistentCalls:
+      m_Calls: []
+  PressDown:
+    m_PersistentCalls:
+      m_Calls: []
+  PressUp:
+    m_PersistentCalls:
+      m_Calls: []
   results:
   - {fileID: 1790129992}
   nombre: Skills
@@ -10785,6 +10781,7 @@ MonoBehaviour:
   ownTransform: 0
   toscale: {fileID: 388467876}
   cant_to_scale: {x: 0.3, y: 0.3, z: 0.3}
+  playOnAwake: 1
 --- !u!23 &388467879
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -11147,6 +11144,7 @@ MonoBehaviour:
   random_range: 0
   timetochangerandom: 1
   constant_movement: 0
+  playOnAwake: 1
 --- !u!1 &399892333
 GameObject:
   m_ObjectHideFlags: 0
@@ -11927,11 +11925,20 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d5a1adabb334c4b1a99c8cb139897124, type: 3}
---- !u!4 &426254523 stripped
+--- !u!4 &426254523
 Transform:
+  m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 426254522}
   m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1256134679}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 1113401253}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &427794756
 GameObject:
   m_ObjectHideFlags: 0
@@ -12300,13 +12307,13 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 494748396}
-  - {fileID: 1386891620}
-  - {fileID: 116613480}
-  - {fileID: 618031080}
-  - {fileID: 1348964112}
+  - {fileID: 480424057}
+  - {fileID: 1961367314}
+  - {fileID: 713337104}
+  - {fileID: 599474625}
   - {fileID: 44773465}
-  - {fileID: 1714261083}
-  - {fileID: 426254523}
+  - {fileID: 1267297385}
+  - {fileID: 1113401253}
   m_Father: {fileID: 960635360}
   m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: -90.034004, z: 0}
@@ -12526,11 +12533,20 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d5a1adabb334c4b1a99c8cb139897124, type: 3}
---- !u!4 &446343110 stripped
+--- !u!4 &446343110
 Transform:
+  m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 446343109}
   m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1511029065}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 1219670229}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &447481997
 GameObject:
   m_ObjectHideFlags: 0
@@ -13275,9 +13291,6 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-  OnTriggerStayEvent:
-    m_PersistentCalls:
-      m_Calls: []
   OnTriggerExitEvent:
     m_PersistentCalls:
       m_Calls: []
@@ -13484,9 +13497,6 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-  OnTriggerStayEvent:
-    m_PersistentCalls:
-      m_Calls: []
   OnTriggerExitEvent:
     m_PersistentCalls:
       m_Calls: []
@@ -13758,6 +13768,37 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 479511738}
   m_Mesh: {fileID: -8399375765841511378, guid: 1f93e94ca74d6ec49b4c7ecf1a1465e5, type: 3}
+--- !u!1 &480424056
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 1386891619}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 480424057}
+  m_Layer: 0
+  m_Name: EnemySpawner (5) (Missing Prefab)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &480424057
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 1386891619}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 480424056}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children:
+  - {fileID: 1386891620}
+  m_Father: {fileID: 434197212}
+  m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &485819336
 GameObject:
   m_ObjectHideFlags: 0
@@ -14094,9 +14135,6 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-  OnTriggerStayEvent:
-    m_PersistentCalls:
-      m_Calls: []
   OnTriggerExitEvent:
     m_PersistentCalls:
       m_Calls: []
@@ -14443,7 +14481,7 @@ PrefabInstance:
     - target: {fileID: 108339004871608277, guid: a2ace7c34a8803b4d9809be6eb2d9bdc,
         type: 3}
       propertyPath: m_RootOrder
-      value: 3
+      value: 7
       objectReference: {fileID: 0}
     - target: {fileID: 108339004871608277, guid: a2ace7c34a8803b4d9809be6eb2d9bdc,
         type: 3}
@@ -15774,6 +15812,37 @@ Transform:
   m_Father: {fileID: 1837733773}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &536350722
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 1860415379}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 536350723}
+  m_Layer: 0
+  m_Name: EnemySpawner (7) (Missing Prefab)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &536350723
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 1860415379}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 536350722}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children:
+  - {fileID: 1860415380}
+  m_Father: {fileID: 2486397394037970275}
+  m_RootOrder: 3
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &539351855
 GameObject:
   m_ObjectHideFlags: 0
@@ -16037,6 +16106,75 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 541654438}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!1001 &543530527
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 55996573319236632, guid: c95312708f0606a449c92ae6747b9936,
+        type: 3}
+      propertyPath: m_Name
+      value: Falling Pilar Agus Revivilo (1)
+      objectReference: {fileID: 0}
+    - target: {fileID: 55996573319236633, guid: c95312708f0606a449c92ae6747b9936,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -12.987051
+      objectReference: {fileID: 0}
+    - target: {fileID: 55996573319236633, guid: c95312708f0606a449c92ae6747b9936,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 10.725109
+      objectReference: {fileID: 0}
+    - target: {fileID: 55996573319236633, guid: c95312708f0606a449c92ae6747b9936,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 42.894257
+      objectReference: {fileID: 0}
+    - target: {fileID: 55996573319236633, guid: c95312708f0606a449c92ae6747b9936,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 55996573319236633, guid: c95312708f0606a449c92ae6747b9936,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0.70710677
+      objectReference: {fileID: 0}
+    - target: {fileID: 55996573319236633, guid: c95312708f0606a449c92ae6747b9936,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 55996573319236633, guid: c95312708f0606a449c92ae6747b9936,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0.7071068
+      objectReference: {fileID: 0}
+    - target: {fileID: 55996573319236633, guid: c95312708f0606a449c92ae6747b9936,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 55996573319236633, guid: c95312708f0606a449c92ae6747b9936,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 55996573319236633, guid: c95312708f0606a449c92ae6747b9936,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: -90.00001
+      objectReference: {fileID: 0}
+    - target: {fileID: 55996573319236633, guid: c95312708f0606a449c92ae6747b9936,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: c95312708f0606a449c92ae6747b9936, type: 3}
 --- !u!1 &550288922
 GameObject:
   m_ObjectHideFlags: 0
@@ -16604,9 +16742,6 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-  OnTriggerStayEvent:
-    m_PersistentCalls:
-      m_Calls: []
   OnTriggerExitEvent:
     m_PersistentCalls:
       m_Calls: []
@@ -17493,9 +17628,6 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-  OnTriggerStayEvent:
-    m_PersistentCalls:
-      m_Calls: []
   OnTriggerExitEvent:
     m_PersistentCalls:
       m_Calls: []
@@ -17651,6 +17783,37 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!1 &599474624
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 1348964111}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 599474625}
+  m_Layer: 0
+  m_Name: EnemySpawner (8) (Missing Prefab)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &599474625
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 1348964111}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 599474624}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children:
+  - {fileID: 1348964112}
+  m_Father: {fileID: 434197212}
+  m_RootOrder: 4
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &600242697
 GameObject:
   m_ObjectHideFlags: 0
@@ -18108,9 +18271,6 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-  OnTriggerStayEvent:
-    m_PersistentCalls:
-      m_Calls: []
   OnTriggerExitEvent:
     m_PersistentCalls:
       m_Calls: []
@@ -18378,11 +18538,20 @@ PrefabInstance:
       objectReference: {fileID: 2100000, guid: e6d40de3b15ecd743b52961f53a89b8c, type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d5a1adabb334c4b1a99c8cb139897124, type: 3}
---- !u!4 &618031080 stripped
+--- !u!4 &618031080
 Transform:
+  m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 618031079}
   m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1976672012}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 713337104}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &618061180
 GameObject:
   m_ObjectHideFlags: 0
@@ -18753,7 +18922,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 11
+  m_RootOrder: 15
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &627584547
 GameObject:
@@ -20146,6 +20315,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   distancetoInteract: 1
   autoexecute: 0
+  cd_autoexecute: 0
   pointToMessage: {fileID: 54512495}
   feedback:
   - {fileID: 290832172}
@@ -20153,13 +20323,27 @@ MonoBehaviour:
   - {fileID: 1148964963}
   _withDelay: 0
   delayTime: 0
+  UE_OnEnter:
+    m_PersistentCalls:
+      m_Calls: []
+  UE_OnExit:
+    m_PersistentCalls:
+      m_Calls: []
+  PressDown:
+    m_PersistentCalls:
+      m_Calls: []
+  PressUp:
+    m_PersistentCalls:
+      m_Calls: []
   teleportType: 0
   titulo: teleport
   interactInfo: Entrar
   informacion_del_teleport: go to main
   mostrar_cartelito: 1
+  mostrar_Descripcion: 1
   transform_destino: {fileID: 1538959456}
   sceneToChange: 
+  UseLocalSceneStreamer: 0
 --- !u!1 &656966026
 GameObject:
   m_ObjectHideFlags: 0
@@ -20220,9 +20404,6 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-  OnTriggerStayEvent:
-    m_PersistentCalls:
-      m_Calls: []
   OnTriggerExitEvent:
     m_PersistentCalls:
       m_Calls: []
@@ -20742,9 +20923,6 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-  OnTriggerStayEvent:
-    m_PersistentCalls:
-      m_Calls: []
   OnTriggerExitEvent:
     m_PersistentCalls:
       m_Calls: []
@@ -21168,9 +21346,6 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-  OnTriggerStayEvent:
-    m_PersistentCalls:
-      m_Calls: []
   OnTriggerExitEvent:
     m_PersistentCalls:
       m_Calls: []
@@ -21298,9 +21473,6 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-  OnTriggerStayEvent:
-    m_PersistentCalls:
-      m_Calls: []
   OnTriggerExitEvent:
     m_PersistentCalls:
       m_Calls: []
@@ -21664,6 +21836,37 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 712340826}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!1 &713337103
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 618031079}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 713337104}
+  m_Layer: 0
+  m_Name: EnemySpawner (7) (Missing Prefab)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &713337104
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 618031079}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 713337103}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children:
+  - {fileID: 618031080}
+  m_Father: {fileID: 434197212}
+  m_RootOrder: 3
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &714807096
 GameObject:
   m_ObjectHideFlags: 0
@@ -21928,9 +22131,6 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-  OnTriggerStayEvent:
-    m_PersistentCalls:
-      m_Calls: []
   OnTriggerExitEvent:
     m_PersistentCalls:
       m_Calls: []
@@ -22543,11 +22743,20 @@ PrefabInstance:
       objectReference: {fileID: 2100000, guid: e6d40de3b15ecd743b52961f53a89b8c, type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d5a1adabb334c4b1a99c8cb139897124, type: 3}
---- !u!4 &743023072 stripped
+--- !u!4 &743023072
 Transform:
+  m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 743023071}
   m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 107352881}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 1080832958}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &743526052
 GameObject:
   m_ObjectHideFlags: 0
@@ -22699,7 +22908,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 15
+  m_RootOrder: 20
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &748645817
 GameObject:
@@ -22865,6 +23074,23 @@ MonoBehaviour:
   random_range: 0
   timetochangerandom: 1
   constant_movement: 0
+  playOnAwake: 1
+--- !u!1 &755489971
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 1189975978}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1189975979}
+  m_Layer: 0
+  m_Name: Missing Prefab (Dummy)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
 --- !u!4 &756313513 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 7566263121037128472, guid: bd787159123cedb44ac23059ef8c93ea,
@@ -22931,9 +23157,6 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-  OnTriggerStayEvent:
-    m_PersistentCalls:
-      m_Calls: []
   OnTriggerExitEvent:
     m_PersistentCalls:
       m_Calls: []
@@ -23539,9 +23762,6 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-  OnTriggerStayEvent:
-    m_PersistentCalls:
-      m_Calls: []
   OnTriggerExitEvent:
     m_PersistentCalls:
       m_Calls: []
@@ -23639,7 +23859,7 @@ Transform:
   m_Children:
   - {fileID: 1914153602}
   m_Father: {fileID: 0}
-  m_RootOrder: 5
+  m_RootOrder: 9
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &797707677
 MonoBehaviour:
@@ -23653,8 +23873,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 98f93d71dcbcd4b7fb81f389a80043c3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _activeCheckPoint: {fileID: 0}
-  allCheckpoints: []
+  currentNormal: {fileID: 0}
+  currentImportant: {fileID: 0}
+  spawnpoint: {fileID: 0}
+  AllCheckPoint: []
 --- !u!1 &800344848
 GameObject:
   m_ObjectHideFlags: 0
@@ -23885,9 +24107,6 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-  OnTriggerStayEvent:
-    m_PersistentCalls:
-      m_Calls: []
   OnTriggerExitEvent:
     m_PersistentCalls:
       m_Calls: []
@@ -24769,7 +24988,7 @@ PrefabInstance:
     - target: {fileID: 7286616644490792654, guid: 713dc017cb3ecec44b2a839013e03f84,
         type: 3}
       propertyPath: m_RootOrder
-      value: 2
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 7286616644490792654, guid: 713dc017cb3ecec44b2a839013e03f84,
         type: 3}
@@ -25418,9 +25637,6 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-  OnTriggerStayEvent:
-    m_PersistentCalls:
-      m_Calls: []
   OnTriggerExitEvent:
     m_PersistentCalls:
       m_Calls: []
@@ -25541,6 +25757,7 @@ MonoBehaviour:
   ownTransform: 0
   toscale: {fileID: 856495791}
   cant_to_scale: {x: 0.3, y: 0.3, z: 0.3}
+  playOnAwake: 1
 --- !u!23 &856495789
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -26159,9 +26376,6 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-  OnTriggerStayEvent:
-    m_PersistentCalls:
-      m_Calls: []
   OnTriggerExitEvent:
     m_PersistentCalls:
       m_Calls: []
@@ -26507,9 +26721,6 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-  OnTriggerStayEvent:
-    m_PersistentCalls:
-      m_Calls: []
   OnTriggerExitEvent:
     m_PersistentCalls:
       m_Calls: []
@@ -26577,6 +26788,22 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 874013627}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!1 &874214457
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 1714261082}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1714261083}
+  m_Layer: 0
+  m_Name: Missing Prefab (Dummy)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
 --- !u!1 &877555822
 GameObject:
   m_ObjectHideFlags: 0
@@ -27324,6 +27551,75 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 96937b8849908424ebdf70712783c135, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!1001 &905463117
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 55996573319236632, guid: c95312708f0606a449c92ae6747b9936,
+        type: 3}
+      propertyPath: m_Name
+      value: Falling Pilar Agus Revivilo
+      objectReference: {fileID: 0}
+    - target: {fileID: 55996573319236633, guid: c95312708f0606a449c92ae6747b9936,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 4.533844
+      objectReference: {fileID: 0}
+    - target: {fileID: 55996573319236633, guid: c95312708f0606a449c92ae6747b9936,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 10.725109
+      objectReference: {fileID: 0}
+    - target: {fileID: 55996573319236633, guid: c95312708f0606a449c92ae6747b9936,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 41.89607
+      objectReference: {fileID: 0}
+    - target: {fileID: 55996573319236633, guid: c95312708f0606a449c92ae6747b9936,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 55996573319236633, guid: c95312708f0606a449c92ae6747b9936,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0.70710677
+      objectReference: {fileID: 0}
+    - target: {fileID: 55996573319236633, guid: c95312708f0606a449c92ae6747b9936,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 55996573319236633, guid: c95312708f0606a449c92ae6747b9936,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0.7071068
+      objectReference: {fileID: 0}
+    - target: {fileID: 55996573319236633, guid: c95312708f0606a449c92ae6747b9936,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 55996573319236633, guid: c95312708f0606a449c92ae6747b9936,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 55996573319236633, guid: c95312708f0606a449c92ae6747b9936,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: -90.00001
+      objectReference: {fileID: 0}
+    - target: {fileID: 55996573319236633, guid: c95312708f0606a449c92ae6747b9936,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: c95312708f0606a449c92ae6747b9936, type: 3}
 --- !u!1 &908333765
 GameObject:
   m_ObjectHideFlags: 0
@@ -28728,7 +29024,7 @@ Transform:
   - {fileID: 2486397394037970275}
   - {fileID: 434197212}
   m_Father: {fileID: 0}
-  m_RootOrder: 17
+  m_RootOrder: 22
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &962705856
 GameObject:
@@ -28790,9 +29086,6 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-  OnTriggerStayEvent:
-    m_PersistentCalls:
-      m_Calls: []
   OnTriggerExitEvent:
     m_PersistentCalls:
       m_Calls: []
@@ -29515,9 +29808,6 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-  OnTriggerStayEvent:
-    m_PersistentCalls:
-      m_Calls: []
   OnTriggerExitEvent:
     m_PersistentCalls:
       m_Calls: []
@@ -29804,6 +30094,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   distancetoInteract: 1
   autoexecute: 0
+  cd_autoexecute: 0
   pointToMessage: {fileID: 2064088552}
   feedback:
   - {fileID: 336085451}
@@ -29811,13 +30102,27 @@ MonoBehaviour:
   - {fileID: 120700103}
   _withDelay: 0
   delayTime: 0
+  UE_OnEnter:
+    m_PersistentCalls:
+      m_Calls: []
+  UE_OnExit:
+    m_PersistentCalls:
+      m_Calls: []
+  PressDown:
+    m_PersistentCalls:
+      m_Calls: []
+  PressUp:
+    m_PersistentCalls:
+      m_Calls: []
   teleportType: 0
   titulo: teleport
   interactInfo: Entrar
   informacion_del_teleport: blocking nuevo
   mostrar_cartelito: 1
+  mostrar_Descripcion: 1
   transform_destino: {fileID: 1360974668}
   sceneToChange: 
+  UseLocalSceneStreamer: 0
 --- !u!1 &997219822
 GameObject:
   m_ObjectHideFlags: 0
@@ -30049,9 +30354,6 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-  OnTriggerStayEvent:
-    m_PersistentCalls:
-      m_Calls: []
   OnTriggerExitEvent:
     m_PersistentCalls:
       m_Calls: []
@@ -30179,9 +30481,6 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-  OnTriggerStayEvent:
-    m_PersistentCalls:
-      m_Calls: []
   OnTriggerExitEvent:
     m_PersistentCalls:
       m_Calls: []
@@ -30734,9 +31033,6 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-  OnTriggerStayEvent:
-    m_PersistentCalls:
-      m_Calls: []
   OnTriggerExitEvent:
     m_PersistentCalls:
       m_Calls: []
@@ -31487,9 +31783,6 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-  OnTriggerStayEvent:
-    m_PersistentCalls:
-      m_Calls: []
   OnTriggerExitEvent:
     m_PersistentCalls:
       m_Calls: []
@@ -31702,6 +31995,7 @@ MonoBehaviour:
   tickDamage: 0
   finalDamage: 0
   damageType: 0
+  damageInfo: 3
   owner_position: {x: 0, y: 0, z: 0}
   knockbackForce: 0
   hasDamageTick: 0
@@ -31720,19 +32014,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 147e032a7e34fc647b8024b7dcebcced, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  local_force_multiplier: 5
-  sensor: {fileID: 31044402}
-  damage: 5
-  inParryDamage: 10
-  time_to_disapear: 3
-  layermask_player:
-    serializedVersion: 2
-    m_Bits: 256
-  layermask_enemy:
-    serializedVersion: 2
-    m_Bits: 1024
-  damageData: {fileID: 1074893511}
-  _crushBoulder: {fileID: 8300000, guid: f48d66c7eb9746d4eb6f4808820e5ce1, type: 3}
 --- !u!64 &1074893513
 MeshCollider:
   m_ObjectHideFlags: 0
@@ -31888,6 +32169,37 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1075830505}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!1 &1080832957
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 743023071}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1080832958}
+  m_Layer: 0
+  m_Name: EnemySpawner (8) (Missing Prefab)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1080832958
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 743023071}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1080832957}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children:
+  - {fileID: 743023072}
+  m_Father: {fileID: 2486397394037970275}
+  m_RootOrder: 4
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1082954600
 GameObject:
   m_ObjectHideFlags: 0
@@ -32189,7 +32501,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8fdb4d6ef49c6c441818fc2f4c67ee79, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  skillInfo: {fileID: 11400000, guid: 4cc251e5a29d0456ab2d10e958fe3257, type: 2}
+  skillInfo: {fileID: 0}
 --- !u!1 &1088936132
 GameObject:
   m_ObjectHideFlags: 0
@@ -32342,9 +32654,6 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-  OnTriggerStayEvent:
-    m_PersistentCalls:
-      m_Calls: []
   OnTriggerExitEvent:
     m_PersistentCalls:
       m_Calls: []
@@ -32551,9 +32860,6 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-  OnTriggerStayEvent:
-    m_PersistentCalls:
-      m_Calls: []
   OnTriggerExitEvent:
     m_PersistentCalls:
       m_Calls: []
@@ -32990,9 +33296,6 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-  OnTriggerStayEvent:
-    m_PersistentCalls:
-      m_Calls: []
   OnTriggerExitEvent:
     m_PersistentCalls:
       m_Calls: []
@@ -33088,7 +33391,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 6
+  m_RootOrder: 10
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &1111818514
 PrefabInstance:
@@ -33352,6 +33655,38 @@ MonoBehaviour:
   random_range: 0
   timetochangerandom: 1
   constant_movement: 0
+  playOnAwake: 1
+--- !u!1 &1113401252
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 426254522}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1113401253}
+  m_Layer: 0
+  m_Name: EnemySpawner (10) (Missing Prefab)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1113401253
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 426254522}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1113401252}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children:
+  - {fileID: 426254523}
+  m_Father: {fileID: 434197212}
+  m_RootOrder: 7
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1114158124
 GameObject:
   m_ObjectHideFlags: 0
@@ -33541,7 +33876,38 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8fdb4d6ef49c6c441818fc2f4c67ee79, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  skillInfo: {fileID: 11400000, guid: 5e16aa6fb021a4f28be1c394235671d5, type: 2}
+  skillInfo: {fileID: 0}
+--- !u!1 &1117128708
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 1141596081}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1117128709}
+  m_Layer: 0
+  m_Name: EnemySpawner (6) (Missing Prefab)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1117128709
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 1141596081}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1117128708}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children:
+  - {fileID: 1141596082}
+  m_Father: {fileID: 2486397394037970275}
+  m_RootOrder: 2
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1117861671
 GameObject:
   m_ObjectHideFlags: 0
@@ -33806,9 +34172,6 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-  OnTriggerStayEvent:
-    m_PersistentCalls:
-      m_Calls: []
   OnTriggerExitEvent:
     m_PersistentCalls:
       m_Calls: []
@@ -33936,9 +34299,6 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-  OnTriggerStayEvent:
-    m_PersistentCalls:
-      m_Calls: []
   OnTriggerExitEvent:
     m_PersistentCalls:
       m_Calls: []
@@ -34055,11 +34415,24 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   distancetoInteract: 1
   autoexecute: 0
+  cd_autoexecute: 0
   pointToMessage: {fileID: 1623145416}
   feedback:
   - {fileID: 1126359263}
   _withDelay: 0
   delayTime: 0
+  UE_OnEnter:
+    m_PersistentCalls:
+      m_Calls: []
+  UE_OnExit:
+    m_PersistentCalls:
+      m_Calls: []
+  PressDown:
+    m_PersistentCalls:
+      m_Calls: []
+  PressUp:
+    m_PersistentCalls:
+      m_Calls: []
   results:
   - {fileID: 1520488100}
   nombre: Cubitos
@@ -34079,6 +34452,7 @@ MonoBehaviour:
   ownTransform: 0
   toscale: {fileID: 1126359261}
   cant_to_scale: {x: 0.3, y: 0.3, z: 0.3}
+  playOnAwake: 1
 --- !u!23 &1126359264
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -34174,6 +34548,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   spawnposition: {fileID: 1788792525}
   item: {fileID: 859312303452718933, guid: 9419ebfefd24540cdafea5508f9f0faa, type: 3}
+  itemspawn: {fileID: 0}
 --- !u!1 &1126490846
 GameObject:
   m_ObjectHideFlags: 0
@@ -34673,9 +35048,6 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-  OnTriggerStayEvent:
-    m_PersistentCalls:
-      m_Calls: []
   OnTriggerExitEvent:
     m_PersistentCalls:
       m_Calls: []
@@ -34962,11 +35334,20 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d5a1adabb334c4b1a99c8cb139897124, type: 3}
---- !u!4 &1141596082 stripped
+--- !u!4 &1141596082
 Transform:
+  m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 1141596081}
   m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1644892021}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 1117128709}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1141739156
 GameObject:
   m_ObjectHideFlags: 0
@@ -35364,6 +35745,7 @@ MonoBehaviour:
   random_range: 0
   timetochangerandom: 1
   constant_movement: 0
+  playOnAwake: 1
 --- !u!23 &1157790911
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -35562,9 +35944,6 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-  OnTriggerStayEvent:
-    m_PersistentCalls:
-      m_Calls: []
   OnTriggerExitEvent:
     m_PersistentCalls:
       m_Calls: []
@@ -35692,9 +36071,6 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-  OnTriggerStayEvent:
-    m_PersistentCalls:
-      m_Calls: []
   OnTriggerExitEvent:
     m_PersistentCalls:
       m_Calls: []
@@ -35876,9 +36252,6 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-  OnTriggerStayEvent:
-    m_PersistentCalls:
-      m_Calls: []
   OnTriggerExitEvent:
     m_PersistentCalls:
       m_Calls: []
@@ -35994,6 +36367,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   distancetoInteract: 1
   autoexecute: 0
+  cd_autoexecute: 0
   pointToMessage: {fileID: 1452862842}
   feedback:
   - {fileID: 1293583896}
@@ -36001,13 +36375,96 @@ MonoBehaviour:
   - {fileID: 635441852}
   _withDelay: 0
   delayTime: 0
+  UE_OnEnter:
+    m_PersistentCalls:
+      m_Calls: []
+  UE_OnExit:
+    m_PersistentCalls:
+      m_Calls: []
+  PressDown:
+    m_PersistentCalls:
+      m_Calls: []
+  PressUp:
+    m_PersistentCalls:
+      m_Calls: []
   teleportType: 0
   titulo: teleport
   interactInfo: Entrar
   informacion_del_teleport: <----
   mostrar_cartelito: 1
+  mostrar_Descripcion: 1
   transform_destino: {fileID: 1578393128}
   sceneToChange: 
+  UseLocalSceneStreamer: 0
+--- !u!1001 &1185497077
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 8549128326349087552, guid: 076c527dd1797db43967f31cecfdbb4d,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -1.1787643
+      objectReference: {fileID: 0}
+    - target: {fileID: 8549128326349087552, guid: 076c527dd1797db43967f31cecfdbb4d,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 10.435835
+      objectReference: {fileID: 0}
+    - target: {fileID: 8549128326349087552, guid: 076c527dd1797db43967f31cecfdbb4d,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 36.021168
+      objectReference: {fileID: 0}
+    - target: {fileID: 8549128326349087552, guid: 076c527dd1797db43967f31cecfdbb4d,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8549128326349087552, guid: 076c527dd1797db43967f31cecfdbb4d,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8549128326349087552, guid: 076c527dd1797db43967f31cecfdbb4d,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8549128326349087552, guid: 076c527dd1797db43967f31cecfdbb4d,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8549128326349087552, guid: 076c527dd1797db43967f31cecfdbb4d,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 8549128326349087552, guid: 076c527dd1797db43967f31cecfdbb4d,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8549128326349087552, guid: 076c527dd1797db43967f31cecfdbb4d,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8549128326349087552, guid: 076c527dd1797db43967f31cecfdbb4d,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8549128326349087553, guid: 076c527dd1797db43967f31cecfdbb4d,
+        type: 3}
+      propertyPath: m_Name
+      value: Falling Tree
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 076c527dd1797db43967f31cecfdbb4d, type: 3}
 --- !u!1 &1187992823
 GameObject:
   m_ObjectHideFlags: 0
@@ -36354,11 +36811,20 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d5a1adabb334c4b1a99c8cb139897124, type: 3}
---- !u!4 &1189975979 stripped
+--- !u!4 &1189975979
 Transform:
+  m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 1189975978}
   m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 755489971}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 1234824972}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1190450091
 GameObject:
   m_ObjectHideFlags: 0
@@ -36419,9 +36885,6 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-  OnTriggerStayEvent:
-    m_PersistentCalls:
-      m_Calls: []
   OnTriggerExitEvent:
     m_PersistentCalls:
       m_Calls: []
@@ -37299,9 +37762,6 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-  OnTriggerStayEvent:
-    m_PersistentCalls:
-      m_Calls: []
   OnTriggerExitEvent:
     m_PersistentCalls:
       m_Calls: []
@@ -37447,6 +37907,37 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1215435281}
   m_Mesh: {fileID: -599252796575327278, guid: 1f93e94ca74d6ec49b4c7ecf1a1465e5, type: 3}
+--- !u!1 &1219670228
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 446343109}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1219670229}
+  m_Layer: 0
+  m_Name: EnemySpawner (9) (Missing Prefab)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1219670229
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 446343109}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1219670228}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children:
+  - {fileID: 446343110}
+  m_Father: {fileID: 2486397394037970275}
+  m_RootOrder: 6
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1226397284
 GameObject:
   m_ObjectHideFlags: 0
@@ -37507,9 +37998,6 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-  OnTriggerStayEvent:
-    m_PersistentCalls:
-      m_Calls: []
   OnTriggerExitEvent:
     m_PersistentCalls:
       m_Calls: []
@@ -37637,9 +38125,6 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-  OnTriggerStayEvent:
-    m_PersistentCalls:
-      m_Calls: []
   OnTriggerExitEvent:
     m_PersistentCalls:
       m_Calls: []
@@ -37767,9 +38252,6 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-  OnTriggerStayEvent:
-    m_PersistentCalls:
-      m_Calls: []
   OnTriggerExitEvent:
     m_PersistentCalls:
       m_Calls: []
@@ -38016,6 +38498,37 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1234805989}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!1 &1234824971
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 1189975978}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1234824972}
+  m_Layer: 0
+  m_Name: EnemySpawner (5) (Missing Prefab)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1234824972
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 1189975978}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1234824971}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children:
+  - {fileID: 1189975979}
+  m_Father: {fileID: 2486397394037970275}
+  m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1236788213
 GameObject:
   m_ObjectHideFlags: 0
@@ -38334,9 +38847,6 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-  OnTriggerStayEvent:
-    m_PersistentCalls:
-      m_Calls: []
   OnTriggerExitEvent:
     m_PersistentCalls:
       m_Calls: []
@@ -38529,6 +39039,91 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1249473214}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!1 &1256134679
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 426254522}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 426254523}
+  m_Layer: 0
+  m_Name: Missing Prefab (Dummy)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!1001 &1256817358
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 8549128326349087552, guid: 076c527dd1797db43967f31cecfdbb4d,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0.8076515
+      objectReference: {fileID: 0}
+    - target: {fileID: 8549128326349087552, guid: 076c527dd1797db43967f31cecfdbb4d,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 10.435835
+      objectReference: {fileID: 0}
+    - target: {fileID: 8549128326349087552, guid: 076c527dd1797db43967f31cecfdbb4d,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 52.33633
+      objectReference: {fileID: 0}
+    - target: {fileID: 8549128326349087552, guid: 076c527dd1797db43967f31cecfdbb4d,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8549128326349087552, guid: 076c527dd1797db43967f31cecfdbb4d,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8549128326349087552, guid: 076c527dd1797db43967f31cecfdbb4d,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8549128326349087552, guid: 076c527dd1797db43967f31cecfdbb4d,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8549128326349087552, guid: 076c527dd1797db43967f31cecfdbb4d,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 8549128326349087552, guid: 076c527dd1797db43967f31cecfdbb4d,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8549128326349087552, guid: 076c527dd1797db43967f31cecfdbb4d,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8549128326349087552, guid: 076c527dd1797db43967f31cecfdbb4d,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8549128326349087553, guid: 076c527dd1797db43967f31cecfdbb4d,
+        type: 3}
+      propertyPath: m_Name
+      value: Falling Tree (1)
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 076c527dd1797db43967f31cecfdbb4d, type: 3}
 --- !u!1 &1264283975
 GameObject:
   m_ObjectHideFlags: 0
@@ -38589,9 +39184,6 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-  OnTriggerStayEvent:
-    m_PersistentCalls:
-      m_Calls: []
   OnTriggerExitEvent:
     m_PersistentCalls:
       m_Calls: []
@@ -38751,6 +39343,37 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1265319646}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!1 &1267297384
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 1714261082}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1267297385}
+  m_Layer: 0
+  m_Name: EnemySpawner (9) (Missing Prefab)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1267297385
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 1714261082}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1267297384}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children:
+  - {fileID: 1714261083}
+  m_Father: {fileID: 434197212}
+  m_RootOrder: 6
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1268990027
 GameObject:
   m_ObjectHideFlags: 0
@@ -39314,9 +39937,6 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-  OnTriggerStayEvent:
-    m_PersistentCalls:
-      m_Calls: []
   OnTriggerExitEvent:
     m_PersistentCalls:
       m_Calls: []
@@ -39474,9 +40094,6 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-  OnTriggerStayEvent:
-    m_PersistentCalls:
-      m_Calls: []
   OnTriggerExitEvent:
     m_PersistentCalls:
       m_Calls: []
@@ -40241,9 +40858,6 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-  OnTriggerStayEvent:
-    m_PersistentCalls:
-      m_Calls: []
   OnTriggerExitEvent:
     m_PersistentCalls:
       m_Calls: []
@@ -40918,11 +41532,20 @@ PrefabInstance:
       objectReference: {fileID: 2100000, guid: e6d40de3b15ecd743b52961f53a89b8c, type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d5a1adabb334c4b1a99c8cb139897124, type: 3}
---- !u!4 &1348964112 stripped
+--- !u!4 &1348964112
 Transform:
+  m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 1348964111}
   m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1692840124}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 599474625}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1352506339
 GameObject:
   m_ObjectHideFlags: 0
@@ -41196,6 +41819,7 @@ MonoBehaviour:
   ownTransform: 0
   toscale: {fileID: 1356294994}
   cant_to_scale: {x: 0.3, y: 0.3, z: 0.3}
+  playOnAwake: 1
 --- !u!23 &1356294992
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -41316,9 +41940,6 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-  OnTriggerStayEvent:
-    m_PersistentCalls:
-      m_Calls: []
   OnTriggerExitEvent:
     m_PersistentCalls:
       m_Calls: []
@@ -41434,6 +42055,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   distancetoInteract: 1
   autoexecute: 0
+  cd_autoexecute: 0
   pointToMessage: {fileID: 246419149}
   feedback:
   - {fileID: 1354849001}
@@ -41441,13 +42063,27 @@ MonoBehaviour:
   - {fileID: 645996839}
   _withDelay: 0
   delayTime: 0
+  UE_OnEnter:
+    m_PersistentCalls:
+      m_Calls: []
+  UE_OnExit:
+    m_PersistentCalls:
+      m_Calls: []
+  PressDown:
+    m_PersistentCalls:
+      m_Calls: []
+  PressUp:
+    m_PersistentCalls:
+      m_Calls: []
   teleportType: 0
   titulo: teleport
   interactInfo: Entrar
   informacion_del_teleport: go to main
   mostrar_cartelito: 1
+  mostrar_Descripcion: 1
   transform_destino: {fileID: 1538959456}
   sceneToChange: 
+  UseLocalSceneStreamer: 0
 --- !u!1 &1362142824
 GameObject:
   m_ObjectHideFlags: 0
@@ -42133,9 +42769,6 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-  OnTriggerStayEvent:
-    m_PersistentCalls:
-      m_Calls: []
   OnTriggerExitEvent:
     m_PersistentCalls:
       m_Calls: []
@@ -42704,11 +43337,20 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d5a1adabb334c4b1a99c8cb139897124, type: 3}
---- !u!4 &1386891620 stripped
+--- !u!4 &1386891620
 Transform:
+  m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 1386891619}
   m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 199436397}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 480424057}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1388042192
 GameObject:
   m_ObjectHideFlags: 0
@@ -43143,9 +43785,6 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-  OnTriggerStayEvent:
-    m_PersistentCalls:
-      m_Calls: []
   OnTriggerExitEvent:
     m_PersistentCalls:
       m_Calls: []
@@ -44105,9 +44744,6 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-  OnTriggerStayEvent:
-    m_PersistentCalls:
-      m_Calls: []
   OnTriggerExitEvent:
     m_PersistentCalls:
       m_Calls: []
@@ -44360,9 +44996,6 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-  OnTriggerStayEvent:
-    m_PersistentCalls:
-      m_Calls: []
   OnTriggerExitEvent:
     m_PersistentCalls:
       m_Calls: []
@@ -44430,6 +45063,22 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1415071690}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!1 &1416373318
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 1860415379}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1860415380}
+  m_Layer: 0
+  m_Name: Missing Prefab (Dummy)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
 --- !u!1 &1430941197
 GameObject:
   m_ObjectHideFlags: 0
@@ -44740,9 +45389,6 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-  OnTriggerStayEvent:
-    m_PersistentCalls:
-      m_Calls: []
   OnTriggerExitEvent:
     m_PersistentCalls:
       m_Calls: []
@@ -45120,9 +45766,6 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-  OnTriggerStayEvent:
-    m_PersistentCalls:
-      m_Calls: []
   OnTriggerExitEvent:
     m_PersistentCalls:
       m_Calls: []
@@ -45697,9 +46340,6 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-  OnTriggerStayEvent:
-    m_PersistentCalls:
-      m_Calls: []
   OnTriggerExitEvent:
     m_PersistentCalls:
       m_Calls: []
@@ -46016,7 +46656,7 @@ Transform:
   - {fileID: 1312938266}
   - {fileID: 1457000384}
   m_Father: {fileID: 0}
-  m_RootOrder: 9
+  m_RootOrder: 13
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1487558712
 GameObject:
@@ -46125,9 +46765,6 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-  OnTriggerStayEvent:
-    m_PersistentCalls:
-      m_Calls: []
   OnTriggerExitEvent:
     m_PersistentCalls:
       m_Calls: []
@@ -46255,9 +46892,6 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-  OnTriggerStayEvent:
-    m_PersistentCalls:
-      m_Calls: []
   OnTriggerExitEvent:
     m_PersistentCalls:
       m_Calls: []
@@ -46621,6 +47255,22 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1496351096}
   m_Mesh: {fileID: -2978500448688034230, guid: 1f93e94ca74d6ec49b4c7ecf1a1465e5, type: 3}
+--- !u!1 &1511029065
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 446343109}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 446343110}
+  m_Layer: 0
+  m_Name: Missing Prefab (Dummy)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
 --- !u!1 &1519657047
 GameObject:
   m_ObjectHideFlags: 0
@@ -46870,9 +47520,6 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-  OnTriggerStayEvent:
-    m_PersistentCalls:
-      m_Calls: []
   OnTriggerExitEvent:
     m_PersistentCalls:
       m_Calls: []
@@ -47525,9 +48172,6 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-  OnTriggerStayEvent:
-    m_PersistentCalls:
-      m_Calls: []
   OnTriggerExitEvent:
     m_PersistentCalls:
       m_Calls: []
@@ -47740,6 +48384,7 @@ MonoBehaviour:
   ownTransform: 0
   toscale: {fileID: 1559652954}
   cant_to_scale: {x: 0.3, y: 0.3, z: 0.3}
+  playOnAwake: 1
 --- !u!23 &1559652952
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -47849,6 +48494,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   spawnposition: {fileID: 1731804210}
   item: {fileID: 6387895767042992400, guid: 2a45d05cd01ce76419c50cf874f4e6a4, type: 3}
+  itemspawn: {fileID: 0}
 --- !u!1 &1563927111
 GameObject:
   m_ObjectHideFlags: 0
@@ -48191,6 +48837,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   distancetoInteract: 1
   autoexecute: 0
+  cd_autoexecute: 0
   pointToMessage: {fileID: 1740232682}
   feedback:
   - {fileID: 532663219}
@@ -48198,13 +48845,27 @@ MonoBehaviour:
   - {fileID: 534493933}
   _withDelay: 0
   delayTime: 0
+  UE_OnEnter:
+    m_PersistentCalls:
+      m_Calls: []
+  UE_OnExit:
+    m_PersistentCalls:
+      m_Calls: []
+  PressDown:
+    m_PersistentCalls:
+      m_Calls: []
+  PressUp:
+    m_PersistentCalls:
+      m_Calls: []
   teleportType: 0
   titulo: teleport
   interactInfo: Entrar
   informacion_del_teleport: '----->'
   mostrar_cartelito: 1
+  mostrar_Descripcion: 1
   transform_destino: {fileID: 1184965953}
   sceneToChange: 
+  UseLocalSceneStreamer: 0
 --- !u!1 &1578463805
 GameObject:
   m_ObjectHideFlags: 0
@@ -48573,7 +49234,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 8
+  m_RootOrder: 12
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1596743188
 GameObject:
@@ -49244,9 +49905,6 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-  OnTriggerStayEvent:
-    m_PersistentCalls:
-      m_Calls: []
   OnTriggerExitEvent:
     m_PersistentCalls:
       m_Calls: []
@@ -49844,9 +50502,6 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-  OnTriggerStayEvent:
-    m_PersistentCalls:
-      m_Calls: []
   OnTriggerExitEvent:
     m_PersistentCalls:
       m_Calls: []
@@ -50171,6 +50826,22 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1642842315}
   m_Mesh: {fileID: 10206, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!1 &1644892021
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 1141596081}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1141596082}
+  m_Layer: 0
+  m_Name: Missing Prefab (Dummy)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
 --- !u!1 &1648090678
 GameObject:
   m_ObjectHideFlags: 0
@@ -50893,9 +51564,6 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-  OnTriggerStayEvent:
-    m_PersistentCalls:
-      m_Calls: []
   OnTriggerExitEvent:
     m_PersistentCalls:
       m_Calls: []
@@ -51023,9 +51691,6 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-  OnTriggerStayEvent:
-    m_PersistentCalls:
-      m_Calls: []
   OnTriggerExitEvent:
     m_PersistentCalls:
       m_Calls: []
@@ -51153,9 +51818,6 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-  OnTriggerStayEvent:
-    m_PersistentCalls:
-      m_Calls: []
   OnTriggerExitEvent:
     m_PersistentCalls:
       m_Calls: []
@@ -51301,6 +51963,22 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1687492282}
   m_Mesh: {fileID: 4011906811869891970, guid: 1f93e94ca74d6ec49b4c7ecf1a1465e5, type: 3}
+--- !u!1 &1692840124
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 1348964111}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1348964112}
+  m_Layer: 0
+  m_Name: Missing Prefab (Dummy)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
 --- !u!1 &1694944685
 GameObject:
   m_ObjectHideFlags: 0
@@ -51500,8 +52178,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8b64c0ffff844424e87460f587313497, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  castingBar_img: {fileID: 1851851558}
-  castingBar: {fileID: 0}
   castingTime: 5
 --- !u!4 &1701093978
 Transform:
@@ -51517,7 +52193,7 @@ Transform:
   - {fileID: 1603542712}
   - {fileID: 342213588}
   m_Father: {fileID: 0}
-  m_RootOrder: 19
+  m_RootOrder: 23
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1709545783
 GameObject:
@@ -51660,11 +52336,24 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   distancetoInteract: 1
   autoexecute: 0
+  cd_autoexecute: 0
   pointToMessage: {fileID: 2142606385}
   feedback:
   - {fileID: 1711485916}
   _withDelay: 0
   delayTime: 0
+  UE_OnEnter:
+    m_PersistentCalls:
+      m_Calls: []
+  UE_OnExit:
+    m_PersistentCalls:
+      m_Calls: []
+  PressDown:
+    m_PersistentCalls:
+      m_Calls: []
+  PressUp:
+    m_PersistentCalls:
+      m_Calls: []
   results:
   - {fileID: 856495787}
   nombre: Jarrones
@@ -51684,6 +52373,7 @@ MonoBehaviour:
   ownTransform: 0
   toscale: {fileID: 1711485914}
   cant_to_scale: {x: 0.3, y: 0.3, z: 0.3}
+  playOnAwake: 1
 --- !u!23 &1711485917
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -51946,11 +52636,20 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d5a1adabb334c4b1a99c8cb139897124, type: 3}
---- !u!4 &1714261083 stripped
+--- !u!4 &1714261083
 Transform:
+  m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 1714261082}
   m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 874214457}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 1267297385}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1714879156
 GameObject:
   m_ObjectHideFlags: 0
@@ -52000,11 +52699,24 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   distancetoInteract: 1
   autoexecute: 0
+  cd_autoexecute: 0
   pointToMessage: {fileID: 968750775}
   feedback:
   - {fileID: 1714879159}
   _withDelay: 0
   delayTime: 0
+  UE_OnEnter:
+    m_PersistentCalls:
+      m_Calls: []
+  UE_OnExit:
+    m_PersistentCalls:
+      m_Calls: []
+  PressDown:
+    m_PersistentCalls:
+      m_Calls: []
+  PressUp:
+    m_PersistentCalls:
+      m_Calls: []
   results:
   - {fileID: 911038475}
   nombre: Playground
@@ -52024,6 +52736,7 @@ MonoBehaviour:
   ownTransform: 0
   toscale: {fileID: 1714879157}
   cant_to_scale: {x: 0.3, y: 0.3, z: 0.3}
+  playOnAwake: 1
 --- !u!23 &1714879160
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -52123,6 +52836,7 @@ MonoBehaviour:
   ownTransform: 0
   toscale: {fileID: 1717518747}
   cant_to_scale: {x: 0.3, y: 0.3, z: 0.3}
+  playOnAwake: 1
 --- !u!23 &1717518745
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -52376,6 +53090,7 @@ MonoBehaviour:
   random_range: 0
   timetochangerandom: 1
   constant_movement: 0
+  playOnAwake: 1
 --- !u!1 &1728396657
 GameObject:
   m_ObjectHideFlags: 0
@@ -52839,9 +53554,6 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-  OnTriggerStayEvent:
-    m_PersistentCalls:
-      m_Calls: []
   OnTriggerExitEvent:
     m_PersistentCalls:
       m_Calls: []
@@ -53436,9 +54148,6 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-  OnTriggerStayEvent:
-    m_PersistentCalls:
-      m_Calls: []
   OnTriggerExitEvent:
     m_PersistentCalls:
       m_Calls: []
@@ -53778,6 +54487,7 @@ MonoBehaviour:
   random_range: 0
   timetochangerandom: 1
   constant_movement: 0
+  playOnAwake: 1
 --- !u!23 &1755277584
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -53976,9 +54686,6 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-  OnTriggerStayEvent:
-    m_PersistentCalls:
-      m_Calls: []
   OnTriggerExitEvent:
     m_PersistentCalls:
       m_Calls: []
@@ -54106,9 +54813,6 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-  OnTriggerStayEvent:
-    m_PersistentCalls:
-      m_Calls: []
   OnTriggerExitEvent:
     m_PersistentCalls:
       m_Calls: []
@@ -54453,9 +55157,6 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-  OnTriggerStayEvent:
-    m_PersistentCalls:
-      m_Calls: []
   OnTriggerExitEvent:
     m_PersistentCalls:
       m_Calls: []
@@ -54995,6 +55696,22 @@ Transform:
   m_Father: {fileID: 2014915504}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1791856763
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 116613479}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 116613480}
+  m_Layer: 0
+  m_Name: Missing Prefab (Dummy)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
 --- !u!1 &1792505670
 GameObject:
   m_ObjectHideFlags: 0
@@ -55666,9 +56383,6 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-  OnTriggerStayEvent:
-    m_PersistentCalls:
-      m_Calls: []
   OnTriggerExitEvent:
     m_PersistentCalls:
       m_Calls: []
@@ -56347,9 +57061,6 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-  OnTriggerStayEvent:
-    m_PersistentCalls:
-      m_Calls: []
   OnTriggerExitEvent:
     m_PersistentCalls:
       m_Calls: []
@@ -56634,9 +57345,6 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-  OnTriggerStayEvent:
-    m_PersistentCalls:
-      m_Calls: []
   OnTriggerExitEvent:
     m_PersistentCalls:
       m_Calls: []
@@ -56865,6 +57573,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   spawnposition: {fileID: 534638961}
   item: {fileID: 6387895767042992400, guid: 47c898bc82809b946a1dfc086bd5f433, type: 3}
+  itemspawn: {fileID: 0}
 --- !u!1 &1851193486
 GameObject:
   m_ObjectHideFlags: 0
@@ -57219,11 +57928,20 @@ PrefabInstance:
       objectReference: {fileID: 2100000, guid: e6d40de3b15ecd743b52961f53a89b8c, type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d5a1adabb334c4b1a99c8cb139897124, type: 3}
---- !u!4 &1860415380 stripped
+--- !u!4 &1860415380
 Transform:
+  m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 1860415379}
   m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1416373318}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 536350723}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1862200623
 GameObject:
   m_ObjectHideFlags: 0
@@ -57532,9 +58250,6 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-  OnTriggerStayEvent:
-    m_PersistentCalls:
-      m_Calls: []
   OnTriggerExitEvent:
     m_PersistentCalls:
       m_Calls: []
@@ -57692,7 +58407,7 @@ Transform:
   m_LocalScale: {x: 30.49146, y: 1, z: 63.324394}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 13
+  m_RootOrder: 17
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1876121961
 GameObject:
@@ -58071,9 +58786,6 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-  OnTriggerStayEvent:
-    m_PersistentCalls:
-      m_Calls: []
   OnTriggerExitEvent:
     m_PersistentCalls:
       m_Calls: []
@@ -58201,9 +58913,6 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-  OnTriggerStayEvent:
-    m_PersistentCalls:
-      m_Calls: []
   OnTriggerExitEvent:
     m_PersistentCalls:
       m_Calls: []
@@ -58581,9 +59290,6 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-  OnTriggerStayEvent:
-    m_PersistentCalls:
-      m_Calls: []
   OnTriggerExitEvent:
     m_PersistentCalls:
       m_Calls: []
@@ -59146,9 +59852,6 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-  OnTriggerStayEvent:
-    m_PersistentCalls:
-      m_Calls: []
   OnTriggerExitEvent:
     m_PersistentCalls:
       m_Calls: []
@@ -59274,8 +59977,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 67a2c3d41dd104e12835554290d91b02, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  checkpointActivated_ps: {fileID: 0}
-  custom_pos: {fileID: 550288923}
+  OnActivated:
+    m_PersistentCalls:
+      m_Calls: []
+  isAImportantCheckPoint: 0
+  sceneName: 
+  Mytranform: {fileID: 0}
 --- !u!1 &1916659494
 GameObject:
   m_ObjectHideFlags: 0
@@ -59645,9 +60352,6 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-  OnTriggerStayEvent:
-    m_PersistentCalls:
-      m_Calls: []
   OnTriggerExitEvent:
     m_PersistentCalls:
       m_Calls: []
@@ -59854,9 +60558,6 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-  OnTriggerStayEvent:
-    m_PersistentCalls:
-      m_Calls: []
   OnTriggerExitEvent:
     m_PersistentCalls:
       m_Calls: []
@@ -60467,11 +61168,24 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   distancetoInteract: 1
   autoexecute: 0
+  cd_autoexecute: 0
   pointToMessage: {fileID: 813105584}
   feedback:
   - {fileID: 1956671390}
   _withDelay: 0
   delayTime: 0
+  UE_OnEnter:
+    m_PersistentCalls:
+      m_Calls: []
+  UE_OnExit:
+    m_PersistentCalls:
+      m_Calls: []
+  PressDown:
+    m_PersistentCalls:
+      m_Calls: []
+  PressUp:
+    m_PersistentCalls:
+      m_Calls: []
   results:
   - {fileID: 1717518743}
   nombre: Enemy Jabali
@@ -60491,6 +61205,7 @@ MonoBehaviour:
   ownTransform: 0
   toscale: {fileID: 1956671388}
   cant_to_scale: {x: 0.3, y: 0.3, z: 0.3}
+  playOnAwake: 1
 --- !u!23 &1956671391
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -60597,9 +61312,6 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-  OnTriggerStayEvent:
-    m_PersistentCalls:
-      m_Calls: []
   OnTriggerExitEvent:
     m_PersistentCalls:
       m_Calls: []
@@ -60667,6 +61379,37 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1957761522}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!1 &1961367313
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 116613479}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1961367314}
+  m_Layer: 0
+  m_Name: EnemySpawner (6) (Missing Prefab)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1961367314
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 116613479}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1961367313}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children:
+  - {fileID: 116613480}
+  m_Father: {fileID: 434197212}
+  m_RootOrder: 2
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1963711202
 GameObject:
   m_ObjectHideFlags: 0
@@ -60805,9 +61548,6 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-  OnTriggerStayEvent:
-    m_PersistentCalls:
-      m_Calls: []
   OnTriggerExitEvent:
     m_PersistentCalls:
       m_Calls: []
@@ -61076,6 +61816,22 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1972767677}
   m_Mesh: {fileID: 585945721145220141, guid: 1f93e94ca74d6ec49b4c7ecf1a1465e5, type: 3}
+--- !u!1 &1976672012
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 618031079}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 618031080}
+  m_Layer: 0
+  m_Name: Missing Prefab (Dummy)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
 --- !u!1 &1980304272
 GameObject:
   m_ObjectHideFlags: 0
@@ -61125,11 +61881,24 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   distancetoInteract: 1
   autoexecute: 0
+  cd_autoexecute: 0
   pointToMessage: {fileID: 395521085}
   feedback:
   - {fileID: 1980304275}
   _withDelay: 0
   delayTime: 0
+  UE_OnEnter:
+    m_PersistentCalls:
+      m_Calls: []
+  UE_OnExit:
+    m_PersistentCalls:
+      m_Calls: []
+  PressDown:
+    m_PersistentCalls:
+      m_Calls: []
+  PressUp:
+    m_PersistentCalls:
+      m_Calls: []
   results:
   - {fileID: 1559652950}
   nombre: Enemy Dummy
@@ -61149,6 +61918,7 @@ MonoBehaviour:
   ownTransform: 0
   toscale: {fileID: 1980304273}
   cant_to_scale: {x: 0.3, y: 0.3, z: 0.3}
+  playOnAwake: 1
 --- !u!23 &1980304276
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -61483,9 +62253,6 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-  OnTriggerStayEvent:
-    m_PersistentCalls:
-      m_Calls: []
   OnTriggerExitEvent:
     m_PersistentCalls:
       m_Calls: []
@@ -61818,6 +62585,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   distancetoInteract: 1
   autoexecute: 0
+  cd_autoexecute: 0
   pointToMessage: {fileID: 316811490}
   feedback:
   - {fileID: 410103973}
@@ -61825,13 +62593,27 @@ MonoBehaviour:
   - {fileID: 202793551}
   _withDelay: 0
   delayTime: 0
+  UE_OnEnter:
+    m_PersistentCalls:
+      m_Calls: []
+  UE_OnExit:
+    m_PersistentCalls:
+      m_Calls: []
+  PressDown:
+    m_PersistentCalls:
+      m_Calls: []
+  PressUp:
+    m_PersistentCalls:
+      m_Calls: []
   teleportType: 0
   titulo: teleport
   interactInfo: Entrar
   informacion_del_teleport: go to main
   mostrar_cartelito: 1
+  mostrar_Descripcion: 1
   transform_destino: {fileID: 1538959456}
   sceneToChange: 
+  UseLocalSceneStreamer: 0
 --- !u!1 &1996865904
 GameObject:
   m_ObjectHideFlags: 0
@@ -62483,7 +63265,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 12
+  m_RootOrder: 16
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &2024584449
 GameObject:
@@ -62637,9 +63419,6 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-  OnTriggerStayEvent:
-    m_PersistentCalls:
-      m_Calls: []
   OnTriggerExitEvent:
     m_PersistentCalls:
       m_Calls: []
@@ -63257,9 +64036,6 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 1
         m_CallState: 2
-  OnTriggerStayEvent:
-    m_PersistentCalls:
-      m_Calls: []
   OnTriggerExitEvent:
     m_PersistentCalls:
       m_Calls: []
@@ -63809,9 +64585,6 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-  OnTriggerStayEvent:
-    m_PersistentCalls:
-      m_Calls: []
   OnTriggerExitEvent:
     m_PersistentCalls:
       m_Calls: []
@@ -64118,9 +64891,6 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-  OnTriggerStayEvent:
-    m_PersistentCalls:
-      m_Calls: []
   OnTriggerExitEvent:
     m_PersistentCalls:
       m_Calls: []
@@ -64248,9 +65018,6 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-  OnTriggerStayEvent:
-    m_PersistentCalls:
-      m_Calls: []
   OnTriggerExitEvent:
     m_PersistentCalls:
       m_Calls: []
@@ -64459,11 +65226,24 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   distancetoInteract: 1
   autoexecute: 0
+  cd_autoexecute: 0
   pointToMessage: {fileID: 1386531028}
   feedback:
   - {fileID: 2083991824}
   _withDelay: 0
   delayTime: 0
+  UE_OnEnter:
+    m_PersistentCalls:
+      m_Calls: []
+  UE_OnExit:
+    m_PersistentCalls:
+      m_Calls: []
+  PressDown:
+    m_PersistentCalls:
+      m_Calls: []
+  PressUp:
+    m_PersistentCalls:
+      m_Calls: []
   results:
   - {fileID: 1356294990}
   nombre: Enemy Dummy
@@ -64483,6 +65263,7 @@ MonoBehaviour:
   ownTransform: 0
   toscale: {fileID: 2083991822}
   cant_to_scale: {x: 0.3, y: 0.3, z: 0.3}
+  playOnAwake: 1
 --- !u!23 &2083991825
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -64714,9 +65495,6 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-  OnTriggerStayEvent:
-    m_PersistentCalls:
-      m_Calls: []
   OnTriggerExitEvent:
     m_PersistentCalls:
       m_Calls: []
@@ -65001,9 +65779,6 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-  OnTriggerStayEvent:
-    m_PersistentCalls:
-      m_Calls: []
   OnTriggerExitEvent:
     m_PersistentCalls:
       m_Calls: []
@@ -65223,9 +65998,6 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-  OnTriggerStayEvent:
-    m_PersistentCalls:
-      m_Calls: []
   OnTriggerExitEvent:
     m_PersistentCalls:
       m_Calls: []
@@ -65649,7 +66421,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 16
+  m_RootOrder: 21
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &2117751649
 GameObject:
@@ -65895,7 +66667,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 14
+  m_RootOrder: 19
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &2136637601
 GameObject:
@@ -66503,12 +67275,12 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 9192150528771642358}
-  - {fileID: 1189975979}
-  - {fileID: 1141596082}
-  - {fileID: 1860415380}
-  - {fileID: 743023072}
+  - {fileID: 1234824972}
+  - {fileID: 1117128709}
+  - {fileID: 536350723}
+  - {fileID: 1080832958}
   - {fileID: 756313513}
-  - {fileID: 446343110}
+  - {fileID: 1219670229}
   m_Father: {fileID: 960635360}
   m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 359.373, z: 0}
@@ -67711,7 +68483,7 @@ Transform:
   m_Children:
   - {fileID: 3126637953369057470}
   m_Father: {fileID: 0}
-  m_RootOrder: 7
+  m_RootOrder: 11
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &7128273075072145411
 MonoBehaviour:
