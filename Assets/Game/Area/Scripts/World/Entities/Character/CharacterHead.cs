@@ -8,7 +8,8 @@ public class CharacterHead : CharacterControllable
     public enum PlayerInputs
     {
         IDLE, MOVE, BEGIN_BLOCK, BLOCK, END_BLOCK, PARRY, CHARGE_ATTACK, RELEASE_ATTACK,
-        TAKE_DAMAGE, DEAD, ROLL, STUN, ON_MENU_ENTER, ON_MENU_EXIT, FALLING, CHARGE_BOOMERANG_SHIELD, RELEASE_BOOMERANG_SHIELD, ENVAINAR
+        TAKE_DAMAGE, DEAD, ROLL, STUN, ON_MENU_ENTER, ON_MENU_EXIT, FALLING, ENVAINAR,
+        CHARGE_BOOMERANG_SHIELD, RELEASE_BOOMERANG_SHIELD, START_ACTIVE, RELEASE_ACTIVE
     };
 
     Action ChildrensUpdates;
@@ -242,6 +243,8 @@ public class CharacterHead : CharacterControllable
         var falling = new EState<PlayerInputs>("Falling");
         var boomerangCharge = new EState<PlayerInputs>("BoomerangCharge");
         var boomerangRelease = new EState<PlayerInputs>("BoomerangRelease");
+        var startActive = new EState<PlayerInputs>("StartActive");
+        var releaseActive = new EState<PlayerInputs>("ReleaseActive");
         var envainar = new EState<PlayerInputs>("Envainar");
 
         ConfigureState.Create(idle)
@@ -251,6 +254,7 @@ public class CharacterHead : CharacterControllable
             .SetTransition(PlayerInputs.ROLL, roll)
             .SetTransition(PlayerInputs.CHARGE_ATTACK, attackCharge)
             .SetTransition(PlayerInputs.CHARGE_BOOMERANG_SHIELD, boomerangCharge)
+            .SetTransition(PlayerInputs.START_ACTIVE, startActive)
             .SetTransition(PlayerInputs.TAKE_DAMAGE, takeDamage)
             .SetTransition(PlayerInputs.DEAD, dead)
             .SetTransition(PlayerInputs.STUN, stun)
@@ -265,6 +269,7 @@ public class CharacterHead : CharacterControllable
             .SetTransition(PlayerInputs.ROLL, roll)
             .SetTransition(PlayerInputs.CHARGE_ATTACK, attackCharge)
             .SetTransition(PlayerInputs.CHARGE_BOOMERANG_SHIELD, boomerangCharge)
+            .SetTransition(PlayerInputs.START_ACTIVE, startActive)
             .SetTransition(PlayerInputs.TAKE_DAMAGE, takeDamage)
             .SetTransition(PlayerInputs.DEAD, dead)
             .SetTransition(PlayerInputs.STUN, stun)
@@ -346,6 +351,7 @@ public class CharacterHead : CharacterControllable
             .SetTransition(PlayerInputs.MOVE, move)
             .SetTransition(PlayerInputs.CHARGE_ATTACK, attackCharge)
             .SetTransition(PlayerInputs.CHARGE_BOOMERANG_SHIELD, boomerangCharge)
+            .SetTransition(PlayerInputs.START_ACTIVE, startActive)
             .SetTransition(PlayerInputs.BEGIN_BLOCK, beginBlock)
             .SetTransition(PlayerInputs.DEAD, dead)
             .SetTransition(PlayerInputs.ROLL, roll)
@@ -366,6 +372,21 @@ public class CharacterHead : CharacterControllable
            .SetTransition(PlayerInputs.ROLL, roll)
            .SetTransition(PlayerInputs.FALLING, falling)
            .Done();
+
+        ConfigureState.Create(startActive)
+            .SetTransition(PlayerInputs.RELEASE_ACTIVE, releaseActive)
+            .SetTransition(PlayerInputs.ON_MENU_ENTER, onMenues)
+            .SetTransition(PlayerInputs.DEAD, dead)
+            .Done();
+
+        ConfigureState.Create(releaseActive)
+          .SetTransition(PlayerInputs.IDLE, idle)
+          .SetTransition(PlayerInputs.ON_MENU_ENTER, onMenues)
+          .SetTransition(PlayerInputs.MOVE, move)
+          .SetTransition(PlayerInputs.DEAD, dead)
+          .SetTransition(PlayerInputs.ROLL, roll)
+          .SetTransition(PlayerInputs.FALLING, falling)
+          .Done();
 
         ConfigureState.Create(takeDamage)
             .SetTransition(PlayerInputs.IDLE, idle)
@@ -452,6 +473,14 @@ public class CharacterHead : CharacterControllable
             .SetMovement(this.move);
 
         new CharBoomerangRelease(boomerangRelease, stateMachine, ThrowCallback, charanim)
+            .SetMovement(this.move)
+            .SetLeftAxis(GetLeftHorizontal, GetLeftVertical);
+
+        new CharElectricSword(startActive, charanim, stateMachine)
+            .SetMovement(this.move)
+            .SetLeftAxis(GetLeftHorizontal, GetLeftVertical);
+
+        new CharElectricRelease(releaseActive, charanim, stateMachine)
             .SetMovement(this.move)
             .SetLeftAxis(GetLeftHorizontal, GetLeftVertical);
 
@@ -656,6 +685,18 @@ public class CharacterHead : CharacterControllable
     public void ChargeThrowShield()
     {
         stateMachine.SendInput(PlayerInputs.CHARGE_BOOMERANG_SHIELD);
+    }
+    #endregion
+
+    #region Use Active
+    public void StartActive()
+    {
+        stateMachine.SendInput(PlayerInputs.START_ACTIVE);
+    }
+
+    public void ReleaseActive()
+    {
+        stateMachine.SendInput(PlayerInputs.RELEASE_ACTIVE);
     }
     #endregion
 

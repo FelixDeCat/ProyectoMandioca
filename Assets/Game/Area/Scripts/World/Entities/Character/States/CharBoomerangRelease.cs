@@ -9,7 +9,7 @@ namespace Tools.StateMachine
     {
         Action throwShield;
         CharacterAnimator anim;
-        float timer;
+        float timer = 0;
 
         public CharBoomerangRelease(EState<CharacterHead.PlayerInputs> myState, EventStateMachine<CharacterHead.PlayerInputs> _sm, Action _throwShield, CharacterAnimator _anim): base(myState, _sm)
         {
