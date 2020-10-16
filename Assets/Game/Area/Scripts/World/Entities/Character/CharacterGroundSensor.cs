@@ -157,13 +157,17 @@ public class CharacterGroundSensor : MonoBehaviour
     bool Slope(Transform transformToSnap)
     {
         RaycastHit hit;
-        if (Physics.Raycast(transform.position + transform.forward * 0.35f + transform.up * 0.4f, -transform.up, out hit, 0.6f, floorMask))
+
+        Vector3 startPos = transform.forward * 0.35f + transform.up * 0.6f;
+
+        if (Physics.Raycast(transform.position + startPos, -transform.up, out hit, 0.8f, floorMask))
         {
+            float result = Vector3.Dot(startPos, hit.normal);
+
             var temp = Mathf.Abs(hit.point.y - transformToSnap.position.y);
-            if (hit.point.y <= transformToSnap.position.y || temp <= 0.05f || temp >=maxhHeight) return false;
+            if (hit.point.y <= transformToSnap.position.y || temp <= 0.05f || result <= maxhHeight) return false;
 
             transformToSnap.position = new Vector3(transformToSnap.position.x, hit.point.y, transformToSnap.position.z);
-
             return true;
         }
         return false;
