@@ -13,6 +13,9 @@ public class NewShieldAbility : MonoBehaviour
     [SerializeField] float radiusTapping;
     [SerializeField] float angleShoot;
 
+
+    [SerializeField] ParticleSystem cosasLindas;
+
     Collider[] enemiesInRange;
 
     CharacterHead _hero;
@@ -30,6 +33,7 @@ public class NewShieldAbility : MonoBehaviour
     public void OnEquip()
     {
         _hero = Main.instance.GetChar();
+        ParticlesManager.Instance.GetParticlePool(cosasLindas.name, cosasLindas);
     }
     public void OnUnequip()
     {
@@ -45,6 +49,7 @@ public class NewShieldAbility : MonoBehaviour
 
     void UseShieldPowerHolding(Vector3 aux)
     {
+        ParticlesManager.Instance.PlayParticle(cosasLindas.name,_hero.transform.position);
         var enemis = Extensions.FindInRadius<DamageReceiver>(_hero.transform.position, radiusHolding);
         for (int i = 0; i < enemis.Count; i++)
         {
