@@ -476,7 +476,7 @@ public class CharacterHead : CharacterControllable
             .SetMovement(this.move)
             .SetLeftAxis(GetLeftHorizontal, GetLeftVertical);
 
-        new CharElectricSword(startActive, speedChange, charanim, stateMachine)
+        new CharElectricSword(startActive, ChangeSpeed, charanim, stateMachine)
             .SetMovement(this.move)
             .SetLeftAxis(GetLeftHorizontal, GetLeftVertical);
 
@@ -689,8 +689,13 @@ public class CharacterHead : CharacterControllable
     #endregion
 
     #region Use Active
+    float ChangeSpeed()
+    {
+        return speedChange;
+    }
     float speedChange = 0;
-    public void StartActive(float speed )
+           
+    public void StartActive(float speed)
     {
         speedChange = speed;
         stateMachine.SendInput(PlayerInputs.START_ACTIVE);
