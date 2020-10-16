@@ -5,69 +5,43 @@ using Tools.Extensions;
 
 public class NewShieldAbility : MonoBehaviour
 {
-    [SerializeField] float radiusHolding;
-    [SerializeField] float radiusTapping;
-    [SerializeField] float cdShoot;
-    [SerializeField] float cdShootTap;
-    [SerializeField] float angleShoot;
+    [Header("LongCast")]
     [SerializeField] float timePetrifiHold = 1;
+    [SerializeField] float radiusHolding;
+    [Header("ShortCast")]
     [SerializeField] float timePetrifiTap = 1;
+    [SerializeField] float radiusTapping;
+    [SerializeField] float angleShoot;
 
-    bool holding;
-
-    bool canShoot;
-    bool canShootTap;
-    float countShoot;
-    float countShootTap;
     Collider[] enemiesInRange;
 
     CharacterHead _hero;
+    
+    public void OnPress()
+    {
+        _hero.ChargeThrowShield();
+    }
 
-    private void Start()
+    public void OnStopUse()
+    {
+
+    }
+
+    public void OnEquip()
     {
         _hero = Main.instance.GetChar();
     }
-
-    void Update()
+    public void OnUnequip()
     {
-        if (canShoot && Input.GetKeyDown(KeyCode.Joystick1Button5))
-        {
-            _hero.ChargeThrowShield();
-            canShoot = false;
-        }
 
-        if (Input.GetKeyUp(KeyCode.Joystick1Button5))
-        {
-            holding = true;
-            countShoot = 0;
-            _hero.ThrowSomething(UseShieldPowerHolding);
-        }
-
-        if (canShootTap && Input.GetKeyDown(KeyCode.Joystick1Button1))
-        {
-            holding = false;
-            countShootTap = 0;
-            _hero.ChargeThrowShield();
-            _hero.ThrowSomething(UseShieldTapping);
-            canShootTap = false;
-        }
-
-        if (canShoot == false)
-        {
-            countShoot += Time.deltaTime;
-
-            if (countShoot >= cdShoot)
-                canShoot = true;
-        }
-
-        if (canShootTap == false)
-        {
-            countShootTap += Time.deltaTime;
-
-            if (countShootTap >= cdShootTap)
-                canShootTap = true;
-        }
     }
+
+    public void OnExecute(int charges)
+    {
+        if (charges == 0) _hero.ThrowSomething(UseShieldTapping);
+        else _hero.ThrowSomething(UseShieldPowerHolding);
+    }  
+      
 
     void UseShieldPowerHolding(Vector3 aux)
     {

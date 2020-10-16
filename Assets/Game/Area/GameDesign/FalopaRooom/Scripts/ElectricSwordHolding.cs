@@ -16,6 +16,8 @@ public class ElectricSwordHolding : MonoBehaviour
     [SerializeField] float orbLifeTime = 5;
 
     CharacterHead myChar;
+    [Header("Other")]
+    [SerializeField] float charSpeed = 0;
 
     float timer = 0;
     bool canUpdate = false;
@@ -25,8 +27,7 @@ public class ElectricSwordHolding : MonoBehaviour
         //Aca supongo que van cosas de feedback
         timer = 0;
         canUpdate = true;
-        Main.instance.GetChar().StartActive();
-
+        Main.instance.GetChar().StartActive(charSpeed);
     }
     public void OnStopUse()
     {

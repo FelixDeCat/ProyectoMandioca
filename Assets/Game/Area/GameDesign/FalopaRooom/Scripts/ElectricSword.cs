@@ -15,12 +15,14 @@ public class ElectricSword : MonoBehaviour
     [SerializeField] int orbSpeed = 5;
     [SerializeField] float orbLifeTime = 2;
 
+    [Header("Other")]
+    [SerializeField] float charSpeed = 0;
     CharacterHead myChar;
 
     public void OnPress()
     {
         //Aca supongo que van cosas de feedback
-        Main.instance.GetChar().StartActive();
+        Main.instance.GetChar().StartActive(charSpeed);
 
     }
     public void OnStopUse()
