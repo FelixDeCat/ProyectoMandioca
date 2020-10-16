@@ -42,8 +42,8 @@ public class CharSounds
     public void Play_Block() =>             AudioManager.instance.PlaySound(block.name);
     public void Play_DashBashHit() =>       AudioManager.instance.PlaySound(dashBashHit.name);
     public void Play_heavySwing() =>        AudioManager.instance.PlaySound(heavySwing.name);
-    public void Play_OnFightMusic() => AudioManager.instance.PlaySound(onFightMusic.name);
-    public void Play_OffFightMusic() => AudioManager.instance.PlaySound(offFightMusic.name);
+    public void Play_OnFightMusic() { AudioManager.instance.PlaySound(onFightMusic.name); AudioManager.instance.StopAllSounds(offFightMusic.name); }
+    public void Play_OffFightMusic() { AudioManager.instance.PlaySound(offFightMusic.name); AudioManager.instance.StopAllSounds(onFightMusic.name); }
     public void NewOffFightMusic(AudioClip music)
     {
         offFightMusic = music;
