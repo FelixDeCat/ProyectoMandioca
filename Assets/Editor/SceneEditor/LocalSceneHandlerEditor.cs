@@ -16,6 +16,8 @@ public class LocalSceneHandlerEditor : Editor
     GameObject _lowdetail { get => _handler.SceneData.low_detailInScene; set => _handler.SceneData.low_detailInScene = value; }
     GameObject _mediumDetail { get => _handler.SceneData.medium_detailInScene; set => _handler.SceneData.medium_detailInScene = value; }
     GameObject _highDetail { get => _handler.SceneData.hightDetailInScene; set => _handler.SceneData.hightDetailInScene = value; }
+    List<GenericAsyncLocalScene> loads { get => _handler.loads; set => _handler.loads = value; }
+
     void OnEnable()
     {
         _handler = (LocalSceneHandler)target;
@@ -42,10 +44,42 @@ public class LocalSceneHandlerEditor : Editor
                 _handler.gameObject.name = sceneName;
             }
 
+            if (loads.Count <= 0)
+            {
+                if (GUILayout.Button("Add New Custom Load"))
+                {
+                    GameObject go = new GameObject();
+                    go.AddComponent<AsyncLoaderHandler>();
+                    go.name = _data.name + "_CustomLoad";
+                    loads.Add(go.GetComponent<AsyncLoaderHandler>());
+                }
+            }
+            else
+            {
+                if (GUILayout.Button("Clear"))
+                {
+                    for (int i = 0; i < loads.Count; i++)
+                    {
+                        DestroyImmediate(loads[i]);
+                    }
+                    _handler.loads.Clear();
+                    serializedObject.ApplyModifiedProperties();
+                }
+                for (int i = 0; i < loads.Count; i++)
+                {
+                    loads[i] = EditorGUILayout.ObjectField("Load" + i.ToString("##"), loads[i], typeof(GenericAsyncLocalScene), false) as GenericAsyncLocalScene;
+                }
+            }
+
+          
+
+            EditorGUILayout.Space();
+
             //Forma de ver si las variables cargaron. Eso solo visual
             EditorGUI.BeginDisabledGroup(true);
 
             _data = EditorGUILayout.ObjectField("my data:", _data, typeof(SceneData), false) as SceneData;
+
 
             EditorGUILayout.Space();
 

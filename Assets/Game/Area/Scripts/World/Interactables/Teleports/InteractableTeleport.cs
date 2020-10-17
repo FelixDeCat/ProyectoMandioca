@@ -26,7 +26,7 @@ public class InteractableTeleport : Interactable
             else
             {
                 Checkpoint_Manager.instance.StopGame();
-                NewSceneStreamer.instance.LoadScene(sceneToChange, false, true, EndLoad, true);
+                NewSceneStreamer.instance.LoadScene(sceneToChange, true, true, EndLoad, true);
                 //Main.instance.GetChar().transform.position = transform_destino.position;
             }
            

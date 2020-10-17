@@ -14,7 +14,7 @@ public class SceneData : ScriptableObject
     public GameObject hight_detail;
 
     //EditorVariables
-    //[HideInInspector]
+    [HideInInspector]
     public GameObject landmarkInScene;
     [HideInInspector]
     public GameObject gameplayInScene;

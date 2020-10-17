@@ -12,7 +12,7 @@ public class LocalSceneHandler : LoadComponent
 {
     public SceneData SceneData;
     public string prefabname;
-    public GenericAsyncLocalScene[] loads = new GenericAsyncLocalScene[0];
+    public List<GenericAsyncLocalScene> loads = new List<GenericAsyncLocalScene>();
 
     string myName;
 
@@ -44,8 +44,9 @@ public class LocalSceneHandler : LoadComponent
             yield return null;
         }
 
-        for (int i = 0; i < loads.Length; i++)
+        for (int i = 0; i < loads.Count; i++)
         {
+            if (loads[i] == null) Debug.LogError("un referencia en los Loaders de: " + this.gameObject.name + " se perdió");
             loads[i].SetSceneData(in SceneData);
             yield return loads[i].Load();
         }
@@ -83,7 +84,7 @@ public class LocalSceneHandler : LoadComponent
                 break;
         }
 
-        for (int i = 0; i < loads.Length; i++)
+        for (int i = 0; i < loads.Count; i++)
         {
             if (loads[i].param_to_enter == detail_parameter)
             {
