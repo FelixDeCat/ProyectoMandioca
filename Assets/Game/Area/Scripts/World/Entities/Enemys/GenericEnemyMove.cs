@@ -13,6 +13,8 @@ public class GenericEnemyMove : MonoBehaviour
     float currentSpeed;
 
     CharacterGroundSensor groundSensor;
+    bool applyForce;
+    float timerForce;
 
     public void Configure(Transform _root, Rigidbody _rb = null, CharacterGroundSensor _groundSensor = null)
     {
@@ -34,7 +36,7 @@ public class GenericEnemyMove : MonoBehaviour
     public float MoveWRigidbodyF(Vector3 dir)
     {
         float y = groundSensor != null ? groundSensor.VelY : rb.velocity.y;
-        rb.velocity = new Vector3(dir.x * currentSpeed, y, dir.z * currentSpeed);
+        if (!applyForce) rb.velocity = new Vector3(dir.x * currentSpeed, y, dir.z * currentSpeed);
         return dir.normalized.x + dir.normalized.z;
     }
 
@@ -42,7 +44,7 @@ public class GenericEnemyMove : MonoBehaviour
     public Vector3 MoveWRigidbodyV(Vector3 dir)
     {
         float y = groundSensor != null ? groundSensor.VelY : rb.velocity.y;
-        rb.velocity = new Vector3(dir.x * currentSpeed, y, dir.z * currentSpeed);
+        if (!applyForce) rb.velocity = new Vector3(dir.x * currentSpeed, y, dir.z * currentSpeed);
 
         return dir.normalized;
     }
@@ -68,6 +70,32 @@ public class GenericEnemyMove : MonoBehaviour
     {
         root.position += dir * Time.deltaTime * currentSpeed;
         return dir.normalized;
+    }
+
+    public void ApplyForceToVelocity(Vector3 force)
+    {
+        if (force == Vector3.zero) return;
+
+        ResetForce();
+        applyForce = true;
+        rb.AddForce(force, ForceMode.Impulse);
+    }
+
+    public void ResetForce()
+    {
+        timerForce = 0;
+        applyForce = false;
+        rb.velocity = Vector3.zero;
+    }
+
+    public void OnUpdate()
+    {
+        if (applyForce)
+        {
+            timerForce += Time.deltaTime;
+
+            if (timerForce >= 0.5f) ResetForce();
+        }
     }
 
     Transform obs = null;

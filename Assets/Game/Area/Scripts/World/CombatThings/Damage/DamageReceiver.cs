@@ -40,6 +40,12 @@ public class DamageReceiver : MonoBehaviour
         OwnKnockback = _OwnKnockback;
     }
 
+    public void ChangeKnockback(Action<Vector3> _OwnKnockback)
+    {
+        rb = null;
+        OwnKnockback = _OwnKnockback;
+    }
+
     public DamageReceiver AddDead(Action<Vector3> _OnDead)
     {
         OnDead += _OnDead;
