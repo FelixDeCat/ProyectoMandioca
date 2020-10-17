@@ -19,10 +19,6 @@ public class MenuButtons : MonoBehaviour
 
     [SerializeField] DefaultMenuAnim buttons_joystick_panel = null;
     [SerializeField] DefaultMenuAnim buttons_Keyboard_panel = null;
-
-    [Header("Si esta activo usa el input del mouse")]
-    public bool _activeRotation;
-
     public string sceneGym = "Gym";
     public string sceneGym2 = "Gym";
     public string sceneGym3 = "Gym";
@@ -40,7 +36,6 @@ public class MenuButtons : MonoBehaviour
     public void StarButton()
     {
         CharacterInput inputs = Main.instance.GetChar().getInput;
-        inputs.ChangeRotation(_activeRotation);
         LoadSceneHandler.instance.LoadAScene(sceneBlocking);
         gameObject.SetActive(false);
     }
@@ -84,15 +79,19 @@ public class MenuButtons : MonoBehaviour
 
     private void Update()
     {
-        if (_currentAnim != null && Input.GetKeyDown(KeyCode.Mouse0) || _currentAnim != null && Input.GetKeyDown(KeyCode.Joystick1Button1))
+        if (_currentAnim != null && Input.GetKeyDown(KeyCode.Mouse0))
         {
-            StartCoroutine(BackCoroutine());
+            StartCoroutine(BackCoroutine(0.2f));
+        }
+        else if(_currentAnim != null && Input.GetKeyDown(KeyCode.Joystick1Button1))
+        {
+            StartCoroutine(BackCoroutine(0));
         }
     }
 
-    IEnumerator BackCoroutine()
+    IEnumerator BackCoroutine(float time)
     {
-        yield return new WaitForEndOfFrame();
+        yield return new WaitForSeconds(time);
         ReactivateButtons(_currentAnim);
         selectorButtons.SelectButton(mainButtons[0].gameObject);
         _currentAnim = null;
@@ -101,7 +100,6 @@ public class MenuButtons : MonoBehaviour
     public void goToGym()
     {
         CharacterInput inputs = Main.instance.GetChar().getInput;
-        inputs.ChangeRotation(_activeRotation);
         LoadSceneHandler.instance.LoadAScene(sceneGym);
         gameObject.SetActive(false);
     }
@@ -109,7 +107,6 @@ public class MenuButtons : MonoBehaviour
     public void goToGym2()
     {
         CharacterInput inputs = Main.instance.GetChar().getInput;
-        inputs.ChangeRotation(_activeRotation);
         LoadSceneHandler.instance.LoadAScene(sceneGym2);
         gameObject.SetActive(false);
     }
@@ -117,7 +114,6 @@ public class MenuButtons : MonoBehaviour
     public void goToGym3()
     {
         CharacterInput inputs = Main.instance.GetChar().getInput;
-        inputs.ChangeRotation(_activeRotation);
         LoadSceneHandler.instance.LoadAScene(sceneGym3);
         gameObject.SetActive(false);
     }
@@ -125,7 +121,6 @@ public class MenuButtons : MonoBehaviour
     public void goToGym4()
     {        
         CharacterInput inputs = Main.instance.GetChar().getInput;
-        inputs.ChangeRotation(_activeRotation);
         LoadSceneHandler.instance.LoadAScene(sceneGym4);
         gameObject.SetActive(false);
     }
@@ -133,7 +128,6 @@ public class MenuButtons : MonoBehaviour
     public void goToGym5()
     {
         CharacterInput inputs = Main.instance.GetChar().getInput;
-        inputs.ChangeRotation(_activeRotation);
         LoadSceneHandler.instance.LoadAScene(sceneGym5);
         gameObject.SetActive(false);
     }
@@ -141,7 +135,6 @@ public class MenuButtons : MonoBehaviour
     public void LoadScene(string s)
     {
         CharacterInput inputs = Main.instance.GetChar().getInput;
-        inputs.ChangeRotation(_activeRotation);
         LoadSceneHandler.instance.LoadAScene(s);
         gameObject.SetActive(false);
     }
