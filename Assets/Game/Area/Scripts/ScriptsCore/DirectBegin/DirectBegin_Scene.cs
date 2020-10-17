@@ -9,13 +9,15 @@ namespace Tools.Testing
 {
     using UnityEngine;
     using System.Linq;
+    using System.Collections;
+
     public class DirectBegin_Scene : MonoBehaviour
     {
         public bool LockMouse;
         [SerializeField] LocalPackageLoadComponent packageToLoad = null;
 
         [SerializeField] GameObject[] toIgnoreIfThisIsNotTheMoment = new GameObject[1];
-        
+
         public void Awake()
         {
             if (Main.instance == null) // si entra acá es porque nunca entro a la escena de carga

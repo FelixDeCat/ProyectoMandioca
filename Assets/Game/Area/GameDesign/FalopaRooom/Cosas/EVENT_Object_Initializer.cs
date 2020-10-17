@@ -24,7 +24,7 @@ public class EVENT_Object_Initializer : MonoBehaviour
     {
         for (int i = 0; i < objetsToInit.Length; i++)
         {
-            objetsToInit[i].GetComponentInChildren<Animator>().Play("idle");
+          objetsToInit[i].GetComponentInChildren<Animator>().Play("idle");
         }
     }
 

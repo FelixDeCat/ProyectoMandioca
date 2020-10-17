@@ -33,6 +33,7 @@ public class MainTutorial : MonoBehaviour
     //externo por UnityEvent
     public void ComboWomboLearned() => ChangeFase(FASE_ATENEA_DEJA_PASAR);
 
+
     void FinishObjetive_All_Jacinta_Ents_Killed() => ChangeFase(FASE_ACTIVO_DOCTOR);
     void FinishObjetive_Way_To_Doctor_Cleared() => ChangeFase(FASE_CAMINO_A_DOCTOR_DESPEJADO);
     void FinishObjetive_Curative_Plants_Recollected(int ID) { objetive_plants = true; DoctorRequirements(); }

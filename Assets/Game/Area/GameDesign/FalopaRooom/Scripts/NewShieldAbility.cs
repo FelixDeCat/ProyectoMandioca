@@ -27,7 +27,6 @@ public class NewShieldAbility : MonoBehaviour
 
     public void OnStopUse()
     {
-
     }
 
     public void OnEquip()
@@ -44,6 +43,8 @@ public class NewShieldAbility : MonoBehaviour
     {
         if (charges == 0) _hero.ThrowSomething(UseShieldTapping);
         else _hero.ThrowSomething(UseShieldPowerHolding);
+
+        _hero.ToggleBlock(true);
     }  
       
 
