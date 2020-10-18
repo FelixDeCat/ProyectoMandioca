@@ -117,6 +117,7 @@ public class CharacterHead : CharacterControllable
            .ADD_EVENT_OnLoseLife(OnLoseLife)
            .ADD_EVENT_Death(OnDeath)
            .ADD_EVENT_OnChangeValue(OnChangeLife);
+
     }
 
     protected override void OnInitialize()
@@ -188,6 +189,16 @@ public class CharacterHead : CharacterControllable
         debug_options.StartDebug();
 
         SetStates();
+        if (Combat == false)
+        {
+            feedbacks.sounds.Pause_Music();
+            feedbacks.sounds.Play_OffFightMusic();
+        }
+        else
+        {
+            feedbacks.sounds.Pause_Music();
+            feedbacks.sounds.Play_OnFightMusic();
+        }
 
         if (StartWithoutWeapons)
         {
@@ -574,7 +585,11 @@ public class CharacterHead : CharacterControllable
             if (timer >= timeToDownWeapons)
             {
                 if (stateMachine.Current.Name != "Roll")
+                {
                     isOver = true;
+                  //  feedbacks.sounds.Play_OffFightMusic();
+                }
+                    
             }
         }
 
@@ -610,14 +625,22 @@ public class CharacterHead : CharacterControllable
 
     public void CombatEnter()
     {
+        if (Combat == false)
+        {
+            feedbacks.sounds.Play_OnFightMusic();
+        }
         Combat = true;
-        feedbacks.sounds.Play_OnFightMusic();
+       
     }
 
     public void CombatExit()
     {
+        if (Combat == true)
+        {
+            feedbacks.sounds.Play_OffFightMusic();
+        }
         Combat = false;
-        feedbacks.sounds.Play_OffFightMusic();
+
     }
 
     #endregion
