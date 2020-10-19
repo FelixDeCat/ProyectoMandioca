@@ -44,35 +44,6 @@ public class LocalSceneHandlerEditor : Editor
                 _handler.gameObject.name = sceneName;
             }
 
-            if (loads.Count <= 0)
-            {
-                if (GUILayout.Button("Add New Custom Load"))
-                {
-                    GameObject go = new GameObject();
-                    go.AddComponent<AsyncLoaderHandler>();
-                    go.name = _data.name + "_CustomLoad";
-                    loads.Add(go.GetComponent<AsyncLoaderHandler>());
-                }
-            }
-            else
-            {
-                if (GUILayout.Button("Clear"))
-                {
-                    for (int i = 0; i < loads.Count; i++)
-                    {
-                        DestroyImmediate(loads[i]);
-                    }
-                    _handler.loads.Clear();
-                    serializedObject.ApplyModifiedProperties();
-                }
-                for (int i = 0; i < loads.Count; i++)
-                {
-                    loads[i] = EditorGUILayout.ObjectField("Load" + i.ToString("##"), loads[i], typeof(GenericAsyncLocalScene), false) as GenericAsyncLocalScene;
-                }
-            }
-
-          
-
             EditorGUILayout.Space();
 
             //Forma de ver si las variables cargaron. Eso solo visual
@@ -81,7 +52,7 @@ public class LocalSceneHandlerEditor : Editor
             _data = EditorGUILayout.ObjectField("my data:", _data, typeof(SceneData), false) as SceneData;
 
 
-            EditorGUILayout.Space();
+            
 
             _landmark = EditorGUILayout.ObjectField("Landmark:", _landmark, typeof(GameObject), false) as GameObject;
             _gameplay = EditorGUILayout.ObjectField("Lowdetail:", _gameplay, typeof(GameObject), false) as GameObject;
@@ -186,6 +157,36 @@ public class LocalSceneHandlerEditor : Editor
                     }
                 }
 
+            }
+        }
+
+        EditorGUILayout.Space();
+        EditorGUILayout.LabelField("Custom loads");
+
+        if (loads.Count <= 0)
+        {
+            if (GUILayout.Button("Add New Custom Load"))
+            {
+                GameObject go = new GameObject();
+                go.AddComponent<AsyncLoaderHandler>();
+                go.name = _data.name + "_CustomLoad";
+                loads.Add(go.GetComponent<AsyncLoaderHandler>());
+            }
+        }
+        else
+        {
+            if (GUILayout.Button("Clear"))
+            {
+                for (int i = 0; i < loads.Count; i++)
+                {
+                    DestroyImmediate(loads[i]);
+                }
+                _handler.loads.Clear();
+                serializedObject.ApplyModifiedProperties();
+            }
+            for (int i = 0; i < loads.Count; i++)
+            {
+                loads[i] = EditorGUILayout.ObjectField("Load" + i.ToString("##"), loads[i], typeof(GenericAsyncLocalScene), false) as GenericAsyncLocalScene;
             }
         }
     }
