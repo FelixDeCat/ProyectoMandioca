@@ -127,6 +127,8 @@ public class TrueDummyEnemy : EnemyWithCombatDirector
 
         petrifyEffect?.AddStartCallback(() => sm.SendInput(DummyEnemyInputs.PETRIFIED));
         petrifyEffect?.AddEndCallback(() => sm.SendInput(DummyEnemyInputs.IDLE));
+
+        dmgReceiver.ChangeKnockback(movement.ApplyForceToVelocity, () => false);
     }
     protected override void OnReset()
     {
@@ -171,6 +173,8 @@ public class TrueDummyEnemy : EnemyWithCombatDirector
 
         if (sm != null)
             sm.Update();
+
+        movement.OnUpdate();
 
         if (cooldown)
         {

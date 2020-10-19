@@ -117,7 +117,6 @@ public class CharacterHead : CharacterControllable
            .ADD_EVENT_OnLoseLife(OnLoseLife)
            .ADD_EVENT_Death(OnDeath)
            .ADD_EVENT_OnChangeValue(OnChangeLife);
-
     }
 
     protected override void OnInitialize()
@@ -154,7 +153,8 @@ public class CharacterHead : CharacterControllable
             .SetIsDamage(() => move.InDash)
             .AddDead(Dead)
             .AddTakeDamage(TakeDamageFeedback)
-            .Initialize(rot, null, lifesystem, move.AddForceToVelocity);
+            .Initialize(rot, null, lifesystem);
+        dmgReceiver.ChangeKnockback(move.AddForceToVelocity, () => false);
 
         charAttack
             .SetAnimator(charanim)
@@ -189,16 +189,7 @@ public class CharacterHead : CharacterControllable
         debug_options.StartDebug();
 
         SetStates();
-        if (Combat == false)
-        {
-            feedbacks.sounds.Pause_Music();
-            feedbacks.sounds.Play_OffFightMusic();
-        }
-        else
-        {
-            feedbacks.sounds.Pause_Music();
-            feedbacks.sounds.Play_OnFightMusic();
-        }
+        CombatExit();
 
         if (StartWithoutWeapons)
         {
@@ -587,9 +578,7 @@ public class CharacterHead : CharacterControllable
                 if (stateMachine.Current.Name != "Roll")
                 {
                     isOver = true;
-                  //  feedbacks.sounds.Play_OffFightMusic();
                 }
-                    
             }
         }
 
@@ -625,22 +614,14 @@ public class CharacterHead : CharacterControllable
 
     public void CombatEnter()
     {
-        if (Combat == false)
-        {
-            feedbacks.sounds.Play_OnFightMusic();
-        }
+        feedbacks.sounds.Play_OnFightMusic();
         Combat = true;
-       
     }
 
     public void CombatExit()
     {
-        if (Combat == true)
-        {
-            feedbacks.sounds.Play_OffFightMusic();
-        }
+        feedbacks.sounds.Play_OffFightMusic();
         Combat = false;
-
     }
 
     #endregion

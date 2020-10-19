@@ -23,6 +23,8 @@ public class DamageReceiver : MonoBehaviour
     bool IsNotDestructible = false;
     Transform ownerRoot;
 
+    Func<bool> DontApplyKnockback;
+
     Func<Vector3, Vector3, Vector3, bool> IsBlock;
     Func<Vector3, Vector3, Vector3, bool> IsParry;
     Action<EntityBase> Block;
@@ -32,18 +34,18 @@ public class DamageReceiver : MonoBehaviour
     Rigidbody rb;
 
     #region Builder
-    public void Initialize(Transform _ownerRoot, Rigidbody _rb,_Base_Life_System lifeSystem, Action<Vector3> _OwnKnockback = null)
+    public void Initialize(Transform _ownerRoot, Rigidbody _rb,_Base_Life_System lifeSystem)
     {
         if (_ownerRoot != null) ownerRoot = _ownerRoot;
         if (_rb != null) rb = _rb;
         if (lifeSystem != null) _LifeSystem = lifeSystem;
-        OwnKnockback = _OwnKnockback;
     }
 
-    public void ChangeKnockback(Action<Vector3> _OwnKnockback)
+    public void ChangeKnockback(Action<Vector3> _OwnKnockback, Func<bool> _DontApplyKnockback)
     {
         rb = null;
         OwnKnockback = _OwnKnockback;
+        DontApplyKnockback = _DontApplyKnockback;
     }
 
     public DamageReceiver AddDead(Action<Vector3> _OnDead)
@@ -139,7 +141,13 @@ public class DamageReceiver : MonoBehaviour
         if (rb)
             rb.AddForce(Vector3.up + knockbackForce * knockbackMultiplier, ForceMode.Impulse);
         else
-            OwnKnockback?.Invoke(Vector3.up + knockbackForce * knockbackMultiplier);
+        {
+            if (!DontApplyKnockback())
+            {
+                OwnKnockback?.Invoke(Vector3.up + knockbackForce * knockbackMultiplier);
+                Debug.Log("entrooooo");
+            }
+        }
 
         bool death = _LifeSystem.Hit(dmg);
 

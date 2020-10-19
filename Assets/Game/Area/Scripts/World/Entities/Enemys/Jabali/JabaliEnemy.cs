@@ -104,6 +104,8 @@ public class JabaliEnemy : EnemyWithCombatDirector
 
         petrifyEffect?.AddStartCallback(() => sm.SendInput(JabaliInputs.PETRIFIED));
         petrifyEffect?.AddEndCallback(() => sm.SendInput(JabaliInputs.IDLE));
+
+        dmgReceiver.ChangeKnockback(movement.ApplyForceToVelocity, () => sm.Current.Name == "Charge_Push" || sm.Current.Name == "Push" ? true : false);
     }
 
     public override void IAInitialize(CombatDirector _director)
@@ -148,6 +150,8 @@ public class JabaliEnemy : EnemyWithCombatDirector
 
         if (sm != null)
             sm.Update();
+
+        movement.OnUpdate();
 
         if (cooldown)
         {

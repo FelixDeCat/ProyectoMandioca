@@ -101,6 +101,8 @@ public class MandragoraEnemy : EnemyWithCombatDirector
         petrifyEffect?.AddEndCallback(() => sm.SendInput(MandragoraInputs.IDLE));
         if(trapToDie) PoolManager.instance.GetObjectPool(trapToDie.name, trapToDie);
 
+        dmgReceiver.ChangeKnockback(movement.ApplyForceToVelocity, () => false);
+
         if (!mandragoraIsTrap) return;
         spawnerSpot.Initialize();
 
@@ -189,6 +191,7 @@ public class MandragoraEnemy : EnemyWithCombatDirector
                 }
             }
             sm?.Update();
+            movement.OnUpdate();
 
             if (cooldown)
             {

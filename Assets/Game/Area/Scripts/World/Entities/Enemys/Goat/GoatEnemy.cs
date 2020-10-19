@@ -117,6 +117,8 @@ public class GoatEnemy : EnemyWithCombatDirector
 
         petrifyEffect?.AddStartCallback(() => sm.SendInput(GoatInputs.PETRIFIED));
         petrifyEffect?.AddEndCallback(() => sm.SendInput(GoatInputs.IDLE));
+
+        dmgReceiver.ChangeKnockback(movement.ApplyForceToVelocity, () => sm.Current.Name == "Charge_Push" || sm.Current.Name == "Push" ? true : false);
     }
 
     public override void IAInitialize(CombatDirector _director)
@@ -160,6 +162,8 @@ public class GoatEnemy : EnemyWithCombatDirector
 
         if (sm != null)
             sm.Update();
+
+        movement.OnUpdate();
 
         if (cooldown)
         {

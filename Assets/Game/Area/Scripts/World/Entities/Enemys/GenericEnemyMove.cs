@@ -94,7 +94,7 @@ public class GenericEnemyMove : MonoBehaviour
         {
             timerForce += Time.deltaTime;
 
-            if (timerForce >= 0.5f) ResetForce();
+            if (timerForce >= 0.3f) ResetForce();
         }
     }
 

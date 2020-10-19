@@ -44,7 +44,6 @@ public class CharSounds
     public void Play_heavySwing() =>        AudioManager.instance.PlaySound(heavySwing.name);
     public void Play_OnFightMusic() { AudioManager.instance.PlaySound(onFightMusic.name); AudioManager.instance.StopAllSounds(offFightMusic.name); }
     public void Play_OffFightMusic() { AudioManager.instance.PlaySound(offFightMusic.name); AudioManager.instance.StopAllSounds(onFightMusic.name); }
-    public void Pause_Music() => AudioManager.instance.PauseSounds();
     public void NewOffFightMusic(AudioClip music)
     {
         offFightMusic = music;
