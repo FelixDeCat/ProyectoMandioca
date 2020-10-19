@@ -29,8 +29,8 @@ public class CharSounds
         AudioManager.instance.GetSoundPool(dashGemido.name,              AudioGroups.GAME_FX, dashGemido);
         AudioManager.instance.GetSoundPool(dashBashHit.name, AudioGroups.GAME_FX, dashBashHit);
         AudioManager.instance.GetSoundPool(heavySwing.name, AudioGroups.GAME_FX, heavySwing);
-        AudioManager.instance.GetSoundPool(offFightMusic.name, AudioGroups.GAME_FX, offFightMusic);
-        AudioManager.instance.GetSoundPool(onFightMusic.name, AudioGroups.GAME_FX, onFightMusic);
+        AudioManager.instance.GetSoundPool(offFightMusic.name, AudioGroups.GAME_FX, offFightMusic, true);
+        AudioManager.instance.GetSoundPool(onFightMusic.name, AudioGroups.GAME_FX, onFightMusic, true);
     }
     public void Play_TakeHeal() =>          AudioManager.instance.PlaySound(takeHeal.name);
     public void Play_SwingSword() =>        AudioManager.instance.PlaySound(swingSword.name);
