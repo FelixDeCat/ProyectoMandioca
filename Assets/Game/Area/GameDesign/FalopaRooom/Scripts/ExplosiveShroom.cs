@@ -30,8 +30,10 @@ public class ExplosiveShroom : EntityBase
         foreach (var item in listOfEntities)
         {
             CharacterHead myChar = item.GetComponent<CharacterHead>();
-            if(myChar)
-                myChar.DamageReceiver().TakeDamage(data);
+            if (myChar)
+            {
+                myChar.DamageReceiver().TakeDamage(data.SetPositionAndDirection(this.transform.position));
+            }
         }
     }
 
@@ -42,6 +44,7 @@ public class ExplosiveShroom : EntityBase
         data.Initialize(this);
         data
               .SetDamage(damage)
+              .SetDamageInfo(DamageInfo.NonBlockAndParry)
               .SetDamageType(Damagetype.Explosion)
               .SetKnockback(knockback);
     }
