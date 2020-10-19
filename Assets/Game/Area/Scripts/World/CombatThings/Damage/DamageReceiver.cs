@@ -23,7 +23,7 @@ public class DamageReceiver : MonoBehaviour
     bool IsNotDestructible = false;
     Transform ownerRoot;
 
-    Func<bool> DontApplyKnockback;
+    Func<bool> DontApplyKnockback =delegate { return false; };
 
     Func<Vector3, Vector3, Vector3, bool> IsBlock;
     Func<Vector3, Vector3, Vector3, bool> IsParry;
