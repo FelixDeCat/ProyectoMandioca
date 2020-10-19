@@ -29,6 +29,7 @@ public class MandragoraEnemy : EnemyWithCombatDirector
     private float timercooldown = 0;
 
     [Header("Spawn Options")]
+    [SerializeField] EnemyBase_IntDictionary enemiesToSpawnDic = new EnemyBase_IntDictionary();
     [SerializeField] List<EnemyBase> enemiesTypes = new List<EnemyBase>();
     [SerializeField, Range(1, 25)] public int enemiesToSpawn = 5;
     [SerializeField] PlayObject trapToDie = null;
@@ -40,7 +41,6 @@ public class MandragoraEnemy : EnemyWithCombatDirector
 
     [Header("Feedback")]
     [SerializeField] AnimEvent anim = null;
-    private Material[] myMat;
     [SerializeField] Color onHitColor = Color.white;
     [SerializeField] float onHitFlashTime = 0.1f;
     [SerializeField] RagdollComponent ragdoll = null;
@@ -75,10 +75,6 @@ public class MandragoraEnemy : EnemyWithCombatDirector
         ParticlesManager.Instance.GetParticlePool(particles._spawnParticules.name, particles._spawnParticules, 5);
         ParticlesManager.Instance.GetParticlePool(particles.greenblood.name, particles.greenblood, 8);
 
-        var smr = GetComponentInChildren<SkinnedMeshRenderer>();
-        if (smr != null)
-            myMat = smr.materials;
-
         AudioManager.instance.GetSoundPool(sounds._takeHit_AC.name, AudioGroups.GAME_FX, sounds._takeHit_AC);
         AudioManager.instance.GetSoundPool(sounds.clip_walkEnt.name, AudioGroups.GAME_FX, sounds.clip_walkEnt, true);
         AudioManager.instance.GetSoundPool(sounds.mandragoraAttack_Clip.name, AudioGroups.GAME_FX, sounds.mandragoraAttack_Clip);
@@ -108,6 +104,9 @@ public class MandragoraEnemy : EnemyWithCombatDirector
 
         for (int i = 0; i < enemiesTypes.Count; i++)
             PoolManager.instance.GetObjectPool("enemy_Mandragora", enemiesTypes[i]);
+
+        //foreach (var item in enemiesToSpawnDic)
+        //    PoolManager.instance.GetObjectPool(item.Key.name == name ? "enemy_Mandragora" : item.Key.name, item.Key);
     }
 
     public override void SpawnEnemy()
@@ -135,8 +134,14 @@ public class MandragoraEnemy : EnemyWithCombatDirector
         {
             int index = UnityEngine.Random.Range(0, enemiesTypes.Count);
             
-            var enemy = spawnerSpot.SpawnPrefab(spawnerSpot.GetSurfacePos(), enemiesTypes[index], CurrentScene);
+            spawnerSpot.SpawnPrefab(spawnerSpot.GetSurfacePos(), enemiesTypes[index], CurrentScene);
         }
+
+        //foreach (var item in enemiesToSpawnDic)
+        //{
+        //    for (int i = 0; i < item.Value; i++)
+        //        spawnerSpot.SpawnPrefab(spawnerSpot.GetSurfacePos(), item.Key, CurrentScene);
+        //}
 
         mandragoraIsTrap = false;
         sm.SendInput(MandragoraInputs.IDLE);
