@@ -45,7 +45,6 @@ namespace Tools.StateMachine
         }
         public void GrabThing()
         {
-            handRock.SetActive(true);
             anim.SetTrigger("GrabThing");
         }
         public void Reset()
@@ -54,8 +53,20 @@ namespace Tools.StateMachine
         }
         public void Throw()
         {
-            handRock.SetActive(false);
             anim.SetTrigger("Throw");
+
+        }
+        public void TurnOffThing()
+        {
+            handRock.SetActive(false);
+        }
+        public void TurnOnThing()
+        {
+
+            handRock.SetActive(true);
+        }
+        public void Damaged()
+        {
 
         }
     }

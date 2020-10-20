@@ -6,9 +6,11 @@ namespace Tools.StateMachine
 {
     public class WendigoRange : WendigoStates
     {
-        public WendigoRange(EState<WendigoEnemy.WendigoInputs> myState, WendigoView _view, EventStateMachine<WendigoEnemy.WendigoInputs> _sm) : base(myState, _sm)
+        Action rotation;
+        public WendigoRange(EState<WendigoEnemy.WendigoInputs> myState, WendigoView _view, Action _rot, EventStateMachine<WendigoEnemy.WendigoInputs> _sm) : base(myState, _sm)
         {
             view = _view;
+            rotation = _rot;
         }
         protected override void Enter(EState<WendigoEnemy.WendigoInputs> last)
         {
@@ -18,7 +20,7 @@ namespace Tools.StateMachine
         }
         protected override void Update()
         {
-
+            rotation();
         }
     }
 
