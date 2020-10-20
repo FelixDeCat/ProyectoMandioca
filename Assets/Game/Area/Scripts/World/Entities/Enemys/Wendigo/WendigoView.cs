@@ -13,6 +13,7 @@ namespace Tools.StateMachine
         TMP_Text distanceText;
 
         [SerializeField] Animator anim;
+        [SerializeField] GameObject handRock;
 
         public DataBaseWendigoParticles particles;
         public DataBaseWendigoSounds sounds;
@@ -39,7 +40,21 @@ namespace Tools.StateMachine
         {
             anim.SetTrigger("Kick");
         }
+        public void GrabRock()
+        {
+            handRock.SetActive(true);
+            anim.SetTrigger("GrabSomething");
+        }
+        public void Reset()
+        {
+            handRock.SetActive(false);
+        }
+        public void Throw()
+        {
+            anim.SetTrigger("Throw");
+            handRock.SetActive(false);
 
+        }
     }
     public class DataBaseWendigoParticles
     {

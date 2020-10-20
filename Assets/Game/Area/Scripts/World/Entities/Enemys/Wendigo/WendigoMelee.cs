@@ -38,7 +38,6 @@ namespace Tools.StateMachine
                     c.gameObject.GetComponent<DamageReceiver>().TakeDamage(dmgData);
                 }
             }
-            base.Update();
             //Inserte knockback aqui
             //Daño y empujon
             //GEtcomponentdamagereceiver 

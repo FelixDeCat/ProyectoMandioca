@@ -6,8 +6,6 @@ namespace Tools.StateMachine
 {
     public class WendigoIdle : WendigoStates
     {
-        WendigoView view;
-
         public WendigoIdle(EState<WendigoEnemy.WendigoInputs> myState, WendigoView _view, EventStateMachine<WendigoEnemy.WendigoInputs> _sm) : base(myState, _sm)
         {
             view = _view;

@@ -6,7 +6,6 @@ namespace Tools.StateMachine
 {
     public class WendigoPrepareMelee : WendigoStates
     {
-        WendigoView view;
         float viewTime;
 
         public WendigoPrepareMelee(EState<WendigoEnemy.WendigoInputs> myState, WendigoView _view, EventStateMachine<WendigoEnemy.WendigoInputs> _sm) : base(myState, _sm)

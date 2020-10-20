@@ -14,12 +14,14 @@ public class WendigoEnemy : EnemyWithCombatDirector
     [SerializeField] RagdollComponent ragdoll = null;
     CharacterGroundSensor groundSensor;
     bool isMelee;
+    bool hasThrowable;
     [SerializeField] SphereCollider meleeCollider;
+    [SerializeField] Throwable throwObject = null;
+
 
     //No esta checkeado
     [SerializeField] float rotationSpeed;
     [Header("Combat Options")]
-    [SerializeField] Throwable throwObject = null;
     [SerializeField] Transform shootPivot = null;
     [SerializeField] float throwForce = 6;
     [SerializeField] float cdToCast = 2;
@@ -90,15 +92,16 @@ public class WendigoEnemy : EnemyWithCombatDirector
         stopCD = true;
     }
 
-    public enum WendigoInputs { IDLE, OBSERVATION, PREPARERANGE, PREPAREMELEE, RANGEAR, MELEEAR, PETRIFY, DEATH, DISABLED };
+    public enum WendigoInputs { IDLE, OBSERVATION, GRABTHING, PREPARERANGE, PREPAREMELEE, RANGEAR, MELEEAR, PETRIFY, DEATH, DISABLED };
     private void SetStates()
     {
         //Settacion de estados
         var idle = new EState<WendigoInputs>("Idle");
         var obs = new EState<WendigoInputs>("Observation");
         var prepRange = new EState<WendigoInputs>("PrepareRange");
-        var prepMelee = new EState<WendigoInputs>("PrepareMelee");
+        var grabThing = new EState<WendigoInputs>("GrabThing");
         var range = new EState<WendigoInputs>("RangeAttack");
+        var prepMelee = new EState<WendigoInputs>("PrepareMelee");
         var melee = new EState<WendigoInputs>("MeleeAttack");
         var petry = new EState<WendigoInputs>("Petrify");
         var death = new EState<WendigoInputs>("Death");
@@ -113,6 +116,7 @@ public class WendigoEnemy : EnemyWithCombatDirector
         .SetTransition(WendigoInputs.IDLE, idle)
         .SetTransition(WendigoInputs.PREPARERANGE, prepRange)
         .SetTransition(WendigoInputs.PREPAREMELEE, prepMelee)
+        .SetTransition(WendigoInputs.GRABTHING, grabThing)
         .SetTransition(WendigoInputs.OBSERVATION, obs)
         .SetTransition(WendigoInputs.DEATH, death)
         .Done();
@@ -124,6 +128,14 @@ public class WendigoEnemy : EnemyWithCombatDirector
         .SetTransition(WendigoInputs.DEATH, death)
         .Done();
 
+        ConfigureState.Create(grabThing)
+               .SetTransition(WendigoInputs.OBSERVATION, obs)
+               .Done();
+
+        ConfigureState.Create(range)
+               .SetTransition(WendigoInputs.OBSERVATION, obs)
+               .Done();
+
         ConfigureState.Create(prepMelee)
        .SetTransition(WendigoInputs.OBSERVATION, obs)
         .SetTransition(WendigoInputs.MELEEAR, melee)
@@ -131,9 +143,7 @@ public class WendigoEnemy : EnemyWithCombatDirector
         .SetTransition(WendigoInputs.DEATH, death)
         .Done();
 
-        ConfigureState.Create(range)
-               .SetTransition(WendigoInputs.OBSERVATION, obs)
-               .Done();
+
 
         ConfigureState.Create(melee)
                .SetTransition(WendigoInputs.OBSERVATION, obs)
@@ -160,6 +170,9 @@ public class WendigoEnemy : EnemyWithCombatDirector
         new WendigoObservation(obs, view, moveComponent, combatElement, sm).SetRigidbody(rb).SetRoot(rootTransform);
         new WendigoPrepareMelee(prepMelee, view, sm);
         new WendigoMelee(melee, view, dmgData, meleeCollider, sm).SetDirector(director);
+        new WendigoGrabRock(grabThing, () => hasThrowable = true, view, sm);
+        new WendigoPrepareRange(prepRange, view, sm);
+        new WendigoRange(prepRange, ThrowAThing, view, sm);
 
         //var head = Main.instance.GetChar();   //Es necesario?
 
@@ -174,13 +187,12 @@ public class WendigoEnemy : EnemyWithCombatDirector
     }
     protected override void OnUpdateEntity()
     {
-        //Cosas, hay que estudiar primero
-
         //Si no esta muerto
         if (!death)
         {
             float dist = Vector3.Distance(Main.instance.GetChar().transform.position, transform.position);
             view.DistanceText(dist.ToString());
+            Debug.Log(hasThrowable);
             //Si esta en combate
             if (combatElement.Combat)
             {
@@ -194,9 +206,29 @@ public class WendigoEnemy : EnemyWithCombatDirector
                         sm.SendInput(WendigoInputs.PREPAREMELEE);
                     }
                 }
-                else if (sm.Current.Name != "Observation")
+                //Si tiene algo para tirar
+                else if (hasThrowable)
                 {
-                    sm.SendInput(WendigoInputs.OBSERVATION);
+                    //Si esta en la distancia de ataque
+                    if (dist <= distancePos)
+                    {
+                        if (sm.Current.Name != "PrepareRange")
+                        {
+                            //El unico que puede disparar el throwable es el PrepareRange
+                            sm.SendInput(WendigoInputs.PREPARERANGE);
+                        }
+                    }
+                    //Si no, te observa y va hacia vos
+                    else if (sm.Current.Name != "Observation")
+                    {
+                        sm.SendInput(WendigoInputs.OBSERVATION);
+                    }
+                }
+                //Si no tiene piedra
+                else
+                {
+                    //GrabRock funciona distinto a los prepare. Este se encarga de todo
+                    sm.SendInput(WendigoInputs.GRABTHING);
                 }
 
                 //Si no esta en la combatDistance
@@ -233,6 +265,7 @@ public class WendigoEnemy : EnemyWithCombatDirector
     {
         //Reset
         ragdoll.Ragdoll(false, Vector3.zero);
+        view.Reset();
         death = false;
         sm.SendInput(WendigoInputs.DISABLED);
     }
@@ -263,8 +296,20 @@ public class WendigoEnemy : EnemyWithCombatDirector
     {
         isMelee = isit;
     }
-    //NotChecked
+    protected override void OnResume()
+    {
+        base.OnResume();
+        if (death) ragdoll.ResumeRagdoll();
+    }
 
+    protected void ThrowAThing()
+    {
+        hasThrowable = false;
+        Vector3 dir = combatElement.CurrentTarget() ? (combatElement.CurrentTarget().transform.position + new Vector3(0, 1, 0) - shootPivot.position).normalized : Vector3.down;
+        ThrowData newData = new ThrowData().Configure(shootPivot.position, dir, throwForce, damage, rootTransform);
+        ThrowablePoolsManager.instance.Throw(throwObject.name, newData);
+    }
+    //NotChecked
     public override int GetHashCode()
     {
         return base.GetHashCode();
@@ -331,10 +376,6 @@ public class WendigoEnemy : EnemyWithCombatDirector
         base.InmuneFeedback();
     }
 
-    protected override void OnResume()
-    {
-        base.OnResume();
-    }
 
     public override void SpawnEnemy()
     {
