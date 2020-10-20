@@ -28,7 +28,8 @@ public class TestInteractableHold : Interactable
     public override void OnEnter(WalkingEntity entity)
     {
         ContextualBarSimple.instance.Show();
-        ContextualBarSimple.instance.Set_Sprite_Photo(image_to_interact);
+        //ContextualBarSimple.instance.Set_Sprite_Photo(image_to_interact);
+        ContextualBarSimple.instance.Set_Sprite_Button_Custom(InputImageDatabase.InputImageType.interact);
     }
 
     public override void OnExecute(WalkingEntity collector)
