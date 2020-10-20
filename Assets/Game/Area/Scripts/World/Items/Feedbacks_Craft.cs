@@ -5,10 +5,8 @@ using UnityEngine;
 
 public class Feedbacks_Craft : MonoBehaviour
 {
-
-    [SerializeField] AudioClip beginCraft;
-    [SerializeField] AudioClip endCraft;
-
+    [SerializeField] AudioClip beginCraft = null;
+    [SerializeField] AudioClip endCraft = null;
 
     public void Start()
     {

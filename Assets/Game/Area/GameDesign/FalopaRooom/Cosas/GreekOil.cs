@@ -7,7 +7,7 @@ public class GreekOil : MonoBehaviour
 {
     public EventCounterPredicate predicate;
 
-    [SerializeField] float duration;
+    [SerializeField] float duration = 60;
     CharacterHead character;
 
     //Ejemplo de predicado custom

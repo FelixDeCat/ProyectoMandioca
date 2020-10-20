@@ -10,7 +10,7 @@ public class Feedback_Maniqui
     public ParticleSystem part_hit;
     public ParticleSystem part_death;
     public MeshRenderer meshRenderer;
-    [SerializeField] Rigidbody[] myparts;
+    [SerializeField] Rigidbody[] myparts = new Rigidbody[0];
     Transform myRoot;
     public void Initialize(Transform myRoot)
     {

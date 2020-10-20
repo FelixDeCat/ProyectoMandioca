@@ -70,7 +70,6 @@ public class Checkpoint_Manager : MonoBehaviour
         LoadSceneHandler.instance.Off_LoadScreen();
         currentNormal = AllCheckPoint[0];
         SpawnChar();
-        Debug.Log("Starte champion");
     }
 
     public void SpawnChar(bool important = false)

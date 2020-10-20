@@ -5,7 +5,7 @@ using UnityEngine;
 public class JacintaAnimControllerCABEZA : MonoBehaviour
 {
     [SerializeField]
-    Animator myanim;
+    Animator myanim = null;
     void Start()
     {
         myanim.SetBool("Crying", true);
