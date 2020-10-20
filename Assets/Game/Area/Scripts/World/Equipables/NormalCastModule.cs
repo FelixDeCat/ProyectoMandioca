@@ -16,6 +16,9 @@ public class NormalCastModule : MonoBehaviour
     public CastType cast_type;
     bool manual_success = false;
 
+    public Sprite contextual_charge;
+
+
 
     [SerializeField] float casting = 2;
     public float CastTime { get { return casting; } }
@@ -38,11 +41,17 @@ public class NormalCastModule : MonoBehaviour
         timer = 0;
         anim = true;
         callback_Begin.Invoke();
+
+        ContextualBarSimple.instance.Show();
+        if (contextual_charge) { ContextualBarSimple.instance.Set_Sprite_Photo(contextual_charge); }
     }
     public void StopCast()
     {
+        ContextualBarSimple.instance.Hide();
+
         if (cast_type == CastType.Normal_Automatic)
         {
+            
             timer = 0;
             anim = false;
             callback_fail.Invoke();
@@ -82,11 +91,18 @@ public class NormalCastModule : MonoBehaviour
             {
                 timer = timer + 1 * Time.deltaTime;
                 callback_refreshCasting.Invoke(timer, casting);
+
+                if (contextual_charge)
+                {
+                    ContextualBarSimple.instance.Show();
+                    ContextualBarSimple.instance.Set_Values_Load_Bar(casting, timer);
+                }
             }
             else
             {
                 if (cast_type == CastType.Normal_Automatic)
                 {
+                    ContextualBarSimple.instance.Hide();
                     timer = 0;
                     anim = false;
                     callback_Sucess.Invoke(0);

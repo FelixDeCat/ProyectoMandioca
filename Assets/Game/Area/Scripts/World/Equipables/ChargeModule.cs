@@ -17,6 +17,8 @@ public class ChargeModule : MonoBehaviour
 
     public bool AddCharges = false;
 
+    public Sprite contextual_charge;
+
     [SerializeField] float casting = 2;
     public float CastTime { get { return casting; } }
     float timer = 0;
@@ -38,9 +40,13 @@ public class ChargeModule : MonoBehaviour
         timer = 0;
         anim = true;
         callback_Begin.Invoke();
+        ContextualBarSimple.instance.Show();
+        if (contextual_charge) { ContextualBarSimple.instance.Set_Sprite_Photo(contextual_charge); }
     }
     public void StopPress()
     {
+
+        ContextualBarSimple.instance.Hide();
         //if (cast_type == CastType.Normal_Automatic)
         //{
         //    timer = 0;
@@ -88,7 +94,14 @@ public class ChargeModule : MonoBehaviour
             if (timer < casting)
             {
                 timer = timer + 1 * Time.deltaTime;
-                callback_refreshCasting.Invoke(timer, casting);
+                //callback_refreshCasting.Invoke(timer, casting);
+
+                //aaacaaaaaaa
+                if (contextual_charge)
+                {
+                    ContextualBarSimple.instance.Show();
+                    ContextualBarSimple.instance.Set_Values_Load_Bar(casting, timer);
+                }
             }
             else
             {
@@ -107,6 +120,7 @@ public class ChargeModule : MonoBehaviour
                     charges++;
                     callback_End.Invoke();
                     callback_HoldThePower.Invoke(true);
+                    ContextualBarSimple.instance.Hide();
                 }
                 
             }
