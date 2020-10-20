@@ -66,10 +66,10 @@ public class NewShieldAbility : MonoBehaviour
         var enemis = Extensions.FindInRadius<DamageReceiver>(_hero.transform.position, radiusHolding);
         for (int i = 0; i < enemis.Count; i++)
         {
-            if (enemis[i].GetComponent<EffectReceiver>() != null && enemis[i].GetComponent<EntityBase>() != _hero)
+            if (enemis[i].GetComponent<EffectReceiver>() != null && enemis[i].GetComponent<EntityBase>() != _hero && enemis[i].GetComponentInChildren<EffectBasicPetrify>().IsActive)
             {
-                enemis[i].GetComponent<EffectReceiver>().RemoveEffect(EffectName.OnPetrify);
-                enemis[i].TakeDamage(dmgDATA);
+                    enemis[i].GetComponent<EffectReceiver>().RemoveEffect(EffectName.OnPetrify);
+                    enemis[i].TakeDamage(dmgDATA);
             }
         }
     }
