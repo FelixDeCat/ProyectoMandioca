@@ -67,9 +67,9 @@ public class WendigoEnemy : EnemyWithCombatDirector
         //Animaciones
         animEvents.Add_Callback("GrabaThing", GrabaThing);
         animEvents.Add_Callback("DoKick", DoKick);
+        animEvents.Add_Callback("ThrowAThing", ThrowAThing);
 
         //belen te comenté esto xq estaba tirando error de sintaxis
-        //animEvents.Add_Callback("",)
         //animEvents.Add_Callback("",)
         //animEvents.Add_Callback("",)
         //animEvents.Add_Callback("",)
@@ -98,8 +98,18 @@ public class WendigoEnemy : EnemyWithCombatDirector
     }
     public void DoKick()
     {
+        //isMelee = false;
+        Debug.Log("A CAMBIAR " + isMelee);
         dmgData.SetKnockback(1000);
         Main.instance.GetChar().GetComponent<DamageReceiver>().TakeDamage(dmgData);
+    }
+    public void ThrowAThing()
+    {
+        hasThrowable = false;
+        Vector3 dir = combatElement.CurrentTarget() ? (combatElement.CurrentTarget().transform.position + new Vector3(0, 1, 0) - shootPivot.position).normalized : Vector3.down;
+        ThrowData newData = new ThrowData().Configure(shootPivot.position, dir, throwForce, damage, rootTransform);
+        ThrowablePoolsManager.instance.Throw(throwObject.name, newData);
+        sm.SendInput(WendigoEnemy.WendigoInputs.OBSERVATION);
     }
     public override void IAInitialize(CombatDirector _director)
     {
@@ -163,10 +173,9 @@ public class WendigoEnemy : EnemyWithCombatDirector
         .SetTransition(WendigoInputs.DEATH, death)
         .Done();
 
-
-
         ConfigureState.Create(melee)
                .SetTransition(WendigoInputs.OBSERVATION, obs)
+               .SetTransition(WendigoInputs.PREPARERANGE, prepRange)
                .Done();
 
         ConfigureState.Create(petry)
@@ -192,7 +201,7 @@ public class WendigoEnemy : EnemyWithCombatDirector
         new WendigoMelee(melee, view, sm).SetDirector(director);
         new WendigoGrabRock(grabThing, () => hasThrowable = true, view, sm);
         new WendigoPrepareRange(prepRange, view, sm);
-        new WendigoRange(prepRange, ThrowAThing, view, sm);
+        new WendigoRange(prepRange, view, sm);
 
         //var head = Main.instance.GetChar();   //Es necesario?
 
@@ -212,13 +221,13 @@ public class WendigoEnemy : EnemyWithCombatDirector
         {
             float dist = Vector3.Distance(Main.instance.GetChar().transform.position, transform.position);
             view.DistanceText(dist.ToString());
-            Debug.Log(hasThrowable);
             //Si esta en combate
             if (combatElement.Combat)
             {
                 //Si es Melee (auspiciado por el TriggerDispatcher)
                 if (isMelee)
                 {
+                    Debug.Log("Estamoh en melee");
                     if (sm.Current.Name != "PrepareMelee")
                     {
                         //El unico que puede disparar el ataque es el PrepareMelee
@@ -274,7 +283,6 @@ public class WendigoEnemy : EnemyWithCombatDirector
         if (sm != null)
             sm.Update();
 
-        Debug.Log(sm.Current.Name);
     }
     protected override void OnPause()
     {
@@ -311,9 +319,9 @@ public class WendigoEnemy : EnemyWithCombatDirector
         }
 
     }
-
     public void PlayerInMelee(bool isit)
     {
+        Debug.Log("A CAMBIAR " + isit);
         isMelee = isit;
     }
     protected override void OnResume()
@@ -322,13 +330,6 @@ public class WendigoEnemy : EnemyWithCombatDirector
         if (death) ragdoll.ResumeRagdoll();
     }
 
-    protected void ThrowAThing()
-    {
-        hasThrowable = false;
-        Vector3 dir = combatElement.CurrentTarget() ? (combatElement.CurrentTarget().transform.position + new Vector3(0, 1, 0) - shootPivot.position).normalized : Vector3.down;
-        ThrowData newData = new ThrowData().Configure(shootPivot.position, dir, throwForce, damage, rootTransform);
-        ThrowablePoolsManager.instance.Throw(throwObject.name, newData);
-    }
     //NotChecked
     public override int GetHashCode()
     {
@@ -382,7 +383,19 @@ public class WendigoEnemy : EnemyWithCombatDirector
 
     protected override void Die(Vector3 dir)
     {
-        throw new System.NotImplementedException();
+        sm.SendInput(WendigoInputs.IDLE);
+        if (dir == Vector3.zero)
+            ragdoll.Ragdoll(true, -rootTransform.forward);
+        else
+            ragdoll.Ragdoll(true, dir);
+
+        /*
+                if (castPartTemp != null)
+                    ParticlesManager.Instance.StopParticle(castPartTemp.name, castPartTemp);
+                    */
+        death = true;
+        combatElement.ExitCombat();
+        Main.instance.RemoveEntity(this);
     }
 
     protected override bool IsDamage()
