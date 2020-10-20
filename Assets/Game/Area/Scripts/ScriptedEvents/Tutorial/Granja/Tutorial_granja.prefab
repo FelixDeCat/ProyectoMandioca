@@ -1077,6 +1077,28 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 1
         m_CallState: 2
+      - m_Target: {fileID: 8009520163238310201}
+        m_MethodName: GoToFase
+        m_Mode: 3
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 1
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 1
+        m_CallState: 2
+      - m_Target: {fileID: 2592445907757072990}
+        m_MethodName: SetActive
+        m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 1
+        m_CallState: 2
   UEVENT_End:
     m_PersistentCalls:
       m_Calls: []
@@ -1564,6 +1586,28 @@ MonoBehaviour:
           m_BoolArgument: 0
         m_CallState: 2
       - m_Target: {fileID: 8009520162554712345}
+        m_MethodName: SetActive
+        m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 8009520163238310201}
+        m_MethodName: GoToFase
+        m_Mode: 3
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 2592445907757072990}
         m_MethodName: SetActive
         m_Mode: 6
         m_Arguments:
@@ -2780,7 +2824,7 @@ MonoBehaviour:
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 1
+          m_IntArgument: 2
           m_FloatArgument: 0
           m_StringArgument: 
           m_BoolArgument: 0
@@ -3010,7 +3054,7 @@ BoxCollider:
   m_GameObject: {fileID: 7626728018033368721}
   m_Material: {fileID: 0}
   m_IsTrigger: 1
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
@@ -4259,9 +4303,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   dialogues:
+  - {fileID: 11400000, guid: 90dae019707ad4547b0b83d2f3782e4f, type: 2}
   - {fileID: 11400000, guid: c906477fe9b20cb4399905164c0b3a9f, type: 2}
   - {fileID: 11400000, guid: 49e7f34723c208d499d3ba924ccd13cd, type: 2}
-  currentDialoge: {fileID: 11400000, guid: c906477fe9b20cb4399905164c0b3a9f, type: 2}
+  currentDialoge: {fileID: 11400000, guid: 90dae019707ad4547b0b83d2f3782e4f, type: 2}
   useOneShot: 0
   stopAllOnDialogue: 0
   showButtons: 0
@@ -4657,7 +4702,7 @@ MeshRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8057982237533315499}
-  m_Enabled: 0
+  m_Enabled: 1
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
@@ -8322,7 +8367,7 @@ PrefabInstance:
     - target: {fileID: 3267411725831030280, guid: 3de454e3e17cbd047bd2e2ce6f1a4bc5,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: -208.79
+      value: -206.04
       objectReference: {fileID: 0}
     - target: {fileID: 3267411725831030280, guid: 3de454e3e17cbd047bd2e2ce6f1a4bc5,
         type: 3}
@@ -8332,7 +8377,7 @@ PrefabInstance:
     - target: {fileID: 3267411725831030280, guid: 3de454e3e17cbd047bd2e2ce6f1a4bc5,
         type: 3}
       propertyPath: m_LocalRotation.y
-      value: 0.4204597
+      value: 0.58267593
       objectReference: {fileID: 0}
     - target: {fileID: 3267411725831030280, guid: 3de454e3e17cbd047bd2e2ce6f1a4bc5,
         type: 3}
@@ -8342,7 +8387,7 @@ PrefabInstance:
     - target: {fileID: 3267411725831030280, guid: 3de454e3e17cbd047bd2e2ce6f1a4bc5,
         type: 3}
       propertyPath: m_LocalRotation.w
-      value: 0.9073112
+      value: 0.8127046
       objectReference: {fileID: 0}
     - target: {fileID: 3267411725831030280, guid: 3de454e3e17cbd047bd2e2ce6f1a4bc5,
         type: 3}
@@ -8357,7 +8402,7 @@ PrefabInstance:
     - target: {fileID: 3267411725831030280, guid: 3de454e3e17cbd047bd2e2ce6f1a4bc5,
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.y
-      value: 49.727
+      value: 71.278
       objectReference: {fileID: 0}
     - target: {fileID: 3267411725831030280, guid: 3de454e3e17cbd047bd2e2ce6f1a4bc5,
         type: 3}
