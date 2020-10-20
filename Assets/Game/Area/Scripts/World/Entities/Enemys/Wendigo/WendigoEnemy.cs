@@ -38,6 +38,7 @@ public class WendigoEnemy : EnemyWithCombatDirector
     float timerToCast;
     bool stopCD;
     bool castingOver;
+    bool isRotating;
 
     [Header("Feedback")]
     private Material[] myMat;
@@ -68,13 +69,7 @@ public class WendigoEnemy : EnemyWithCombatDirector
         animEvents.Add_Callback("GrabaThing", GrabaThing);
         animEvents.Add_Callback("DoKick", DoKick);
         animEvents.Add_Callback("ThrowAThing", ThrowAThing);
-
-        //belen te comenté esto xq estaba tirando error de sintaxis
-        //animEvents.Add_Callback("",)
-        //animEvents.Add_Callback("",)
-        //animEvents.Add_Callback("",)
-        //animEvents.Add_Callback("",)
-        //animEvents.Add_Callback("",)
+        animEvents.Add_Callback("StopRotation", StopRotation);
 
         //Cosas de main?
         Main.instance.AddEntity(this);
@@ -94,6 +89,7 @@ public class WendigoEnemy : EnemyWithCombatDirector
     public void GrabaThing()
     {
         hasThrowable = true;
+        view.TurnOnThing();
         sm.SendInput(WendigoEnemy.WendigoInputs.OBSERVATION);
     }
     public void DoKick()
@@ -103,14 +99,24 @@ public class WendigoEnemy : EnemyWithCombatDirector
         dmgData.SetKnockback(1000);
         Main.instance.GetChar().GetComponent<DamageReceiver>().TakeDamage(dmgData);
     }
+    public void StopRotation()
+    {
+        isRotating = false;
+    }
     public void ThrowAThing()
     {
+        view.TurnOffThing();
         hasThrowable = false;
-        Vector3 dir = combatElement.CurrentTarget() ? (combatElement.CurrentTarget().transform.position + new Vector3(0, 1, 0) - shootPivot.position).normalized : Vector3.down;
-        ThrowData newData = new ThrowData().Configure(shootPivot.position, dir, throwForce, damage, rootTransform);
+        Vector3 direction = ((combatElement.CurrentTarget().transform.position + Vector3.up) - shootPivot.position).normalized;
+        Debug.DrawRay(shootPivot.position, direction);
+        Vector3 dir = combatElement.CurrentTarget() ? direction : transform.forward;
+        Debug.Log(dir);
+        ThrowData newData = new ThrowData().Configure(shootPivot.position, dir, distancePos * 2, damage, rootTransform);
         ThrowablePoolsManager.instance.Throw(throwObject.name, newData);
         sm.SendInput(WendigoEnemy.WendigoInputs.OBSERVATION);
     }
+
+    //StateMachine
     public override void IAInitialize(CombatDirector _director)
     {
         director = _director;
@@ -200,11 +206,19 @@ public class WendigoEnemy : EnemyWithCombatDirector
         new WendigoPrepareMelee(prepMelee, view, sm);
         new WendigoMelee(melee, view, sm).SetDirector(director);
         new WendigoGrabRock(grabThing, () => hasThrowable = true, view, sm);
-        new WendigoPrepareRange(prepRange, view, sm);
-        new WendigoRange(prepRange, view, sm);
+        new WendigoPrepareRange(prepRange, view, moveComponent, combatElement, sm).SetRoot(rootTransform);
+        new WendigoRange(prepRange, view, Rotate, sm);
 
-        //var head = Main.instance.GetChar();   //Es necesario?
 
+    }
+    protected void Rotate()
+    {
+        if (isRotating)
+        {
+            Vector3 dirForward = (combatElement.CurrentTarget().transform.position - rootTransform.position).normalized;
+            Vector3 fowardRotation = moveComponent.ObstacleAvoidance(new Vector3(dirForward.x, 0, dirForward.z));
+            moveComponent.Rotation(fowardRotation.normalized);
+        }
     }
     protected override void OnTurnOn()
     {
@@ -243,6 +257,7 @@ public class WendigoEnemy : EnemyWithCombatDirector
                         if (sm.Current.Name != "PrepareRange")
                         {
                             //El unico que puede disparar el throwable es el PrepareRange
+                            isRotating = true;
                             sm.SendInput(WendigoInputs.PREPARERANGE);
                         }
                     }
@@ -309,6 +324,7 @@ public class WendigoEnemy : EnemyWithCombatDirector
     void EnableObject() => Initialize();
     public void OnDrawGizmos()
     {
+        Gizmos.color = Color.magenta;
         if (showCombatDistance)
         {
             Gizmos.DrawWireSphere(transform.position, combatDistance);
@@ -330,35 +346,9 @@ public class WendigoEnemy : EnemyWithCombatDirector
         if (death) ragdoll.ResumeRagdoll();
     }
 
-    //NotChecked
-    public override int GetHashCode()
-    {
-        return base.GetHashCode();
-    }
-
-    public override bool Equals(object other)
-    {
-        return base.Equals(other);
-    }
-
-    public override string ToString()
-    {
-        return base.ToString();
-    }
-
     protected override void OnFixedUpdate()
     {
         //throw new System.NotImplementedException();
-    }
-
-    public override void ReturnToSpawner()
-    {
-        base.ReturnToSpawner();
-    }
-
-    protected override void OnUpdate()
-    {
-        base.OnUpdate();
     }
 
     public override void OnReceiveItem(InteractCollect itemworld)
@@ -366,10 +356,6 @@ public class WendigoEnemy : EnemyWithCombatDirector
         base.OnReceiveItem(itemworld);
     }
 
-    public override void OnStun()
-    {
-        base.OnStun();
-    }
 
     public override float ChangeSpeed(float newSpeed)
     {
@@ -378,7 +364,7 @@ public class WendigoEnemy : EnemyWithCombatDirector
 
     protected override void TakeDamageFeedback(DamageData data)
     {
-        //Aca va el view
+        view.Damaged();
     }
 
     protected override void Die(Vector3 dir)
@@ -404,19 +390,4 @@ public class WendigoEnemy : EnemyWithCombatDirector
         else return false;
     }
 
-    protected override void InmuneFeedback()
-    {
-        base.InmuneFeedback();
-    }
-
-
-    public override void SpawnEnemy()
-    {
-        base.SpawnEnemy();
-    }
-
-    public override void ResetEntity()
-    {
-        base.ResetEntity();
-    }
 }

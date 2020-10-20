@@ -7,11 +7,14 @@ namespace Tools.StateMachine
 
     public class WendigoPrepareRange : WendigoStates
     {
-
+        GenericEnemyMove moveComp;
+        CombatDirectorElement enemy;
         float viewTime;
-        public WendigoPrepareRange(EState<WendigoEnemy.WendigoInputs> myState, WendigoView _view, EventStateMachine<WendigoEnemy.WendigoInputs> _sm) : base(myState, _sm)
+        public WendigoPrepareRange(EState<WendigoEnemy.WendigoInputs> myState, WendigoView _view, GenericEnemyMove _moveComp, CombatDirectorElement _enem, EventStateMachine<WendigoEnemy.WendigoInputs> _sm) : base(myState, _sm)
         {
             view = _view;
+            moveComp = _moveComp;
+            enemy = _enem;
         }
 
         protected override void Enter(EState<WendigoEnemy.WendigoInputs> last)
@@ -26,6 +29,12 @@ namespace Tools.StateMachine
             if (viewTime > 2)
             {
                 sm.SendInput(WendigoEnemy.WendigoInputs.RANGEAR);
+            }
+            if (enemy.CurrentTarget() != null)
+            {
+                Vector3 dirForward = (enemy.CurrentTarget().transform.position - root.position).normalized;
+                Vector3 fowardRotation = moveComp.ObstacleAvoidance(new Vector3(dirForward.x, 0, dirForward.z));
+                moveComp.Rotation(fowardRotation.normalized);
             }
         }
     }
