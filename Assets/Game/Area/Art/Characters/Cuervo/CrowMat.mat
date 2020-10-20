@@ -20,7 +20,7 @@ Material:
     serializedVersion: 3
     m_TexEnvs:
     - _AO:
-        m_Texture: {fileID: 0}
+        m_Texture: {fileID: 2800000, guid: 5111167ccd05fe0499007f7e41cbfed5, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _Albedo:
@@ -51,12 +51,20 @@ Material:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
+    - _FlowTexture:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     - _MainTex:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MetallicGlossMap:
         m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _Noise:
+        m_Texture: {fileID: 2800000, guid: 5111167ccd05fe0499007f7e41cbfed5, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _Normal:
@@ -82,23 +90,30 @@ Material:
     m_Floats:
     - _AOIntensity: 0
     - _BumpScale: 1
-    - _ColorSaturation: 1
+    - _ColorSaturation: 0.77
     - _Cutoff: 0.5
     - _DetailNormalMapScale: 1
     - _DstBlend: 0
-    - _EmissionIntensity: 1
+    - _EmissionIntensity: 0.21
+    - _Flow: 1
+    - _FresnelScale: 1
     - _GlossMapScale: 1
     - _Glossiness: 0.5
     - _GlossyReflections: 1
-    - _MetalicIntensity: 0
+    - _HardnessMask: 1
+    - _HardnessNoise: 1
+    - _MaskBot: -20
+    - _MetalicIntensity: 0.533
     - _Metallic: 0
     - _Mode: 0
     - _NormalValue: 1
     - _OcclusionStrength: 1
+    - _OpacityIntensity: 1
     - _Parallax: 0.02
     - _SmoothnessTextureChannel: 0
-    - _SmoothnessValue: 0
+    - _SmoothnessValue: 0.295
     - _SpecularHighlights: 1
+    - _Speed: 1
     - _SrcBlend: 1
     - _UVSec: 0
     - _UseEmission: 1
@@ -108,4 +123,7 @@ Material:
     m_Colors:
     - _Color: {r: 1, g: 1, b: 1, a: 1}
     - _EmissionColor: {r: 1, g: 1, b: 1, a: 1}
+    - _FresnelColor: {r: 0.12405122, g: 0, b: 0.24528301, a: 0}
+    - _MainColor: {r: 0.78813255, g: 0.5801887, b: 1, a: 1}
+    - _NoiseColor: {r: 1, g: 1, b: 1, a: 0}
     - _TintColor: {r: 1, g: 1, b: 1, a: 0}
