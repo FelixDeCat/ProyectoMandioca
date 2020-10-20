@@ -15,7 +15,10 @@ public class FastHardcodedFunctions : MonoBehaviour
     }
     public void F_WeaponsOn()
     {
-
+        Main.instance.GetChar().ToggleShield(true);
+        Main.instance.GetChar().ToggleSword(true);
+        MsgLogData msgLogData = new MsgLogData("Armas activadas", new Color(0, 0, 0, 0), new Color(1, 1, 1, 1), 1f);
+        GameMessage.Log(msgLogData);
     }
 
     public void F_FastWalk()

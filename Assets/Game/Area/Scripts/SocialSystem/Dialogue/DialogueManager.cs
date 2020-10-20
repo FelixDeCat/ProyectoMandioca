@@ -34,7 +34,7 @@ public class DialogueManager : MonoBehaviour
     }
     private void Update()
     {
-        joystick.Refresh();
+        joystick?.Refresh();
     }
 
     public void StartDialogue(DialogueTree treedialog, bool _can_not_move = true, bool _showButtons = true)
