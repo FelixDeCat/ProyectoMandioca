@@ -7,6 +7,7 @@ public class WendigoEnemy : EnemyWithCombatDirector
     //////////////////////////NOTAS/////////////////////////////
     //CombatDistance = vision
     //DistancePos = attackRange
+    //SIEMPRE DISTANCEPOS < COMBATDISTANCE
     [SerializeField] bool showCombatDistance = false;
     [SerializeField] bool showAttackRange = false;
     [SerializeField] WendigoView view;
@@ -96,7 +97,7 @@ public class WendigoEnemy : EnemyWithCombatDirector
     {
         //isMelee = false;
         Debug.Log("A CAMBIAR " + isMelee);
-        dmgData.SetKnockback(1000);
+        dmgData.SetKnockback(300);
         Main.instance.GetChar().GetComponent<DamageReceiver>().TakeDamage(dmgData);
     }
     public void StopRotation()
@@ -108,9 +109,7 @@ public class WendigoEnemy : EnemyWithCombatDirector
         view.TurnOffThing();
         hasThrowable = false;
         Vector3 direction = ((combatElement.CurrentTarget().transform.position + Vector3.up) - shootPivot.position).normalized;
-        Debug.DrawRay(shootPivot.position, direction);
         Vector3 dir = combatElement.CurrentTarget() ? direction : transform.forward;
-        Debug.Log(dir);
         ThrowData newData = new ThrowData().Configure(shootPivot.position, dir, distancePos * 2, damage, rootTransform);
         ThrowablePoolsManager.instance.Throw(throwObject.name, newData);
         sm.SendInput(WendigoEnemy.WendigoInputs.OBSERVATION);
@@ -204,7 +203,7 @@ public class WendigoEnemy : EnemyWithCombatDirector
         new WendigoIdle(idle, view, sm);
         new WendigoObservation(obs, view, moveComponent, combatElement, sm).SetRigidbody(rb).SetRoot(rootTransform);
         new WendigoPrepareMelee(prepMelee, view, sm);
-        new WendigoMelee(melee, view, sm).SetDirector(director);
+        new WendigoMelee(melee, view, Rotate, sm).SetDirector(director);
         new WendigoGrabRock(grabThing, () => hasThrowable = true, view, sm);
         new WendigoPrepareRange(prepRange, view, moveComponent, combatElement, sm).SetRoot(rootTransform);
         new WendigoRange(prepRange, view, Rotate, sm);
@@ -215,9 +214,13 @@ public class WendigoEnemy : EnemyWithCombatDirector
     {
         if (isRotating)
         {
-            Vector3 dirForward = (combatElement.CurrentTarget().transform.position - rootTransform.position).normalized;
-            Vector3 fowardRotation = moveComponent.ObstacleAvoidance(new Vector3(dirForward.x, 0, dirForward.z));
-            moveComponent.Rotation(fowardRotation.normalized);
+            if (combatElement.CurrentTarget())
+            {
+
+                Vector3 dirForward = (combatElement.CurrentTarget().transform.position - rootTransform.position).normalized;
+                Vector3 fowardRotation = moveComponent.ObstacleAvoidance(new Vector3(dirForward.x, 0, dirForward.z));
+                moveComponent.Rotation(fowardRotation.normalized);
+            }
         }
     }
     protected override void OnTurnOn()
@@ -245,6 +248,7 @@ public class WendigoEnemy : EnemyWithCombatDirector
                     if (sm.Current.Name != "PrepareMelee")
                     {
                         //El unico que puede disparar el ataque es el PrepareMelee
+                        isRotating = true;
                         sm.SendInput(WendigoInputs.PREPAREMELEE);
                     }
                 }
