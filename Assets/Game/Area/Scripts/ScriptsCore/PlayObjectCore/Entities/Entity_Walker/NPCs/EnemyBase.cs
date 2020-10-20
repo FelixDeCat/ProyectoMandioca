@@ -51,6 +51,28 @@ public abstract class EnemyBase : NPCBase
     protected abstract bool IsDamage();
     protected virtual void InmuneFeedback() { }
 
+    public IEnumerator OnHitted(float onHitFlashTime, Color onHitColor)
+    {
+        var smr = GetComponentInChildren<SkinnedMeshRenderer>();
+        if (smr != null)
+        {
+            Material[] mats = smr.materials;
+            for (int i = 0; i < onHitFlashTime; i++)
+            {
+                if (i < (onHitFlashTime / 2f))
+                {
+                    mats[0].SetColor("_EmissionColor", Color.Lerp(Color.black, onHitColor, i / (onHitFlashTime / 2f)));
+                }
+                else
+                {
+                    mats[0].SetColor("_EmissionColor", Color.Lerp(onHitColor, Color.black, (i - (onHitFlashTime / 2f)) / (onHitFlashTime / 2f)));
+                }
+                yield return new WaitForSeconds(0.01f);
+            }
+            mats[0].SetColor("_EmissionColor", Color.black);
+        }
+    }
+
     protected override void OnPause()
     {
         if (animator == null) return;

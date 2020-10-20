@@ -145,7 +145,6 @@ public class DamageReceiver : MonoBehaviour
             if (!DontApplyKnockback())
             {
                 OwnKnockback?.Invoke(Vector3.up + knockbackForce * knockbackMultiplier);
-                Debug.Log("entrooooo");
             }
         }
 

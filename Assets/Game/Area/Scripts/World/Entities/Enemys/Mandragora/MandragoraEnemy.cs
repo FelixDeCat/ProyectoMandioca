@@ -394,7 +394,7 @@ public class MandragoraEnemy : EnemyWithCombatDirector
 
         new DummyIdleState(idle, sm, movement, distancePos, normalDistance, combatElement).SetAnimator(animator).SetRoot(rootTransform).SetDirector(director);
 
-        new DummyFollowState(goToPos, sm, movement, normalDistance, distancePos, combatElement).SetAnimator(animator).SetRoot(rootTransform);
+        new DummyFollowState(goToPos, sm, movement, normalDistance, distancePos, combatElement, sounds.clip_walkEnt.name).SetAnimator(animator).SetRoot(rootTransform);
 
         new DummyChasing(chasing, sm, () => combatElement.Attacking, distancePos, movement, combatElement).SetDirector(director).SetRoot(rootTransform);
 

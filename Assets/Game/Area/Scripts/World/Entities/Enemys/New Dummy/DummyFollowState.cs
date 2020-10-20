@@ -12,16 +12,18 @@ namespace Tools.StateMachine
 
         float normalDistance;
         float minDistance;
+        string soundName;
 
         Func<bool> IsSpecialAttack;
 
         public DummyFollowState(EState<TrueDummyEnemy.DummyEnemyInputs> myState, EventStateMachine<TrueDummyEnemy.DummyEnemyInputs> _sm, GenericEnemyMove _move,
-                                float distance, float _minDistance, CombatDirectorElement me, Func<bool> _IsSpecialAttack = null) : base(myState, _sm)
+                                float distance, float _minDistance, CombatDirectorElement me, string _soundName, Func<bool> _IsSpecialAttack = null) : base(myState, _sm)
         {
             move = _move;
             normalDistance = distance;
             minDistance = _minDistance;
             noObs = me;
+            soundName = _soundName;
 
             if (_IsSpecialAttack != null) IsSpecialAttack = _IsSpecialAttack; else IsSpecialAttack = () => false;
         }
@@ -31,7 +33,7 @@ namespace Tools.StateMachine
             base.Enter(input);
             anim.SetFloat("move", 0.3f);
             
-            AudioManager.instance.PlaySound("WalkEnt");
+            AudioManager.instance.PlaySound(soundName);
         }
 
         protected override void Exit(TrueDummyEnemy.DummyEnemyInputs input)
@@ -41,7 +43,7 @@ namespace Tools.StateMachine
             move.StopMove();
             anim.SetFloat("move", 0);
             
-            AudioManager.instance.StopAllSounds("WalkEnt");
+            AudioManager.instance.StopAllSounds(soundName);
         }
 
         protected override void Update()
