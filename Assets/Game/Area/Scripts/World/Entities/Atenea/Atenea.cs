@@ -18,6 +18,7 @@ public class Atenea : MonoBehaviour
     float timer;
     bool animdisapear;
     float current_opacity;
+    public Transform challenge_position;
  
     private void Start() { 
         myAnim = GetComponent<Animator>();
@@ -27,6 +28,12 @@ public class Atenea : MonoBehaviour
         {
             mats[i] = renders[i].material;
         }
+    }
+    public void ChallegPosition()
+    {
+        this.transform.position = challenge_position.transform.position;
+        this.transform.eulerAngles = challenge_position.transform.eulerAngles;
+
     }
 
     public void Anim_Freeze() => myAnim.Play("Atenea_Freeze");
