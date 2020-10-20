@@ -7,10 +7,12 @@ using TMPro;
 public class ContextualBarSimple : MonoBehaviour
 {
     public static ContextualBarSimple instance;
+    public ContextualBarAnimator anim;
     private void Awake()
     {
         instance = this;
         myRect = GetComponent<RectTransform>();
+        anim = GetComponentInChildren<ContextualBarAnimator>();
         Catch_Initial_Values();
     }
     private void Start()
@@ -49,14 +51,24 @@ public class ContextualBarSimple : MonoBehaviour
     {
         myRect.ForceUpdateRectTransforms();
         canvas_group.alpha = 1;
+
         return this;
+
     }
+
     public ContextualBarSimple Hide()
     {
-        canvas_group.alpha = 0;
-        Reset_All();
+        if (anim.CanHide())
+        {
+            canvas_group.alpha = 0;
+            Reset_All();
+        }
+        anim.EndAnim();
         return this;
     }
+
+
+
     private void OnChange(params object[] p) { if (!modif_type) return; photo_image.sprite = InputImageDatabase.instance.GetSprite(type); }
 
 

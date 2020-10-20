@@ -5,7 +5,7 @@ Shader "BreakeableShader"
 	Properties
 	{
 		_TextureSample0("Texture Sample 0", 2D) = "white" {}
-		_FresnelPowa("FresnelPowa", Range( 0 , 1)) = 0
+		_FresnelPowa("FresnelPowa", Float) = 1
 		_FresnelColor("Fresnel Color", Color) = (1,0.8518007,0,0)
 		_FresnelFrec("Fresnel Frec", Float) = 0
 		[HideInInspector] _texcoord( "", 2D ) = "white" {}
@@ -152,7 +152,7 @@ Shader "BreakeableShader"
 }
 /*ASEBEGIN
 Version=18301
-764;540;494;273;544.7163;-148.7231;1.722418;False;False
+763;568;498;253;1207.048;-469.0398;1.8971;True;False
 Node;AmplifyShaderEditor.SimpleTimeNode;11;-1262.255,271.6878;Inherit;False;1;0;FLOAT;2.81;False;1;FLOAT;0
 Node;AmplifyShaderEditor.RangedFloatNode;14;-1248.133,342.979;Inherit;False;Property;_FresnelFrec;Fresnel Frec;3;0;Create;True;0;0;False;0;False;0;1.42;0;0;0;1;FLOAT;0
 Node;AmplifyShaderEditor.SimpleMultiplyOpNode;12;-1050.886,284.6452;Inherit;True;2;2;0;FLOAT;0;False;1;FLOAT;0;False;1;FLOAT;0
@@ -161,8 +161,8 @@ Node;AmplifyShaderEditor.RangedFloatNode;17;-883.3955,496.5522;Inherit;False;Con
 Node;AmplifyShaderEditor.ColorNode;6;-628.092,363.3188;Inherit;False;Property;_FresnelColor;Fresnel Color;2;0;Create;True;0;0;False;0;False;1,0.8518007,0,0;1,0.7878932,0.2028302,1;True;0;5;COLOR;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
 Node;AmplifyShaderEditor.SimpleAddOpNode;16;-681.8314,266.1924;Inherit;False;2;2;0;FLOAT;0;False;1;FLOAT;0;False;1;FLOAT;0
 Node;AmplifyShaderEditor.FresnelNode;3;-580.2114,141.1669;Inherit;False;Standard;WorldNormal;ViewDir;False;False;5;0;FLOAT3;0,0,1;False;4;FLOAT3;0,0,0;False;1;FLOAT;0;False;2;FLOAT;1;False;3;FLOAT;5;False;1;FLOAT;0
-Node;AmplifyShaderEditor.RangedFloatNode;7;-669.0579,573.4899;Inherit;False;Property;_FresnelPowa;FresnelPowa;1;0;Create;True;0;0;False;0;False;0;1;0;1;0;1;FLOAT;0
 Node;AmplifyShaderEditor.WorldPosInputsNode;19;-192.4819,421.7264;Inherit;False;0;4;FLOAT3;0;FLOAT;1;FLOAT;2;FLOAT;3
+Node;AmplifyShaderEditor.RangedFloatNode;7;-669.0579,573.4899;Inherit;False;Property;_FresnelPowa;FresnelPowa;1;0;Create;True;0;0;False;0;False;1;1;0;0;0;1;FLOAT;0
 Node;AmplifyShaderEditor.SamplerNode;2;-569.5246,-90.37757;Inherit;True;Property;_TextureSample0;Texture Sample 0;0;0;Create;True;0;0;False;0;False;-1;4e774d2999102be46a39ada05b66c524;0b1ec22ef9c4107459e0e02be88ed421;True;0;False;white;Auto;False;Object;-1;Auto;Texture2D;6;0;SAMPLER2D;;False;1;FLOAT2;0,0;False;2;FLOAT;0;False;3;FLOAT2;0,0;False;4;FLOAT2;0,0;False;5;FLOAT;1;False;5;COLOR;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
 Node;AmplifyShaderEditor.SimpleMultiplyOpNode;4;-318.1791,274.2632;Inherit;False;4;4;0;FLOAT;0;False;1;COLOR;0,0,0,0;False;2;FLOAT;0;False;3;FLOAT;0;False;1;COLOR;0
 Node;AmplifyShaderEditor.FunctionNode;18;41.76698,390.7229;Inherit;False;NewLowPolyStyle;-1;;1;9366fbf697958664ea2b821af5ab3369;0;1;8;FLOAT3;0,0,0;False;2;FLOAT;9;FLOAT3;0
@@ -181,4 +181,4 @@ WireConnection;0;0;2;0
 WireConnection;0;1;18;0
 WireConnection;0;2;4;0
 ASEEND*/
-//CHKSM=E9524609B8DC0E11A770404345EC2DFA30A03A6C
+//CHKSM=DF2212A67C19799860780A6F57377C8F239100C5
