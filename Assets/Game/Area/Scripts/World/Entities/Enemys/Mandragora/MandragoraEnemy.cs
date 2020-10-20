@@ -29,9 +29,7 @@ public class MandragoraEnemy : EnemyWithCombatDirector
     private float timercooldown = 0;
 
     [Header("Spawn Options")]
-    [SerializeField] EnemyBase_IntDictionary enemiesToSpawnDic = new EnemyBase_IntDictionary();
-    [SerializeField] List<EnemyBase> enemiesTypes = new List<EnemyBase>();
-    [SerializeField, Range(1, 25)] public int enemiesToSpawn = 5;
+    public EnemyBase_IntDictionary enemiesToSpawnDic = new EnemyBase_IntDictionary();
     [SerializeField] PlayObject trapToDie = null;
     [SerializeField] float trapDuration = 5;
     [SerializeField] Transform rootToTrap = null;
@@ -102,11 +100,8 @@ public class MandragoraEnemy : EnemyWithCombatDirector
         if (!mandragoraIsTrap) return;
         spawnerSpot.Initialize();
 
-        for (int i = 0; i < enemiesTypes.Count; i++)
-            PoolManager.instance.GetObjectPool("enemy_Mandragora", enemiesTypes[i]);
-
-        //foreach (var item in enemiesToSpawnDic)
-        //    PoolManager.instance.GetObjectPool(item.Key.name == name ? "enemy_Mandragora" : item.Key.name, item.Key);
+        foreach (var item in enemiesToSpawnDic)
+            PoolManager.instance.GetObjectPool(item.Key.name == name ? "enemy_Mandragora" : item.Key.name, item.Key);
     }
 
     public override void SpawnEnemy()
@@ -130,18 +125,11 @@ public class MandragoraEnemy : EnemyWithCombatDirector
     {
         if (!mandragoraIsTrap) return;
 
-        for (int i = 0; i < enemiesToSpawn; i++)
+        foreach (var item in enemiesToSpawnDic)
         {
-            int index = UnityEngine.Random.Range(0, enemiesTypes.Count);
-            
-            spawnerSpot.SpawnPrefab(spawnerSpot.GetSurfacePos(), enemiesTypes[index], CurrentScene);
+            for (int i = 0; i < item.Value; i++)
+                spawnerSpot.SpawnPrefab(spawnerSpot.GetSurfacePos(), item.Key, CurrentScene);
         }
-
-        //foreach (var item in enemiesToSpawnDic)
-        //{
-        //    for (int i = 0; i < item.Value; i++)
-        //        spawnerSpot.SpawnPrefab(spawnerSpot.GetSurfacePos(), item.Key, CurrentScene);
-        //}
 
         mandragoraIsTrap = false;
         sm.SendInput(MandragoraInputs.IDLE);

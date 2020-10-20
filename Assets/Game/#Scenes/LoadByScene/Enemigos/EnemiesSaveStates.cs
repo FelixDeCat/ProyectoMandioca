@@ -64,10 +64,8 @@ public class MandragoraSaveState<T> : EnemiesRangeSaveState<T> where T : EnemyBa
     protected bool isTrap;
     protected Vector3 spawnPos;
     protected float radiousSpawn;
-    protected int enemiesToSpawn;
     protected Vector3 triggerPos;
-    protected Vector3 triggerCenter;
-    protected Vector3 triggerSize;
+    protected EnemyBase_IntDictionary enemySpawn;
 
     public override void SaveState(T enemy)
     {
@@ -76,11 +74,11 @@ public class MandragoraSaveState<T> : EnemiesRangeSaveState<T> where T : EnemyBa
         isTrap = temp.mandragoraIsTrap;
         spawnPos = temp.spawnerSpot.spawnSpot.position;
         radiousSpawn = temp.spawnerSpot.radious;
-        enemiesToSpawn = temp.enemiesToSpawn;
+        enemySpawn = new EnemyBase_IntDictionary();
+        foreach (var item in temp.enemiesToSpawnDic)
+            enemySpawn.Add(item.Key, item.Value);
         var aux = temp.GetComponentInChildren<BoxCollider>();
         triggerPos = aux.transform.position;
-        //triggerCenter = aux.center;
-        //triggerSize = aux.size;
     }
 
     public override void LoadState(T enemy)
@@ -90,11 +88,11 @@ public class MandragoraSaveState<T> : EnemiesRangeSaveState<T> where T : EnemyBa
         temp.mandragoraIsTrap = isTrap;
         temp.spawnerSpot.spawnSpot.position = spawnPos;
         temp.spawnerSpot.radious = radiousSpawn;
-        temp.enemiesToSpawn = enemiesToSpawn;
+        temp.enemiesToSpawnDic = new EnemyBase_IntDictionary();
+        foreach (var item in enemySpawn)
+            temp.enemiesToSpawnDic.Add(item.Key, item.Value);
         var aux = temp.GetComponentInChildren<BoxCollider>();
         aux.transform.position = triggerPos;
-        //aux.center = triggerCenter;
-        //aux.size = triggerSize;
     }
 }
 

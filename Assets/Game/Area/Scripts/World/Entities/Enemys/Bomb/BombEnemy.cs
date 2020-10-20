@@ -65,6 +65,7 @@ public class BombEnemy : EnemyBase
         Main.instance.eventManager.TriggerEvent(GameEvents.ENEMY_SPAWN, new object[] { this });
         ParticlesManager.Instance.GetParticlePool(particles._spawnParticules.name, particles._spawnParticules, 5);
         ParticlesManager.Instance.GetParticlePool(particles.takeDamagePart.name, particles.takeDamagePart, 8);
+        ParticlesManager.Instance.GetParticlePool(particles.explodePart.name, particles.explodePart, 3);
 
         AudioManager.instance.GetSoundPool(sounds._takeHit_AC.name, AudioGroups.GAME_FX, sounds._takeHit_AC);
         AudioManager.instance.GetSoundPool(sounds.clip_walkEnt.name, AudioGroups.GAME_FX, sounds.clip_walkEnt, true);
