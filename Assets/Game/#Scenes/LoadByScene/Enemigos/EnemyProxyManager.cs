@@ -12,7 +12,7 @@ public class EnemyProxyManager : LoadComponent
     [Header("ExecuteInEditMode")]
     public bool ButtonRefresh = true;
 
-    protected void Start()//por si mi parent no viene con Loader
+    protected void Start() // por si mi parent no viene con Loader
     {
         if (!AlreadyProcessed && Application.isPlaying)
         {
