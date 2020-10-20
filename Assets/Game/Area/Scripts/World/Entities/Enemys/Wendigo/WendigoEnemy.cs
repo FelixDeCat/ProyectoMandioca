@@ -15,8 +15,8 @@ public class WendigoEnemy : EnemyWithCombatDirector
     CharacterGroundSensor groundSensor;
     bool isMelee;
     bool hasThrowable;
-    [SerializeField] SphereCollider meleeCollider;
     [SerializeField] Throwable throwObject = null;
+    [SerializeField] AnimEvent animEvents = null;
 
 
     //No esta checkeado
@@ -40,7 +40,6 @@ public class WendigoEnemy : EnemyWithCombatDirector
     bool castingOver;
 
     [Header("Feedback")]
-    [SerializeField] AnimEvent anim = null;
     private Material[] myMat;
     [SerializeField] Color onHitColor = Color.white;
     [SerializeField] float onHitFlashTime = 0.1f;
@@ -66,7 +65,14 @@ public class WendigoEnemy : EnemyWithCombatDirector
         rb = GetComponent<Rigidbody>();
 
         //Animaciones
-
+        animEvents.Add_Callback("GrabaThing", GrabaThing);
+        animEvents.Add_Callback("DoKick", DoKick);
+        animEvents.Add_Callback("",)
+        animEvents.Add_Callback("",)
+        animEvents.Add_Callback("",)
+        animEvents.Add_Callback("",)
+        animEvents.Add_Callback("",)
+        animEvents.Add_Callback("",)
         //Cosas de main?
         Main.instance.AddEntity(this);
 
@@ -80,6 +86,17 @@ public class WendigoEnemy : EnemyWithCombatDirector
 
         //Vision
         lineOfSight.Configurate(rootTransform);
+    }
+    //AnimEventFunctions
+    public void GrabaThing()
+    {
+        hasThrowable = true;
+        sm.SendInput(WendigoEnemy.WendigoInputs.OBSERVATION);
+    }
+    public void DoKick()
+    {
+        dmgData.SetKnockback(1000);
+        Main.instance.GetChar().GetComponent<DamageReceiver>().TakeDamage(dmgData);
     }
     public override void IAInitialize(CombatDirector _director)
     {
@@ -169,7 +186,7 @@ public class WendigoEnemy : EnemyWithCombatDirector
         new WendigoIdle(idle, view, sm);
         new WendigoObservation(obs, view, moveComponent, combatElement, sm).SetRigidbody(rb).SetRoot(rootTransform);
         new WendigoPrepareMelee(prepMelee, view, sm);
-        new WendigoMelee(melee, view, dmgData, meleeCollider, sm).SetDirector(director);
+        new WendigoMelee(melee, view, sm).SetDirector(director);
         new WendigoGrabRock(grabThing, () => hasThrowable = true, view, sm);
         new WendigoPrepareRange(prepRange, view, sm);
         new WendigoRange(prepRange, ThrowAThing, view, sm);
@@ -201,7 +218,6 @@ public class WendigoEnemy : EnemyWithCombatDirector
                 {
                     if (sm.Current.Name != "PrepareMelee")
                     {
-
                         //El unico que puede disparar el ataque es el PrepareMelee
                         sm.SendInput(WendigoInputs.PREPAREMELEE);
                     }
@@ -227,6 +243,7 @@ public class WendigoEnemy : EnemyWithCombatDirector
                 //Si no tiene piedra
                 else
                 {
+                    //Por si acaso, agregar cd aca
                     //GrabRock funciona distinto a los prepare. Este se encarga de todo
                     sm.SendInput(WendigoInputs.GRABTHING);
                 }

@@ -13,21 +13,6 @@ namespace Tools.StateMachine
             view = _view;
         }
 
-        public override bool Equals(object obj)
-        {
-            return base.Equals(obj);
-        }
-
-        public override int GetHashCode()
-        {
-            return base.GetHashCode();
-        }
-
-        public override string ToString()
-        {
-            return base.ToString();
-        }
-
         protected override void Enter(EState<WendigoEnemy.WendigoInputs> last)
         {
             base.Enter(last);
@@ -36,26 +21,11 @@ namespace Tools.StateMachine
 
         }
 
-        protected override void Exit(WendigoEnemy.WendigoInputs input)
-        {
-            base.Exit(input);
-        }
-
-        protected override void FixedUpdate()
-        {
-            base.FixedUpdate();
-        }
-
-        protected override void LateUpdate()
-        {
-            base.LateUpdate();
-        }
-
         protected override void Update()
         {
             base.Update();
             viewTime += Time.deltaTime;
-            if (viewTime > 2)
+            if (viewTime > 1f)
             {
                 sm.SendInput(WendigoEnemy.WendigoInputs.MELEEAR);
             }

@@ -18,6 +18,10 @@ namespace Tools.StateMachine
         public DataBaseWendigoParticles particles;
         public DataBaseWendigoSounds sounds;
 
+        public void Awakening()
+        {
+            anim.SetTrigger("Awake");
+        }
         public void DebugText(string _state)
         {
             debugText.text = _state;
@@ -34,16 +38,15 @@ namespace Tools.StateMachine
         public void ExitMov()
         {
             anim.SetFloat("velocity", 0);
-            anim.SetTrigger("exitRun");
         }
         public void Kick()
         {
             anim.SetTrigger("Kick");
         }
-        public void GrabRock()
+        public void GrabThing()
         {
             handRock.SetActive(true);
-            anim.SetTrigger("GrabSomething");
+            anim.SetTrigger("GrabThing");
         }
         public void Reset()
         {
@@ -51,8 +54,8 @@ namespace Tools.StateMachine
         }
         public void Throw()
         {
-            anim.SetTrigger("Throw");
             handRock.SetActive(false);
+            anim.SetTrigger("Throw");
 
         }
     }
