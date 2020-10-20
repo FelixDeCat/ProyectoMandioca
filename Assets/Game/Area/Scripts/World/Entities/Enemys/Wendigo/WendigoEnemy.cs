@@ -67,12 +67,15 @@ public class WendigoEnemy : EnemyWithCombatDirector
         //Animaciones
         animEvents.Add_Callback("GrabaThing", GrabaThing);
         animEvents.Add_Callback("DoKick", DoKick);
-        animEvents.Add_Callback("",)
-        animEvents.Add_Callback("",)
-        animEvents.Add_Callback("",)
-        animEvents.Add_Callback("",)
-        animEvents.Add_Callback("",)
-        animEvents.Add_Callback("",)
+
+        //belen te comenté esto xq estaba tirando error de sintaxis
+        //animEvents.Add_Callback("",)
+        //animEvents.Add_Callback("",)
+        //animEvents.Add_Callback("",)
+        //animEvents.Add_Callback("",)
+        //animEvents.Add_Callback("",)
+        //animEvents.Add_Callback("",)
+
         //Cosas de main?
         Main.instance.AddEntity(this);
 
