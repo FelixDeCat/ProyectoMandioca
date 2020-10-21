@@ -34,7 +34,9 @@ namespace Tools.Testing
             }
             else
             {
-                //Fades_Screens.instance.Black();
+                Fades_Screens.instance.Black();
+                Fades_Screens.instance.FadeOff(() => {});
+                LoadSceneHandler.instance.Off_LoadScreen();
                 //Debug.Log("entro mas veces aca");
                 if (LockMouse)
                 {

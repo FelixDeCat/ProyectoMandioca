@@ -19,8 +19,6 @@ namespace GOAP
         FailedStep,
         Idle,
         GetDamaged
-
-
     }
     public class Dude : MonoBehaviour, IPauseable
     {

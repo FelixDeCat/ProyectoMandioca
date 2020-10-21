@@ -10,6 +10,8 @@ namespace GOAP
     {
         public static Navigation instance;
         public List<Waypoint> _waypoints = new List<Waypoint>();
+        public Transform floorZero;
+        public Transform floorOne; 
         [SerializeField] LayerMask mask = 0;
 
         public void LocalizeNodes()
@@ -33,7 +35,7 @@ namespace GOAP
         {
             instance = this;
 
-            foreach (Transform xf in transform)
+            foreach (Transform xf in floorZero)
             {
                 var wp = xf.GetComponent<Waypoint>();
                 if (wp != null)
@@ -42,7 +44,16 @@ namespace GOAP
                 }
             }
 
-            foreach(Waypoint wp in _waypoints)
+            foreach (Transform xf in floorOne)
+            {
+                var wp = xf.GetComponent<Waypoint>();
+                if (wp != null)
+                {
+                    _waypoints.Add(wp);
+                }
+            }
+
+            foreach (Waypoint wp in _waypoints)
             {
                 wp.InitializeNodes();
             }

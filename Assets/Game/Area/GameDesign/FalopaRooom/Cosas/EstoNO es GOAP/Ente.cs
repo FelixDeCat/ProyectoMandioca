@@ -202,6 +202,16 @@ namespace GOAP
         public void Rotation(Vector3 forward){_root.forward = Vector3.Lerp(_root.forward, forward, rootSpeed * Time.deltaTime);}
 
 
+        public void GoUp()
+        {
+
+        }
+
+        public void GoDown()
+        {
+
+        }
+
         #endregion
 
         #region Sensor
