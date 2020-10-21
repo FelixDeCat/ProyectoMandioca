@@ -20,15 +20,12 @@ namespace Tools.StateMachine
         protected override void Enter(EState<CharacterHead.PlayerInputs> input)
         {
             Main.instance.GetChar().ToggleBlock(false);
-            Debug.Log("Entra CharBoomerangRelease");
             throwShield.Invoke();
             anim.ThrowShield(true);
         }
 
         protected override void Update()
         {
-            Debug.Log("Entra Update CharBoomerangRelease");
-
             timer += Time.deltaTime;
 
             if (timer > 1)
@@ -55,7 +52,6 @@ namespace Tools.StateMachine
         }
         protected override void Exit(CharacterHead.PlayerInputs input)
         {
-            Debug.Log("Entra exit CharBoomerangRelease");
             anim.ThrowShield(false);
         }
     }

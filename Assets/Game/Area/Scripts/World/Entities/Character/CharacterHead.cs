@@ -85,7 +85,7 @@ public class CharacterHead : CharacterControllable
     //Para saber si estoy en lo de caronte
     [SerializeField] bool _imInHell = false;
     public bool ImInHell() => _imInHell;
-    
+
     Rigidbody rb;
 
     [HideInInspector]
@@ -107,6 +107,8 @@ public class CharacterHead : CharacterControllable
     public void ToggleAttack(bool val) => canAttack = val;
 
     public Transform MyParent { get; private set; }
+
+    public ComboWomboSystem comboParryForAbility = new ComboWomboSystem();
 
     private void Start()
     {
@@ -167,6 +169,10 @@ public class CharacterHead : CharacterControllable
         {
             combo_system.AddCallback_OnComboready(ActiveCombo);
             combo_system.AddCallback_OnComboReset(EndTime_DeactiveCombo);
+
+            combo_system.AddCallback_OnExecuteCombo(charAttack.ForceHeavy);
+            combo_system.AddCallback_OnExecuteCombo(charanim.HeavyAttack);
+            combo_system.AddCallback_OnExecuteCombo(HealOnCombo);
         }
 
         charAttack.Add_callback_Normal_attack(ReleaseInNormal);
@@ -670,10 +676,10 @@ public class CharacterHead : CharacterControllable
             count += Time.deltaTime;
             yield return new WaitForEndOfFrame();
         }
-        TurnOffGreekOilEffect();      
+        TurnOffGreekOilEffect();
     }
 
-    void PrenderFuegoAEnemigo(EffectReceiver alQueAfecto){alQueAfecto.TakeEffect(EffectName.OnFire);}
+    void PrenderFuegoAEnemigo(EffectReceiver alQueAfecto) { alQueAfecto.TakeEffect(EffectName.OnFire); }
 
     public void TurnOffGreekOilEffect()
     {
@@ -708,7 +714,7 @@ public class CharacterHead : CharacterControllable
         return speedChange;
     }
     float speedChange = 0;
-           
+
     public void StartActive(float speed)
     {
         speedChange = speed;
@@ -745,7 +751,7 @@ public class CharacterHead : CharacterControllable
     void OnLoseLife() { }
     void OnGainLife() => customCam.BeginShakeCamera();
     void OnDeath()
-    {      
+    {
         Main.instance.RemoveEntity(this);
         Main.instance.eventManager.TriggerEvent(GameEvents.ON_PLAYER_DEATH);
         Main.instance.GetCombatDirector().RemoveTarget(this);
@@ -779,13 +785,8 @@ public class CharacterHead : CharacterControllable
     {
         Main.instance.Vibrate(0.7f, 0.1f);
         Main.instance.CameraShake();
-
-        if (canAddComboHit)
-        {
-            canAddComboHit = false;
-            combo_system.AddHit();
-            StartCoroutine(CDToAddComboHit());
-        }
+        //Debug.Log("DEAL SUCCESSFUL NORMAL");
+        combo_system.TryAddHit();        
     }
     void DealSucessfullHeavy()
     {
@@ -813,7 +814,6 @@ public class CharacterHead : CharacterControllable
     public void ComboWombo_Subscribe(Action enter, Action exit) { callback_IsComboTime_Enable = enter; callback_IsComboTime_Disable = exit; }
     void ActiveCombo()
     {
-        IsComboWomboActive = true;
         feedbacks.particles.HeavyLoaded.Play();
         callback_IsComboTime_Enable?.Invoke();
     }
@@ -824,7 +824,6 @@ public class CharacterHead : CharacterControllable
 
     void ResetCombo()
     {
-        IsComboWomboActive = false;
         charAttack.ResetHeavyAttackTime();
     }
     void DelayDisableCallback()
@@ -832,15 +831,9 @@ public class CharacterHead : CharacterControllable
         callback_IsComboTime_Disable?.Invoke();
     }
 
-    IEnumerator CDToAddComboHit()
-    {
-        yield return new WaitForSeconds(combo_system.cdToAddHit);
-        canAddComboHit = true;
-    }
-
     IEnumerator ComboDurationAvaliableProc()
     {
-        yield return new WaitForSeconds(combo_system.timeToCombo);
+        yield return new WaitForSeconds(combo_system.CdToAddHit);
         ResetCombo();
     }
     #endregion
@@ -853,11 +846,12 @@ public class CharacterHead : CharacterControllable
     }
 
     bool isHeavyRelease;
+    void HealOnCombo()
+    {
+        Life.Heal(Mathf.RoundToInt(Life.GetMax() * .13f));
+    }
     void ReleaseInHeavy()
     {
-        if(IsComboWomboActive)
-            Life.Heal(Mathf.RoundToInt(Life.GetMax() * .13f));
-
         ChangeHeavy(true);
         ChangeDamageAttack((int)charAttack.Dmg_Heavy);
         ChangeAngleAttack(charAttack.AttackAngle * 2);
@@ -888,7 +882,11 @@ public class CharacterHead : CharacterControllable
     public EntityBlock GetCharBlock() => charBlock;
     public void AddParry(Action listener) => charBlock.callback_OnParry += listener;
     public void RemoveParry(Action listener) => charBlock.callback_OnParry -= listener;
-    public void PerfectParry() { feedbacks.particles.parryParticle.Play(); stateMachine.SendInput(PlayerInputs.PARRY); }
+    public void PerfectParry() {
+        feedbacks.particles.parryParticle.Play();
+        stateMachine.SendInput(PlayerInputs.PARRY);
+        comboParryForAbility.TryAddHit();
+    }
 
     public void UnequipShield(Vector3 dir)
     {
@@ -933,7 +931,7 @@ public class CharacterHead : CharacterControllable
         {
             stateMachine.SendInput(PlayerInputs.ROLL);
 
-            if(!ImInHell())
+            if (!ImInHell())
                 SetNormalSpeed();
         }
     }
@@ -997,7 +995,7 @@ public class CharacterHead : CharacterControllable
         }
         stateMachine.SendInput(PlayerInputs.TAKE_DAMAGE);
 
-        if(stateMachine.Current.Name == "Take_Damage" && perc >= big_damage_limit_percent)
+        if (stateMachine.Current.Name == "Take_Damage" && perc >= big_damage_limit_percent)
         {
             Vector3 newForward = (data.owner_position - transform.position).normalized;
             newForward.y = 0;
@@ -1009,7 +1007,7 @@ public class CharacterHead : CharacterControllable
         Main.instance.Vibrate();
     }
 
-    void Dead(Vector3 dir) {     }
+    void Dead(Vector3 dir) { }
 
     #endregion
 
@@ -1018,18 +1016,20 @@ public class CharacterHead : CharacterControllable
     {
         var temp = sensor.OnInteractDown();
 
-        if(temp != null)
+        if (temp != null)
         {
-            if(temp.delayTime > 0) charanim.SetInteract(true, 0);
+            if (temp.delayTime > 0) charanim.SetInteract(true, 0);
             else charanim.SetInteract(true, 1);
         }
 
-        if (IsComboWomboActive)
-        {
-            charAttack.ForceHeavy();
-            charanim.HeavyAttack();
-            IsComboWomboActive = false;
-        }
+        combo_system.TryExecuteCombo();
+
+        //if (IsComboWomboActive)
+        //{
+        //    charAttack.ForceHeavy();
+        //    charanim.HeavyAttack();
+        //    IsComboWomboActive = false;
+        //}
     }
     public void UNITY_EVENT_OnInteractUp()
     {

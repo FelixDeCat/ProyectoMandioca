@@ -33,14 +33,13 @@ public class ElectricOrb : Waves
         GetComponent<Collider>().enabled = false;
 
 
-        var enemis = Extensions.FindInRadius<DamageReceiver>(this.transform.position, orbRadiusExplosion);
-        for (int i = 0; i < enemis.Count; i++)
+        var enemies = Extensions.FindInRadius<DamageReceiver>(this.transform.position, orbRadiusExplosion);
+        for (int i = 0; i < enemies.Count; i++)
         {
-            if (enemis[i].GetComponent<Rigidbody>() && enemis[i].GetComponent<EntityBase>() != Main.instance.GetChar())
+            if (enemies[i].GetComponent<EntityBase>() != Main.instance.GetChar() && !enemies[i].GetComponent<Totem>())
             {
-                enemis[i].GetComponent<Rigidbody>().AddExplosionForce(explosionKnocback, this.transform.position, orbRadiusExplosion);
-                dmgDATA.SetDamage(explosionDMG).SetDamageType(Damagetype.Normal).SetKnockback(explosionKnocback);
-                enemis[i].TakeDamage(dmgDATA);
+                dmgDATA.SetDamage(explosionDMG).SetDamageType(Damagetype.Normal).SetKnockback(explosionKnocback).SetPositionAndDirection(transform.position);
+                enemies[i].TakeDamage(dmgDATA);
             }
         }
 

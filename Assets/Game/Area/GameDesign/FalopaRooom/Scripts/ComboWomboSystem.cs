@@ -3,26 +3,43 @@ using System.Collections.Generic;
 using UnityEngine;
 using System;
 
+public enum comboStates
+{
+    disabled,
+    running,
+    cdBetweenHit,
+    comboReady
+}
+
 [Serializable]
 public class ComboWomboSystem
 {
+    Action OnComboReady = default;
+    Action OnComboResetFeedback = default;
 
-    Action OnComboReady;
-    Action OnComboResetFeedback;
+    delegate void OnExecute(params object[] objs);
+    Action executeCombo = default;
 
-    int hitCount;
-    public int hitsNeededToCombo;
-    public float cdToAddHit;
-    public float timeToCombo;
+    int currHitCount = 0;
+    [SerializeField] int hitsNeededToCombo = 3;
+    [SerializeField] bool resetOnSurpass = false;
+
+    [SerializeField] float cdToAddHit = 0.1f;
+    public float CdToAddHit { get => cdToAddHit; }
+
+    float currTimeToCombo = 0;
+    [SerializeField] float timeToCombo = 1;
     AudioClip comboSounds;
 
-    float _count;
-    bool comboRunning;
+    comboStates comboState = comboStates.disabled;
 
     public void AddCallback_OnComboready(Action callback) => OnComboReady = callback;
     public void AddCallback_OnComboReset(Action callback) => OnComboResetFeedback = callback;
+    public void AddCallback_OnExecuteCombo(Action callback) => executeCombo += callback;
+    public void Clear_OnExecuteCombo() => executeCombo = null;
 
-    public void Initialize(int hitsNeeded,AudioClip sound)
+
+    public void Initialize(int hitsNeeded, AudioClip sound)
     {
         hitsNeededToCombo = hitsNeeded;
         //comboSounds = sound;
@@ -36,48 +53,64 @@ public class ComboWomboSystem
 
     public void OnUpdate()
     {
-        if(comboRunning)
+        if (comboState != comboStates.disabled)
         {
-            _count += Time.deltaTime;
-           
-            if (_count >= timeToCombo)
+            currTimeToCombo += Time.deltaTime;
+
+            if (currTimeToCombo >= timeToCombo)
             {
-                OnComboResetFeedback.Invoke();
+                if(OnComboResetFeedback != null) OnComboResetFeedback.Invoke();
                 ClearCombo();
             }
         }
-        
-    }
-
-    public void AddHit()
-    {
-        hitCount++;
-        
-        comboRunning = true;
-        _count = 0;
-        if (hitCount >= hitsNeededToCombo)
-            hitCount = hitsNeededToCombo;
-
-        if(ComboReady())
+        if (comboState == comboStates.cdBetweenHit)
         {
-            OnComboReady?.Invoke();
-            AudioManager.instance.PlaySound(comboSounds.name);
-            ClearCombo();
+            timer += Time.deltaTime;
+            if (timer > cdToAddHit)
+            {
+                comboState = comboStates.running;
+                timer = 0;
+            }
         }
     }
-    bool ComboReady() => hitCount >= hitsNeededToCombo;
 
+    float timer = 0;
 
+    public void TryAddHit()
+    {
+        if (comboState == comboStates.cdBetweenHit) return;
+        else if (comboState == comboStates.comboReady && resetOnSurpass) ClearCombo();
+        currHitCount++;
 
+        currTimeToCombo = 0;
+        timer = 0;
+        if (currHitCount >= hitsNeededToCombo)
+        {
+            comboState = comboStates.comboReady;
+            if(OnComboReady != null) OnComboReady.Invoke();
+            if (comboSounds != null) AudioManager.instance.PlaySound(comboSounds.name);
+        }
+        else
+            comboState = comboStates.cdBetweenHit;
+    }
+
+    public bool TryExecuteCombo()
+    {
+        if (comboState == comboStates.comboReady)
+        {
+            executeCombo.Invoke();
+            ClearCombo();
+            return true;
+        }
+        ClearCombo();
+        return false;
+    }
 
     void ClearCombo()
     {
-        
-          hitCount = 0;
-        _count = 0;
-        comboRunning = false;
+        currHitCount = 0;
+        currTimeToCombo = 0;
+        timer = 0;
+        comboState = comboStates.disabled;
     }
-
-    
-
 }

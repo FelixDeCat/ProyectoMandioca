@@ -32,29 +32,41 @@ public class NewShieldAbility : MonoBehaviour
     {
     }
 
+    public void EquippedUpdate()
+    {
+        Main.instance.GetChar().comboParryForAbility.OnUpdate();
+    }
+
     public void OnEquip()
     {
         _hero = Main.instance.GetChar();
         ParticlesManager.Instance.GetParticlePool(circuloPetrify.name, circuloPetrify);
         ParticlesManager.Instance.GetParticlePool(RayoPetrify.name, RayoPetrify);
 
+        Main.instance.GetChar().comboParryForAbility.AddCallback_OnExecuteCombo(ExecuteHeavy);
+
         dmgDATA = Main.instance.GetChar().GetComponent<DamageData>();
         dmgDATA.Initialize(_hero);
         dmgDATA.SetDamage(damageDestroyPetrify).SetDamageTick(false).SetDamageType(damageType).SetKnockback(5);
-
-        /*
-                dmgDATA = GetComponent<DamageData>();
-                dmgDATA.SetDamage(damageDestroyPetrify).SetDamageType(Damagetype.Normal);*/
     }
     public void OnUnequip()
     {
-
+        Main.instance.GetChar().comboParryForAbility.Clear_OnExecuteCombo();
     }
+
+    void ExecuteHeavy() => OnExecute(1);
 
     public void OnExecute(int charges)
     {
-        if (charges == 0) _hero.ThrowSomething(UseShieldTapping);
-        else _hero.ThrowSomething(UseShieldPowerHolding);
+        if (charges == 0)
+        {
+            if (Main.instance.GetChar().comboParryForAbility.TryExecuteCombo()) return;
+            _hero.ThrowSomething(UseShieldTapping);
+        }
+        else
+        {
+            _hero.ThrowSomething(UseShieldPowerHolding);
+        }
 
         _hero.ToggleBlock(true);
     }
