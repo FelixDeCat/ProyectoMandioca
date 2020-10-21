@@ -1,11 +1,22 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Tools.Extensions;
 
 public class ElectricOrb : Waves
 {
     [SerializeField] float damageTimeCD = 0.5f;
     float damageTimer = 0;
+
+    [Header("Explosion Cosas")]
+    [SerializeField] int speed = 5;
+    [SerializeField] float lifeTime = 2;
+    [SerializeField] int divAmmount = 8;
+    [SerializeField] float orbRadiusExplosion;
+    [SerializeField] float explosionKnocback;
+    [SerializeField] int explosionDMG;
+    [SerializeField] Waves prefabBullet = null;
+
     protected override void Start()
     {
         base.Start();
@@ -15,6 +26,36 @@ public class ElectricOrb : Waves
     {
         base.Update();
         damageTimer += Time.deltaTime;
+    }
+
+    public void Explode()
+    {
+        GetComponent<Collider>().enabled = false;
+
+
+        var enemis = Extensions.FindInRadius<DamageReceiver>(this.transform.position, orbRadiusExplosion);
+        for (int i = 0; i < enemis.Count; i++)
+        {
+            if (enemis[i].GetComponent<Rigidbody>() && enemis[i].GetComponent<EntityBase>() != Main.instance.GetChar())
+            {
+                enemis[i].GetComponent<Rigidbody>().AddExplosionForce(explosionKnocback, this.transform.position, orbRadiusExplosion);
+                dmgDATA.SetDamage(explosionDMG).SetDamageType(Damagetype.Normal).SetKnockback(explosionKnocback);
+                enemis[i].TakeDamage(dmgDATA);
+            }
+        }
+
+        float rot = 360f / divAmmount;
+        for (int i = 0; i < divAmmount; i++)
+        {
+            float internalAngle = rot * i;
+            Vector3 aux = transform.position + transform.forward * Mathf.Cos(internalAngle * Mathf.Deg2Rad) + transform.right * Mathf.Sin(internalAngle * Mathf.Deg2Rad);
+
+            Waves auxGO = Instantiate(prefabBullet, transform.position, Quaternion.identity);
+            auxGO.SetSpeed(speed).SetLifeTime(lifeTime);
+            auxGO.transform.forward = aux - transform.position;
+        }
+
+        Destroy(gameObject);
     }
 
     protected override void OnTriggerEnter(Collider other)
@@ -31,5 +72,10 @@ public class ElectricOrb : Waves
             damageTimer = 0;
             enemy.TakeDamage(dmgDATA);
         }
+    }
+
+    private void OnDrawGizmosSelected()
+    {
+        Gizmos.DrawWireSphere(this.transform.position, orbRadiusExplosion);
     }
 }
