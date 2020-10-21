@@ -154,6 +154,10 @@ public class BombEnemy : EnemyBase
     {
         explodeComponent.ManualTriggerAttack();
         AudioManager.instance.PlaySound(sounds.explode_Clip.name);
+        ParticlesManager.Instance.PlayParticle(particles.explodePart.name, transform.position);
+        OnDead();
+
+        Desactive();
     }
 
     public void AttackEntity(DamageReceiver e)
@@ -161,9 +165,6 @@ public class BombEnemy : EnemyBase
         dmgData.SetDamage(damage).SetDamageTick(false).SetDamageType(Damagetype.Explosion).SetKnockback(knockback).SetDamageInfo(DamageInfo.NonBlockAndParry)
     .SetPositionAndDirection(transform.position);
         e.TakeDamage(dmgData);
-
-        ParticlesManager.Instance.PlayParticle(particles.explodePart.name, transform.position);
-        Desactive();
     }
     #endregion
 

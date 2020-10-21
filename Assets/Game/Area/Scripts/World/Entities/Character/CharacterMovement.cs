@@ -108,6 +108,7 @@ public class CharacterMovement
         currentSpeed = n < 0 ? speed : n;
         return this;
     }
+    public float GetSpeed() => speed;
     public CharacterMovement SetDashCD(float n = -1)
     {
         currentCD = n < 0 ? rollCD : n;
@@ -232,8 +233,6 @@ public class CharacterMovement
 
     public void AddForceToVelocity(Vector3 forceToApply)
     {
-        if (forceToApply == Vector3.zero) return;
-
         ResetForce();
         addForce = true;
         _rb.AddForce(forceToApply, ForceMode.Impulse);

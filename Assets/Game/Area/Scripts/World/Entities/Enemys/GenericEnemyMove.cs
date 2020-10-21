@@ -74,8 +74,6 @@ public class GenericEnemyMove : MonoBehaviour
 
     public void ApplyForceToVelocity(Vector3 force)
     {
-        if (force == Vector3.zero) return;
-
         ResetForce();
         applyForce = true;
         rb.AddForce(force, ForceMode.Impulse);

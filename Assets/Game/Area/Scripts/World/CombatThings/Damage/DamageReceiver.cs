@@ -137,14 +137,18 @@ public class DamageReceiver : MonoBehaviour
         Vector3 aux = (ownerRoot.position - data.owner_position).normalized;
 
         Vector3 knockbackForce = aux * data.knockbackForce + data.attackDir;
+
         knockbackForce.y = 0;
-        if (rb)
-            rb.AddForce(Vector3.up + knockbackForce * knockbackMultiplier, ForceMode.Impulse);
-        else
+        if(knockbackForce != Vector3.zero)
         {
-            if (!DontApplyKnockback())
+            if (rb)
+                rb.AddForce(Vector3.up + knockbackForce * knockbackMultiplier, ForceMode.Impulse);
+            else
             {
-                OwnKnockback?.Invoke(Vector3.up + knockbackForce * knockbackMultiplier);
+                if (!DontApplyKnockback())
+                {
+                    OwnKnockback?.Invoke(Vector3.up + knockbackForce * knockbackMultiplier);
+                }
             }
         }
 
