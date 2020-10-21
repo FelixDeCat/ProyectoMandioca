@@ -2,11 +2,16 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+[ExecuteAlways]
 public class DeformationController : MonoBehaviour
 {
     public Material mat;
 
     private InteractSensor _posPlayer;
+
+    public GameObject pos;
+
+    public Camera cam;
 
     private void Awake()
     {
@@ -15,7 +20,15 @@ public class DeformationController : MonoBehaviour
 
     private void Update()
     {
-        mat.SetVector("_Pos", _posPlayer.transform.position);
+        mat.SetVector("_Pos", pos.transform.position);
+
+        if (cam != null)
+        {
+            Shader.SetGlobalVector("RTCameraPosition", cam.transform.position);
+            Shader.SetGlobalFloat("RTCameraSize", cam.orthographicSize);
+
+
+        }
     }
 
 }
