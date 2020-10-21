@@ -23,7 +23,7 @@ namespace GOAP
         public Item objectiveTEST;
         public float DEBUGdistanceToHero;
 
-        //        public EnteDATA enteDATA;
+      
         private void Awake()
         {
             if (instance == null)
@@ -36,8 +36,10 @@ namespace GOAP
 
             allItems.Add(characterhead.GetComponent<Item>());
 
-            values["HandOfDead"] = true;
-            values["RagingPoolsOfFire"] = true;
+            //values["HandOfDead"] = true;
+            //values["RagingPoolsOfFire"] = true;
+            //values["SummonMinions"] = true;
+            //values["LaserShoot"] = true;
 
         }
        
@@ -49,7 +51,7 @@ namespace GOAP
 
             ente = FindObjectOfType<Ente>();
             snap.allItems = allItems.Where(x => x != null && x.interactuable).ToList();
-            //snap.values.UpdateWith(values); 
+            snap.values.UpdateWith(values); 
 
             /// ////
 

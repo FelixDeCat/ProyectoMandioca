@@ -13,7 +13,7 @@ public class CultAbility_Spawn : GOAP_Skills_Base, ISpawner
     [SerializeField] List<List<EnemyBase>> minimunWaveToSpawn = new List<List<EnemyBase>>();
     [SerializeField] EnemyBase_IntDictionary possibleSpawns = new EnemyBase_IntDictionary();
     List<PlayObject> myEnemies = new List<PlayObject>();
-    int waveCount;
+    int waveCount = 0;
     [SerializeField] EnemyBase ownerHead = null;
 
     protected override void OnInitialize()
@@ -91,4 +91,5 @@ public class CultAbility_Spawn : GOAP_Skills_Base, ISpawner
     {
 
     }
+
 }

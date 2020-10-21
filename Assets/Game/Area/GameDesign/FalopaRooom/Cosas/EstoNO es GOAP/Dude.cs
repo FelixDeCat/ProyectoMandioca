@@ -17,11 +17,12 @@ namespace GOAP
         Success,
         ThinkPlan,
         FailedStep,
-        Idle
+        Idle,
+        GetDamaged
 
 
     }
-    public class Dude : MonoBehaviour
+    public class Dude : MonoBehaviour, IPauseable
     {
         private EventFSM<ActionEntity> _fsm;
         public Item _target;
@@ -36,12 +37,18 @@ namespace GOAP
 
         GOAP_Skills_Base _currentSkill;
 
+        bool paused = false;
+
         public string debugState;
 
         public void Initialize()
         {
             _ent = GetComponent<Ente>();
             _planner = GetComponent<BrainPlanner>();
+
+
+            _ent.OnTakeDmg += () => _fsm.Feed(ActionEntity.GetDamaged);
+
 
             #region Basic States
             var idle = new State<ActionEntity>("idle");
@@ -50,13 +57,16 @@ namespace GOAP
             var failStep = new State<ActionEntity>("failStep");
             var success = new State<ActionEntity>("success");
             var thinkPlan = new State<ActionEntity>("thinkPlan");
+            var getDamaged = new State<ActionEntity>("getDamaged");
             #endregion
 
             var meleeAttack = new State<ActionEntity>("meleeAttack");
-            var speedBuff = new State<ActionEntity>("speedBuff");
             var move = new State<ActionEntity>("move");
             var useSkill = new State<ActionEntity>("useSkill");
 
+
+
+            /// /// /// ///
             void NextStep() { _fsm.Feed(ActionEntity.NextStep); };
             void FailedStep() { _fsm.Feed(ActionEntity.FailedStep); };
 
@@ -88,7 +98,6 @@ namespace GOAP
                     _currentSkill.OnFinishSkill += NextStep;
                 }
                 
-                //_currentSkill.isAvaliable = false;
                 _currentSkill.Execute();
             };
 
@@ -149,11 +158,6 @@ namespace GOAP
                 }
             };
 
-            //move.OnExit += (a) =>
-            //{
-            //    _ent.OnReachDestinationNoParameters -= NextStep;
-            //};
-
 
             // ////////////
             thinkPlan.OnEnter += a => _planner.StartPlanning();
@@ -184,11 +188,17 @@ namespace GOAP
                 _fsm.Feed(ActionEntity.ThinkPlan);
             };
 
+            getDamaged.OnEnter += a =>
+            {
+                 _ent.Anim().Play("GetDamage");
+                FailedStep();
+            };
+
             StateConfigurer.Create(any)
                 .SetTransition(ActionEntity.NextStep, planStep)
                 .SetTransition(ActionEntity.ThinkPlan, thinkPlan)
                 .SetTransition(ActionEntity.FailedStep, thinkPlan)
-                //.SetTransition(ActionEntity.GetDamaged, getDamaged)
+                .SetTransition(ActionEntity.GetDamaged, getDamaged)
                 .SetTransition(ActionEntity.Idle, idle)
                 .Done();
 
@@ -229,9 +239,12 @@ namespace GOAP
 
         private void Update()
         {
-
-            if (Input.GetKeyDown(KeyCode.P))
+            if(Input.GetKeyDown(KeyCode.K))
+            {
                 Initialize();
+            }
+
+            if (paused) return;
 
             //Never forget
             if (_fsm != null)
@@ -242,6 +255,16 @@ namespace GOAP
             }
 
 
+        }
+
+        public void Pause()
+        {
+            paused = true;
+        }
+
+        public void Resume()
+        {
+            paused = false;
         }
     }
 }

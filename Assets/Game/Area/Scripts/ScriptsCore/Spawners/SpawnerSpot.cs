@@ -48,6 +48,19 @@ public class SpawnerSpot
         return pos;
     }
 
+    public Vector3 GetSurfacePos(Transform t)
+    {
+        var pos = GetPosRandom(radious, t);
+        pos.y += heightSpawn;
+
+        RaycastHit hit;
+
+        if (Physics.Raycast(pos, Vector3.down, out hit, Mathf.Infinity, mask, QueryTriggerInteraction.Ignore))
+            pos = hit.point;
+
+        return pos;
+    }
+
     Vector3 GetPosRandom(float radio, Transform t)
     {
         Vector3 min = new Vector3(t.position.x - radio, 0, t.position.z - radio);

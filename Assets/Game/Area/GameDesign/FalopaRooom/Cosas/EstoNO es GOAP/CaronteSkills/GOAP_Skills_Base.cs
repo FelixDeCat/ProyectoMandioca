@@ -28,7 +28,7 @@ public abstract class GOAP_Skills_Base : MonoBehaviour
     public void Off() { if (isOn) { isOn = false; canUpdate = false; OnTurnOff(); } }
     public void Pause() { canUpdate = false; OnPause(); }
     public void Resume() { canUpdate = true; OnResume(); }
-    public void EndSkill() { StartCD(); OnEndSkill(); }
+    public void EndSkill() { StartCD(); OnEndSkill(); OnFinishSkill?.Invoke(); }
     public void Execute() { Debug.Log(skillName + " SE EJECUTA"); OnExecute();  isAvaliable = false; }
     
     private void StartCD() { Debug.Log("Inicio Cd de " + skillName);  On(); }

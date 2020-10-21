@@ -10,12 +10,12 @@ namespace GOAP
     public class BrainPlanner : MonoBehaviour
     {
 
-        [Header("Cost settings")]
-        public int meleeAttack;
-        public int handOfDead;
-        public int ragingPoolsOfFire;
-        public int flameThrower;
-        public int move;
+        //[Header("Cost settings")]
+        //public int meleeAttack;
+        //public int handOfDead;
+        //public int ragingPoolsOfFire;
+        //public int flameThrower;
+        //public int move;
 
         public float distanceDebug;
 
@@ -29,23 +29,17 @@ namespace GOAP
 
             var snap = WorldState.instance.WorldStateSnapShot();
 
-            var actions = CreatePossibleActionsList();
+            var actions = GetActionList();
 
             distanceDebug = snap.distanceToHero;
 
-            var typeDict = new Dictionary<string, ItemType>() {
-              { "hero", ItemType.hero }, 
-              { "handOfDead", ItemType.skill },
-              { "ragingPoolsOfFire", ItemType.skill },
-              { "flameThrower", ItemType.skill }
-        };
+            var typeDict = TypeDic();
+              
             var actDict = new Dictionary<string, ActionEntity>() {
               { "AttackMelee", ActionEntity.MeleeAttack },
               { "useSkill", ActionEntity.UseSkill},
               { "GoTo", ActionEntity.Move }
         };
-
-
 
             Func<GoapState, int> final = (gS) =>
             {
@@ -94,58 +88,68 @@ namespace GOAP
             }
         }
 
-        private List<GoapAction> CreatePossibleActionsList()
+        protected virtual Dictionary<string, ItemType> TypeDic()
         {
-            return new List<GoapAction>()
-            {
-                    //new GoapAction("AttackMelee hero")
-                    //    .SetCost(meleeAttack)
-                    //    .Pre(gS => gS.charLife > 0 && gS.distanceToHero <= 2f)
+            return default;
 
-                    //    .Effect(gS =>
-                    //    {
-                    //        gS.charLife -= 5;
-                    //    }),
-                    new GoapAction("useSkill handOfDead")
-                        .SetCost(handOfDead)
-                        .Pre(gS =>  gS.values["HandOfDead"] && gS.distanceToHero >= 5)
-
-                        .Effect(gS =>
-                        {
-                            gS.values["HandOfDead"] = false;
-                            gS.charLife -= 10;
-                            gS.distanceToHero = 1;
-                        }),
-                     new GoapAction("useSkill ragingPoolsOfFire")
-                        .SetCost(handOfDead)
-                        .Pre(gS =>  gS.values["RagingPoolsOfFire"] && gS.distanceToHero >= 5)
-
-                        .Effect(gS =>
-                        {
-                            gS.values["RagingPoolsOfFire"] = false;
-                            gS.charLife -= 20;
-                        }),
-                     new GoapAction("useSkill flameThrower")
-                        .SetCost(handOfDead)
-                        .Pre(gS =>  gS.values["FlameThrower"] && gS.distanceToHero <= 8)
-
-                        .Effect(gS =>
-                        {
-                            gS.values["FlameThrower"] = false;
-                            gS.charLife -= 20;
-                        }),
-                    new GoapAction("GoTo hero")
-                        .SetCost(move)
-                        //.Pre(gS =>  gS.distanceToHero > 2f)
-
-                        .Effect(gS =>
-                        {
-                            gS.distanceToHero = 1;
-                        }),
-
-
-            };
+            //return new Dictionary<string, ItemType>()
+            //{
+            //  { "hero", ItemType.hero },
+            //  { "handOfDead", ItemType.skill },
+            //  { "ragingPoolsOfFire", ItemType.skill },
+            //  { "flameThrower", ItemType.skill }
+            //};
         }
+
+        protected virtual List<GoapAction> GetActionList()
+        {
+            return default;
+        }
+
+        //private List<GoapAction> CreatePossibleActionsList()
+        //{
+        //    return new List<GoapAction>()
+        //    {
+        //            new GoapAction("useSkill handOfDead")
+        //                .SetCost(handOfDead)
+        //                .Pre(gS =>  gS.values["HandOfDead"] && gS.distanceToHero >= 5)
+
+        //                .Effect(gS =>
+        //                {
+        //                    gS.values["HandOfDead"] = false;
+        //                    gS.charLife -= 10;
+        //                    gS.distanceToHero = 1;
+        //                }),
+        //             new GoapAction("useSkill ragingPoolsOfFire")
+        //                .SetCost(handOfDead)
+        //                .Pre(gS =>  gS.values["RagingPoolsOfFire"] && gS.distanceToHero >= 5)
+
+        //                .Effect(gS =>
+        //                {
+        //                    gS.values["RagingPoolsOfFire"] = false;
+        //                    gS.charLife -= 20;
+        //                }),
+        //             new GoapAction("useSkill flameThrower")
+        //                .SetCost(handOfDead)
+        //                .Pre(gS =>  gS.values["FlameThrower"] && gS.distanceToHero <= 8)
+
+        //                .Effect(gS =>
+        //                {
+        //                    gS.values["FlameThrower"] = false;
+        //                    gS.charLife -= 20;
+        //                }),
+        //            new GoapAction("GoTo hero")
+        //                .SetCost(move)
+        //                //.Pre(gS =>  gS.distanceToHero > 2f)
+
+        //                .Effect(gS =>
+        //                {
+        //                    gS.distanceToHero = 1;
+        //                }),
+
+
+        //    };
+        //}
 
         #region ejemplo
         //private List<GoapAction> CreatePossibleActionsList()

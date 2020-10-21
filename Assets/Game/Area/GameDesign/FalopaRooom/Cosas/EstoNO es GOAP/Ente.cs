@@ -28,8 +28,6 @@ namespace GOAP
         [Header("Shooter skills")]
         public Transform lefthand_Shooter;
 
-        //CharacterHead character;
-
         public AttackSensor attackSensor;
         public DamageReceiver damagereciever;
         GenericLifeSystem _lifeSystem;
@@ -41,10 +39,8 @@ namespace GOAP
         AnimEvent _animEvent;
         public AnimEvent AnimEvent() => _animEvent;
 
-
+        public int debugLife;
         public CaronteSkill_Manager skillManager;
-
-        //public Sensor meleeRange_sensor;
 
         [Header("Movement")]
         Vector3 _dir;
@@ -68,14 +64,14 @@ namespace GOAP
         private void Update()
         {
             _anim.SetFloat("speed", currentSpeed);
-        }
-        
+
+            debugLife = Life.Life;
+        }      
 
         private void Start()
         {
             //Movement
             _rb = GetComponent<Rigidbody>();
-            //OnReachDestination += Stop;
 
             //Life
             _lifeSystem = GetComponent<GenericLifeSystem>();
@@ -85,18 +81,12 @@ namespace GOAP
             //Animation
             _anim = GetComponentInChildren<Animator>();
             _animEvent = GetComponentInChildren<AnimEvent>();
-            //_animEvent.Add_Callback("meleeAttack", OnMeleeAttackHit);
-            //_animEvent.Add_Callback("finishAttack", OnFinishMeleeAttackAnimation);
             _animEvent.Add_Callback("finishSkill", OnFinishSkillCast);
             _animEvent.Add_Callback("skillAction", SkillAction);
 
             //prendo y apago el sensor cuando la animacion lo pide
             OnMeleeAttack += () => attackSensor.gameObject.SetActive(true);
             OnFinishAttack += () => attackSensor.gameObject.SetActive(false);
-
-            //meleeRange_sensor.AddCallback_OnTriggerEnter(OnPlayerInMeleeRange);
-
-
         }
 
         public void Initialize(){GetComponent<Dude>().Initialize();}
@@ -113,7 +103,8 @@ namespace GOAP
 
         void TakeDamageFeedback(DamageData dData)
         {
-            _anim.SetTrigger("takeDamage");
+            OnTakeDmg?.Invoke();
+            //_anim.SetTrigger("takeDamage");
             takeDamage_fb.Play();
         }
 
@@ -220,7 +211,6 @@ namespace GOAP
 
             if (item)
             {
-                Debug.Log("el collider funca");
                 OnHitItem(this, item);
             }
         }
