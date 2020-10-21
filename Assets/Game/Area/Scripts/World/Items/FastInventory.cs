@@ -61,7 +61,6 @@ public class FastInventory : UI_Base
     }
     public void Add(Item item, int cant)
     {
-        Debug.Log("recibí " + cant + " " + item.name);
         if (!inventory.ContainsKey(item.id))
         {
             ItemInInventory newSlot = new ItemInInventory(item, cant);

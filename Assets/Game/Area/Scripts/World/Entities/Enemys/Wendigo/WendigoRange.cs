@@ -15,7 +15,6 @@ namespace Tools.StateMachine
         protected override void Enter(EState<WendigoEnemy.WendigoInputs> last)
         {
             view.Throw();
-            Debug.Log("pewpewpepw");
             view.DebugText("Ranged");
         }
         protected override void Update()

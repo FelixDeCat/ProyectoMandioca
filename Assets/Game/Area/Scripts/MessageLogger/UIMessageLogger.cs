@@ -67,7 +67,6 @@ public static class GameMessage
 {
     public static void Log(MsgLogData data)
     {
-        Debug.Log("ME llega un mensaje");
         UIMessageLogger.instance.LogMessage(data);
     }
 }

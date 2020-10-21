@@ -66,7 +66,7 @@ public class GameLoop : MonoBehaviour
         if (win_caronte_battle)
         {
             OnBackToHell.Invoke();
-            Fades_Screens.instance.Black();
+            //Fades_Screens.instance.Black();
             character.GetCharMove().SetSpeed();
             character.Life.Heal(Mathf.RoundToInt(character.Life.GetMax() * 0.25f));
             caronteIsActive = false;
@@ -81,7 +81,7 @@ public class GameLoop : MonoBehaviour
              */
             /////////////////////////////////////////////////////////////////////////////////////////////
             OnBackToHell.Invoke();
-            Fades_Screens.instance.Black();
+            //Fades_Screens.instance.Black();
             character.GetCharMove().SetSpeed();
             character.Life.Heal_AllHealth();
             caronteIsActive = false;

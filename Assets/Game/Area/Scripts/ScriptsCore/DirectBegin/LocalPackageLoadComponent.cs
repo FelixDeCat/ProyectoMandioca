@@ -18,6 +18,6 @@ public class LocalPackageLoadComponent : MonoBehaviour
 
     void EndCoroutine()
     {
-        Fades_Screens.instance.FadeOff(GameManager.instance.StartGame);
+        //Fades_Screens.instance.FadeOff(GameManager.instance.StartGame);
     }
 }

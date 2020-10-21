@@ -96,7 +96,6 @@ public class WendigoEnemy : EnemyWithCombatDirector
     public void DoKick()
     {
         //isMelee = false;
-        Debug.Log("A CAMBIAR " + isMelee);
         dmgData.SetKnockback(300);
         Main.instance.GetChar().GetComponent<DamageReceiver>().TakeDamage(dmgData);
     }
@@ -244,7 +243,6 @@ public class WendigoEnemy : EnemyWithCombatDirector
                 //Si es Melee (auspiciado por el TriggerDispatcher)
                 if (isMelee)
                 {
-                    Debug.Log("Estamoh en melee");
                     if (sm.Current.Name != "PrepareMelee")
                     {
                         //El unico que puede disparar el ataque es el PrepareMelee
@@ -341,7 +339,6 @@ public class WendigoEnemy : EnemyWithCombatDirector
     }
     public void PlayerInMelee(bool isit)
     {
-        Debug.Log("A CAMBIAR " + isit);
         isMelee = isit;
     }
     protected override void OnResume()

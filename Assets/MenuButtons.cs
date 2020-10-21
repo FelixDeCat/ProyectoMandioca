@@ -36,7 +36,7 @@ public class MenuButtons : MonoBehaviour
     public void StarButton()
     {
         CharacterInput inputs = Main.instance.GetChar().getInput;
-        LoadSceneHandler.instance.LoadAScene(sceneBlocking);
+        LoadSceneHandler.instance.LoadAScene(sceneBlocking,false);
         gameObject.SetActive(false);
     }
     public void LoadButton() //aca abro un mini menu con animator ,por el momento podrian acceder a las demas escenas desde aca
@@ -100,42 +100,42 @@ public class MenuButtons : MonoBehaviour
     public void goToGym()
     {
         CharacterInput inputs = Main.instance.GetChar().getInput;
-        LoadSceneHandler.instance.LoadAScene(sceneGym);
+        LoadSceneHandler.instance.LoadAScene(sceneGym,false);
         gameObject.SetActive(false);
     }
 
     public void goToGym2()
     {
         CharacterInput inputs = Main.instance.GetChar().getInput;
-        LoadSceneHandler.instance.LoadAScene(sceneGym2);
+        LoadSceneHandler.instance.LoadAScene(sceneGym2,false);
         gameObject.SetActive(false);
     }
 
     public void goToGym3()
     {
         CharacterInput inputs = Main.instance.GetChar().getInput;
-        LoadSceneHandler.instance.LoadAScene(sceneGym3);
+        LoadSceneHandler.instance.LoadAScene(sceneGym3,false);
         gameObject.SetActive(false);
     }
 
     public void goToGym4()
     {        
         CharacterInput inputs = Main.instance.GetChar().getInput;
-        LoadSceneHandler.instance.LoadAScene(sceneGym4);
+        LoadSceneHandler.instance.LoadAScene(sceneGym4,false);
         gameObject.SetActive(false);
     }
 
     public void goToGym5()
     {
         CharacterInput inputs = Main.instance.GetChar().getInput;
-        LoadSceneHandler.instance.LoadAScene(sceneGym5);
+        LoadSceneHandler.instance.LoadAScene(sceneGym5,false);
         gameObject.SetActive(false);
     }
 
     public void LoadScene(string s)
     {
         CharacterInput inputs = Main.instance.GetChar().getInput;
-        LoadSceneHandler.instance.LoadAScene(s);
+        LoadSceneHandler.instance.LoadAScene(s,false);
         gameObject.SetActive(false);
     }
 

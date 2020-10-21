@@ -33,7 +33,7 @@ public class NewSceneStreamer : MonoBehaviour
     {
         SceneManager.sceneLoaded += OnSceneLoaded;
        // SceneManager.sceneUnloaded += OnSceneUnLoaded;
-        Checkpoint_Manager.instance.StopGame();
+        //Checkpoint_Manager.instance.StopGame();
         //GCHandle.DisableGC();
         LoadScene(firstScene, true, true, EndLoad, false);
     }
@@ -46,8 +46,7 @@ public class NewSceneStreamer : MonoBehaviour
     {
         this.OnEnd = OnEnd;
         if (string.IsNullOrEmpty(sceneName) || string.Equals(sceneName, currentScene)) return;
-        
-        StartCoroutine(LoadCurrentScene(sceneName, LoadScreen, LoadNeighbor,  waitToLoad));
+        ThreadHandler.EnqueueProcess(new ThreadObject(LoadCurrentScene(sceneName, LoadScreen, LoadNeighbor, true), "Chunk => "+ sceneName), LoadScreen);
     }
     
 
@@ -56,8 +55,9 @@ public class NewSceneStreamer : MonoBehaviour
         currentScene = sceneName;
 
         if (!IsLoaded(currentScene)) 
-        { 
-            StartCoroutine(LoadAsyncAdditive(sceneName, LoadScreen, LoadNeighbor, true)); 
+        {
+            StartCoroutine(LoadAsyncAdditive(sceneName, LoadScreen, LoadNeighbor, true));
+            yield return null;
         }
 
         float failsafeTime = Time.realtimeSinceStartup + maxLoadWaitTime;
@@ -74,6 +74,7 @@ public class NewSceneStreamer : MonoBehaviour
         {
             if (waitToLoad)
             {
+                Debug.Log("Load neighbors");
                 yield return LoadNeighbors(currentScene, localref[currentScene].SceneData);
             }
             else
@@ -103,12 +104,13 @@ public class NewSceneStreamer : MonoBehaviour
 
     void TryToExecuteParameter(string sceneName, SceneData.Detail_Parameter parameter)
     {
-        StartCoroutine(localref[sceneName].ExecuteLoadParameter(parameter));
+        
 
+        StartCoroutine(localref[sceneName].ExecuteLoadParameter(parameter));
 
         //if (localref.ContainsKey(sceneName))
         //{
-            
+
         //    //if (hotScenesParameters.ContainsKey(sceneName)) hotScenesParameters.Remove(sceneName);
         //}
         //else
@@ -144,6 +146,7 @@ public class NewSceneStreamer : MonoBehaviour
             if (!loaded.Contains(parameters[i].scene))
             {
                 yield return LoadAsyncAdditive(parameters[i].scene, false, false, false);
+                yield return null;
             }
 
             TryToExecuteParameter(parameters[i].scene, parameters[i].detail);
@@ -265,7 +268,9 @@ public class NewSceneStreamer : MonoBehaviour
             {
 
                 RegisterLocalScene(scene.name, localscript);
-                StartCoroutine(localscript.Load());
+                yield return localscript.Load();
+                yield return null;
+
             }
             else
             {

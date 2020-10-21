@@ -16,15 +16,13 @@ public class GreekOil : MonoBehaviour
     private void Start() => predicate.Invoke(MyPredicate);
 
     //funciones del equipable/usable
-    public void OnEquip() => character = Main.instance.GetChar(); //aca si queres puede ir una PASIVA
-    public void OnUnequip() => Debug.Log("GreekOil=> OnUnEquip"); //aca si queres puede ir una PASIVA
-    public void OnUpdateEquip() => Debug.Log("GreekOil=> OnUpdateEquip"); //aca si queres puede ir una PASIVA
-    public void OnPress() => Debug.Log("GreekOil=> OnPress"); // presiono tecla
-    public void OnRelease() => Debug.Log("GreekOil=> OnRelease"); // la suelto
-    public void OnUpdateUse() => Debug.Log("GreekOil=> OnUpdateUse"); // se updatea mientras la tengo apretada
-    public void OnExecute() => FireInTheSword(); //Debug.Log("GreekOil=> OnExecute"); // El Uso mero mero
-
-
+    public void OnEquip() => character = Main.instance.GetChar(); 
+    public void OnUnequip() { } 
+    public void OnUpdateEquip() { }
+    public void OnPress() { } 
+    public void OnRelease() { }
+    public void OnUpdateUse() { } 
+    public void OnExecute() { } 
 
 
     public void FireInTheSword()

@@ -33,10 +33,12 @@ public class PrefabLightmapData : MonoBehaviour
     [SerializeField]
     LightInfo[] m_LightInfo;
 
+    bool OnExecution;
 
     void Awake()
     {
-        StartCoroutine( InitAsync());
+        ThreadHandler.EnqueueProcess(new ThreadObject(InitAsync(),"LightData: " + gameObject.name));
+        //StartCoroutine(InitAsync());
     }
 
     void Init()
@@ -70,7 +72,7 @@ public class PrefabLightmapData : MonoBehaviour
                 {
                     lightmapColor = m_Lightmaps[i],
                     lightmapDir = m_LightmapsDir.Length == m_Lightmaps.Length ? m_LightmapsDir[i] : default(Texture2D),
-                    shadowMask = m_ShadowMasks.Length == m_Lightmaps.Length  ? m_ShadowMasks[i] : default(Texture2D),
+                    shadowMask = m_ShadowMasks.Length == m_Lightmaps.Length ? m_ShadowMasks[i] : default(Texture2D),
                 };
 
                 combinedLightmaps.Add(newlightmapdata);
@@ -87,9 +89,9 @@ public class PrefabLightmapData : MonoBehaviour
         lightmaps.CopyTo(combinedLightmaps2, 0);
         combinedLightmaps.ToArray().CopyTo(combinedLightmaps2, lightmaps.Length);
 
-        bool directional=true;
+        bool directional = true;
 
-        foreach(Texture2D t in m_LightmapsDir)
+        foreach (Texture2D t in m_LightmapsDir)
         {
             if (t == null)
             {
@@ -115,8 +117,6 @@ public class PrefabLightmapData : MonoBehaviour
         for (int i = 0; i < m_Lightmaps.Length; i++)
         {
             bool exists = false;
-
-
             for (int j = 0; j < lightmaps.Length; j++)
             {
 
@@ -124,13 +124,11 @@ public class PrefabLightmapData : MonoBehaviour
                 {
                     exists = true;
                     offsetsindexes[i] = j;
-                    yield return null; 
                 }
 
             }
             if (!exists)
             {
-                yield return null;
                 offsetsindexes[i] = counttotal;
                 var newlightmapdata = new LightmapData
                 {
@@ -142,9 +140,6 @@ public class PrefabLightmapData : MonoBehaviour
                 combinedLightmaps.Add(newlightmapdata);
 
                 counttotal += 1;
-                yield return null;
-
-
             }
 
         }
@@ -160,15 +155,18 @@ public class PrefabLightmapData : MonoBehaviour
         {
             if (t == null)
             {
-                yield return null;
                 directional = false;
                 break;
             }
         }
 
         LightmapSettings.lightmapsMode = (m_LightmapsDir.Length == m_Lightmaps.Length && directional) ? LightmapsMode.CombinedDirectional : LightmapsMode.NonDirectional;
+
         yield return ApplyRendererInfoAsync(m_RendererInfo, offsetsindexes, m_LightInfo);
+
         LightmapSettings.lightmaps = combinedLightmaps2;
+
+        yield return null;
     }
 
     void OnEnable()
@@ -181,7 +179,7 @@ public class PrefabLightmapData : MonoBehaviour
     // called second
     void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
-        StartCoroutine(InitAsync());
+        //StartCoroutine(InitAsync());
         //Init();
     }
 
@@ -228,6 +226,41 @@ public class PrefabLightmapData : MonoBehaviour
 
         }
     }
+    void ApplyRendererInfoNonStatic(RendererInfo[] infos, int[] lightmapOffsetIndex, LightInfo[] lightsInfo)
+    {
+        for (int i = 0; i < infos.Length; i++)
+        {
+            var info = infos[i];
+
+            if (info.renderer != null)
+            {
+                info.renderer.lightmapIndex = lightmapOffsetIndex[info.lightmapIndex];
+                info.renderer.lightmapScaleOffset = info.lightmapOffsetScale;
+
+                // You have to release shaders.
+                Material[] mat = info.renderer.sharedMaterials;
+                for (int j = 0; j < mat.Length; j++)
+                {
+                    if (mat[j] != null && Shader.Find(mat[j].shader.name) != null)
+                    {
+
+                        mat[j].shader = Shader.Find(mat[j].shader.name);
+                    }
+                }
+            }
+        }
+
+        for (int i = 0; i < lightsInfo.Length; i++)
+        {
+            LightBakingOutput bakingOutput = new LightBakingOutput();
+            bakingOutput.isBaked = true;
+            bakingOutput.lightmapBakeType = (LightmapBakeType)lightsInfo[i].lightmapBaketype;
+            bakingOutput.mixedLightingMode = (MixedLightingMode)lightsInfo[i].mixedLightingMode;
+
+            lightsInfo[i].light.bakingOutput = bakingOutput;
+
+        }
+    }
     IEnumerator ApplyRendererInfoAsync(RendererInfo[] infos, int[] lightmapOffsetIndex, LightInfo[] lightsInfo)
     {
         for (int i = 0; i < infos.Length; i++)
@@ -236,7 +269,6 @@ public class PrefabLightmapData : MonoBehaviour
 
             if (info.renderer != null)
             {
-                yield return null;
                 info.renderer.lightmapIndex = lightmapOffsetIndex[info.lightmapIndex];
                 info.renderer.lightmapScaleOffset = info.lightmapOffsetScale;
 
@@ -244,27 +276,25 @@ public class PrefabLightmapData : MonoBehaviour
                 Material[] mat = info.renderer.sharedMaterials;
                 for (int j = 0; j < mat.Length; j++)
                 {
-                    yield return null;
-                    if (mat[j] != null && Shader.Find(mat[j].shader.name) != null) {
-                        yield return null;
+                    if (mat[j] != null && Shader.Find(mat[j].shader.name) != null)
+                    {
                         mat[j].shader = Shader.Find(mat[j].shader.name);
-                }
+                    }
                 }
             }
         }
 
         for (int i = 0; i < lightsInfo.Length; i++)
         {
-            yield return null;
             LightBakingOutput bakingOutput = new LightBakingOutput();
             bakingOutput.isBaked = true;
             bakingOutput.lightmapBakeType = (LightmapBakeType)lightsInfo[i].lightmapBaketype;
             bakingOutput.mixedLightingMode = (MixedLightingMode)lightsInfo[i].mixedLightingMode;
 
             lightsInfo[i].light.bakingOutput = bakingOutput;
-            yield return null;
-
         }
+
+        yield return null;
     }
 
 #if UNITY_EDITOR

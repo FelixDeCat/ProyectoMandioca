@@ -4,6 +4,7 @@ using UnityEngine;
 using System;
 using UnityEngine.SceneManagement;
 using System.Linq;
+using TMPro;
 
 public class LoadSceneHandler : MonoBehaviour
 {
@@ -13,6 +14,7 @@ public class LoadSceneHandler : MonoBehaviour
     //[SerializeField] GameObject model_master_loadBar;
     [SerializeField] GenericBar master_genbar_localLoader = null;
     [SerializeField] GenericBar master_genbar_Scene = null;
+    
     //GenericBar slave_genbar;
 
     public GameObject loadscreen;
@@ -49,16 +51,18 @@ public class LoadSceneHandler : MonoBehaviour
             loaded.Remove(scene);
         }
 
-        if (loadScreen)
-        {
-            loadscreen.SetActive(true);
-            Fades_Screens.instance.Black();
-            Fades_Screens.instance.FadeOff(LoadTime);
-        }
-        else
-        {
-            StartCoroutine(Load(true, mode).GetEnumerator());
-        }
+        StartCoroutine(Load(true, mode).GetEnumerator());
+
+        //if (loadScreen)
+        //{
+        //    loadscreen.SetActive(true);
+        //    Fades_Screens.instance.Black();
+        //    Fades_Screens.instance.FadeOff(LoadTime);
+        //}
+        //else
+        //{
+        //    StartCoroutine(Load(true, mode).GetEnumerator());
+        //}
     }
 
     void LoadTime()
@@ -83,7 +87,7 @@ public class LoadSceneHandler : MonoBehaviour
                     yield return LoadAsyncScene(mode);
                     loaded.Add(SceneToLoad);
                 }
-            loadscreen.SetActive(false);
+            //loadscreen.SetActive(false);
         }
     }
 
@@ -133,8 +137,8 @@ public class LoadSceneHandler : MonoBehaviour
     void Completed(AsyncOperation async) 
     { 
         MasterBarScene(1, 1);
-        Fades_Screens.instance.Black();
-        Fades_Screens.instance.FadeOff(PLAY);
+       // Fades_Screens.instance.Black();
+        //Fades_Screens.instance.FadeOff(PLAY);
     }
     void PLAY()
     {
