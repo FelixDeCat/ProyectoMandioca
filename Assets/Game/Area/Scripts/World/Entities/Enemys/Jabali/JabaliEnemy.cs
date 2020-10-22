@@ -19,6 +19,7 @@ public class JabaliEnemy : EnemyWithCombatDirector
     [SerializeField] float normalDistance = 9;
     [SerializeField] float timeParried = 2;
     [SerializeField] bool friendly = false;
+    CDModule cdModule;
 
     [Header("NormalAttack")]
     [SerializeField] int normalDamage = 4;
@@ -37,15 +38,12 @@ public class JabaliEnemy : EnemyWithCombatDirector
     [SerializeField] float pushKnockback = 80;
     [SerializeField] bool unequipShield = true;
     private bool chargeOk = false;
-    private float cargeTimer;
 
     [Header("Life Options")]
     [SerializeField] float tdRecall = 0.5f;
 
     [Header("Stuns/Effects")]
     private bool cooldown = false;
-    private float timercooldown = 0;
-    float stunTimer;
     private Action<EState<JabaliInputs>> EnterStun;
     private Action<string> UpdateStun;
     private Action<JabaliInputs> ExitStun;
@@ -56,7 +54,6 @@ public class JabaliEnemy : EnemyWithCombatDirector
     [SerializeField] Color onHitColor = Color.white;
     [SerializeField] float onHitFlashTime = 0.1f;
     [SerializeField] EffectBase petrifyEffect = null;
-    Material[] myMat;
     [SerializeField] GoatParticles particles = new GoatParticles();
     [SerializeField] GoatSounds sounds = new GoatSounds();
 
@@ -80,10 +77,6 @@ public class JabaliEnemy : EnemyWithCombatDirector
     protected override void OnInitialize()
     {
         base.OnInitialize();
-
-        var smr = GetComponentInChildren<SkinnedMeshRenderer>();
-        if (smr != null)
-            myMat = smr.materials;
 
         headAttack.Configure(HeadAttack);
         pushAttack.Configure(PushRelease, StunAfterCharge);
@@ -122,7 +115,7 @@ public class JabaliEnemy : EnemyWithCombatDirector
         ragdoll.Ragdoll(false, Vector3.zero);
         death = false;
         chargeOk = true;
-        cargeTimer = 0;
+        cdModule.ResetAll();
         friendly = true;
         sm.SendInput(JabaliInputs.DISABLE);
     }
@@ -152,23 +145,7 @@ public class JabaliEnemy : EnemyWithCombatDirector
             sm.Update();
 
         movement.OnUpdate();
-
-        if (cooldown)
-        {
-            if (timercooldown < tdRecall) timercooldown = timercooldown + 1 * Time.deltaTime;
-            else { cooldown = false; timercooldown = 0; }
-        }
-
-        if (!chargeOk)
-        {
-            cargeTimer += Time.deltaTime;
-
-            if (cargeTimer >= timeToObtainCharge)
-            {
-                chargeOk = true;
-                cargeTimer = 0;
-            }
-        }
+        cdModule.UpdateCD();
     }
     Vector3 force;
     protected override void OnPause()
@@ -222,6 +199,7 @@ public class JabaliEnemy : EnemyWithCombatDirector
         if (e.GetComponent<CharacterHead>())
         {
             chargeOk = false;
+            cdModule.AddCD("PushAttackCD", () => chargeOk = true, timeToObtainCharge);
             pushAttack.Stop();
             sm.SendInput(JabaliInputs.IDLE);
         }
@@ -254,6 +232,7 @@ public class JabaliEnemy : EnemyWithCombatDirector
 
         ParticlesManager.Instance.PlayParticle(particles.hitParticle.name, transform.position);
         cooldown = true;
+        cdModule.AddCD("TakeDamageRecall", () => cooldown = false, tdRecall);
 
         StartCoroutine(OnHitted(onHitFlashTime, onHitColor));
     }
@@ -291,19 +270,17 @@ public class JabaliEnemy : EnemyWithCombatDirector
     {
         EnterStun += (input) => {
             animator.SetBool("Stun", true);
+            cdModule.AddCD("StunAfterCharge", () => sm.SendInput(JabaliInputs.IDLE), stunChargeTime);
         };
 
         UpdateStun = (name) => {
-            stunTimer += Time.deltaTime;
-
-            if (stunTimer >= stunChargeTime)
-                sm.SendInput(JabaliInputs.IDLE);
         };
 
         ExitStun += (input) => {
+            chargeOk = true;
+            cdModule.EndCDWithoutExecute("StunAfterCharge");
+            cdModule.AddCD("ChargeAttackCD", () => chargeOk = true, timeToObtainCharge);
             animator.SetBool("Stun", false);
-            stunTimer = 0;
-            chargeOk = false;
         };
 
         sm.SendInput(JabaliInputs.PETRIFIED);
@@ -448,7 +425,7 @@ public class JabaliEnemy : EnemyWithCombatDirector
 
         new JabaliStun(petrified, sm, StartStun, TickStun, EndStun);
 
-        new JabaliDeath(dead, sm, ragdoll, sounds.dead.name, ReturnToSpawner).SetThis(combatElement).SetDirector(director);
+        new JabaliDeath(dead, sm, ragdoll, sounds.dead.name, ReturnToSpawner).SetThis(combatElement).SetDirector(director).SetCD(cdModule);
 
         disable.OnEnter += (input) => DisableObject();
 

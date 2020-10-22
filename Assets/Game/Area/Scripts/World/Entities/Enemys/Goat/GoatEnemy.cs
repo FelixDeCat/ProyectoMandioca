@@ -23,6 +23,7 @@ public class GoatEnemy : EnemyWithCombatDirector
     [SerializeField] GoatStompComponent stompAttack = null;
     [SerializeField] float normalDistance = 9;
     [SerializeField] float timeParried = 2;
+    CDModule cdModule = new CDModule();
 
     [Header("NormalAttack")]
     [SerializeField] GoatType goatType;
@@ -41,15 +42,12 @@ public class GoatEnemy : EnemyWithCombatDirector
     [SerializeField] float chargeDuration = 5;
     [SerializeField] float pushKnockback = 80;
     private bool chargeOk = false;
-    private float cargeTimer;
 
     [Header("Life Options")]
     [SerializeField] float tdRecall = 0.5f;
 
     [Header("Stuns/Effects")]
     private bool cooldown = false;
-    private float timercooldown = 0;
-    float stunTimer;
     private Action<EState<GoatInputs>> EnterStun;
     private Action<string> UpdateStun;
     private Action<GoatInputs> ExitStun;
@@ -60,7 +58,6 @@ public class GoatEnemy : EnemyWithCombatDirector
     [SerializeField] Color onHitColor = Color.white;
     [SerializeField] float onHitFlashTime = 0.1f;
     [SerializeField] EffectBase petrifyEffect = null;
-    Material[] myMat;
     [SerializeField] GoatParticles particles = new GoatParticles();
     [SerializeField] GoatSounds sounds = new GoatSounds();
 
@@ -87,12 +84,6 @@ public class GoatEnemy : EnemyWithCombatDirector
     protected override void OnInitialize()
     {
         base.OnInitialize();
-
-        Debug.Log("Cabra Initialixe");
-
-        var smr = GetComponentInChildren<SkinnedMeshRenderer>();
-        if (smr != null)
-            myMat = smr.materials;
 
         headAttack.Configure(HeadAttack);
         pushAttack.Configure(PushRelease, StunAfterCharge);
@@ -134,8 +125,7 @@ public class GoatEnemy : EnemyWithCombatDirector
     {
         ragdoll.Ragdoll(false, Vector3.zero);
         death = false;
-        chargeOk = true;
-        cargeTimer = 0;
+        cdModule.ResetAll();
         sm.SendInput(GoatInputs.DISABLE);
     }
 
@@ -164,23 +154,7 @@ public class GoatEnemy : EnemyWithCombatDirector
             sm.Update();
 
         movement.OnUpdate();
-
-        if (cooldown)
-        {
-            if (timercooldown < tdRecall) timercooldown = timercooldown + 1 * Time.deltaTime;
-            else { cooldown = false; timercooldown = 0; }
-        }
-
-        if (!chargeOk)
-        {
-            cargeTimer += Time.deltaTime;
-
-            if (cargeTimer >= timeToObtainCharge)
-            {
-                chargeOk = true;
-                cargeTimer = 0;
-            }
-        }
+        cdModule.UpdateCD();
     }
     Vector3 force;
     protected override void OnPause()
@@ -201,14 +175,12 @@ public class GoatEnemy : EnemyWithCombatDirector
     protected override void OnFixedUpdate() { }
     protected override void OnTurnOff()
     {
-        Debug.Log("Cabra TurnOff");
         sm.SendInput(GoatInputs.DISABLE);
         combatElement.ExitCombat();
         groundSensor?.TurnOff();
     }
     protected override void OnTurnOn()
     {
-        Debug.Log("Cabra TurnON");
         sm.SendInput(GoatInputs.IDLE);
         groundSensor?.TurnOn();
     }
@@ -247,6 +219,7 @@ public class GoatEnemy : EnemyWithCombatDirector
         if (e.GetComponent<CharacterHead>())
         {
             chargeOk = false;
+            cdModule.AddCD("ChargeAttack", () => chargeOk = true, timeToObtainCharge);
             pushAttack.Stop();
             sm.SendInput(GoatInputs.IDLE);
             animator.SetTrigger("PlayerCollision");
@@ -269,6 +242,7 @@ public class GoatEnemy : EnemyWithCombatDirector
 
         ParticlesManager.Instance.PlayParticle(particles.hitParticle.name, transform.position);
         cooldown = true;
+        cdModule.AddCD("TakeDamageCD", () => cooldown = false, tdRecall);
 
         StartCoroutine(OnHitted(onHitFlashTime, onHitColor));
     }
@@ -300,19 +274,17 @@ public class GoatEnemy : EnemyWithCombatDirector
     {
         EnterStun += (input) => {
             animator.SetBool("Stun", true);
+            cdModule.AddCD("StunAfterCharge", () => sm.SendInput(GoatInputs.IDLE), stunChargeTime);
         };
 
         UpdateStun = (name) => {
-            stunTimer += Time.deltaTime;
-
-            if (stunTimer >= stunChargeTime)
-                sm.SendInput(GoatInputs.IDLE);
         };
 
         ExitStun += (input) => {
+            chargeOk = true;
+            cdModule.EndCDWithoutExecute("StunAfterCharge");
+            cdModule.AddCD("ChargeAttack", () => chargeOk = true, timeToObtainCharge);
             animator.SetBool("Stun", false);
-            stunTimer = 0;
-            chargeOk = false;
         };
 
         sm.SendInput(GoatInputs.PETRIFIED);
@@ -468,7 +440,7 @@ public class GoatEnemy : EnemyWithCombatDirector
 
         new JabaliStun(petrified, sm, StartStun, TickStun, EndStun);
 
-        new JabaliDeath(dead, sm, ragdoll, sounds.dead.name, ReturnToSpawner).SetThis(combatElement).SetDirector(director);
+        new JabaliDeath(dead, sm, ragdoll, sounds.dead.name, ReturnToSpawner).SetThis(combatElement).SetDirector(director).SetCD(cdModule);
 
         disable.OnEnter += (input) => DisableObject();
 

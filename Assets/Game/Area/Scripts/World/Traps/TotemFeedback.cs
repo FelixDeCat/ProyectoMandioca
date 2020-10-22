@@ -12,7 +12,7 @@ public class TotemFeedback
     [SerializeField] ParticleSystem chargeParticle = null;
     ParticleSystem chargeParticleTemp;
 
-    [SerializeField] Transform startPos = null;
+    [SerializeField] public Transform startPos = null;
 
     Func<IEnumerator, Coroutine> StartCoroutine;
 

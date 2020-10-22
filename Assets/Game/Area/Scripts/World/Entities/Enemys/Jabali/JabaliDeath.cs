@@ -6,8 +6,6 @@ namespace Tools.StateMachine
     public class JabaliDeath : JabaliStates
     {
         RagdollComponent ragdoll;
-        float timer;
-        bool desactive;
         string deadSound;
         Action OnDissappear;
 
@@ -23,28 +21,8 @@ namespace Tools.StateMachine
         {
             combatDirector.DeadEntity(enemy, enemy.CurrentTarget());
             AudioManager.instance.PlaySound(deadSound);
-        }
-
-        protected override void Update()
-        {
-            base.Update();
-            timer += Time.deltaTime;
-
-            if (timer >= 5)
-            {
-                if (!desactive)
-                {
-                    ragdoll.DesactiveBones();
-                    desactive = true;
-                }
-            }
-
-            if (timer >= 8)
-            {
-                timer = 0;
-                desactive = false;
-                OnDissappear?.Invoke();
-            }
+            cdModule.AddCD("RagdollDissappear", ragdoll.DesactiveBones, 5);
+            cdModule.AddCD("ReturnToPool", OnDissappear, 8);
         }
     }
 }

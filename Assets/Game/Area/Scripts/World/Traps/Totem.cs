@@ -17,6 +17,7 @@ public abstract class Totem : EnemyBase
     [SerializeField] protected AudioClip ac_TakeDamage = null;
     [SerializeField] protected AudioClip ac_Die;
     [SerializeField] protected AudioClip ac_Charge;
+    [SerializeField] ParticleSystem reactiveParticles = null;
 
     float timer;
     protected bool onUpdate;
@@ -36,7 +37,7 @@ public abstract class Totem : EnemyBase
 
         AudioManager.instance.GetSoundPool(ac_TakeDamage.name, AudioGroups.GAME_FX, ac_TakeDamage);
         ParticlesManager.Instance.GetParticlePool(ps_TakeDamage.name, ps_TakeDamage);
-
+        ParticlesManager.Instance.GetParticlePool(reactiveParticles.name, reactiveParticles);
         destructFeedback.Initialize();
     }
 
@@ -123,6 +124,7 @@ public abstract class Totem : EnemyBase
 
     void EndCast()
     {
+        ParticlesManager.Instance.PlayParticle(reactiveParticles.name, feedback.startPos.position);
         InternalEndCast();
         castingCD = true;
     }

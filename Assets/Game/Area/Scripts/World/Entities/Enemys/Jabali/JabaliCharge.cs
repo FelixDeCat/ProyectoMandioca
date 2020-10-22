@@ -15,7 +15,6 @@ namespace Tools.StateMachine
         AudioSource source;
         GenericEnemyMove move;
 
-
         public JabaliCharge(EState<JabaliEnemy.JabaliInputs> myState, EventStateMachine<JabaliEnemy.JabaliInputs> _sm, float _chargeTime,
             string _updateSound, string _exitSound, GenericEnemyMove _move) : base(myState, _sm)
         {
@@ -60,13 +59,13 @@ namespace Tools.StateMachine
             {
                 anim.SetBool("ChargeAttack", false);
                 timer = 0;
+                AudioManager.instance.PlaySound(firstPushSound, root);
             }
             if (source != null)
             {
                 source.Stop();
                 pool.ReturnToPool(source);
             }
-            AudioManager.instance.PlaySound(firstPushSound, root);
         }
     }
 }

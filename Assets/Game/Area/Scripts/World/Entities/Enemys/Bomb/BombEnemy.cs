@@ -20,7 +20,7 @@ public class BombEnemy : EnemyBase
     EntityBase target;
 
     private bool cooldown = false;
-    private float timercooldown = 0;
+    bool petrify;
 
     [Header("Spawn Options")]
     [SerializeField] PlayObject trapToDie = null;
@@ -39,6 +39,7 @@ public class BombEnemy : EnemyBase
 
     [SerializeField] EffectBase petrifyEffect = null;
     EventStateMachine<BombInputs> sm;
+    CDModule cdModule = new CDModule();
 
     public BombParticles particles;
     public BombSounds sounds;
@@ -80,8 +81,8 @@ public class BombEnemy : EnemyBase
         Main.instance.AddEntity(this);
 
         SetStates();
-        petrifyEffect?.AddStartCallback(() => sm.SendInput(BombInputs.PETRIFIED));
-        petrifyEffect?.AddEndCallback(() => sm.SendInput(BombInputs.IDLE));
+        petrifyEffect?.AddStartCallback(() => petrify = true);
+        petrifyEffect?.AddEndCallback(() => petrify = false);
         if (trapToDie) PoolManager.instance.GetObjectPool(trapToDie.name, trapToDie);
 
         dmgReceiver.ChangeKnockback(movement.ApplyForceToVelocity, () => false);
@@ -128,12 +129,7 @@ public class BombEnemy : EnemyBase
         }
         sm?.Update();
         movement.OnUpdate();
-
-        if (cooldown)
-        {
-            if (timercooldown < recallTime) timercooldown = timercooldown + 1 * Time.deltaTime;
-            else { cooldown = false; timercooldown = 0; }
-        }
+        cdModule.UpdateCD();
     }
     Vector3 force;
     protected override void OnPause()
@@ -190,6 +186,7 @@ public class BombEnemy : EnemyBase
 
         ParticlesManager.Instance.PlayParticle(particles.takeDamagePart.name, transform.position + Vector3.up);
         cooldown = true;
+        cdModule.AddCD("TakeDamageCD", () => cooldown = false, recallTime);
 
         StartCoroutine(OnHitted(onHitFlashTime, onHitColor));
     }
@@ -224,7 +221,7 @@ public class BombEnemy : EnemyBase
 
     #region STATE MACHINE THINGS
 
-    public enum BombInputs { IDLE, PERSUIT, PREP_EXPLODE, EXPLODE, PETRIFIED, DISABLE }
+    public enum BombInputs { IDLE, PERSUIT, PREP_EXPLODE, EXPLODE, DISABLE }
 
 
     void SetStates()
@@ -234,12 +231,10 @@ public class BombEnemy : EnemyBase
         var prepare = new EState<BombInputs>("PrepareExplode");
         var explode = new EState<BombInputs>("Explode");
         var disable = new EState<BombInputs>("Disable");
-        var petrified = new EState<BombInputs>("Petrified");
 
         ConfigureState.Create(idle)
             .SetTransition(BombInputs.PERSUIT, goToPos)
             .SetTransition(BombInputs.EXPLODE, explode)
-            .SetTransition(BombInputs.PETRIFIED, petrified)
             .SetTransition(BombInputs.DISABLE, disable)
             .SetTransition(BombInputs.PREP_EXPLODE, prepare)
             .Done();
@@ -247,27 +242,17 @@ public class BombEnemy : EnemyBase
         ConfigureState.Create(goToPos)
             .SetTransition(BombInputs.IDLE, idle)
             .SetTransition(BombInputs.EXPLODE, explode)
-            .SetTransition(BombInputs.PETRIFIED, petrified)
             .SetTransition(BombInputs.DISABLE, disable)
             .SetTransition(BombInputs.PREP_EXPLODE, prepare)
             .Done();
 
         ConfigureState.Create(prepare)
             .SetTransition(BombInputs.EXPLODE, explode)
-            .SetTransition(BombInputs.PETRIFIED, petrified)
             .SetTransition(BombInputs.DISABLE, disable)
             .Done();
 
         ConfigureState.Create(explode)
             .SetTransition(BombInputs.DISABLE, disable)
-            .Done();
-
-        ConfigureState.Create(petrified)
-            .SetTransition(BombInputs.PERSUIT, goToPos)
-            .SetTransition(BombInputs.EXPLODE, explode)
-            .SetTransition(BombInputs.IDLE, idle)
-            .SetTransition(BombInputs.DISABLE, disable)
-            .SetTransition(BombInputs.PREP_EXPLODE, prepare)
             .Done();
 
         ConfigureState.Create(disable)
@@ -283,8 +268,6 @@ public class BombEnemy : EnemyBase
         new BombEnemyPrepExplode(prepare, sm, PrepareToExplosion);
 
         new BombEnemyPrepExplode(explode, sm, Explosion);
-
-        new DummyStunState<BombInputs>(petrified, sm);
 
         new DummyDisableState<BombInputs>(disable, sm, EnableObject, DisableObject);
     }
@@ -319,6 +302,12 @@ public class BombEnemy : EnemyBase
         {
             for (int e = 0; e < 20; e++)
             {
+                if (petrify)
+                {
+                    e -= 1;
+                    yield return new WaitForSeconds(0.01f);
+                    continue;
+                }
                 if (e < 10)
                 {
                     mats[0].SetColor("_EmissionColor", Color.Lerp(Color.black, explodeTick, e / 10));
