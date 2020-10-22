@@ -8,8 +8,6 @@ namespace Tools.StateMachine
     public class CrowDead : CrowStates
     {
         RagdollComponent ragdoll;
-        float timer;
-        bool desactive;
         Action OnDissappear;
 
         public CrowDead(EState<CrowEnemy.CrowInputs> myState, EventStateMachine<CrowEnemy.CrowInputs> _sm, RagdollComponent _ragdoll, Action _OnDissappear) : base(myState, _sm)
@@ -21,30 +19,9 @@ namespace Tools.StateMachine
         protected override void Enter(EState<CrowEnemy.CrowInputs> last)
         {
             base.Enter(last);
+            cdModule.AddCD("ragdollDesactive", ragdoll.DesactiveBones, 5);
+            cdModule.AddCD("ragdollDesactive", OnDissappear, 8);
             combatDirector.DeadEntity(ragdoll.GetComponent<CombatDirectorElement>(), ragdoll.GetComponent<CombatDirectorElement>().CurrentTarget());
-        }
-
-        protected override void Update()
-        {
-            base.Update();
-
-            timer += Time.deltaTime;
-
-            if (timer >= 5)
-            {
-                if (!desactive)
-                {
-                    ragdoll.DesactiveBones();
-                    desactive = true;
-                }
-            }
-
-            if (timer >= 8)
-            {
-                desactive = false;
-                timer = 0;
-                OnDissappear?.Invoke();
-            }
         }
     }
 }

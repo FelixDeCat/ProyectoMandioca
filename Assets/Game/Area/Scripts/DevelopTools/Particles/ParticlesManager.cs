@@ -138,7 +138,7 @@ public class ParticlesManager : MonoBehaviour
 
     private IEnumerator ReturnSoundToPool(ParticleSystem aS, string sT, Action callbackOnEnd = default)
     {
-        yield return new WaitUntil(() => !aS.IsAlive(true));
+        while (aS.isPlaying || aS.isPaused) yield return new WaitForSeconds(0.1f);
 
         if (aS.gameObject.activeSelf)
         {

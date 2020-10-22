@@ -7,18 +7,15 @@ namespace Tools.StateMachine
 {
     public class CrowAttack : CrowStates
     {
-        float timer;
-        float cd;
         CombatDirectorElement enemy;
         Action EnterAction;
         Func<bool> IsCd;
         Action<bool> ActualizeCD;
         float rotationSpeed;
 
-        public CrowAttack(EState<CrowEnemy.CrowInputs> myState, EventStateMachine<CrowEnemy.CrowInputs> _sm, float _cd, Action _EnterAction,
+        public CrowAttack(EState<CrowEnemy.CrowInputs> myState, EventStateMachine<CrowEnemy.CrowInputs> _sm, Action _EnterAction,
             Func<bool> _IsCd, Action<bool> _ActualizeCD, CombatDirectorElement _enemy, float _rotationSpeed) : base(myState, _sm)
         {
-            cd = _cd;
             enemy = _enemy;
             EnterAction = _EnterAction;
             IsCd = _IsCd;
@@ -36,22 +33,17 @@ namespace Tools.StateMachine
         {
             base.Exit(input);
 
-            timer = 0;
             enemy.Attacking = false;
             combatDirector.AttackRelease(enemy, enemy.CurrentTarget());
             ActualizeCD(false);
+            cdModule.EndCDWithoutExecute("AttackRecall");
         }
 
         protected override void Update()
         {
             base.Update();
 
-            if (IsCd())
-            {
-                timer += Time.deltaTime;
-                if (timer >= cd) sm.SendInput(CrowEnemy.CrowInputs.IDLE);
-            }
-            else
+            if (!IsCd())
             {
                 Vector3 myForward = (enemy.CurrentTarget().transform.position - root.position).normalized;
                 Vector3 forwardRotation = new Vector3(myForward.x, 0, myForward.z);

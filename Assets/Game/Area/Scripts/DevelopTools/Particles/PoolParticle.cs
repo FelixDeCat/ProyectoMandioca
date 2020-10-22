@@ -57,7 +57,8 @@ public class PoolParticle : SingleObjectPool<ParticleSystem>
                 continue;
             }
 
-            currentlyUsingObj[i].Pause();
+            currentlyUsingObj[i].Pause(true);
+            currentlyUsingObj[i].Stop(true);
         }
     }
 
@@ -72,7 +73,8 @@ public class PoolParticle : SingleObjectPool<ParticleSystem>
                 continue;
             }
 
-            currentlyUsingObj[i].Play();
+            currentlyUsingObj[i].Pause(false);
+            currentlyUsingObj[i].Play(true);
         }
     }
 }

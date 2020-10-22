@@ -22,14 +22,12 @@ public class CrowEnemy : EnemyWithCombatDirector
     [SerializeField] int damage = 2;
     [SerializeField] float attackRecall = 2;
     [SerializeField] LineOfSight lineOfSight = null;
+    CDModule cdModule = new CDModule();
 
     [Header("Life Options")]
     [SerializeField] float recallTime = 1;
 
     private bool cooldown = false;
-    private float timercooldown = 0;
-
-    float timerToCast;
     bool stopCD;
     bool castingOver;
 
@@ -52,6 +50,7 @@ public class CrowEnemy : EnemyWithCombatDirector
     {
         public ParticleSystem castParticles = null;
         public ParticleSystem takeDmg = null;
+        public ParticleSystem attackParticles = null;
     }
 
     [System.Serializable]
@@ -66,7 +65,8 @@ public class CrowEnemy : EnemyWithCombatDirector
         base.OnInitialize();
         Main.instance.eventManager.TriggerEvent(GameEvents.ENEMY_SPAWN, new object[] { this });
         ParticlesManager.Instance.GetParticlePool(particles.castParticles.name, particles.castParticles, 2);
-        ParticlesManager.Instance.GetParticlePool(particles.takeDmg.name, particles.takeDmg, 8);
+        ParticlesManager.Instance.GetParticlePool(particles.attackParticles.name, particles.attackParticles, 2);
+        ParticlesManager.Instance.GetParticlePool(particles.takeDmg.name, particles.takeDmg, 3);
 
         var smr = GetComponentInChildren<SkinnedMeshRenderer>();
         if (smr != null)
@@ -111,21 +111,13 @@ public class CrowEnemy : EnemyWithCombatDirector
                     animator.SetBool("rotate", false);
 
                     if (castPartTemp != null)
-                        ParticlesManager.Instance.StopParticle(castPartTemp.name, castPartTemp);
+                        ParticlesManager.Instance.StopParticle(particles.castParticles.name, castPartTemp);
 
                     sm.SendInput(CrowInputs.IDLE);
                 }
-
-                if (!stopCD)
-                {
-                    if (cdToCast > timerToCast) timerToCast += Time.deltaTime;
-                    else
-                    {
-                        timerToCast = 0;
-                        stopCD = true;
-                    }
-                }
             }
+
+            cdModule.UpdateCD();
 
             if (!combatElement.Combat && combatElement.Target == null)
             {
@@ -140,12 +132,6 @@ public class CrowEnemy : EnemyWithCombatDirector
 
         if (sm != null)
             sm.Update();
-
-        if (cooldown)
-        {
-            if (timercooldown < recallTime) timercooldown = timercooldown + 1 * Time.deltaTime;
-            else { cooldown = false; timercooldown = 0; }
-        }
     }
     protected override void OnPause()
     {
@@ -161,9 +147,8 @@ public class CrowEnemy : EnemyWithCombatDirector
     protected override void OnReset()
     {
         if (castPartTemp != null)
-            ParticlesManager.Instance.StopParticle(castPartTemp.name, castPartTemp);
-        timerToCast = 0;
-        stopCD = true;
+            ParticlesManager.Instance.StopParticle(particles.castParticles.name, castPartTemp);
+        cdModule.ResetAll();
         ragdoll.Ragdoll(false, Vector3.zero);
         death = false;
         sm.SendInput(CrowInputs.DISABLE);
@@ -175,8 +160,9 @@ public class CrowEnemy : EnemyWithCombatDirector
         animator.SetTrigger("attack");
         animator.SetBool("rotate", false);
         castPartTemp = null;
-        castingOver = true;
+        cdModule.AddCD("AttackRecall", () => sm.SendInput(CrowInputs.IDLE), attackRecall);
         dir = combatElement.CurrentTarget() ? (combatElement.CurrentTarget().transform.position + new Vector3(0, 1, 0) - shootPivot.position).normalized : Vector3.down;
+        ParticlesManager.Instance.PlayParticle(particles.attackParticles.name, shootPivot.position);
     }
 
     Vector3 dir;
@@ -201,6 +187,7 @@ public class CrowEnemy : EnemyWithCombatDirector
 
         ParticlesManager.Instance.PlayParticle(particles.takeDmg.name, transform.position + Vector3.up);
         cooldown = true;
+        cdModule.AddCD("takeDamageCooldown", () => cooldown = false, recallTime);
 
         StartCoroutine(OnHitted(onHitFlashTime, onHitColor));
     }
@@ -214,7 +201,8 @@ public class CrowEnemy : EnemyWithCombatDirector
             ragdoll.Ragdoll(true, dir);
 
         if (castPartTemp != null)
-            ParticlesManager.Instance.StopParticle(castPartTemp.name, castPartTemp);
+            ParticlesManager.Instance.StopParticle(particles.castParticles.name, castPartTemp);
+        else
         death = true;
         combatElement.ExitCombat();
         Main.instance.RemoveEntity(this);
@@ -230,6 +218,7 @@ public class CrowEnemy : EnemyWithCombatDirector
     protected override void OnFixedUpdate() { }
     protected override void OnTurnOff()
     {
+        cdModule.ResetAll();
         sm.SendInput(CrowInputs.DISABLE);
         combatElement.ExitCombat();
     }
@@ -260,7 +249,6 @@ public class CrowEnemy : EnemyWithCombatDirector
         var petrified = new EState<CrowInputs>("Petrified");
 
         ConfigureState.Create(idle)
-            //.SetTransition(CrowInputs.TAKE_DAMAGE, takeDamage)
             .SetTransition(CrowInputs.DIE, die)
             .SetTransition(CrowInputs.PETRIFIED, petrified)
             .SetTransition(CrowInputs.DISABLE, disable)
@@ -270,7 +258,6 @@ public class CrowEnemy : EnemyWithCombatDirector
         ConfigureState.Create(chasing)
             .SetTransition(CrowInputs.IDLE, idle)
             .SetTransition(CrowInputs.BEGIN_ATTACK, attack)
-            //.SetTransition(CrowInputs.TAKE_DAMAGE, takeDamage)
             .SetTransition(CrowInputs.DIE, die)
             .SetTransition(CrowInputs.PETRIFIED, petrified)
             .SetTransition(CrowInputs.DISABLE, disable)
@@ -313,8 +300,9 @@ public class CrowEnemy : EnemyWithCombatDirector
 
         new CrowChasing(chasing, sm, () => combatElement.Attacking, distancePos, rotationSpeed, combatElement, lineOfSight.OnSight).SetDirector(director).SetRoot(rootTransform);
 
-        new CrowAttack(attack, sm, attackRecall, () => castPartTemp = ParticlesManager.Instance.PlayParticle(particles.castParticles.name, shootPivot.position, CastOver, shootPivot),
-            () => castingOver, (x) => { castingOver = x; stopCD = x; }, combatElement, rotationSpeed).SetAnimator(animator).SetDirector(director).SetRoot(rootTransform);
+        new CrowAttack(attack, sm, () => castPartTemp = ParticlesManager.Instance.PlayParticle(particles.castParticles.name, shootPivot.position, CastOver, shootPivot),
+            () => castingOver, (x) => { castingOver = x; cdModule.AddCD("canAttack", () => stopCD = true, cdToCast);  stopCD = x; }, combatElement, rotationSpeed)
+            .SetAnimator(animator).SetDirector(director).SetRoot(rootTransform).SetCD(cdModule);
 
         new CrowTakeDmg(takeDamage, sm, recallTime).SetAnimator(animator);
 
