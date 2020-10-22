@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
 
 namespace DevelopTools.UI
 {
@@ -13,12 +14,12 @@ namespace DevelopTools.UI
         //referencia al slider
         [SerializeField] private Slider slider = null;
         //valor a modificar actualmente
-        [SerializeField] Text currentValue = null;
+        [SerializeField] TextMeshProUGUI currentValue = null;
 
         //refes a las partes de texto del template
-        [SerializeField] private Text max = null;
-        [SerializeField] private Text min = null;
-        [SerializeField] private Text title = null;
+        [SerializeField] private TextMeshProUGUI max = null;
+        [SerializeField] private TextMeshProUGUI min = null;
+        [SerializeField] private TextMeshProUGUI title = null;
 
         private void Start()
         {
