@@ -14,9 +14,11 @@ public class ThreadHandler : MonoBehaviour
 
     bool useLoadScreen;
     [SerializeField] TextMeshProUGUI CurrentProcess;
+    public static void AuxiliarDebug(string val) { instance.AuxDebug(val); }
 
-    public static void EnqueueProcess(ThreadObject obj, bool loadScreen = false) { instance.AddThreadObject(obj, loadScreen); } 
+    public static void EnqueueProcess(ThreadObject obj, bool loadScreen = false) { instance.AddThreadObject(obj, loadScreen); }
 
+    void AuxDebug(string s) { CurrentProcess.text = "Processing... " + s; }
     void AddThreadObject(ThreadObject obj, bool loadscreen = false)
     {
         process_queue.Enqueue(obj);

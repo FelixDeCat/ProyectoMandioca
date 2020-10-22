@@ -199,11 +199,15 @@ public class NewSceneStreamer : MonoBehaviour
             loading.Add(sceneName);
             
             AsyncOperation asyncOperation = SceneManager.LoadSceneAsync(sceneName, LoadSceneMode.Additive);
-            
-            //while (asyncOperation.progress < 0.9f)
-            //{
-            //    yield return null;
-            //}
+
+            while (asyncOperation.progress < 0.9f)
+            {
+
+                yield return new WaitForEndOfFrame();
+                ThreadHandler.AuxiliarDebug("[Loading... " + sceneName + "][%" + asyncOperation.progress * 100 + "]");
+
+                yield return null;
+            }
             while (!asyncOperation.isDone)
             {
                 yield return null;
