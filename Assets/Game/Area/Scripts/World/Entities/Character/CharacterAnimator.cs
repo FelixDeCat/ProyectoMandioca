@@ -53,6 +53,10 @@ public class CharacterAnimator : BaseAnimator
     public void MedusaStunShort() => myAnim.SetTrigger("MedusaTap");
     public void MedusaStunLong() => myAnim.SetTrigger("MedusaHold");
 
+    public void SetLightnings(bool b) => myAnim.SetBool("ThrowLightnings", b);
+    public void ThrowLightningBullets() => myAnim.SetTrigger("ThrowLightningBullets");
+    public void ThrowLightningOrb() => myAnim.SetTrigger("ThrowLightningOrb");
+
     public void BeginSpin(Action callbackEndAnimation) { myAnim.SetTrigger("BeginSpin"); myAnim.GetBehaviour<ANIM_SCRIPT_BeginSpin>().ConfigureCallback(callbackEndAnimation); }
     public void EndSpin(Action callbackEndAnimation) { myAnim.SetTrigger("EndSpin"); myAnim.GetBehaviour<ANIM_SCRIPT_EndSpin>().ConfigureCallback(callbackEndAnimation); }
     public void Stun(bool stunvalue) { myAnim.SetBool("Stun", stunvalue); }

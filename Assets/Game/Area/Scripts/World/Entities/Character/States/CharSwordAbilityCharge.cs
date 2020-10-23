@@ -18,7 +18,7 @@ namespace Tools.StateMachine
         protected override void Enter(EState<CharacterHead.PlayerInputs> input)
         {
             Main.instance.GetChar().GetCharMove().SetSpeed(speed());
-            toExecute.Invoke();
+            if(toExecute != null) toExecute.Invoke();
         }
         protected override void Update()
         {

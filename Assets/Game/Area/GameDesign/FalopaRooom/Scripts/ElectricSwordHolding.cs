@@ -18,53 +18,60 @@ public class ElectricSwordHolding : MonoBehaviour
     CharacterHead myChar;
     [Header("Other")]
     [SerializeField] float charSpeed = 0;
-
-    float timer = 0;
+    
     bool canUpdate = false;
+    float timer = 0;
+    const string spawnBullet = "SpawnBullet";
+    const string spawnOrb = "SpawnOrb";
 
     public void OnPress()
     {
         //Aca supongo que van cosas de feedback
-        timer = 0;
         canUpdate = true;
+        timer = 0;
         Main.instance.GetChar().SwordAbiltyCharge(charSpeed);
+        myChar.charanim.SetLightnings(true);
     }
     public void OnStopUse()
     {
         //Aca tambien
-        canUpdate = false;
         Main.instance.GetChar().SwordAbilityRelease();
-
+        myChar.charanim.SetLightnings(false);
+        canUpdate = false;    
+        //Llamar animevent que salga de disparar
     }
+
     public void OnUpdate()
     {
         if (!canUpdate) return;
         timer += Time.deltaTime;
-        if(timer >= cooldown)
+        if (timer >= cooldown)
         {
-            Spawn();
-            timer = 0;
-        }       
+            ExecuteLong();
+            canUpdate = false;
+        }
     }
 
     public void OnEquip()
     {
         //Sonidos?
         myChar = Main.instance.GetChar();
-
+        myChar.charAnimEvent.Add_Callback(spawnBullet, Spawn);
+        myChar.charAnimEvent.Add_Callback(spawnOrb, InstantiateOrb);
     }
     public void UnEquip()
     {
+        myChar.charAnimEvent.Remove_Callback(spawnBullet, Spawn);
+        myChar.charAnimEvent.Remove_Callback(spawnOrb, InstantiateOrb);
         //Sonidos? quiza
     }
 
     public void OnExecute(int charges)
     {
         if (charges == 0) ExecuteShort();
-        else ExecuteLong();
     }
 
-    void ExecuteShort()
+    void InstantiateOrb()
     {
         var orb = Instantiate(electricOrb);
         orb.SetSpeed(orbSpeed).SetLifeTime(orbLifeTime);
@@ -72,9 +79,15 @@ public class ElectricSwordHolding : MonoBehaviour
         orb.transform.forward = myChar.GetCharMove().GetRotatorDirection();
     }
 
+    void ExecuteShort()
+    {
+        myChar.charanim.ThrowLightningOrb();
+    }
+
     void ExecuteLong()
     {
-        canUpdate = true;
+        myChar.charanim.ThrowLightningBullets();
+        //Aca llamo al animator para que empiece a disparar
     }
 
     void Spawn()
@@ -87,6 +100,5 @@ public class ElectricSwordHolding : MonoBehaviour
 
     public void OnEnd()
     {
-
     }
 }

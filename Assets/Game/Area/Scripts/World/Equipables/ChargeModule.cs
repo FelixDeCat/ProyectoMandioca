@@ -51,7 +51,7 @@ public class ChargeModule : MonoBehaviour
         //{
         //    timer = 0;
         //    anim = false;
-        //    callbackRelease.Invoke(0);
+        //    callbackRelease.Invoke(1);
         //}
         if (cast_type == CastType.Normal_OnRelease)
         {
@@ -109,7 +109,7 @@ public class ChargeModule : MonoBehaviour
                 //{
                 //    timer = 0;
                 //    anim = false;
-                //    callback_Sucess.Invoke();
+                //    callbackRelease.Invoke(0);
                 //    callback_End.Invoke();
                 //}
                 if (cast_type == CastType.Normal_OnRelease)
