@@ -4,7 +4,6 @@ namespace Tools.StateMachine
 {
     public class DummyTDState : DummyEnemyStates
     {
-        float timer;
         float recallTime;
 
         public DummyTDState(EState<TrueDummyEnemy.DummyEnemyInputs> myState, EventStateMachine<TrueDummyEnemy.DummyEnemyInputs> _sm,
@@ -18,23 +17,14 @@ namespace Tools.StateMachine
             base.Enter(input);
 
             anim.SetBool("takeDamage", true);
+            cdModule.AddCD("TakeDamageCD", () => sm.SendInput(TrueDummyEnemy.DummyEnemyInputs.IDLE), recallTime);
         }
 
         protected override void Exit(TrueDummyEnemy.DummyEnemyInputs input)
         {
             base.Exit(input);
+            cdModule.EndCDWithoutExecute("TakeDamageCD");
             anim.SetBool("takeDamage", false);
-            timer = 0;
-        }
-
-        protected override void Update()
-        {
-            base.Update();
-
-            timer += Time.deltaTime;
-
-            if (timer >= recallTime)
-                sm.SendInput(TrueDummyEnemy.DummyEnemyInputs.IDLE);
         }
     }
 }

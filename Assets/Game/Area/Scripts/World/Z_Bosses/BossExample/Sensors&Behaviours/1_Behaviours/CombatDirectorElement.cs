@@ -13,7 +13,7 @@ public class CombatDirectorElement : MonoBehaviour, ICombatDirector
     CombatDirector director;
     public EntityBase Target { get; set; }
     public bool Combat;
-    public bool Attacking {get; set;}
+    public bool Attacking;
 
     public void Initialize(float _distancePos, CombatDirector _director)
     {

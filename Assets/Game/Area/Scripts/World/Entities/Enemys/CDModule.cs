@@ -34,8 +34,9 @@ public class CDModule
     {
         if (!EndCDCallbacks.ContainsKey(_cdName)) return;
 
-        EndCDCallbacks[_cdName]();
+        Action x = EndCDCallbacks[_cdName];
         EndCDCallbacks.Remove(_cdName);
+        x();
     }
 
     public void EndCDWithoutExecute(string _cdName)

@@ -7,8 +7,6 @@ namespace Tools.StateMachine
     {
         RagdollComponent ragdoll;
         Action OnDead;
-        float timer;
-        bool desactive;
         ParticleSystem particle;
         Action OnDissappear;
 
@@ -31,30 +29,13 @@ namespace Tools.StateMachine
         {
             particle?.gameObject.SetActive(false);
             combatDirector.DeadEntity(ragdoll.GetComponent<CombatDirectorElement>(), ragdoll.GetComponent<CombatDirectorElement>().CurrentTarget());
-        }
-
-        protected override void Update()
-        {
-            base.Update();
-
-            timer += Time.deltaTime;
-
-            if (timer >= 5)
+            cdModule.AddCD("DesactiveBones", () =>
             {
-                if (!desactive)
-                {
-                    OnDead?.Invoke();
-                    ragdoll.DesactiveBones();
-                    desactive = true;
-                }
-            }
+                OnDead?.Invoke();
+                ragdoll.DesactiveBones();
+            }, 5);
 
-            if (timer >= 8)
-            {
-                timer = 0;
-                desactive = false;
-                OnDissappear?.Invoke();
-            }
+            cdModule.AddCD("Dead", () => OnDissappear?.Invoke(), 8);
         }
     }
 }

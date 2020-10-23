@@ -26,11 +26,12 @@ public class TrueDummyEnemy : EnemyWithCombatDirector
     [SerializeField] float recallTime = 1;
 
     private bool cooldown = false;
-    private float timercooldown = 0;
+    bool petrified;
+    CDModule cdModuleStopeable = new CDModule();
+    CDModule cdModuleNonStopeable = new CDModule();
 
     [Header("Feedback")]
     [SerializeField] AnimEvent anim = null;
-    private Material[] myMat;
     [SerializeField] Color onHitColor = Color.white;
     [SerializeField] float onHitFlashTime = 0.1f;
     [SerializeField] RagdollComponent ragdoll = null;
@@ -95,14 +96,6 @@ public class TrueDummyEnemy : EnemyWithCombatDirector
         ParticlesManager.Instance.GetParticlePool(particles.greenblood.name, particles.greenblood, 8);
         ParticlesManager.Instance.GetParticlePool(particles.warningAttack.name, particles.warningAttack, 2);
 
-
-        ParticlesManager.Instance.PlayParticle(particles._spawnParticules.name, transform.position);
-        
-
-        var smr = GetComponentInChildren<SkinnedMeshRenderer>();
-        if (smr != null)
-            myMat = smr.materials;
-
         AudioManager.instance.GetSoundPool(sounds._takeHit_AC.name, AudioGroups.GAME_FX, sounds._takeHit_AC);
         AudioManager.instance.GetSoundPool(sounds.entDeath_Clip.name, AudioGroups.GAME_FX, sounds.entDeath_Clip);
         AudioManager.instance.GetSoundPool(sounds.entAttack_Clip.name, AudioGroups.GAME_FX, sounds.entAttack_Clip);
@@ -125,8 +118,8 @@ public class TrueDummyEnemy : EnemyWithCombatDirector
         //Hago el pool de las vines aca
         PoolManager.instance.GetObjectPool("CorruptedVines", dummySpecialAttack.specialAttack_pf);
 
-        petrifyEffect?.AddStartCallback(() => sm.SendInput(DummyEnemyInputs.PETRIFIED));
-        petrifyEffect?.AddEndCallback(() => sm.SendInput(DummyEnemyInputs.IDLE));
+        petrifyEffect?.AddStartCallback(() => petrified = true);
+        petrifyEffect?.AddEndCallback(() => petrified = false);
 
         dmgReceiver.ChangeKnockback(movement.ApplyForceToVelocity, () => false);
     }
@@ -135,6 +128,8 @@ public class TrueDummyEnemy : EnemyWithCombatDirector
         ragdoll.Ragdoll(false, Vector3.zero);
         death = false;
         sm.SendInput(DummyEnemyInputs.DISABLE);
+        cdModuleNonStopeable.ResetAll();
+        cdModuleStopeable.ResetAll();
         particles.myGroundParticle.gameObject.SetActive(true);
     }
     public override void IAInitialize(CombatDirector _director)
@@ -148,6 +143,7 @@ public class TrueDummyEnemy : EnemyWithCombatDirector
     public override void SpawnEnemy()
     {
         AudioManager.instance.PlaySound(sounds.entSpawn_clip.name);
+        ParticlesManager.Instance.PlayParticle(particles._spawnParticules.name, transform.position);
         base.SpawnEnemy();
     }
     protected override void OnUpdateEntity()
@@ -171,19 +167,14 @@ public class TrueDummyEnemy : EnemyWithCombatDirector
             }
         }
 
-        if (sm != null)
-            sm.Update();
-
-        movement.OnUpdate();
-
-        if (cooldown)
+        if (!petrified)
         {
-            if (timercooldown < recallTime) timercooldown = timercooldown + 1 * Time.deltaTime;
-            else { cooldown = false; timercooldown = 0; }
+            sm?.Update();
+            cdModuleStopeable.UpdateCD();
         }
 
-        //special attack CD no funciono como queria
-
+        movement.OnUpdate();
+        cdModuleNonStopeable.UpdateCD();
         dummySpecialAttack.UpdateSpecialAttack();
     }
     Vector3 force;
@@ -204,7 +195,12 @@ public class TrueDummyEnemy : EnemyWithCombatDirector
     }
 
     #region Attack
-    public void DealDamage() {  combatComponent.ManualTriggerAttack(); sm.SendInput(DummyEnemyInputs.ATTACK); AudioManager.instance.PlaySound(sounds.entAttack_Clip.name); }
+    public void DealDamage()
+    {
+        combatComponent.ManualTriggerAttack();
+        sm.SendInput(DummyEnemyInputs.ATTACK);
+        AudioManager.instance.PlaySound(sounds.entAttack_Clip.name);
+    }
 
     public void WarningAttackParticle()
     {
@@ -226,9 +222,6 @@ public class TrueDummyEnemy : EnemyWithCombatDirector
     #endregion
 
     #region Life Things
-
-    public GenericLifeSystem Life() => lifesystem;
-
     protected override void TakeDamageFeedback(DamageData data)
     {
         AudioManager.instance.PlaySound(sounds._takeHit_AC.name);
@@ -237,6 +230,7 @@ public class TrueDummyEnemy : EnemyWithCombatDirector
 
         ParticlesManager.Instance.PlayParticle(particles.greenblood.name, transform.position + Vector3.up);
         cooldown = true;
+        cdModuleNonStopeable.AddCD("TakeDamageCD", () => cooldown = false, recallTime);
 
         StartCoroutine(OnHitted(onHitFlashTime, onHitColor));
     }
@@ -265,8 +259,6 @@ public class TrueDummyEnemy : EnemyWithCombatDirector
     protected override void OnFixedUpdate() { }
     protected override void OnTurnOff()
     {
-        //if (sm.Current.Name == "Die") ReturnToSpawner();
-
         sm.SendInput(DummyEnemyInputs.DISABLE);
         combatElement.ExitCombat();
         groundSensor?.TurnOff();
@@ -278,7 +270,7 @@ public class TrueDummyEnemy : EnemyWithCombatDirector
     }
 
     #region STATE MACHINE THINGS
-    public enum DummyEnemyInputs { AWAKE, IDLE, BEGIN_ATTACK,ATTACK, GO_TO_POS, DIE, DISABLE, TAKE_DAMAGE, PETRIFIED, PARRIED, CHASING, SPECIAL_ATTACK };
+    public enum DummyEnemyInputs { AWAKE, IDLE, BEGIN_ATTACK,ATTACK, GO_TO_POS, DIE, DISABLE, TAKE_DAMAGE, PARRIED, CHASING, SPECIAL_ATTACK };
     void SetStates()
     {
         var idle = new EState<DummyEnemyInputs>("Idle");
@@ -291,13 +283,11 @@ public class TrueDummyEnemy : EnemyWithCombatDirector
         var takeDamage = new EState<DummyEnemyInputs>("Take_Damage");
         var die = new EState<DummyEnemyInputs>("Die");
         var disable = new EState<DummyEnemyInputs>("Disable");
-        var petrified = new EState<DummyEnemyInputs>("Petrified");
 
         ConfigureState.Create(idle)
             .SetTransition(DummyEnemyInputs.GO_TO_POS, goToPos)
             .SetTransition(DummyEnemyInputs.TAKE_DAMAGE, takeDamage)
             .SetTransition(DummyEnemyInputs.DIE, die)
-            .SetTransition(DummyEnemyInputs.PETRIFIED, petrified)
             .SetTransition(DummyEnemyInputs.DISABLE, disable)
             .SetTransition(DummyEnemyInputs.CHASING, chasing)
             .Done();
@@ -306,7 +296,6 @@ public class TrueDummyEnemy : EnemyWithCombatDirector
             .SetTransition(DummyEnemyInputs.IDLE, idle)
             .SetTransition(DummyEnemyInputs.TAKE_DAMAGE, takeDamage)
             .SetTransition(DummyEnemyInputs.DIE, die)
-            .SetTransition(DummyEnemyInputs.PETRIFIED, petrified)
             .SetTransition(DummyEnemyInputs.DISABLE, disable)
             .SetTransition(DummyEnemyInputs.CHASING, chasing)
             .Done();
@@ -318,14 +307,12 @@ public class TrueDummyEnemy : EnemyWithCombatDirector
             .SetTransition(DummyEnemyInputs.SPECIAL_ATTACK, specialAttack) //transición del ataque especial
             .SetTransition(DummyEnemyInputs.TAKE_DAMAGE, takeDamage)
             .SetTransition(DummyEnemyInputs.DIE, die)
-            .SetTransition(DummyEnemyInputs.PETRIFIED, petrified)
             .SetTransition(DummyEnemyInputs.DISABLE, disable)
             .Done();
 
         ConfigureState.Create(beginAttack)
             .SetTransition(DummyEnemyInputs.ATTACK, attack)
             .SetTransition(DummyEnemyInputs.DIE, die)
-            .SetTransition(DummyEnemyInputs.PETRIFIED, petrified)
             .SetTransition(DummyEnemyInputs.PARRIED, parried)
             .SetTransition(DummyEnemyInputs.DISABLE, disable)
             .Done();
@@ -333,7 +320,6 @@ public class TrueDummyEnemy : EnemyWithCombatDirector
         ConfigureState.Create(attack)
             .SetTransition(DummyEnemyInputs.IDLE, idle)
             .SetTransition(DummyEnemyInputs.DIE, die)
-            .SetTransition(DummyEnemyInputs.PETRIFIED, petrified)
             .SetTransition(DummyEnemyInputs.PARRIED, parried)
             .SetTransition(DummyEnemyInputs.DISABLE, disable)
             .Done();
@@ -341,21 +327,11 @@ public class TrueDummyEnemy : EnemyWithCombatDirector
         ConfigureState.Create(specialAttack)  //Las transiciones del nuevo estado
             .SetTransition(DummyEnemyInputs.IDLE, idle)
             .SetTransition(DummyEnemyInputs.DIE, die)
-            .SetTransition(DummyEnemyInputs.PETRIFIED, petrified)
             .SetTransition(DummyEnemyInputs.DISABLE, disable)
             .Done();
 
         ConfigureState.Create(parried)
             .SetTransition(DummyEnemyInputs.IDLE, idle)
-            .SetTransition(DummyEnemyInputs.PETRIFIED, petrified)
-            .SetTransition(DummyEnemyInputs.DIE, die)
-            .SetTransition(DummyEnemyInputs.DISABLE, disable)
-            .Done();
-
-        ConfigureState.Create(petrified)
-            .SetTransition(DummyEnemyInputs.IDLE, idle)
-            .SetTransition(DummyEnemyInputs.SPECIAL_ATTACK, specialAttack) //transición del ataque especial
-            .SetTransition(DummyEnemyInputs.BEGIN_ATTACK, beginAttack)
             .SetTransition(DummyEnemyInputs.DIE, die)
             .SetTransition(DummyEnemyInputs.DISABLE, disable)
             .Done();
@@ -363,7 +339,6 @@ public class TrueDummyEnemy : EnemyWithCombatDirector
         ConfigureState.Create(takeDamage)
             .SetTransition(DummyEnemyInputs.IDLE, idle)
             .SetTransition(DummyEnemyInputs.DISABLE, disable)
-            .SetTransition(DummyEnemyInputs.PETRIFIED, petrified)
             .SetTransition(DummyEnemyInputs.DIE, die)
             .Done();
 
@@ -389,17 +364,15 @@ public class TrueDummyEnemy : EnemyWithCombatDirector
 
         new DummyAttAnt(beginAttack, sm, movement, combatElement).SetAnimator(animator).SetDirector(director).SetRoot(rootTransform);
 
-        new DummyAttackState(attack, sm, cdToAttack, combatElement).SetAnimator(animator).SetDirector(director);
+        new DummyAttackState(attack, sm, cdToAttack, combatElement).SetAnimator(animator).SetDirector(director).SetCD(cdModuleStopeable);
 
         new Tools.StateMachine.DummySpecialAttack(this, specialAttack, sm, combatElement).SetDirector(director);
 
-        new DummyParried(parried, sm, parriedTime, combatElement).SetAnimator(animator).SetDirector(director);
+        new DummyParried(parried, sm, parriedTime, combatElement).SetAnimator(animator).SetDirector(director).SetCD(cdModuleStopeable);
 
-        new DummyTDState(takeDamage, sm, recallTime).SetAnimator(animator);
+        new DummyTDState(takeDamage, sm, recallTime).SetAnimator(animator).SetCD(cdModuleStopeable);
 
-        new DummyStunState<DummyEnemyInputs>(petrified, sm);
-
-        new DummyDieState(die, sm, ragdoll, particles.myGroundParticle, ReturnToSpawner).SetAnimator(animator).SetDirector(director).SetRigidbody(rb);
+        new DummyDieState(die, sm, ragdoll, particles.myGroundParticle, ReturnToSpawner).SetAnimator(animator).SetDirector(director).SetRigidbody(rb).SetCD(cdModuleStopeable);
 
         new DummyDisableState<DummyEnemyInputs>(disable, sm, EnableObject, DisableObject);
     }

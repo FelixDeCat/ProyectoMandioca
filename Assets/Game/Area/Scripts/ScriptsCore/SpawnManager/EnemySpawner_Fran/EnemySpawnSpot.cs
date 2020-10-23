@@ -34,6 +34,5 @@ public class EnemySpawnSpot : MonoBehaviour
       var enemyPool = PoolManager.instance.GetObjectPool("dummyEnemy");
       var newEnemy = enemyPool.Get();
       newEnemy.transform.position = transform.position;
-      newEnemy.GetComponent<TrueDummyEnemy>().Life().AddEventOnDeath(() => enemyPool.ReturnToPool(newEnemy));
    }
 }

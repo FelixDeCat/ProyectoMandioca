@@ -26,7 +26,9 @@ public class MandragoraEnemy : EnemyWithCombatDirector
     [SerializeField] float recallTime = 1;
 
     private bool cooldown = false;
-    private float timercooldown = 0;
+    CDModule cdModuleStopeable = new CDModule();
+    CDModule cdModuleNonStopeable = new CDModule();
+    bool petrified = false;
 
     [Header("Spawn Options")]
     public EnemyBase_IntDictionary enemiesToSpawnDic = new EnemyBase_IntDictionary();
@@ -91,8 +93,8 @@ public class MandragoraEnemy : EnemyWithCombatDirector
         Main.instance.AddEntity(this);
 
         IAInitialize(Main.instance.GetCombatDirector());
-        petrifyEffect?.AddStartCallback(() => sm.SendInput(MandragoraInputs.PETRIFIED));
-        petrifyEffect?.AddEndCallback(() => sm.SendInput(MandragoraInputs.IDLE));
+        petrifyEffect?.AddStartCallback(() => petrified = true);
+        petrifyEffect?.AddEndCallback(() => petrified = false);
         if(trapToDie) PoolManager.instance.GetObjectPool(trapToDie.name, trapToDie);
 
         dmgReceiver.ChangeKnockback(movement.ApplyForceToVelocity, () => false);
@@ -150,6 +152,8 @@ public class MandragoraEnemy : EnemyWithCombatDirector
         ragdoll.Ragdoll(false, Vector3.zero);
         death = false;
         trigger.gameObject.SetActive(true);
+        cdModuleStopeable.ResetAll();
+        cdModuleNonStopeable.ResetAll();
         sm.SendInput(MandragoraInputs.DISABLE);
     }
     public override void IAInitialize(CombatDirector _director)
@@ -163,7 +167,7 @@ public class MandragoraEnemy : EnemyWithCombatDirector
 
     protected override void OnUpdateEntity()
     {
-        if (canupdate && !mandragoraIsTrap)
+        if (!mandragoraIsTrap)
         {
             if (!death)
             {
@@ -183,14 +187,9 @@ public class MandragoraEnemy : EnemyWithCombatDirector
                     }
                 }
             }
-            sm?.Update();
+            if (!petrified) { sm?.Update(); cdModuleStopeable.UpdateCD(); }
             movement.OnUpdate();
-
-            if (cooldown)
-            {
-                if (timercooldown < recallTime) timercooldown = timercooldown + 1 * Time.deltaTime;
-                else { cooldown = false; timercooldown = 0; }
-            }
+            cdModuleNonStopeable.UpdateCD();
         }
     }
     Vector3 force;
@@ -210,7 +209,12 @@ public class MandragoraEnemy : EnemyWithCombatDirector
     }
 
     #region Attack
-    public void DealDamage() { combatComponent.ManualTriggerAttack(); sm.SendInput(MandragoraInputs.ATTACK); AudioManager.instance.PlaySound(sounds.mandragoraAttack_Clip.name); }
+    public void DealDamage()
+    {
+        combatComponent.ManualTriggerAttack();
+        sm.SendInput(MandragoraInputs.ATTACK);
+        AudioManager.instance.PlaySound(sounds.mandragoraAttack_Clip.name);
+    }
 
     public void AttackEntity(DamageReceiver e)
     {
@@ -239,9 +243,6 @@ public class MandragoraEnemy : EnemyWithCombatDirector
     #endregion
 
     #region Life Things
-
-    public GenericLifeSystem Life() => lifesystem;
-
     protected override void TakeDamageFeedback(DamageData data)
     {
         AudioManager.instance.PlaySound(sounds._takeHit_AC.name);
@@ -250,6 +251,7 @@ public class MandragoraEnemy : EnemyWithCombatDirector
 
         ParticlesManager.Instance.PlayParticle(particles.greenblood.name, transform.position + Vector3.up);
         cooldown = true;
+        cdModuleNonStopeable.AddCD("TakeDamageCD", () => cooldown = false, recallTime);
 
         StartCoroutine(OnHitted(onHitFlashTime, onHitColor));
     }
@@ -281,14 +283,16 @@ public class MandragoraEnemy : EnemyWithCombatDirector
     {
         sm.SendInput(MandragoraInputs.DISABLE);
         combatElement.ExitCombat();
-
         groundSensor?.TurnOff();
     }
-    protected override void OnTurnOn() { sm.SendInput(MandragoraInputs.IDLE); groundSensor?.TurnOn(); }
+
+    protected override void OnTurnOn()
+    {
+        sm.SendInput(MandragoraInputs.IDLE);
+        groundSensor?.TurnOn();
+    }
 
     #region STATE MACHINE THINGS
-
-
     void SetStates()
     {
         var sleeping = new EState<MandragoraInputs>("Sleeping");
@@ -301,13 +305,11 @@ public class MandragoraEnemy : EnemyWithCombatDirector
         var takeDamage = new EState<MandragoraInputs>("Take_Damage");
         var die = new EState<MandragoraInputs>("Die");
         var disable = new EState<MandragoraInputs>("Disable");
-        var petrified = new EState<MandragoraInputs>("Petrified");
 
         ConfigureState.Create(idle)
             .SetTransition(MandragoraInputs.GO_TO_POS, goToPos)
             .SetTransition(MandragoraInputs.TAKE_DAMAGE, takeDamage)
             .SetTransition(MandragoraInputs.DIE, die)
-            .SetTransition(MandragoraInputs.PETRIFIED, petrified)
             .SetTransition(MandragoraInputs.DISABLE, disable)
             .SetTransition(MandragoraInputs.CHASING, chasing)
             .Done();
@@ -316,7 +318,6 @@ public class MandragoraEnemy : EnemyWithCombatDirector
             .SetTransition(MandragoraInputs.IDLE, idle)
             .SetTransition(MandragoraInputs.TAKE_DAMAGE, takeDamage)
             .SetTransition(MandragoraInputs.DIE, die)
-            .SetTransition(MandragoraInputs.PETRIFIED, petrified)
             .SetTransition(MandragoraInputs.DISABLE, disable)
             .SetTransition(MandragoraInputs.CHASING, chasing)
             .Done();
@@ -327,14 +328,12 @@ public class MandragoraEnemy : EnemyWithCombatDirector
             .SetTransition(MandragoraInputs.BEGIN_ATTACK, beginAttack)
             .SetTransition(MandragoraInputs.TAKE_DAMAGE, takeDamage)
             .SetTransition(MandragoraInputs.DIE, die)
-            .SetTransition(MandragoraInputs.PETRIFIED, petrified)
             .SetTransition(MandragoraInputs.DISABLE, disable)
             .Done();
 
         ConfigureState.Create(beginAttack)
             .SetTransition(MandragoraInputs.ATTACK, attack)
             .SetTransition(MandragoraInputs.DIE, die)
-            .SetTransition(MandragoraInputs.PETRIFIED, petrified)
             .SetTransition(MandragoraInputs.PARRIED, parried)
             .SetTransition(MandragoraInputs.DISABLE, disable)
             .Done();
@@ -342,21 +341,12 @@ public class MandragoraEnemy : EnemyWithCombatDirector
         ConfigureState.Create(attack)
             .SetTransition(MandragoraInputs.IDLE, idle)
             .SetTransition(MandragoraInputs.DIE, die)
-            .SetTransition(MandragoraInputs.PETRIFIED, petrified)
             .SetTransition(MandragoraInputs.PARRIED, parried)
             .SetTransition(MandragoraInputs.DISABLE, disable)
             .Done();
 
         ConfigureState.Create(parried)
             .SetTransition(MandragoraInputs.IDLE, idle)
-            .SetTransition(MandragoraInputs.PETRIFIED, petrified)
-            .SetTransition(MandragoraInputs.DIE, die)
-            .SetTransition(MandragoraInputs.DISABLE, disable)
-            .Done();
-
-        ConfigureState.Create(petrified)
-            .SetTransition(MandragoraInputs.IDLE, idle)
-            .SetTransition(MandragoraInputs.BEGIN_ATTACK, beginAttack)
             .SetTransition(MandragoraInputs.DIE, die)
             .SetTransition(MandragoraInputs.DISABLE, disable)
             .Done();
@@ -364,7 +354,6 @@ public class MandragoraEnemy : EnemyWithCombatDirector
         ConfigureState.Create(takeDamage)
             .SetTransition(MandragoraInputs.IDLE, idle)
             .SetTransition(MandragoraInputs.DISABLE, disable)
-            .SetTransition(MandragoraInputs.PETRIFIED, petrified)
             .SetTransition(MandragoraInputs.DIE, die)
             .Done();
 
@@ -388,15 +377,13 @@ public class MandragoraEnemy : EnemyWithCombatDirector
 
         new DummyAttAnt(beginAttack, sm, movement, combatElement).SetAnimator(animator).SetDirector(director).SetRoot(rootTransform);
 
-        new DummyAttackState(attack, sm, cdToAttack, combatElement).SetAnimator(animator).SetDirector(director);
+        new DummyAttackState(attack, sm, cdToAttack, combatElement).SetAnimator(animator).SetDirector(director).SetCD(cdModuleStopeable);
 
-        new DummyParried(parried, sm, parriedTime, combatElement).SetAnimator(animator).SetDirector(director);
+        new DummyParried(parried, sm, parriedTime, combatElement).SetAnimator(animator).SetDirector(director).SetCD(cdModuleStopeable);
 
-        new DummyTDState(takeDamage, sm, recallTime).SetAnimator(animator);
+        new DummyTDState(takeDamage, sm, recallTime).SetAnimator(animator).SetCD(cdModuleStopeable);
 
-        new DummyStunState<MandragoraInputs>(petrified, sm);
-
-        new DummyDieState(die, sm, ragdoll, OnDead, ReturnToSpawner).SetAnimator(animator).SetDirector(director).SetRigidbody(rb);
+        new DummyDieState(die, sm, ragdoll, OnDead, ReturnToSpawner).SetAnimator(animator).SetDirector(director).SetRigidbody(rb).SetCD(cdModuleStopeable);
 
         new DummyDisableState<MandragoraInputs>(disable, sm, EnableObject, DisableObject);
     }

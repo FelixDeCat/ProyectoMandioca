@@ -258,7 +258,10 @@ public class CombatDirector : LoadComponent, IZoneElement
     public void AttackRelease(CombatDirectorElement e, EntityBase target)
     {
         if (!target || !listAttackTarget.ContainsKey(target))
+        {
+            Debug.Log("No se que pasa men");
             return;
+        }
 
         attackingTarget[target].Remove(e);
 
@@ -281,12 +284,20 @@ public class CombatDirector : LoadComponent, IZoneElement
                 listAttackTarget[target].Add(e);
                 AssignPos(e, target);
             }
+            else
+            {
+                Debug.Log("jeje");
+            }
         }
         else
         {
             if (!waitToAttack[target].Contains(e))
             {
                 waitToAttack[target].Add(e);
+            }
+            else
+            {
+                Debug.Log("?");
             }
         }
 
