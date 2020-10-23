@@ -18,7 +18,7 @@ public class ElectricSwordHolding : MonoBehaviour
     CharacterHead myChar;
     [Header("Other")]
     [SerializeField] float charSpeed = 0;
-    
+
     bool canUpdate = false;
     float timer = 0;
     const string spawnBullet = "SpawnBullet";
@@ -37,7 +37,7 @@ public class ElectricSwordHolding : MonoBehaviour
         //Aca tambien
         Main.instance.GetChar().SwordAbilityRelease();
         myChar.charanim.SetLightnings(false);
-        canUpdate = false;    
+        canUpdate = false;
         //Llamar animevent que salga de disparar
     }
 
@@ -75,8 +75,8 @@ public class ElectricSwordHolding : MonoBehaviour
     {
         var orb = Instantiate(electricOrb);
         orb.SetSpeed(orbSpeed).SetLifeTime(orbLifeTime);
-        orb.transform.position = myChar.transform.position + Vector3.up;
         orb.transform.forward = myChar.GetCharMove().GetRotatorDirection();
+        orb.transform.position = myChar.transform.position + Vector3.up + orb.transform.forward;
     }
 
     void ExecuteShort()
@@ -94,8 +94,8 @@ public class ElectricSwordHolding : MonoBehaviour
     {
         var wave = Instantiate(_wave);
         wave = wave.SetSpeed(speed).SetLifeTime(lifeTime);
-        wave.transform.position = myChar.transform.position + Vector3.up;
         wave.transform.forward = myChar.GetCharMove().GetRotatorDirection();
+        wave.transform.position = myChar.transform.position + Vector3.up + wave.transform.forward;
     }
 
     public void OnEnd()
