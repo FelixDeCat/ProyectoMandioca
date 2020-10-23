@@ -15,8 +15,11 @@ public class Combat_Maniqui : EntityBase
     [SerializeField] UnityEvent DeathByComboWombo;
 
 
+    bool isactive;
+
     private void Start()
     {
+        isactive = true;
         damageReceiver = GetComponentInChildren<DamageReceiver>();
         myLifeSystem = damageReceiver.gameObject.GetComponent<_Base_Life_System>();
         myLifeSystem.Initialize();
@@ -32,6 +35,7 @@ public class Combat_Maniqui : EntityBase
 
     void Death(Vector3 hit_direction)
     {
+        isactive = false;
         feedback.Play_part_Death();
         feedback.Play_Sound_Death();
         myRig.gameObject.GetComponent<Collider>();
@@ -40,6 +44,7 @@ public class Combat_Maniqui : EntityBase
     }
     void TakeDamage(DamageData data)
     {
+        
         feedback.Play_part_Hit();
         feedback.Play_Sound_Hit();
 
@@ -54,6 +59,7 @@ public class Combat_Maniqui : EntityBase
             else myLifeSystem.ResetLifeSystem();
         }
         else myLifeSystem.ResetLifeSystem();
+        if (!isactive) return;
 
         StartCoroutine(feedback.OnHitted(0.1f, Color.white));
     }

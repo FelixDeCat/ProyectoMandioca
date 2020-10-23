@@ -6,10 +6,10 @@ public class SwitchLights : MonoBehaviour
 {
     public void EnableMainDirectionalLight()
     {
-        DirectionalMain.instance.EnableDirectional(true);
+        DirectionalMain.instance?.EnableDirectional(true);
     }
     public void DisableMainDirectionalLight()
     {
-        DirectionalMain.instance.EnableDirectional(false);
+        DirectionalMain.instance?.EnableDirectional(false);
     }
 }
