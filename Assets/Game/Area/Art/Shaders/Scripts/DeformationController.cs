@@ -9,7 +9,9 @@ public class DeformationController : MonoBehaviour
 
     public Shader deformation;
 
-    private InteractSensor _posPlayer;
+    public InteractSensor _posPlayer;
+
+   
     
 
     private void Awake()
@@ -21,6 +23,7 @@ public class DeformationController : MonoBehaviour
     private void Update()
     {
         Shader.SetGlobalVector("PosPepito", _posPlayer.transform.position);
+
       
     }
 
