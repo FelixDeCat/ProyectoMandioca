@@ -298,6 +298,16 @@ public class WendigoEnemy : EnemyWithCombatDirector
                     sm.SendInput(WendigoInputs.OBSERVATION);
                 }
             }
+
+            if (!combatElement.Combat)
+            {
+                if (dist >= combatDistance && sm.Current.Name != "Idle")
+                {
+                    sm.SendInput(WendigoInputs.IDLE);
+                    combatElement.ExitCombat();
+                }
+            }
+
         }
         //Update de StateMachine
         if (sm != null)
