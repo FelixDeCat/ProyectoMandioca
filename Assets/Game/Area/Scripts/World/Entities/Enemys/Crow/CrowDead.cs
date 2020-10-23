@@ -20,7 +20,7 @@ namespace Tools.StateMachine
         {
             base.Enter(last);
             cdModule.AddCD("ragdollDesactive", ragdoll.DesactiveBones, 5);
-            cdModule.AddCD("ragdollDesactive", OnDissappear, 8);
+            cdModule.AddCD("ragdollDissapear", OnDissappear, 8);
             combatDirector.DeadEntity(ragdoll.GetComponent<CombatDirectorElement>(), ragdoll.GetComponent<CombatDirectorElement>().CurrentTarget());
         }
     }

@@ -19,7 +19,6 @@ public class CDModule
         Action Updater = () =>
         {
             timer += Time.deltaTime;
-
             if (timer >= _cdTime)
                 EndCDWithExecute(_cdName);
         };

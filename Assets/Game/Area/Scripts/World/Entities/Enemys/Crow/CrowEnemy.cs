@@ -33,7 +33,6 @@ public class CrowEnemy : EnemyWithCombatDirector
 
     [Header("Feedback")]
     [SerializeField] AnimEvent anim = null;
-    private Material[] myMat;
     [SerializeField] Color onHitColor = Color.white;
     [SerializeField] float onHitFlashTime = 0.1f;
     [SerializeField] RagdollComponent ragdoll = null;
@@ -67,10 +66,6 @@ public class CrowEnemy : EnemyWithCombatDirector
         ParticlesManager.Instance.GetParticlePool(particles.castParticles.name, particles.castParticles, 2);
         ParticlesManager.Instance.GetParticlePool(particles.attackParticles.name, particles.attackParticles, 2);
         ParticlesManager.Instance.GetParticlePool(particles.takeDmg.name, particles.takeDmg, 3);
-
-        var smr = GetComponentInChildren<SkinnedMeshRenderer>();
-        if (smr != null)
-            myMat = smr.materials;
 
         AudioManager.instance.GetSoundPool(sounds.takeDmgSound.name, AudioGroups.GAME_FX, sounds.takeDmgSound);
         AudioManager.instance.GetSoundPool(sounds.attackSound.name, AudioGroups.GAME_FX, sounds.attackSound);
@@ -117,8 +112,6 @@ public class CrowEnemy : EnemyWithCombatDirector
                 }
             }
 
-            cdModule.UpdateCD();
-
             if (!combatElement.Combat && combatElement.Target == null)
             {
                 if (Vector3.Distance(Main.instance.GetChar().transform.position, transform.position) <= combatDistance)
@@ -132,6 +125,8 @@ public class CrowEnemy : EnemyWithCombatDirector
 
         if (sm != null)
             sm.Update();
+
+        cdModule.UpdateCD();
     }
     protected override void OnPause()
     {
@@ -308,7 +303,7 @@ public class CrowEnemy : EnemyWithCombatDirector
 
         new DummyStunState<CrowInputs>(petrified, sm);
 
-        new CrowDead(die, sm, ragdoll, ReturnToSpawner).SetAnimator(animator).SetDirector(director).SetRigidbody(rb);
+        new CrowDead(die, sm, ragdoll, ReturnToSpawner).SetAnimator(animator).SetDirector(director).SetRigidbody(rb).SetCD(cdModule);
 
         new DummyDisableState<CrowInputs>(disable, sm, EnableObject, DisableObject);
     }

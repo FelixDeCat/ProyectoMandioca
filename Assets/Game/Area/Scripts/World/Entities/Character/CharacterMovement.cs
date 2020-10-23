@@ -284,6 +284,8 @@ public class CharacterMovement
                 z = auxNormalized.normalized.z;
             }
 
+            //Debug.Log(x + " / " + z);
+
             dir = new Vector3(x, 0, z);
             if (dir == Vector3.zero)
                 dir = rotTransform.forward;

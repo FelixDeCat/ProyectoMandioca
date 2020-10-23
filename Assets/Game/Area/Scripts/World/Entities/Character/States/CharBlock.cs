@@ -14,32 +14,10 @@ namespace Tools.StateMachine
         protected override void Enter(EState<CharacterHead.PlayerInputs> input)
         {
             charBlock.SetOnBlock(true);
-            
-            //initSpeed = charMove.GetDefaultSpeed;
-            //charMove.SetSpeed(charMove.GetDefaultSpeed * _speedPenalty);
-
-            //if (_myLockOn.isLockOn())
-            //{
-            //    //nuestro funcioanmiento nuevo
-            //    charMove.MovementHorizontal(input / 2);
-            //    charMove.MovementVertical(input / 2);
-            //}
-            //else
-            //{
-            //    charMove.MovementHorizontal(0);
-            //    charMove.MovementVertical(0);
-            //}
-            
-            
-            //charMove.MovementHorizontal(0);
-            //charMove.MovementVertical(0);
         }
 
         protected override void Update()
         {
-            //charMove.MovementHorizontal(LeftHorizontal() * _speedPenalty);
-            //charMove.MovementVertical(LeftVertical() * _speedPenalty);
-
             charMove.RotateHorizontal(LeftHorizontal());
             charMove.RotateVertical(LeftVertical());
         }
