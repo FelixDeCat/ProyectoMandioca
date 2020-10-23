@@ -1,23 +1,13 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-
+﻿using UnityEngine;
 public class ContextualBarAnimator : MonoBehaviour
 {
-    private bool _canHide;
     public Animator iconAnim;
-    public void StartAnim()
-    {
-        CanHide();
-        iconAnim.SetTrigger("Start");        
+    public void StartAnim() { 
+        iconAnim.SetBool("Start",true);
+        iconAnim.SetBool("End", false);
     }
-    public void EndAnim()
-    {
-        iconAnim.SetTrigger("End");
-    }
-    public bool CanHide()
-    {
-        if (!_canHide) return true;
-        else return false;
+    public void EndAnim() {
+        iconAnim.SetBool("End", true);
+        iconAnim.SetBool("Start", false);
     }
 }

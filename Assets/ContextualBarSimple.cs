@@ -13,7 +13,7 @@ public class ContextualBarSimple : MonoBehaviour
         instance = this;
         myRect = GetComponent<RectTransform>();
         anim = GetComponentInChildren<ContextualBarAnimator>();
-        Catch_Initial_Values();
+        Reset_All();
     }
     private void Start()
     {
@@ -35,10 +35,6 @@ public class ContextualBarSimple : MonoBehaviour
     InputImageDatabase.InputImageType type;
 
     RectTransform myRect;
-    void Catch_Initial_Values()
-    {
-        Reset_All();
-    }
 
     void Reset_All()
     {
@@ -51,25 +47,26 @@ public class ContextualBarSimple : MonoBehaviour
     {
         myRect.ForceUpdateRectTransforms();
         canvas_group.alpha = 1;
-
+        anim.StartAnim();
         return this;
-
     }
 
     public ContextualBarSimple Hide()
     {
-        if (anim.CanHide())
-        {
-            canvas_group.alpha = 0;
-            Reset_All();
-        }
+        canvas_group.alpha = 0;
         anim.EndAnim();
+        Reset_All();
         return this;
     }
 
 
 
-    private void OnChange(params object[] p) { if (!modif_type) return; photo_image.sprite = InputImageDatabase.instance.GetSprite(type); }
+    private void OnChange(params object[] p) 
+    { 
+        if (!modif_type) return; 
+        photo_image.sprite = InputImageDatabase.instance.GetSprite(type);
+        anim.StartAnim();
+    }
 
 
     public void ResetBar() { generic_bar_fill.Configure(1, 0.01f); generic_bar_fill.SetValue(0); }

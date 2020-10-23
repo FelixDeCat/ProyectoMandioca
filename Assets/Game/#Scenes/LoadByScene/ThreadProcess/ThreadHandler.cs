@@ -40,6 +40,10 @@ public class ThreadHandler : MonoBehaviour
             StartCoroutine(Process());
         }
     }
+    private void OnDestroy()
+    {
+        StopAllCoroutines();
+    }
 
     float startTime;
     IEnumerator Process()

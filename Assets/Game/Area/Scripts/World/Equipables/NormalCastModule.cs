@@ -94,7 +94,6 @@ public class NormalCastModule : MonoBehaviour
 
                 if (contextual_charge)
                 {
-                    ContextualBarSimple.instance.Show();
                     ContextualBarSimple.instance.Set_Values_Load_Bar(casting, timer);
                 }
             }

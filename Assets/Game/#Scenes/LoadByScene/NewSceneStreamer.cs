@@ -202,9 +202,8 @@ public class NewSceneStreamer : MonoBehaviour
 
             while (asyncOperation.progress < 0.9f)
             {
-
                 yield return new WaitForEndOfFrame();
-                ThreadHandler.AuxiliarDebug("[Loading... " + sceneName + "][%" + asyncOperation.progress * 100 + "]");
+                ThreadHandler.AuxiliarDebug("Loading subscene " + sceneName + " => %" + asyncOperation.progress * 100);
 
                 yield return null;
             }
