@@ -117,7 +117,8 @@ public class BoomerangShield : MonoBehaviour
         {
             if (charges == 0) shortCast = true;
             else shortCast = false;
-            _hero.ShieldAbilityRelease(ThrowShield);
+            _hero.ShieldAbilityRelease();
+            ThrowShield();
             _hero.charanim.StartThrow(false);
             _hero.charanim.ThrowShield(true);
             _hero.charanim.ThrowShield(false);

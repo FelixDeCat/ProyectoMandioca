@@ -15,7 +15,7 @@ public class CharSwordAbilityRelease : CharacterStates
 
     protected override void Enter(EState<CharacterHead.PlayerInputs> input)
     {
-        if (toExecute != null) toExecute.Invoke();
+        //if (toExecute != null) toExecute.Invoke();
         Main.instance.GetChar().SetNormalSpeed();
     }
 

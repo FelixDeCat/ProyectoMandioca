@@ -23,6 +23,9 @@ public class NewShieldAbility : MonoBehaviour
 
     CharacterHead _hero;
 
+    const string tap = "UseShieldTapping";
+    const string hold = "UseShieldPowerHolding";
+
     public void OnPress()
     {
         _hero.ShieldAbilityCharge();
@@ -31,6 +34,7 @@ public class NewShieldAbility : MonoBehaviour
 
     public void OnStopUse()
     {
+        _hero.ShieldAbilityRelease();
     }
 
     public void EquippedUpdate()
@@ -49,10 +53,16 @@ public class NewShieldAbility : MonoBehaviour
         dmgDATA = Main.instance.GetChar().GetComponent<DamageData>();
         dmgDATA.Initialize(_hero);
         dmgDATA.SetDamage(damageDestroyPetrify).SetDamageTick(false).SetDamageType(damageType).SetKnockback(5);
+
+        Main.instance.GetChar().charAnimEvent.Add_Callback(tap, UseShieldTapping);
+        Main.instance.GetChar().charAnimEvent.Add_Callback(hold, UseShieldPowerHolding);
     }
     public void OnUnequip()
     {
         Main.instance.GetChar().comboParryForAbility.Clear_OnExecuteCombo();
+
+        Main.instance.GetChar().charAnimEvent.Remove_Callback(tap, UseShieldTapping);
+        Main.instance.GetChar().charAnimEvent.Remove_Callback(hold, UseShieldPowerHolding);
     }
 
     void ExecuteHeavy() => OnExecute(1);
@@ -62,22 +72,20 @@ public class NewShieldAbility : MonoBehaviour
         if (charges == 0)
         {
             if (Main.instance.GetChar().comboParryForAbility.TryExecuteCombo()) return;
-            _hero.ShieldAbilityRelease(UseShieldTapping);
+          
             _hero.charanim.MedusaStunShort();
         }
         else
         {
-            _hero.ShieldAbilityRelease(UseShieldPowerHolding);
             _hero.charanim.MedusaStunLong();
         }
 
         _hero.ToggleBlock(true);
     }
-
-
+    
     void UseShieldPowerHolding()
     {
-        ParticlesManager.Instance.PlayParticle(circuloPetrify.name, _hero.transform.position);
+        ParticlesManager.Instance.PlayParticle(circuloPetrify.name, _hero.transform.position); 
         var enemis = Extensions.FindInRadius<DamageReceiver>(_hero.transform.position, radiusHolding);
         for (int i = 0; i < enemis.Count; i++)
         {

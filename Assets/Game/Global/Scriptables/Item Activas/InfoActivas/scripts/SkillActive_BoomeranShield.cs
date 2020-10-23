@@ -96,7 +96,8 @@ public class SkillActive_BoomeranShield : SkillActivas
     {
         if (canuse)
         {
-            Main.instance.GetChar().ShieldAbilityRelease(TrowShield);
+            Main.instance.GetChar().ShieldAbilityRelease();
+            TrowShield();
         }
     }
 

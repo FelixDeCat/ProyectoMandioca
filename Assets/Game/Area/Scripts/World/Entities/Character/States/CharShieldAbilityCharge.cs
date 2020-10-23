@@ -18,7 +18,7 @@ namespace Tools.StateMachine
         {
             charMove.MovementHorizontal(0);
             charMove.MovementVertical(0);
-            if (toExecute != null) toExecute.Invoke();
+            //if (toExecute != null) toExecute.Invoke();
         }
         protected override void Update()
         {

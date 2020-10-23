@@ -477,7 +477,7 @@ public class CharacterHead : CharacterControllable
             .SetLeftAxis(GetLeftHorizontal, GetLeftVertical)
             .SetMovement(this.move);
 
-        new CharShieldAbilityRelease(shieldAbilityRelease, stateMachine, shieldAbilityOnRelease)
+        new CharShieldAbilityRelease(shieldAbilityRelease, stateMachine)
             .SetMovement(this.move)
             .SetLeftAxis(GetLeftHorizontal, GetLeftVertical);
 

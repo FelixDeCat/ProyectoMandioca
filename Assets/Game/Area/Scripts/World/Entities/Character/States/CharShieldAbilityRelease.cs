@@ -7,18 +7,16 @@ namespace Tools.StateMachine
 {
     public class CharShieldAbilityRelease : CharacterStates
     {
-        Action throwShield;
         float timer = 0;
 
-        public CharShieldAbilityRelease(EState<CharacterHead.PlayerInputs> myState, EventStateMachine<CharacterHead.PlayerInputs> _sm, Action _throwShield): base(myState, _sm)
+        public CharShieldAbilityRelease(EState<CharacterHead.PlayerInputs> myState, EventStateMachine<CharacterHead.PlayerInputs> _sm): base(myState, _sm)
         {
-            throwShield = _throwShield;
+
         }
 
         protected override void Enter(EState<CharacterHead.PlayerInputs> input)
         {
-            Main.instance.GetChar().ToggleBlock(false);
-            if(throwShield != null) throwShield.Invoke();
+            Main.instance.GetChar().ToggleBlock(false);            
         }
 
         protected override void Update()
