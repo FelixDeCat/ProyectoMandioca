@@ -23,7 +23,25 @@ public class DevelopToolsCenter : MonoBehaviour
 
         DevelopTools.UI.Debug_UI_Tools.instance.CreateToogle("Armas", false, Armas);
         DevelopTools.UI.Debug_UI_Tools.instance.CreateToogle("NormalAttack", true, GodDamage);
+
+        DevelopTools.UI.Debug_UI_Tools.instance.CreateToogle("Magnificar Ents", false, ToogleMagnoFace);
+        
     }
+
+    public string ToogleMagnoFace(bool val)
+    {
+        FindObjectsOfType<TrueDummyEnemy>().ToList().ForEach(x => x.GetComponentInChildren<MagnoSuperCheat>().ToogleMagnoFace(val));
+
+        if (val)
+        {
+            return "Ents Magnificados";
+        }
+        else
+        {
+            return "Ents Normales";
+        }
+    }
+
     public string Armas(bool val)
     {
         Main.instance.GetChar().ToggleShield(val);
