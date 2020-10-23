@@ -107,10 +107,13 @@ public class WendigoEnemy : EnemyWithCombatDirector
     {
         view.TurnOffThing();
         hasThrowable = false;
-        Vector3 direction = ((combatElement.CurrentTarget().transform.position + Vector3.up) - shootPivot.position).normalized;
-        Vector3 dir = combatElement.CurrentTarget() ? direction : transform.forward;
-        ThrowData newData = new ThrowData().Configure(shootPivot.position, dir, distancePos * 2, damage, rootTransform);
-        ThrowablePoolsManager.instance.Throw(throwObject.name, newData);
+        if (combatElement.Combat)
+        {
+            Vector3 direction = (combatElement.CurrentTarget().transform.position + Vector3.up - shootPivot.position).normalized;
+            Vector3 dir = combatElement.CurrentTarget() ? direction : transform.forward;
+            ThrowData newData = new ThrowData().Configure(shootPivot.position, dir, distancePos * 2, damage, rootTransform);
+            ThrowablePoolsManager.instance.Throw(throwObject.name, newData);
+        }
         sm.SendInput(WendigoEnemy.WendigoInputs.OBSERVATION);
     }
 
