@@ -34,7 +34,7 @@ public class BoomerangExplosion : MonoBehaviour
     ///////////////////////////////////////
     public void OnPress()
     {
-        _hero.ChargeThrowShield();
+        _hero.ShieldAbilityCharge();
 
         timer = 0;
         canUpdate = true;

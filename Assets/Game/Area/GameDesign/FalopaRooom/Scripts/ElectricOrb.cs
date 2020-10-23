@@ -16,7 +16,7 @@ public class ElectricOrb : Waves
     [SerializeField] float explosionKnocback;
     [SerializeField] int explosionDMG;
     [SerializeField] Waves prefabBullet = null;
-
+    [SerializeField] Collider myCollider = null;
     protected override void Start()
     {
         base.Start();
@@ -30,8 +30,7 @@ public class ElectricOrb : Waves
 
     public void Explode()
     {
-        GetComponent<Collider>().enabled = false;
-
+        myCollider.enabled = false;
 
         var enemies = Extensions.FindInRadius<DamageReceiver>(this.transform.position, orbRadiusExplosion);
         for (int i = 0; i < enemies.Count; i++)

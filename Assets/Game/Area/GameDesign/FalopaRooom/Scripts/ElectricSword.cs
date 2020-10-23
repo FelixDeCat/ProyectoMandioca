@@ -22,13 +22,13 @@ public class ElectricSword : MonoBehaviour
     public void OnPress()
     {
         //Aca supongo que van cosas de feedback
-        Main.instance.GetChar().StartActive(charSpeed);
+        Main.instance.GetChar().SwordAbiltyCharge(charSpeed);
 
     }
     public void OnStopUse()
     {
         //Aca tambien
-        Main.instance.GetChar().ReleaseActive();
+        Main.instance.GetChar().SwordAbilityRelease();
 
     }
     public void OnUpdate()

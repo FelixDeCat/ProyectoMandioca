@@ -27,20 +27,19 @@ public class ElectricSwordHolding : MonoBehaviour
         //Aca supongo que van cosas de feedback
         timer = 0;
         canUpdate = true;
-        Main.instance.GetChar().StartActive(charSpeed);
+        Main.instance.GetChar().SwordAbiltyCharge(charSpeed);
     }
     public void OnStopUse()
     {
         //Aca tambien
         canUpdate = false;
-        Main.instance.GetChar().ReleaseActive();
+        Main.instance.GetChar().SwordAbilityRelease();
 
     }
     public void OnUpdate()
     {
         if (!canUpdate) return;
         timer += Time.deltaTime;
-        Debug.Log("Update");
         if(timer >= cooldown)
         {
             Spawn();

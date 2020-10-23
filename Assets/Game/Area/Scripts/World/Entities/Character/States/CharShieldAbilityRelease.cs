@@ -5,23 +5,20 @@ using System;
 
 namespace Tools.StateMachine
 {
-    public class CharBoomerangRelease : CharacterStates
+    public class CharShieldAbilityRelease : CharacterStates
     {
         Action throwShield;
-        CharacterAnimator anim;
         float timer = 0;
 
-        public CharBoomerangRelease(EState<CharacterHead.PlayerInputs> myState, EventStateMachine<CharacterHead.PlayerInputs> _sm, Action _throwShield, CharacterAnimator _anim): base(myState, _sm)
+        public CharShieldAbilityRelease(EState<CharacterHead.PlayerInputs> myState, EventStateMachine<CharacterHead.PlayerInputs> _sm, Action _throwShield): base(myState, _sm)
         {
             throwShield = _throwShield;
-            anim = _anim;
         }
 
         protected override void Enter(EState<CharacterHead.PlayerInputs> input)
         {
             Main.instance.GetChar().ToggleBlock(false);
-            throwShield.Invoke();
-            anim.ThrowShield(true);
+            if(throwShield != null) throwShield.Invoke();
         }
 
         protected override void Update()
@@ -52,7 +49,6 @@ namespace Tools.StateMachine
         }
         protected override void Exit(CharacterHead.PlayerInputs input)
         {
-            anim.ThrowShield(false);
         }
     }
 }

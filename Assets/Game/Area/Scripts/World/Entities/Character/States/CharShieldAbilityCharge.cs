@@ -1,23 +1,24 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System;
 
 namespace Tools.StateMachine
 {
-    public class CharBoomerangCharge : CharacterStates
+    public class CharShieldAbilityCharge : CharacterStates
     { 
-        CharacterAnimator anim;
+        Action toExecute;
 
-        public CharBoomerangCharge(EState<CharacterHead.PlayerInputs> myState, CharacterAnimator _anim, EventStateMachine<CharacterHead.PlayerInputs> _sm) : base(myState, _sm)
+        public CharShieldAbilityCharge(EState<CharacterHead.PlayerInputs> myState, Action _toExecute, EventStateMachine<CharacterHead.PlayerInputs> _sm) : base(myState, _sm)
         {
-            anim = _anim;
+            toExecute = _toExecute;
         }
 
         protected override void Enter(EState<CharacterHead.PlayerInputs> input)
         {
             charMove.MovementHorizontal(0);
             charMove.MovementVertical(0);
-            anim.StartThrow(true);
+            if (toExecute != null) toExecute.Invoke();
         }
         protected override void Update()
         {
@@ -36,7 +37,7 @@ namespace Tools.StateMachine
 
         protected override void Exit(CharacterHead.PlayerInputs input)
         {
-            anim.StartThrow(false);
+
         }
     }
 }

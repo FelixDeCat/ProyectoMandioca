@@ -79,7 +79,8 @@ public class BoomerangShield : MonoBehaviour
         //_hero.GetCharMove().StopForceBool(true);
         //_hero.BlockRoll = true;
 
-        _hero.ChargeThrowShield();
+        _hero.ShieldAbilityCharge();
+        _hero.charanim.StartThrow(true);
     }
 
     public void OnStopUse()
@@ -116,13 +117,16 @@ public class BoomerangShield : MonoBehaviour
         {
             if (charges == 0) shortCast = true;
             else shortCast = false;
-            _hero.ThrowSomething(ThrowShield);
+            _hero.ShieldAbilityRelease(ThrowShield);
+            _hero.charanim.StartThrow(false);
+            _hero.charanim.ThrowShield(true);
+            _hero.charanim.ThrowShield(false);
         }
     }
 
     Transform auxParent = null;
 
-    public void ThrowShield(Vector3 position)
+    public void ThrowShield()
     {
         auxShield.transform.SetParent(null);
         auxShield.transform.rotation = Quaternion.Euler(new Vector3(-90, 0, 0));       

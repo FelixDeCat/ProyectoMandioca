@@ -9,7 +9,7 @@ public class CharacterHead : CharacterControllable
     {
         IDLE, MOVE, BEGIN_BLOCK, BLOCK, END_BLOCK, PARRY, CHARGE_ATTACK, RELEASE_ATTACK,
         TAKE_DAMAGE, DEAD, ROLL, STUN, ON_MENU_ENTER, ON_MENU_EXIT, FALLING, ENVAINAR,
-        CHARGE_BOOMERANG_SHIELD, RELEASE_BOOMERANG_SHIELD, START_ACTIVE, RELEASE_ACTIVE
+        CHARGE_SHIELD_ABILITY, RELEASE_SHIELD_ABILITY, START_ACTIVE, RELEASE_ACTIVE
     };
 
     Action ChildrensUpdates;
@@ -191,7 +191,6 @@ public class CharacterHead : CharacterControllable
         charAnimEvent.Add_Callback("OpenComboWindow", charAttack.ANIM_EVENT_OpenComboWindow);
         charAnimEvent.Add_Callback("CloseComboWindow", charAttack.ANIM_EVENT_CloseComboWindow);
 
-        charAnimEvent.Add_Callback("OnThrow", ThrowCallback);
         debug_options.StartDebug();
 
         SetStates();
@@ -249,10 +248,10 @@ public class CharacterHead : CharacterControllable
         var bashDash = new EState<PlayerInputs>("BashDash");
         var onMenues = new EState<PlayerInputs>("OnMenues");
         var falling = new EState<PlayerInputs>("Falling");
-        var boomerangCharge = new EState<PlayerInputs>("BoomerangCharge");
-        var boomerangRelease = new EState<PlayerInputs>("BoomerangRelease");
-        var startActive = new EState<PlayerInputs>("StartActive");
-        var releaseActive = new EState<PlayerInputs>("ReleaseActive");
+        var shieldAbilityCharge = new EState<PlayerInputs>("ShieldAbilityCharge");
+        var shieldAbilityRelease = new EState<PlayerInputs>("ShieldAbilityRelease");
+        var swordAbilityCharge = new EState<PlayerInputs>("SwordAbilityCharge");
+        var swordAbilityRelease = new EState<PlayerInputs>("SwordAbilityRelease");
         var envainar = new EState<PlayerInputs>("Envainar");
 
         ConfigureState.Create(idle)
@@ -261,8 +260,8 @@ public class CharacterHead : CharacterControllable
             .SetTransition(PlayerInputs.BEGIN_BLOCK, beginBlock)
             .SetTransition(PlayerInputs.ROLL, roll)
             .SetTransition(PlayerInputs.CHARGE_ATTACK, attackCharge)
-            .SetTransition(PlayerInputs.CHARGE_BOOMERANG_SHIELD, boomerangCharge)
-            .SetTransition(PlayerInputs.START_ACTIVE, startActive)
+            .SetTransition(PlayerInputs.CHARGE_SHIELD_ABILITY, shieldAbilityCharge)
+            .SetTransition(PlayerInputs.START_ACTIVE, swordAbilityCharge)
             .SetTransition(PlayerInputs.TAKE_DAMAGE, takeDamage)
             .SetTransition(PlayerInputs.DEAD, dead)
             .SetTransition(PlayerInputs.STUN, stun)
@@ -276,8 +275,8 @@ public class CharacterHead : CharacterControllable
             .SetTransition(PlayerInputs.BEGIN_BLOCK, beginBlock)
             .SetTransition(PlayerInputs.ROLL, roll)
             .SetTransition(PlayerInputs.CHARGE_ATTACK, attackCharge)
-            .SetTransition(PlayerInputs.CHARGE_BOOMERANG_SHIELD, boomerangCharge)
-            .SetTransition(PlayerInputs.START_ACTIVE, startActive)
+            .SetTransition(PlayerInputs.CHARGE_SHIELD_ABILITY, shieldAbilityCharge)
+            .SetTransition(PlayerInputs.START_ACTIVE, swordAbilityCharge)
             .SetTransition(PlayerInputs.TAKE_DAMAGE, takeDamage)
             .SetTransition(PlayerInputs.DEAD, dead)
             .SetTransition(PlayerInputs.STUN, stun)
@@ -358,41 +357,39 @@ public class CharacterHead : CharacterControllable
             .SetTransition(PlayerInputs.ON_MENU_ENTER, onMenues)
             .SetTransition(PlayerInputs.MOVE, move)
             .SetTransition(PlayerInputs.CHARGE_ATTACK, attackCharge)
-            .SetTransition(PlayerInputs.CHARGE_BOOMERANG_SHIELD, boomerangCharge)
-            .SetTransition(PlayerInputs.START_ACTIVE, startActive)
+            .SetTransition(PlayerInputs.CHARGE_SHIELD_ABILITY, shieldAbilityCharge)
+            .SetTransition(PlayerInputs.START_ACTIVE, swordAbilityCharge)
             .SetTransition(PlayerInputs.BEGIN_BLOCK, beginBlock)
             .SetTransition(PlayerInputs.DEAD, dead)
             .SetTransition(PlayerInputs.ROLL, roll)
             .SetTransition(PlayerInputs.FALLING, falling)
             .Done();
 
-        ConfigureState.Create(boomerangCharge)
-            .SetTransition(PlayerInputs.RELEASE_BOOMERANG_SHIELD, boomerangRelease)
+        ConfigureState.Create(shieldAbilityCharge)
+            .SetTransition(PlayerInputs.RELEASE_SHIELD_ABILITY, shieldAbilityRelease)
             .SetTransition(PlayerInputs.ON_MENU_ENTER, onMenues)
             .SetTransition(PlayerInputs.DEAD, dead)
             .Done();
 
-        ConfigureState.Create(boomerangRelease)
+        ConfigureState.Create(shieldAbilityRelease)
            .SetTransition(PlayerInputs.IDLE, idle)
            .SetTransition(PlayerInputs.ON_MENU_ENTER, onMenues)
            .SetTransition(PlayerInputs.MOVE, move)
            .SetTransition(PlayerInputs.DEAD, dead)
-           .SetTransition(PlayerInputs.ROLL, roll)
            .SetTransition(PlayerInputs.FALLING, falling)
            .Done();
 
-        ConfigureState.Create(startActive)
-            .SetTransition(PlayerInputs.RELEASE_ACTIVE, releaseActive)
+        ConfigureState.Create(swordAbilityCharge)
+            .SetTransition(PlayerInputs.RELEASE_ACTIVE, swordAbilityRelease)
             .SetTransition(PlayerInputs.ON_MENU_ENTER, onMenues)
             .SetTransition(PlayerInputs.DEAD, dead)
             .Done();
 
-        ConfigureState.Create(releaseActive)
+        ConfigureState.Create(swordAbilityRelease)
           .SetTransition(PlayerInputs.IDLE, idle)
           .SetTransition(PlayerInputs.ON_MENU_ENTER, onMenues)
           .SetTransition(PlayerInputs.MOVE, move)
           .SetTransition(PlayerInputs.DEAD, dead)
-          .SetTransition(PlayerInputs.ROLL, roll)
           .SetTransition(PlayerInputs.FALLING, falling)
           .Done();
 
@@ -476,19 +473,19 @@ public class CharacterHead : CharacterControllable
             .SetAttack(charAttack)
             .SetLeftAxis(GetLeftHorizontal, GetLeftVertical).SetFeedbacks(feedbacks);
 
-        new CharBoomerangCharge(boomerangCharge, charanim, stateMachine)
+        new CharShieldAbilityCharge(shieldAbilityCharge, shieldAbilityOnCharge, stateMachine)
             .SetLeftAxis(GetLeftHorizontal, GetLeftVertical)
             .SetMovement(this.move);
 
-        new CharBoomerangRelease(boomerangRelease, stateMachine, ThrowCallback, charanim)
+        new CharShieldAbilityRelease(shieldAbilityRelease, stateMachine, shieldAbilityOnRelease)
             .SetMovement(this.move)
             .SetLeftAxis(GetLeftHorizontal, GetLeftVertical);
 
-        new CharElectricSword(startActive, ChangeSpeed, charanim, stateMachine)
+        new CharSwordAbilityCharge(swordAbilityCharge, swordAbilityOnCharge, ChangeSpeed, stateMachine)
             .SetMovement(this.move)
             .SetLeftAxis(GetLeftHorizontal, GetLeftVertical);
 
-        new CharElectricRelease(releaseActive, charanim, stateMachine)
+        new CharSwordAbilityRelease(swordAbilityRelease, swordAbilityOnRelease, stateMachine)
             .SetMovement(this.move)
             .SetLeftAxis(GetLeftHorizontal, GetLeftVertical);
 
@@ -690,41 +687,46 @@ public class CharacterHead : CharacterControllable
     }
     #endregion
 
-    #region Throw Something
-    Action<Vector3> throwCallback;
-    public void ThrowSomething(Action<Vector3> throwInPosition)
+    #region Shield Ability
+    Action shieldAbilityOnCharge;
+
+    public void ShieldAbilityCharge(Action onCharge = null)
     {
-        throwCallback = throwInPosition;
-        stateMachine.SendInput(PlayerInputs.RELEASE_BOOMERANG_SHIELD);
+        shieldAbilityOnCharge = onCharge;
+        stateMachine.SendInput(PlayerInputs.CHARGE_SHIELD_ABILITY);
     }
-    void ThrowCallback()
+  
+    Action shieldAbilityOnRelease;
+    public void ShieldAbilityRelease(Action abilityOnRelease = null)
     {
-        throwCallback.Invoke(escudo.transform.position);
-        charanim.StartThrow(false);
+        shieldAbilityOnRelease = abilityOnRelease;
+        stateMachine.SendInput(PlayerInputs.RELEASE_SHIELD_ABILITY);
     }
-    public void ChargeThrowShield()
-    {
-        stateMachine.SendInput(PlayerInputs.CHARGE_BOOMERANG_SHIELD);
-    }
+   
     #endregion
 
-    #region Use Active
+    #region Sword Ability;
     float ChangeSpeed()
     {
         return speedChange;
     }
     float speedChange = 0;
 
-    public void StartActive(float speed)
+
+    Action swordAbilityOnCharge;
+    public void SwordAbiltyCharge(float speed, Action swordActiveCharge = null)
     {
+        swordAbilityOnCharge = swordActiveCharge;
         speedChange = speed;
         stateMachine.SendInput(PlayerInputs.START_ACTIVE);
     }
-
-    public void ReleaseActive()
+   
+    Action swordAbilityOnRelease;
+    public void SwordAbilityRelease(Action swordAbilityRelease = null)
     {
+        swordAbilityOnRelease = swordAbilityRelease;
         stateMachine.SendInput(PlayerInputs.RELEASE_ACTIVE);
-    }
+    }  
     #endregion
 
     #region Pause & Resume

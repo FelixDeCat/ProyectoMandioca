@@ -25,7 +25,8 @@ public class NewShieldAbility : MonoBehaviour
 
     public void OnPress()
     {
-        _hero.ChargeThrowShield();
+        _hero.ShieldAbilityCharge();
+        _hero.charanim.MedusaStunStart();
     }
 
     public void OnStopUse()
@@ -61,18 +62,20 @@ public class NewShieldAbility : MonoBehaviour
         if (charges == 0)
         {
             if (Main.instance.GetChar().comboParryForAbility.TryExecuteCombo()) return;
-            _hero.ThrowSomething(UseShieldTapping);
+            _hero.ShieldAbilityRelease(UseShieldTapping);
+            _hero.charanim.MedusaStunShort();
         }
         else
         {
-            _hero.ThrowSomething(UseShieldPowerHolding);
+            _hero.ShieldAbilityRelease(UseShieldPowerHolding);
+            _hero.charanim.MedusaStunLong();
         }
 
         _hero.ToggleBlock(true);
     }
 
 
-    void UseShieldPowerHolding(Vector3 aux)
+    void UseShieldPowerHolding()
     {
         ParticlesManager.Instance.PlayParticle(circuloPetrify.name, _hero.transform.position);
         var enemis = Extensions.FindInRadius<DamageReceiver>(_hero.transform.position, radiusHolding);
@@ -86,7 +89,7 @@ public class NewShieldAbility : MonoBehaviour
         }
     }
 
-    void UseShieldTapping(Vector3 aux)
+    void UseShieldTapping()
     {
         var auxDeParti = ParticlesManager.Instance.PlayParticle(RayoPetrify.name, _hero.transform.position);
         auxDeParti.transform.forward = _hero.GetCharMove().GetRotatorDirection();

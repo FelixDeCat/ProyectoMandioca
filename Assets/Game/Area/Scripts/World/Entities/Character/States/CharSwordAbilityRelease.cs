@@ -2,20 +2,21 @@
 using System.Collections.Generic;
 using Tools.StateMachine;
 using UnityEngine;
+using System;
 
-public class CharElectricRelease : CharacterStates
+public class CharSwordAbilityRelease : CharacterStates
 {
-    CharacterAnimator anim = null;
+    Action toExecute;
     float timer = 0;  
-    public CharElectricRelease(EState<CharacterHead.PlayerInputs> myState, CharacterAnimator _anim, EventStateMachine<CharacterHead.PlayerInputs> _sm) : base(myState, _sm)
+    public CharSwordAbilityRelease(EState<CharacterHead.PlayerInputs> myState, Action _toExecute, EventStateMachine<CharacterHead.PlayerInputs> _sm) : base(myState, _sm)
     {
-        anim = _anim;
+        toExecute = _toExecute;
     }
 
     protected override void Enter(EState<CharacterHead.PlayerInputs> input)
     {
+        if (toExecute != null) toExecute.Invoke();
         Main.instance.GetChar().SetNormalSpeed();
-        Debug.Log("Enter ReleaseCharActive");
     }
 
     protected override void Update()
@@ -42,6 +43,5 @@ public class CharElectricRelease : CharacterStates
 
     protected override void Exit(CharacterHead.PlayerInputs input)
     {
-        Debug.Log("Exit ReleaseCharActive");
     }
 }

@@ -5,20 +5,20 @@ using System;
 
 namespace Tools.StateMachine
 {
-    public class CharElectricSword : CharacterStates
+    public class CharSwordAbilityCharge : CharacterStates
     {
-        CharacterAnimator anim = null;
+        Action toExecute;
         Func<float> speed;
 
-        public CharElectricSword(EState<CharacterHead.PlayerInputs> myState,  Func<float> _speed, CharacterAnimator _anim, EventStateMachine<CharacterHead.PlayerInputs> _sm) : base(myState, _sm)
+        public CharSwordAbilityCharge(EState<CharacterHead.PlayerInputs> myState, Action _toExecute, Func<float> _speed, EventStateMachine<CharacterHead.PlayerInputs> _sm) : base(myState, _sm)
         {
-            anim = _anim;
+            toExecute = _toExecute;
             speed = _speed;
         }
         protected override void Enter(EState<CharacterHead.PlayerInputs> input)
         {
             Main.instance.GetChar().GetCharMove().SetSpeed(speed());
-            //Empezar animacion
+            toExecute.Invoke();
         }
         protected override void Update()
         {
@@ -30,7 +30,6 @@ namespace Tools.StateMachine
       
         protected override void Exit(CharacterHead.PlayerInputs input)
         {
-            // Cortar animacion
         }
     }
 }

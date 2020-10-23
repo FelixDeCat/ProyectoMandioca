@@ -96,11 +96,11 @@ public class SkillActive_BoomeranShield : SkillActivas
     {
         if (canuse)
         {
-            Main.instance.GetChar().ThrowSomething(TrowShield);
+            Main.instance.GetChar().ShieldAbilityRelease(TrowShield);
         }
     }
 
-    public void TrowShield(Vector3 position)
+    public void TrowShield()
     {
         canuse = false;
         
