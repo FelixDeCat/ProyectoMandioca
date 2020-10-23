@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using GOAP;
 
 public class SummonMinions_bossSkill : GOAP_Skills_Base, ISpawner
 {
@@ -16,6 +17,11 @@ public class SummonMinions_bossSkill : GOAP_Skills_Base, ISpawner
     protected override void OnEndSkill()
     {
         
+    }
+
+    public override bool ExternalCondition()
+    {
+        return !WorldState.instance.values["OnGround"];
     }
 
     protected override void OnExecute()

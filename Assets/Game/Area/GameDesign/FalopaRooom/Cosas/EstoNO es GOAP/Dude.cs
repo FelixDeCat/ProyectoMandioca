@@ -18,7 +18,8 @@ namespace GOAP
         ThinkPlan,
         FailedStep,
         Idle,
-        GetDamaged
+        GetDamaged,
+        Avoid
     }
     public class Dude : MonoBehaviour, IPauseable
     {
@@ -61,7 +62,7 @@ namespace GOAP
             var meleeAttack = new State<ActionEntity>("meleeAttack");
             var move = new State<ActionEntity>("move");
             var useSkill = new State<ActionEntity>("useSkill");
-
+            var avoid = new State<ActionEntity>("avoid");
 
 
             /// /// /// ///
@@ -82,6 +83,13 @@ namespace GOAP
                 if (!Check_SkillRange(_currentSkill.range))
                 {
                     Debug.Log("EL SKILL NO LLEGA");
+                    FailedStep();
+                    return;
+                }
+
+                if(!_currentSkill.ExternalCondition())
+                {
+                    Debug.Log("La condicion fallo");
                     FailedStep();
                     return;
                 }
@@ -139,7 +147,7 @@ namespace GOAP
 
             move.OnEnter += (a) =>
             {
-                _ent.GoTo(_target.transform.position);
+                _ent.GoTo(Navigation.instance.NearestTo(_target.transform.position, _ent.heightLevel).transform.position);
                 //_ent.OnReachDestinationNoParameters += NextStep;
                 _auxCount = 0;
 
@@ -156,7 +164,24 @@ namespace GOAP
                 }
             };
 
+            avoid.OnEnter += (a) =>
+            {
+                _auxCount = 0;
 
+                _ent.GoTo(Navigation.instance.GetFarAwayWp(_ent.heightLevel, 
+                          Navigation.instance.NearestTo(_target.transform.position)).transform.position);
+            };
+
+            avoid.OnUpdate += () =>
+            {
+                _auxCount += Time.deltaTime;
+
+                if (_auxCount >= 6)
+                {
+                    _ent.Stop();
+                    NextStep();
+                }
+            };
             // ////////////
             thinkPlan.OnEnter += a => _planner.StartPlanning();
             //////////////
@@ -189,7 +214,26 @@ namespace GOAP
             getDamaged.OnEnter += a =>
             {
                  _ent.Anim().Play("GetDamage");
-                FailedStep();
+
+                //Aca tengo que hacer que baje. Tal vez tenga que hacer la logica de volar en el Ente y solo llamarla la habilidad de Fly
+
+                //if(_ent.heightLevel == 1)
+                //{
+                //    GOAP_Skills_Base flySkill = _ent.skillManager.GetSkill("Fly");
+                //    flySkill.Execute();
+                //}
+                
+            };
+
+            getDamaged.OnUpdate += () =>
+            {
+                _auxCount += Time.deltaTime;
+
+                if (_auxCount >= 6)
+                {
+                    _ent.Stop();
+                    FailedStep();
+                }
             };
 
             StateConfigurer.Create(any)
@@ -205,6 +249,7 @@ namespace GOAP
                 .SetTransition(ActionEntity.MeleeAttack, meleeAttack)
                 .SetTransition(ActionEntity.UseSkill, useSkill)
                 .SetTransition(ActionEntity.Move, move)
+                .SetTransition(ActionEntity.Avoid, avoid)
                 .Done();
 
             _fsm = new EventFSM<ActionEntity>(thinkPlan, any);

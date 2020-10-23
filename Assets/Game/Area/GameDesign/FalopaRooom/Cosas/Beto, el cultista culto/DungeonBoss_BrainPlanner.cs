@@ -9,6 +9,7 @@ public class DungeonBoss_BrainPlanner : BrainPlanner
     public int move;
     public int laserShoot;
     public int summon;
+    public int fly;
 
     protected override List<GoapAction> GetActionList()
     {
@@ -22,25 +23,53 @@ public class DungeonBoss_BrainPlanner : BrainPlanner
                         {
                             gS.distanceToHero = 1;
                         }),
+                    new GoapAction("Avoid hero")
+                        .SetCost(move)
+                        .Pre(gS =>  gS.distanceToHero <= 8f)
+
+                        .Effect(gS =>
+                        {
+                            gS.distanceToHero = 10;
+                        }),
                     new GoapAction("useSkill LaserShoot")
                         .SetCost(laserShoot)
-                        .Pre(gS =>  gS.values["LaserShoot"] && gS.distanceToHero >= 5f && gS.distanceToHero <= 15f)
+                        .Pre(gS =>  gS.values["LaserShoot"] && !gS.values["OnGround"] && gS.distanceToHero >= 5f && gS.distanceToHero <= 20f)
 
                         .Effect(gS =>
                         {
                             gS.values["LaserShoot"] = false;
                             gS.charLife -= 5;
                         }),
+                    new GoapAction("useSkill Fly")
+                        .SetCost(fly)
+                        .Pre(gS => gS.values["Fly"] && gS.values["OnGround"]) //&&  gS.distanceToHero >= 5f && gS.distanceToHero <= 10f)
+
+                        .Effect(gS =>
+                        {
+                            gS.distanceToHero = 10;
+                            gS.values["OnGround"] = false;
+                            gS.values["Fly"] = false;
+                        }),
                     new GoapAction("useSkill SummonMinions")
                         .SetCost(summon)
-                        .Pre(gS => gS.values["SummonMinions"]) //&&  gS.distanceToHero >= 5f && gS.distanceToHero <= 10f)
+                        .Pre(gS => gS.values["OnGround"] == false && gS.values["SummonMinions"] &&  gS.distanceToHero >= 5f && gS.distanceToHero <= 30f)
 
                         .Effect(gS =>
                         {
                             gS.values["SummonMinions"] = false;
                             gS.charLife -= 10;
-                        }),
+                        })
+                    
+           
             };
+    }
+
+    protected override int Final(GoapState gS)
+    {
+        int h = 0;
+        if (gS.worldStateSnap.charLife > 0) h += 1;
+        if (gS.worldStateSnap.distanceToHero <= 5) h += 2;
+        return h;
     }
 
     protected override Dictionary<string, ItemType> TypeDic()
@@ -49,7 +78,8 @@ public class DungeonBoss_BrainPlanner : BrainPlanner
         {
           { "hero", ItemType.hero },
           { "SummonMinions", ItemType.skill },
-          { "LaserShoot", ItemType.skill }
+          { "LaserShoot", ItemType.skill },
+          { "Fly", ItemType.skill }
         };
     }
 }

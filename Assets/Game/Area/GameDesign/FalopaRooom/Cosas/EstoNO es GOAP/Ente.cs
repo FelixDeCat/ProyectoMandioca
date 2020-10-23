@@ -24,6 +24,7 @@ namespace GOAP
         [SerializeField] Transform _root = null;
         public Transform Root() => _root;
         Rigidbody _rb;
+        RigidbodyConstraints defaultConst;
 
         [Header("Shooter skills")]
         public Transform lefthand_Shooter;
@@ -46,8 +47,9 @@ namespace GOAP
         Vector3 _dir;
         Vector3 _dest_pos;
         public float rootSpeed;
-        public float speed = 2f;
+        public float speed = 4f;
         float currentSpeed;
+        public int heightLevel;
 
         [Header("Feedback")]
         [SerializeField] ParticleSystem takeDamage_fb = null;
@@ -63,7 +65,8 @@ namespace GOAP
 
         private void Update()
         {
-            _anim.SetFloat("speed", currentSpeed);
+           
+            _anim.SetFloat("speed", _rb.velocity.magnitude);
 
             debugLife = Life.Life;
         }      
@@ -72,6 +75,7 @@ namespace GOAP
         {
             //Movement
             _rb = GetComponent<Rigidbody>();
+            defaultConst = _rb.constraints;
 
             //Life
             _lifeSystem = GetComponent<GenericLifeSystem>();
@@ -97,7 +101,14 @@ namespace GOAP
         void OnFinishSkillCast() => OnFinishSkill?.Invoke();
         void SkillAction() => OnSkillAction?.Invoke();
 
+        #region Effects
 
+        public void LoseMagicFly()
+        {
+            _rb.constraints = defaultConst;
+        }
+
+        #endregion
 
         #region Health
 
@@ -202,15 +213,7 @@ namespace GOAP
         public void Rotation(Vector3 forward){_root.forward = Vector3.Lerp(_root.forward, forward, rootSpeed * Time.deltaTime);}
 
 
-        public void GoUp()
-        {
-
-        }
-
-        public void GoDown()
-        {
-
-        }
+     
 
         #endregion
 

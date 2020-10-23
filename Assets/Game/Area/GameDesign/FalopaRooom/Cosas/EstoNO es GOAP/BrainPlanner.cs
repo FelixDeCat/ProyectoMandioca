@@ -18,6 +18,7 @@ namespace GOAP
         //public int move;
 
         public float distanceDebug;
+        public bool OnGround_debug;
 
         private readonly List<Tuple<Vector3, Vector3>> _debugRayList = new List<Tuple<Vector3, Vector3>>();
 
@@ -32,24 +33,28 @@ namespace GOAP
             var actions = GetActionList();
 
             distanceDebug = snap.distanceToHero;
-
+            
             var typeDict = TypeDic();
               
             var actDict = new Dictionary<string, ActionEntity>() {
               { "AttackMelee", ActionEntity.MeleeAttack },
               { "useSkill", ActionEntity.UseSkill},
-              { "GoTo", ActionEntity.Move }
+              { "GoTo", ActionEntity.Move },
+              { "Avoid", ActionEntity.Avoid }
         };
 
-            Func<GoapState, int> final = (gS) =>
-            {
-                int h = 0;
-                if (gS.worldStateSnap.charLife > 0) h += 1;
-                return h;
-            };
+            Func<GoapState, int> final = (gS) => Final(gS);
+                
+                
+            //    (gS) =>
+            //{
+            //    int h = 0;
+            //    if (gS.worldStateSnap.charLife > 0) h += 1;
+            //    return h;
+            //};
             GoapState initial = new GoapState();
             initial.worldStateSnap = snap;
-
+            OnGround_debug = initial.worldStateSnap.values["OnGround"];
             //TimeSlicing 3 - En este caso queriamos guardar el path en algun lado
             //Al no estar usando una variable publica creamos una interna con un valor default
             IEnumerable<GoapAction> plan = Enumerable.Empty<GoapAction>();
@@ -86,6 +91,14 @@ namespace GOAP
                     .ToList()
                 );
             }
+        }
+
+        //Estado final desacoplado para poder darle en las herencias el deseado
+        protected virtual int Final(GoapState gS)
+        {
+            int h = 0;
+            if (gS.worldStateSnap.charLife > 0) h += 1;
+            return h;
         }
 
         protected virtual Dictionary<string, ItemType> TypeDic()

@@ -24,9 +24,6 @@ namespace GOAP
             worldStateSnap.values = new Dictionary<string, bool>();
             worldStateSnap.values.UpdateWith(source.worldStateSnap.values);
 
-            //worldStateSnap.skills = new Dictionary<string, GOAP_Skills_Base>();
-            //worldStateSnap.skills.UpdateWith(source.worldStateSnap.skills);
-
             worldStateSnap.allItems = new List<Item>();
             worldStateSnap.allItems = source.worldStateSnap.allItems.GetRange(0, source.worldStateSnap.allItems.Count);
 

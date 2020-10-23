@@ -12,6 +12,7 @@ namespace GOAP
         public List<Waypoint> adyacent;
         public HashSet<Item> nearbyItems = new HashSet<Item>();
         public float radious;
+        public int heighLevel;
 
         public void InitializeNodes()
         {

@@ -31,8 +31,8 @@ public abstract class GOAP_Skills_Base : MonoBehaviour
     public void EndSkill() { StartCD(); OnEndSkill(); OnFinishSkill?.Invoke(); }
     public void Execute() { Debug.Log(skillName + " SE EJECUTA"); OnExecute();  isAvaliable = false; }
     
-    private void StartCD() { Debug.Log("Inicio Cd de " + skillName);  On(); }
-   
+    private void StartCD() {   On(); } //Debug.Log("Inicio Cd de " + skillName);
+
     private void Update()
     {
         if (canUpdate)
@@ -46,7 +46,7 @@ public abstract class GOAP_Skills_Base : MonoBehaviour
 
     void CD()
     {
-        Debug.Log("estoy contando?");
+        //Debug.Log("estoy contando?");
         _count += Time.deltaTime;
 
         if(_count >= CD_time)
@@ -60,6 +60,7 @@ public abstract class GOAP_Skills_Base : MonoBehaviour
     public bool IsUsable() { if (isAvaliable && InternalCondition()) return true; else return false; }
 
     protected virtual bool InternalCondition() => true;
+    public virtual bool ExternalCondition() => true;
 
     /////////////////////////////////////////////////////////////
     /// ABSTRACTS QUE SE IMPLEMENTAN EN LOS CHILDS

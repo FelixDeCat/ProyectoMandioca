@@ -1,5 +1,70 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!1 &1867540105
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1867540106}
+  - component: {fileID: 1867540108}
+  - component: {fileID: 1867540107}
+  m_Layer: 0
+  m_Name: Fly
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1867540106
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1867540105}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 6414162559105731499}
+  m_RootOrder: 2
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1867540108
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1867540105}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cc5b8f4a03c56794083e29e3dc1679ad, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  CD_time: 10
+  isAvaliable: 1
+  stopSkillByCode: 1
+  instantSkill: 0
+  skillName: Fly
+  range: 500
+--- !u!114 &1867540107
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1867540105}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bae263c512477b1419279a0f151cd1de, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  type: 1
+  _wp: {fileID: 0}
+  interactuable: 1
 --- !u!114 &6414162559657024331
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -106,8 +171,9 @@ MonoBehaviour:
   stopSkillByCode: 1
   instantSkill: 0
   skillName: LaserShoot
-  range: 10
+  range: 18
   rayo_pf: {fileID: 8543320301345602783, guid: 6e94f25bb023b1542a164d22fb06d115, type: 3}
+  rayoOrigin: {fileID: 742124877601339944}
 --- !u!1 &6414162559105731498
 GameObject:
   m_ObjectHideFlags: 0
@@ -138,6 +204,7 @@ Transform:
   m_Children:
   - {fileID: 6414162558988254495}
   - {fileID: 1568851607122028783}
+  - {fileID: 1867540106}
   m_Father: {fileID: 6414162559785903207}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -314,6 +381,7 @@ MonoBehaviour:
   lefthand_Shooter: {fileID: 0}
   attackSensor: {fileID: 0}
   damagereciever: {fileID: 6414162559785903205}
+  debugLife: 0
   skillManager: {fileID: 6414162559105731492}
   rootSpeed: 20
   speed: 20
@@ -333,6 +401,8 @@ MonoBehaviour:
   distanceDebug: 0
   move: 5
   laserShoot: 2
+  summon: 3
+  fly: 1
 --- !u!114 &6414162559785903208
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -429,10 +499,12 @@ MonoBehaviour:
   skillName: SummonMinions
   range: 300
   totemFeedback:
-    goToPos: {fileID: 0}
+    goToPos: {fileID: 3958526303383395777, guid: 9e3854d97844ae747993f6893668c5b0,
+      type: 3}
     timeToGoPos: 1
-    chargeParticle: {fileID: 0}
-    startPos: {fileID: 0}
+    chargeParticle: {fileID: 2953673145211013142, guid: 560ae8d399aa93f4db18b114d3b1a7e7,
+      type: 3}
+    startPos: {fileID: 939330575998119132}
     pause: 0
   spot:
     radious: 4
@@ -441,8 +513,8 @@ MonoBehaviour:
       serializedVersion: 2
       m_Bits: 2097152
     spawnSpot: {fileID: 0}
-  prefab: {fileID: 0}
-  amountSummoned: 0
+  prefab: {fileID: 3901963547881250307, guid: 2a69aece938c0a04da1666b0c4108765, type: 3}
+  amountSummoned: 5
 --- !u!1001 &6414162559220258385
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -592,15 +664,27 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c0af1174211ab2640b6c42da89461851, type: 3}
---- !u!1 &3036063639164440408 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: -927199367670048503, guid: c0af1174211ab2640b6c42da89461851,
+--- !u!4 &742124877601339944 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: -3220319501169496967, guid: c0af1174211ab2640b6c42da89461851,
+    type: 3}
+  m_PrefabInstance: {fileID: 6414162559220258385}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &939330575998119132 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: -3167575404677891443, guid: c0af1174211ab2640b6c42da89461851,
     type: 3}
   m_PrefabInstance: {fileID: 6414162559220258385}
   m_PrefabAsset: {fileID: 0}
 --- !u!4 &2051699776977026379 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -4216859302048453862, guid: c0af1174211ab2640b6c42da89461851,
+    type: 3}
+  m_PrefabInstance: {fileID: 6414162559220258385}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &3036063639164440408 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: -927199367670048503, guid: c0af1174211ab2640b6c42da89461851,
     type: 3}
   m_PrefabInstance: {fileID: 6414162559220258385}
   m_PrefabAsset: {fileID: 0}

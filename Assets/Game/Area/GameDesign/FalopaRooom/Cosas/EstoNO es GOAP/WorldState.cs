@@ -22,8 +22,9 @@ namespace GOAP
         public WorldStateSnapShot snapDebug;
         public Item objectiveTEST;
         public float DEBUGdistanceToHero;
+        public bool debug_OnGround;
 
-      
+
         private void Awake()
         {
             if (instance == null)
@@ -35,12 +36,7 @@ namespace GOAP
             characterhead = Main.instance.GetChar();
 
             allItems.Add(characterhead.GetComponent<Item>());
-
-            //values["HandOfDead"] = true;
-            //values["RagingPoolsOfFire"] = true;
-            //values["SummonMinions"] = true;
-            //values["LaserShoot"] = true;
-
+            values["OnGround"] = true;
         }
        
 
@@ -51,7 +47,12 @@ namespace GOAP
 
             ente = FindObjectOfType<Ente>();
             snap.allItems = allItems.Where(x => x != null && x.interactuable).ToList();
-            snap.values.UpdateWith(values); 
+            snap.values.UpdateWith(values);
+
+
+            /////////
+            ///
+            snapDebug.debug_OnGround = snap.values["OnGround"];
 
             /// ////
 
@@ -67,37 +68,29 @@ namespace GOAP
                 snap.values.Add(s.Key, s.Value.isAvaliable);
             }
 
-            //snap.distanceToHero = 
+            //foreach (var item in snap.values)
+            //{
+            //    Debug.Log("Ahora, la primera vez que se hace esto es: " + item.Key + " y es " + item.Value);
+            //}
 
-            //snapDebug = snap;
-            //snap.handActive = ente.skillManager.GetAllSkills["HandOfDead"];
-            //snap.poolActive = ente.skillManager.GetAllSkills["RagingPoolsOfFire"];
             return snap;
         }
 
     }
 
-    //Data de la entidad "dude"
-   
-    //public struct EnteDATA
-    //{
-    //    public Vector3 pos;
-    //    public float hpMax;
-    //    public float hp;
-    //    public bool hidden;
-    //}
     [Serializable]
     public class WorldStateSnapShot
     {
         public List<Item> allItems = new List<Item>();
         public Dictionary<string, bool> values = new Dictionary<string, bool>();
         public Dictionary<string, GOAP_Skills_Base> skills = new Dictionary<string, GOAP_Skills_Base>();
-        public bool handActive;
-        public bool poolActive;
+        //public bool handActive;
+        //public bool poolActive;
         //public EnteDATA eData;
         public Transform charRoot;
         public int charLife;
         public float distanceToHero;
+        public bool debug_OnGround;
 
         public WorldStateSnapShot()
         {
