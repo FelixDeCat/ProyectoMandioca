@@ -7,7 +7,6 @@ namespace Tools.StateMachine
     public class GoatStomp : JabaliStates
     {
         float cdToAttack;
-        float timer;
         string attackSound;
 
         public GoatStomp(EState<JabaliEnemy.JabaliInputs> myState, EventStateMachine<JabaliEnemy.JabaliInputs> _sm, float _cdToAttack, string _attackSound) : base(myState, _sm)
@@ -18,29 +17,18 @@ namespace Tools.StateMachine
 
         protected override void Enter(EState<JabaliEnemy.JabaliInputs> input)
         {
-            if (input.Name != "Petrified")
-                anim.SetTrigger("StompOk");
+            anim.SetTrigger("StompOk");
 
             AudioManager.instance.PlaySound(attackSound);
-        }
-
-        protected override void Update()
-        {
-            timer += Time.deltaTime;
-
-            if (timer >= cdToAttack)
-                sm.SendInput(JabaliEnemy.JabaliInputs.IDLE);
+            cdModule.AddCD("RecallAttack", () => sm.SendInput(JabaliEnemy.JabaliInputs.IDLE), cdToAttack);
         }
 
         protected override void Exit(JabaliEnemy.JabaliInputs input)
         {
-            if (input != JabaliEnemy.JabaliInputs.PETRIFIED)
-            {
-                timer = 0;
-                var myEnemy = enemy;
-                myEnemy.Attacking = false;
-                combatDirector.AttackRelease(enemy, enemy.CurrentTarget());
-            }
+            var myEnemy = enemy;
+            myEnemy.Attacking = false;
+            combatDirector.AttackRelease(enemy, enemy.CurrentTarget());
+            cdModule.EndCDWithoutExecute("RecallAttack");
         }
     }
 }

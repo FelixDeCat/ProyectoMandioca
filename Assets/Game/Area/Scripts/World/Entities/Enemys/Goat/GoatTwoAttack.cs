@@ -9,7 +9,6 @@ namespace Tools.StateMachine
         float cdToAttackCurrent;
         float cdToAttackMinus;
         float cdToAttackSum;
-        float timer;
         string attackSound;
         int attackTimes;
 
@@ -23,48 +22,32 @@ namespace Tools.StateMachine
 
         protected override void Enter(EState<JabaliEnemy.JabaliInputs> input)
         {
-            if (input.Name != "Petrified")
-                anim.SetTrigger("HeadOk");
+            anim.SetTrigger("HeadOk");
 
             AudioManager.instance.PlaySound(attackSound);
-        }
-
-        protected override void Update()
-        {
-            timer += Time.deltaTime;
-
-            if (timer >= cdToAttackCurrent)
-            {
-                if(attackTimes >= 1) sm.SendInput(JabaliEnemy.JabaliInputs.IDLE);
-                else
-                {
-                    attackTimes += 1;
-                    sm.SendInput(JabaliEnemy.JabaliInputs.HEAD_ANTICIP);
-                }
-            }
+            if (attackTimes >= 1)
+                cdModule.AddCD("RecallAttack", () => sm.SendInput(JabaliEnemy.JabaliInputs.IDLE), cdToAttackCurrent);
+            else
+                cdModule.AddCD("RecallAttack", () => sm.SendInput(JabaliEnemy.JabaliInputs.HEAD_ANTICIP), cdToAttackCurrent);
         }
 
         protected override void Exit(JabaliEnemy.JabaliInputs input)
         {
-            if (input != JabaliEnemy.JabaliInputs.PETRIFIED)
+            if (input != JabaliEnemy.JabaliInputs.HEAD_ANTICIP)
             {
-                if (input != JabaliEnemy.JabaliInputs.HEAD_ANTICIP)
-                {
-                    timer = 0;
-                    cdToAttackCurrent = cdToAttackMinus;
-                    var myEnemy = enemy;
-                    myEnemy.Attacking = false;
-                    combatDirector.AttackRelease(enemy, enemy.CurrentTarget());
-                    attackTimes = 0;
-                    anim.SetInteger("AttackTime", 0);
-                }
-                else
-                {
-                    timer = 0;
-                    cdToAttackCurrent = cdToAttackSum;
-                    anim.SetInteger("AttackTime", 1);
-                }
+                cdToAttackCurrent = cdToAttackMinus;
+                var myEnemy = enemy;
+                myEnemy.Attacking = false;
+                combatDirector.AttackRelease(enemy, enemy.CurrentTarget());
+                attackTimes = 0;
+                anim.SetInteger("AttackTime", 0);
             }
+            else
+            {
+                cdToAttackCurrent = cdToAttackSum;
+                anim.SetInteger("AttackTime", 1);
+            }
+            cdModule.EndCDWithoutExecute("RecallAttack");
         }
     }
 }

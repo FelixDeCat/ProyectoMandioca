@@ -14,8 +14,6 @@ namespace Tools.StateMachine
         SoundPool pool;
         AudioSource source;
         CharacterGroundSensor groundSensor;
-
-        float timer;
         float timePush;
         bool isGoat;
 
@@ -50,6 +48,8 @@ namespace Tools.StateMachine
                 source.transform.position = root.transform.position;
                 source.Play();
             }
+
+            cdModule.AddCD("PushDuration", () => sm.SendInput(JabaliEnemy.JabaliInputs.IDLE), timePush);
         }
 
         protected override void Update()
@@ -64,11 +64,6 @@ namespace Tools.StateMachine
 
             rb.velocity = new Vector3(root.forward.x * pushSpeed, groundSensor.VelY, root.forward.z * pushSpeed);
             DealDamage();
-
-            timer += Time.deltaTime;
-
-            if (timer >= timePush)
-                sm.SendInput(JabaliEnemy.JabaliInputs.IDLE);
 
             base.Update();
         }
@@ -90,8 +85,7 @@ namespace Tools.StateMachine
                 source.Stop();
                 pool.ReturnToPool(source);
             }
-
-            timer = 0;
+            cdModule.EndCDWithoutExecute("PushDuration");
         }
     }
 }

@@ -23,10 +23,11 @@ public class GoatEnemy : EnemyWithCombatDirector
     [SerializeField] GoatStompComponent stompAttack = null;
     [SerializeField] float normalDistance = 9;
     [SerializeField] float timeParried = 2;
-    CDModule cdModule = new CDModule();
+    CDModule cdModuleStopeable = new CDModule();
+    CDModule cdModuleNoStopeable = new CDModule();
 
     [Header("NormalAttack")]
-    [SerializeField] GoatType goatType;
+    [SerializeField] GoatType goatType = GoatType.UnequipSword;
     [SerializeField] int normalDamage = 4;
     [SerializeField] float normalAttAnticipation = 0.5f;
     [SerializeField] float cdToHeadAttack = 1;
@@ -41,13 +42,14 @@ public class GoatEnemy : EnemyWithCombatDirector
     [SerializeField] float chargeSpeed = 12;
     [SerializeField] float chargeDuration = 5;
     [SerializeField] float pushKnockback = 80;
-    private bool chargeOk = false;
+    private bool chargeOk = true;
 
     [Header("Life Options")]
     [SerializeField] float tdRecall = 0.5f;
 
     [Header("Stuns/Effects")]
     private bool cooldown = false;
+    bool petrified;
     private Action<EState<GoatInputs>> EnterStun;
     private Action<string> UpdateStun;
     private Action<GoatInputs> ExitStun;
@@ -106,8 +108,8 @@ public class GoatEnemy : EnemyWithCombatDirector
 
         IAInitialize(Main.instance.GetCombatDirector());
 
-        petrifyEffect?.AddStartCallback(() => sm.SendInput(GoatInputs.PETRIFIED));
-        petrifyEffect?.AddEndCallback(() => sm.SendInput(GoatInputs.IDLE));
+        petrifyEffect?.AddStartCallback(() => petrified = true);
+        petrifyEffect?.AddEndCallback(() => petrified = false);
 
         dmgReceiver.ChangeKnockback(movement.ApplyForceToVelocity, () => sm.Current.Name == "Charge_Push" || sm.Current.Name == "Push" ? true : false);
     }
@@ -125,7 +127,8 @@ public class GoatEnemy : EnemyWithCombatDirector
     {
         ragdoll.Ragdoll(false, Vector3.zero);
         death = false;
-        cdModule.ResetAll();
+        cdModuleStopeable.ResetAll();
+        cdModuleNoStopeable.ResetAll();
         sm.SendInput(GoatInputs.DISABLE);
     }
 
@@ -150,11 +153,14 @@ public class GoatEnemy : EnemyWithCombatDirector
             }
         }
 
-        if (sm != null)
-            sm.Update();
+        if (!petrified)
+        {
+            sm?.Update();
+            cdModuleStopeable.UpdateCD();
+        }
 
         movement.OnUpdate();
-        cdModule.UpdateCD();
+        cdModuleNoStopeable.UpdateCD();
     }
     Vector3 force;
     protected override void OnPause()
@@ -219,7 +225,7 @@ public class GoatEnemy : EnemyWithCombatDirector
         if (e.GetComponent<CharacterHead>())
         {
             chargeOk = false;
-            cdModule.AddCD("ChargeAttack", () => chargeOk = true, timeToObtainCharge);
+            cdModuleStopeable.AddCD("ChargeAttack", () => chargeOk = true, timeToObtainCharge);
             pushAttack.Stop();
             sm.SendInput(GoatInputs.IDLE);
             animator.SetTrigger("PlayerCollision");
@@ -242,7 +248,7 @@ public class GoatEnemy : EnemyWithCombatDirector
 
         ParticlesManager.Instance.PlayParticle(particles.hitParticle.name, transform.position);
         cooldown = true;
-        cdModule.AddCD("TakeDamageCD", () => cooldown = false, tdRecall);
+        cdModuleNoStopeable.AddCD("TakeDamageCD", () => cooldown = false, tdRecall);
 
         StartCoroutine(OnHitted(onHitFlashTime, onHitColor));
     }
@@ -274,7 +280,7 @@ public class GoatEnemy : EnemyWithCombatDirector
     {
         EnterStun += (input) => {
             animator.SetBool("Stun", true);
-            cdModule.AddCD("StunAfterCharge", () => sm.SendInput(GoatInputs.IDLE), stunChargeTime);
+            cdModuleStopeable.AddCD("StunAfterCharge", () => sm.SendInput(GoatInputs.IDLE), stunChargeTime);
         };
 
         UpdateStun = (name) => {
@@ -282,8 +288,8 @@ public class GoatEnemy : EnemyWithCombatDirector
 
         ExitStun += (input) => {
             chargeOk = true;
-            cdModule.EndCDWithoutExecute("StunAfterCharge");
-            cdModule.AddCD("ChargeAttack", () => chargeOk = true, timeToObtainCharge);
+            cdModuleStopeable.EndCDWithoutExecute("StunAfterCharge");
+            cdModuleStopeable.AddCD("ChargeAttack", () => chargeOk = true, timeToObtainCharge);
             animator.SetBool("Stun", false);
         };
 
@@ -312,7 +318,6 @@ public class GoatEnemy : EnemyWithCombatDirector
         ConfigureState.Create(idle)
             .SetTransition(GoatInputs.PERSUIT, persuit)
             .SetTransition(GoatInputs.TAKE_DMG, takeDamage)
-            .SetTransition(GoatInputs.PETRIFIED, petrified)
             .SetTransition(GoatInputs.DEAD, dead)
             .SetTransition(GoatInputs.DISABLE, disable)
             .SetTransition(GoatInputs.CHASING, chasing)
@@ -321,7 +326,6 @@ public class GoatEnemy : EnemyWithCombatDirector
         ConfigureState.Create(persuit)
             .SetTransition(GoatInputs.IDLE, idle)
             .SetTransition(GoatInputs.TAKE_DMG, takeDamage)
-            .SetTransition(GoatInputs.PETRIFIED, petrified)
             .SetTransition(GoatInputs.DEAD, dead)
             .SetTransition(GoatInputs.DISABLE, disable)
             .SetTransition(GoatInputs.CHASING, chasing)
@@ -333,14 +337,12 @@ public class GoatEnemy : EnemyWithCombatDirector
             .SetTransition(GoatInputs.TAKE_DMG, takeDamage)
             .SetTransition(GoatInputs.CHARGE_PUSH, chargePush)
             .SetTransition(GoatInputs.HEAD_ANTICIP, headAnt)
-            .SetTransition(GoatInputs.PETRIFIED, petrified)
             .SetTransition(GoatInputs.DEAD, dead)
             .SetTransition(GoatInputs.DISABLE, disable)
             .Done();
 
         ConfigureState.Create(chargePush)
             .SetTransition(GoatInputs.PUSH, push)
-            .SetTransition(GoatInputs.PETRIFIED, petrified)
             .SetTransition(GoatInputs.DEAD, dead)
             .SetTransition(GoatInputs.DISABLE, disable)
             .Done();
@@ -355,7 +357,6 @@ public class GoatEnemy : EnemyWithCombatDirector
 
         ConfigureState.Create(headAnt)
             .SetTransition(GoatInputs.HEAD_ATTACK, headAttack)
-            .SetTransition(GoatInputs.PETRIFIED, petrified)
             .SetTransition(GoatInputs.DEAD, dead)
             .SetTransition(GoatInputs.DISABLE, disable)
             .Done();
@@ -363,7 +364,6 @@ public class GoatEnemy : EnemyWithCombatDirector
         ConfigureState.Create(headAttack)
             .SetTransition(GoatInputs.IDLE, idle)
             .SetTransition(GoatInputs.PARRIED, parried)
-            .SetTransition(GoatInputs.PETRIFIED, petrified)
             .SetTransition(GoatInputs.DEAD, dead)
             .SetTransition(GoatInputs.DISABLE, disable)
             .SetTransition(GoatInputs.HEAD_ANTICIP, headAnt)
@@ -371,7 +371,12 @@ public class GoatEnemy : EnemyWithCombatDirector
 
         ConfigureState.Create(takeDamage)
             .SetTransition(GoatInputs.IDLE, idle)
-            .SetTransition(GoatInputs.PETRIFIED, petrified)
+            .SetTransition(GoatInputs.DEAD, dead)
+            .SetTransition(GoatInputs.DISABLE, disable)
+            .Done();
+
+        ConfigureState.Create(petrified)
+            .SetTransition(GoatInputs.IDLE, idle)
             .SetTransition(GoatInputs.DEAD, dead)
             .SetTransition(GoatInputs.DISABLE, disable)
             .Done();
@@ -379,16 +384,6 @@ public class GoatEnemy : EnemyWithCombatDirector
         ConfigureState.Create(parried)
             .SetTransition(GoatInputs.IDLE, idle)
             .SetTransition(GoatInputs.PETRIFIED, petrified)
-            .SetTransition(GoatInputs.DEAD, dead)
-            .SetTransition(GoatInputs.DISABLE, disable)
-            .Done();
-
-        ConfigureState.Create(petrified)
-            .SetTransition(GoatInputs.IDLE, idle)
-            .SetTransition(GoatInputs.CHARGE_PUSH, chargePush)
-            .SetTransition(GoatInputs.PUSH, push)
-            .SetTransition(GoatInputs.HEAD_ANTICIP, headAnt)
-            .SetTransition(GoatInputs.HEAD_ATTACK, headAttack)
             .SetTransition(GoatInputs.DEAD, dead)
             .SetTransition(GoatInputs.DISABLE, disable)
             .Done();
@@ -412,35 +407,35 @@ public class GoatEnemy : EnemyWithCombatDirector
         new JabaliChasing(chasing, sm, () => combatElement.Attacking, IsChargeOk, distanceToCharge, distancePos, movement).SetDirector(director).SetThis(combatElement).SetRoot(rootTransform);
 
         new JabaliCharge(chargePush, sm, chargeTime, sounds.pushAnticipation.name, sounds.pushEnter.name, movement).SetAnimator(animator).SetDirector(director)
-            .SetThis(combatElement).SetRigidbody(rb).SetRoot(rootTransform);
+            .SetThis(combatElement).SetRigidbody(rb).SetRoot(rootTransform).SetCD(cdModuleStopeable);
 
         new JabaliPushAttack(push, sm, chargeSpeed, PushAttack, particles.chargeFeedback, pushAttack.Play, sounds.pushLoop.name, chargeDuration, groundSensor, true)
             .SetAnimator(animator).SetRigidbody(rb).SetRoot(rootTransform)
-            .SetThis(combatElement).SetDirector(director);
+            .SetThis(combatElement).SetDirector(director).SetCD(cdModuleStopeable);
 
         if(goatType == GoatType.DoubleAttack)
         {
-            new GoatTwoAttackAnt(headAnt, sm, movement, normalAttAnticipation).SetAnimator(animator).SetThis(combatElement).SetRoot(rootTransform);
-            new GoatTwoAttack(headAttack, sm, cdToHeadAttack, sounds.headAttack.name).SetAnimator(animator).SetDirector(director).SetThis(combatElement);
+            new GoatTwoAttackAnt(headAnt, sm, movement, normalAttAnticipation).SetAnimator(animator).SetThis(combatElement).SetRoot(rootTransform).SetCD(cdModuleStopeable);
+            new GoatTwoAttack(headAttack, sm, cdToHeadAttack, sounds.headAttack.name).SetAnimator(animator).SetDirector(director).SetThis(combatElement).SetCD(cdModuleStopeable);
         }
         else if(goatType == GoatType.Stomp)
         {
-            new GoatStompAnt(headAnt, sm, normalAttAnticipation).SetAnimator(animator).SetThis(combatElement).SetRoot(rootTransform);
-            new GoatStomp(headAttack, sm, cdToHeadAttack, sounds.headAttack.name).SetAnimator(animator).SetDirector(director).SetThis(combatElement);
+            new GoatStompAnt(headAnt, sm, normalAttAnticipation).SetAnimator(animator).SetThis(combatElement).SetRoot(rootTransform).SetCD(cdModuleStopeable);
+            new GoatStomp(headAttack, sm, cdToHeadAttack, sounds.headAttack.name).SetAnimator(animator).SetDirector(director).SetThis(combatElement).SetCD(cdModuleStopeable);
         }
         else
         {
-            new GoatAttackAnt(headAnt, sm, movement, normalAttAnticipation).SetAnimator(animator).SetThis(combatElement).SetRoot(rootTransform);
-            new GoatAttack(headAttack, sm, cdToHeadAttack, sounds.headAttack.name).SetAnimator(animator).SetDirector(director).SetThis(combatElement);
+            new GoatAttackAnt(headAnt, sm, movement, normalAttAnticipation).SetAnimator(animator).SetThis(combatElement).SetRoot(rootTransform).SetCD(cdModuleStopeable);
+            new GoatAttack(headAttack, sm, cdToHeadAttack, sounds.headAttack.name).SetAnimator(animator).SetDirector(director).SetThis(combatElement).SetCD(cdModuleStopeable);
         }
 
-        new JabaliTD(takeDamage, sm, tdRecall).SetAnimator(animator);
+        new JabaliTD(takeDamage, sm, tdRecall).SetAnimator(animator).SetCD(cdModuleStopeable);
 
-        new JabaliParried(parried, sm, timeParried).SetAnimator(animator);
+        new JabaliParried(parried, sm, timeParried).SetAnimator(animator).SetCD(cdModuleStopeable);
 
         new JabaliStun(petrified, sm, StartStun, TickStun, EndStun);
 
-        new JabaliDeath(dead, sm, ragdoll, sounds.dead.name, ReturnToSpawner).SetThis(combatElement).SetDirector(director).SetCD(cdModule);
+        new JabaliDeath(dead, sm, ragdoll, sounds.dead.name, ReturnToSpawner).SetThis(combatElement).SetDirector(director).SetCD(cdModuleStopeable);
 
         disable.OnEnter += (input) => DisableObject();
 

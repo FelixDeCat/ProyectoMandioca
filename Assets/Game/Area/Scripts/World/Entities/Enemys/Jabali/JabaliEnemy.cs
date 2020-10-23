@@ -19,7 +19,8 @@ public class JabaliEnemy : EnemyWithCombatDirector
     [SerializeField] float normalDistance = 9;
     [SerializeField] float timeParried = 2;
     [SerializeField] bool friendly = false;
-    CDModule cdModule;
+    CDModule cdModuleStopeable = new CDModule();
+    CDModule cdModuleNoStopeable = new CDModule();
 
     [Header("NormalAttack")]
     [SerializeField] int normalDamage = 4;
@@ -37,13 +38,14 @@ public class JabaliEnemy : EnemyWithCombatDirector
     [SerializeField] float chargeDuration = 5;
     [SerializeField] float pushKnockback = 80;
     [SerializeField] bool unequipShield = true;
-    private bool chargeOk = false;
+    private bool chargeOk = true;
 
     [Header("Life Options")]
     [SerializeField] float tdRecall = 0.5f;
 
     [Header("Stuns/Effects")]
     private bool cooldown = false;
+    bool petrified = false;
     private Action<EState<JabaliInputs>> EnterStun;
     private Action<string> UpdateStun;
     private Action<JabaliInputs> ExitStun;
@@ -115,7 +117,8 @@ public class JabaliEnemy : EnemyWithCombatDirector
         ragdoll.Ragdoll(false, Vector3.zero);
         death = false;
         chargeOk = true;
-        cdModule.ResetAll();
+        cdModuleStopeable.ResetAll();
+        cdModuleNoStopeable.ResetAll();
         friendly = true;
         sm.SendInput(JabaliInputs.DISABLE);
     }
@@ -141,11 +144,14 @@ public class JabaliEnemy : EnemyWithCombatDirector
             }
         }
 
-        if (sm != null)
-            sm.Update();
+        if (!petrified)
+        {
+            sm?.Update();
+            cdModuleStopeable.UpdateCD();
+        }
 
         movement.OnUpdate();
-        cdModule.UpdateCD();
+        cdModuleNoStopeable.UpdateCD();
     }
     Vector3 force;
     protected override void OnPause()
@@ -199,7 +205,7 @@ public class JabaliEnemy : EnemyWithCombatDirector
         if (e.GetComponent<CharacterHead>())
         {
             chargeOk = false;
-            cdModule.AddCD("PushAttackCD", () => chargeOk = true, timeToObtainCharge);
+            cdModuleStopeable.AddCD("PushAttackCD", () => chargeOk = true, timeToObtainCharge);
             pushAttack.Stop();
             sm.SendInput(JabaliInputs.IDLE);
         }
@@ -232,7 +238,7 @@ public class JabaliEnemy : EnemyWithCombatDirector
 
         ParticlesManager.Instance.PlayParticle(particles.hitParticle.name, transform.position);
         cooldown = true;
-        cdModule.AddCD("TakeDamageRecall", () => cooldown = false, tdRecall);
+        cdModuleNoStopeable.AddCD("TakeDamageRecall", () => cooldown = false, tdRecall);
 
         StartCoroutine(OnHitted(onHitFlashTime, onHitColor));
     }
@@ -270,7 +276,7 @@ public class JabaliEnemy : EnemyWithCombatDirector
     {
         EnterStun += (input) => {
             animator.SetBool("Stun", true);
-            cdModule.AddCD("StunAfterCharge", () => sm.SendInput(JabaliInputs.IDLE), stunChargeTime);
+            cdModuleStopeable.AddCD("StunAfterCharge", () => sm.SendInput(JabaliInputs.IDLE), stunChargeTime);
         };
 
         UpdateStun = (name) => {
@@ -278,8 +284,8 @@ public class JabaliEnemy : EnemyWithCombatDirector
 
         ExitStun += (input) => {
             chargeOk = true;
-            cdModule.EndCDWithoutExecute("StunAfterCharge");
-            cdModule.AddCD("ChargeAttackCD", () => chargeOk = true, timeToObtainCharge);
+            cdModuleStopeable.EndCDWithoutExecute("StunAfterCharge");
+            cdModuleStopeable.AddCD("ChargeAttackCD", () => chargeOk = true, timeToObtainCharge);
             animator.SetBool("Stun", false);
         };
 
@@ -310,7 +316,6 @@ public class JabaliEnemy : EnemyWithCombatDirector
         ConfigureState.Create(idle)
             .SetTransition(JabaliInputs.PERSUIT, persuit)
             .SetTransition(JabaliInputs.TAKE_DMG, takeDamage)
-            .SetTransition(JabaliInputs.PETRIFIED, petrified)
             .SetTransition(JabaliInputs.DEAD, dead)
             .SetTransition(JabaliInputs.DISABLE, disable)
             .SetTransition(JabaliInputs.CHASING, chasing)
@@ -319,7 +324,6 @@ public class JabaliEnemy : EnemyWithCombatDirector
         ConfigureState.Create(persuit)
             .SetTransition(JabaliInputs.IDLE, idle)
             .SetTransition(JabaliInputs.TAKE_DMG, takeDamage)
-            .SetTransition(JabaliInputs.PETRIFIED, petrified)
             .SetTransition(JabaliInputs.DEAD, dead)
             .SetTransition(JabaliInputs.DISABLE, disable)
             .SetTransition(JabaliInputs.CHASING, chasing)
@@ -331,14 +335,12 @@ public class JabaliEnemy : EnemyWithCombatDirector
             .SetTransition(JabaliInputs.TAKE_DMG, takeDamage)
             .SetTransition(JabaliInputs.CHARGE_PUSH, chargePush)
             .SetTransition(JabaliInputs.HEAD_ANTICIP, headAnt)
-            .SetTransition(JabaliInputs.PETRIFIED, petrified)
             .SetTransition(JabaliInputs.DEAD, dead)
             .SetTransition(JabaliInputs.DISABLE, disable)
             .Done();
 
         ConfigureState.Create(chargePush)
             .SetTransition(JabaliInputs.PUSH, push)
-            .SetTransition(JabaliInputs.PETRIFIED, petrified)
             .SetTransition(JabaliInputs.DEAD, dead)
             .SetTransition(JabaliInputs.DISABLE, disable)
             .Done();
@@ -353,7 +355,6 @@ public class JabaliEnemy : EnemyWithCombatDirector
 
         ConfigureState.Create(headAnt)
             .SetTransition(JabaliInputs.HEAD_ATTACK, headAttack)
-            .SetTransition(JabaliInputs.PETRIFIED, petrified)
             .SetTransition(JabaliInputs.DEAD, dead)
             .SetTransition(JabaliInputs.DISABLE, disable)
             .Done();
@@ -361,14 +362,12 @@ public class JabaliEnemy : EnemyWithCombatDirector
         ConfigureState.Create(headAttack)
             .SetTransition(JabaliInputs.IDLE, idle)
             .SetTransition(JabaliInputs.PARRIED, parried)
-            .SetTransition(JabaliInputs.PETRIFIED, petrified)
             .SetTransition(JabaliInputs.DEAD, dead)
             .SetTransition(JabaliInputs.DISABLE, disable)
             .Done();
 
         ConfigureState.Create(takeDamage)
             .SetTransition(JabaliInputs.IDLE, idle)
-            .SetTransition(JabaliInputs.PETRIFIED, petrified)
             .SetTransition(JabaliInputs.DEAD, dead)
             .SetTransition(JabaliInputs.DISABLE, disable)
             .Done();
@@ -382,10 +381,6 @@ public class JabaliEnemy : EnemyWithCombatDirector
 
         ConfigureState.Create(petrified)
             .SetTransition(JabaliInputs.IDLE, idle)
-            .SetTransition(JabaliInputs.CHARGE_PUSH, chargePush)
-            .SetTransition(JabaliInputs.PUSH, push)
-            .SetTransition(JabaliInputs.HEAD_ANTICIP, headAnt)
-            .SetTransition(JabaliInputs.HEAD_ATTACK, headAttack)
             .SetTransition(JabaliInputs.DEAD, dead)
             .SetTransition(JabaliInputs.DISABLE, disable)
             .Done();
@@ -409,23 +404,23 @@ public class JabaliEnemy : EnemyWithCombatDirector
         new JabaliChasing(chasing, sm, ()=>combatElement.Attacking, IsChargeOk, distanceToCharge, distancePos, movement).SetDirector(director).SetThis(combatElement).SetRoot(rootTransform);
 
         new JabaliCharge(chargePush, sm, chargeTime, sounds.pushAnticipation.name, sounds.pushEnter.name, movement).SetAnimator(animator).SetDirector(director)
-            .SetThis(combatElement).SetRigidbody(rb).SetRoot(rootTransform);
+            .SetThis(combatElement).SetRigidbody(rb).SetRoot(rootTransform).SetCD(cdModuleStopeable);
 
         new JabaliPushAttack(push, sm, chargeSpeed, PushAttack, particles.chargeFeedback, pushAttack.Play, sounds.pushLoop.name, chargeDuration, groundSensor)
             .SetAnimator(animator).SetRigidbody(rb).SetRoot(rootTransform)
-            .SetThis(combatElement).SetDirector(director);
+            .SetThis(combatElement).SetDirector(director).SetCD(cdModuleStopeable);
 
         new JabaliAttackAnticipation(headAnt, sm, movement, normalAttAnticipation).SetAnimator(animator).SetDirector(director).SetThis(combatElement).SetRoot(rootTransform);
 
         new JabaliHeadAttack(headAttack, sm, cdToHeadAttack, sounds.headAttack.name).SetAnimator(animator).SetDirector(director).SetThis(combatElement);
 
-        new JabaliTD(takeDamage, sm, tdRecall).SetAnimator(animator);
+        new JabaliTD(takeDamage, sm, tdRecall).SetAnimator(animator).SetCD(cdModuleStopeable);
 
-        new JabaliParried(parried, sm, timeParried).SetAnimator(animator);
+        new JabaliParried(parried, sm, timeParried).SetAnimator(animator).SetCD(cdModuleStopeable);
 
         new JabaliStun(petrified, sm, StartStun, TickStun, EndStun);
 
-        new JabaliDeath(dead, sm, ragdoll, sounds.dead.name, ReturnToSpawner).SetThis(combatElement).SetDirector(director).SetCD(cdModule);
+        new JabaliDeath(dead, sm, ragdoll, sounds.dead.name, ReturnToSpawner).SetThis(combatElement).SetDirector(director).SetCD(cdModuleStopeable);
 
         disable.OnEnter += (input) => DisableObject();
 

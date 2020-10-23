@@ -8,7 +8,6 @@ namespace Tools.StateMachine
     public class JabaliCharge : JabaliStates
     {
         float chargeTime;
-        float timer = 0;
         Vector3 finalPos;
         string firstPushSound;
         SoundPool pool;
@@ -26,8 +25,7 @@ namespace Tools.StateMachine
 
         protected override void Enter(EState<JabaliEnemy.JabaliInputs> input)
         {
-            if (input.Name != "Petrified")
-                anim.SetBool("ChargeAttack", true);
+            anim.SetBool("ChargeAttack", true);
             finalPos = root.position - root.forward * 2;
             source = pool.Get();
             if (source != null)
@@ -35,12 +33,12 @@ namespace Tools.StateMachine
                 source.transform.position = root.transform.position;
                 source.Play();
             }
+
+            cdModule.AddCD("ChargeCD", () => sm.SendInput(JabaliEnemy.JabaliInputs.PUSH), chargeTime);
         }
 
         protected override void Update()
         {
-            timer += Time.deltaTime;
-
             rb.transform.position = Vector3.Lerp(root.position, finalPos, Time.deltaTime);
 
             if (enemy.CurrentTarget())
@@ -49,16 +47,13 @@ namespace Tools.StateMachine
                 myForward.y = 0;
                 move.Rotation(myForward);
             }
-            if (timer >= chargeTime)
-                sm.SendInput(JabaliEnemy.JabaliInputs.PUSH);
         }
 
         protected override void Exit(JabaliEnemy.JabaliInputs input)
         {
-            if (input != JabaliEnemy.JabaliInputs.PETRIFIED && input != JabaliEnemy.JabaliInputs.DEAD)
+            if (input != JabaliEnemy.JabaliInputs.DEAD)
             {
                 anim.SetBool("ChargeAttack", false);
-                timer = 0;
                 AudioManager.instance.PlaySound(firstPushSound, root);
             }
             if (source != null)
@@ -66,6 +61,7 @@ namespace Tools.StateMachine
                 source.Stop();
                 pool.ReturnToPool(source);
             }
+            cdModule.EndCDWithoutExecute("ChargeCD");
         }
     }
 }

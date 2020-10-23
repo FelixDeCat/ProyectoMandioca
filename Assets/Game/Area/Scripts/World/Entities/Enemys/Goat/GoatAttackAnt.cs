@@ -7,7 +7,6 @@ namespace Tools.StateMachine
     public class GoatAttackAnt : JabaliStates
     {
         float anticipationTime;
-        float timer = 0;
         GenericEnemyMove move;
 
         public GoatAttackAnt(EState<JabaliEnemy.JabaliInputs> myState, EventStateMachine<JabaliEnemy.JabaliInputs> _sm,
@@ -20,6 +19,7 @@ namespace Tools.StateMachine
         protected override void Enter(EState<JabaliEnemy.JabaliInputs> input)
         {
             anim.SetBool("BasicAttack", true);
+            cdModule.AddCD("AnticipationDuration", () => sm.SendInput(JabaliEnemy.JabaliInputs.HEAD_ATTACK), anticipationTime);
         }
 
         protected override void Update()
@@ -30,17 +30,12 @@ namespace Tools.StateMachine
                 Vector3 forwardRotation = new Vector3(myForward.x, 0, myForward.z);
                 move.Rotation(forwardRotation);
             }
-
-            timer += Time.deltaTime;
-
-            if (timer >= anticipationTime)
-                sm.SendInput(JabaliEnemy.JabaliInputs.HEAD_ATTACK);
         }
 
         protected override void Exit(JabaliEnemy.JabaliInputs input)
         {
             anim.SetBool("BasicAttack", false);
-            timer = 0;
+            cdModule.EndCDWithoutExecute("AnticipationDuration");
         }
     }
 }
