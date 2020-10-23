@@ -79,7 +79,6 @@ public class CharacterMovement
 
     public void Initialize(Rigidbody rb, Transform rot, CharacterAnimator a, CharFeedbacks _feedbacks, CharacterGroundSensor _isGrounded)
     {
-
         currentSpeed = speed;
         currentCD = rollCD;
         currentDashSpeed = jumpSpeed;
@@ -283,8 +282,6 @@ public class CharacterMovement
                 x = auxNormalized.normalized.x;
                 z = auxNormalized.normalized.z;
             }
-
-            //Debug.Log(x + " / " + z);
 
             dir = new Vector3(x, 0, z);
             if (dir == Vector3.zero)
