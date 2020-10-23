@@ -545,6 +545,7 @@ MonoBehaviour:
   IsComboWomboActive: 1
   combo_system:
     hitsNeededToCombo: 3
+    resetOnSurpass: 0
     cdToAddHit: 0.1
     timeToCombo: 3
   chargeSound: {fileID: 8300000, guid: 085de4832c728144395815b0d38a2555, type: 3}
@@ -599,6 +600,11 @@ MonoBehaviour:
       bashDashHit: {fileID: 6244731725686576160}
       fire_greekOil: {fileID: 2493040092871297435}
     customCam: {fileID: 0}
+  comboParryForAbility:
+    hitsNeededToCombo: 3
+    resetOnSurpass: 0
+    cdToAddHit: 0.1
+    timeToCombo: 1
   debug_options:
     txt_debug: {fileID: 981212012071996506}
 --- !u!114 &3403020175800544563
@@ -75977,37 +75983,37 @@ PrefabInstance:
     - target: {fileID: 1709198841394000459, guid: b8de820bfa203a849a8e93e75c6c3051,
         type: 3}
       propertyPath: m_AABB.m_Center.x
-      value: 0.1760765
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1709198841394000459, guid: b8de820bfa203a849a8e93e75c6c3051,
         type: 3}
       propertyPath: m_AABB.m_Center.y
-      value: -0.023876294
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1709198841394000459, guid: b8de820bfa203a849a8e93e75c6c3051,
         type: 3}
       propertyPath: m_AABB.m_Center.z
-      value: -0.0010411143
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1709198841394000459, guid: b8de820bfa203a849a8e93e75c6c3051,
         type: 3}
       propertyPath: m_AABB.m_Extent.x
-      value: 0.23865175
+      value: 0.26143727
       objectReference: {fileID: 0}
     - target: {fileID: 1709198841394000459, guid: b8de820bfa203a849a8e93e75c6c3051,
         type: 3}
       propertyPath: m_AABB.m_Extent.y
-      value: 0.085574545
+      value: 0.08391291
       objectReference: {fileID: 0}
     - target: {fileID: 1709198841394000459, guid: b8de820bfa203a849a8e93e75c6c3051,
         type: 3}
       propertyPath: m_AABB.m_Extent.z
-      value: 0.26143694
+      value: 0.23976152
       objectReference: {fileID: 0}
     - target: {fileID: 2025322599032724612, guid: b8de820bfa203a849a8e93e75c6c3051,
         type: 3}
       propertyPath: m_Layer
-      value: 18
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 2198974403022878949, guid: b8de820bfa203a849a8e93e75c6c3051,
         type: 3}
@@ -76022,12 +76028,12 @@ PrefabInstance:
     - target: {fileID: 2834140379699433964, guid: b8de820bfa203a849a8e93e75c6c3051,
         type: 3}
       propertyPath: m_Layer
-      value: 18
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 2947859715389613309, guid: b8de820bfa203a849a8e93e75c6c3051,
         type: 3}
       propertyPath: m_Layer
-      value: 18
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 2987665158266701606, guid: b8de820bfa203a849a8e93e75c6c3051,
         type: 3}
@@ -76042,7 +76048,7 @@ PrefabInstance:
     - target: {fileID: 3015131958315691396, guid: b8de820bfa203a849a8e93e75c6c3051,
         type: 3}
       propertyPath: m_Layer
-      value: 18
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 3231669731095329852, guid: b8de820bfa203a849a8e93e75c6c3051,
         type: 3}
@@ -76227,7 +76233,7 @@ PrefabInstance:
     - target: {fileID: 9181135220505843934, guid: b8de820bfa203a849a8e93e75c6c3051,
         type: 3}
       propertyPath: m_Layer
-      value: 18
+      value: 8
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b8de820bfa203a849a8e93e75c6c3051, type: 3}
