@@ -31,6 +31,12 @@ public class MenuButtons : MonoBehaviour
     private void Start()
     {
         Main.instance.GetChar().transform.position = new Vector3(1000, 1000, 1000);
+        LoadSceneHandler.instance.Off_LoadScreen();
+        Invoke("FadeOff",1f);
+    }
+    void FadeOff()
+    {
+        Fades_Screens.instance.FadeOff(() => { });
     }
 
     public void StarButton()
@@ -134,6 +140,7 @@ public class MenuButtons : MonoBehaviour
 
     public void LoadScene(string s)
     {
+        LoadSceneHandler.instance.On_LoadScreen();
         CharacterInput inputs = Main.instance.GetChar().getInput;
         LoadSceneHandler.instance.LoadAScene(s,false);
         gameObject.SetActive(false);
