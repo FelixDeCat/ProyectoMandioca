@@ -25,7 +25,7 @@ MonoBehaviour:
     defaultState: 1
   tonemapper:
     overrideState: 1
-    value: 3
+    value: 2
   toneCurveToeStrength:
     overrideState: 0
     value: 0
@@ -53,28 +53,28 @@ MonoBehaviour:
     value: 1
   temperature:
     overrideState: 1
-    value: 0
+    value: -15
   tint:
     overrideState: 1
-    value: 20
+    value: 4
   colorFilter:
-    overrideState: 0
-    value: {r: 1, g: 0.9575472, b: 0.9822178, a: 1}
+    overrideState: 1
+    value: {r: 0.47058824, g: 0.32941177, b: 0.47058824, a: 1}
   hueShift:
     overrideState: 0
     value: 0
   saturation:
     overrideState: 1
-    value: -3
+    value: -19
   brightness:
     overrideState: 0
     value: 0
   postExposure:
-    overrideState: 0
-    value: 0
+    overrideState: 1
+    value: 0.1
   contrast:
     overrideState: 1
-    value: 9
+    value: -11
   mixerRedOutRedIn:
     overrideState: 0
     value: 100
@@ -104,13 +104,13 @@ MonoBehaviour:
     value: 100
   lift:
     overrideState: 1
-    value: {x: 1, y: 0.91096044, z: 0.95996773, w: 0}
+    value: {x: 0.7279979, y: 0.7937239, z: 1, w: 0}
   gamma:
     overrideState: 1
-    value: {x: 1, y: 0.9279092, z: 0.95344204, w: 0}
+    value: {x: 0.8865071, y: 0.90675825, z: 1, w: 0}
   gain:
     overrideState: 1
-    value: {x: 0.87122035, y: 0.74244094, z: 1, w: 0}
+    value: {x: 0.90070117, y: 1, z: 0.92318994, w: 0}
   masterCurve:
     overrideState: 0
     value:
@@ -1338,13 +1338,13 @@ MonoBehaviour:
     value: 1
   _Radius:
     overrideState: 1
-    value: 19
+    value: 17.31
   _FallOff:
     overrideState: 1
-    value: 3
+    value: 1.18
   _FogColor:
     overrideState: 1
-    value: {r: 0.49019608, g: 0, b: 0.4632029, a: 0}
+    value: {r: 0.951426, g: 0.7764706, b: 1, a: 0}
 --- !u!114 &-1269388789912056764
 MonoBehaviour:
   m_ObjectHideFlags: 3
@@ -1363,10 +1363,10 @@ MonoBehaviour:
     value: 1
   intensity:
     overrideState: 1
-    value: 0.3
+    value: 3
   threshold:
-    overrideState: 0
-    value: 1
+    overrideState: 1
+    value: 0.8
   softKnee:
     overrideState: 0
     value: 0.5
@@ -1408,3 +1408,48 @@ MonoBehaviour:
   - {fileID: -1269388789912056764}
   - {fileID: -8575736412110635701}
   - {fileID: -2554693201271297502}
+  - {fileID: 6393318351755499849}
+--- !u!114 &6393318351755499849
+MonoBehaviour:
+  m_ObjectHideFlags: 3
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 40b924e2dad56384a8df2a1e111bb675, type: 3}
+  m_Name: Vignette
+  m_EditorClassIdentifier: 
+  active: 1
+  enabled:
+    overrideState: 1
+    value: 1
+  mode:
+    overrideState: 1
+    value: 0
+  color:
+    overrideState: 1
+    value: {r: 0.3694099, g: 0.007843133, b: 0.43529412, a: 0}
+  center:
+    overrideState: 0
+    value: {x: 0.5, y: 0.5}
+  intensity:
+    overrideState: 1
+    value: 0.175
+  smoothness:
+    overrideState: 0
+    value: 0.2
+  roundness:
+    overrideState: 0
+    value: 1
+  rounded:
+    overrideState: 1
+    value: 1
+  mask:
+    overrideState: 0
+    value: {fileID: 0}
+    defaultState: 1
+  opacity:
+    overrideState: 0
+    value: 1
