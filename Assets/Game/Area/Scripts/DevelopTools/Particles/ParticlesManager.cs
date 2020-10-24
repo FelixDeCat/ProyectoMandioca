@@ -9,9 +9,19 @@ public class ParticlesManager : MonoBehaviour
 
     private Dictionary<string, PoolParticle> particleRegistry = new Dictionary<string, PoolParticle>();
 
+    Dictionary<ParticleSystem, Action> particles = new Dictionary<ParticleSystem, Action>();
+    Action ParticlesUpdater = delegate { };
+
+    bool pause;
+
     private void Awake()
     {
         if (Instance == null) Instance = this;
+    }
+
+    private void Update()
+    {
+        if (!pause) ParticlesUpdater();
     }
 
     #region SlowMO
@@ -35,9 +45,29 @@ public class ParticlesManager : MonoBehaviour
             aS.transform.position = spawnPos;
             if (trackingTransform != null) aS.transform.SetParent(trackingTransform);
             aS.Play();
-
             if (!aS.main.loop)
-                StartCoroutine(ReturnSoundToPool(aS, particleName));
+            {
+                float timer = 0;
+                float duration = ObtainDuration(aS);
+
+                Action temp = delegate { };
+                Action temp2 = () =>
+                {
+                    timer += Time.deltaTime;
+
+                    if (timer >= duration)
+                    {
+                        particleRegistry[particleName].ReturnParticle(aS);
+                        particles.Remove(aS);
+                        ParticlesUpdater -= temp;
+                    }
+                };
+                temp += temp2;
+                ParticlesUpdater += temp;
+                particles.Add(aS, temp);
+
+                //StartCoroutine(ReturnSoundToPool(aS, particleName));
+            }
 
             return aS;
         }
@@ -50,12 +80,14 @@ public class ParticlesManager : MonoBehaviour
 
     public void PauseParticles()
     {
+        pause = true;
         foreach (var item in particleRegistry)
             item.Value.PauseParticles();
     }
 
     public void ResumeParticles()
     {
+        pause = false;
         foreach (var item in particleRegistry)
             item.Value.ResumeParticles();
     }
@@ -73,7 +105,29 @@ public class ParticlesManager : MonoBehaviour
             aS.Play();
 
             if (!aS.main.loop)
-                StartCoroutine(ReturnSoundToPool(aS, particleName, callbackEnd));
+            {
+                float timer = 0;
+                float duration = particlePool.duration;
+
+                Action temp = delegate { };
+                Action temp2 = () =>
+                {
+                    timer += Time.deltaTime;
+
+                    if (timer >= duration)
+                    {
+                        particleRegistry[particleName].ReturnParticle(aS);
+                        particles.Remove(aS);
+                        callbackEnd();
+                        ParticlesUpdater -= temp;
+                    }
+                };
+                temp += temp2;
+                ParticlesUpdater += temp;
+                particles.Add(aS, temp);
+
+                //StartCoroutine(ReturnSoundToPool(aS, particleName));
+            }
 
             return aS;
         }
@@ -90,6 +144,12 @@ public class ParticlesManager : MonoBehaviour
         {
             var particlePool = particleRegistry[particleName];
             particlePool.ReturnParticle(particle);
+            if (particles.ContainsKey(particle))
+            {
+                ParticlesUpdater -= particles[particle];
+
+                particles.Remove(particle);
+            }
         }
         else
         {
@@ -130,7 +190,7 @@ public class ParticlesManager : MonoBehaviour
     {
         var particlePool = new GameObject($"{particleName} soundPool").AddComponent<PoolParticle>();
         particlePool.transform.SetParent(transform);
-        particlePool.Configure(particle);
+        particlePool.Configure(particle, ObtainDuration(particle));
         particlePool.Initialize(prewarmAmount);
         particleRegistry.Add(particleName, particlePool);
         return particlePool;
@@ -145,6 +205,20 @@ public class ParticlesManager : MonoBehaviour
             particleRegistry[sT].ReturnParticle(aS);
             callbackOnEnd?.Invoke();
         }
+    }
+
+    float ObtainDuration(ParticleSystem pS)
+    {
+        float higher = pS.duration;
+
+        var childrens = pS.GetComponentsInChildren<ParticleSystem>();
+
+        for (int i = 0; i < childrens.Length; i++)
+        {
+            if (higher < childrens[i].duration) higher = childrens[i].duration;
+        }
+
+        return higher;
     }
     #endregion
 }

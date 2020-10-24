@@ -101,7 +101,7 @@ public class TrueDummyEnemy : EnemyWithCombatDirector
         AudioManager.instance.GetSoundPool(sounds.entAttack_Clip.name, AudioGroups.GAME_FX, sounds.entAttack_Clip);
         AudioManager.instance.GetSoundPool(sounds.entSpawn_clip.name, AudioGroups.GAME_FX, sounds.entSpawn_clip);
 
-        AudioManager.instance.GetSoundPool("WalkEnt", AudioGroups.GAME_FX, sounds.clip_walkEnt, true);
+        AudioManager.instance.GetSoundPool(sounds.clip_walkEnt.name, AudioGroups.GAME_FX, sounds.clip_walkEnt, true);
 
         rb = GetComponent<Rigidbody>();
         combatComponent.Configure(AttackEntity);

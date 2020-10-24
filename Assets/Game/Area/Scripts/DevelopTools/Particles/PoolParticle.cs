@@ -8,11 +8,13 @@ public class PoolParticle : SingleObjectPool<ParticleSystem>
 
     [SerializeField] private ParticleSystem particle;
     public bool soundPoolPlaying = false;
+    public float duration;
 
-    public void Configure(ParticleSystem _particle)
+    public void Configure(ParticleSystem _particle, float _duration)
     {
         extendible = true;
         particle = _particle;
+        duration = _duration;
     } 
 
     protected override void AddObject(int prewarm = 3)
@@ -58,7 +60,6 @@ public class PoolParticle : SingleObjectPool<ParticleSystem>
             }
 
             currentlyUsingObj[i].Pause(true);
-            currentlyUsingObj[i].Stop(true);
         }
     }
 
@@ -72,8 +73,6 @@ public class PoolParticle : SingleObjectPool<ParticleSystem>
                 i -= 1;
                 continue;
             }
-
-            currentlyUsingObj[i].Pause(false);
             currentlyUsingObj[i].Play(true);
         }
     }
