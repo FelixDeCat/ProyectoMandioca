@@ -37,7 +37,7 @@ public abstract class Interactable : MonoBehaviour
     }
     public void Exit()
     {
-        if (!predicate.Invoke()) return;
+        //if (!predicate.Invoke()) return;
         if (feedback.Length > 0) foreach (var fdbck in feedback) fdbck.Hide();
         OnExit();
         UE_OnExit.Invoke();
