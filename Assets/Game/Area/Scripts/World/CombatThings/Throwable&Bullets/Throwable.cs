@@ -100,6 +100,7 @@ public abstract class Throwable : MonoBehaviour,IPauseable
     {
         var ent = go.GetComponent<DamageReceiver>();
 
+        if (!ent) return;
         var ch = ent.GetComponent<CharacterHead>();
 
         if (ch != null && parried) return;
