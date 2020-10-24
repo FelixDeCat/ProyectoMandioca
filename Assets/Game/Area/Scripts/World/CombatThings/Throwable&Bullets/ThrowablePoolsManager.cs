@@ -11,8 +11,10 @@ public class ThrowablePoolsManager : MonoBehaviour
 
     public void Throw(string pool_name, ThrowData _trowData)
     {
-            if (registry[pool_name] == null) { throw new System.Exception("ERROR: no hay un pool con ese nombre"); }
+            if (registry[pool_name] == null) { throw new System.Exception("ERROR: no hay un pool con ese nombre");}
         registry[pool_name].Throw(_trowData);
+
+
     }
 
     public void CreateAPool(string pool_name, Throwable model)

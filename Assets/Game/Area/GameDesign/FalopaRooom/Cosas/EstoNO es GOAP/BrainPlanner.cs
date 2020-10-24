@@ -31,8 +31,6 @@ namespace GOAP
             var snap = WorldState.instance.WorldStateSnapShot();
 
             var actions = GetActionList();
-
-            distanceDebug = snap.distanceToHero;
             
             var typeDict = TypeDic();
               
@@ -45,16 +43,11 @@ namespace GOAP
 
             Func<GoapState, int> final = (gS) => Final(gS);
                 
-                
-            //    (gS) =>
-            //{
-            //    int h = 0;
-            //    if (gS.worldStateSnap.charLife > 0) h += 1;
-            //    return h;
-            //};
             GoapState initial = new GoapState();
             initial.worldStateSnap = snap;
-            OnGround_debug = initial.worldStateSnap.values["OnGround"];
+
+            //OnGround_debug = initial.worldStateSnap.values["OnGround"];
+            
             //TimeSlicing 3 - En este caso queriamos guardar el path en algun lado
             //Al no estar usando una variable publica creamos una interna con un valor default
             IEnumerable<GoapAction> plan = Enumerable.Empty<GoapAction>();

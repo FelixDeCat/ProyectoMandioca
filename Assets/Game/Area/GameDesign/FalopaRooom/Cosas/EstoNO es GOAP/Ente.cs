@@ -50,6 +50,8 @@ namespace GOAP
         public float speed = 4f;
         float currentSpeed;
         public int heightLevel;
+        RigidbodyConstraints flyingConstrains = RigidbodyConstraints.FreezePositionY | RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationZ | RigidbodyConstraints.FreezeRotationY;
+        public Fly_module flyModule;
 
         [Header("Feedback")]
         [SerializeField] ParticleSystem takeDamage_fb = null;
@@ -76,6 +78,7 @@ namespace GOAP
             //Movement
             _rb = GetComponent<Rigidbody>();
             defaultConst = _rb.constraints;
+            flyModule.Init();
 
             //Life
             _lifeSystem = GetComponent<GenericLifeSystem>();
@@ -103,10 +106,6 @@ namespace GOAP
 
         #region Effects
 
-        public void LoseMagicFly()
-        {
-            _rb.constraints = defaultConst;
-        }
 
         #endregion
 
@@ -115,8 +114,10 @@ namespace GOAP
         void TakeDamageFeedback(DamageData dData)
         {
             OnTakeDmg?.Invoke();
-            //_anim.SetTrigger("takeDamage");
             takeDamage_fb.Play();
+
+            if (heightLevel == 1)
+                flyModule.LoseMagicFly();
         }
 
         public bool IsDamaged(){return false;}
@@ -156,8 +157,8 @@ namespace GOAP
             
             nodeDebug = destination;
             
-            var srcWp = Navigation.instance.NearestTo(transform.position);
-            var dstWp = Navigation.instance.NearestTo(destination);
+            var srcWp = Navigation.instance.NearestTo(transform.position, heightLevel);
+            var dstWp = Navigation.instance.NearestTo(destination, heightLevel);
 
             _gizmoRealTarget = dstWp;
             Waypoint reachedDst = srcWp;

@@ -16,6 +16,7 @@ public abstract class Throwable : MonoBehaviour,IPauseable
     [SerializeField] LayerMask layermask_floor = 1 << 21;
 
     protected Action<Throwable> ReturnToPool;
+    protected Action<Vector3> OnMiss_HitFloor_Callback;
 
     [SerializeField] DamageData damageData = null;
     protected ThrowData savethrowdata;
@@ -53,6 +54,7 @@ public abstract class Throwable : MonoBehaviour,IPauseable
 
         transform.position = data.Position;
         transform.forward = data.Direction;
+        OnMiss_HitFloor_Callback = data.OnHitFloor_callback;
         ReturnToPool = _ReturnToPoolCallback;
 
         InternalThrow();

@@ -23,7 +23,7 @@ public abstract class GOAP_Skills_Base : MonoBehaviour
 
     float _count = 0;
 
-    public void Initialize(Transform owner) { if (!alreadyInitialized) { OnInitialize(); alreadyInitialized = true; this.owner = owner; heroRoot = Main.instance.GetChar().Root; }; /*isAvaliable = true;*/ }
+    public void Initialize(Transform owner) { if (!alreadyInitialized) { this.owner = owner; OnInitialize(); alreadyInitialized = true;  heroRoot = Main.instance.GetChar().Root; }; /*isAvaliable = true;*/ }
     public void On() { if (!isOn) { isOn = true; canUpdate = true; OnTurnOn(); } }
     public void Off() { if (isOn) { isOn = false; canUpdate = false; OnTurnOff(); } }
     public void Pause() { canUpdate = false; OnPause(); }

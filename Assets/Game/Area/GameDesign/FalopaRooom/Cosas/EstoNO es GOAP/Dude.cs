@@ -167,7 +167,7 @@ namespace GOAP
             avoid.OnEnter += (a) =>
             {
                 _auxCount = 0;
-
+                
                 _ent.GoTo(Navigation.instance.GetFarAwayWp(_ent.heightLevel, 
                           Navigation.instance.NearestTo(_target.transform.position)).transform.position);
             };
@@ -176,7 +176,7 @@ namespace GOAP
             {
                 _auxCount += Time.deltaTime;
 
-                if (_auxCount >= 6)
+                if (_auxCount >= 3)
                 {
                     _ent.Stop();
                     NextStep();
@@ -214,14 +214,6 @@ namespace GOAP
             getDamaged.OnEnter += a =>
             {
                  _ent.Anim().Play("GetDamage");
-
-                //Aca tengo que hacer que baje. Tal vez tenga que hacer la logica de volar en el Ente y solo llamarla la habilidad de Fly
-
-                //if(_ent.heightLevel == 1)
-                //{
-                //    GOAP_Skills_Base flySkill = _ent.skillManager.GetSkill("Fly");
-                //    flySkill.Execute();
-                //}
                 
             };
 
@@ -229,9 +221,9 @@ namespace GOAP
             {
                 _auxCount += Time.deltaTime;
 
-                if (_auxCount >= 6)
+                if (_auxCount >= 4)
                 {
-                    _ent.Stop();
+                    //_ent.Stop();
                     FailedStep();
                 }
             };

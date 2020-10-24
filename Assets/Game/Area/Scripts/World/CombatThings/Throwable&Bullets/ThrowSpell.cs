@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -7,6 +8,8 @@ public class ThrowSpell : Throwable
     [SerializeField] AudioClip parrySound = null;
     [SerializeField] ParticleSystem explosionParticle = null;
     [SerializeField] ParticleSystem mainParticles = null;
+
+    //public event Action<Vector3> OnHitFloor;
 
     bool move;
     bool noFloorCollision;
@@ -41,6 +44,7 @@ public class ThrowSpell : Throwable
 
         move = false;
         ParticlesManager.Instance.PlayParticle(explosionParticle.name, transform.position);
+        OnMiss_HitFloor_Callback?.Invoke(transform.position);
         Dissappear();
     }
 
