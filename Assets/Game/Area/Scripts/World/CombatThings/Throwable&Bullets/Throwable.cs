@@ -104,6 +104,9 @@ public abstract class Throwable : MonoBehaviour,IPauseable
         var ch = ent.GetComponent<CharacterHead>();
 
         if (ch != null && parried) return;
+
+        if (ent != null && ent.GetComponent<CharacterHead>() && parried) return;
+
         if (ent != null)
         {
             var dir = ent.transform.position - transform.position;

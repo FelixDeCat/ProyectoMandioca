@@ -11,6 +11,7 @@ public class DungeonBoss_BrainPlanner : BrainPlanner
     public int summon;
     public int fly;
     public int avoid;
+    public int thunderWave;
 
     protected override List<GoapAction> GetActionList()
     {
@@ -22,6 +23,7 @@ public class DungeonBoss_BrainPlanner : BrainPlanner
 
                         .Effect(gS =>
                         {
+                            gS.charLife -= 1;
                             gS.distanceToHero = 1;
                         }),
                     new GoapAction("Avoid hero")
@@ -30,11 +32,12 @@ public class DungeonBoss_BrainPlanner : BrainPlanner
 
                         .Effect(gS =>
                         {
+                            gS.charLife -= 1;
                             gS.distanceToHero = 10;
                         }),
                     new GoapAction("useSkill LaserShoot")
                         .SetCost(laserShoot)
-                        .Pre(gS =>  gS.values["LaserShoot"] && !gS.values["OnGround"] && gS.distanceToHero >= 1f && gS.distanceToHero <= 20f)
+                        .Pre(gS =>  gS.values["LaserShoot"] && gS.distanceToHero <= 30f) // !gS.values["OnGround"] && gS.distanceToHero >= 1f && 
 
                         .Effect(gS =>
                         {
@@ -43,7 +46,7 @@ public class DungeonBoss_BrainPlanner : BrainPlanner
                         }),
                     new GoapAction("useSkill Fly")
                         .SetCost(fly)
-                        .Pre(gS => gS.values["Fly"] && gS.values["OnGround"]) //&&  gS.distanceToHero >= 5f && gS.distanceToHero <= 10f)
+                        .Pre(gS => gS.values["Fly"] && gS.values["OnGround"]) 
 
                         .Effect(gS =>
                         {
@@ -59,9 +62,19 @@ public class DungeonBoss_BrainPlanner : BrainPlanner
                         {
                             gS.values["SummonMinions"] = false;
                             gS.charLife -= 10;
+                        }),
+                     new GoapAction("useSkill ThunderWave")
+                        .SetCost(thunderWave)
+                        .Pre(gS =>gS.ente_highlevel == 0 && gS.values["ThunderWave"] && gS.distanceToHero <= 5f && gS.values["OnGround"] & gS.values["OnGround"]) //
+
+                        .Effect(gS =>
+                        {
+                            gS.values["ThunderWave"] = false;
+                            gS.charLife -= 10;
+                            gS.distanceToHero += 15;
                         })
-                    
-           
+
+
             };
     }
 
@@ -69,7 +82,7 @@ public class DungeonBoss_BrainPlanner : BrainPlanner
     {
         int h = 0;
         if (gS.worldStateSnap.charLife > 0) h += 1;
-        if (gS.worldStateSnap.distanceToHero <= 5) h += 2;
+        if (gS.worldStateSnap.distanceToHero <= 5) h += 1;
         if (gS.worldStateSnap.values["OnGround"] == true) h += 1;
         return h;
     }
@@ -81,7 +94,8 @@ public class DungeonBoss_BrainPlanner : BrainPlanner
           { "hero", ItemType.hero },
           { "SummonMinions", ItemType.skill },
           { "LaserShoot", ItemType.skill },
-          { "Fly", ItemType.skill }
+          { "Fly", ItemType.skill },
+          { "ThunderWave", ItemType.skill }
         };
     }
 }

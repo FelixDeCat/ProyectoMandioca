@@ -9,8 +9,6 @@ public class ThrowSpell : Throwable
     [SerializeField] ParticleSystem explosionParticle = null;
     [SerializeField] ParticleSystem mainParticles = null;
 
-    //public event Action<Vector3> OnHitFloor;
-
     bool move;
     bool noFloorCollision;
     float timer;

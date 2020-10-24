@@ -213,8 +213,9 @@ namespace GOAP
 
             getDamaged.OnEnter += a =>
             {
+                _auxCount = 0;
                  _ent.Anim().Play("GetDamage");
-                
+                FailedStep();
             };
 
             getDamaged.OnUpdate += () =>
@@ -223,8 +224,9 @@ namespace GOAP
 
                 if (_auxCount >= 4)
                 {
+                    Debug.Log("QUE PASAAASDFASFAFD");
                     //_ent.Stop();
-                    FailedStep();
+                    
                 }
             };
 

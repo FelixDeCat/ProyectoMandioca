@@ -24,7 +24,6 @@ namespace GOAP
         [SerializeField] Transform _root = null;
         public Transform Root() => _root;
         Rigidbody _rb;
-        RigidbodyConstraints defaultConst;
 
         [Header("Shooter skills")]
         public Transform lefthand_Shooter;
@@ -33,6 +32,7 @@ namespace GOAP
         public DamageReceiver damagereciever;
         GenericLifeSystem _lifeSystem;
         public GenericLifeSystem Life => _lifeSystem;
+        bool _isDamaged = false;
 
         //Animation
         Animator _anim;
@@ -50,7 +50,6 @@ namespace GOAP
         public float speed = 4f;
         float currentSpeed;
         public int heightLevel;
-        RigidbodyConstraints flyingConstrains = RigidbodyConstraints.FreezePositionY | RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationZ | RigidbodyConstraints.FreezeRotationY;
         public Fly_module flyModule;
 
         [Header("Feedback")]
@@ -77,7 +76,6 @@ namespace GOAP
         {
             //Movement
             _rb = GetComponent<Rigidbody>();
-            defaultConst = _rb.constraints;
             flyModule.Init();
 
             //Life
@@ -113,14 +111,24 @@ namespace GOAP
 
         void TakeDamageFeedback(DamageData dData)
         {
+            Debug.Log("Y ACA? ESTO ESTA EN EL ENTE");
             OnTakeDmg?.Invoke();
             takeDamage_fb.Play();
 
             if (heightLevel == 1)
                 flyModule.LoseMagicFly();
+
+            StartCoroutine(StopDamageInput());
         }
 
-        public bool IsDamaged(){return false;}
+        IEnumerator StopDamageInput()
+        {
+            _isDamaged = true;
+            yield return new WaitForSeconds(.5f);
+            _isDamaged = false;
+        }
+
+        public bool IsDamaged(){return _isDamaged; }
 
         #endregion
 

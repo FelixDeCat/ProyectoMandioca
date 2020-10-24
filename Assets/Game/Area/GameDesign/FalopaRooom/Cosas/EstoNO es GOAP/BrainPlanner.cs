@@ -45,7 +45,8 @@ namespace GOAP
                 
             GoapState initial = new GoapState();
             initial.worldStateSnap = snap;
-
+            OnGround_debug = snap.values["OnGround"];
+            Debug.Log("VOY A PLANEAR Y ONGROUND ES: " + OnGround_debug);
             //OnGround_debug = initial.worldStateSnap.values["OnGround"];
             
             //TimeSlicing 3 - En este caso queriamos guardar el path en algun lado

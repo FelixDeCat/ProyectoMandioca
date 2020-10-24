@@ -10,6 +10,7 @@ public class LaserShoot_bossSkill : GOAP_Skills_Base
 
     [SerializeField] int amountLaser;
     [SerializeField] int _amount;
+    [SerializeField] LayerMask _mask;
     Ente _ent;
 
     [SerializeField] PlayObject corruptVomito_pf;
@@ -18,17 +19,19 @@ public class LaserShoot_bossSkill : GOAP_Skills_Base
 
     protected override void OnEndSkill()
     {
+        Debug.Log("SE TERMINA EL SKILL");
+        StopCoroutine(Ametralladora());
         owner.GetComponent<Ente>().OnSkillAction -= ShootLaser;
-        owner.GetComponent<Ente>().OnTakeDmg -= EndSkill;
+        
     }
 
     protected override void OnExecute()
     {
         _amount = 0;
-        
+
 
         owner.GetComponent<Ente>().OnSkillAction += ShootLaser;
-        owner.GetComponent<Ente>().OnTakeDmg += EndSkill;
+
 
         StartCoroutine(Ametralladora());
     }
@@ -66,7 +69,7 @@ public class LaserShoot_bossSkill : GOAP_Skills_Base
     {
         var pool = PoolManager.instance.GetObjectPool(corruptVomito_pf.name);
         var trap = pool.GetPlayObject(3);
-        trap.transform.position = summonPos;
+        trap.transform.position = GetSurfacePos(summonPos, _mask);
     }
 
     protected override void OnFixedUpdate()
@@ -74,11 +77,22 @@ public class LaserShoot_bossSkill : GOAP_Skills_Base
      
     }
 
+    public Vector3 GetSurfacePos(Vector3 pos, LayerMask mask)
+    {
+        RaycastHit hit;
+
+        if (Physics.Raycast(pos, Vector3.down, out hit, Mathf.Infinity, mask, QueryTriggerInteraction.Ignore))
+            pos = hit.point;
+
+        return pos;
+    }
+
     protected override void OnInitialize()
     {
         _ent = owner.GetComponent<Ente>();
         ThrowablePoolsManager.instance.CreateAPool(rayo_pf.name, rayo_pf);
-
+        owner.GetComponent<Ente>().OnTakeDmg += EndSkill;
+        
         PoolManager.instance.GetObjectPool(corruptVomito_pf.name, corruptVomito_pf);
     }
 
@@ -105,10 +119,5 @@ public class LaserShoot_bossSkill : GOAP_Skills_Base
     protected override void OnUpdate()
     {
       
-    }
-
-    public override bool ExternalCondition()
-    {
-        return (!WorldState.instance.values["OnGround"] && _ent.heightLevel == 1);
     }
 }

@@ -48,13 +48,7 @@ namespace GOAP
             ente = FindObjectOfType<Ente>();
             snap.allItems = allItems.Where(x => x != null && x.interactuable).ToList();
             snap.values.UpdateWith(values);
-
-
-            /////////
-            ///
-            snapDebug.debug_OnGround = snap.values["OnGround"];
-
-            /// ////
+            snap.ente_highlevel = ente.heightLevel;
 
             snap.charRoot = this.characterhead.Root;
             snap.charLife = this.characterhead.Life.GetLife();
@@ -68,15 +62,21 @@ namespace GOAP
                 snap.values.Add(s.Key, s.Value.isAvaliable);
             }
 
-            //foreach (var item in snap.values)
-            //{
-            //    Debug.Log("Ahora, la primera vez que se hace esto es: " + item.Key + " y es " + item.Value);
-            //}
 
             return snap;
         }
 
+
+        private void Update()
+        {
+            debug_OnGround = values["OnGround"];
+            if (characterhead == null || ente == null) return;
+
+            DEBUGdistanceToHero = Vector3.Distance(characterhead.Root.position, ente.Root().position);
+        }
     }
+
+   
 
     [Serializable]
     public class WorldStateSnapShot
@@ -84,13 +84,11 @@ namespace GOAP
         public List<Item> allItems = new List<Item>();
         public Dictionary<string, bool> values = new Dictionary<string, bool>();
         public Dictionary<string, GOAP_Skills_Base> skills = new Dictionary<string, GOAP_Skills_Base>();
-        //public bool handActive;
-        //public bool poolActive;
-        //public EnteDATA eData;
         public Transform charRoot;
         public int charLife;
         public float distanceToHero;
         public bool debug_OnGround;
+        public int ente_highlevel;
 
         public WorldStateSnapShot()
         {
