@@ -7,6 +7,7 @@ namespace Tools.StateMachine
     public class JabaliPushAttack : JabaliStates
     {
         float pushSpeed;
+        float initSpeed;
         Action DealDamage;
         Action PlayCombat;
         float maxSpeed;
@@ -21,7 +22,7 @@ namespace Tools.StateMachine
                                 GameObject _feedbackCharge, Action _PlayCombat, string _wooshSound, float _chargeDuration, CharacterGroundSensor _groundSensor, bool _isGoat = false) : base(myState, _sm)
         {
             maxSpeed = _speed;
-            pushSpeed = maxSpeed / 1.5f;
+            initSpeed = maxSpeed / 1.5f;
             DealDamage = _DealDamage;
             feedbackCharge = _feedbackCharge;
             PlayCombat = _PlayCombat;
@@ -43,6 +44,7 @@ namespace Tools.StateMachine
             PlayCombat();
             anim.SetTrigger("ChargeOk");
             source = pool.Get();
+            pushSpeed = initSpeed;
             if (source != null)
             {
                 source.transform.position = root.transform.position;
@@ -76,7 +78,6 @@ namespace Tools.StateMachine
                 .ForEach(x => x.Stop());
 
             if (isGoat && JabaliEnemy.JabaliInputs.IDLE == input) anim.SetBool("ToIdle", true);
-
             base.Exit(input);
             rb.velocity = Vector3.zero;
             combatDirector.AttackRelease(enemy, enemy.CurrentTarget());

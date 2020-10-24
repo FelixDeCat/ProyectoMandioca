@@ -50,7 +50,6 @@ namespace Tools.StateMachine
             {
                 if (IsChargeOk())
                 {
-
                     Vector3 dirForward = (enemy.CurrentTarget().transform.position - root.position).normalized;
                     Vector3 forwardFix = move.ObstacleAvoidance(new Vector3(dirForward.x, 0, dirForward.z));
 
@@ -62,7 +61,7 @@ namespace Tools.StateMachine
 
                     if (Vector3.Distance(new Vector3(targetPos.x, 0, targetPos.z), new Vector3(myPos.x, 0, myPos.z)) <= distanceAprox)
                     {
-                        if(OnSight(enemy.CurrentTarget().transform))
+                        if (OnSight(enemy.CurrentTarget().transform))
                             sm.SendInput(JabaliEnemy.JabaliInputs.CHASING);
                     }
                 }

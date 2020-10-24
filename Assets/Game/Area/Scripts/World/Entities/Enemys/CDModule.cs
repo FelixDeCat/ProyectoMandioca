@@ -6,7 +6,7 @@ using System;
 public class CDModule
 {
     Action OnUpdateCD = delegate { };
-    Dictionary<string, Action> EndCDCallbacks = new Dictionary<string, Action>();
+    Dictionary<string, Action[]> EndCDCallbacks = new Dictionary<string, Action[]>();
 
     public void UpdateCD() => OnUpdateCD();
 
@@ -23,17 +23,18 @@ public class CDModule
                 EndCDWithExecute(_cdName);
         };
         OnUpdateCD += Updater;
-
+        Action[] temp = new Action[2];
         EndCallback += () => OnUpdateCD -= Updater;
-
-        EndCDCallbacks.Add(_cdName, EndCallback);
+        temp[0] = EndCallback;
+        temp[1] = () => OnUpdateCD -= Updater;
+        EndCDCallbacks.Add(_cdName, temp);
     }
 
     public void EndCDWithExecute(string _cdName)
     {
         if (!EndCDCallbacks.ContainsKey(_cdName)) return;
 
-        Action x = EndCDCallbacks[_cdName];
+        Action x = EndCDCallbacks[_cdName][0];
         EndCDCallbacks.Remove(_cdName);
         x();
     }
@@ -42,6 +43,7 @@ public class CDModule
     {
         if (!EndCDCallbacks.ContainsKey(_cdName)) return;
 
+        EndCDCallbacks[_cdName][1]();
         EndCDCallbacks.Remove(_cdName);
     }
 
@@ -49,7 +51,7 @@ public class CDModule
     {
         foreach (var item in EndCDCallbacks)
         {
-            item.Value();
+            item.Value[0]();
         }
 
         EndCDCallbacks.Clear();
