@@ -12,7 +12,7 @@ public class ElectricSwordHolding : MonoBehaviour
 
     [Header("Orb")]
     [SerializeField] ElectricOrb electricOrb;
-    [SerializeField] int orbSpeed = 2;
+    [SerializeField] float orbSpeed = 2;
     [SerializeField] float orbLifeTime = 5;
 
     CharacterHead myChar;

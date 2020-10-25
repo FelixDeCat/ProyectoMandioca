@@ -6,6 +6,7 @@ using Tools.Extensions;
 public class ElectricOrb : Waves
 {
     [SerializeField] float damageTimeCD = 0.5f;
+    [SerializeField] float stunTimeOrb;
     float damageTimer = 0;
 
     [Header("Explosion Cosas")]
@@ -69,6 +70,7 @@ public class ElectricOrb : Waves
             DamageReceiver enemy = other.gameObject.GetComponent<DamageReceiver>();
             damageTimer = 0;
             enemy.TakeDamage(dmgDATA);
+            other.GetComponent<EffectReceiver>().TakeEffect(EffectName.OnFreeze, stunTimeOrb);
         }
     }
 
