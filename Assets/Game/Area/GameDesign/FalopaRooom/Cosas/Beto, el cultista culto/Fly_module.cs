@@ -48,12 +48,12 @@ public class Fly_module : MonoBehaviour
         {
             //_rb.constraints = flyingConstrains;
             _ent.heightLevel = 1;
-            WorldState.instance.values["OnGround"] = false;
+            WorldState.instance.valoresBool["OnGround"] = false;
         }
         else
         {
             _ent.heightLevel = 0;
-            WorldState.instance.values["OnGround"] = true;
+            WorldState.instance.valoresBool["OnGround"] = true;
         }
 
         speedScaler = 1;

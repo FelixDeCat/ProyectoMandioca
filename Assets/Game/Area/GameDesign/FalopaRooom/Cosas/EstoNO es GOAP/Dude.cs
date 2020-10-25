@@ -214,19 +214,18 @@ namespace GOAP
             getDamaged.OnEnter += a =>
             {
                 _auxCount = 0;
-                 _ent.Anim().Play("GetDamage");
-                FailedStep();
+                _ent.Stop();
             };
 
             getDamaged.OnUpdate += () =>
             {
                 _auxCount += Time.deltaTime;
 
-                if (_auxCount >= 4)
+                if (_auxCount >= 2)
                 {
                     Debug.Log("QUE PASAAASDFASFAFD");
-                    //_ent.Stop();
                     
+                    FailedStep();
                 }
             };
 
@@ -244,6 +243,7 @@ namespace GOAP
                 .SetTransition(ActionEntity.UseSkill, useSkill)
                 .SetTransition(ActionEntity.Move, move)
                 .SetTransition(ActionEntity.Avoid, avoid)
+                .SetTransition(ActionEntity.GetDamaged, getDamaged)
                 .Done();
 
             _fsm = new EventFSM<ActionEntity>(thinkPlan, any);

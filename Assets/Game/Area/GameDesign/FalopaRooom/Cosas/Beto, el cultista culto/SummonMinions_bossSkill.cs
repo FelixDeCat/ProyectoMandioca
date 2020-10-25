@@ -21,7 +21,7 @@ public class SummonMinions_bossSkill : GOAP_Skills_Base, ISpawner
 
     public override bool ExternalCondition()
     {
-        return !WorldState.instance.values["OnGround"];
+        return !WorldState.instance.valoresBool["OnGround"];
     }
 
     protected override void OnExecute()
@@ -85,5 +85,10 @@ public class SummonMinions_bossSkill : GOAP_Skills_Base, ISpawner
     public void ReturnObject(PlayObject newPrefab)
     {
         
+    }
+
+    protected override void OnInterruptSkill()
+    {
+       
     }
 }

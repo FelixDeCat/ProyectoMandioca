@@ -107,4 +107,8 @@ public class CaronteSkill_HandOfDead : GOAP_Skills_Base
         
     }
 
+    protected override void OnInterruptSkill()
+    {
+        throw new System.NotImplementedException();
+    }
 }

@@ -86,4 +86,8 @@ public class CaronteSkill_FlameThrower : GOAP_Skills_Base
         
     }
 
+    protected override void OnInterruptSkill()
+    {
+        throw new System.NotImplementedException();
+    }
 }

@@ -19,7 +19,8 @@ public class LaserShoot_bossSkill : GOAP_Skills_Base
 
     protected override void OnEndSkill()
     {
-        Debug.Log("SE TERMINA EL SKILL");
+        //proba frenar el animator tambien
+        //owner.GetComponentInChildren<Animator>().Play("Idle");
         StopCoroutine(Ametralladora());
         owner.GetComponent<Ente>().OnSkillAction -= ShootLaser;
         
@@ -91,7 +92,7 @@ public class LaserShoot_bossSkill : GOAP_Skills_Base
     {
         _ent = owner.GetComponent<Ente>();
         ThrowablePoolsManager.instance.CreateAPool(rayo_pf.name, rayo_pf);
-        owner.GetComponent<Ente>().OnTakeDmg += EndSkill;
+        owner.GetComponent<Ente>().OnTakeDmg += InterruptSkill;
         
         PoolManager.instance.GetObjectPool(corruptVomito_pf.name, corruptVomito_pf);
     }
@@ -119,5 +120,10 @@ public class LaserShoot_bossSkill : GOAP_Skills_Base
     protected override void OnUpdate()
     {
       
+    }
+
+    protected override void OnInterruptSkill()
+    {
+        
     }
 }

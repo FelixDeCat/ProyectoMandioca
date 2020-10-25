@@ -7,8 +7,10 @@ namespace GOAP
 {
     public class GoapAction
     {
-        public Func<WorldStateSnapShot, bool> preconditions { get; private set; }
-        public Action<WorldStateSnapShot> effects { get; private set; }
+        //public Func<WorldStateSnapShot, bool> preconditions { get; private set; }
+        public Func<GoapState, bool> preconditions { get; private set; }
+        public Action<GoapState> effects { get; private set; }
+        //public Action<WorldStateSnapShot> effects { get; private set; }
         public string Name { get; private set; }
         public float Cost { get; private set; }
 
@@ -29,12 +31,12 @@ namespace GOAP
             this.Cost = cost;
             return this;
         }
-        public GoapAction Pre(Func<WorldStateSnapShot, bool> pre)
+        public GoapAction Pre(Func<GoapState, bool> pre)//(Func<WorldStateSnapShot, bool> pre)
         {
             preconditions = pre;
             return this;
         }
-        public GoapAction Effect(Action<WorldStateSnapShot> eff)
+        public GoapAction Effect(Action<GoapState> eff)//(Action<WorldStateSnapShot> eff)
         {
             effects = eff;
             return this;

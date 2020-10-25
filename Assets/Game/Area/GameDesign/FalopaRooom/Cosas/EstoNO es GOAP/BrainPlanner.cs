@@ -28,7 +28,7 @@ namespace GOAP
         {
             yield return new WaitForSeconds(.3f);
 
-            var snap = WorldState.instance.WorldStateSnapShot();
+            //var snap = WorldState.instance.WorldStateSnapShot();
 
             var actions = GetActionList();
             
@@ -42,13 +42,20 @@ namespace GOAP
         };
 
             Func<GoapState, int> final = (gS) => Final(gS);
-                
+
+            WorldState.instance.RefreshState();
             GoapState initial = new GoapState();
-            initial.worldStateSnap = snap;
-            OnGround_debug = snap.values["OnGround"];
-            Debug.Log("VOY A PLANEAR Y ONGROUND ES: " + OnGround_debug);
+            initial.valoresBool.UpdateWith(WorldState.instance.valoresBool);
+            initial.misItems = WorldState.instance.allItems.GetRange(0, WorldState.instance.allItems.Count);
+            initial.valoresFloat.UpdateWith(WorldState.instance.valoresFloat);
+            initial.valoresInt.UpdateWith(WorldState.instance.valoresInt);
+
+
+            //initial.worldStateSnap = snap;
+            //OnGround_debug = snap.values["OnGround"];
+            //Debug.Log("VOY A PLANEAR Y ONGROUND ES: " + OnGround_debug);
             //OnGround_debug = initial.worldStateSnap.values["OnGround"];
-            
+
             //TimeSlicing 3 - En este caso queriamos guardar el path en algun lado
             //Al no estar usando una variable publica creamos una interna con un valor default
             IEnumerable<GoapAction> plan = Enumerable.Empty<GoapAction>();
@@ -67,7 +74,7 @@ namespace GOAP
                     .Select(pa => pa.Name)
                     .Select(a =>
                     {
-                        var possibleItems = snap.allItems.Where(x => x != null && x.interactuable).Where(i =>
+                        var possibleItems = WorldState.instance.allItems.Where(x => x != null && x.interactuable).Where(i =>
                             typeDict.Any(kv => a.EndsWith(kv.Key)) &&
                             i.type == typeDict.First(kv => a.EndsWith(kv.Key)).Value);
 

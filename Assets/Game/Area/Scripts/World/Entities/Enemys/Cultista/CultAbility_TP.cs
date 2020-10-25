@@ -24,6 +24,11 @@ public class CultAbility_TP : GOAP_Skills_Base
         throw new System.NotImplementedException();
     }
 
+    protected override void OnInterruptSkill()
+    {
+        throw new System.NotImplementedException();
+    }
+
     protected override void OnPause()
     {
         throw new System.NotImplementedException();

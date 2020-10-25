@@ -112,8 +112,10 @@ namespace GOAP
         void TakeDamageFeedback(DamageData dData)
         {
             Debug.Log("Y ACA? ESTO ESTA EN EL ENTE");
+
             OnTakeDmg?.Invoke();
             takeDamage_fb.Play();
+            Anim().Play("GetDamage");
 
             if (heightLevel == 1)
                 flyModule.LoseMagicFly();
@@ -124,7 +126,7 @@ namespace GOAP
         IEnumerator StopDamageInput()
         {
             _isDamaged = true;
-            yield return new WaitForSeconds(.5f);
+            yield return new WaitForSeconds(2f);
             _isDamaged = false;
         }
 

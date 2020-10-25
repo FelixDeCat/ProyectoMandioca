@@ -77,5 +77,8 @@ public class ThunderWave_bossSkill : GOAP_Skills_Base
 
     }
 
- 
+    protected override void OnInterruptSkill()
+    {
+        
+    }
 }

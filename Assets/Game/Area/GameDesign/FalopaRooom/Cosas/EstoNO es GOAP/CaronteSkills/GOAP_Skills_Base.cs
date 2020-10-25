@@ -29,6 +29,7 @@ public abstract class GOAP_Skills_Base : MonoBehaviour
     public void Pause() { canUpdate = false; OnPause(); }
     public void Resume() { canUpdate = true; OnResume(); }
     public void EndSkill() { StartCD(); OnEndSkill(); OnFinishSkill?.Invoke(); }
+    public void InterruptSkill() { StartCD(); OnEndSkill();}
     public void Execute() { Debug.Log(skillName + " SE EJECUTA"); OnExecute();  isAvaliable = false; }
     
     private void StartCD() {   On(); } //Debug.Log("Inicio Cd de " + skillName);
@@ -75,6 +76,7 @@ public abstract class GOAP_Skills_Base : MonoBehaviour
 
     protected abstract void OnExecute();
     protected abstract void OnEndSkill();
+    protected abstract void OnInterruptSkill();
 
 
 }

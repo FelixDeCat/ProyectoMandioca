@@ -27,11 +27,11 @@ namespace GOAP
                     else
                         watchdog--;
 
-                    return actions.Where(action => action.preconditions(curr.worldStateSnap))
+                    return actions.Where(action => action.preconditions(curr))//curr.worldStateSnap))
                                   .Aggregate(new FList<AStarNormal<GoapState>.Arc>(), (possibleList, action) =>
                                   {
-                                      var newState = new GoapState(curr);
-                                      action.effects(newState.worldStateSnap);
+                                  var newState = new GoapState(curr);
+                                      action.effects(newState);//(newState.worldStateSnap);
                                       newState.generatingAction = action;
                                       newState.step = curr.step + 1;
                                       return possibleList + new AStarNormal<GoapState>.Arc(newState, action.Cost);

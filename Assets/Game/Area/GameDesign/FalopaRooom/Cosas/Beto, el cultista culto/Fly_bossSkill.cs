@@ -32,7 +32,7 @@ public class Fly_bossSkill : GOAP_Skills_Base
 
     public override bool ExternalCondition()
     {
-        return WorldState.instance.values["OnGround"];
+        return WorldState.instance.valoresBool["OnGround"];
     }
 
     protected override void OnFixedUpdate()
@@ -81,4 +81,8 @@ public class Fly_bossSkill : GOAP_Skills_Base
 
     }
 
+    protected override void OnInterruptSkill()
+    {
+        throw new System.NotImplementedException();
+    }
 }

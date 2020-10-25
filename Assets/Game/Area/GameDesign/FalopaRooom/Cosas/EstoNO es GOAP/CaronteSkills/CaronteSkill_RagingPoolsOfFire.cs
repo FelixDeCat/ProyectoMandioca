@@ -76,4 +76,8 @@ public class CaronteSkill_RagingPoolsOfFire : GOAP_Skills_Base
         //}
     }
 
+    protected override void OnInterruptSkill()
+    {
+        throw new System.NotImplementedException();
+    }
 }

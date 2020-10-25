@@ -92,4 +92,8 @@ public class CultAbility_Spawn : GOAP_Skills_Base, ISpawner
 
     }
 
+    protected override void OnInterruptSkill()
+    {
+        throw new System.NotImplementedException();
+    }
 }
