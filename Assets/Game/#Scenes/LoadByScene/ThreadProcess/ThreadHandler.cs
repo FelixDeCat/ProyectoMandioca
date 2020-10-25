@@ -40,6 +40,10 @@ public class ThreadHandler : MonoBehaviour
             StartCoroutine(Process());
         }
     }
+    private void OnDisable()
+    {
+        StopAllCoroutines();
+    }
     private void OnDestroy()
     {
         StopAllCoroutines();
