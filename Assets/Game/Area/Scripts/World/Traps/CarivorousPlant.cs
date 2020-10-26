@@ -25,8 +25,8 @@ public class CarivorousPlant : EnemyBase
     [SerializeField] ParticleSystem attFeedback = null;
     ParticleSystem attFXTemp;
     [SerializeField] ParticleSystem hitParticle = null;
-    [SerializeField] AudioClip _getHit_Clip;
-    [SerializeField] AudioClip _death_Clip;
+    [SerializeField] AudioClip _getHit_Clip = null;
+    [SerializeField] AudioClip _death_Clip = null;
     bool on;
     bool isZero;
     bool inDmg;

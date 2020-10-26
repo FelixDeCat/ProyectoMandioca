@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class OperativeCollection<T> where T : AsyncOperation
 {
-    T[] coll;
+    T[] coll = new T[0];
 
     public void AddItem(T obj, int level_priority)
     {

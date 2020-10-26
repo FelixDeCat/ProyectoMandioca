@@ -11,7 +11,7 @@ public class ElectricSwordHolding : MonoBehaviour
     [SerializeField] float cooldown = 0.2f;
 
     [Header("Orb")]
-    [SerializeField] ElectricOrb electricOrb;
+    [SerializeField] ElectricOrb electricOrb = null;
     [SerializeField] float orbSpeed = 2;
     [SerializeField] float orbLifeTime = 5;
 

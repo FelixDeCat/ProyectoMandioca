@@ -4,8 +4,8 @@ using UnityEngine;
 
 public class MagnoSuperCheat : MonoBehaviour
 {
-    [SerializeField] GameObject magno_face;
-    [SerializeField] GameObject original;
+    [SerializeField] GameObject magno_face = null;
+    [SerializeField] GameObject original = null;
 
     private void Start()
     {

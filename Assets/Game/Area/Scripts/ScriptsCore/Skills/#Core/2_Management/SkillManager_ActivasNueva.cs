@@ -10,7 +10,7 @@ public class SkillManager_ActivasNueva : LoadComponent
 
     [Header("All skills data base")]
     [SerializeField] List<SkillActivas> my_data_base = new List<SkillActivas>();
-    Dictionary<SkillInfo, SkillActivas> fastreference_actives;
+    Dictionary<SkillInfo, SkillActivas> fastreference_actives = new Dictionary<SkillInfo, SkillActivas>();
     public SkillActivas[] equip;
 
     public int nextToReplace;

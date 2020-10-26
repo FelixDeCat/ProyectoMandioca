@@ -10,9 +10,9 @@ public class Combat_Maniqui : EntityBase
     Rigidbody myRig;
     Collider myCol;
     _Base_Life_System myLifeSystem;
-    [SerializeField] Feedback_Maniqui feedback;
+    [SerializeField] Feedback_Maniqui feedback = null;
 
-    [SerializeField] UnityEvent DeathByComboWombo;
+    [SerializeField] UnityEvent DeathByComboWombo = null;
 
 
     bool isactive;

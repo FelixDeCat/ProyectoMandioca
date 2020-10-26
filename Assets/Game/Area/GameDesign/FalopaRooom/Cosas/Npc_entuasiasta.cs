@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Npc_entuasiasta : MonoBehaviour
 {
-    [SerializeField] Animator anim;
+    [SerializeField] Animator anim = null;
 
     // Start is called before the first frame update
     void Start()

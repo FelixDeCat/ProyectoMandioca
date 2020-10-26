@@ -4,8 +4,8 @@ using UnityEngine;
 
 public class JacintaQueCamina : PistonWithSteps
 {
-    [SerializeField] Transform _rootRot;
-    [SerializeField] Animator _anim;
+    [SerializeField] Transform _rootRot = null;
+    [SerializeField] Animator _anim = null;
 
     private void Start()
     {

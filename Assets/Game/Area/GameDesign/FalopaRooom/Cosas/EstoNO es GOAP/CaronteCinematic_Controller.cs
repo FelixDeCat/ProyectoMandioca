@@ -5,10 +5,10 @@ using UnityEngine;
 
 public class CaronteCinematic_Controller : MonoBehaviour
 {
-    [SerializeField] List<Transform> nodes;
-    [SerializeField] GameObject boat;
-    [SerializeField] float speed;
-    [SerializeField] GameObject caronteAnimator;
+    [SerializeField] List<Transform> nodes = new List<Transform>();
+    [SerializeField] GameObject boat = null;
+    [SerializeField] float speed = 7;
+    [SerializeField] GameObject caronteAnimator = null;
 
     public event Action OnFinishCinematic;
 

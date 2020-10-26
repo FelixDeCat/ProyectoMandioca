@@ -9,7 +9,6 @@ public class OutlineFeedback : FeedbackInteractBase
 
 
     [SerializeField] Material[] myMat = new Material[1];
-    [SerializeField] float mainOpacityOn = 0.3f;
     [SerializeField] float borderOpacityOn = 1;
     const string borderOpacity = "_OpacityOutline";
 

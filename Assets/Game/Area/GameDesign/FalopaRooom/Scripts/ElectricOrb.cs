@@ -6,16 +6,16 @@ using Tools.Extensions;
 public class ElectricOrb : Waves
 {
     [SerializeField] float damageTimeCD = 0.5f;
-    [SerializeField] float stunTimeOrb;
+    [SerializeField] float stunTimeOrb = 0.2f;
     float damageTimer = 0;
 
     [Header("Explosion Cosas")]
     [SerializeField] int speed = 5;
     [SerializeField] float lifeTime = 2;
     [SerializeField] int divAmmount = 8;
-    [SerializeField] float orbRadiusExplosion;
-    [SerializeField] float explosionKnocback;
-    [SerializeField] int explosionDMG;
+    [SerializeField] float orbRadiusExplosion = 6;
+    [SerializeField] float explosionKnocback = 200;
+    [SerializeField] int explosionDMG = 5;
     [SerializeField] Waves prefabBullet = null;
     [SerializeField] Collider myCollider = null;
     protected override void Start()

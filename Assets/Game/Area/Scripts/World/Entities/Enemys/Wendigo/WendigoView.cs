@@ -8,12 +8,12 @@ namespace Tools.StateMachine
     public class WendigoView : MonoBehaviour    //Ponele MonoB?
     {
         [SerializeField]
-        TMP_Text debugText;
+        TMP_Text debugText = null;
         [SerializeField]
-        TMP_Text distanceText;
+        TMP_Text distanceText = null;
 
-        [SerializeField] Animator anim;
-        [SerializeField] GameObject handRock;
+        [SerializeField] Animator anim = null;
+        [SerializeField] GameObject handRock = null;
 
         public DataBaseWendigoParticles particles;
         public DataBaseWendigoSounds sounds;

@@ -10,7 +10,7 @@ public class TestNewActive : SpawnWaves
     [SerializeField] float cdOrb = 1;
     bool canShoot;
     bool canOrb;
-    [SerializeField] GameObject bolita;
+    [SerializeField] GameObject bolita = null;
     public int maxOrbs = 2;
 
     void Update()

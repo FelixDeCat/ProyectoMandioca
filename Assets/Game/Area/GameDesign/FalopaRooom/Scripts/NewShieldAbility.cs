@@ -8,14 +8,14 @@ public class NewShieldAbility : MonoBehaviour
     [Header("LongCast")]
     //[SerializeField] float timePetrifiHold = 1;
     [SerializeField] int damageDestroyPetrify = 5;
-    [SerializeField] float radiusHolding;
+    [SerializeField] float radiusHolding = 5;
     [Header("ShortCast")]
     [SerializeField] float timePetrifiTap = 1;
-    [SerializeField] float radiusTapping;
-    [SerializeField] float angleShoot;
+    [SerializeField] float radiusTapping = 5;
+    [SerializeField] float angleShoot = 90;
     [Header("Customization")]
-    [SerializeField] ParticleSystem circuloPetrify;
-    [SerializeField] ParticleSystem RayoPetrify;
+    [SerializeField] ParticleSystem circuloPetrify = null;
+    [SerializeField] ParticleSystem RayoPetrify = null;
 
     [SerializeField] Damagetype damageType = Damagetype.Normal;
     DamageData dmgDATA;
@@ -111,7 +111,7 @@ public class NewShieldAbility : MonoBehaviour
         }
     }
 
-    [SerializeField] bool showGizmos;
+    [SerializeField] bool showGizmos = false;
     private void OnDrawGizmosSelected()
     {
         if (!showGizmos) return;

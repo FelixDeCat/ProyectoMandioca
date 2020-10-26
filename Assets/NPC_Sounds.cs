@@ -5,7 +5,7 @@ using UnityEngine;
 public class NPC_Sounds : MonoBehaviour
 {
     public string npc_Name = "Jacinta";
-    [SerializeField] AudioClip ac_cry;
+    [SerializeField] AudioClip ac_cry = null;
     // Start is called before the first frame update
     void Start()
     {

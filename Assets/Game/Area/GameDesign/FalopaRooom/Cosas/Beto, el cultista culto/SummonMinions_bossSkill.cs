@@ -8,11 +8,8 @@ public class SummonMinions_bossSkill : GOAP_Skills_Base, ISpawner
     [SerializeField] TotemFeedback totemFeedback = new TotemFeedback();
     [SerializeField] SpawnerSpot spot = null;
 
-    [SerializeField] PlayObject prefab;
-
-
-
-    [SerializeField] int amountSummoned;
+    [SerializeField] PlayObject prefab = null;
+    [SerializeField] int amountSummoned = 5;
 
     protected override void OnEndSkill()
     {

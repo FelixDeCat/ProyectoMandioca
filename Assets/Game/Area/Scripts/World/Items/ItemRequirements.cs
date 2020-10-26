@@ -6,9 +6,9 @@ using Tools.EventClasses;
 
 public class ItemRequirements : MonoBehaviour
 {
-    [SerializeField] EventCounterPredicate counter_predicate;
-    [SerializeField] EventAction OnConsume;
-    [SerializeField] ItemInInventory[] items_requirements;
+    [SerializeField] EventCounterPredicate counter_predicate = null;
+    [SerializeField] EventAction OnConsume = null;
+    [SerializeField] ItemInInventory[] items_requirements = new ItemInInventory[0];
 
     public ItemInInventory[] Items_Require { get { return items_requirements; } }
 

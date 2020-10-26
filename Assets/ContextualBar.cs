@@ -20,17 +20,17 @@ public class ContextualBar : MonoBehaviour
     }
 
     [Header("Texts")]
-    [SerializeField] TextMeshProUGUI action_text;
-    [SerializeField] TextMeshProUGUI name_interaction_text;
-    [SerializeField] TextMeshProUGUI extra_description_text;
-    [SerializeField] GenericBar_Sprites generic_bar_fill;
+    [SerializeField] TextMeshProUGUI action_text = null;
+    [SerializeField] TextMeshProUGUI name_interaction_text = null;
+    [SerializeField] TextMeshProUGUI extra_description_text = null;
+    [SerializeField] GenericBar_Sprites generic_bar_fill = null;
     [Header("Auxiliar Components")]
-    [SerializeField] Image photo_image;
-    [SerializeField] Image button_image;
+    [SerializeField] Image photo_image = null;
+    [SerializeField] Image button_image = null;
     [Header("Customization")]
-    [SerializeField] Image bkg_photo;
-    [SerializeField] Image bkg_load_bar;
-    [SerializeField] Image load_bar;
+    [SerializeField] Image bkg_photo = null;
+    [SerializeField] Image bkg_load_bar = null;
+    [SerializeField] Image load_bar = null;
 
     [Header("Animation")]
     public CanvasGroup canvas_group = null;

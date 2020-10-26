@@ -8,9 +8,9 @@ public class SoulShard : MonoBehaviour
     public event Action OnGrabSoulShard;
     public event Action<SoulShard> OnReachDoor;
 
-    [SerializeField] ParticleSystem grabbedFeedback;
+    //[SerializeField] ParticleSystem grabbedFeedback = null;
 
-    [SerializeField] float speed;
+    [SerializeField] float speed = 7;
 
     Vector3 dest;
 

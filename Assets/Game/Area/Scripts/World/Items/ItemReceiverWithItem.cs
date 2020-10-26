@@ -5,7 +5,7 @@ using System;
 
 public class ItemReceiverWithItem : MonoBehaviour
 {
-    [SerializeField] Item item;
+    [SerializeField] Item item = null;
     public Item Item { get { return item; } }
     public Func<bool> custom_pred = delegate { return true; };
     public Action OnConsume = delegate { };

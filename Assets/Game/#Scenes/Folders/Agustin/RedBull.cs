@@ -23,12 +23,12 @@ public class RedBull : MonoBehaviour
 
     private void Update()
     {
-        if(myChar.isBuffed == true)
-        {
-            _ppmat.SetFloat("_Energy", 0.04f);
-            Debug.Log("BufRedBul");
-        }
-        else
-            _ppmat.SetFloat("_Energy", 0f);
+        //if(myChar.isBuffed == true)
+        //{
+        //    _ppmat.SetFloat("_Energy", 0.04f);
+        //    Debug.Log("BufRedBul");
+        //}
+        //else
+        //    _ppmat.SetFloat("_Energy", 0f);
     }
 }

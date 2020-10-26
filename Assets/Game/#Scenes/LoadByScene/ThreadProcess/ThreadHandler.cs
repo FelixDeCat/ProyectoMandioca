@@ -13,7 +13,7 @@ public class ThreadHandler : MonoBehaviour
     [SerializeField] float allowedTime = 0.01f;
 
     bool useLoadScreen;
-    [SerializeField] TextMeshProUGUI CurrentProcess;
+    [SerializeField] TextMeshProUGUI CurrentProcess = null;
     public static void AuxiliarDebug(string val) { instance?.AuxDebug(val); }
 
     public static void EnqueueProcess(ThreadObject obj, bool loadScreen = false) { instance?.AddThreadObject(obj, loadScreen); }
@@ -49,7 +49,7 @@ public class ThreadHandler : MonoBehaviour
         StopAllCoroutines();
     }
 
-    float startTime;
+    float startTime = 0;
     IEnumerator Process()
     {
         while (process_queue.Count > 0)

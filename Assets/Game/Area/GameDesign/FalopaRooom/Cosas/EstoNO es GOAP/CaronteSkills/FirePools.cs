@@ -7,16 +7,16 @@ using System;
 public class FirePools : MonoBehaviour
 {
 
-    public event Action OnFinishDuration;
+    //public event Action OnFinishDuration;
     [SerializeField] List<PlayObject> currentObjs = new List<PlayObject>();
-    [SerializeField] DamageFloor df_pf;
+    [SerializeField] DamageFloor df_pf = null;
     ObjectPool_PlayObject df_pool;
 
-    [SerializeField] List<Transform> _spots;
+    [SerializeField] List<Transform> _spots = new List<Transform>();
     [SerializeField] List<Transform> _currentSpots = new List<Transform>();
 
     float _count;
-    [SerializeField] float _duration;
+    [SerializeField] float _duration = 5;
 
     bool active;
 

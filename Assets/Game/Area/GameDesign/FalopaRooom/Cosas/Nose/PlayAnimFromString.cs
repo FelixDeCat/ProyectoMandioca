@@ -5,7 +5,7 @@ using UnityEngine;
 [RequireComponent(typeof(Animator))]
 public class PlayAnimFromString : MonoBehaviour
 {
-    [SerializeField] string animationName;
+    [SerializeField] string animationName = "sarasa";
 
     Animator _anim;
 

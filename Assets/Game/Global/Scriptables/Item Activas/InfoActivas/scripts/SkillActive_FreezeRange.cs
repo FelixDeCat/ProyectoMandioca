@@ -21,7 +21,7 @@ public class SkillActive_FreezeRange : SkillActivas
     private CharacterHead _hero;
     private const string freezeSound = "freeze";
 
-    [SerializeField] Atenea atenea = null;
+    //[SerializeField] Atenea atenea = null;
     protected override void OnBeginSkill()
     {
         _hero = Main.instance.GetChar();

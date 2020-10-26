@@ -6,9 +6,9 @@ using UnityEngine.Events;
 
 public class EntusiastaRompiendoRamas : PistonWithSteps
 {
-    [SerializeField] Transform _rootRot;
-    [SerializeField] Animator _anim;
-    [SerializeField] AnimEvent _animEvent;
+    [SerializeField] Transform _rootRot = null;
+    [SerializeField] Animator _anim = null;
+    [SerializeField] AnimEvent _animEvent = null;
 
     public UnityEvent OnFinishMyObjetive;
 

@@ -204,7 +204,7 @@ public class GoatEnemy : EnemyWithCombatDirector
             return;
         }
 
-        if (goatType == GoatType.UnequipSword) e.GetComponent<CharacterHead>()?.UnequipSword(transform.forward);
+        //if (goatType == GoatType.UnequipSword) e.GetComponent<CharacterHead>()?.UnequipSword(transform.forward);
     }
 
     void StompRelease(DamageReceiver e)

@@ -9,16 +9,16 @@ public class BoomerangExplosion : MonoBehaviour
 
     [SerializeField] int damage = 10;
     [SerializeField] float damageRadius = 3;
-    [SerializeField] Damagetype damagetype;
+    [SerializeField] Damagetype damagetype = Damagetype.Fire;
 
     CharacterHead _hero;
     GameObject _shield;
     Transform auxParent = null;
-    bool shortCast = false;
+    //bool shortCast = false;
     
     DamageData dmgData = null;
 
-    [SerializeField] float minChargeTime = 0.2f;
+    //[SerializeField] float minChargeTime = 0.2f;
     [SerializeField] float maxChargeTime = 2f;
 
     float timer = 0;

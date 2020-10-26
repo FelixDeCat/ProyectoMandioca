@@ -7,7 +7,7 @@ public class TstNewActiveSecondPart : SpawnWaves
     public Transform[] allChilds;
     TestNewActive activeParent;
 
-    [SerializeField] float countToKMS;
+    [SerializeField] float countToKMS = 2;
 
 
     float timer = 0;

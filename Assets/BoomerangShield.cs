@@ -9,7 +9,7 @@ public class BoomerangShield : MonoBehaviour
     [SerializeField] float throwRange = 4;
     [SerializeField] float damageRadius = 5;
     [SerializeField] float spinDuration = 5;
-    [SerializeField] float distanceToCatch = 3;
+    //[SerializeField] float distanceToCatch = 3;
     //[SerializeField] float throwSpeed = 5f;
     [Header("El tiempo es el triple de lo que pongas")]
     [SerializeField] float throwTravelTime = 1f;

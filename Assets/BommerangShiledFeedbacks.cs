@@ -4,9 +4,9 @@ using UnityEngine;
 
 public class BommerangShiledFeedbacks : MonoBehaviour
 {
-    [SerializeField] AudioClip ac_throw;
-    [SerializeField] AudioClip ac_movement;
-    [SerializeField] AudioClip ac_Impact;
+    [SerializeField] AudioClip ac_throw = null;
+    [SerializeField] AudioClip ac_movement = null;
+    [SerializeField] AudioClip ac_Impact = null;
     private void Start()
     {
         AudioManager.instance.GetSoundPool(ac_throw.name, AudioGroups.GAME_FX, ac_throw);

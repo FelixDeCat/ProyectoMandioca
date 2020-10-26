@@ -8,8 +8,8 @@ public class AteneaComboWombo : MonoBehaviour
 {
     Combat_Maniqui combat_Maniqui;
 
-    [SerializeField] UnityEvent OnIsActive;
-    [SerializeField] UnityEvent OnIsDeactive;
+    [SerializeField] UnityEvent OnIsActive = null;
+    [SerializeField] UnityEvent OnIsDeactive = null;
 
     float timer;
     bool begin_timer;

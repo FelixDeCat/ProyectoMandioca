@@ -10,10 +10,10 @@ public class WendigoEnemy : EnemyWithCombatDirector
     //SIEMPRE DISTANCEPOS < COMBATDISTANCE
     [SerializeField] bool showCombatDistance = false;
     [SerializeField] bool showAttackRange = false;
-    [SerializeField] WendigoView view;
-    [SerializeField] GenericEnemyMove moveComponent;
+    [SerializeField] WendigoView view = null;
+    [SerializeField] GenericEnemyMove moveComponent = null;
     [SerializeField] RagdollComponent ragdoll = null;
-    CharacterGroundSensor groundSensor;
+    CharacterGroundSensor groundSensor = null;
     bool isMelee;
     bool hasThrowable;
     [SerializeField] Throwable throwObject = null;
@@ -21,7 +21,7 @@ public class WendigoEnemy : EnemyWithCombatDirector
 
 
     //No esta checkeado
-    [SerializeField] float rotationSpeed;
+    [SerializeField] float rotationSpeed = 9;
     [Header("Combat Options")]
     [SerializeField] Transform shootPivot = null;
     [SerializeField] float throwForce = 6;

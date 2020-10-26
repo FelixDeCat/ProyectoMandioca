@@ -4,11 +4,11 @@ using UnityEngine;
 
 public class SkillActive_Buff : SkillActivas
 {
-    [SerializeField] float damageBuff = 5;
-    [SerializeField] float  damageResistance = 5;
-    [SerializeField] float speedAcceleration = 3;
-    [SerializeField] float timeScale = 0.5f;
-    [SerializeField] float timeDuration = 5f;
+    //[SerializeField] float damageBuff = 5;
+    //[SerializeField] float  damageResistance = 5;
+    //[SerializeField] float speedAcceleration = 3;
+    //[SerializeField] float timeScale = 0.5f;
+    //[SerializeField] float timeDuration = 5f;
     
     CharacterHead mychar;
     [SerializeField] AudioClip slowmoEnter = null;

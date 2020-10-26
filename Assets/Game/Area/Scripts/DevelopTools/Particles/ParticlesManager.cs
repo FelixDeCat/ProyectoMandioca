@@ -209,13 +209,13 @@ public class ParticlesManager : MonoBehaviour
 
     float ObtainDuration(ParticleSystem pS)
     {
-        float higher = pS.duration;
+        float higher = pS.main.duration;
 
         var childrens = pS.GetComponentsInChildren<ParticleSystem>();
 
         for (int i = 0; i < childrens.Length; i++)
         {
-            if (higher < childrens[i].duration) higher = childrens[i].duration;
+            if (higher < childrens[i].main.duration) higher = childrens[i].main.duration;
         }
 
         return higher;

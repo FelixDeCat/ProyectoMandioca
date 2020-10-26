@@ -5,17 +5,17 @@ using GOAP;
 
 public class LaserShoot_bossSkill : GOAP_Skills_Base
 {
-    [SerializeField] Throwable rayo_pf;
-    [SerializeField] Transform rayoOrigin;
+    [SerializeField] Throwable rayo_pf = null;
+    [SerializeField] Transform rayoOrigin = null;
 
-    [SerializeField] int amountLaser;
-    [SerializeField] int _amount;
-    [SerializeField] LayerMask _mask;
+    [SerializeField] int amountLaser = 9;
+    [SerializeField] int _amount = 5;
+    [SerializeField] LayerMask _mask = 0;
     Ente _ent;
 
-    [SerializeField] PlayObject corruptVomito_pf;
+    [SerializeField] PlayObject corruptVomito_pf = null;
  
-    [SerializeField] float timeBwtShoots;
+    [SerializeField] float timeBwtShoots = 0.5f;
 
     IEnumerator ametralladora;
 

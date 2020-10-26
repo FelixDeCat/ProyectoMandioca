@@ -4,14 +4,14 @@ using UnityEngine;
 
 public class CaronteExitDoor : MonoBehaviour
 {
-    [SerializeField] ParticleSystem hitDoorFeedback;
-    [SerializeField] List<Transform> barrotes;
-    [SerializeField] float movDownScalar;
-    [SerializeField] BoxCollider myCol;
+    [SerializeField] ParticleSystem hitDoorFeedback = null;
+    [SerializeField] List<Transform> barrotes = new List<Transform>();
+    [SerializeField] float movDownScalar = 1;
+    [SerializeField] BoxCollider myCol = null;
 
     int _hitcount;
     [SerializeField] List<Transform> shardsPositions = new List<Transform>();
-    [SerializeField] GameObject lights;
+    [SerializeField] GameObject lights = null;
 
     public List<Transform> ShardsDoorPositions() => shardsPositions;
 

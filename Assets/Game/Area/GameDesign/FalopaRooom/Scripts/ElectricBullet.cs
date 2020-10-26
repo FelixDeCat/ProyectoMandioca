@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class ElectricBullet : Waves
 {
-    [SerializeField] float stunTime;
+    [SerializeField] float stunTime = 0.3f;
 
     protected override void OnTriggerEnter(Collider other)
     {

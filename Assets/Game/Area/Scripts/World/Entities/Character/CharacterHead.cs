@@ -55,11 +55,9 @@ public class CharacterHead : CharacterControllable
     [SerializeField] float timeToDownWeapons = 5;
     public bool IsComboWomboActive;
     Action callback_IsComboTime_Enable, callback_IsComboTime_Disable = delegate { };
-    bool canAddComboHit = true;
     [SerializeField] ComboWomboSystem combo_system = new ComboWomboSystem();
 
     [SerializeField] AudioClip chargeSound = null;
-    [SerializeField] GameObject go_StunFeedback = null;
 
     float stunDuration;
 
@@ -87,10 +85,6 @@ public class CharacterHead : CharacterControllable
     public bool ImInHell() => _imInHell;
 
     Rigidbody rb;
-
-    [HideInInspector]
-    public bool isBuffed = false;
-    float dmgReceived = 1f;
 
     [Header("Parry & Block Options")]
     public CharacterBlock charBlock;

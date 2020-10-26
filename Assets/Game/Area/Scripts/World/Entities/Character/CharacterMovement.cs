@@ -45,12 +45,6 @@ public class CharacterMovement
     public Action<float> MovementVertical;
     public Action<float> RotateHorizontal;
     public Action<float> RotateVertical;
-
-    private ParticleSystem introTeleport_ps;
-    private ParticleSystem outroTeleport_ps;
-    private ParticleSystem endTeleport;
-    private float _teleportDistance;
-    private bool teleportActive;
     CharFeedbacks feedbacks;
     [SerializeField] Transform myCamera = null;
 
@@ -69,11 +63,6 @@ public class CharacterMovement
     float groundedPrecautionTimer;
 
     public float GetDefaultSpeed => speed;
-    public bool TeleportActive
-    {
-        get => teleportActive;
-        set { teleportActive = value; }
-    }
 
     public void SnorlaxateCharacter(bool val) => _rb.angularDrag = val ? snorlax_angular_drag : original_angular_drag;
 
@@ -340,11 +329,6 @@ public class CharacterMovement
 
             if (cdTimer >= currentCD)
             {
-                if (endTeleport)
-                {
-                    endTeleport.transform.position = rotTransform.position;
-                    endTeleport.Play();
-                }
                 dashCdOk = false;
                 cdTimer = 0;
             }

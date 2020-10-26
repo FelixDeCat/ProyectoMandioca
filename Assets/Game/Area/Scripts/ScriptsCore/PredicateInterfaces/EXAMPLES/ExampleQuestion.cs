@@ -9,7 +9,7 @@ public class ExampleQuestion : MonoBehaviour, IQuestionable
     
     //porque es component y no Monovehaviour o Answer? porque justamente no quiero que se conozcan, cualquier gameobject
     // que tenga la interfaz va a ser agregado
-    [SerializeField] Component[] Answers;
+    [SerializeField] Component[] Answers =  new Component[0];
 
     void Start()
     {

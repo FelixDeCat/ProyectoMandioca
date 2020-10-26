@@ -6,14 +6,14 @@ using UnityEngine;
 public class TeleportDash_Skill : SkillBase
 {
     private CharacterHead _hero;
-    [SerializeField] private float teleportDistance = 6;
+    //[SerializeField] private float teleportDistance = 6;
     private CharacterMovement _movement;
 
     public AudioClip teleportAudio;
 
-    public ParticleSystem intro;
-    public ParticleSystem outro;
-    public ParticleSystem endCD;
+    //public ParticleSystem intro;
+    //public ParticleSystem outro;
+    //public ParticleSystem endCD;
     protected override void OnBeginSkill()
     {
         if(_hero == null)

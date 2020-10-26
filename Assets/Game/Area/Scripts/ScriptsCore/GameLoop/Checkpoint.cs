@@ -4,9 +4,9 @@ using UnityEngine.Events;
 
 public class Checkpoint : MonoBehaviour
 {
-    [SerializeField] UnityEvent OnActivated;
+    [SerializeField] UnityEvent OnActivated = null;
     Action<Checkpoint> OnCheckPointActivated;
-    [SerializeField] bool isAImportantCheckPoint;
+    [SerializeField] bool isAImportantCheckPoint = false;
     public bool IsImportant { get { return isAImportantCheckPoint; } }
     public string sceneName = "";
 

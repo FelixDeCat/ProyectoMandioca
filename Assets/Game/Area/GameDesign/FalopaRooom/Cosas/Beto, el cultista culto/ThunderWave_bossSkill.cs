@@ -9,8 +9,8 @@ public class ThunderWave_bossSkill : GOAP_Skills_Base
     Ente _ent;
     DamageData dmgData;
 
-    [SerializeField] int damage;
-    [SerializeField] int knock;
+    [SerializeField] int damage = 15;
+    [SerializeField] int knock = 200;
     [SerializeField] float radious = 5f;
 
     protected override void OnEndSkill()

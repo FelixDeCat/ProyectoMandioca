@@ -23,9 +23,9 @@ public class ContextualBarSimple : MonoBehaviour
         Main.instance.eventManager.SubscribeToEvent(GameEvents.CHANGE_INPUT, OnChange);
     }
 
-    [SerializeField] GenericBar_Sprites generic_bar_fill;
+    [SerializeField] GenericBar_Sprites generic_bar_fill = null;
     [Header("Auxiliar Components")]
-    [SerializeField] Image photo_image;
+    [SerializeField] Image photo_image = null;
 
     [Header("Animation")]
     public CanvasGroup canvas_group = null;

@@ -7,8 +7,8 @@ using DevelopTools;
 
 public class UI_CraftBar : MonoBehaviour
 {
-    [SerializeField] ItemRequirements requirements;
-    [SerializeField] ItemReceiverWithItem item_to_Receive;
+    [SerializeField] ItemRequirements requirements = null;
+    [SerializeField] ItemReceiverWithItem item_to_Receive = null;
 
     ItemInInventory[] catch_requirements;
     Item item;

@@ -11,14 +11,14 @@ public class CaronteEvent : MonoBehaviour
     public static CaronteEvent instance; private void Awake() { if (instance == null) instance = this; }
 
     [Header("Settings")]
-    [SerializeField] GameObject carontePP = null;
+    //[SerializeField] GameObject carontePP = null;
     [SerializeField] LayerMask floor = 1 << 21;
     [SerializeField] SoulShard_controller ss_controller = null;
-    [SerializeField] CaronteHand hand_pf = null;
+    //[SerializeField] CaronteHand hand_pf = null;
     [SerializeField] Ente caronte_pf = null;
-    [SerializeField] float delayedHand = 5;
+    //[SerializeField] float delayedHand = 5;
     [SerializeField] float delayedCaronteSpawn = 5;
-    [SerializeField] Transform caronteSpawnSpot;
+    [SerializeField] Transform caronteSpawnSpot = null;
 
     CaronteCinematic_Controller cinematic;
 

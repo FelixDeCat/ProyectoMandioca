@@ -17,8 +17,6 @@ public class MenuButtons : MonoBehaviour
 
     private Animator _currentAnim;
 
-    [SerializeField] DefaultMenuAnim buttons_joystick_panel = null;
-    [SerializeField] DefaultMenuAnim buttons_Keyboard_panel = null;
     public string sceneGym = "Gym";
     public string sceneGym2 = "Gym";
     public string sceneGym3 = "Gym";

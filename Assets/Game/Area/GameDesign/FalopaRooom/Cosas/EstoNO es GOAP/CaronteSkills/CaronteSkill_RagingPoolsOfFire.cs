@@ -5,7 +5,7 @@ using GOAP;
 
 public class CaronteSkill_RagingPoolsOfFire : GOAP_Skills_Base
 {
-    [SerializeField] CustomSpawner fireSpawner = null;
+    //[SerializeField] CustomSpawner fireSpawner = null;
     [SerializeField] FirePools firePools;
 
     float _timer;

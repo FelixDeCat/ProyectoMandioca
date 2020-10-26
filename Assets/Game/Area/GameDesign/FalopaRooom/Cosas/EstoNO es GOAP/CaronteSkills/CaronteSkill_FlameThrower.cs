@@ -5,9 +5,9 @@ using GOAP;
 
 public class CaronteSkill_FlameThrower : GOAP_Skills_Base
 {
-    [SerializeField] ParticleSystem tornadoFire;
-    [SerializeField] float duration;
-    [SerializeField] GameObject myTrig;
+    [SerializeField] ParticleSystem tornadoFire = null;
+    [SerializeField] float duration = 2;
+    [SerializeField] GameObject myTrig = null;
 
     DamageData dmgData;
 
