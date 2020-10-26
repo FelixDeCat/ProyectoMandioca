@@ -14,7 +14,9 @@ public class AudioManager : MonoBehaviour
     [SerializeField] private AudioMixerGroup _misc = null;
     [SerializeField] private AudioMixerGroup _slowmo = null;
     [SerializeField] private AudioMixerGroup _ambient_FX = null;
-    [SerializeField] private Sound_Lerp _soundLerp;
+    [SerializeField] private AudioMixerGroup _onFightMusic = null;
+    [SerializeField] private AudioMixerGroup _offFightMusic = null;
+    [SerializeField] public Sound_Lerp _soundLerp;
 
     private Dictionary<string, SoundPool> _soundRegistry = new Dictionary<string, SoundPool>();
     private Dictionary<AudioGroups, AudioMixerGroup> _audioMixers = new Dictionary<AudioGroups, AudioMixerGroup>();
@@ -37,6 +39,8 @@ public class AudioManager : MonoBehaviour
         _audioMixers.Add(AudioGroups.JABALI, _jabali);
         _audioMixers.Add(AudioGroups.SLOWMO, _slowmo);
         _audioMixers.Add(AudioGroups.AMBIENT_FX, _ambient_FX);
+        _audioMixers.Add(AudioGroups.OnFightMusic, _onFightMusic);
+        _audioMixers.Add(AudioGroups.OffFightMusic, _offFightMusic);
     }
 
     #region SlowMO
@@ -115,7 +119,10 @@ public class AudioManager : MonoBehaviour
             Debug.LogWarning("No tenes ese sonido en en pool");
         }
     }
-
+    public Sound_Lerp getLerp()
+    {
+        return _soundLerp;
+    }
     public void StopAllSounds(string soundPoolName)
     {
         if (_soundRegistry.ContainsKey(soundPoolName))

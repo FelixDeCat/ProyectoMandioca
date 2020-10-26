@@ -4,7 +4,7 @@ public enum side_type { neutral, ally, enemy, other }
 public enum Damagetype { Fire, Normal, Explosion, Heavy, StealShield, All }
 public enum DamageInfo { NonParry, NonBlock, NonBlockAndParry, Normal }
 public enum CommonStates { IDLE, ATTACK, ENABLE, DISABLE, DIE, CHASING, GO_TO_POS }
-public enum AudioGroups { GAME_FX, MUSIC, MISC, JABALI, SLOWMO, AMBIENT_FX }
+public enum AudioGroups { GAME_FX, MUSIC, MISC, JABALI, SLOWMO, AMBIENT_FX,OnFightMusic,OffFightMusic }
 
 public enum Axis {X,Y,Z}
 

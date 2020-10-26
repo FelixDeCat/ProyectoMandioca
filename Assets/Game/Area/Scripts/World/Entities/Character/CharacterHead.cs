@@ -200,6 +200,8 @@ public class CharacterHead : CharacterControllable
             ToggleShield(true);
             ToggleSword(true);
         }
+        //feedbacks.sounds.index = 0;
+        //AudioManager.instance.getLerp().TransitionBetweenSnapshots(feedbacks.sounds.index, feedbacks.sounds.lerpSpeed);
     }
 
     public void StopMovement() { move.MovementHorizontal(0); move.MovementVertical(0); }
@@ -611,13 +613,15 @@ public class CharacterHead : CharacterControllable
 
     public void CombatEnter()
     {
-        feedbacks.sounds.Play_OnFightMusic();
+        feedbacks.sounds.index = 0;
+        AudioManager.instance.getLerp().TransitionBetweenSnapshots(feedbacks.sounds.index, feedbacks.sounds.lerpSpeed);
         Combat = true;
     }
 
     public void CombatExit()
     {
-        feedbacks.sounds.Play_OffFightMusic();
+        feedbacks.sounds.index = 1;
+        AudioManager.instance.getLerp().TransitionBetweenSnapshots(feedbacks.sounds.index, feedbacks.sounds.lerpSpeed);
         Combat = false;
     }
 
