@@ -47,6 +47,7 @@ namespace GOAP
 
 
             _ent.OnTakeDmg += () => _fsm.Feed(ActionEntity.GetDamaged);
+            _planner.OnCantPlan += () => _fsm.Feed(ActionEntity.ThinkPlan);
 
 
             #region Basic States
@@ -76,7 +77,8 @@ namespace GOAP
 
                 if (!_currentSkill.isAvaliable)
                 {
-                    NextStep();
+                    Debug.Log(_currentSkill.skillName + " no esta disponible");
+                    FailedStep();
                     //FailedStep();
                     return;
                 }

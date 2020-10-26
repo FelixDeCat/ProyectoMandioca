@@ -24,7 +24,7 @@ public class DungeonBoss_BrainPlanner : BrainPlanner
                         .Effect(gS =>
                         {
                             //gS.valoresInt["HeroLife"] -= 1;
-                            //gS.valoresBool["LaserShoot"] = true;
+                            gS.valoresBool["LaserShoot"] = true;
                             gS.valoresFloat["DistanceToHero"] = 10f;
                             gS.valoresBool["Fly"] = true;
                         }),
@@ -35,7 +35,7 @@ public class DungeonBoss_BrainPlanner : BrainPlanner
                         .Effect(gS =>
                         {
                             gS.valoresBool["Fly"] = true;
-                            //gS.valoresBool["LaserShoot"] = true;
+                            gS.valoresBool["LaserShoot"] = true;
                             //gS.valoresInt["HeroLife"] -= 1;
                             gS.valoresFloat["DistanceToHero"] = 30f;
                         }),
@@ -74,7 +74,7 @@ public class DungeonBoss_BrainPlanner : BrainPlanner
 
                         .Effect(gS =>
                         {
-                            //gS.valoresBool["LaserShoot"] = false;
+                            gS.valoresBool["LaserShoot"] = false;
                             gS.valoresInt["HeroLife"] -= 5;
                         })
 
@@ -86,7 +86,7 @@ public class DungeonBoss_BrainPlanner : BrainPlanner
     {
         int h = 0;
         if (gS.valoresInt["HeroLife"] > 0) h += 1;
-        if (gS.valoresFloat["DistanceToHero"] <= 5) h += 1;
+        //if (gS.valoresFloat["DistanceToHero"] <= 5) h += 1;
         if (gS.valoresBool["OnGround"] == true) h += 5;
         return h;
     }

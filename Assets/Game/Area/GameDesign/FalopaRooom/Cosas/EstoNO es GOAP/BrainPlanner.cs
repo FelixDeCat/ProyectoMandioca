@@ -19,6 +19,8 @@ namespace GOAP
 
         IEnumerator plan;
 
+        public event Action OnCantPlan;
+
         public float distanceDebug;
         public bool OnGround_debug;
 
@@ -31,7 +33,6 @@ namespace GOAP
 
         public void StartPlanning()
         {
-            Debug.Log("SDASDSADADSSADADASDSADASDSAD EENTRAAA");
             plan = Plan();
             StartCoroutine(plan);
         }
@@ -40,7 +41,7 @@ namespace GOAP
 
         private IEnumerator Plan()
         {
-            yield return new WaitForSeconds(.3f);
+            //yield return new WaitForSeconds(.3f);
 
             Debug.Log("Arranco a planear");
 
@@ -74,21 +75,28 @@ namespace GOAP
                 (p) => plan = p, () => plan = null);//TimeSlicing 3 - Este es el callBack al finalizar el Goap y se le pondria el plan encontrado a la variable que habiamos creado
 
 
-            foreach (var item in plan)
-            {
-                Debug.Log(item.Name);
-            }
-
-            Debug.LogError("Paro aca");
+           
+            
             
 
             if (plan == null)
             {
+                //StopPlanning();
                 //StartPlanning();
                 Debug.Log("Couldn't plan");
+                OnCantPlan?.Invoke();
+
+
             }
             else
             {
+                foreach (var item in plan)
+                {
+                    Debug.Log(item.Name);
+                }
+
+                Debug.LogError("Paro aca");
+
                 GetComponent<Dude>().ExecutePlan(
                     plan
                     .Select(pa => pa.Name)

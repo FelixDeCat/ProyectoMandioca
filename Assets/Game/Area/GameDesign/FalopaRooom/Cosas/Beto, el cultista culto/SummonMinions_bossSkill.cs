@@ -13,7 +13,8 @@ public class SummonMinions_bossSkill : GOAP_Skills_Base, ISpawner
 
     protected override void OnEndSkill()
     {
-        
+        Debug.Log("TERMINE DE SUMMONEAR");
+        //owner.GetComponent<Ente>().OnFinishSkill -= EndSkill;
     }
 
     public override bool ExternalCondition()
@@ -23,6 +24,8 @@ public class SummonMinions_bossSkill : GOAP_Skills_Base, ISpawner
 
     protected override void OnExecute()
     {
+        //owner.GetComponent<Ente>().OnFinishSkill += EndSkill;
+
         owner.GetComponentInChildren<Animator>().Play("Macarena");
         totemFeedback.StartChargeFeedback(Summon);
     }
@@ -36,7 +39,7 @@ public class SummonMinions_bossSkill : GOAP_Skills_Base, ISpawner
             totemFeedback.StartGoToFeedback(pos, (x) => SpawnPrefab(x));
         }
 
-        EndSkill();
+        //EndSkill();
     }
 
     protected override void OnFixedUpdate()
@@ -48,6 +51,7 @@ public class SummonMinions_bossSkill : GOAP_Skills_Base, ISpawner
     {
         totemFeedback.Initialize(StartCoroutine);
         //owner.GetComponent<Ente>().OnTakeDmg += InterruptSkill;
+        
     }
 
     protected override void OnPause()

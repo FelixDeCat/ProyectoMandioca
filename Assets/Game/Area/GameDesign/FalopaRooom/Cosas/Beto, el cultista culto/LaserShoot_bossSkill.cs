@@ -23,19 +23,22 @@ public class LaserShoot_bossSkill : GOAP_Skills_Base
     {
         //proba frenar el animator tambien
         //owner.GetComponentInChildren<Animator>().Play("Idle");
+        Debug.Log("FRENO EL LASERSHOOOOT");
         StopCoroutine(ametralladora);
         owner.GetComponent<Ente>().OnSkillAction -= ShootLaser;
-        
+        owner.GetComponent<Ente>().OnTakeDmg -= InterruptSkill;
+
     }
 
     protected override void OnExecute()
     {
+        Debug.Log("INICIO LOS TIROS");
         _amount = 0;
 
-
+        owner.GetComponent<Ente>().OnTakeDmg += InterruptSkill;
         owner.GetComponent<Ente>().OnSkillAction += ShootLaser;
 
-
+        ametralladora = Ametralladora();
         StartCoroutine(ametralladora);
     }
 
@@ -94,9 +97,9 @@ public class LaserShoot_bossSkill : GOAP_Skills_Base
     {
         _ent = owner.GetComponent<Ente>();
 
-        ametralladora = Ametralladora();
+        
         ThrowablePoolsManager.instance.CreateAPool(rayo_pf.name, rayo_pf);
-        owner.GetComponent<Ente>().OnTakeDmg += InterruptSkill;
+        
         
         PoolManager.instance.GetObjectPool(corruptVomito_pf.name, corruptVomito_pf);
     }
