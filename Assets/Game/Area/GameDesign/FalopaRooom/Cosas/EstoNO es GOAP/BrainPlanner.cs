@@ -17,16 +17,32 @@ namespace GOAP
         //public int flameThrower;
         //public int move;
 
+        IEnumerator plan;
+
         public float distanceDebug;
         public bool OnGround_debug;
 
         private readonly List<Tuple<Vector3, Vector3>> _debugRayList = new List<Tuple<Vector3, Vector3>>();
 
-        public void StartPlanning() => StartCoroutine(Plan());
+        private void Start()
+        {
+            plan = Plan();
+        }
+
+        public void StartPlanning()
+        {
+            Debug.Log("SDASDSADADSSADADASDSADASDSAD EENTRAAA");
+            plan = Plan();
+            StartCoroutine(plan);
+        }
+    
+        public void StopPlanning() => StopCoroutine(plan);
 
         private IEnumerator Plan()
         {
             yield return new WaitForSeconds(.3f);
+
+            Debug.Log("Arranco a planear");
 
             //var snap = WorldState.instance.WorldStateSnapShot();
 
@@ -43,12 +59,7 @@ namespace GOAP
 
             Func<GoapState, int> final = (gS) => Final(gS);
 
-            WorldState.instance.RefreshState();
-            GoapState initial = new GoapState();
-            initial.valoresBool.UpdateWith(WorldState.instance.valoresBool);
-            initial.misItems = WorldState.instance.allItems.GetRange(0, WorldState.instance.allItems.Count);
-            initial.valoresFloat.UpdateWith(WorldState.instance.valoresFloat);
-            initial.valoresInt.UpdateWith(WorldState.instance.valoresInt);
+            
 
 
             //initial.worldStateSnap = snap;
@@ -59,12 +70,21 @@ namespace GOAP
             //TimeSlicing 3 - En este caso queriamos guardar el path en algun lado
             //Al no estar usando una variable publica creamos una interna con un valor default
             IEnumerable<GoapAction> plan = Enumerable.Empty<GoapAction>();
-            yield return Goap.Execute(initial, final, actions,
-                (p) => plan = p);//TimeSlicing 3 - Este es el callBack al finalizar el Goap y se le pondria el plan encontrado a la variable que habiamos creado
+            yield return Goap.Execute(GetRefreshWorldState(), final, actions,
+                (p) => plan = p, () => plan = null);//TimeSlicing 3 - Este es el callBack al finalizar el Goap y se le pondria el plan encontrado a la variable que habiamos creado
+
+
+            foreach (var item in plan)
+            {
+                Debug.Log(item.Name);
+            }
+
+            Debug.LogError("Paro aca");
+            
 
             if (plan == null)
             {
-                StartPlanning();
+                //StartPlanning();
                 Debug.Log("Couldn't plan");
             }
             else
@@ -74,14 +94,23 @@ namespace GOAP
                     .Select(pa => pa.Name)
                     .Select(a =>
                     {
-                        var possibleItems = WorldState.instance.allItems.Where(x => x != null && x.interactuable).Where(i =>
-                            typeDict.Any(kv => a.EndsWith(kv.Key)) &&
-                            i.type == typeDict.First(kv => a.EndsWith(kv.Key)).Value);
+                        //var possibleItems = WorldState.instance.allItems.Where(x => x != null && x.interactuable).Where(i =>
+                        //    typeDict.Any(kv => a.EndsWith(kv.Key)) &&
+                        //    i.type == typeDict.First(kv => a.EndsWith(kv.Key)).Value);
+                        //var i2 = possibleItems.Skip(Random.Range(0, possibleItems.Count())).FirstOrDefault();
+                        //Debug.Log("Esta accon es " + a);
 
-                        var i2 = possibleItems.Skip(Random.Range(0, possibleItems.Count())).FirstOrDefault();
+                        //var i2 = WorldState.instance.allItems.FirstOrDefault(i => typeDict.Any(kv => a.EndsWith(kv.Key)) && i.type == typeDict.First(kv => a.EndsWith(kv.Key)).Value);
 
+                        //Debug.Log(a + " --> " +typeDict.Any(kv => a.EndsWith(kv.Key)));
+
+                        var i2 = WorldState.instance.allItems.Where(i => a.EndsWith(i.itemName_id) && i.type == typeDict.First(kv => a.EndsWith(kv.Key)).Value).First();
+
+
+                        //Debug.Log("Este item es " + i2.name);
                         if (actDict.Any(kv => a.StartsWith(kv.Key)) && i2 != null)
                         {
+                            
                             return Tuple.Create(actDict.First(kv => a.StartsWith(kv.Key)).Value, i2);
                         }
                         else
@@ -92,6 +121,43 @@ namespace GOAP
                     .ToList()
                 );
             }
+        }
+
+        GoapState GetRefreshWorldState()
+        {
+            WorldState.instance.RefreshState();
+            GoapState initial = new GoapState();
+
+            for (int i = 0; i < WorldState.instance.allItems.Count; i++)
+            {
+                initial.misItems.Add(WorldState.instance.allItems[i]);
+            }
+
+            initial.valoresBool = WorldState.instance.valoresBool.Clone<Dictionary<string, bool>>();
+            initial.valoresFloat = WorldState.instance.valoresFloat.Clone<Dictionary<string, float>>();
+            initial.valoresInt = WorldState.instance.valoresInt.Clone<Dictionary<string, int>>();
+
+            foreach (var item in initial.valoresFloat)
+            {
+                Debug.Log("valores float " + item.Key + " --> " + item.Value);
+            }
+
+            foreach (var item in initial.valoresBool)
+            {
+                Debug.Log("valores bool " + item.Key + " --> " + item.Value);
+            }
+
+            foreach (var item in initial.valoresInt)
+            {
+                Debug.Log("valores int " + item.Key + " --> " + item.Value);
+            }
+
+
+            //initial.valoresBool.UpdateWith(WorldState.instance.valoresBool);
+            //initial.valoresFloat.UpdateWith(WorldState.instance.valoresFloat);
+            //initial.valoresInt.UpdateWith(WorldState.instance.valoresInt);
+
+            return initial;
         }
 
         //Estado final desacoplado para poder darle en las herencias el deseado

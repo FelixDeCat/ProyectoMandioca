@@ -32,10 +32,18 @@ namespace GOAP
             //worldStateSnap.allItems = new List<Item>();
             //worldStateSnap.allItems = source.worldStateSnap.allItems.GetRange(0, source.worldStateSnap.allItems.Count);
 
-            misItems = source.misItems.GetRange(0, source.misItems.Count);
-            valoresBool.UpdateWith(source.valoresBool);
-            valoresInt.UpdateWith(source.valoresInt);
-            valoresFloat.UpdateWith(source.valoresFloat);
+            for (int i = 0; i < source.misItems.Count; i++)
+            {
+                misItems.Add(source.misItems[i]);
+            }
+
+            valoresBool = source.valoresBool.Clone<Dictionary<string, bool>>();
+            valoresFloat = source.valoresFloat.Clone<Dictionary<string, float>>();
+            valoresInt = source.valoresInt.Clone<Dictionary<string, int>>();
+
+            //valoresBool.UpdateWith(source.valoresBool);
+            //valoresInt.UpdateWith(source.valoresInt);
+            //valoresFloat.UpdateWith(source.valoresFloat);
 
             generatingAction = gen;
         }

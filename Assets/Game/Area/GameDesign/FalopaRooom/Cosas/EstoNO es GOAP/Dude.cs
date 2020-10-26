@@ -76,7 +76,8 @@ namespace GOAP
 
                 if (!_currentSkill.isAvaliable)
                 {
-                    FailedStep();
+                    NextStep();
+                    //FailedStep();
                     return;
                 }
 
@@ -183,7 +184,7 @@ namespace GOAP
                 }
             };
             // ////////////
-            thinkPlan.OnEnter += a => _planner.StartPlanning();
+            thinkPlan.OnEnter += a => { _planner.StartPlanning(); Debug.Log("A planear"); };
             //////////////
             failStep.OnEnter += a => { _ent.Stop(); Debug.Log("Plan failed"); };
 
@@ -215,13 +216,14 @@ namespace GOAP
             {
                 _auxCount = 0;
                 _ent.Stop();
+                _planner.StopPlanning();
             };
 
             getDamaged.OnUpdate += () =>
             {
                 _auxCount += Time.deltaTime;
 
-                if (_auxCount >= 2)
+                if (_auxCount >= 4)
                 {
                     Debug.Log("QUE PASAAASDFASFAFD");
                     
@@ -268,6 +270,11 @@ namespace GOAP
 
         public void ExecutePlan(List<Tuple<ActionEntity, Item>> plan)
         {
+            foreach (var item in plan)
+            {
+                Debug.Log("La accion es " + item.Item1 + " y el item es " + item.Item2.name);
+            }
+
             _plan = plan;
             _fsm.Feed(ActionEntity.NextStep);
 

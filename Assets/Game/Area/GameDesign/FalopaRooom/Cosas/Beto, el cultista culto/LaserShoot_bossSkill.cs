@@ -17,11 +17,13 @@ public class LaserShoot_bossSkill : GOAP_Skills_Base
  
     [SerializeField] float timeBwtShoots;
 
+    IEnumerator ametralladora;
+
     protected override void OnEndSkill()
     {
         //proba frenar el animator tambien
         //owner.GetComponentInChildren<Animator>().Play("Idle");
-        StopCoroutine(Ametralladora());
+        StopCoroutine(ametralladora);
         owner.GetComponent<Ente>().OnSkillAction -= ShootLaser;
         
     }
@@ -34,7 +36,7 @@ public class LaserShoot_bossSkill : GOAP_Skills_Base
         owner.GetComponent<Ente>().OnSkillAction += ShootLaser;
 
 
-        StartCoroutine(Ametralladora());
+        StartCoroutine(ametralladora);
     }
 
     IEnumerator Ametralladora()
@@ -91,6 +93,8 @@ public class LaserShoot_bossSkill : GOAP_Skills_Base
     protected override void OnInitialize()
     {
         _ent = owner.GetComponent<Ente>();
+
+        ametralladora = Ametralladora();
         ThrowablePoolsManager.instance.CreateAPool(rayo_pf.name, rayo_pf);
         owner.GetComponent<Ente>().OnTakeDmg += InterruptSkill;
         
@@ -124,6 +128,6 @@ public class LaserShoot_bossSkill : GOAP_Skills_Base
 
     protected override void OnInterruptSkill()
     {
-        
+        //StopCoroutine(Ametralladora());
     }
 }

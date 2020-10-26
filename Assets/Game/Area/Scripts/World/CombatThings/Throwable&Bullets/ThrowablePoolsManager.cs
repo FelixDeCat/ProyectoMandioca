@@ -27,7 +27,7 @@ public class ThrowablePoolsManager : MonoBehaviour
             go.AddComponent<PoolThrowable>();
             var aux = go.GetComponent<PoolThrowable>();
             aux.Configure(model);
-            aux.Initialize(2, false);
+            aux.Initialize(4, false);
             registry.Add(pool_name, aux);
         }
     }

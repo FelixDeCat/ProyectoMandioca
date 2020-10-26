@@ -38,6 +38,8 @@ public class SummonMinions_bossSkill : GOAP_Skills_Base, ISpawner
 
             totemFeedback.StartGoToFeedback(pos, (x) => SpawnPrefab(x));
         }
+
+        EndSkill();
     }
 
     protected override void OnFixedUpdate()
@@ -48,6 +50,7 @@ public class SummonMinions_bossSkill : GOAP_Skills_Base, ISpawner
     protected override void OnInitialize()
     {
         totemFeedback.Initialize(StartCoroutine);
+        //owner.GetComponent<Ente>().OnTakeDmg += InterruptSkill;
     }
 
     protected override void OnPause()
@@ -79,7 +82,7 @@ public class SummonMinions_bossSkill : GOAP_Skills_Base, ISpawner
     {
         spot.SpawnPrefab(pos, prefab, sceneName, this);
 
-        EndSkill();
+       
     }
 
     public void ReturnObject(PlayObject newPrefab)

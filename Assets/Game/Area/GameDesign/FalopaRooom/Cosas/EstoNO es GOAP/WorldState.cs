@@ -25,7 +25,7 @@ namespace GOAP
         public Item objectiveTEST;
         public float DEBUGdistanceToHero;
         public bool debug_OnGround;
-        public int debug_skills;
+        public bool debug_skills;
 
 
         private void Awake()
@@ -66,7 +66,13 @@ namespace GOAP
                 allItems.Add(s.Value.GetComponent<Item>());
 
                 if(!valoresBool.ContainsKey(s.Key))
+                {
                     valoresBool.Add(s.Key, s.Value.isAvaliable);
+                }
+                else
+                {
+                    valoresBool[s.Key] = s.Value.isAvaliable;
+                }
             }
 
             valoresBool["OnGround"] = ente.heightLevel == 0 ? true : false;
@@ -104,10 +110,14 @@ namespace GOAP
 
         private void Update()
         {
-            //debug_OnGround = valoresBool["OnGround"];
+            
             if (characterhead == null || ente == null) return;
 
             DEBUGdistanceToHero = Vector3.Distance(characterhead.Root.position, ente.Root().position);
+
+            if(valoresBool.ContainsKey("OnGround"))
+            debug_OnGround = valoresBool["OnGround"];
+            //debug_skills = valoresBool["LaserShoot"];
         }
     }
 
