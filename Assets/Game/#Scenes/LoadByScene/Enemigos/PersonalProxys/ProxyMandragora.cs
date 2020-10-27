@@ -20,8 +20,9 @@ public class ProxyMandragora : ProxyEnemyRange
         temp.enemiesToSpawnDic = new EnemyBase_IntDictionary();
         foreach (var item in enemySpawn)
             temp.enemiesToSpawnDic.Add(item.Key, item.Value);
-        var aux = temp.GetComponentInChildren<BoxCollider>();
+        var aux = temp.GetComponentInChildren<TriggerDispatcher>();
         aux.transform.position = trigger.transform.position;
+        aux.transform.localScale = trigger.transform.localScale;
     }
 
     protected override void OnDrawGizmos()

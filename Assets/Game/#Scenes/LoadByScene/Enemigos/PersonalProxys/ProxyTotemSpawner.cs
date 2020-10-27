@@ -27,8 +27,7 @@ public class ProxyTotemSpawner : ProxyEnemyBase
         temp.currentSpawn = 0;
         var aux = temp.GetComponentInChildren<TriggerDispatcher>();
         aux.transform.position = trigger.transform.position;
-        //aux.size = trigger.size;
-       // aux.center = trigger.center;
+        aux.transform.localScale = trigger.transform.localScale;
         var aux2 = temp.GetComponentInChildren<CastingBar>();
         aux2.castingTime = castingTime;
     }

@@ -65,6 +65,7 @@ public class MandragoraSaveState<T> : EnemiesRangeSaveState<T> where T : EnemyBa
     protected Vector3 spawnPos;
     protected float radiousSpawn;
     protected Vector3 triggerPos;
+    protected Vector3 triggerScale;
     protected EnemyBase_IntDictionary enemySpawn;
 
     public override void SaveState(T enemy)
@@ -77,8 +78,9 @@ public class MandragoraSaveState<T> : EnemiesRangeSaveState<T> where T : EnemyBa
         enemySpawn = new EnemyBase_IntDictionary();
         foreach (var item in temp.enemiesToSpawnDic)
             enemySpawn.Add(item.Key, item.Value);
-        var aux = temp.GetComponentInChildren<BoxCollider>();
+        var aux = temp.GetComponentInChildren<TriggerDispatcher>();
         triggerPos = aux.transform.position;
+        triggerScale = aux.transform.localScale;
     }
 
     public override void LoadState(T enemy)
@@ -91,8 +93,9 @@ public class MandragoraSaveState<T> : EnemiesRangeSaveState<T> where T : EnemyBa
         temp.enemiesToSpawnDic = new EnemyBase_IntDictionary();
         foreach (var item in enemySpawn)
             temp.enemiesToSpawnDic.Add(item.Key, item.Value);
-        var aux = temp.GetComponentInChildren<BoxCollider>();
+        var aux = temp.GetComponentInChildren<TriggerDispatcher>();
         aux.transform.position = triggerPos;
+        aux.transform.localScale = triggerScale;
     }
 }
 
@@ -129,8 +132,7 @@ public class TotemSpawnerState<T> : EnemiesSaveStates<T> where T : EnemyBase
     protected int waveAmmount;
     protected PlayObject prefab;
     protected Vector3 triggerPos;
-    protected Vector3 triggerCenter;
-    protected Vector3 triggerSize;
+    protected Vector3 triggerScale;
     protected float castingTime;
 
     public override void SaveState(T enemy)
@@ -142,10 +144,9 @@ public class TotemSpawnerState<T> : EnemiesSaveStates<T> where T : EnemyBase
         maxSpawn = temp.maxSpawn;
         waveAmmount = temp.waveAmount;
         prefab = temp.prefab;
-        var aux = temp.GetComponentInChildren<BoxCollider>();
+        var aux = temp.GetComponentInChildren<TriggerDispatcher>();
         triggerPos = aux.transform.position;
-        triggerSize = aux.size;
-        triggerCenter = aux.center;
+        triggerScale = aux.transform.localScale;
         var aux2 = temp.GetComponentInChildren<CastingBar>();
         castingTime = aux2.castingTime;
     }
@@ -161,8 +162,7 @@ public class TotemSpawnerState<T> : EnemiesSaveStates<T> where T : EnemyBase
         temp.ChangePool(prefab);
         var aux = temp.GetComponentInChildren<BoxCollider>();
         aux.transform.position = triggerPos;
-        aux.size = triggerSize;
-        aux.center = triggerCenter;
+        aux.transform.localScale = triggerScale;
         var aux2 = temp.GetComponentInChildren<CastingBar>();
         aux2.castingTime = castingTime;
     }
