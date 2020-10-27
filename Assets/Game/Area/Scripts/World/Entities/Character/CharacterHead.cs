@@ -204,6 +204,24 @@ public class CharacterHead : CharacterControllable
         //AudioManager.instance.getLerp().TransitionBetweenSnapshots(feedbacks.sounds.index, feedbacks.sounds.lerpSpeed);
     }
 
+    public void HeavyAttackTrueToRecoverNormalHeavy(bool b, float heavyAttackMove = -1)
+    {
+        if (b)
+        {
+            charAttack.Add_callback_Heavy_attack(ReleaseInHeavy);
+            combo_system.AddCallback_OnExecuteCombo(charAttack.ForceHeavy);
+            //combo_system.AddCallback_OnExecuteCombo(charanim.HeavyAttack);
+            combo_system.AddCallback_OnExecuteCombo(HealOnCombo);
+            charAttack.ChangeHeavyAttackMove(heavyAttackMove);
+        }
+        else
+        {
+            charAttack.ChangeHeavyAttackMove(heavyAttackMove);
+            combo_system.Clear_OnExecuteCombo();            
+            charAttack.Remove_callback_Heavy_attack(ReleaseInHeavy);
+        }
+    }
+
     public void StopMovement() { move.MovementHorizontal(0); move.MovementVertical(0); }
     void SlowMO()
     {

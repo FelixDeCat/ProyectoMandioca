@@ -13,9 +13,11 @@ public class CharacterAttack
     [SerializeField] float attackRange = 3;
     [SerializeField] float attackAngle = 90;
     [SerializeField] float heavyAttackTime = 1f;
+    [SerializeField] float heavyAttackMove = 10f;
     [SerializeField] LayerMask enemyLayer = 1 << 10;
     [SerializeField] DamageData data = null;
     [SerializeField] float bashDashPetrifyTime = 3;
+
 
     public float Dmg_normal { get => dmg_normal; }
     public float Dmg_Heavy { get => dmg_heavy; }
@@ -27,6 +29,7 @@ public class CharacterAttack
     float buttonPressedTime;
     float currentDamage;
     float currentHeavyAttackTime;
+    float currentHeavyAttackMove;
 
     CharacterAnimator anim;
 
@@ -66,6 +69,7 @@ public class CharacterAttack
         currentWeapon = myWeapons[0];
         currentDamage = currentWeapon.baseDamage;
         currentHeavyAttackTime = heavyAttackTime;
+        currentHeavyAttackMove = heavyAttackMove;
 
         return this;
     }
@@ -84,17 +88,17 @@ public class CharacterAttack
     public void Remove_callback_SecondaryEffect(Action<EffectReceiver> callback) { ApplySecondaryEffect -= callback; }
 
     public void ChangeHeavyAttackTime(float newTime) => currentHeavyAttackTime = newTime;
-
+    public void ChangeHeavyAttackMove(float move = -1) { if (move < 0) currentHeavyAttackMove = heavyAttackMove; else currentHeavyAttackMove = move; }
+    
     public void ForceHeavy()
     {
         HeavyAttack.Invoke();
         data.SetDamageType(Damagetype.Heavy).SetKnockback(2500);
-        move.AttackMovement(10);
+        move.AttackMovement(currentHeavyAttackMove);
         feedbacks.particles.feedbackHeavy.Stop();
         oneshot = false;
         buttonPressedTime = 0f;
-        anim.OnAttackBegin(false);
-       
+        anim.OnAttackBegin(false);       
     }
 
     public string ChangeName() => currentWeapon.weaponName;
@@ -239,7 +243,7 @@ public class CharacterAttack
             HeavyAttack.Invoke();
             data.SetDamageType(Damagetype.Heavy)
                 .SetKnockback(2500);
-            move.AttackMovement(10);
+            move.AttackMovement(currentHeavyAttackMove);
             feedbacks.sounds.Play_heavySwing();
         }
         feedbacks.particles.feedbackHeavy.Stop();

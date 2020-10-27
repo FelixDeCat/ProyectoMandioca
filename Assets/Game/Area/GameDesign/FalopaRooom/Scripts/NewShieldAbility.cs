@@ -70,7 +70,7 @@ public class NewShieldAbility : MonoBehaviour
     public void OnExecute(int charges)
     {
         if (charges == 0)
-        {          
+        {
             if (!Main.instance.GetChar().comboParryForAbility.TryExecuteCombo())
                 _hero.charanim.MedusaStunShort();
         }
@@ -81,17 +81,17 @@ public class NewShieldAbility : MonoBehaviour
 
         _hero.ToggleBlock(true);
     }
-    
+
     void UseShieldPowerHolding()
     {
-        ParticlesManager.Instance.PlayParticle(circuloPetrify.name, _hero.transform.position); 
+        ParticlesManager.Instance.PlayParticle(circuloPetrify.name, _hero.transform.position);
         var enemis = Extensions.FindInRadius<DamageReceiver>(_hero.transform.position, radiusHolding);
         for (int i = 0; i < enemis.Count; i++)
         {
             if (enemis[i].GetComponent<EffectReceiver>() != null && enemis[i].GetComponent<EntityBase>() != _hero && enemis[i].GetComponentInChildren<EffectBasicPetrify>().IsActive)
             {
-                    enemis[i].GetComponent<EffectReceiver>().RemoveToActive(EffectName.OnPetrify);
-                    enemis[i].TakeDamage(dmgDATA);
+                enemis[i].GetComponent<EffectReceiver>().RemoveToActive(EffectName.OnPetrify);
+                enemis[i].TakeDamage(dmgDATA);
             }
         }
     }

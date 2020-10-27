@@ -20,8 +20,6 @@ public class TruenosPasiveSkill : MonoBehaviour
     private void Start()
     {
         ParticlesManager.Instance.GetParticlePool(particlesLindas.name, particlesLindas);
-        _hero = Main.instance.GetChar();
-
     }
 
     private void OnEnable()
@@ -31,24 +29,22 @@ public class TruenosPasiveSkill : MonoBehaviour
         dmgDATA.SetDamage(damage).SetDamageInfo(DamageInfo.NonParry).SetKnockback(knockbackFoes).SetDamageType(damageType);
     }
 
-    void Update()
+    public void OnEquip()
     {
-        if (Input.GetKey(KeyCode.Joystick1Button5))
-        {
-            _hero.ShieldAbilityCharge();
-        }
-
-        if (Input.GetKeyUp(KeyCode.Joystick1Button5))
-        {
-            _hero.ShieldAbilityRelease();
-
-            UsePassiveSkill();
-        }
+        _hero = Main.instance.GetChar();
+        _hero.HeavyAttackTrueToRecoverNormalHeavy(false, 0);
+        _hero.GetCharacterAttack().Add_callback_Heavy_attack(LightningStrike);
+        _hero.comboParryForAbility.AddCallback_OnExecuteCombo(LightningStrike);
+    }
+    public void OnUnequip()
+    {
+        _hero.HeavyAttackTrueToRecoverNormalHeavy(true);
+        _hero.GetCharacterAttack().Remove_callback_Heavy_attack(LightningStrike);
     }
 
-
-    void UsePassiveSkill()
+    void LightningStrike()
     {
+        _hero.charanim.HeavyAttack();
         ParticlesManager.Instance.PlayParticle(particlesLindas.name,this.transform.position);
         dmgDATA.SetPositionAndDirection(_hero.transform.position);
         var enemis = Extensions.FindInRadius<DamageReceiver>(_hero.transform.position, range);
@@ -60,10 +56,5 @@ public class TruenosPasiveSkill : MonoBehaviour
                 enemis[i].TakeDamage(dmgDATA);
             }
         }
-    }
-
-    private void OnDrawGizmosSelected()
-    {
-        Gizmos.DrawWireSphere(this.transform.position, range);
     }
 }
