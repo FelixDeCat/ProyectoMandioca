@@ -8,7 +8,7 @@ public class TruenosPasiveSkill : MonoBehaviour
     [SerializeField] float range;
     [SerializeField] float knockbackFoes;
     [SerializeField] int damage;
-    [SerializeField] int stunTimer;
+    [SerializeField] float stunTimer;
 
     [SerializeField] Damagetype damageType = Damagetype.Normal;
     DamageData dmgDATA;
@@ -26,7 +26,7 @@ public class TruenosPasiveSkill : MonoBehaviour
 
     private void OnEnable()
     {
-        dmgDATA = _hero.GetComponent<DamageData>();
+        dmgDATA = GetComponent<DamageData>();
         dmgDATA.Initialize(_hero);
         dmgDATA.SetDamage(damage).SetDamageInfo(DamageInfo.NonParry).SetKnockback(knockbackFoes).SetDamageType(damageType);
     }
@@ -41,14 +41,16 @@ public class TruenosPasiveSkill : MonoBehaviour
         if (Input.GetKeyUp(KeyCode.Joystick1Button5))
         {
             _hero.ShieldAbilityRelease();
+
             UsePassiveSkill();
         }
     }
 
+
     void UsePassiveSkill()
     {
         ParticlesManager.Instance.PlayParticle(particlesLindas.name,this.transform.position);
-
+        dmgDATA.SetPositionAndDirection(_hero.transform.position);
         var enemis = Extensions.FindInRadius<DamageReceiver>(_hero.transform.position, range);
         for (int i = 0; i < enemis.Count; i++)
         {
