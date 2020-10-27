@@ -7,15 +7,16 @@ public class ThreadObject
     IEnumerator process;
     Action local_finish;
     string name_process = "process";
-    string keyUniqueProcess;
+    string keyUniqueProcess = "null";
     public string Key_Unique_Process { get { return keyUniqueProcess; } }
     public string Name_Process { get { return name_process; } }
 
-    public ThreadObject(IEnumerator _process, string _name = "process", string UniqueProcess = "default" , Action _local_finish = null)
+    public ThreadObject(IEnumerator _process, string _name = "process", string _keyUniqueProcess = "null" , Action _local_finish = null)
     {
         process = _process;
         local_finish = _local_finish;
         name_process = _name;
+        keyUniqueProcess = _keyUniqueProcess;
     }
 
     public IEnumerator Process()

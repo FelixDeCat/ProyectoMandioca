@@ -16,6 +16,12 @@ public class LocalSceneHandler : LoadComponent
 
     string myName;
 
+    string KEY_LANDMARK = "default_land";
+    string KEY_GAMEPLAY = "default_game";
+    string KEY_LOW = "default_low";
+    string KEY_MED = "default_med";
+    string KEY_HIGH = "default_high";
+
     GameObject landmark;
     GameObject gameplay;
     GameObject low_detail;
@@ -29,6 +35,11 @@ public class LocalSceneHandler : LoadComponent
         trigger.SubscribeToEnter(OnEnterToThisScene);
 
         myName = this.gameObject.name;
+        KEY_LANDMARK = myName + "_Key_Landmark";
+        KEY_GAMEPLAY = myName + "_Key_Gameplay";
+        KEY_LOW = myName + "_Key_LowDetail";
+        KEY_MED = myName + "_Key_MediumDetail";
+        KEY_HIGH = myName + "_Key_HighDetail";
 
         if (!string.IsNullOrEmpty(prefabname))
         {
@@ -113,27 +124,27 @@ public class LocalSceneHandler : LoadComponent
             {
                 if (preftype == PrefabType.gameplay)
                 {
-                    ThreadHandler.EnqueueProcess(new ThreadObject(Inst(preftype), "+ " + this.gameObject.name + "::> " + preftype.ToString()));
+                    ThreadHandler.EnqueueProcess(new ThreadObject(Inst(preftype), "+ " + this.gameObject.name + "::> " + preftype.ToString(), KEY_GAMEPLAY));
                     go = gameplay;
                 }
                 if (preftype == PrefabType.landmark)
                 {
-                    ThreadHandler.EnqueueProcess(new ThreadObject(Inst(preftype), "+ " + this.gameObject.name + "::> " + preftype.ToString()));
+                    ThreadHandler.EnqueueProcess(new ThreadObject(Inst(preftype), "+ " + this.gameObject.name + "::> " + preftype.ToString(), KEY_LANDMARK));
                     go = landmark;
                 }
                 if (preftype == PrefabType.low)
                 {
-                    ThreadHandler.EnqueueProcess(new ThreadObject(Inst(preftype), "+ " + this.gameObject.name + "::> " + preftype.ToString()));
+                    ThreadHandler.EnqueueProcess(new ThreadObject(Inst(preftype), "+ " + this.gameObject.name + "::> " + preftype.ToString(), KEY_LOW));
                     go = low_detail;
                 }
                 if (preftype == PrefabType.med)
                 {
-                    ThreadHandler.EnqueueProcess(new ThreadObject(Inst(preftype), "+ " + this.gameObject.name + "::> " + preftype.ToString()));
+                    ThreadHandler.EnqueueProcess(new ThreadObject(Inst(preftype), "+ " + this.gameObject.name + "::> " + preftype.ToString(), KEY_MED));
                     go = medium_detail;
                 }
                 if (preftype == PrefabType.high)
                 {
-                    ThreadHandler.EnqueueProcess(new ThreadObject(Inst(preftype), "+ " + this.gameObject.name + "::> " + preftype.ToString()));
+                    ThreadHandler.EnqueueProcess(new ThreadObject(Inst(preftype), "+ " + this.gameObject.name + "::> " + preftype.ToString(), KEY_HIGH));
                     go = hight_detail;
                 }
 
@@ -156,9 +167,10 @@ public class LocalSceneHandler : LoadComponent
         {
             if (go != null)
             {
-                if (go.activeSelf) { 
-                ThreadHandler.EnqueueProcess(new ThreadObject(ShutDownProcess(go), "(-)" + this.gameObject.name + preftype.ToString()));
-            }
+                if (go.activeSelf)
+                {
+                    ThreadHandler.EnqueueProcess(new ThreadObject(ShutDownProcess(go), "(-)" + this.gameObject.name + preftype.ToString()));
+                }
             }
         }
         else
