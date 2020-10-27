@@ -70,10 +70,9 @@ public class NewShieldAbility : MonoBehaviour
     public void OnExecute(int charges)
     {
         if (charges == 0)
-        {
-            if (Main.instance.GetChar().comboParryForAbility.TryExecuteCombo()) return;
-          
-            _hero.charanim.MedusaStunShort();
+        {          
+            if (!Main.instance.GetChar().comboParryForAbility.TryExecuteCombo())
+                _hero.charanim.MedusaStunShort();
         }
         else
         {
@@ -91,7 +90,7 @@ public class NewShieldAbility : MonoBehaviour
         {
             if (enemis[i].GetComponent<EffectReceiver>() != null && enemis[i].GetComponent<EntityBase>() != _hero && enemis[i].GetComponentInChildren<EffectBasicPetrify>().IsActive)
             {
-                    enemis[i].GetComponent<EffectReceiver>().RemoveEffect(EffectName.OnPetrify);
+                    enemis[i].GetComponent<EffectReceiver>().RemoveToActive(EffectName.OnPetrify);
                     enemis[i].TakeDamage(dmgDATA);
             }
         }

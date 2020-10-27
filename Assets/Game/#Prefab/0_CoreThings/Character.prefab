@@ -549,7 +549,6 @@ MonoBehaviour:
     cdToAddHit: 0.1
     timeToCombo: 3
   chargeSound: {fileID: 8300000, guid: 085de4832c728144395815b0d38a2555, type: 3}
-  go_StunFeedback: {fileID: 0}
   currentWeapon: {fileID: 1993500204153506489}
   sensor: {fileID: 5509984382699915172}
   shieldInteractable: {fileID: 7739727447231561118}
@@ -557,7 +556,6 @@ MonoBehaviour:
   big_damage_limit_percent: 0.3
   lifesystem: {fileID: 3415322764738061175}
   _imInHell: 0
-  isBuffed: 0
   charBlock:
     timeToParry: 0.6
     blockAngle: 0
@@ -586,6 +584,8 @@ MonoBehaviour:
       heavySwing: {fileID: 8300000, guid: 04330f7240d43e2489fbe80c4f5079c4, type: 3}
       offFightMusic: {fileID: 0}
       onFightMusic: {fileID: 0}
+      lerpSpeed: 0
+      index: 0
     particles:
       evadeParticle: {fileID: 8372438994490852118}
       HeavyLoaded: {fileID: 7593873025369588486}
@@ -604,7 +604,7 @@ MonoBehaviour:
     hitsNeededToCombo: 3
     resetOnSurpass: 0
     cdToAddHit: 0.1
-    timeToCombo: 1
+    timeToCombo: 5
   debug_options:
     txt_debug: {fileID: 981212012071996506}
 --- !u!114 &3403020175800544563
@@ -1183,6 +1183,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   type: 0
   _wp: {fileID: 0}
+  itemName_id: 
   interactuable: 1
 --- !u!114 &1399464602719821233
 MonoBehaviour:
@@ -11989,7 +11990,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   parentWithMaterials: {fileID: 3166684566546468940}
   myMat: []
-  mainOpacityOn: 0.3
   borderOpacityOn: 1
   shader_name: Effects/Interactuables/CustomOutline
 --- !u!1 &5376719508552816583

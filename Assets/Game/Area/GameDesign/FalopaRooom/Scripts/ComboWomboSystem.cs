@@ -22,6 +22,7 @@ public class ComboWomboSystem
 
     int currHitCount = 0;
     [SerializeField] int hitsNeededToCombo = 3;
+    [Tooltip("If true: Se resetea el contador si hago mas de los ataques necesarios")]
     [SerializeField] bool resetOnSurpass = false;
 
     [SerializeField] float cdToAddHit = 0.1f;
@@ -39,7 +40,7 @@ public class ComboWomboSystem
     public void Clear_OnExecuteCombo() => executeCombo = null;
 
 
-    public void Initialize(int hitsNeeded, AudioClip sound)
+    public void Initialize(int hitsNeeded)//, AudioClip sound)
     {
         hitsNeededToCombo = hitsNeeded;
         //comboSounds = sound;
