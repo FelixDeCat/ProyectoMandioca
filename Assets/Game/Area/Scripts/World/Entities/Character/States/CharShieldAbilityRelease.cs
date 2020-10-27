@@ -16,7 +16,7 @@ namespace Tools.StateMachine
 
         protected override void Enter(EState<CharacterHead.PlayerInputs> input)
         {
-            Main.instance.GetChar().ToggleBlock(false);            
+            Main.instance.GetChar().ToggleBlock(true);
         }
 
         protected override void Update()

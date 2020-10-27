@@ -5,6 +5,8 @@ public enum EffectName { OnFire, OnPetrify, OnFreeze, OnRoot }
 
 public class EffectReceiver : MonoBehaviour
 {
+    float lastCd;
+
     //Diccionario con todos los efectos posibles que tiene la entidad
     Dictionary<EffectName, EffectBase> myPossibleEffects = new Dictionary<EffectName, EffectBase>();
 
@@ -34,7 +36,10 @@ public class EffectReceiver : MonoBehaviour
     public void RemoveToActive(EffectName name)
     {
         if (activesEffect.Contains(name))
+        {
             activesEffect.Remove(name);
+            myPossibleEffects[name].OnEndEffect();
+        }
     }
 
     //Función que se debe llamar para activar un efecto
@@ -48,6 +53,8 @@ public class EffectReceiver : MonoBehaviour
             for (int i = 0; i < activesEffect.Count; i++)
                 if (myPossibleEffects[effect].incompatibilities.Contains(activesEffect[i])) return;
 
+            Debug.Log("TAKE EFFECTS");
+            lastCd = cd;
             myPossibleEffects[effect].OnStartEffect(cd);
             activesEffect.Add(effect);
         }
@@ -65,4 +72,12 @@ public class EffectReceiver : MonoBehaviour
             item.Value.OnEndEffect();
     }
 
+    public void ExtendEffectDuration(EffectName effect)
+    {
+        if (activesEffect.Contains(effect))
+        {
+            RemoveToActive(effect);
+            TakeEffect(effect, lastCd);
+        }
+    }
 }

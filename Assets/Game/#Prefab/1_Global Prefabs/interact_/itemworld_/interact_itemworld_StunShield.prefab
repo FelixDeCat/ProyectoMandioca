@@ -328,6 +328,7 @@ GameObject:
   - component: {fileID: 5507615954262807097}
   - component: {fileID: 3250064563151523754}
   - component: {fileID: 5587336798736523605}
+  - component: {fileID: 5458261340219502243}
   - component: {fileID: 1198463025387971692}
   m_Layer: 0
   m_Name: equiped
@@ -422,10 +423,32 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 5458261340219502243}
+        m_MethodName: OnEquip
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   EV_Unequip:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 1198463025387971692}
+        m_MethodName: OnUnequip
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 5458261340219502243}
         m_MethodName: OnUnequip
         m_Mode: 1
         m_Arguments:
@@ -480,6 +503,19 @@ MonoBehaviour:
   contextual_charge: {fileID: 2876689489832085043, guid: e093e5c76735dad45992a364b38a4911,
     type: 3}
   casting: 0.75
+--- !u!114 &5458261340219502243
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5506523459022915706}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c3fa7e13497396a46a372a9186131fbe, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  duration: 3
 --- !u!114 &1198463025387971692
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -494,7 +530,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   damageDestroyPetrify: 80
   radiusHolding: 5
-  timePetrifiTap: 200
+  timePetrifiTap: 3
   radiusTapping: 5
   angleShoot: 35
   circuloPetrify: {fileID: 7533945366381977600, guid: 7263f956c13a734489ee9e2da4da731b,
