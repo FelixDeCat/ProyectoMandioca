@@ -30,6 +30,7 @@ public class PosDecals : MonoBehaviour
     {
         for (int i = 0; i < objects.Length; i++)
         {
+            if(vectorPositions[i] != null && positions[i] != null)
             vectorPositions[i] = new Vector4(positions[i].position.x, positions[i].position.y, positions[i].position.z, 0);
         }
 
