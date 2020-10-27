@@ -49,7 +49,7 @@ public abstract class Throwable : MonoBehaviour,IPauseable
               .SetDamage(savethrowdata.Damage)
               .SetDamageInfo(DamageInfo.Normal)
               .SetKnockback(knockback);
-
+        
         sensor.SetLayers(layermask_player);
 
         transform.position = data.Position;

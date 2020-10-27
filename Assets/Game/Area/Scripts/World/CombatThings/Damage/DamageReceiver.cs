@@ -95,7 +95,6 @@ public class DamageReceiver : MonoBehaviour
 
         if (_LifeSystem != null && _LifeSystem.life <= 0) return Attack_Result.inmune;
 
-        
         if (IsNotDestructible)
         {
             InmuneFeedback?.Invoke();

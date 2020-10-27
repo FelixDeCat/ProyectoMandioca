@@ -20,6 +20,7 @@ public abstract class Interactable : MonoBehaviour
     protected Action _executeAction;
     public float delayTime;
     protected bool updateDelay;
+    [SerializeField] bool drawGizmos = false;
 
     public UnityEvent UE_OnEnter;
     public UnityEvent UE_OnExit;
@@ -115,5 +116,10 @@ public abstract class Interactable : MonoBehaviour
     public abstract void OnExecute(WalkingEntity collector);
     public abstract void OnExit();
     public abstract void OnInterrupt();
+
+    private void OnDrawGizmos()
+    {
+        if (drawGizmos) Gizmos.DrawWireSphere(transform.position, distancetoInteract);
+    }
 
 }

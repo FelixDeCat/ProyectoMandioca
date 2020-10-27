@@ -21,6 +21,8 @@ public class InteractSensor : MonoBehaviour
     [Header("Walking Entity")]
     [SerializeField] WalkingEntity collector = null;
 
+    bool buttonPressing;
+
     private void Awake()
     {
         cooldown_to_next_recollection = true;
@@ -33,6 +35,7 @@ public class InteractSensor : MonoBehaviour
 
         calculate_fast_recollection = true;
         timerfastrec = 0;
+        buttonPressing = true;
         if (isclose && most_close != null)
         {
             most_close.Execute(collector);
@@ -47,6 +50,7 @@ public class InteractSensor : MonoBehaviour
         {
             most_close.InterruptExecute();
         }
+        buttonPressing = false;
         calculate_fast_recollection = false;
         timerfastrec = 0;
     }
@@ -113,7 +117,11 @@ public class InteractSensor : MonoBehaviour
         
         if (I_Have_Good_Distace_To_Interact())
         {
+
+            if(isExit && buttonPressing) most_close.Execute(collector);
+
             isclose = true;
+
             isExit = false;
 
             if (can_show_info)
@@ -149,6 +157,7 @@ public class InteractSensor : MonoBehaviour
             WorldItemInfo.instance.Hide();
             can_show_info = true;
             isExit = true;
+            //collector.GetComponent<CharacterHead>()?.UNITY_EVENT_OnInteractUp();
         }
     }
 

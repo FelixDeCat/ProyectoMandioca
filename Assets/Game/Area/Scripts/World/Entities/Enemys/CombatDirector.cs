@@ -259,7 +259,6 @@ public class CombatDirector : LoadComponent, IZoneElement
     {
         if (!target || !listAttackTarget.ContainsKey(target))
         {
-            Debug.Log("No se que pasa men");
             return;
         }
 
