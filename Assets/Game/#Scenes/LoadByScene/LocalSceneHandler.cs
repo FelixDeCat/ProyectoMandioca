@@ -76,10 +76,10 @@ public class LocalSceneHandler : LoadComponent
                 break;
             case SceneData.Detail_Parameter.top_to_landmark:
                 yield return ExecuteSwitching(landmark, ExeParam.show, PrefabType.landmark);
-                yield return ExecuteSwitching(gameplay, ExeParam.destroy, PrefabType.gameplay);
-                yield return ExecuteSwitching(low_detail, ExeParam.destroy, PrefabType.low);
-                yield return ExecuteSwitching(medium_detail, ExeParam.destroy, PrefabType.med);
-                yield return ExecuteSwitching(hight_detail, ExeParam.destroy, PrefabType.high);
+                yield return ExecuteSwitching(gameplay, ExeParam.shutdown, PrefabType.gameplay);
+                yield return ExecuteSwitching(low_detail, ExeParam.shutdown, PrefabType.low);
+                yield return ExecuteSwitching(medium_detail, ExeParam.shutdown, PrefabType.med);
+                yield return ExecuteSwitching(hight_detail, ExeParam.shutdown, PrefabType.high);
                 break;
             case SceneData.Detail_Parameter.top_to_low:
                 yield return ExecuteSwitching(gameplay, ExeParam.show, PrefabType.gameplay);
