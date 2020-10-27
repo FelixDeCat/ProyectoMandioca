@@ -5,10 +5,12 @@ using UnityEngine;
 public class MedusaParry : MonoBehaviour
 {
     [SerializeField] private float duration = 3;
+    [SerializeField] float areaToChainPetrify = 8;
 
     public void OnEquip()
     {
         Main.instance.eventManager.SubscribeToEvent(GameEvents.ON_PLAYER_PARRY, PetrifyEnemies);
+        Main.instance.eventManager.SubscribeToEvent(GameEvents.ON_PLAYER_PARRY, ExtendPetrifyDuration);
     }
 
     void PetrifyEnemies(params object[] param)
@@ -22,19 +24,17 @@ public class MedusaParry : MonoBehaviour
 
     void ExtendPetrifyDuration()
     {
-        var enemies = Physics.OverlapSphere(Main.instance.GetChar().transform.position, 5);
+        var enemies = Main.instance.GetListOfComponentInRadiusByCondition(Main.instance.GetChar().transform.position, areaToChainPetrify, (x) => x.GetComponent<EffectReceiver>());
+        
         foreach (var item in enemies)
         {
-            EffectReceiver effect = item.GetComponent<EffectReceiver>();
-            if (effect != null)
-            {
-                effect.ExtendEffectDuration(EffectName.OnPetrify);
-            }
+            item.GetComponent<EffectReceiver>().ExtendEffectDuration(EffectName.OnPetrify);            
         }
     }
 
     public void OnUnequip()
     {
         Main.instance.eventManager.UnsubscribeToEvent(GameEvents.ON_PLAYER_PARRY, PetrifyEnemies);
+        Main.instance.eventManager.UnsubscribeToEvent(GameEvents.ON_PLAYER_PARRY, ExtendPetrifyDuration);
     }
 }

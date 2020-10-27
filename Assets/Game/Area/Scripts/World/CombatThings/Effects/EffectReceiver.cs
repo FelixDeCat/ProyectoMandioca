@@ -53,7 +53,6 @@ public class EffectReceiver : MonoBehaviour
             for (int i = 0; i < activesEffect.Count; i++)
                 if (myPossibleEffects[effect].incompatibilities.Contains(activesEffect[i])) return;
 
-            Debug.Log("TAKE EFFECTS");
             lastCd = cd;
             myPossibleEffects[effect].OnStartEffect(cd);
             activesEffect.Add(effect);
