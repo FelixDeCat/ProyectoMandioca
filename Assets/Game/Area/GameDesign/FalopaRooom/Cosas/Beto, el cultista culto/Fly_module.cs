@@ -34,6 +34,12 @@ public class Fly_module : MonoBehaviour
 
     public void GainMagicFly()
     {
+        if (_ent.heightLevel == 1)
+        {
+            OnFinishMovement?.Invoke();
+            return;
+        }
+
         canUpdate = true;
         _rb.useGravity = false;
         wp = Navigation.instance.NearestTo(_ent.Root().position, 1);
@@ -63,6 +69,13 @@ public class Fly_module : MonoBehaviour
 
     public void LoseMagicFly()
     {
+
+        if (_ent.heightLevel == 0)
+        {
+            OnFinishMovement?.Invoke();
+            return;
+        }
+
         canUpdate = true;
 
         //_rb.constraints = defaultConstrains;

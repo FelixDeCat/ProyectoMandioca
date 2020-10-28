@@ -201,7 +201,7 @@ namespace GOAP
                 {
                     Debug.Log("llego a entrar aca?");
                     _target = Main.instance.GetChar().GetComponent<Item>();
-                    _fsm.Feed(ActionEntity.Avoid);
+                    _fsm.Feed(ActionEntity.Move);
                 }
             };
 
@@ -257,7 +257,7 @@ namespace GOAP
                 .SetTransition(ActionEntity.FailedStep, thinkPlan)
                 .SetTransition(ActionEntity.GetDamaged, getDamaged)
                 .SetTransition(ActionEntity.Idle, idle)
-                .SetTransition(ActionEntity.Avoid, avoid)
+                .SetTransition(ActionEntity.Move, move)
                 .Done();
 
             StateConfigurer.Create(planStep)

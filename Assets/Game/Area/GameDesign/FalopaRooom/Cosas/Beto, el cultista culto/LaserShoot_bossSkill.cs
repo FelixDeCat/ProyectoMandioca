@@ -68,7 +68,8 @@ public class LaserShoot_bossSkill : GOAP_Skills_Base
         {
             newData = new ThrowData().Configure(rayoOrigin.position + _ent.Root().forward * .5f, ((heroRoot.position + Vector3.up) - rayoOrigin.position).normalized, 13, 10, owner);
         }
-        
+
+        Debug.Log("EL DANO QUE HACE ES " + newData.Damage);
         ThrowablePoolsManager.instance.Throw(rayo_pf.name, newData);
         
     }

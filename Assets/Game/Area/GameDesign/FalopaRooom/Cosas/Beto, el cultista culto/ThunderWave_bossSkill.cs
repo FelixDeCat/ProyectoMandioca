@@ -59,29 +59,33 @@ public class ThunderWave_bossSkill : GOAP_Skills_Base
 
             if (obj == null) continue;
 
-            Vector3 objDir = ((obj.transform.position + Vector3.up) - (_ent.Root().position + Vector3.up)).normalized;
+            obj.TakeDamage(dmgData);
 
-            RaycastHit hit;
-            // Does the ray intersect any objects excluding the player layer
-            if (Physics.Raycast(_ent.Root().position + Vector3.up, objDir, out hit, radious, hitMask))
-            {
-                if(hit.transform.GetComponent<DamageReceiver>() != null)
-                {
-                    obj.TakeDamage(dmgData);
-                    Debug.Log("Did Hit");
-                }
-                else
-                {
-                    Debug.Log("Entro en true pero no pego");
-                }
+
+            //raycast que no quiere funcar
+            //Vector3 objDir = ((obj.transform.position + Vector3.up) - (_ent.Root().position + Vector3.up)).normalized;
+
+            //RaycastHit hit;
+            //// Does the ray intersect any objects excluding the player layer
+            //if (Physics.Raycast(_ent.Root().position + Vector3.up, objDir, out hit, radious, hitMask))
+            //{
+            //    if(hit.transform.GetComponent<DamageReceiver>() != null)
+            //    {
+            //        obj.TakeDamage(dmgData);
+            //        Debug.Log("Did Hit");
+            //    }
+            //    else
+            //    {
+            //        Debug.Log("Entro en true pero no pego");
+            //    }
 
                 
-            }
-            else
-            {
-                //Debug.Log("el hit ESDSS " + hit.transform.name);
-                Debug.Log("Did not Hit");
-            }
+            //}
+            //else
+            //{
+            //    //Debug.Log("el hit ESDSS " + hit.transform.name);
+            //    Debug.Log("Did not Hit");
+            //}
 
         }
 
