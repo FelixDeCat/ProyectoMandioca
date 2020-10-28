@@ -23,7 +23,7 @@ public class LaserShoot_bossSkill : GOAP_Skills_Base
     {
         //proba frenar el animator tambien
         //owner.GetComponentInChildren<Animator>().Play("Idle");
-        Debug.Log("FRENO EL LASERSHOOOOT");
+        //Debug.Log("FRENO EL LASERSHOOOOT");
         StopCoroutine(ametralladora);
         _ent.OnSkillAction -= ShootLaser;
         _ent.OnTakeDmg -= InterruptSkill;
@@ -33,7 +33,7 @@ public class LaserShoot_bossSkill : GOAP_Skills_Base
 
     protected override void OnExecute()
     {
-        Debug.Log("INICIO LOS TIROS");
+        //Debug.Log("INICIO LOS TIROS");
         _amount = 0;
 
         _ent.OnTakeDmg += InterruptSkill;

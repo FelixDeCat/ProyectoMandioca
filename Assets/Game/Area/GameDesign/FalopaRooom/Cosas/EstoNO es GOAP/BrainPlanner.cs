@@ -60,14 +60,6 @@ namespace GOAP
 
             Func<GoapState, int> final = (gS) => Final(gS);
 
-            
-
-
-            //initial.worldStateSnap = snap;
-            //OnGround_debug = snap.values["OnGround"];
-            //Debug.Log("VOY A PLANEAR Y ONGROUND ES: " + OnGround_debug);
-            //OnGround_debug = initial.worldStateSnap.values["OnGround"];
-
             //TimeSlicing 3 - En este caso queriamos guardar el path en algun lado
             //Al no estar usando una variable publica creamos una interna con un valor default
             IEnumerable<GoapAction> plan = Enumerable.Empty<GoapAction>();
@@ -84,6 +76,7 @@ namespace GOAP
                 //StopPlanning();
                 //StartPlanning();
                 Debug.Log("Couldn't plan");
+                yield return new WaitForSeconds(0.2f);
                 OnCantPlan?.Invoke();
 
 
@@ -102,20 +95,8 @@ namespace GOAP
                     .Select(pa => pa.Name)
                     .Select(a =>
                     {
-                        //var possibleItems = WorldState.instance.allItems.Where(x => x != null && x.interactuable).Where(i =>
-                        //    typeDict.Any(kv => a.EndsWith(kv.Key)) &&
-                        //    i.type == typeDict.First(kv => a.EndsWith(kv.Key)).Value);
-                        //var i2 = possibleItems.Skip(Random.Range(0, possibleItems.Count())).FirstOrDefault();
-                        //Debug.Log("Esta accon es " + a);
-
-                        //var i2 = WorldState.instance.allItems.FirstOrDefault(i => typeDict.Any(kv => a.EndsWith(kv.Key)) && i.type == typeDict.First(kv => a.EndsWith(kv.Key)).Value);
-
-                        //Debug.Log(a + " --> " +typeDict.Any(kv => a.EndsWith(kv.Key)));
-
                         var i2 = WorldState.instance.allItems.Where(i => a.EndsWith(i.itemName_id) && i.type == typeDict.First(kv => a.EndsWith(kv.Key)).Value).First();
 
-
-                        //Debug.Log("Este item es " + i2.name);
                         if (actDict.Any(kv => a.StartsWith(kv.Key)) && i2 != null)
                         {
                             
@@ -145,20 +126,20 @@ namespace GOAP
             initial.valoresFloat = WorldState.instance.valoresFloat.Clone<Dictionary<string, float>>();
             initial.valoresInt = WorldState.instance.valoresInt.Clone<Dictionary<string, int>>();
 
-            foreach (var item in initial.valoresFloat)
-            {
-                Debug.Log("valores float " + item.Key + " --> " + item.Value);
-            }
+            //foreach (var item in initial.valoresFloat)
+            //{
+            //    Debug.Log("valores float " + item.Key + " --> " + item.Value);
+            //}
 
-            foreach (var item in initial.valoresBool)
-            {
-                Debug.Log("valores bool " + item.Key + " --> " + item.Value);
-            }
+            //foreach (var item in initial.valoresBool)
+            //{
+            //    Debug.Log("valores bool " + item.Key + " --> " + item.Value);
+            //}
 
-            foreach (var item in initial.valoresInt)
-            {
-                Debug.Log("valores int " + item.Key + " --> " + item.Value);
-            }
+            //foreach (var item in initial.valoresInt)
+            //{
+            //    Debug.Log("valores int " + item.Key + " --> " + item.Value);
+            //}
 
 
             //initial.valoresBool.UpdateWith(WorldState.instance.valoresBool);

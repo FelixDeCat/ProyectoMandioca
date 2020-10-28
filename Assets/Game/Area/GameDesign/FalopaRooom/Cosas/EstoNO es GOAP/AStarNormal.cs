@@ -88,7 +88,7 @@ namespace GOAP
                 }
                 watchdog++;//TimeSlicing 1 - Sumo 1 a los nodos que mire
 
-                if (watchdog % 10 == 0)//TimeSlicing 1 - Si los que mire es multiplo de 10 entonces hago una pausa
+                if (watchdog % 3 == 0)//TimeSlicing 1 - Si los que mire es multiplo de 10 entonces hago una pausa
                 {
                     yield return null;//TimeSlicing 1 - Aca se hace una pausa y se retoma al frame siguiente, dejando que el juego siga corriendo
                 }

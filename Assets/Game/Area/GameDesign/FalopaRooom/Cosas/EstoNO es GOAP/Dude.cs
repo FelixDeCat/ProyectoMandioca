@@ -32,22 +32,27 @@ namespace GOAP
         private BrainPlanner _planner;
         IEnumerable<Tuple<ActionEntity, Item>> _plan;
 
-        float _auxCount;
+        public float _auxCount;
 
         GOAP_Skills_Base _currentSkill;
 
         bool paused = false;
+        bool initialized = false;
 
         public string debugState;
 
         public void Initialize()
         {
+            if (initialized) return;
+
+            initialized = true;
+
             _ent = GetComponent<Ente>();
             _planner = GetComponent<BrainPlanner>();
 
 
             _ent.OnTakeDmg += () => _fsm.Feed(ActionEntity.GetDamaged);
-            _planner.OnCantPlan += () => _fsm.Feed(ActionEntity.ThinkPlan);
+            //_planner.OnCantPlan += () => _fsm.Feed(ActionEntity.ThinkPlan);
 
 
             #region Basic States
@@ -186,7 +191,21 @@ namespace GOAP
                 }
             };
             // ////////////
-            thinkPlan.OnEnter += a => { _planner.StartPlanning(); Debug.Log("A planear"); };
+            thinkPlan.OnEnter += a => { _auxCount = 0; _planner.StartPlanning(); Debug.Log("A planear"); };
+
+            thinkPlan.OnUpdate += () =>
+            {
+                _auxCount += Time.deltaTime;
+                
+                if (_auxCount >= 2)
+                {
+                    Debug.Log("llego a entrar aca?");
+                    _target = Main.instance.GetChar().GetComponent<Item>();
+                    _fsm.Feed(ActionEntity.Avoid);
+                }
+            };
+
+            thinkPlan.OnExit += a => { _planner.StopPlanning(); Debug.Log("Dejo de planear"); };
             //////////////
             failStep.OnEnter += a => { _ent.Stop(); Debug.Log("Plan failed"); };
 
@@ -219,7 +238,7 @@ namespace GOAP
                 _auxCount = 0;
                 _ent.Stop();
                 _planner.StopPlanning();
-                _ent.Anim().Play("GetDamage");
+                //_ent.Anim().Play("GetDamage");
             };
 
             getDamaged.OnUpdate += () =>
@@ -238,6 +257,7 @@ namespace GOAP
                 .SetTransition(ActionEntity.FailedStep, thinkPlan)
                 .SetTransition(ActionEntity.GetDamaged, getDamaged)
                 .SetTransition(ActionEntity.Idle, idle)
+                .SetTransition(ActionEntity.Avoid, avoid)
                 .Done();
 
             StateConfigurer.Create(planStep)
@@ -271,10 +291,10 @@ namespace GOAP
 
         public void ExecutePlan(List<Tuple<ActionEntity, Item>> plan)
         {
-            foreach (var item in plan)
-            {
-                Debug.Log("La accion es " + item.Item1 + " y el item es " + item.Item2.name);
-            }
+            //foreach (var item in plan)
+            //{
+            //    Debug.Log("La accion es " + item.Item1 + " y el item es " + item.Item2.name);
+            //}
 
             _plan = plan;
             _fsm.Feed(ActionEntity.NextStep);

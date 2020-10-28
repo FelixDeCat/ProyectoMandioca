@@ -15,6 +15,7 @@ public class ThunderWave_bossSkill : GOAP_Skills_Base
     [SerializeField] int knock = 200;
     [SerializeField] float radious = 5f;
     [SerializeField] float chargeTime = 5f;
+    [SerializeField] float timeBtwEndPartAndExplode = 2f;
     [SerializeField] LayerMask hitMask;
 
     protected override void OnEndSkill()
@@ -22,13 +23,15 @@ public class ThunderWave_bossSkill : GOAP_Skills_Base
         //_ent.OnSkillAction -= ThuderWave;
         //No me gusta que este aca esto. Esto tiene que ser automatico de otro lado
         WorldState.instance.valoresBool["OwnerGetDamage"] = false;
+        _ent.canBeInterrupted = true;
         _anim.SetTrigger("finishSkill");
     }
 
     protected override void OnExecute()
     {
+        _ent.canBeInterrupted = false;
         _anim.Play("StartCastOrb");
-        totemFeedback.StartChargeFeedback(ThuderWave);
+        totemFeedback.StartChargeFeedback(() => StartCoroutine(TimeBtwEndPartAndExplode()));
         //_ent.OnSkillAction += ThuderWave;
     }
 
@@ -37,19 +40,14 @@ public class ThunderWave_bossSkill : GOAP_Skills_Base
 
     }
 
-    //IEnumerator ChargePower()
-    //{
-    //    float count = 0;
+    IEnumerator TimeBtwEndPartAndExplode()
+    {
+        yield return new WaitForSeconds(timeBtwEndPartAndExplode);
 
-    //    while(count < chargeTime)
-    //    {
-    //        count += Time.deltaTime;
+        ThunderWave();
+    }
 
-    //        yield return null;
-    //    }
-    //}
-
-    void ThuderWave()
+    void ThunderWave()
     {
         var affectedPO  = Extensions.FindInRadius<PlayObject>(owner, radious);
         hitMask = ~hitMask;
@@ -81,7 +79,7 @@ public class ThunderWave_bossSkill : GOAP_Skills_Base
             }
             else
             {
-                Debug.Log("el hit ESDSS " + hit.transform.name);
+                //Debug.Log("el hit ESDSS " + hit.transform.name);
                 Debug.Log("Did not Hit");
             }
 
@@ -134,6 +132,7 @@ public class ThunderWave_bossSkill : GOAP_Skills_Base
         Gizmos.color = new Color(1, 1, 0, 0.75F);
         Gizmos.DrawSphere(transform.position, radious);
 
-        Gizmos.DrawLine(_ent.Root().position + Vector3.up, Main.instance.GetChar().Root.position + Vector3.up);
+        if(_ent)
+            Gizmos.DrawLine(_ent.Root().position + Vector3.up, Main.instance.GetChar().Root.position + Vector3.up);
     }
 }

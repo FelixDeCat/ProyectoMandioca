@@ -12,11 +12,13 @@ public class SummonMinions_bossSkill : GOAP_Skills_Base, ISpawner
     [SerializeField] int amountSummoned = 5;
 
     Animator _anim;
+    Ente _ent;
 
     protected override void OnEndSkill()
     {
         Debug.Log("TERMINE DE SUMMONEAR");
         //owner.GetComponent<Ente>().OnFinishSkill -= EndSkill;
+        _ent.canBeInterrupted = true;
         _anim.SetTrigger("finishSkill");
     }
 
@@ -28,7 +30,7 @@ public class SummonMinions_bossSkill : GOAP_Skills_Base, ISpawner
     protected override void OnExecute()
     {
         //owner.GetComponent<Ente>().OnFinishSkill += EndSkill;
-
+        _ent.canBeInterrupted = false;
         _anim.Play("StartCastStaff");
         totemFeedback.StartChargeFeedback(Summon);
     }
@@ -55,6 +57,7 @@ public class SummonMinions_bossSkill : GOAP_Skills_Base, ISpawner
         totemFeedback.Initialize(StartCoroutine);
         //owner.GetComponent<Ente>().OnTakeDmg += InterruptSkill;
         _anim = owner.GetComponentInChildren<Animator>();
+        _ent = owner.GetComponent<Ente>();
     }
 
     protected override void OnPause()

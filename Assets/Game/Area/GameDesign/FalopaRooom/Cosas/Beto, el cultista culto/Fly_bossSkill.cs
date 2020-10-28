@@ -18,17 +18,24 @@ public class Fly_bossSkill : GOAP_Skills_Base
 
     protected override void OnEndSkill()
     {
+        _ent.canBeInterrupted = true;
+        _ent.OnSkillAction -= Fly;
         _ent.flyModule.OnFinishMovement -= EndSkill;
     }
 
     protected override void OnExecute()
     {
-        _ent = owner.GetComponent<Ente>();
+        _ent.OnSkillAction += Fly;
+        _ent.flyModule.OnFinishMovement += EndSkill;
+        _ent.canBeInterrupted = false;
 
         _anim.Play("StartFly");
-        _ent.flyModule.GainMagicFly();
+        
+    }
 
-        _ent.flyModule.OnFinishMovement += EndSkill;
+    void Fly()
+    {
+        _ent.flyModule.GainMagicFly();
     }
 
     public override bool ExternalCondition()
@@ -41,20 +48,10 @@ public class Fly_bossSkill : GOAP_Skills_Base
         
     }
 
-    public void GoUp()
-    {
-        
-    }
-
-    public void GoDown()
-    {
- 
-    }
-
     protected override void OnInitialize()
     {
         _anim = owner.GetComponentInChildren<Animator>(); ;
-
+        _ent = owner.GetComponent<Ente>();
     }
 
     protected override void OnPause()

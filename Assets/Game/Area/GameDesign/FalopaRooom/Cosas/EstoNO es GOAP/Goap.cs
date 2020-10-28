@@ -23,7 +23,11 @@ namespace GOAP
                 curr =>
                 {
                     if (watchdog == 0)
+                    {
+                        Debug.Log("ESTO ACA PUEDE SER QUE ENTRE?");
                         return Enumerable.Empty<AStarNormal<GoapState>.Arc>();
+                    }
+                        
                     else
                         watchdog--;
 

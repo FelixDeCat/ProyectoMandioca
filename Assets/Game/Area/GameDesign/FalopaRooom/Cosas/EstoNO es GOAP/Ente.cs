@@ -19,7 +19,7 @@ namespace GOAP
         public event Action OnSkillAction = delegate { };
         public event Action OnMeleeAttack = delegate { };
         public event Action OnTakeDmg = delegate { };
-        public event Action<Vector3> OnDeath = delegate { };
+        public event Action OnDeath = delegate { };
 
         [SerializeField] Transform _root = null;
         public Transform Root() => _root;
@@ -57,6 +57,8 @@ namespace GOAP
         [SerializeField] Color onHitColor = Color.white;
         [SerializeField] float onHitFlashTime = 0.1f;
         [SerializeField] bool damageFeedback = false;
+        public bool canBeInterrupted = true;
+        [SerializeField] SkinnedMeshRenderer skinnedMeshrenderer;
 
         void FixedUpdate()
         {
@@ -84,7 +86,7 @@ namespace GOAP
 
             //Life
             _lifeSystem = GetComponent<GenericLifeSystem>();
-            damagereciever.SetIsDamage(IsDamaged).AddDead(OnDeath).AddTakeDamage(TakeDamageFeedback).Initialize(_root, _rb, _lifeSystem);
+            damagereciever.SetIsDamage(IsDamaged).AddDead(Death).AddTakeDamage(TakeDamageFeedback).Initialize(_root, _rb, _lifeSystem);
 
 
             //Animation
@@ -126,8 +128,9 @@ namespace GOAP
 
 
 
-            if(!damageFeedback)
+            if(canBeInterrupted && !damageFeedback)
             {
+                Anim().Play("GetDamage");
                 damageFeedback = true;
                 OnTakeDmg?.Invoke();
                 StartCoroutine(StopDamageInput());
@@ -144,29 +147,29 @@ namespace GOAP
 
         public IEnumerator OnHitted(float onHitFlashTime, Color onHitColor)
         {
-            var smr = GetComponentsInChildren<SkinnedMeshRenderer>();
+            Material[] mats = skinnedMeshrenderer.materials;
 
-            for (int i = 0; i < smr.Length; i++)
+            for (int j = 0; j < onHitFlashTime; j++)
             {
-                if (smr[i] != null)
+                if (j < (onHitFlashTime / 2f))
                 {
-                    Material[] mats = smr[i].materials;
-                    for (int j = 0; j < onHitFlashTime; j++)
-                    {
-                        if (j < (onHitFlashTime / 2f))
-                        {
-                            mats[0].SetColor("_EmissionColor", Color.Lerp(Color.black, onHitColor, j / (onHitFlashTime / 2f)));
-                        }
-                        else
-                        {
-                            mats[0].SetColor("_EmissionColor", Color.Lerp(onHitColor, Color.black, (j - (onHitFlashTime / 2f)) / (onHitFlashTime / 2f)));
-                        }
-                        yield return new WaitForSeconds(0.01f);
-                    }
-                    mats[0].SetColor("_EmissionColor", Color.black);
+                    mats[0].SetColor("_EmissionColor", Color.Lerp(Color.black, onHitColor, j / (onHitFlashTime / 2f)));
                 }
+                else
+                {
+                    mats[0].SetColor("_EmissionColor", Color.Lerp(onHitColor, Color.black, (j - (onHitFlashTime / 2f)) / (onHitFlashTime / 2f)));
+                }
+                yield return new WaitForSeconds(0.01f);
             }
+            mats[0].SetColor("_EmissionColor", Color.black);
            
+        }
+
+        void Death(Vector3 v3)
+        {
+            OnDeath?.Invoke();
+
+            Destroy(gameObject);
         }
 
         #endregion
