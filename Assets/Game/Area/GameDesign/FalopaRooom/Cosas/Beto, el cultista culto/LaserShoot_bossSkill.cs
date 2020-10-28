@@ -12,7 +12,7 @@ public class LaserShoot_bossSkill : GOAP_Skills_Base
     [SerializeField] int _amount = 5;
     [SerializeField] LayerMask _mask = 0;
     Ente _ent;
-
+    Animator _anim;
     [SerializeField] PlayObject corruptVomito_pf = null;
  
     [SerializeField] float timeBwtShoots = 0.5f;
@@ -25,9 +25,10 @@ public class LaserShoot_bossSkill : GOAP_Skills_Base
         //owner.GetComponentInChildren<Animator>().Play("Idle");
         Debug.Log("FRENO EL LASERSHOOOOT");
         StopCoroutine(ametralladora);
-        owner.GetComponent<Ente>().OnSkillAction -= ShootLaser;
-        owner.GetComponent<Ente>().OnTakeDmg -= InterruptSkill;
+        _ent.OnSkillAction -= ShootLaser;
+        _ent.OnTakeDmg -= InterruptSkill;
 
+        _anim.SetTrigger("finishSkill");
     }
 
     protected override void OnExecute()
@@ -35,19 +36,20 @@ public class LaserShoot_bossSkill : GOAP_Skills_Base
         Debug.Log("INICIO LOS TIROS");
         _amount = 0;
 
-        owner.GetComponent<Ente>().OnTakeDmg += InterruptSkill;
-        owner.GetComponent<Ente>().OnSkillAction += ShootLaser;
+        _ent.OnTakeDmg += InterruptSkill;
+        _ent.OnSkillAction += ShootLaser;
 
         ametralladora = Ametralladora();
         StartCoroutine(ametralladora);
-    }
+
+    }  
 
     IEnumerator Ametralladora()
     {
         while(_amount < amountLaser)
         {
             _amount++;
-            owner.GetComponentInChildren<Animator>().Play("LaserShoot");
+            _anim.Play("StartCastOrb");
             yield return new WaitForSeconds(timeBwtShoots);
         }
 
@@ -97,9 +99,9 @@ public class LaserShoot_bossSkill : GOAP_Skills_Base
     {
         _ent = owner.GetComponent<Ente>();
 
-        
-        ThrowablePoolsManager.instance.CreateAPool(rayo_pf.name, rayo_pf);
-        
+        _anim = owner.GetComponentInChildren<Animator>();
+
+        ThrowablePoolsManager.instance.CreateAPool(rayo_pf.name, rayo_pf); 
         
         PoolManager.instance.GetObjectPool(corruptVomito_pf.name, corruptVomito_pf);
     }

@@ -160,7 +160,7 @@ namespace GOAP
             {
                 _auxCount += Time.deltaTime;
 
-                if (_auxCount >= 3)
+                if (_auxCount >= 4)
                 {
                     _ent.Stop();
                     NextStep();
@@ -219,16 +219,15 @@ namespace GOAP
                 _auxCount = 0;
                 _ent.Stop();
                 _planner.StopPlanning();
+                _ent.Anim().Play("GetDamage");
             };
 
             getDamaged.OnUpdate += () =>
             {
                 _auxCount += Time.deltaTime;
 
-                if (_auxCount >= 4)
-                {
-                    Debug.Log("QUE PASAAASDFASFAFD");
-                    
+                if (_auxCount >= 2)
+                {    
                     FailedStep();
                 }
             };

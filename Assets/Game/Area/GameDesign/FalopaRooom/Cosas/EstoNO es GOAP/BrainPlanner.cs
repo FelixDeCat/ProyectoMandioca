@@ -172,7 +172,7 @@ namespace GOAP
         protected virtual int Final(GoapState gS)
         {
             int h = 0;
-            if (gS.worldStateSnap.charLife > 0) h += 1;
+            if (gS.valoresInt["HeroLife"] > 0) h += 1;
             return h;
         }
 

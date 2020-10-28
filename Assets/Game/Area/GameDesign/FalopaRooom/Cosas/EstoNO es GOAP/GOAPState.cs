@@ -8,7 +8,7 @@ namespace GOAP
     {
         //podrias tener las variables directamente en GoapState y no necesariamente en una variable como esta adentro,
         //lo que te sea mas prolijo
-        public WorldStateSnapShot worldStateSnap;
+        //public WorldStateSnapShot worldStateSnap;
 
         public Dictionary<string, bool> valoresBool = new Dictionary<string, bool>();
         public Dictionary<string, float> valoresFloat = new Dictionary<string, float>();

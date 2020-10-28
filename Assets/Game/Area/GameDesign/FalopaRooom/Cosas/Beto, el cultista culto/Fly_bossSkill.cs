@@ -11,8 +11,9 @@ public class Fly_bossSkill : GOAP_Skills_Base
     public Vector3 _dest_pos;
     public Waypoint wp;
     Vector3 _dir;
+    Animator _anim;
 
-    
+
     float speedScaler;
 
     protected override void OnEndSkill()
@@ -24,7 +25,7 @@ public class Fly_bossSkill : GOAP_Skills_Base
     {
         _ent = owner.GetComponent<Ente>();
 
-
+        _anim.Play("StartFly");
         _ent.flyModule.GainMagicFly();
 
         _ent.flyModule.OnFinishMovement += EndSkill;
@@ -52,7 +53,7 @@ public class Fly_bossSkill : GOAP_Skills_Base
 
     protected override void OnInitialize()
     {
-        
+        _anim = owner.GetComponentInChildren<Animator>(); ;
 
     }
 
@@ -83,6 +84,7 @@ public class Fly_bossSkill : GOAP_Skills_Base
 
     protected override void OnInterruptSkill()
     {
-        throw new System.NotImplementedException();
+        
     }
+   
 }

@@ -54,6 +54,9 @@ namespace GOAP
 
         [Header("Feedback")]
         [SerializeField] ParticleSystem takeDamage_fb = null;
+        [SerializeField] Color onHitColor = Color.white;
+        [SerializeField] float onHitFlashTime = 0.1f;
+        [SerializeField] bool damageFeedback = false;
 
         void FixedUpdate()
         {
@@ -68,6 +71,7 @@ namespace GOAP
         {
            
             _anim.SetFloat("speed", _rb.velocity.magnitude);
+            _anim.SetInteger("heighLevel", heightLevel);
 
             debugLife = Life.Life;
         }      
@@ -111,26 +115,59 @@ namespace GOAP
 
         void TakeDamageFeedback(DamageData dData)
         {
-            Debug.Log("Y ACA? ESTO ESTA EN EL ENTE");
-
-            OnTakeDmg?.Invoke();
+            //Debug.Log("Y ACA? ESTO ESTA EN EL ENTE");
+            WorldState.instance.valoresBool["OwnerGetDamage"] = true;
+            StartCoroutine(OnHitted(onHitFlashTime, onHitColor));
             takeDamage_fb.Play();
-            Anim().Play("GetDamage");
+            
 
             if (heightLevel == 1)
                 flyModule.LoseMagicFly();
 
-            StartCoroutine(StopDamageInput());
+
+
+            if(!damageFeedback)
+            {
+                damageFeedback = true;
+                OnTakeDmg?.Invoke();
+                StartCoroutine(StopDamageInput());
+            }
         }
 
         IEnumerator StopDamageInput()
         {
-            _isDamaged = true;
-            yield return new WaitForSeconds(2f);
-            _isDamaged = false;
+            yield return new WaitForSeconds(5);
+            damageFeedback = false;
         }
 
         public bool IsDamaged(){return _isDamaged; }
+
+        public IEnumerator OnHitted(float onHitFlashTime, Color onHitColor)
+        {
+            var smr = GetComponentsInChildren<SkinnedMeshRenderer>();
+
+            for (int i = 0; i < smr.Length; i++)
+            {
+                if (smr[i] != null)
+                {
+                    Material[] mats = smr[i].materials;
+                    for (int j = 0; j < onHitFlashTime; j++)
+                    {
+                        if (j < (onHitFlashTime / 2f))
+                        {
+                            mats[0].SetColor("_EmissionColor", Color.Lerp(Color.black, onHitColor, j / (onHitFlashTime / 2f)));
+                        }
+                        else
+                        {
+                            mats[0].SetColor("_EmissionColor", Color.Lerp(onHitColor, Color.black, (j - (onHitFlashTime / 2f)) / (onHitFlashTime / 2f)));
+                        }
+                        yield return new WaitForSeconds(0.01f);
+                    }
+                    mats[0].SetColor("_EmissionColor", Color.black);
+                }
+            }
+           
+        }
 
         #endregion
 

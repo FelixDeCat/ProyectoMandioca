@@ -60,17 +60,18 @@ public class DungeonBoss_BrainPlanner : BrainPlanner
                         }),
                      new GoapAction("useSkill ThunderWave")
                         .SetCost(thunderWave)
-                        .Pre(gS => gS.valoresBool["ThunderWave"] && gS.valoresFloat["DistanceToHero"] <= 10f && gS.valoresBool["OnGround"]) //
+                        .Pre(gS => gS.valoresBool["ThunderWave"] && gS.valoresFloat["DistanceToHero"] <= 10f && gS.valoresBool["OnGround"] && gS.valoresBool["OwnerGetDamage"]) //
 
                         .Effect(gS =>
                         {
+                            gS.valoresBool["OwnerGetDamage"] = false;
                             gS.valoresBool["ThunderWave"] = false;
-                            gS.valoresInt["HeroLife"] -= 5;
+                            gS.valoresInt["HeroLife"] -= 15;
                             gS.valoresFloat["DistanceToHero"] += 15;
                         }),
                         new GoapAction("useSkill LaserShoot")
                         .SetCost(laserShoot)
-                        .Pre(gS =>  gS.valoresBool["LaserShoot"] &&  gS.valoresFloat["DistanceToHero"] <= 30f) // !gS.values["OnGround"] && gS.distanceToHero >= 1f && 
+                        .Pre(gS =>  gS.valoresBool["LaserShoot"] &&  gS.valoresFloat["DistanceToHero"] >= 5f && gS.valoresFloat["DistanceToHero"] <= 30f) // !gS.values["OnGround"]  && 
 
                         .Effect(gS =>
                         {
@@ -87,7 +88,8 @@ public class DungeonBoss_BrainPlanner : BrainPlanner
         int h = 0;
         if (gS.valoresInt["HeroLife"] > 0) h += 1;
         //if (gS.valoresFloat["DistanceToHero"] <= 5) h += 1;
-        if (gS.valoresBool["OnGround"] == true) h += 5;
+        if (gS.valoresBool["OnGround"] == true) h += 3;
+        if (gS.valoresBool["OwnerGetDamage"]) h += 1;
         return h;
     }
 
