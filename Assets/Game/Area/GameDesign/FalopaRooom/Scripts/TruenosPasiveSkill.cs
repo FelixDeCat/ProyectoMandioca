@@ -50,10 +50,11 @@ public class TruenosPasiveSkill : MonoBehaviour
         var enemis = Extensions.FindInRadius<DamageReceiver>(_hero.transform.position, range);
         for (int i = 0; i < enemis.Count; i++)
         {
-            if (enemis[i].GetComponent<EffectReceiver>() != null && enemis[i].GetComponent<EntityBase>() != _hero)
+            if ( enemis[i].GetComponent<EntityBase>() != _hero)
             {
-                enemis[i].GetComponent<EffectReceiver>().TakeEffect(EffectName.OnFreeze,stunTimer);
                 enemis[i].TakeDamage(dmgDATA);
+                if(enemis[i].GetComponent<EffectReceiver>() != null)
+                    enemis[i].GetComponent<EffectReceiver>().TakeEffect(EffectName.OnFreeze,stunTimer);
             }
         }
     }
