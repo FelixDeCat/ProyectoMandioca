@@ -8,11 +8,13 @@ public class ThrowSpell : Throwable
     [SerializeField] AudioClip parrySound = null;
     [SerializeField] ParticleSystem explosionParticle = null;
     [SerializeField] ParticleSystem mainParticles = null;
+    [SerializeField] float lifeTime = 12; 
 
     bool move;
     bool noFloorCollision;
     float timer;
     float timeToCol = 0.2f;
+    float timerToDissappear;
 
     protected override void Start()
     {
@@ -34,6 +36,7 @@ public class ThrowSpell : Throwable
         noFloorCollision = true;
         timer = 0;
         AudioManager.instance.PlaySound(parrySound.name);
+        timerToDissappear = 0;
     }
 
     protected override void OnFloorCollision()
@@ -43,6 +46,7 @@ public class ThrowSpell : Throwable
         move = false;
         ParticlesManager.Instance.PlayParticle(explosionParticle.name, transform.position);
         OnMiss_HitFloor_Callback?.Invoke(transform.position);
+        timerToDissappear = 0;
         Dissappear();
     }
 
@@ -64,6 +68,15 @@ public class ThrowSpell : Throwable
                 noFloorCollision = false;
             }
         }
+
+        timerToDissappear += Time.deltaTime;
+
+        if (timerToDissappear >= lifeTime)
+        {
+            move = false;
+            timerToDissappear = 0;
+            Dissappear();
+        } 
     }
 
     protected override void NonParry()
@@ -75,6 +88,7 @@ public class ThrowSpell : Throwable
         Dissappear();
         noFloorCollision = false;
         timer = 0;
+        timerToDissappear = 0;
     }
 
     public override void Pause()

@@ -138,7 +138,6 @@ public class CharacterInput : MonoBehaviour
         if (Input.GetButtonDown("LockOn")) LockON.Invoke();
 
         if (Input.GetKeyDown(KeyCode.Alpha1)) R_Stick_Central_Button.Invoke();
-        if (Input.GetKeyDown(KeyCode.X)) L_Stick_Central_Button.Invoke();
 
         if (Input.GetButtonDown("SwitchActive")) SwitchActive.Invoke();
 
