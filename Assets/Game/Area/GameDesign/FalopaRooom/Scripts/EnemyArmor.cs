@@ -6,11 +6,17 @@ public class EnemyArmor : MonoBehaviour
 {
     [SerializeField] DamageReceiver armoredObject = null;
     [SerializeField] PropDestructible armor = null;
+    [SerializeField] ParticleSystem armorHitParticle = null;
+    [SerializeField] AudioClip armorHitSound = null;
 
     private void Start()
     {
         armoredObject.AddInvulnerability(Damagetype.Normal);
+        armoredObject.AddInmuneFeedback(InvulnerabilityFeedback);
         armoredObject.AddInvulnerability(Damagetype.Heavy);
+
+        ParticlesManager.Instance.GetParticlePool(armorHitParticle.name, armorHitParticle);
+        AudioManager.instance.GetSoundPool(armorHitSound.name, AudioGroups.GAME_FX, armorHitSound);
     }
 
     public void LoseArmor()
@@ -23,6 +29,7 @@ public class EnemyArmor : MonoBehaviour
     {
         armoredObject.AddInvulnerability(Damagetype.Normal);
         armoredObject.AddInvulnerability(Damagetype.Heavy);
+        armoredObject.AddInmuneFeedback(InvulnerabilityFeedback);
         StopAllCoroutines();
         armor.gameObject.SetActive(true);
         armor.OnReset();
@@ -33,5 +40,12 @@ public class EnemyArmor : MonoBehaviour
         yield return new WaitForSeconds(1);
         armoredObject.RemoveInvulnerability(Damagetype.Heavy);
         armoredObject.RemoveInvulnerability(Damagetype.Normal);
+        armoredObject.RestInmuneFeedback(InvulnerabilityFeedback);
+    }
+
+    void InvulnerabilityFeedback()
+    {
+        ParticlesManager.Instance.PlayParticle(armorHitParticle.name, transform.position);
+        AudioManager.instance.PlaySound(armorHitSound.name);
     }
 }

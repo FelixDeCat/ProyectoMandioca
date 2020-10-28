@@ -72,6 +72,12 @@ public class DamageReceiver : MonoBehaviour
         return this;
     }
 
+    public DamageReceiver RestInmuneFeedback(Action _InmuneFeedback)
+    {
+        InmuneFeedback -= _InmuneFeedback;
+        return this;
+    }
+
     public DamageReceiver SetBlock(Func<Vector3, Vector3, Vector3, bool> _IsBlock, Action<EntityBase> _Block)
     {
         blockEntity = true;
