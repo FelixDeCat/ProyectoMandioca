@@ -10,11 +10,13 @@ namespace Tools.StateMachine
         GenericEnemyMove moveComp;
         CombatDirectorElement enemy;
         float viewTime;
-        public WendigoPrepareRange(EState<WendigoEnemy.WendigoInputs> myState, WendigoView _view, GenericEnemyMove _moveComp, CombatDirectorElement _enem, EventStateMachine<WendigoEnemy.WendigoInputs> _sm) : base(myState, _sm)
+        float throwTime;
+        public WendigoPrepareRange(EState<WendigoEnemy.WendigoInputs> myState, WendigoView _view, GenericEnemyMove _moveComp, CombatDirectorElement _enem, EventStateMachine<WendigoEnemy.WendigoInputs> _sm, float _throwTime) : base(myState, _sm)
         {
             view = _view;
             moveComp = _moveComp;
             enemy = _enem;
+            throwTime = _throwTime;
         }
 
         protected override void Enter(EState<WendigoEnemy.WendigoInputs> last)
@@ -26,7 +28,7 @@ namespace Tools.StateMachine
         {
 
             viewTime += Time.deltaTime;
-            if (viewTime > 2)
+            if (viewTime > throwTime)
             {
                 sm.SendInput(WendigoEnemy.WendigoInputs.RANGEAR);
             }

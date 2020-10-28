@@ -18,50 +18,21 @@ public class WendigoEnemy : EnemyWithCombatDirector
     bool hasThrowable;
     [SerializeField] Throwable throwObject = null;
     [SerializeField] AnimEvent animEvents = null;
-
-
-    //No esta checkeado
-    [SerializeField] float rotationSpeed = 9;
-    [Header("Combat Options")]
     [SerializeField] Transform shootPivot = null;
-    [SerializeField] float throwForce = 6;
-    [SerializeField] float cdToCast = 2;
+    [SerializeField] float throwMultipier = 6;
     [SerializeField] int damage = 2;
-    [SerializeField] float attackRecall = 2;
     [SerializeField] LineOfSight lineOfSight = null;
-
-    [Header("Life Options")]
-    [SerializeField] float recallTime = 1;
-
+    [SerializeField] float throwTime;
     private bool cooldown = false;
-    private float timercooldown = 0;
-
-    float timerToCast;
     bool stopCD;
-    bool castingOver;
     bool isRotating;
-
-    [Header("Feedback")]
-    private Material[] myMat;
-    [SerializeField] Color onHitColor = Color.white;
-    [SerializeField] float onHitFlashTime = 0.1f;
-    ParticleSystem castPartTemp;
-    [SerializeField] EffectBase petrifyEffect = null;
     EventStateMachine<WendigoInputs> sm;
-
     protected override void OnInitialize()     //Inicia las cosas
     {
-        //TODO view
         //cosas
         base.OnInitialize();
         Main.instance.eventManager.TriggerEvent(GameEvents.ENEMY_SPAWN, new object[] { this });
         moveComponent.Configure(rootTransform, rb, groundSensor);
-
-        //Particulas
-
-        //Materials
-
-        //Audio
 
         //RigidBody
         rb = GetComponent<Rigidbody>();
@@ -77,8 +48,6 @@ public class WendigoEnemy : EnemyWithCombatDirector
 
         //Combat Director
         IAInitialize(Main.instance.GetCombatDirector());
-
-        //Effects
 
         //Pool de throws
         ThrowablePoolsManager.instance.CreateAPool(throwObject.name, throwObject);
@@ -111,7 +80,7 @@ public class WendigoEnemy : EnemyWithCombatDirector
         {
             Vector3 direction = (combatElement.CurrentTarget().transform.position + Vector3.up - shootPivot.position).normalized;
             Vector3 dir = combatElement.CurrentTarget() ? direction : transform.forward;
-            ThrowData newData = new ThrowData().Configure(shootPivot.position, dir, distancePos * 2, damage, rootTransform);
+            ThrowData newData = new ThrowData().Configure(shootPivot.position, dir, distancePos * throwMultipier, damage, rootTransform);
             ThrowablePoolsManager.instance.Throw(throwObject.name, newData);
         }
         sm.SendInput(WendigoEnemy.WendigoInputs.OBSERVATION);
@@ -207,7 +176,7 @@ public class WendigoEnemy : EnemyWithCombatDirector
         new WendigoPrepareMelee(prepMelee, view, sm);
         new WendigoMelee(melee, view, Rotate, sm).SetDirector(director);
         new WendigoGrabRock(grabThing, () => hasThrowable = true, view, sm);
-        new WendigoPrepareRange(prepRange, view, moveComponent, combatElement, sm).SetRoot(rootTransform);
+        new WendigoPrepareRange(prepRange, view, moveComponent, combatElement, sm, throwTime).SetRoot(rootTransform);
         new WendigoRange(prepRange, view, Rotate, sm);
 
 
