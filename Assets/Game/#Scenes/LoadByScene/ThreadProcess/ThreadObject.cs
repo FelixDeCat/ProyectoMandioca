@@ -19,6 +19,11 @@ public class ThreadObject
         keyUniqueProcess = _keyUniqueProcess;
     }
 
+    public override bool Equals(object obj)
+    {
+        return ((ThreadObject)obj).Key_Unique_Process == this.Key_Unique_Process;
+    }
+
     public IEnumerator Process()
     {
         yield return process;

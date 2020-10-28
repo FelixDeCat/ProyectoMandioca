@@ -122,37 +122,13 @@ public class LocalSceneHandler : LoadComponent
             }
             else
             {
-                if (preftype == PrefabType.gameplay)
-                {
-                    ThreadHandler.EnqueueProcess(new ThreadObject(Inst(preftype), "+ " + this.gameObject.name + "::> " + preftype.ToString(), KEY_GAMEPLAY));
-                    go = gameplay;
-                }
-                if (preftype == PrefabType.landmark)
-                {
-                    ThreadHandler.EnqueueProcess(new ThreadObject(Inst(preftype), "+ " + this.gameObject.name + "::> " + preftype.ToString(), KEY_LANDMARK));
-                    go = landmark;
-                }
-                if (preftype == PrefabType.low)
-                {
-                    ThreadHandler.EnqueueProcess(new ThreadObject(Inst(preftype), "+ " + this.gameObject.name + "::> " + preftype.ToString(), KEY_LOW));
-                    go = low_detail;
-                }
-                if (preftype == PrefabType.med)
-                {
-                    ThreadHandler.EnqueueProcess(new ThreadObject(Inst(preftype), "+ " + this.gameObject.name + "::> " + preftype.ToString(), KEY_MED));
-                    go = medium_detail;
-                }
-                if (preftype == PrefabType.high)
-                {
-                    ThreadHandler.EnqueueProcess(new ThreadObject(Inst(preftype), "+ " + this.gameObject.name + "::> " + preftype.ToString(), KEY_HIGH));
-                    go = hight_detail;
-                }
+                ThreadHandler.EnqueueProcess(new ThreadObject(Inst(preftype), "+ " + this.gameObject.name + "::> " + preftype.ToString(), GetKeyByPrefType(preftype)));
+                if (preftype == PrefabType.gameplay) go = gameplay;
+                if (preftype == PrefabType.landmark) go = landmark;
+                if (preftype == PrefabType.low) go = low_detail;
+                if (preftype == PrefabType.med) go = medium_detail;
+                if (preftype == PrefabType.high) go = hight_detail;
 
-                //if (preftype == PrefabType.gameplay) go = gameplay;
-                //if (preftype == PrefabType.high) go = hight_detail;
-                //if (preftype == PrefabType.med) go = medium_detail;
-                //if (preftype == PrefabType.low) go = low_detail;
-                //if (preftype == PrefabType.landmark) go = landmark;
                 if (go != null)
                 {
                     var aux = go.GetComponent<AsyncLoaderHandler>();
@@ -169,7 +145,7 @@ public class LocalSceneHandler : LoadComponent
             {
                 if (go.activeSelf)
                 {
-                    ThreadHandler.EnqueueProcess(new ThreadObject(ShutDownProcess(go), "(-)" + this.gameObject.name + preftype.ToString()));
+                    ThreadHandler.EnqueueProcess(new ThreadObject(ShutDownProcess(go), "(-)" + this.gameObject.name + preftype.ToString(), GetKeyByPrefType(preftype)));
                 }
             }
         }
@@ -177,9 +153,19 @@ public class LocalSceneHandler : LoadComponent
         {
             if (go != null)
             {
-                ThreadHandler.EnqueueProcess(new ThreadObject(DestroyProcess(go), "(X)" + this.gameObject.name + preftype.ToString()));
+                ThreadHandler.EnqueueProcess(new ThreadObject(DestroyProcess(go), "(X)" + this.gameObject.name + preftype.ToString(), GetKeyByPrefType(preftype)));
             }
         }
+    }
+
+    string GetKeyByPrefType(PrefabType prefabType)
+    {
+        if (prefabType == PrefabType.gameplay) return KEY_GAMEPLAY;
+        if (prefabType == PrefabType.landmark) return KEY_LANDMARK;
+        if (prefabType == PrefabType.low) return KEY_LOW;
+        if (prefabType == PrefabType.high) return KEY_HIGH;
+        if (prefabType == PrefabType.med) return KEY_MED;
+        return "null";
     }
 
     IEnumerator ShutDownProcess(GameObject go)
