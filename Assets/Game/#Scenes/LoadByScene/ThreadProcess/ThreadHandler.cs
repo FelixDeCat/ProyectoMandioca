@@ -25,6 +25,8 @@ public class ThreadHandler : MonoBehaviour
     {
         string unique_key = obj.Key_Unique_Process;
 
+        
+
         //todo este if es para pisar procesos, onda de que si tengo el proceso de hide antes del de show... no me esconda y luego muestre que queda feo
         if (unique_key != "null")
         {
@@ -50,6 +52,8 @@ public class ThreadHandler : MonoBehaviour
                 #endregion
             }
         }
+
+
 
         process_queue.Enqueue(obj);
 
@@ -87,7 +91,7 @@ public class ThreadHandler : MonoBehaviour
            
             var aux = process_queue.Peek();
             CurrentProcess.text = "Processing... " + aux.Name_Process;
-            //GameMessage.Log(new MsgLogData("Processing: " + aux.Name_Process, new Color(0, 0, 0, 0), Color.green, 0.4f));
+            GameMessage.Log(new MsgLogData("Processing: " + aux.Name_Process, new Color(0, 0, 0, 0), Color.green, 0.5f));
             yield return aux.Process();
 
             string unique_key = aux.Key_Unique_Process;
