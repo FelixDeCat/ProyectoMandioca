@@ -20,7 +20,9 @@ namespace Tools.StateMachine
 
         public void Awakening()
         {
+            sounds.mytransform = transform;
             anim.SetTrigger("Awake");
+            sounds.Initianlize();
         }
         public void DebugText(string _state)
         {
@@ -34,6 +36,7 @@ namespace Tools.StateMachine
         public void Movement(float vel)
         {
             anim.SetFloat("velocity", vel);
+            sounds.WalkClip();
         }
         public void ExitMov()
         {
@@ -42,6 +45,7 @@ namespace Tools.StateMachine
         public void Kick()
         {
             anim.SetTrigger("Kick");
+            sounds.HitTheGround();
         }
         public void GrabThing()
         {
@@ -54,7 +58,7 @@ namespace Tools.StateMachine
         public void Throw()
         {
             anim.SetTrigger("Throw");
-
+            sounds.ThrowAttackClip();
         }
         public void TurnOffThing()
         {
@@ -67,7 +71,11 @@ namespace Tools.StateMachine
         }
         public void Damaged()
         {
-
+            sounds.GetDamageClip();
+        }
+        public void Death()
+        {
+            sounds.DeathClip();
         }
     }
     public class DataBaseWendigoParticles
@@ -79,8 +87,30 @@ namespace Tools.StateMachine
     [System.Serializable]
     public class DataBaseWendigoSounds
     {
-        public AudioClip takeDmgSound;
-        public AudioClip attackSound;
+        public Transform mytransform;
+        [SerializeField] AudioClip _getDamageClip = null;
+        [SerializeField] AudioClip _throwAttackClip = null;
+        [SerializeField] AudioClip _beginFightClip = null;
+        [SerializeField] AudioClip _deathClip = null;
+        [SerializeField] AudioClip _hitTheGround = null;
+        [SerializeField] AudioClip _walk = null;
+
+        public void Initianlize()
+        {
+            AudioManager.instance.GetSoundPool(_getDamageClip.name, AudioGroups.GAME_FX, _getDamageClip);
+            AudioManager.instance.GetSoundPool(_throwAttackClip.name, AudioGroups.GAME_FX, _throwAttackClip);
+            AudioManager.instance.GetSoundPool(_beginFightClip.name, AudioGroups.GAME_FX, _beginFightClip);
+            AudioManager.instance.GetSoundPool(_deathClip.name, AudioGroups.GAME_FX, _deathClip);
+            AudioManager.instance.GetSoundPool(_hitTheGround.name, AudioGroups.GAME_FX, _hitTheGround);
+            AudioManager.instance.GetSoundPool(_walk.name, AudioGroups.GAME_FX, _walk);
+        }
+        public void SetRoot(Transform root) => mytransform = root;
+        public void GetDamageClip() => AudioManager.instance.PlaySound(_getDamageClip.name, mytransform);
+        public void ThrowAttackClip() => AudioManager.instance.PlaySound(_throwAttackClip.name, mytransform);
+        public void BeginFightClip() => AudioManager.instance.PlaySound(_beginFightClip.name, mytransform);
+        public void HitTheGround() => AudioManager.instance.PlaySound(_hitTheGround.name, mytransform);
+        public void DeathClip() => AudioManager.instance.PlaySound(_deathClip.name, mytransform);
+        public void WalkClip() => AudioManager.instance.PlaySound(_walk.name, mytransform);
     }
 
 }
