@@ -7,6 +7,7 @@ public class GenericBar_Sprites : GenericBar
     public void SetImageOriginalColor() { sp.color = originalColor; }
     public void SetImageColor(Color val) { sp.color = val; }
     Color originalColor;
+    public Color  OriginalColor { get { return originalColor; } }
     private void Start()
     {
         originalColor = sp.color;
