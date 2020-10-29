@@ -27,10 +27,17 @@ public abstract class Usable : Equipable
         bool cooldownActive = false;
         if (cooldown != null) cooldownActive = cooldown.IsRunning;
 
+        DebugCustom.Log("CanUSe", "CanUse", OnCanUse() + "," + predicate.Invoke() + "," + !cooldownActive);
+
         return OnCanUse() && predicate.Invoke() && !cooldownActive; 
     }
+    public void Basic_RAW_PressDown() { OnRAWPressDown(); }
+    public void Basic_RAW_PressUp() { OnRAWPressUp(); }
+
     public void Basic_PressDown() 
     {
+        OnPressDown();
+
         if (normal_cast != null || charge_module != null)
         {
             if (normal_cast != null)
@@ -49,10 +56,12 @@ public abstract class Usable : Equipable
             RealUse();
         }
 
-        OnPressDown();
+        
     }
     public void Basic_PressUp() 
     {
+        OnPressUp();
+
         if (normal_cast != null || charge_module != null)
         {
             if (normal_cast != null)
@@ -60,7 +69,7 @@ public abstract class Usable : Equipable
             else
                 charge_module.StopPress();
         }
-        OnPressUp();
+        
         canUpdateUse = false; 
     }
 
@@ -98,6 +107,8 @@ public abstract class Usable : Equipable
     #region abstracts
     protected abstract void OnPressDown();
     protected abstract void OnPressUp();
+    protected abstract void OnRAWPressDown();
+    protected abstract void OnRAWPressUp();
     protected abstract void OnExecute(int charges);
     protected abstract void OnUpdateUse();
     protected abstract bool OnCanUse();

@@ -83,6 +83,7 @@ public class EquipedManager : MonoBehaviour
                 }
                 else
                 {
+                    data.EnablePendingToRelease(false);
                     data.Use_PressUp();
                 }
             }
@@ -95,7 +96,9 @@ public class EquipedManager : MonoBehaviour
                 }
                 else
                 {
+                    data.EnablePendingToRelease(false);
                     data.Use_PressUp();
+                    
                 }
             }
         }
@@ -106,9 +109,16 @@ public class EquipedManager : MonoBehaviour
                 data.EnablePendingToRelease(false);
                 data.Use_PressUp();
             }
+
+            if (pressDown)
+            {
+                data.Use_Raw_PressDown();
+            }
+            else
+            {
+                data.Use_Raw_PressUp();
+            }
         }
-
-
 
         RefreshUI();
     }
@@ -255,6 +265,8 @@ public class EquipedManager : MonoBehaviour
         public bool IsConsumible => item.item.consumible;
         public void Use_PressDown() => itemBehaviour.Basic_PressDown();
         public void Use_PressUp() => itemBehaviour.Basic_PressUp();
+        public void Use_Raw_PressDown() { itemBehaviour.Basic_RAW_PressDown(); }
+        public void Use_Raw_PressUp() { itemBehaviour.Basic_RAW_PressUp(); }
         public bool RemoveAItem(int cant = 1)
         {
             if (item.cant > 0)
