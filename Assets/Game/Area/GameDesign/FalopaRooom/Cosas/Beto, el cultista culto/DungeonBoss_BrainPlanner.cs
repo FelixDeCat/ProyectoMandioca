@@ -77,7 +77,7 @@ public class DungeonBoss_BrainPlanner : BrainPlanner
 
                         .Effect(gS =>
                         {
-                            //gS.valoresBool["LaserShoot"] = false;
+                            gS.valoresBool["LaserShoot"] = false;
                             gS.valoresInt["HeroLife"] -= 5;
                         })
 

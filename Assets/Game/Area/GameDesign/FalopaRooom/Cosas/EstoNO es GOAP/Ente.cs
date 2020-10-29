@@ -87,7 +87,8 @@ namespace GOAP
             //Life
             _lifeSystem = GetComponent<GenericLifeSystem>();
             damagereciever.SetIsDamage(IsDamaged).AddDead(Death).AddTakeDamage(TakeDamageFeedback).Initialize(_root, _rb, _lifeSystem);
-
+          
+            
 
             //Animation
             _anim = GetComponentInChildren<Animator>();
@@ -100,7 +101,9 @@ namespace GOAP
             OnFinishAttack += () => attackSensor.gameObject.SetActive(false);
         }
 
-        public void Initialize(){GetComponent<Dude>().Initialize();}
+        public void Initialize(){GetComponent<Dude>().Initialize(); BossBarGeneric.Open();
+            BossBarGeneric.SetLife(Life.Life, Life.LifeMax);
+        }
 
         //void OnPlayerInMeleeRange(GameObject go) { OnMeleeRangeWithPlayer?.Invoke(); Debug.Log("TE ALCANCEEE"); }
         void OnMeleeAttackHit() => OnMeleeAttack?.Invoke();
@@ -121,7 +124,8 @@ namespace GOAP
             WorldState.instance.valoresBool["OwnerGetDamage"] = true;
             StartCoroutine(OnHitted(onHitFlashTime, onHitColor));
             takeDamage_fb.Play();
-            
+
+            BossBarGeneric.SetLife(Life.Life, Life.LifeMax);
 
             if (heightLevel == 1)
                 flyModule.LoseMagicFly();
@@ -130,9 +134,10 @@ namespace GOAP
 
             if(canBeInterrupted && !damageFeedback)
             {
+                OnTakeDmg?.Invoke();
+                Anim().ResetTrigger("finishSkill");
                 Anim().Play("GetDamage");
                 damageFeedback = true;
-                OnTakeDmg?.Invoke();
                 StartCoroutine(StopDamageInput());
             }
         }
@@ -169,6 +174,8 @@ namespace GOAP
         {
             OnDeath?.Invoke();
 
+            BossBarGeneric.SetLife(0, Life.LifeMax);
+            BossBarGeneric.Close();
             Destroy(gameObject);
         }
 

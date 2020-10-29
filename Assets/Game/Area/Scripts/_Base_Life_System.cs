@@ -7,8 +7,10 @@ public class _Base_Life_System : MonoBehaviour
 {
     protected LifeSystemBase lifesystem;
     public int life = 100;
+    
 
     public int Life { get { return (int)lifesystem.Life; } }
+    public int LifeMax { get { return (int)lifesystem.GetMax(); } }
 
     public void Initialize()
     {

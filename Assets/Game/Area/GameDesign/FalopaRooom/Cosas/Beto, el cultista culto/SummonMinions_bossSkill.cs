@@ -10,6 +10,7 @@ public class SummonMinions_bossSkill : GOAP_Skills_Base, ISpawner
 
     [SerializeField] PlayObject prefab = null;
     [SerializeField] int amountSummoned = 5;
+    [SerializeField] float spellDuration;
 
     Animator _anim;
     Ente _ent;
@@ -18,8 +19,8 @@ public class SummonMinions_bossSkill : GOAP_Skills_Base, ISpawner
     {
         Debug.Log("TERMINE DE SUMMONEAR");
         //owner.GetComponent<Ente>().OnFinishSkill -= EndSkill;
-        _ent.canBeInterrupted = true;
         _anim.SetTrigger("finishSkill");
+        _ent.canBeInterrupted = true;
     }
 
     public override bool ExternalCondition()
@@ -44,6 +45,12 @@ public class SummonMinions_bossSkill : GOAP_Skills_Base, ISpawner
             totemFeedback.StartGoToFeedback(pos, (x) => SpawnPrefab(x));
         }
 
+        StartCoroutine(SpellDuration());
+    }
+
+    IEnumerator SpellDuration()
+    {
+        yield return new WaitForSeconds(spellDuration);
         EndSkill();
     }
 

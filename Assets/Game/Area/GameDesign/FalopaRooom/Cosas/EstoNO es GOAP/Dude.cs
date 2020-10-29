@@ -45,6 +45,9 @@ namespace GOAP
         {
             if (initialized) return;
 
+           
+
+
             initialized = true;
 
             _ent = GetComponent<Ente>();
@@ -291,10 +294,10 @@ namespace GOAP
 
         public void ExecutePlan(List<Tuple<ActionEntity, Item>> plan)
         {
-            //foreach (var item in plan)
-            //{
-            //    Debug.Log("La accion es " + item.Item1 + " y el item es " + item.Item2.name);
-            //}
+            foreach (var item in plan)
+            {
+                Debug.Log("La accion es " + item.Item1 + " y el item es " + item.Item2.name);
+            }
 
             _plan = plan;
             _fsm.Feed(ActionEntity.NextStep);

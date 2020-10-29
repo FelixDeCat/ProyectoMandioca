@@ -17,47 +17,75 @@ public class LaserShoot_bossSkill : GOAP_Skills_Base
  
     [SerializeField] float timeBwtShoots = 0.5f;
 
-    IEnumerator ametralladora;
+    Coroutine ametralladora;
+    Coroutine waitToShoot;
+
+    public int cantidaddeApagadas;
 
     protected override void OnEndSkill()
     {
         //proba frenar el animator tambien
         //owner.GetComponentInChildren<Animator>().Play("Idle");
         //Debug.Log("FRENO EL LASERSHOOOOT");
-        StopCoroutine(ametralladora);
+        StopCoroutine(waitToShoot);
         _ent.OnSkillAction -= ShootLaser;
         _ent.OnTakeDmg -= InterruptSkill;
-
+        cantidaddeApagadas++;
+        Debug.Log("Se termina " + cantidaddeApagadas + " laser");
         _anim.SetTrigger("finishSkill");
+        
     }
 
     protected override void OnExecute()
     {
         //Debug.Log("INICIO LOS TIROS");
-        _amount = 0;
+        
 
         _ent.OnTakeDmg += InterruptSkill;
         _ent.OnSkillAction += ShootLaser;
 
-        ametralladora = Ametralladora();
-        StartCoroutine(ametralladora);
+        
+        //ametralladora = StartCoroutine(Ametralladora());
+        _amount = 0;
+        _anim.Play("StartCastOrb");
+
 
     }  
 
     IEnumerator Ametralladora()
     {
-        while(_amount < amountLaser)
+        _amount = 0;
+        while (_amount < amountLaser)
         {
             _amount++;
             _anim.Play("StartCastOrb");
+            Debug.Log("SHOOT MOTHERFUCKER");
             yield return new WaitForSeconds(timeBwtShoots);
         }
 
         EndSkill();
     }
 
+    IEnumerator WaitToShootAgain()
+    {
+        yield return new WaitForSeconds(timeBwtShoots);
+
+        if(_amount >= amountLaser)
+        {
+            EndSkill();
+        }
+        else
+        {
+        _anim.Play("StartCastOrb");
+        }
+
+    }
+
     void ShootLaser()
     {
+        
+        _amount++;
+
         ThrowData newData;
 
         if (_amount == amountLaser)
@@ -69,9 +97,10 @@ public class LaserShoot_bossSkill : GOAP_Skills_Base
             newData = new ThrowData().Configure(rayoOrigin.position + _ent.Root().forward * .5f, ((heroRoot.position + Vector3.up) - rayoOrigin.position).normalized, 13, 10, owner);
         }
 
-        Debug.Log("EL DANO QUE HACE ES " + newData.Damage);
         ThrowablePoolsManager.instance.Throw(rayo_pf.name, newData);
-        
+
+        waitToShoot = StartCoroutine(WaitToShootAgain());
+
     }
 
     void SummonSlowGoo(Vector3 summonPos)
@@ -134,6 +163,7 @@ public class LaserShoot_bossSkill : GOAP_Skills_Base
 
     protected override void OnInterruptSkill()
     {
-        //StopCoroutine(Ametralladora());
+        //StopCoroutine(ametralladora);
+        EndSkill();
     }
 }
