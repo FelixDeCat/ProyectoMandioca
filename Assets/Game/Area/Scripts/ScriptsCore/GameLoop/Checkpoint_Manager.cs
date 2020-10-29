@@ -114,7 +114,9 @@ public class Checkpoint_Manager : MonoBehaviour
     {
         var chr = Main.instance.GetChar();
         chr.transform.position = tr != null ? tr.position : Vector3.zero;
-        chr.transform.eulerAngles = tr != null ? tr.eulerAngles : Vector3.zero;
+        chr.Root.eulerAngles = tr != null ? tr.eulerAngles : Vector3.zero;
+        chr.GetComponentInChildren<CameraRotate>().CameraStartPosition();
+        Main.instance.GetMyCamera().InstantPosition();
     }
     public void Wait()
     {

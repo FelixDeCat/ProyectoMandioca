@@ -84,11 +84,8 @@ public class CustomCamera : MonoBehaviour
         }
 
         pingpongZoom.Updatear();
-        ShaderMask();
-        if(!lookAt)
+        if (!lookAt)
         transform.forward = Vector3.Slerp(transform.forward, myCameras[index].transform.forward, speedRot * Time.deltaTime);
-
-        
     }
 
     private void FixedUpdate()
@@ -132,60 +129,6 @@ public class CustomCamera : MonoBehaviour
     public void InstantPosition()
     {
         transform.position = target.position + offset;
-    }
-    void ShaderMask()
-    {
-        /////////////////////////////////////////////////////////////////////////////
-        //// HACER QUE ESTO FUNQUE
-        /////////////////////////////////////////////////////////////////////////////
-
-
-        RaycastHit hit;
-        var dir = Main.instance.GetChar().transform.position - this.transform.transform.position;
-        dir.Normalize();
-        if (Physics.Raycast(this.transform.transform.position, dir, out hit, 10000, _layermask_raycast_mask, QueryTriggerInteraction.Ignore))
-        {
-            if (hit.transform.GetComponent<MeshRenderer>())
-            {
-                if (currentObstacle != hit.collider)
-                {
-                    //currentObstacle?.GetComponent<MeshRenderer>().material.SetFloat("_Intensity", 1);
-                    currentObstacle = hit.collider;
-                    StartCoroutine(ShaderFade());
-                }
-            }
-            else
-            {
-             //   currentObstacle?.GetComponent<MeshRenderer>()?.material.SetFloat("_Intensity", 1);
-                currentObstacle = null;
-                StopCoroutine(ShaderFade());
-            }
-            DebugCustom.Log("CameraThings", "Raycast Hit Element", hit.transform.gameObject.name);
-
-            //para que era esto?
-            //Main.instance.GetChar().Mask(!hit.transform.GetComponent<CharacterHead>());
-
-        }
-        else
-        {
-          //  currentObstacle?.GetComponent<MeshRenderer>().material.SetFloat("_Intensity", 1);
-            currentObstacle = null;
-            StopCoroutine(ShaderFade());
-        }
-    }
-
-
-    IEnumerator ShaderFade()
-    {
-        float currentFade = 1f;
-
-        while (true)
-        {
-            currentFade -= 0.1f;
-            yield return new WaitForSeconds(fade);
-            if (currentObstacle && currentFade > 0.3f) currentObstacle.GetComponent<MeshRenderer>().material.SetFloat("_Intensity", currentFade);
-            else break;
-        }
     }
 
     public void BeginShakeCamera(float shake = -1)

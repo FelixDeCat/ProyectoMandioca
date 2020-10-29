@@ -17,12 +17,14 @@ public class CameraRotate : MonoBehaviour
 
     [SerializeField] float minDistance = 2.5f;
 
+    [SerializeField] Transform posToCheckpoint = null;
+
     [Header("Horizontal")]
     [SerializeField] GameObject rotatorX = null;
     [SerializeField] float sensitivityHorizontal = 0.5f;
     CharacterHead myChar;
 
-    [SerializeField] LayerMask _mask = 0<<21;
+    [SerializeField] LayerMask _mask = 0 << 21;
     public bool colliding;
     float raycastDist;
 
@@ -52,7 +54,7 @@ public class CameraRotate : MonoBehaviour
 
         initialVector = transform.position - (myChar.transform.position + offsetVec);
         initialVector.x = 0;
-                
+
         Debug_UI_Tools.instance.CreateSlider("HorSens", sensitivityHorizontal, minHorSens, maxHorSens, ChangeSensitivityHor);
         Debug_UI_Tools.instance.CreateSlider("VertSens", sensitivityVertical, minVertSens, maxVertSens, ChangeSensitivityVer);
         Debug_UI_Tools.instance.CreateToogle("Invert Horizontal", false, InvertAxisHor);
@@ -79,7 +81,7 @@ public class CameraRotate : MonoBehaviour
             if (Physics.Raycast(myChar.transform.position + offsetVec, direction, out hit, raycastDist, _mask))
             {
                 colliding = true;
-                if (hit.distance > minDistance )
+                if (hit.distance > minDistance)
                 {
                     Vector3 dir = hit.point - direction.normalized;
                     camConfig.position = dir;
@@ -122,7 +124,7 @@ public class CameraRotate : MonoBehaviour
             }
         }
     }
-    
+    float timer;
     string ChangeSensitivityHor(float val)
     {
         sensitivityHorizontal = val;
@@ -158,12 +160,12 @@ public class CameraRotate : MonoBehaviour
 
     public Vector2 zoomLimits;
     public void Zoom(float axis)
-    {                
+    {
         if (UseBezier || colliding) return;
         Vector3 dir = rotatorX.transform.position - (myChar.transform.position + offsetVec);
         Vector3 aux = rotatorX.transform.position + dir * axis;
         float dist = Vector3.Distance(aux, myChar.transform.position + offsetVec);
-        if (dist < zoomLimits.x || dist > zoomLimits.y) return; 
+        if (dist < zoomLimits.x || dist > zoomLimits.y) return;
 
         rotatorX.transform.position += dir * axis;
     }
@@ -206,5 +208,17 @@ public class CameraRotate : MonoBehaviour
     {
         if (!UseBezier) return;
         sliderTime = Mathf.Clamp(sliderTime + (vertical * vertAxis) / 100, 0, 1);
+    }
+
+    public void CameraStartPosition()
+    {
+        Vector3 distToChar = new Vector3(myChar.transform.position.x - posToCheckpoint.position.x, 0, myChar.transform.position.z - posToCheckpoint.position.z);
+        foreach (var item in bezierPoints)
+        {
+            float angle = Vector3.Angle(distToChar, new Vector3(myChar.transform.position.x - item.transform.position.x, 0, myChar.transform.position.z - item.transform.position.z));
+            item.transform.RotateAround(myChar.transform.position, Vector3.up, -angle);
+        }
+
+
     }
 }
