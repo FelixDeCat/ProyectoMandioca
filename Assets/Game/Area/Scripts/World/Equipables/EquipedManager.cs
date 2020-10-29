@@ -77,38 +77,27 @@ public class EquipedManager : MonoBehaviour
 
                 if (pressDown) //esto esta para que no vuelva a entrar si es pressup
                 {
-                    data.UseStarted = true;
                     if (data.RemoveAItem(1)) data.Use_PressDown();
                     if (data.INotHaveEnoughtQuantity) data.Unequip();
                     data.EnablePendingToRelease(true);
                 }
-                else
+                else if (data.PendingToRelease)
                 {
-                    if (data.UseStarted)
-                    {
-                        data.EnablePendingToRelease(false);
-                        data.Use_PressUp();
-                        data.UseStarted = false;
-                    }
+                    data.EnablePendingToRelease(false);
+                    data.Use_PressUp();
                 }
             }
             else
             {
                 if (pressDown)
                 {
-                    data.UseStarted = true;
                     data.Use_PressDown();
                     data.EnablePendingToRelease(true);
                 }
-                else
+                else if (data.PendingToRelease)
                 {
-                    if (data.UseStarted)
-                    {
-                        data.EnablePendingToRelease(false);
-                        data.Use_PressUp();
-                        data.UseStarted = false;
-                    }
-
+                    data.EnablePendingToRelease(false);
+                    data.Use_PressUp();
                 }
             }
         }
@@ -118,7 +107,6 @@ public class EquipedManager : MonoBehaviour
             {
                 data.EnablePendingToRelease(false);
                 data.Use_PressUp();
-                data.UseStarted = false;
             }
 
             if (pressDown)
@@ -207,8 +195,6 @@ public class EquipedManager : MonoBehaviour
         EquipedItem itemBehaviour;
         ItemInInventory item;
         bool pendingToRelease;
-
-        public bool UseStarted = false;
 
         public bool PendingToRelease { get => pendingToRelease; }
         #region Getters

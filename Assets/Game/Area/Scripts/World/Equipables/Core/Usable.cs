@@ -16,8 +16,6 @@ public abstract class Usable : Equipable
     public ChargeModule CargeModule => charge_module;
     #endregion
 
-    public bool UseStarted;
-
     Action CallbackOnUse = delegate { };
     public void Subscribe_Callback_OnUse(Action _callback) => CallbackOnUse = _callback;
 
@@ -56,10 +54,9 @@ public abstract class Usable : Equipable
         else
         {
             RealUse();
-        }
-
-        
+        }        
     }
+
     public void Basic_PressUp() 
     {
         OnPressUp();
