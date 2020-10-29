@@ -50,7 +50,11 @@ public class FastRename : MonoBehaviour
 
             Execute = false;
 
+            FindObjectOfType<LocalSceneHandler>().gameObject.name = this.gameObject.scene.name;
+            EditorSceneManager.MarkSceneDirty(this.gameObject.scene);
+
             DestroyImmediate(this.gameObject);
+            EditorSceneManager.SaveOpenScenes();
         }
     }
 }

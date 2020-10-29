@@ -22,6 +22,7 @@ public class LocalSceneHandlerEditor : Editor
     {
         _handler = (LocalSceneHandler)target;
         sceneName = _handler.gameObject.scene.name;
+        _handler.gameObject.name = _handler.gameObject.scene.name;
 
     }
     public override void OnInspectorGUI()
