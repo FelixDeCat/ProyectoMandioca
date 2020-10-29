@@ -9,20 +9,17 @@ public class DeformationController : MonoBehaviour
 
     public Shader deformation;
 
-    public InteractSensor _posPlayer;
+   
+
+    public GameObject pos;
 
    
     
 
-    private void Awake()
-    {
-        _posPlayer = FindObjectOfType<InteractSensor>();
-
-    }
 
     private void Update()
     {
-        Shader.SetGlobalVector("PosPepito", _posPlayer.transform.position);
+        Shader.SetGlobalVector("PosPepito", pos.transform.position);
 
       
     }
