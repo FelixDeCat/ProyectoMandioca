@@ -5,7 +5,7 @@ using UnityEngine;
 [ExecuteInEditMode]
 public class EnemyProxyManager : LoadComponent
 {
-    [SerializeField] string sceneName = "";
+    public string sceneName = "";
     [SerializeField] ProxyEnemyBase[] proxys = new ProxyEnemyBase[0];
     bool AlreadyProcessed = false;
 
