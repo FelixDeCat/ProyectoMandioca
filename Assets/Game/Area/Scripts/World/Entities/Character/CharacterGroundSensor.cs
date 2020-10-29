@@ -17,6 +17,16 @@ public class CharacterGroundSensor : MonoBehaviour
     [SerializeField] float maxAceleration = 15;
     [SerializeField] float maxhHeight = 1f;
 
+    [SerializeField] float heightSlope = 0.5f;
+    [SerializeField] float heightPadding = 0.05f;
+    [SerializeField] float maxGroundAngle = 120;
+
+    Vector2 input;
+    float angle;
+    float groundAngle;
+
+    RaycastHit raycastInfo;
+
     bool isGrounded;
     float timer;
     bool dontSnap;
@@ -83,26 +93,25 @@ public class CharacterGroundSensor : MonoBehaviour
 
     public void IsGrounded()
     {
-        RaycastHit hit;
 
-        if (Physics.Raycast(transform.position, -transform.up, out hit, height, floorMask))
-            GroundOneShot(hit.point.y);
-        else if(Physics.Raycast(transform.position + Vector3.right * widht, -transform.up, out hit, height, floorMask))
-            GroundOneShot(hit.point.y);
-        else if (Physics.Raycast(transform.position + Vector3.left * widht, -transform.up, out hit, height, floorMask))
-            GroundOneShot(hit.point.y);
-        else if (Physics.Raycast(transform.position + Vector3.forward * lenght, -transform.up, out hit, height, floorMask))
-            GroundOneShot(hit.point.y);
-        else if (Physics.Raycast(transform.position + Vector3.back * lenght, -transform.up, out hit, height, floorMask))
-            GroundOneShot(hit.point.y);
-        else if (Physics.Raycast(transform.position + Vector3.back * lenght + Vector3.right * widht, -transform.up, out hit, height, floorMask))
-            GroundOneShot(hit.point.y);
-        else if (Physics.Raycast(transform.position + Vector3.back * lenght + Vector3.left * widht, -transform.up, out hit, height, floorMask))
-            GroundOneShot(hit.point.y);
-        else if (Physics.Raycast(transform.position + Vector3.forward * lenght + Vector3.left * widht, -transform.up, out hit, height, floorMask))
-            GroundOneShot(hit.point.y);
-        else if (Physics.Raycast(transform.position + Vector3.forward * lenght + Vector3.right * widht, -transform.up, out hit, height, floorMask))
-            GroundOneShot(hit.point.y);
+        if (Physics.Raycast(transform.position, -transform.up, out raycastInfo, height, floorMask))
+            GroundOneShot(raycastInfo.point.y);
+        else if(Physics.Raycast(transform.position + Vector3.right * widht, -transform.up, out raycastInfo, height, floorMask))
+            GroundOneShot(raycastInfo.point.y);
+        else if (Physics.Raycast(transform.position + Vector3.left * widht, -transform.up, out raycastInfo, height, floorMask))
+            GroundOneShot(raycastInfo.point.y);
+        else if (Physics.Raycast(transform.position + Vector3.forward * lenght, -transform.up, out raycastInfo, height, floorMask))
+            GroundOneShot(raycastInfo.point.y);
+        else if (Physics.Raycast(transform.position + Vector3.back * lenght, -transform.up, out raycastInfo, height, floorMask))
+            GroundOneShot(raycastInfo.point.y);
+        else if (Physics.Raycast(transform.position + Vector3.back * lenght + Vector3.right * widht, -transform.up, out raycastInfo, height, floorMask))
+            GroundOneShot(raycastInfo.point.y);
+        else if (Physics.Raycast(transform.position + Vector3.back * lenght + Vector3.left * widht, -transform.up, out raycastInfo, height, floorMask))
+            GroundOneShot(raycastInfo.point.y);
+        else if (Physics.Raycast(transform.position + Vector3.forward * lenght + Vector3.left * widht, -transform.up, out raycastInfo, height, floorMask))
+            GroundOneShot(raycastInfo.point.y);
+        else if (Physics.Raycast(transform.position + Vector3.forward * lenght + Vector3.right * widht, -transform.up, out raycastInfo, height, floorMask))
+            GroundOneShot(raycastInfo.point.y);
         else
             isGrounded = false;
     }
@@ -125,10 +134,13 @@ public class CharacterGroundSensor : MonoBehaviour
         }
         lastY = y;
     }
-
+    [HideInInspector] public bool dontMultiply;
     float timerToSnap;
-    public void SnapToGround(Transform transformToSnap)
+    public Vector3 SnapToGround(Transform transformToSnap)
     {
+        dontMultiply = true;
+        Vector3 forward = new Vector3(transform.forward.x, VelY, transform.forward.z);
+        if (!isGrounded) return forward;
         if (dontSnap)
         {
             timerToSnap += Time.deltaTime;
@@ -139,38 +151,16 @@ public class CharacterGroundSensor : MonoBehaviour
                 timerToSnap = 0;
             }
 
-            return;
+            return forward;
         }
 
-        RaycastHit hit;
-        if (!Slope(transformToSnap))
-        {
-            if (Physics.Raycast(transform.position, -transform.up, out hit, 0.3f, floorMask))
-            {
-                if (Mathf.Abs(hit.point.y - transformToSnap.position.y) <= 0.05f) return;
+        groundAngle = Vector3.Angle(raycastInfo.normal, transformToSnap.forward);
+        if (groundAngle >= maxGroundAngle) return forward;
 
-                transformToSnap.position = new Vector3(transformToSnap.position.x, hit.point.y, transformToSnap.position.z);
-            }
-        }
-    }
+        forward = Vector3.Cross(raycastInfo.normal, -transformToSnap.right);
+        dontMultiply = false;
 
-    bool Slope(Transform transformToSnap)
-    {
-        RaycastHit hit;
-
-        Vector3 startPos = transform.forward * 0.35f + transform.up * 0.6f;
-
-        if (Physics.Raycast(transform.position + startPos, -transform.up, out hit, 0.8f, floorMask))
-        {
-            float result = Vector3.Dot(startPos, hit.normal);
-
-            var temp = Mathf.Abs(hit.point.y - transformToSnap.position.y);
-            if (hit.point.y <= transformToSnap.position.y || temp <= 0.05f || result <= maxhHeight) return false;
-
-            transformToSnap.position = new Vector3(transformToSnap.position.x, hit.point.y, transformToSnap.position.z);
-            return true;
-        }
-        return false;
+        return forward;
     }
 
     public void AddForce(float force)

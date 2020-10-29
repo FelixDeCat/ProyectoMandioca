@@ -128,7 +128,7 @@ public class CharacterMovement
 
         float absVal = Mathf.Abs(movX) + Mathf.Abs(movY);
 
-        if (absVal >= 1.5f) { movX = Mathf.Clamp(movX, -0.75f, 0.75f); movY = Mathf.Clamp(movY, -0.75f, 0.75f); }
+        if (absVal >= 1.5f) { movX = Mathf.Clamp(movX, -0.75f, 0.75f); movY = Mathf.Clamp(movY, -0.75f, 0.75f); absVal = 1.5f; }
 
         Vector3 right = Vector3.Cross(Vector3.up, myCamera.forward);
         Vector3 forward = Vector3.Cross(right, Vector3.up);
@@ -137,14 +137,15 @@ public class CharacterMovement
         auxNormalized += forward.normalized * (movY * currentSpeed);
 
         Rotation(auxNormalized.normalized.x, auxNormalized.normalized.z);
+        Vector3 finalVel = Vector3.zero;
 
-        if(absVal > 0) isGrounded.SnapToGround(_rb.transform);
+        finalVel = isGrounded.SnapToGround(rotTransform);
 
         if (!isGrounded.IsInGround)
         {
             groundedPrecautionTimer += Time.deltaTime;
 
-            if(groundedPrecautionTimer >= 0.7f)
+            if(groundedPrecautionTimer >= 1)
                 anim.Grounded(false);
         }
         else
@@ -154,7 +155,10 @@ public class CharacterMovement
         }
 
         if (!forcing && !addForce)
-            _rb.velocity = new Vector3(auxNormalized.x, isGrounded.VelY, auxNormalized.z);
+        {
+            if (!isGrounded.dontMultiply) _rb.velocity = finalVel * currentSpeed * absVal;
+            else _rb.velocity = new Vector3(auxNormalized.x, finalVel.y, auxNormalized.z);
+        }
 
         if (currentSpeed <= 0)
         {

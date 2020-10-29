@@ -533,6 +533,7 @@ MonoBehaviour:
     attackRange: 3
     attackAngle: 90
     heavyAttackTime: 1.2
+    heavyAttackMove: 10
     enemyLayer:
       serializedVersion: 2
       m_Bits: 1024
@@ -11503,13 +11504,16 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   widht: 0.17
   lenght: 0.19
-  height: 0.15
+  height: 0.1
   floorMask:
     serializedVersion: 2
     m_Bits: 2097152
   gravityMultiplier: 0.7
   maxAceleration: 15
   maxhHeight: 0.15
+  heightSlope: 0.5
+  heightPadding: 0.05
+  maxGroundAngle: 120
 --- !u!1 &4486850366730348248
 GameObject:
   m_ObjectHideFlags: 0
@@ -11802,6 +11806,7 @@ MonoBehaviour:
   - {fileID: 304525634281198024}
   _withDelay: 1
   delayTime: 1
+  drawGizmos: 0
   UE_OnEnter:
     m_PersistentCalls:
       m_Calls:
@@ -65940,6 +65945,7 @@ MonoBehaviour:
   - {fileID: 2736833269091309436}
   _withDelay: 1
   delayTime: 1
+  drawGizmos: 0
   UE_OnEnter:
     m_PersistentCalls:
       m_Calls:
