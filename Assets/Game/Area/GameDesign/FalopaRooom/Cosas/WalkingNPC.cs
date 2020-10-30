@@ -16,6 +16,7 @@ public abstract class Villager : NPCBase
 
     public void GoTo(Vector3 pos)
     {
+        canupdate = true;
         anim.StartWalk("");
         GoToPosition(pos);
     }

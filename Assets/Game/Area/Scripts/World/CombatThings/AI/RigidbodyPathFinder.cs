@@ -35,6 +35,7 @@ public class RigidbodyPathFinder : MonoBehaviour
     public void Initialize(Rigidbody _rb)
     {
         rb = _rb;
+        rb.isKinematic = true;
         nodefinder = new NodeFinder(radius_to_find_nodes);
         auxspeed = movement_speed;
     }
@@ -50,6 +51,8 @@ public class RigidbodyPathFinder : MonoBehaviour
 
     public void Execute(Vector3 pos)
     {
+        rb.isKinematic = false;
+
         initialNode = nodefinder.FindMostCloseNode(rb.transform.position);
         finalNode = nodefinder.FindMostCloseNode(pos);
 
@@ -64,9 +67,9 @@ public class RigidbodyPathFinder : MonoBehaviour
         currentNode = initialNode;
 
         //render
-        //foreach (var n in nodosASeguir) n.render.PintarNegro();
-        //initialNode.render.PintarRojo();
-        //finalNode.render.PintarVerde();
+        foreach (var n in nodosASeguir) n.render.PintarNegro();
+        initialNode.render.PintarRojo();
+        finalNode.render.PintarVerde();
 
         canMove = true;
     }
@@ -83,6 +86,8 @@ public class RigidbodyPathFinder : MonoBehaviour
 
         currentdist = Vector3.Distance(rb.transform.position, currentNode.transform.position);
 
+        Debug.Log("DIST: " + currentdist);
+
         if (currentdist < distance_to_close)
         {
 
@@ -91,6 +96,7 @@ public class RigidbodyPathFinder : MonoBehaviour
             {
                 movement_speed = auxspeed;
                 canMove = false;
+                rb.isKinematic = true;
                 callbackEndDinamic.Invoke();
             }
             dequeueNext = true;
@@ -108,12 +114,14 @@ public class RigidbodyPathFinder : MonoBehaviour
                 return;
             }
         }
+        
         Vector3 dir = currentNode.transform.position - rb.transform.position;
-        dir = new Vector3(dir.x, 0, dir.z);
+        dir = new Vector3(dir.x, dir.y, dir.z);
         dir.Normalize();
-        rb.velocity = new Vector3(dir.x * movement_speed, 0, dir.z * movement_speed);
+        Debug.Log("GO TOO: " + dir);
+        rb.velocity = new Vector3(dir.x * movement_speed, dir.y * movement_speed, dir.z * movement_speed);
 
-        rb.transform.forward = Vector3.Lerp(rb.transform.forward, dir, forwardspeed * Time.deltaTime);
+        rb.transform.forward = Vector3.Lerp(rb.transform.forward, new Vector3(dir.x, 0, dir.z), forwardspeed * Time.deltaTime);
     }
 }
 

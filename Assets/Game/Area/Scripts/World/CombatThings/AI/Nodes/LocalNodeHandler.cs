@@ -4,14 +4,14 @@ using UnityEngine;
 using System.Linq;
 using IA_Felix;
 
-public class ManagerNodes : MonoBehaviour
+public class LocalNodeHandler : MonoBehaviour
 {
     List<Node> nodes;
     FindNodesAndAdd parentNodes;
 
     void Start()
     {
-        Invoke("Find", 0.1f);
+        //Invoke("Find", 0.1f);
     }
 
     public void Find()

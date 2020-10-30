@@ -8,7 +8,8 @@ public class FindNodesAndAdd : MonoBehaviour
     public bool add;
     public bool execute;
     public bool render;
-    public ManagerNodes manager;
+    public LocalNodeHandler manager;
+    public bool clamp_to_floor;
 
     bool canrender;
 
@@ -16,22 +17,36 @@ public class FindNodesAndAdd : MonoBehaviour
 
     public void OnEnable()
     {
-       // execute = false;
+        execute = false;
     }
 
     private void Update()
     {
         if (!execute) return;
 
-        if (timer < 0.2f)
+        //if (timer < 0.2f)
+        //{
+        //    timer = timer + 1 * Time.deltaTime;
+        //}
+        //else
+        //{
+        //    Debug.Log("JJEJEJCUTANDO;");
+        //    timer = 0;
+        //    manager.Find();
+        //}
+
+        manager.Find();
+
+        if (clamp_to_floor)
         {
-            timer = timer + 1 * Time.deltaTime;
-        }
-        else
-        {
-            Debug.Log("JJEJEJCUTANDO;");
-            timer = 0;
-            //manager.Initialize();
+            clamp_to_floor = false;
+
+            var nodes = FindObjectsOfType<IA_Felix.Node>();
+
+            foreach (var n in nodes)
+            {
+                n.ClampToFloor();
+            }
         }
 
 

@@ -6,9 +6,9 @@ using System;
 
 public abstract class WalkingEntity : EntityBase
 {
-    RigidbodyPathFinder rig_path_finder;
+    [SerializeField] RigidbodyPathFinder rig_path_finder;
     
-    protected override void OnUpdate() { if (executeAStar) { rig_path_finder.Refresh(); } OnUpdateEntity(); }
+    protected override void OnUpdate() { if (executeAStar) { Debug.Log("UPDATE_EXECUTE"); rig_path_finder.Refresh(); } OnUpdateEntity(); }
     protected abstract void OnUpdateEntity();
     private bool executeAStar;
     public void InitializePathFinder(Rigidbody rb) { rig_path_finder.Initialize(rb); }

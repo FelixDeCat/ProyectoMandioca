@@ -21,7 +21,7 @@ namespace IA_Felix
         public NodeRender render;
         public NodeFinder finder;
 
-        bool oneable;
+        public LayerMask mask_hit_floor;
 
         public bool execute;
 
@@ -49,17 +49,22 @@ namespace IA_Felix
             Execute();
         }
 
-        private void OnEnable()
-        {
-            oneable = true;
-        }
-
         public void OnStart()
         {
             //si o si esto no tiene que ejecutarse luego del awake, xq sino hay algunos nodos que no los detecta el overlapshere
             vecinos = finder.FindVecinos(this);
 
 
+        }
+
+        public void ClampToFloor()
+        {
+            RaycastHit hit;
+
+            if (Physics.Raycast(this.transform.position + this.transform.up * 10 , this.transform.up * -1, out hit, 30, mask_hit_floor))
+            {
+                this.transform.position = hit.point;
+            }
         }
 
         public void Execute()
@@ -84,10 +89,7 @@ namespace IA_Felix
 
         private void OnDrawGizmos()
         {
-            if (!oneable)
-            {
-                if (render != null) render.Draw(this.transform.position, vecinos, finder.radius);
-            }
+            if (render != null) render.Draw(this.transform.position, vecinos, finder.radius);
         }
     }
 
@@ -108,17 +110,19 @@ namespace IA_Felix
 
         public void Init(GameObject go) {
             render = go.GetComponent<Renderer>();
-            render.enabled = false;
+            //if(render) render.enabled = false;
         }
         Renderer render;
-        public void PintarRojo() { render.material.color = Color.red; }
-        public void PintarNegro() { render.material.color = Color.black; }
-        public void PintarVerde() { render.material.color = Color.green; }
-        public void PintarBlanco() { render.material.color = Color.white; }
+        public void PintarRojo() { if(render) render.material.color = Color.red; }
+        public void PintarNegro() { if (render) render.material.color = Color.black; }
+        public void PintarVerde() { if (render) render.material.color = Color.green; }
+        public void PintarBlanco() { if (render) render.material.color = Color.white; }
+
+        
 
         public void ShutDownRender()
         {
-            render.enabled = false;
+            if (render) render.enabled = false;
             gizmos = false;
         }
 

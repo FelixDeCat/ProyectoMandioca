@@ -22,6 +22,8 @@ public class Mision: ScriptableObject
     public Action mision_end_callback_simple;
     public Action Callback_Refresh;
 
+    bool oneshotfinish;
+
     public override string ToString()
     {
         return "chacha";
@@ -42,7 +44,16 @@ public class Mision: ScriptableObject
         mision_end_callback_simple += callbackToEnd;
     }
 
-    public void End() => data.DeactivateMision();
+    public void End() 
+    {
+        if (!oneshotfinish)
+        {
+            oneshotfinish = true;
+            data.DeactivateMision();
+            mision_end_callback.Invoke(id_mision);
+        }
+        
+    }
 
     public void OnRefresh()
     {
@@ -69,10 +80,10 @@ public class Mision: ScriptableObject
 
     protected void Finish()
     { 
-        mision_end_callback.Invoke(id_mision);
+        //mision_end_callback.Invoke(id_mision);
         try
         {
-            mision_end_callback_simple.Invoke();
+           // mision_end_callback_simple.Invoke();
         }
         catch { Debug.LogWarning("No tiene linkeado un Fase Handler"); }
         
