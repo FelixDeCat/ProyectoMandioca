@@ -44,7 +44,6 @@ public class TruenosPasiveSkill : MonoBehaviour
 
     void LightningStrike()
     {
-        _hero.charanim.HeavyAttack();
         ParticlesManager.Instance.PlayParticle(particlesLindas.name,this.transform.position);
         dmgDATA.SetPositionAndDirection(_hero.transform.position);
         var enemis = Extensions.FindInRadius<DamageReceiver>(_hero.transform.position, range);

@@ -37,6 +37,7 @@ public class ComboWomboSystem
     public void AddCallback_OnComboready(Action callback) => OnComboReady = callback;
     public void AddCallback_OnComboReset(Action callback) => OnComboResetFeedback = callback;
     public void AddCallback_OnExecuteCombo(Action callback) => executeCombo += callback;
+    public void RemoveCallback_OnExecuteCombo(Action callback) => executeCombo -= callback;
     public void Clear_OnExecuteCombo() => executeCombo = null;
 
 

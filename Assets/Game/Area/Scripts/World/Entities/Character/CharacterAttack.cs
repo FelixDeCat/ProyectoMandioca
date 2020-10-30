@@ -95,11 +95,14 @@ public class CharacterAttack
         HeavyAttack.Invoke();
         data.SetDamageType(Damagetype.Heavy).SetKnockback(2500);
         move.AttackMovement(currentHeavyAttackMove);
-        feedbacks.particles.feedbackHeavy.Stop();
-        feedbacks.sounds.Play_heavySwing();
         oneshot = false;
         buttonPressedTime = 0f;
         anim.OnAttackBegin(false);       
+        feedbacks.particles.feedbackHeavy.Stop();
+    }
+    public void ForceHeavyFeedback()
+    {
+        feedbacks.sounds.Play_heavySwing();
     }
 
     public string ChangeName() => currentWeapon.weaponName;

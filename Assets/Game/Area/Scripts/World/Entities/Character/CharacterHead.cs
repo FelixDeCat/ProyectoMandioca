@@ -165,6 +165,7 @@ public class CharacterHead : CharacterControllable
             combo_system.AddCallback_OnComboReset(EndTime_DeactiveCombo);
 
             combo_system.AddCallback_OnExecuteCombo(charAttack.ForceHeavy);
+            combo_system.AddCallback_OnExecuteCombo(charAttack.ForceHeavyFeedback);
             combo_system.AddCallback_OnExecuteCombo(charanim.HeavyAttack);
             combo_system.AddCallback_OnExecuteCombo(HealOnCombo);
         }
@@ -209,17 +210,17 @@ public class CharacterHead : CharacterControllable
         if (b)
         {
             charAttack.Add_callback_Heavy_attack(ReleaseInHeavy);
-            combo_system.AddCallback_OnExecuteCombo(charAttack.ForceHeavy);
-            //combo_system.AddCallback_OnExecuteCombo(charanim.HeavyAttack);
-            combo_system.AddCallback_OnExecuteCombo(HealOnCombo);
-            charAttack.ChangeHeavyAttackMove(heavyAttackMove);
+            combo_system.AddCallback_OnExecuteCombo(charAttack.ForceHeavyFeedback);
         }
         else
         {
-            charAttack.ChangeHeavyAttackMove(heavyAttackMove);
-            combo_system.Clear_OnExecuteCombo();            
             charAttack.Remove_callback_Heavy_attack(ReleaseInHeavy);
+
+            charAttack.Add_callback_Heavy_attack(()=> charanim.HeavyAttack());
+            charAttack.Add_callback_Heavy_attack(() => ResetCombo());
+            combo_system.RemoveCallback_OnExecuteCombo(charAttack.ForceHeavyFeedback);
         }
+        charAttack.ChangeHeavyAttackMove(heavyAttackMove);       
     }
 
     public void StopMovement() { move.MovementHorizontal(0); move.MovementVertical(0); }
