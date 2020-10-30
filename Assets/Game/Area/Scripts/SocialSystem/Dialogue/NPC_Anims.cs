@@ -49,6 +49,9 @@ public class NPC_Anims : MonoBehaviour
     public void PlayDeath(string s) => myAnim.SetFloat("Death", death_anim_cursor);
     public void PlayResurrect(string s) => myAnim.SetFloat("Death", -1);
 
+    public void StartWalk(string s) => myAnim.SetBool("Walk", true);
+    public void StopWalk(string s) => myAnim.SetBool("Walk", false);
+
     public void Play_Explainning(string s) => myAnim.SetBool("Explaining", true);
     public void Play_GiveAReward(string s) => myAnim.SetTrigger("GiveAReward");
     public void Play_Idle(string s) { }

@@ -100,37 +100,37 @@ AnimatorStateMachine:
     m_Position: {x: 360, y: 110, z: 0}
   - serializedVersion: 1
     m_State: {fileID: 6810289128959974021}
-    m_Position: {x: 320, y: 340, z: 0}
+    m_Position: {x: 260, y: 350, z: 0}
   - serializedVersion: 1
     m_State: {fileID: 7105020001265263719}
-    m_Position: {x: 590, y: 10, z: 0}
+    m_Position: {x: 630, y: -160, z: 0}
   - serializedVersion: 1
     m_State: {fileID: 2535068758819416296}
-    m_Position: {x: 520, y: -90, z: 0}
+    m_Position: {x: 630, y: -210, z: 0}
   - serializedVersion: 1
     m_State: {fileID: -1519536605909613194}
-    m_Position: {x: 660, y: 380, z: 0}
+    m_Position: {x: 670, y: 400, z: 0}
   - serializedVersion: 1
     m_State: {fileID: 9065163295018574677}
-    m_Position: {x: 850, y: 190, z: 0}
+    m_Position: {x: 1090, y: 160, z: 0}
   - serializedVersion: 1
     m_State: {fileID: -7085248936937972373}
-    m_Position: {x: 610, y: 170, z: 0}
+    m_Position: {x: 640, y: 180, z: 0}
   - serializedVersion: 1
     m_State: {fileID: -838622902263615761}
     m_Position: {x: 310, y: -150, z: 0}
   - serializedVersion: 1
     m_State: {fileID: 7105292405091968737}
-    m_Position: {x: 80, y: -100, z: 0}
+    m_Position: {x: 0, y: -150, z: 0}
   - serializedVersion: 1
     m_State: {fileID: -2642695804885570715}
-    m_Position: {x: 60, y: -20, z: 0}
+    m_Position: {x: 0, y: -110, z: 0}
   - serializedVersion: 1
     m_State: {fileID: -1467396486285908062}
-    m_Position: {x: 60, y: 60, z: 0}
+    m_Position: {x: 0, y: -70, z: 0}
   - serializedVersion: 1
     m_State: {fileID: 2868516859627543619}
-    m_Position: {x: 150, y: 240, z: 0}
+    m_Position: {x: 40, y: 250, z: 0}
   m_ChildStateMachines: []
   m_AnyStateTransitions: []
   m_EntryTransitions: []
@@ -505,19 +505,13 @@ AnimatorController:
     m_DefaultInt: 0
     m_DefaultBool: 0
     m_Controller: {fileID: 0}
-  - m_Name: walk
-    m_Type: 9
-    m_DefaultFloat: 0
-    m_DefaultInt: 0
-    m_DefaultBool: 0
-    m_Controller: {fileID: 0}
-  - m_Name: stopWalking
-    m_Type: 9
-    m_DefaultFloat: 0
-    m_DefaultInt: 0
-    m_DefaultBool: 0
-    m_Controller: {fileID: 0}
   - m_Name: Idle
+    m_Type: 4
+    m_DefaultFloat: 0
+    m_DefaultInt: 0
+    m_DefaultBool: 0
+    m_Controller: {fileID: 0}
+  - m_Name: Walk
     m_Type: 4
     m_DefaultFloat: 0
     m_DefaultInt: 0
@@ -594,8 +588,8 @@ AnimatorStateTransition:
   m_PrefabAsset: {fileID: 0}
   m_Name: 
   m_Conditions:
-  - m_ConditionMode: 1
-    m_ConditionEvent: stopWalking
+  - m_ConditionMode: 2
+    m_ConditionEvent: Walk
     m_EventTreshold: 0
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: -3672002998038850696}
@@ -799,7 +793,7 @@ AnimatorStateTransition:
   m_Name: 
   m_Conditions:
   - m_ConditionMode: 1
-    m_ConditionEvent: walk
+    m_ConditionEvent: Walk
     m_EventTreshold: 0
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: 2868516859627543619}
