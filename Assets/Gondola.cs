@@ -4,19 +4,17 @@ using UnityEngine;
 
 public class Gondola : MonoBehaviour
 {
+    [SerializeField]
     Animator gondola_anim;
-
-    private void Start()
-    {
-        gondola_anim.GetComponentInChildren<Animator>();
-    }
 
     public void ANIM_Open()
     {
-        gondola_anim.SetBool("Open", true);
+        Debug.Log("open");
+        gondola_anim.SetTrigger("Open");
     }
     public void ANIM_Close()
     {
-        gondola_anim.SetBool("Open", false);
+        Debug.Log("close");
+        gondola_anim.SetTrigger("Close");
     }
 }

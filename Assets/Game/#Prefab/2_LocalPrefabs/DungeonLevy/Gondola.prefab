@@ -219,6 +219,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4751154118266253864}
   - component: {fileID: 4751154118266253867}
+  - component: {fileID: 5385386350063101053}
   m_Layer: 0
   m_Name: Gondola
   m_TagString: Untagged
@@ -261,6 +262,47 @@ MonoBehaviour:
   - {fileID: 2413927003993278183}
   parent: {fileID: 4751154118253507929}
   speed: 7
+  OnEnd:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 5385386350063101053}
+        m_MethodName: ANIM_Open
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: Open
+          m_BoolArgument: 0
+        m_CallState: 2
+  OnBegin:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 5385386350063101053}
+        m_MethodName: ANIM_Close
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+--- !u!114 &5385386350063101053
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4751154118266253866}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b9321487a6cd24941b4e93b552d7a0b3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  gondola_anim: {fileID: 6212995257836996207}
 --- !u!64 &2212792645177660014
 MeshCollider:
   m_ObjectHideFlags: 0
@@ -1282,7 +1324,7 @@ PrefabInstance:
     - target: {fileID: 1864726190498564436, guid: 2622bed6f6d9a47428ad967878625542,
         type: 3}
       propertyPath: Excecute.m_PersistentCalls.m_Calls.Array.size
-      value: 3
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 1864726190498564436, guid: 2622bed6f6d9a47428ad967878625542,
         type: 3}
