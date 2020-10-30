@@ -26,7 +26,7 @@ public class NPC_Interactable : Interactable
         
     }
 
-    public override void OnExit()
+    public override void OnExit(WalkingEntity collector)
     {
         if (!custom_cartelito) WorldItemInfo.instance.Hide();
     }

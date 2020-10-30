@@ -31,7 +31,7 @@ public class ActiveSpawner : Interactable
         WorldItemInfo.instance.Show(transform.position, "Active Dropper", "Droppea activas", "Drop");
     }
 
-    public override void OnExit()
+    public override void OnExit(WalkingEntity collector)
     {
         WorldItemInfo.instance.Hide();
     }

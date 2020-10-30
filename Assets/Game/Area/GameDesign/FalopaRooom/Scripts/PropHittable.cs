@@ -27,5 +27,5 @@ public class PropHittable : Environment
 
         damageReceiver.ChangeIndestructibility(isIndestructible);
         damageReceiver.AddInmuneFeedback(() => OnTakeDamage.Invoke()).Initialize(transform, GetComponent<Rigidbody>(), _lifeSytstem);
-    }  
+    }
 }

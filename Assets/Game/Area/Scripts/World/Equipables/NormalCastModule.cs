@@ -51,7 +51,6 @@ public class NormalCastModule : MonoBehaviour
 
         if (cast_type == CastType.Normal_Automatic)
         {
-            
             timer = 0;
             anim = false;
             callback_fail.Invoke();

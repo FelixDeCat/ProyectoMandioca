@@ -38,7 +38,7 @@ public class TestInteractableHold : Interactable
         {
             oneshot = true;
             _executeAction();
-            ContextualBarSimple.instance.Hide();
+            collector.GetComponent<InteractSensor>()?.Dissappear();
         }
     }
 
@@ -48,7 +48,7 @@ public class TestInteractableHold : Interactable
         ContextualBarSimple.instance.Set_Values_Load_Bar(delayTime, 0);
     }
 
-    public override void OnExit()
+    public override void OnExit(WalkingEntity collector)
     {
         oneshot = false;
         ContextualBarSimple.instance.Hide();

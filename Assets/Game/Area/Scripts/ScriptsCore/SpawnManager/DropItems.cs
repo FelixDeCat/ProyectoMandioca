@@ -16,7 +16,7 @@ public class DropItems : Interactable
         Main.instance.SpawnWheel(data, posToDrop);
     }
 
-    public override void OnExit()
+    public override void OnExit(WalkingEntity collector)
     {
         WorldItemInfo.instance.Hide();
     }

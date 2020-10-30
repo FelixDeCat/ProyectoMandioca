@@ -9,22 +9,22 @@ public class Palanca : Interactable
     
     public override void OnEnter(WalkingEntity entity)
     {
-        WorldItemInfo.instance.Show(pointToMessage.position, "", "", "Empujar", false, false);
+        ContextualBarSimple.instance.Show();
+        ContextualBarSimple.instance.Set_Sprite_Button_Custom(InputImageDatabase.InputImageType.interact);
     }
 
     public override void OnExecute(WalkingEntity collector)
     {
-        Debug.Log("activado pá");
         Excecute.Invoke();
-        WorldItemInfo.instance.Hide();
+        collector.GetComponent<InteractSensor>()?.Dissappear();
     }
 
     public override void OnInterrupt()
     {
     }
 
-    public override void OnExit()
+    public override void OnExit(WalkingEntity collector)
     {
-        WorldItemInfo.instance.Hide();
+        ContextualBarSimple.instance.Hide();
     }
 }

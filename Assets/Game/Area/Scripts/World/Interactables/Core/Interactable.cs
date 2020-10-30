@@ -28,6 +28,7 @@ public abstract class Interactable : MonoBehaviour
     public UnityEvent PressUp;
     public Func<bool> predicate = delegate { return true; };
     public void SetPredicate(Func<bool> _pred) => predicate = _pred;
+    WalkingEntity currentCollector;
 
     public void Enter(WalkingEntity entity)
     {
@@ -40,7 +41,7 @@ public abstract class Interactable : MonoBehaviour
     {
         //if (!predicate.Invoke()) return;
         if (feedback.Length > 0) foreach (var fdbck in feedback) fdbck.Hide();
-        OnExit();
+        OnExit(currentCollector);
         UE_OnExit.Invoke();
         PressUp.Invoke();
         currentTime = 0;
@@ -51,6 +52,7 @@ public abstract class Interactable : MonoBehaviour
         if (!predicate.Invoke()) return;
 
         PressDown.Invoke();
+        currentCollector = entity;
 
         if (!_withDelay)
         {
@@ -92,7 +94,6 @@ public abstract class Interactable : MonoBehaviour
             {
                 timer_cd = 0;
                 autoexe_in_CD = false;
-
             }
         }
     }
@@ -106,7 +107,7 @@ public abstract class Interactable : MonoBehaviour
             }
             else
             {
-                OnExecute(Main.instance.GetChar());
+                OnExecute(currentCollector);
                 currentTime = 0;
                 updateDelay = false;
             }
@@ -114,7 +115,7 @@ public abstract class Interactable : MonoBehaviour
     }
     public abstract void OnEnter(WalkingEntity entity);
     public abstract void OnExecute(WalkingEntity collector);
-    public abstract void OnExit();
+    public abstract void OnExit(WalkingEntity collector);
     public abstract void OnInterrupt();
 
     private void OnDrawGizmos()

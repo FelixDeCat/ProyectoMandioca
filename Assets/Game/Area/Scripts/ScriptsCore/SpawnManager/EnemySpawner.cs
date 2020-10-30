@@ -15,7 +15,7 @@ public class EnemySpawner : Interactable
         }
     }
 
-    public override void OnExit()
+    public override void OnExit(WalkingEntity collector)
     {
         WorldItemInfo.instance.Hide();
     }

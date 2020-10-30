@@ -58,7 +58,7 @@ public class InteractCollect : Interactable
         if (destroy_on_collect) Destroy(this.gameObject);
     }
 
-    public override void OnExit()
+    public override void OnExit(WalkingEntity collector)
     {
         WorldItemInfo.instance.Hide();
     }

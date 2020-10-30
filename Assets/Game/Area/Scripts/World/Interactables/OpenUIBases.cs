@@ -32,7 +32,7 @@ public class OpenUIBases : Interactable
         ui_to_open.Open();
     }
 
-    public override void OnExit()
+    public override void OnExit(WalkingEntity collector)
     {
         ui_to_open.Close();
     }

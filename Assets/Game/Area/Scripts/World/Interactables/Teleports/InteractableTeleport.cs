@@ -51,7 +51,7 @@ public class InteractableTeleport : Interactable
     {
     }
 
-    public override void OnExit() => WorldItemInfo.instance.Hide();
+    public override void OnExit(WalkingEntity collector) => WorldItemInfo.instance.Hide();
     public override void OnEnter(WalkingEntity entity)
     {
         if (mostrar_cartelito)

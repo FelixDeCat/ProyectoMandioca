@@ -12,7 +12,7 @@ public class SaveLocation : Interactable
         //GlobalData.Instance.SaveState(GlobalData.CurrentScene.Other);
     }
 
-    public override void OnExit()
+    public override void OnExit(WalkingEntity collector)
     {
 
     }

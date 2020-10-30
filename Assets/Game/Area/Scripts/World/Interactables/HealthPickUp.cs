@@ -60,7 +60,7 @@ public class HealthPickUp : Interactable
         
     }
 
-    public override void OnExit()
+    public override void OnExit(WalkingEntity collector)
     {
         
     }

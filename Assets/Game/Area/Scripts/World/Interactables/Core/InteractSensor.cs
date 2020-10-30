@@ -23,12 +23,6 @@ public class InteractSensor : MonoBehaviour
 
     bool buttonPressing;
 
-    private void Awake()
-    {
-        cooldown_to_next_recollection = true;
-        can_show_info = true;
-    }
-
     public Interactable OnInteractDown()
     {
         if (!can_interact) return null;
@@ -55,13 +49,18 @@ public class InteractSensor : MonoBehaviour
         timerfastrec = 0;
     }
 
-    public void Disapear()
+    public void Dissappear()
     {
-        WorldItemInfo.instance.Hide();
         most_close.Exit();
+        if (interactables.Contains(most_close)) interactables.Remove(most_close);
+        most_close = null;
+        most_close = interactables.ReturnMostClose(transform.position);
+        if (most_close != null && I_Have_Good_Distace_To_Interact()) return;
+        ContextualBarSimple.instance.Hide();
+        WorldItemInfo.instance.Hide();
     }
 
-    bool can_show_info;
+    bool can_show_info = true;
     bool can_interact = true;
 
     public void CanInteract(bool val) => can_interact = val;
@@ -161,7 +160,7 @@ public class InteractSensor : MonoBehaviour
         }
     }
 
-    bool isExit;
+    bool isExit = true;
     [Header("Fast Recollection")]
     [Range(0f, 1f)]
     public float time_to_fast_recollection = 0.5f;
@@ -190,7 +189,7 @@ public class InteractSensor : MonoBehaviour
     [Header("Cooldown")]
     [Range(0f, 0.5f)]
     public float cooldownrecolect = 0.1f;
-    public bool cooldown_to_next_recollection = false;
+    public bool cooldown_to_next_recollection = true;
     float timer_cooldown = 0;
     void Update_CooldownNextRecollection()
     {
