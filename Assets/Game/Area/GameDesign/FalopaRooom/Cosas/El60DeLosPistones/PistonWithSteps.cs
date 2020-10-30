@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
+using UnityEngine.Events;
 
 public class PistonWithSteps : MonoBehaviour
 {
@@ -15,6 +16,10 @@ public class PistonWithSteps : MonoBehaviour
     protected Vector3 _dir;
     protected int currentNode = 0;
     bool isMoving = false;
+
+
+    public UnityEvent OnEnd;
+    public UnityEvent OnBegin;
 
     void  FixedUpdate()
     {
@@ -44,11 +49,11 @@ public class PistonWithSteps : MonoBehaviour
 
     public virtual void OnBeginMove()
     {
-
+        OnBegin.Invoke();
     }
     public virtual void OnStopMove()
     {
-
+        OnEnd.Invoke();
     }
 
     public virtual void Move()
