@@ -128,7 +128,7 @@ public class CharacterMovement
 
         float absVal = Mathf.Abs(movX) + Mathf.Abs(movY);
 
-        if (absVal >= 1.5f) { movX = Mathf.Clamp(movX, -0.75f, 0.75f); movY = Mathf.Clamp(movY, -0.75f, 0.75f); absVal = 1.5f; }
+        if (absVal >= 1.3f) { movX = Mathf.Clamp(movX, -0.65f, 0.65f); movY = Mathf.Clamp(movY, -0.65f, 0.65f); absVal = 1.3f; }
 
         Vector3 right = Vector3.Cross(Vector3.up, myCamera.forward);
         Vector3 forward = Vector3.Cross(right, Vector3.up);

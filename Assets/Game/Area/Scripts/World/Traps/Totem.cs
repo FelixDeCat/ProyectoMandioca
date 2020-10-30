@@ -32,7 +32,7 @@ public abstract class Totem : EnemyBase
         AudioManager.instance.GetSoundPool(ac_Die.name, AudioGroups.GAME_FX, ac_Die);
         AudioManager.instance.GetSoundPool(ac_Charge.name, AudioGroups.GAME_FX, ac_Charge);
         effectStun.AddStartCallback(GetStunned);
-        effectStun.AddEndCallback(StunOver);
+        effectStun.AddEndCallback(StunEnd);
         feedback.Initialize(StartCoroutine);
 
         AudioManager.instance.GetSoundPool(ac_TakeDamage.name, AudioGroups.GAME_FX, ac_TakeDamage);
@@ -152,7 +152,7 @@ public abstract class Totem : EnemyBase
 
     protected virtual void InternalGetStunned() { }
 
-    void StunOver()
+    void StunEnd()
     {
         stuned = false;
         OnStartCast();
