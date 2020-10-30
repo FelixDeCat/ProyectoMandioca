@@ -434,15 +434,15 @@ namespace Tools.Extensions
 
             return pointOnCurve;
         }
-        public static Vector3 GetRotatioOnBezierCurve(BezierPoint ini, BezierPoint final, float value)
+        public static Quaternion GetRotatioOnBezierCurve(BezierPoint ini, BezierPoint final, float value)
         {
-            Vector3 a = Vector3.Lerp(ini.transform.eulerAngles, ini.son.transform.eulerAngles, value);
-            Vector3 b = Vector3.Lerp(ini.son.transform.eulerAngles, final.son.transform.eulerAngles, value);
-            Vector3 c = Vector3.Lerp(final.son.transform.eulerAngles, final.transform.eulerAngles, value);
+            Quaternion a = Quaternion.Lerp(ini.transform.rotation, ini.son.transform.rotation, value);
+            Quaternion b = Quaternion.Lerp(ini.son.transform.rotation, final.son.transform.rotation, value);
+            Quaternion c = Quaternion.Lerp(final.son.transform.rotation, final.transform.rotation, value);
 
-            Vector3 d = Vector3.Lerp(a, b, value);
-            Vector3 e = Vector3.Lerp(b, c, value);
-            Vector3 pointOnCurve = Vector3.Lerp(d, e, value);
+            Quaternion d = Quaternion.Lerp(a, b, value);
+            Quaternion e = Quaternion.Lerp(b, c, value);
+            Quaternion pointOnCurve = Quaternion.Lerp(d, e, value);
 
             return pointOnCurve;
         }

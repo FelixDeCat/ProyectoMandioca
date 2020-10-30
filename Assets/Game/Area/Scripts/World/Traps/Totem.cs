@@ -124,6 +124,8 @@ public abstract class Totem : EnemyBase
 
     void EndCast()
     {
+        if (death) return;
+
         ParticlesManager.Instance.PlayParticle(reactiveParticles.name, feedback.startPos.position);
         InternalEndCast();
         castingCD = true;
@@ -201,6 +203,7 @@ public abstract class Totem : EnemyBase
     {
         feedback.StopAll();
         casting = false;
+        death = true;
         timerCasting = 0;
         feedback.InterruptCharge();
         ReturnToSpawner();
