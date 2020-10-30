@@ -49,7 +49,6 @@ public class GoatEnemy : EnemyWithCombatDirector
 
     [Header("Stuns/Effects")]
     private bool cooldown = false;
-    bool petrified;
     private Action<EState<GoatInputs>> EnterStun;
     private Action<string> UpdateStun;
     private Action<GoatInputs> ExitStun;
@@ -107,9 +106,6 @@ public class GoatEnemy : EnemyWithCombatDirector
         Main.instance.AddEntity(this);
 
         IAInitialize(Main.instance.GetCombatDirector());
-
-        petrifyEffect?.AddStartCallback(() => petrified = true);
-        petrifyEffect?.AddEndCallback(() => petrified = false);
 
         dmgReceiver.ChangeKnockback(movement.ApplyForceToVelocity, () => sm.Current.Name == "Charge_Push" || sm.Current.Name == "Push" ? true : false);
     }

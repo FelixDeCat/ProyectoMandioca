@@ -65,6 +65,18 @@ public abstract class EffectBase : MonoBehaviour
         }
     }
 
+    public void ResetEffect(float cd)
+    {
+        if (IsActive)
+        {
+            currentCD = cd == -1 ? currentCD : cd * cdMultiplier;
+            timer = 0;
+            ResetEffectFeedback();
+        }
+    }
+
+    protected virtual void ResetEffectFeedback() { }
+
     //Función nativa donde debería ir toda, o la mayor parte de la funcionalidad. Esta función se llama cuando comienza el efecto.
     protected abstract void OnEffect();
 

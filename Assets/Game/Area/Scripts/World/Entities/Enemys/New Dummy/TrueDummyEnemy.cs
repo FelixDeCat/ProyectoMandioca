@@ -26,7 +26,6 @@ public class TrueDummyEnemy : EnemyWithCombatDirector
     [SerializeField] float recallTime = 1;
 
     private bool cooldown = false;
-    bool petrified;
     CDModule cdModuleStopeable = new CDModule();
     CDModule cdModuleNonStopeable = new CDModule();
 
@@ -36,8 +35,7 @@ public class TrueDummyEnemy : EnemyWithCombatDirector
     [SerializeField] float onHitFlashTime = 0.1f;
     [SerializeField] RagdollComponent ragdoll = null;
     [SerializeField] Transform warningAttack_pos = null;
-
-    [SerializeField] EffectBase petrifyEffect = null;
+    
     EventStateMachine<DummyEnemyInputs> sm;
 
     public DataBaseDummyParticles particles;
@@ -117,9 +115,6 @@ public class TrueDummyEnemy : EnemyWithCombatDirector
         
         //Hago el pool de las vines aca
         PoolManager.instance.GetObjectPool("CorruptedVines", dummySpecialAttack.specialAttack_pf);
-
-        petrifyEffect?.AddStartCallback(() => petrified = true);
-        petrifyEffect?.AddEndCallback(() => petrified = false);
 
         dmgReceiver.ChangeKnockback(movement.ApplyForceToVelocity, () => false);
     }

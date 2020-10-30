@@ -2,16 +2,15 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class EffectBasicPetrify : EffectBase
+public class EffectBasicElectrify : EffectBase
 {
     [SerializeField] Animator anim = null;
-    [SerializeField] ParticleSystem petrifyParticles = null;
-    [SerializeField] ParticleSystem endPetrifyParticles = null;
-    [SerializeField] Material petrifiedMat = null;
-    [SerializeField] AudioClip clip_PetrifyStand = null;
-    [SerializeField] AudioClip clip_petrifyEnd = null;
+    [SerializeField] Material electrifyMaat = null;
     EnemyBase owner = null;
+    [SerializeField] DamageReceiver dmgReceiver = null;
 
+    [SerializeField] float dmgPercentMultiplier = 2f;
+    
     Material[] myMat;
     SkinnedMeshRenderer smr;
 
@@ -20,9 +19,6 @@ public class EffectBasicPetrify : EffectBase
     protected override void OnInitialize()
     {
         base.OnInitialize();
-
-        AudioManager.instance.GetSoundPool("PetrifyStand", AudioGroups.GAME_FX, clip_PetrifyStand);
-        AudioManager.instance.GetSoundPool("PetrifyEnd", AudioGroups.GAME_FX, clip_petrifyEnd);
 
         smr = anim.GetComponentInChildren<SkinnedMeshRenderer>();
         owner = GetComponentInParent<EnemyBase>();
@@ -36,13 +32,16 @@ public class EffectBasicPetrify : EffectBase
         if (smr != null)
         {
             myMat = smr.materials;
-            petrifyParticles.Play();
-            AudioManager.instance.PlaySound("PetrifyStand");
             Material[] mats = smr.materials;
-            mats[0] = petrifiedMat;
+            mats[0] = electrifyMaat;
             smr.materials = mats;
         }
         owner?.StunStart();
+        dmgReceiver.AddTakeDamage(TakeDamageExtraFeedback);
+        dmgReceiver.AddDebility(Damagetype.Normal, dmgPercentMultiplier);
+        dmgReceiver.AddDebility(Damagetype.Heavy, dmgPercentMultiplier);
+
+        //Feedback de cuando empieza el estado
     }
 
     protected override void OffEffect()
@@ -51,23 +50,24 @@ public class EffectBasicPetrify : EffectBase
         if (smr != null)
         {
             smr.materials = myMat;
-            petrifyParticles.Stop();
             AudioManager.instance.PlaySound("PetrifyEnd");
-            endPetrifyParticles.Play();
         }
         owner?.StunOver();
+        dmgReceiver.RestTakeDamage(TakeDamageExtraFeedback);
+        dmgReceiver.RemoveDebility(Damagetype.Normal);
+        dmgReceiver.RemoveDebility(Damagetype.Heavy);
+
+        //Feedback de cuando termina el estado
     }
 
-    protected override void ResetEffectFeedback()
+    void TakeDamageExtraFeedback(DamageData dmgData)
     {
-        base.ResetEffectFeedback();
-
-        AudioManager.instance.PlaySound("PetrifyEnd");
-        endPetrifyParticles.Play();
+        //lo que quieran de feedback cuando me golpean
+        OnEndEffect();
     }
 
     protected override void OnTickEffect(float cdPercent)
     {
-
+        //Update de Feedback
     }
 }

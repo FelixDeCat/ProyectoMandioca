@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1 &6608334436493518605
+--- !u!1 &1878670082911033095
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -8,22 +8,22 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 3101975495159146329}
-  - component: {fileID: 6126649117267208779}
+  - component: {fileID: 8863264383503927503}
+  - component: {fileID: 1631636335125399430}
   m_Layer: 10
-  m_Name: Behaviour_Effect_Petrify
+  m_Name: Behaviour_Effect_Electrify
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &3101975495159146329
+--- !u!4 &8863264383503927503
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6608334436493518605}
+  m_GameObject: {fileID: 1878670082911033095}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
@@ -31,26 +31,23 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &6126649117267208779
+--- !u!114 &1631636335125399430
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6608334436493518605}
+  m_GameObject: {fileID: 1878670082911033095}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: edf3a104d1cb67340ab8ea6199d5f7c9, type: 3}
+  m_Script: {fileID: 11500000, guid: a2503892a4035154f98215282961a165, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  effectType: 1
-  incompatibilities: 0200000004000000
-  cdBase: 5
+  effectType: 4
+  incompatibilities: 0100000002000000
+  cdBase: 0.3
   cdMultiplier: 1
   anim: {fileID: 0}
-  petrifyParticles: {fileID: 0}
-  endPetrifyParticles: {fileID: 0}
-  petrifiedMat: {fileID: 2100000, guid: 91d5b442df5aa57478d4ea36598e85a4, type: 2}
-  clip_PetrifyStand: {fileID: 8300000, guid: a56f90291c5698a41b88d5ed0dfa3763, type: 3}
-  clip_petrifyEnd: {fileID: 8300000, guid: 38451437d41e72646acf9491fadf7a37, type: 3}
-  owner: {fileID: 0}
+  electrifyMaat: {fileID: 2100000, guid: ae9cdd7f5f4b4c1458e60023f9c8a19b, type: 2}
+  dmgReceiver: {fileID: 0}
+  dmgPercentMultiplier: 3

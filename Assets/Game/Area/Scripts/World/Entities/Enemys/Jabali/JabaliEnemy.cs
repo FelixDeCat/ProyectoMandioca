@@ -45,7 +45,6 @@ public class JabaliEnemy : EnemyWithCombatDirector
 
     [Header("Stuns/Effects")]
     private bool cooldown = false;
-    bool petrified = false;
     private Action<EState<JabaliInputs>> EnterStun;
     private Action<string> UpdateStun;
     private Action<JabaliInputs> ExitStun;
@@ -96,9 +95,6 @@ public class JabaliEnemy : EnemyWithCombatDirector
         Main.instance.AddEntity(this);
 
         IAInitialize(Main.instance.GetCombatDirector());
-
-        petrifyEffect?.AddStartCallback(() => sm.SendInput(JabaliInputs.PETRIFIED));
-        petrifyEffect?.AddEndCallback(() => sm.SendInput(JabaliInputs.IDLE));
 
         dmgReceiver.ChangeKnockback(movement.ApplyForceToVelocity, () => sm.Current.Name == "Charge_Push" || sm.Current.Name == "Push" ? true : false);
     }

@@ -60,6 +60,12 @@ public class DamageReceiver : MonoBehaviour
         return this;
     }
 
+    public DamageReceiver RestTakeDamage(Action<DamageData> _takeDmg)
+    {
+        takeDmg -= _takeDmg;
+        return this;
+    }
+
     public DamageReceiver SetIsDamage(Func<bool> _IsDmg)
     {
         IsDmg = _IsDmg;

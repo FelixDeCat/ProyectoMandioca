@@ -54,7 +54,7 @@ public class TruenosPasiveSkill : MonoBehaviour
             {
                 enemis[i].TakeDamage(dmgDATA);
                 if(enemis[i].GetComponent<EffectReceiver>() != null)
-                    enemis[i].GetComponent<EffectReceiver>().TakeEffect(EffectName.OnFreeze,stunTimer);
+                    enemis[i].GetComponent<EffectReceiver>().TakeEffect(EffectName.OnElectrified,stunTimer);
             }
         }
     }

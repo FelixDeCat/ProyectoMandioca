@@ -28,7 +28,6 @@ public class MandragoraEnemy : EnemyWithCombatDirector
     private bool cooldown = false;
     CDModule cdModuleStopeable = new CDModule();
     CDModule cdModuleNonStopeable = new CDModule();
-    bool petrified = false;
 
     [Header("Spawn Options")]
     public EnemyBase_IntDictionary enemiesToSpawnDic = new EnemyBase_IntDictionary();
@@ -44,8 +43,7 @@ public class MandragoraEnemy : EnemyWithCombatDirector
     [SerializeField] Color onHitColor = Color.white;
     [SerializeField] float onHitFlashTime = 0.1f;
     [SerializeField] RagdollComponent ragdoll = null;
-
-    [SerializeField] EffectBase petrifyEffect = null;
+    
     EventStateMachine<MandragoraInputs> sm;
 
     public MandragoraParticles particles;
@@ -93,8 +91,6 @@ public class MandragoraEnemy : EnemyWithCombatDirector
         Main.instance.AddEntity(this);
 
         IAInitialize(Main.instance.GetCombatDirector());
-        petrifyEffect?.AddStartCallback(() => petrified = true);
-        petrifyEffect?.AddEndCallback(() => petrified = false);
         if(trapToDie) PoolManager.instance.GetObjectPool(trapToDie.name, trapToDie);
 
         dmgReceiver.ChangeKnockback(movement.ApplyForceToVelocity, () => false);

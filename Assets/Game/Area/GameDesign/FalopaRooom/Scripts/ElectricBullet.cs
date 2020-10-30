@@ -12,7 +12,7 @@ public class ElectricBullet : Waves
 
         if (other.gameObject.GetComponent<EnemyBase>())
         {
-            other.GetComponent<EffectReceiver>().TakeEffect(EffectName.OnFreeze, stunTime);
+            other.GetComponent<EffectReceiver>().TakeEffect(EffectName.OnElectrified, stunTime);
         }
 
         if (other.gameObject.GetComponent<ElectricOrb>())
