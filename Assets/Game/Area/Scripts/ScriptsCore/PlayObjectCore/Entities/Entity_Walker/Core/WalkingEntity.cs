@@ -1,23 +1,18 @@
-﻿using System.Collections;
+﻿using IA_Felix;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System;
 
 public abstract class WalkingEntity : EntityBase
 {
-    protected override void OnUpdate() { if (executeAStar) {/*Execute AStar*/}  OnUpdateEntity(); }
+    RigidbodyPathFinder rig_path_finder;
+    
+    protected override void OnUpdate() { if (executeAStar) { rig_path_finder.Refresh(); } OnUpdateEntity(); }
     protected abstract void OnUpdateEntity();
-    public virtual void OnReceiveItem(InteractCollect itemworld) { }
-    public virtual void OnStun() { }
-
-    #region en desuso
-    /// <summary>
-    /// aca se puede implementar un A* desactivado
-    /// </summary>
-    /// 
     private bool executeAStar;
-    protected void Callback_IHaveArrived() { /*llegue a mi posicion, por callback*/ executeAStar = false; }
-    public void GoToPosition(Transform pos) { /*Configure and Active AStar*/executeAStar = true; }
-    public void GoToPosition(Vector2 pos) { /*Configure and Active AStar*/ executeAStar = true; }
-    public void GoToPosition() { /*Configure and Active AStar*/ executeAStar = true; }
-    #endregion
+    public void InitializePathFinder(Rigidbody rb) { rig_path_finder.Initialize(rb); }
+    protected void Callback_IHaveArrived(Action EndArrived) { rig_path_finder.AddCallbackEnd(EndArrived); }
+    public void GoToPosition(Vector3 pos) { rig_path_finder.Execute(pos); executeAStar = true; }
+    
 }

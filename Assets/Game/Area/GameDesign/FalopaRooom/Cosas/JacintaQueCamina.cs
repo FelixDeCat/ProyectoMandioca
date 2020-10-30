@@ -7,11 +7,6 @@ public class JacintaQueCamina : PistonWithSteps
     [SerializeField] Transform _rootRot = null;
     [SerializeField] Animator _anim = null;
 
-    private void Start()
-    {
-        OnReachDestination += () => _anim.SetTrigger("stopWalking");
-    }
-
     public void StartWalkingAnim()
     {
         _anim.SetTrigger("walk");

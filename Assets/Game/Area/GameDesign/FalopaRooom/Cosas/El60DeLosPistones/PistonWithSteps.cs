@@ -9,8 +9,6 @@ public class PistonWithSteps : MonoBehaviour
     [SerializeField] protected Transform _root = null;
     [SerializeField] protected List<Transform> nodes = new List<Transform>();
     [SerializeField] Transform parent = null;
-    
-    public event Action OnReachDestination;
 
     public float speed;
 
@@ -37,11 +35,20 @@ public class PistonWithSteps : MonoBehaviour
                 {
                     _root.position = nodes[currentNode].position;
                     isMoving = false;
-                    OnReachDestination?.Invoke();
+                    OnStopMove();
                 }
                 
             }
         }
+    }
+
+    public virtual void OnBeginMove()
+    {
+
+    }
+    public virtual void OnStopMove()
+    {
+
     }
 
     public virtual void Move()
@@ -64,6 +71,8 @@ public class PistonWithSteps : MonoBehaviour
     {
         if (isMoving) return;
         isMoving = true;
+
+        OnBeginMove();
 
         if (nodes.Count -1 == currentNode)
         {

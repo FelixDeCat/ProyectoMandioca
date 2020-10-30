@@ -14,16 +14,14 @@ public class EntusiastaRompiendoRamas : PistonWithSteps
 
     private void Start()
     {
-        OnReachDestination += () => StopRunningAndAttack();
         _animEvent.Add_Callback("RomperRamita", RomperRamas);
     }
 
-    public void StartWalkingAnim()
+    public override void OnBeginMove()
     {
         _anim.SetTrigger("run");
     }
-
-    public void StopRunningAndAttack()
+    public override void OnStopMove()
     {
         _anim.SetTrigger("stopRunning");
         _anim.SetTrigger("Attack");
