@@ -68,6 +68,6 @@ public class EffectBasicElectrify : EffectBase
 
     protected override void OnTickEffect(float cdPercent)
     {
-        //Update de Feedback
+        //Update
     }
 }
