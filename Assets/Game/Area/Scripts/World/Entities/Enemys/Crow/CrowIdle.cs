@@ -24,7 +24,6 @@ namespace Tools.StateMachine
         protected override void Enter(EState<CrowEnemy.CrowInputs> last)
         {
             base.Enter(last);
-            anim.SetBool("rotate", true);
         }
 
         protected override void Exit(CrowEnemy.CrowInputs input)

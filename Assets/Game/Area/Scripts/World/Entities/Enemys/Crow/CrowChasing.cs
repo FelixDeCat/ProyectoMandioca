@@ -25,6 +25,7 @@ namespace Tools.StateMachine
         {
             base.Enter(last);
             combatDirector.PrepareToAttack(enemy, enemy.CurrentTarget());
+            anim.SetBool("rotate", true);
         }
 
         protected override void Exit(CrowEnemy.CrowInputs input)

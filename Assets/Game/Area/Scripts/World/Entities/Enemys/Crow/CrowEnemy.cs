@@ -99,7 +99,7 @@ public class CrowEnemy : EnemyWithCombatDirector
         {
             if (combatElement.Combat)
             {
-                if (Vector3.Distance(Main.instance.GetChar().transform.position, transform.position) > combatDistance + 2)
+                if (Vector3.Distance(Main.instance.GetChar().transform.position, transform.position) > distancePos + 2)
                 {
                     combatElement.ExitCombat();
 
@@ -114,7 +114,7 @@ public class CrowEnemy : EnemyWithCombatDirector
 
             if (!combatElement.Combat && combatElement.Target == null)
             {
-                if (Vector3.Distance(Main.instance.GetChar().transform.position, transform.position) <= combatDistance)
+                if (Vector3.Distance(Main.instance.GetChar().transform.position, transform.position) <= distancePos)
                 {
                     combatElement.EnterCombat();
 
@@ -291,9 +291,9 @@ public class CrowEnemy : EnemyWithCombatDirector
 
         var head = Main.instance.GetChar();
 
-        new CrowIdle(idle, sm, distancePos, rotationSpeed, combatElement, lineOfSight.OnSight, () => stopCD).SetAnimator(animator).SetRoot(rootTransform).SetDirector(director);
+        new CrowIdle(idle, sm, distancePos, rotationSpeed, combatElement, lineOfSight.OnSight, () => stopCD).SetRoot(rootTransform).SetDirector(director);
 
-        new CrowChasing(chasing, sm, () => combatElement.Attacking, distancePos, rotationSpeed, combatElement, lineOfSight.OnSight).SetDirector(director).SetRoot(rootTransform);
+        new CrowChasing(chasing, sm, () => combatElement.Attacking, distancePos, rotationSpeed, combatElement, lineOfSight.OnSight).SetDirector(director).SetRoot(rootTransform).SetAnimator(animator);
 
         new CrowAttack(attack, sm, () => castPartTemp = ParticlesManager.Instance.PlayParticle(particles.castParticles.name, shootPivot.position, CastOver, shootPivot),
             () => castingOver, (x) => { castingOver = x; cdModule.AddCD("canAttack", () => stopCD = true, cdToCast);  stopCD = x; }, combatElement, rotationSpeed)
