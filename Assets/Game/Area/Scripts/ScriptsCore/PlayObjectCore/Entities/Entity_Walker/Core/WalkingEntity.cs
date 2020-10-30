@@ -12,7 +12,7 @@ public abstract class WalkingEntity : EntityBase
     protected abstract void OnUpdateEntity();
     private bool executeAStar;
     public void InitializePathFinder(Rigidbody rb) { rig_path_finder.Initialize(rb); }
-    protected void Callback_IHaveArrived(Action EndArrived) { rig_path_finder.AddCallbackEnd(EndArrived); }
+    protected virtual void Callback_IHaveArrived(Action EndArrived) { rig_path_finder.AddCallbackEnd(EndArrived); }
     public void GoToPosition(Vector3 pos) { rig_path_finder.Execute(pos); executeAStar = true; }
     
 }

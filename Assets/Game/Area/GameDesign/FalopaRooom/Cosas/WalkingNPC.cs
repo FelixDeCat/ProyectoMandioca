@@ -1,11 +1,14 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 public abstract class Villager : NPCBase
 {
     [SerializeField] NPC_Anims anim;
     public Rigidbody rb;
+
+    [SerializeField] UnityEvent OnIHaveArrive;
 
     protected override void StackedInitialize()
     {
@@ -24,5 +27,6 @@ public abstract class Villager : NPCBase
     void IHaveArrive()
     {
         anim.StopWalk("");
+        OnIHaveArrive?.Invoke();
     }
 }

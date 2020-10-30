@@ -75,6 +75,9 @@ public class PistonWithSteps : MonoBehaviour
 
     public void GoToNextNode()
     {
+
+
+
         if (isMoving) return;
         isMoving = true;
 
