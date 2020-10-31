@@ -6,6 +6,7 @@ using UnityEngine;
 public abstract class GOAP_Skills_Base : MonoBehaviour
 {
     protected bool canUpdate;
+    protected bool cd_Update;
     public  Action OnFinishSkill;
     
     bool isOn;
@@ -29,16 +30,20 @@ public abstract class GOAP_Skills_Base : MonoBehaviour
     public void Pause() { canUpdate = false; OnPause(); }
     public void Resume() { canUpdate = true; OnResume(); }
     public void EndSkill() { StartCD(); OnEndSkill(); OnFinishSkill?.Invoke(); }
-    public void InterruptSkill() { StartCD(); OnEndSkill();}
+    public void InterruptSkill() { StartCD(); OnInterruptSkill(); }
     public void Execute() { Debug.Log(skillName + " SE EJECUTA"); OnExecute();  isAvaliable = false; }
     
-    private void StartCD() {   On(); } //Debug.Log("Inicio Cd de " + skillName);
+    private void StartCD() { cd_Update = true; } //Debug.Log("Inicio Cd de " + skillName);
 
     private void Update()
     {
         if (canUpdate)
         {
             OnUpdate();
+        }
+
+        if (cd_Update)
+        {
             CD();
         }
     }
@@ -54,7 +59,7 @@ public abstract class GOAP_Skills_Base : MonoBehaviour
         {
             _count = 0;
             isAvaliable = true;
-            Off();
+            cd_Update = false;
         }
     }
 

@@ -50,7 +50,7 @@ public class Fly_bossSkill : GOAP_Skills_Base
 
     protected override void OnInitialize()
     {
-        _anim = owner.GetComponentInChildren<Animator>(); ;
+        _anim = owner.GetComponentInChildren<Animator>(); 
         _ent = owner.GetComponent<Ente>();
     }
 

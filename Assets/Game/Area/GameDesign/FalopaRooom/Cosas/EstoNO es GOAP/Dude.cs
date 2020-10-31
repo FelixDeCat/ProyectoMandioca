@@ -75,7 +75,7 @@ namespace GOAP
 
 
             /// /// /// ///
-            void NextStep() { _fsm.Feed(ActionEntity.NextStep); };
+            void NextStep() {  _fsm.Feed(ActionEntity.NextStep); };
             void FailedStep() { _fsm.Feed(ActionEntity.FailedStep); };
 
             useSkill.OnEnter += (a) =>
@@ -87,7 +87,6 @@ namespace GOAP
                 {
                     Debug.Log(_currentSkill.skillName + " no esta disponible");
                     FailedStep();
-                    //FailedStep();
                     return;
                 }
 
@@ -200,7 +199,7 @@ namespace GOAP
             {
                 _auxCount += Time.deltaTime;
                 
-                if (_auxCount >= 2)
+                if (_auxCount >= 4)
                 {
                     Debug.Log("llego a entrar aca?");
                     _target = Main.instance.GetChar().GetComponent<Item>();
@@ -238,6 +237,7 @@ namespace GOAP
 
             getDamaged.OnEnter += a =>
             {
+                _plan = null;
                 _auxCount = 0;
                 _ent.Stop();
                 _planner.StopPlanning();
@@ -248,7 +248,7 @@ namespace GOAP
             {
                 _auxCount += Time.deltaTime;
 
-                if (_auxCount >= 2)
+                if (_auxCount >= 4)
                 {    
                     FailedStep();
                 }
@@ -269,10 +269,16 @@ namespace GOAP
                 .SetTransition(ActionEntity.UseSkill, useSkill)
                 .SetTransition(ActionEntity.Move, move)
                 .SetTransition(ActionEntity.Avoid, avoid)
-                .SetTransition(ActionEntity.GetDamaged, getDamaged)
+                //.SetTransition(ActionEntity.GetDamaged, getDamaged)
                 .Done();
 
             _fsm = new EventFSM<ActionEntity>(thinkPlan, any);
+        }
+
+        //hago esto para dar un toque de tiempo entre next step y next step para poder setear cosas de animator
+        IEnumerator SeparationTime()
+        {
+            yield return new WaitForSeconds(0.1f);
         }
 
         void ResolveAttack(CharacterHead hero)

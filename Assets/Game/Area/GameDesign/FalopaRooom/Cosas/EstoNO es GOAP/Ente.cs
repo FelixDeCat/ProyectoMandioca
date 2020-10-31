@@ -62,7 +62,7 @@ namespace GOAP
 
         void FixedUpdate()
         {
-            if(_dest_pos != Vector3.zero)
+            if (_dest_pos != Vector3.zero)
             {
                 _rb.velocity += _dir * currentSpeed * Time.fixedDeltaTime;
                 Rotation(_dir);
@@ -71,12 +71,12 @@ namespace GOAP
 
         private void Update()
         {
-           
+
             _anim.SetFloat("speed", _rb.velocity.magnitude);
             _anim.SetInteger("heighLevel", heightLevel);
 
             debugLife = Life.Life;
-        }      
+        }
 
         private void Start()
         {
@@ -87,8 +87,8 @@ namespace GOAP
             //Life
             _lifeSystem = GetComponent<GenericLifeSystem>();
             damagereciever.SetIsDamage(IsDamaged).AddDead(Death).AddTakeDamage(TakeDamageFeedback).Initialize(_root, _rb, _lifeSystem);
-          
-            
+
+
 
             //Animation
             _anim = GetComponentInChildren<Animator>();
@@ -101,7 +101,7 @@ namespace GOAP
             OnFinishAttack += () => attackSensor.gameObject.SetActive(false);
         }
 
-        public void Initialize(){GetComponent<Dude>().Initialize(); BossBarGeneric.Open();
+        public void Initialize() { GetComponent<Dude>().Initialize(); BossBarGeneric.Open();
             BossBarGeneric.SetLife(Life.Life, Life.LifeMax);
         }
 
@@ -109,7 +109,7 @@ namespace GOAP
         void OnMeleeAttackHit() => OnMeleeAttack?.Invoke();
         void OnFinishMeleeAttackAnimation() => OnFinishAttack?.Invoke();
         void OnFinishSkillCast() => OnFinishSkill?.Invoke();
-        void SkillAction() => OnSkillAction?.Invoke();
+        void SkillAction()  { Debug.Log("A VER ESTO CUANTO SE EJECUTA"); OnSkillAction?.Invoke();}
 
         #region Effects
 
@@ -134,9 +134,10 @@ namespace GOAP
 
             if(canBeInterrupted && !damageFeedback)
             {
+                //OnSkillAction = null;
                 OnTakeDmg?.Invoke();
-                Anim().ResetTrigger("finishSkill");
                 Anim().Play("GetDamage");
+                //Anim().ResetTrigger("finishSkill");
                 damageFeedback = true;
                 StartCoroutine(StopDamageInput());
             }
