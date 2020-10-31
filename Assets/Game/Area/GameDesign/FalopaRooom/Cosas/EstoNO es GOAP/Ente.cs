@@ -109,7 +109,7 @@ namespace GOAP
         void OnMeleeAttackHit() => OnMeleeAttack?.Invoke();
         void OnFinishMeleeAttackAnimation() => OnFinishAttack?.Invoke();
         void OnFinishSkillCast() => OnFinishSkill?.Invoke();
-        void SkillAction()  { Debug.Log("A VER ESTO CUANTO SE EJECUTA"); OnSkillAction?.Invoke();}
+        void SkillAction()  { OnSkillAction?.Invoke();}
 
         #region Effects
 

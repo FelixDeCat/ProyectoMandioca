@@ -20,11 +20,9 @@ public class ThunderWave_bossSkill : GOAP_Skills_Base
 
     protected override void OnEndSkill()
     {
-        //_ent.OnSkillAction -= ThuderWave;
-        //No me gusta que este aca esto. Esto tiene que ser automatico de otro lado
         WorldState.instance.valoresBool["OwnerGetDamage"] = false;
         _ent.canBeInterrupted = true;
-        _anim.SetTrigger("finishSkill");
+        
     }
 
     protected override void OnExecute()
@@ -32,7 +30,6 @@ public class ThunderWave_bossSkill : GOAP_Skills_Base
         _ent.canBeInterrupted = false;
         _anim.Play("StartCastOrb");
         totemFeedback.StartChargeFeedback(() => StartCoroutine(TimeBtwEndPartAndExplode()));
-        //_ent.OnSkillAction += ThuderWave;
     }
 
     protected override void OnFixedUpdate()
@@ -42,8 +39,9 @@ public class ThunderWave_bossSkill : GOAP_Skills_Base
 
     IEnumerator TimeBtwEndPartAndExplode()
     {
+        _anim.SetTrigger("finishSkill");
         yield return new WaitForSeconds(timeBtwEndPartAndExplode);
-
+        
         ThunderWave();
     }
 
@@ -60,33 +58,6 @@ public class ThunderWave_bossSkill : GOAP_Skills_Base
             if (obj == null) continue;
 
             obj.TakeDamage(dmgData);
-
-
-            //raycast que no quiere funcar
-            //Vector3 objDir = ((obj.transform.position + Vector3.up) - (_ent.Root().position + Vector3.up)).normalized;
-
-            //RaycastHit hit;
-            //// Does the ray intersect any objects excluding the player layer
-            //if (Physics.Raycast(_ent.Root().position + Vector3.up, objDir, out hit, radious, hitMask))
-            //{
-            //    if(hit.transform.GetComponent<DamageReceiver>() != null)
-            //    {
-            //        obj.TakeDamage(dmgData);
-            //        Debug.Log("Did Hit");
-            //    }
-            //    else
-            //    {
-            //        Debug.Log("Entro en true pero no pego");
-            //    }
-
-                
-            //}
-            //else
-            //{
-            //    //Debug.Log("el hit ESDSS " + hit.transform.name);
-            //    Debug.Log("Did not Hit");
-            //}
-
         }
 
         EndSkill();

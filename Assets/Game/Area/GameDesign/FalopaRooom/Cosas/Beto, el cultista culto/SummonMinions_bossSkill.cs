@@ -19,7 +19,7 @@ public class SummonMinions_bossSkill : GOAP_Skills_Base, ISpawner
     {
         Debug.Log("TERMINE DE SUMMONEAR");
         //owner.GetComponent<Ente>().OnFinishSkill -= EndSkill;
-        _anim.SetTrigger("finishSkill");
+        
         _ent.canBeInterrupted = true;
     }
 
@@ -45,6 +45,7 @@ public class SummonMinions_bossSkill : GOAP_Skills_Base, ISpawner
             totemFeedback.StartGoToFeedback(pos, (x) => SpawnPrefab(x));
         }
 
+        _anim.SetTrigger("finishSkill");
         StartCoroutine(SpellDuration());
     }
 

@@ -23,7 +23,7 @@ public class LaserShoot_bossSkill : GOAP_Skills_Base
 
     protected override void OnEndSkill()
     {
-        _anim.SetTrigger("finishSkill");
+        
         Off();
         _ent.OnSkillAction -= ShootLaser;
         _ent.OnTakeDmg -= InterruptSkill;
@@ -33,14 +33,20 @@ public class LaserShoot_bossSkill : GOAP_Skills_Base
 
     protected override void OnExecute()
     {
-        On();
+        
 
         _ent.OnTakeDmg += InterruptSkill;
         _ent.OnSkillAction += ShootLaser;
+
+        _amount = 0;
+        _countTime = 0;
+        _anim.Play("StartCastOrb");
     }  
 
     void ShootLaser()
     {
+        On();
+
         _amount++;
 
         ThrowData newData;
@@ -55,6 +61,9 @@ public class LaserShoot_bossSkill : GOAP_Skills_Base
         }
 
         ThrowablePoolsManager.instance.Throw(rayo_pf.name, newData);
+
+        if(_amount >= amountLaser)
+            _anim.SetTrigger("finishSkill");
 
     }
 
@@ -108,9 +117,7 @@ public class LaserShoot_bossSkill : GOAP_Skills_Base
 
     protected override void OnTurnOn()
     {
-        _amount = 0;
-        _countTime = 0;
-        _anim.Play("StartCastOrb");
+       
     }
 
     protected override void OnUpdate()
@@ -127,7 +134,9 @@ public class LaserShoot_bossSkill : GOAP_Skills_Base
             }
             else
             {
-                _anim.Play("StartCastOrb");
+                Off();
+                _anim.SetTrigger("loop");
+                //_anim.Play("StartCastOrb");
             }
         }
     }
