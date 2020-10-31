@@ -52,6 +52,7 @@ public class GoatEnemy : EnemyWithCombatDirector
     private Action<EState<GoatInputs>> EnterStun;
     private Action<string> UpdateStun;
     private Action<GoatInputs> ExitStun;
+    EffectReceiver myEffectReceiver;
 
     [Header("Feedback")]
     [SerializeField] AnimEvent anim = null;
@@ -108,6 +109,8 @@ public class GoatEnemy : EnemyWithCombatDirector
         IAInitialize(Main.instance.GetCombatDirector());
 
         dmgReceiver.ChangeKnockback(movement.ApplyForceToVelocity, () => sm.Current.Name == "Charge_Push" || sm.Current.Name == "Push" ? true : false);
+
+        myEffectReceiver = GetComponent<EffectReceiver>();
     }
 
     public override void IAInitialize(CombatDirector _director)
@@ -154,7 +157,7 @@ public class GoatEnemy : EnemyWithCombatDirector
             sm?.Update();
             cdModuleStopeable.UpdateCD();
         }
-
+        myEffectReceiver?.UpdateStates();
         movement.OnUpdate();
         cdModuleNoStopeable.UpdateCD();
     }
@@ -260,6 +263,7 @@ public class GoatEnemy : EnemyWithCombatDirector
         else
             ragdoll.Ragdoll(true, dir);
         Main.instance.RemoveEntity(this);
+        myEffectReceiver?.EndAllEffects();
     }
 
     protected override bool IsDamage()

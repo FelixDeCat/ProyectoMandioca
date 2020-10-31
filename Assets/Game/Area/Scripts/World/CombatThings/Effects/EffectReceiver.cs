@@ -75,4 +75,9 @@ public class EffectReceiver : MonoBehaviour
             myPossibleEffects[effect].ResetEffect(timeExtend);
         }
     }
+
+    public void UpdateStates()
+    {
+        for (int i = 0; i < activesEffect.Count; i++) myPossibleEffects[activesEffect[i]].OnUpdate();
+    }
 }

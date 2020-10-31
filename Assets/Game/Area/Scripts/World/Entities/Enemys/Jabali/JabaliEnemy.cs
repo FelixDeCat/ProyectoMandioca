@@ -48,6 +48,7 @@ public class JabaliEnemy : EnemyWithCombatDirector
     private Action<EState<JabaliInputs>> EnterStun;
     private Action<string> UpdateStun;
     private Action<JabaliInputs> ExitStun;
+    EffectReceiver myEffectReceiver;
 
     [Header("Feedback")]
     [SerializeField] AnimEvent anim = null;
@@ -97,6 +98,8 @@ public class JabaliEnemy : EnemyWithCombatDirector
         IAInitialize(Main.instance.GetCombatDirector());
 
         dmgReceiver.ChangeKnockback(movement.ApplyForceToVelocity, () => sm.Current.Name == "Charge_Push" || sm.Current.Name == "Push" ? true : false);
+
+        myEffectReceiver = GetComponent<EffectReceiver>();
     }
 
     public override void IAInitialize(CombatDirector _director)
@@ -145,7 +148,7 @@ public class JabaliEnemy : EnemyWithCombatDirector
             sm?.Update();
             cdModuleStopeable.UpdateCD();
         }
-
+        myEffectReceiver?.UpdateStates();
         movement.OnUpdate();
         cdModuleNoStopeable.UpdateCD();
     }
@@ -256,6 +259,8 @@ public class JabaliEnemy : EnemyWithCombatDirector
         else
             ragdoll.Ragdoll(true, dir);
         Main.instance.RemoveEntity(this);
+
+        myEffectReceiver?.EndAllEffects();
     }
 
     protected override bool IsDamage()

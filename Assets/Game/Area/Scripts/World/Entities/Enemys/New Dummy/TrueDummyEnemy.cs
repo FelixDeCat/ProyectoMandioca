@@ -28,6 +28,7 @@ public class TrueDummyEnemy : EnemyWithCombatDirector
     private bool cooldown = false;
     CDModule cdModuleStopeable = new CDModule();
     CDModule cdModuleNonStopeable = new CDModule();
+    EffectReceiver myEffectReceiver;
 
     [Header("Feedback")]
     [SerializeField] AnimEvent anim = null;
@@ -112,6 +113,7 @@ public class TrueDummyEnemy : EnemyWithCombatDirector
         Main.instance.AddEntity(this);
 
         IAInitialize(Main.instance.GetCombatDirector());
+        myEffectReceiver = GetComponent<EffectReceiver>();
         
         //Hago el pool de las vines aca
         PoolManager.instance.GetObjectPool("CorruptedVines", dummySpecialAttack.specialAttack_pf);
@@ -167,7 +169,7 @@ public class TrueDummyEnemy : EnemyWithCombatDirector
             sm?.Update();
             cdModuleStopeable.UpdateCD();
         }
-
+        myEffectReceiver?.UpdateStates();
         movement.OnUpdate();
         cdModuleNonStopeable.UpdateCD();
         dummySpecialAttack.UpdateSpecialAttack();
@@ -242,6 +244,7 @@ public class TrueDummyEnemy : EnemyWithCombatDirector
         death = true;
         combatElement.ExitCombat();
         Main.instance.RemoveEntity(this);
+        myEffectReceiver?.EndAllEffects();
     }
 
     protected override bool IsDamage()

@@ -6,6 +6,7 @@ using System;
 public class DamageReceiver : MonoBehaviour
 {
     [SerializeField] List<Damagetype> invulnerability = new List<Damagetype>();
+    [SerializeField] List<Damagetype> onlyVulnerablyTo = new List<Damagetype>();
     [SerializeField] DmgType_FloatDictionary resistances = new DmgType_FloatDictionary();
     [SerializeField] DmgType_FloatDictionary debilities = new DmgType_FloatDictionary();
 
@@ -20,7 +21,6 @@ public class DamageReceiver : MonoBehaviour
     Action InmuneFeedback;
     Action<Vector3> OwnKnockback;
     Func<bool> IsDmg;
-    bool IsNotDestructible = false;
     Transform ownerRoot;
 
     Func<bool> DontApplyKnockback =delegate { return false; };
@@ -107,11 +107,14 @@ public class DamageReceiver : MonoBehaviour
 
         if (_LifeSystem != null && _LifeSystem.life <= 0) return Attack_Result.inmune;
 
-        if (IsNotDestructible)
+        if (onlyVulnerablyTo.Count != 0 && !onlyVulnerablyTo.Contains(data.damageType))
         {
             InmuneFeedback?.Invoke();
             return Attack_Result.inmune;
         }
+
+        if (GetComponent<CharacterHead>()) Debug.Log("CharacterDamage: " + data.damage);
+
         if (invulnerability.Contains(Damagetype.All) || invulnerability.Contains(data.damageType))
         {
             InmuneFeedback?.Invoke();
@@ -166,9 +169,7 @@ public class DamageReceiver : MonoBehaviour
         bool death = _LifeSystem.Hit(dmg);
 
         if (death) OnDead?.Invoke(data.attackDir);
-
         
-
        takeDmg?.Invoke(data);
 
         return death ? Attack_Result.death : Attack_Result.sucessful;
@@ -196,6 +197,4 @@ public class DamageReceiver : MonoBehaviour
     public void AddDebility(Damagetype inv, float debilityMultiplier) { if (!debilities.ContainsKey(inv)) debilities.Add(inv, debilityMultiplier); }
 
     public void RemoveDebility(Damagetype inv) { if (debilities.ContainsKey(inv)) debilities.Remove(inv); }
-
-    public void ChangeIndestructibility(bool isIndestructible) { IsNotDestructible = isIndestructible; }
  }

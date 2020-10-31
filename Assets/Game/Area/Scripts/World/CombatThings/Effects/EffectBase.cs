@@ -35,12 +35,9 @@ public abstract class EffectBase : MonoBehaviour
     //Lo mismo que el de arriba pero en el end
     public void AddEndCallback(Action _EndCallback) => EndEffect += _EndCallback;
 
-    //Acá pasa lo mismo que con el Start, no sé si usarlo así, pero por ahora...
-    protected void Update() => OnUpdate();
-
     //OnUpdate más que nada para el cooldown, pero también ejecuto una función Tick con herencia, por si se quiere agregar funcionalidad según el tiempo del efecto
     //(Por ejemplo, si quiero que a la mitad del efecto, vomiten arcoiris)
-    private void OnUpdate()
+    public void OnUpdate()
     {
         if (IsActive)
         {

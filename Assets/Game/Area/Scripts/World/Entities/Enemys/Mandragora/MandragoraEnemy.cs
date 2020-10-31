@@ -28,6 +28,7 @@ public class MandragoraEnemy : EnemyWithCombatDirector
     private bool cooldown = false;
     CDModule cdModuleStopeable = new CDModule();
     CDModule cdModuleNonStopeable = new CDModule();
+    EffectReceiver myEffectReceiver;
 
     [Header("Spawn Options")]
     public EnemyBase_IntDictionary enemiesToSpawnDic = new EnemyBase_IntDictionary();
@@ -94,6 +95,8 @@ public class MandragoraEnemy : EnemyWithCombatDirector
         if(trapToDie) PoolManager.instance.GetObjectPool(trapToDie.name, trapToDie);
 
         dmgReceiver.ChangeKnockback(movement.ApplyForceToVelocity, () => false);
+
+        myEffectReceiver = GetComponent<EffectReceiver>();
 
         if (!mandragoraIsTrap) return;
         spawnerSpot.Initialize();
@@ -184,6 +187,7 @@ public class MandragoraEnemy : EnemyWithCombatDirector
                 }
             }
             if (!petrified) { sm?.Update(); cdModuleStopeable.UpdateCD(); }
+            myEffectReceiver?.UpdateStates();
             movement.OnUpdate();
             cdModuleNonStopeable.UpdateCD();
         }
@@ -265,6 +269,7 @@ public class MandragoraEnemy : EnemyWithCombatDirector
         mandragoraIsTrap = false;
         combatElement.ExitCombat();
         Main.instance.RemoveEntity(this);
+        myEffectReceiver?.EndAllEffects();
     }
 
     protected override bool IsDamage()

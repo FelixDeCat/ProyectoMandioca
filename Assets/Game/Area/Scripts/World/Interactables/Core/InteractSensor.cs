@@ -9,7 +9,7 @@ public class InteractSensor : MonoBehaviour
 {
     public bool isclose;
 
-    List<Interactable> interactables;
+    List<Interactable> interactables = new List<Interactable>();
     public List<Interactable> Interacts { get { return interactables; } }
     Interactable current;
     
@@ -22,6 +22,29 @@ public class InteractSensor : MonoBehaviour
     [SerializeField] WalkingEntity collector = null;
 
     bool buttonPressing;
+
+    private void Start()
+    {
+        Main.instance.eventManager.SubscribeToEvent(GameEvents.INTERACTABLES_INITIALIZE, AddInteractStart);
+    }
+
+    void AddInteractStart(params object[] param)
+    {
+        Interactable[] interact = (Interactable[])param[0];
+
+        for (int i = 0; i < interact.Length; i++)
+            AddToInteractables(interact[i]);
+    }
+
+    public void AddToInteractables(Interactable _interact)
+    {
+        if (!interactables.Contains(_interact)) interactables.Add(_interact);
+    }
+
+    public void RemoveToInteractables(Interactable _interact)
+    {
+        if (interactables.Contains(_interact)) interactables.Remove(_interact);
+    }
 
     public Interactable OnInteractDown()
     {

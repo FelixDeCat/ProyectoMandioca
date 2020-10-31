@@ -36,10 +36,10 @@ public class BombEnemy : EnemyBase
     [SerializeField] float initTickTime = 1;
     [SerializeField] float tickModifier = 0.8f;
     [SerializeField] float tickCount = 10;
-
-    [SerializeField] EffectBase petrifyEffect = null;
+    
     EventStateMachine<BombInputs> sm;
     CDModule cdModule = new CDModule();
+    EffectReceiver myEffectReceiver;
 
     public BombParticles particles;
     public BombSounds sounds;
@@ -79,10 +79,10 @@ public class BombEnemy : EnemyBase
         movement.Configure(rootTransform, rb, groundSensor);
 
         Main.instance.AddEntity(this);
+        myEffectReceiver = GetComponent<EffectReceiver>();
 
         SetStates();
-        petrifyEffect?.AddStartCallback(() => petrify = true);
-        petrifyEffect?.AddEndCallback(() => petrify = false);
+        
         if (trapToDie) PoolManager.instance.GetObjectPool(trapToDie.name, trapToDie);
 
         dmgReceiver.ChangeKnockback(movement.ApplyForceToVelocity, () => false);
@@ -127,6 +127,7 @@ public class BombEnemy : EnemyBase
                 sm.SendInput(BombInputs.PERSUIT);
             }
         }
+        myEffectReceiver?.UpdateStates();
         sm?.Update();
         movement.OnUpdate();
         cdModule.UpdateCD();
@@ -196,6 +197,7 @@ public class BombEnemy : EnemyBase
         sm.SendInput(BombInputs.EXPLODE);
         death = true;
         Main.instance.RemoveEntity(this);
+        myEffectReceiver?.EndAllEffects();
     }
 
     void Desactive()

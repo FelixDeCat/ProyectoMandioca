@@ -22,6 +22,8 @@ public abstract class Interactable : MonoBehaviour
     protected bool updateDelay;
     [SerializeField] bool drawGizmos = false;
 
+
+    
     public UnityEvent UE_OnEnter;
     public UnityEvent UE_OnExit;
     public UnityEvent PressDown;

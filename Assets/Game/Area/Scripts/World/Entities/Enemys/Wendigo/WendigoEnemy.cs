@@ -27,6 +27,8 @@ public class WendigoEnemy : EnemyWithCombatDirector
     bool stopCD;
     bool isRotating;
     EventStateMachine<WendigoInputs> sm;
+
+    EffectReceiver myEffectReceiver;
     protected override void OnInitialize()     //Inicia las cosas
     {
         //cosas
@@ -54,6 +56,8 @@ public class WendigoEnemy : EnemyWithCombatDirector
 
         //Vision
         lineOfSight.Configurate(rootTransform);
+
+        myEffectReceiver = GetComponent<EffectReceiver>();
     }
     //AnimEventFunctions
     public void GrabaThing()
@@ -277,6 +281,8 @@ public class WendigoEnemy : EnemyWithCombatDirector
                 }
             }
 
+            myEffectReceiver?.UpdateStates();
+
         }
         //Update de StateMachine
         if (sm != null)
@@ -365,6 +371,7 @@ public class WendigoEnemy : EnemyWithCombatDirector
         death = true;
         combatElement.ExitCombat();
         Main.instance.RemoveEntity(this);
+        myEffectReceiver?.EndAllEffects();
     }
 
     protected override bool IsDamage()
