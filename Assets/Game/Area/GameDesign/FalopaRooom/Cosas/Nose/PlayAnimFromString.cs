@@ -9,9 +9,19 @@ public class PlayAnimFromString : MonoBehaviour
 
     Animator _anim;
 
+    public bool useNpcAnims;
+    [SerializeField] NPC_Anims npcAnims;
+
     private void Start()
     {
+        if(useNpcAnims)
+        {
+            npcAnims.StartFetalPos("");
+            return;
+        }
+
         _anim = GetComponent<Animator>();
+        StartAnimation();
     }
 
     public void StartAnimation()
