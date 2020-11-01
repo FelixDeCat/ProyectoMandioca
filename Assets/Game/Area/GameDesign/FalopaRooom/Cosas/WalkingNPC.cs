@@ -7,7 +7,7 @@ using UnityEngine.Events;
 public abstract class Villager : NPCBase
 {
     [Header("Villager Variables")]
-    [SerializeField] NPC_Anims anim;
+    [SerializeField] protected NPC_Anims anim;
     public Rigidbody rb;
     Action OnArriveCustom = delegate { };
     NPC_Interactable interactable;
@@ -31,6 +31,14 @@ public abstract class Villager : NPCBase
         OnArriveCustom = _OnArriveCustomCallback;
         canupdate = true;
         anim.StartWalk("");
+        GoToPosition(pos);
+    }
+
+    public void GoToNoAnim(Vector3 pos, Action _OnArriveCustomCallback = null)
+    {
+        OnStartMovement.Invoke();
+        OnArriveCustom = _OnArriveCustomCallback;
+        canupdate = true;
         GoToPosition(pos);
     }
 

@@ -8,7 +8,8 @@ public class NPCFleing : Villager
 
     protected override void OnInitialize() { }
 
-    public void GoToPos_ExitEndless() => GoTo(pos_exit_endless.transform.position);
+    public void GoToPos_ExitEndless() => GoTo(pos_exit_endless.transform.position); 
+    public void GoToPos_RunningDesesperated() {GoToNoAnim(pos_exit_endless.transform.position, () => anim.StopRunDesesperate("")); anim.StartRunDesesperate(""); }
 
     //no se para que sirve esto, pero tira error sino, asique decora muy bien
     #region En desuso
