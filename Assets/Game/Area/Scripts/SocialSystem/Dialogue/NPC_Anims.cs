@@ -52,8 +52,19 @@ public class NPC_Anims : MonoBehaviour
     public void StartWalk(string s) => myAnim.SetBool("Walk", true);
     public void StopWalk(string s) => myAnim.SetBool("Walk", false);
 
+    public void StartRunDesesperate(string s) => myAnim.SetBool("RunDesperated", true);
+    public void StopRunDesesperate(string s) => myAnim.SetBool("RunDesperated", false);
+
+    public void StartRunNormal(string s) => myAnim.SetBool("NormalRun", true);
+    public void StopRunNormal(string s) => myAnim.SetBool("NormalRun", false);
+
+    public void StartFetalPos(string s) => myAnim.SetBool("fetalPos", true);
+    public void StopFetalPos(string s) => myAnim.SetBool("fetalPos", false);
+
     public void Play_Explainning(string s) => myAnim.SetBool("Explaining", true);
     public void Play_GiveAReward(string s) => myAnim.SetTrigger("GiveAReward");
+    public void Play_Peek(string s) => myAnim.SetTrigger("peek");
+    public void Play_EndPeek(string s) => myAnim.SetTrigger("endpeek");
     public void Play_Idle(string s) { }
     public void Play_Cry(string s) { myAnim.SetBool("Crying", true); }
     public void Play_Thanks(string s) { }
