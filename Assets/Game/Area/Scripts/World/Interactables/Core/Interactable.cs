@@ -21,8 +21,8 @@ public abstract class Interactable : MonoBehaviour
     public float delayTime;
     protected bool updateDelay;
     [SerializeField] bool drawGizmos = false;
-
-
+    bool can_interact = true;
+    public bool CanInteract { get { return can_interact; } }
     
     public UnityEvent UE_OnEnter;
     public UnityEvent UE_OnExit;
@@ -34,6 +34,7 @@ public abstract class Interactable : MonoBehaviour
 
     public void Enter(WalkingEntity entity)
     {
+        if (!can_interact) return;
         if (!predicate.Invoke()) { return; }
         if (!autoexecute) if (feedback.Length > 0) foreach (var fdbck in feedback) fdbck.Show();
         OnEnter(entity);
@@ -41,6 +42,7 @@ public abstract class Interactable : MonoBehaviour
     }
     public void Exit()
     {
+        if (!can_interact) return;
         //if (!predicate.Invoke()) return;
         if (feedback.Length > 0) foreach (var fdbck in feedback) fdbck.Hide();
         OnExit(currentCollector);
@@ -51,6 +53,7 @@ public abstract class Interactable : MonoBehaviour
     }
     public void Execute(WalkingEntity entity)
     {
+        if (!can_interact) return;
         if (!predicate.Invoke()) return;
 
         PressDown.Invoke();
@@ -70,6 +73,11 @@ public abstract class Interactable : MonoBehaviour
             updateDelay = true;
         }
     }
+
+    public void SetCanInteract(bool _caninteract)
+    {
+        can_interact = _caninteract;
+    }
     public void InterruptExecute()
     {
         if (!predicate.Invoke()) return;
@@ -81,6 +89,8 @@ public abstract class Interactable : MonoBehaviour
 
     protected virtual void Update()
     {
+        if (!can_interact) return; 
+
         if (updateDelay)
         {
             DelayExecute();

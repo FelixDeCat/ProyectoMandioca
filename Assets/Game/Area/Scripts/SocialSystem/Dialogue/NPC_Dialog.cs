@@ -39,6 +39,11 @@ public class NPC_Dialog : MonoBehaviour
         }
     }
 
+    public void SetDialoge(DialogueTree _dialogue)
+    {
+        currentDialoge = _dialogue;
+    }
+
     public void StopDialogue()
     {
         DialogueManager.instance.Close(stopAllOnDialogue);
