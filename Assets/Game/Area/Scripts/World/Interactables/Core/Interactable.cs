@@ -76,6 +76,7 @@ public abstract class Interactable : MonoBehaviour
 
     public void SetCanInteract(bool _caninteract)
     {
+        Debug.Log("Can interact: " + _caninteract);
         can_interact = _caninteract;
     }
     public void InterruptExecute()

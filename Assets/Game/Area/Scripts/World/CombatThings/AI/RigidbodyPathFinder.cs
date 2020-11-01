@@ -86,8 +86,6 @@ public class RigidbodyPathFinder : MonoBehaviour
 
         currentdist = Vector3.Distance(rb.transform.position, currentNode.transform.position);
 
-        Debug.Log("DIST: " + currentdist);
-
         if (currentdist < distance_to_close)
         {
 
@@ -118,7 +116,6 @@ public class RigidbodyPathFinder : MonoBehaviour
         Vector3 dir = currentNode.transform.position - rb.transform.position;
         dir = new Vector3(dir.x, dir.y, dir.z);
         dir.Normalize();
-        Debug.Log("GO TOO: " + dir);
         rb.velocity = new Vector3(dir.x * movement_speed, dir.y * movement_speed, dir.z * movement_speed);
 
         rb.transform.forward = Vector3.Lerp(rb.transform.forward, new Vector3(dir.x, 0, dir.z), forwardspeed * Time.deltaTime);
