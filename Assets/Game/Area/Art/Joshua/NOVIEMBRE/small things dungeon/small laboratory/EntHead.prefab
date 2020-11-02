@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1 &5849926109166441791
+--- !u!1 &2579714486681228423
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -8,47 +8,47 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 4946872391612838035}
-  - component: {fileID: 6637968411459985147}
-  - component: {fileID: 4820394947534196724}
-  - component: {fileID: 2056569504712653709}
-  - component: {fileID: 1982500017121127768}
+  - component: {fileID: 1555894099134293652}
+  - component: {fileID: 7551590787227163810}
+  - component: {fileID: 4318998930085011547}
+  - component: {fileID: 8589441579414607553}
+  - component: {fileID: 8202397646295926171}
   m_Layer: 0
-  m_Name: heat-plate
+  m_Name: EntHead
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &4946872391612838035
+--- !u!4 &1555894099134293652
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5849926109166441791}
-  m_LocalRotation: {x: -0.7071068, y: 0, z: -0, w: 0.7071068}
-  m_LocalPosition: {x: 63.201073, y: -0.10597309, z: -82.02798}
+  m_GameObject: {fileID: 2579714486681228423}
+  m_LocalRotation: {x: -0.503142, y: 0, z: -0, w: 0.86420375}
+  m_LocalPosition: {x: 3.4389582, y: 20.061224, z: -130.22478}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!33 &6637968411459985147
+--- !u!33 &7551590787227163810
 MeshFilter:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5849926109166441791}
-  m_Mesh: {fileID: -1806752372354477055, guid: dad34769bfcb294438394ad02e9dd956, type: 3}
---- !u!23 &4820394947534196724
+  m_GameObject: {fileID: 2579714486681228423}
+  m_Mesh: {fileID: -5222905875105461553, guid: 8f4a3c6701051f84898555984f50cbef, type: 3}
+--- !u!23 &4318998930085011547
 MeshRenderer:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5849926109166441791}
+  m_GameObject: {fileID: 2579714486681228423}
   m_Enabled: 1
   m_CastShadows: 1
   m_ReceiveShadows: 1
@@ -59,7 +59,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 26833bda4f79a9a4daec0aa95ed7926c, type: 2}
+  - {fileID: 2100000, guid: 77c3378f106916141b45cf6e6c0ede95, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -80,13 +80,27 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
---- !u!54 &2056569504712653709
+--- !u!64 &8589441579414607553
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2579714486681228423}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Convex: 1
+  m_CookingOptions: 14
+  m_Mesh: {fileID: -5222905875105461553, guid: 8f4a3c6701051f84898555984f50cbef, type: 3}
+--- !u!54 &8202397646295926171
 Rigidbody:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5849926109166441791}
+  m_GameObject: {fileID: 2579714486681228423}
   serializedVersion: 2
   m_Mass: 1
   m_Drag: 0
@@ -96,16 +110,3 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
---- !u!65 &1982500017121127768
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5849926109166441791}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 2.6745415, y: 2.598217, z: 1.121055}
-  m_Center: {x: 0.0000026226044, y: -0.0000010728838, z: 0}
