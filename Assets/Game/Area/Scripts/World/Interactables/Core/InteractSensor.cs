@@ -12,7 +12,7 @@ public class InteractSensor : MonoBehaviour
     List<Interactable> interactables = new List<Interactable>();
     public List<Interactable> Interacts { get { return interactables; } }
     Interactable current;
-    
+
     Interactable most_close;
     public Interactable Most_Close { get { return most_close; } }
     [Header("Walking Entity")]
@@ -86,6 +86,11 @@ public class InteractSensor : MonoBehaviour
 
     public void CanInteract(bool val) => can_interact = val;
 
+    public bool CanInteractPredicate(Interactable interact)
+    {
+        return interact.CanInteract;
+    }
+
     private void Update()
     {
         if (!can_interact) return;
@@ -112,7 +117,7 @@ public class InteractSensor : MonoBehaviour
 
         if (filtered.Count == 0) { return; }
         if (filtered.Count == 1) current = filtered[0];
-        else current = filtered.ReturnMostClose(transform.position);//esto tambien se puede optimizar mas a delante con un return most close que busque por grupos
+        else current = filtered.ReturnMostClose(transform.position, CanInteractPredicate);//esto tambien se puede optimizar mas a delante con un return most close que busque por grupos
 
         //si no hay un most_close previo le asigno uno
         if (most_close == null)
@@ -132,7 +137,7 @@ public class InteractSensor : MonoBehaviour
         //hasta ahora ya estariamos al dia de cual es el que tengo que calcular
         //ahora...
 
-        
+
         if (I_Have_Good_Distace_To_Interact())
         {
 
@@ -165,7 +170,7 @@ public class InteractSensor : MonoBehaviour
                     can_show_info = true;
                     WorldItemInfo.instance.Hide();
                 }
-            } 
+            }
         }
         else
         {

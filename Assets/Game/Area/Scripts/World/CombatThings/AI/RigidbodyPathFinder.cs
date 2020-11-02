@@ -61,7 +61,7 @@ public class RigidbodyPathFinder : MonoBehaviour
 
         var col = astar.Execute(initialNode, finalNode);
 
-        if (col == null) return;
+        if (col == null) { Debug.Log("Tengo una Lista nula"); return; }
 
         nodosASeguir = new Queue<Node>(col);
         currentNode = initialNode;
@@ -72,9 +72,9 @@ public class RigidbodyPathFinder : MonoBehaviour
         finalNode.render.PintarVerde();
 
         canMove = true;
-    }
 
-    public void Cancel() { canMove = false; }
+        
+    }
 
     bool dequeueNext = false;
     float currentdist = float.MaxValue;

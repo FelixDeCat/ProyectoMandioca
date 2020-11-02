@@ -74,7 +74,6 @@ public class NewSceneStreamer : MonoBehaviour
         {
             if (waitToLoad)
             {
-                Debug.Log("Load neighbors");
                 yield return LoadNeighbors(currentScene, localref[currentScene].SceneData);
             }
             else

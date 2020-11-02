@@ -40,6 +40,7 @@ public abstract class Interactable : MonoBehaviour
         if (!predicate.Invoke()) { return; }
         if (!autoexecute) if (feedback.Length > 0) foreach (var fdbck in feedback) fdbck.Show();
         OnEnter(entity);
+        Debug.Log("ON ENTER LCDSM.jpg");
         UE_OnEnter.Invoke();
     }
     public void Exit()
@@ -86,7 +87,6 @@ public abstract class Interactable : MonoBehaviour
 
     public void SetCanInteract(bool _caninteract)
     {
-        Debug.Log("Can interact: " + _caninteract);
         can_interact = _caninteract;
     }
     public void InterruptExecute()

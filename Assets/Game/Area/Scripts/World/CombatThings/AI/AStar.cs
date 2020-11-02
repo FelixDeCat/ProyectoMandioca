@@ -11,13 +11,8 @@ namespace IA_Felix
 
         public List<Node> open = new List<Node>();
         public List<Node> closed = new List<Node>();
-
         public List<Node> path = new List<Node>();
-
         Node current;
-
-        public Node initial;
-        public Node final;
 
         bool drawpath = false;
 
@@ -37,15 +32,21 @@ namespace IA_Felix
 
         public List<Node> Execute(Node initial, Node final)
         {
+            Debug.Log("Inicio Execute");
+            path.Clear();
             open.Clear();
             closed.Clear();
+            current = null;
 
             open.Add(initial);
 
+            Debug.Log("Opens inicio: " + open.Count);
             while (open.Count > 0)
             {
                 float small = float.MaxValue;
 
+                //seteo el costo mas chico
+                //seteo el nodo con costo mas chico como current
                 foreach (var n in open)
                 {
                     if (n.costs.cost < small)
@@ -54,9 +55,14 @@ namespace IA_Felix
                         current = n;
                     }
                 }
+
+                ///////////////////////////////////////////////////
+
                 open.Remove(current);
                 closed.Add(current);
 
+                ///////////////////////////////////////////////////
+                
                 if (current == final)
                 {
                     path.Clear();
@@ -70,25 +76,23 @@ namespace IA_Felix
                     return path;
                 }
 
-                var vecinos = current.vecinos;
-
-                if (current.vecinos.Count == 0)
-                {
-
-                }
-
-                foreach (var v in vecinos)
+                foreach (var v in current.vecinos)
                 {
                     v.costs.fitness = Vector3.Distance(current.transform.position, v.transform.position);
 
-                    if (final == null) return null;
-                     v.costs.heuristic = Vector3.Distance(v.transform.position, final.transform.position);
+                    if (final == null) 
+                    {
+                        Debug.Log("Final es Null");
+                        return null; 
+                    }
+                    v.costs.heuristic = Vector3.Distance(v.transform.position, final.transform.position);
                     v.costs.cost = v.costs.fitness + v.costs.heuristic;
 
                     if (!closed.Contains(v))
                     {
                         v.parent = current;
                         open.Add(v);
+                        Debug.Log("Opens Add: " + v.gameObject.name);
                     }
                 }
             }

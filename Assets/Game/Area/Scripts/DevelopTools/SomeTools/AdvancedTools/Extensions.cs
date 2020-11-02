@@ -299,19 +299,22 @@ namespace Tools.Extensions
             obj.rectTransform.offsetMin = new Vector2(0, 0);
         }
 
-        public static T ReturnMostClose<T>(this IEnumerable<T> col, Vector3 comparer) where T : Component
+        public static T ReturnMostClose<T>(this IEnumerable<T> col, Vector3 comparer, Func<T, bool> predicate = null) where T : Component
         {
             float min_dist = float.MaxValue;
             T mostClose = default(T);
 
             foreach (var c in col)
             {
-                var dist = Vector3.Distance(c.transform.position, comparer);
-
-                if (min_dist > dist)
+                if (predicate(c))
                 {
-                    min_dist = dist;
-                    mostClose = c;
+                    var dist = Vector3.Distance(c.transform.position, comparer);
+
+                    if (min_dist > dist)
+                    {
+                        min_dist = dist;
+                        mostClose = c;
+                    }
                 }
             }
             return mostClose;

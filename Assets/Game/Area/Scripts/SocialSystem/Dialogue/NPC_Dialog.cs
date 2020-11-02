@@ -23,6 +23,7 @@ public class NPC_Dialog : MonoBehaviour
 
     public void Talk()
     {
+
         if (useOneShot)
         {
             if (!oneshot)
