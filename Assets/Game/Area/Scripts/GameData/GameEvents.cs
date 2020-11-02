@@ -38,6 +38,8 @@ public class GameEvents
     public const string COMBAT_EXIT = "CombatExit";
     public const string GAME_INITIALIZE = "GameInitialize";
     public const string INTERACTABLES_INITIALIZE = "InteractablesInitialize";
+    public const string DELETE_INTERACTABLE = "DeleteInteractable";
+    public const string ADD_INTERACTABLE = "AddInteractable";
 
     public const string CHANGE_INPUT = "ChangeInput";
 }

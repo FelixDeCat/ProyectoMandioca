@@ -11,7 +11,6 @@ public class TestInteractableHold : Interactable
     public UnityEvent customDestroy;
     public UnityEvent UE_EndDelayExecute;
     public Sprite image_to_interact;
-    bool executing;
 
     public void ExecuteBool(bool b) => executing = b;
 

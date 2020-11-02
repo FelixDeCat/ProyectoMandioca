@@ -15,9 +15,6 @@ public class InteractSensor : MonoBehaviour
     
     Interactable most_close;
     public Interactable Most_Close { get { return most_close; } }
-
-    public List<Interactable> filtered = new List<Interactable>();
-
     [Header("Walking Entity")]
     [SerializeField] WalkingEntity collector = null;
 
@@ -26,23 +23,24 @@ public class InteractSensor : MonoBehaviour
     private void Start()
     {
         Main.instance.eventManager.SubscribeToEvent(GameEvents.INTERACTABLES_INITIALIZE, AddInteractStart);
+        Main.instance.eventManager.SubscribeToEvent(GameEvents.DELETE_INTERACTABLE, RemoveToInteractables);
+        Main.instance.eventManager.SubscribeToEvent(GameEvents.ADD_INTERACTABLE, AddOneInteract);
     }
 
-    void AddInteractStart(params object[] param)
+    void AddInteractStart()
     {
-        Interactable[] interact = (Interactable[])param[0];
-
-        for (int i = 0; i < interact.Length; i++)
-            AddToInteractables(interact[i]);
+        interactables = FindObjectsOfType<Interactable>().ToList();
     }
 
-    public void AddToInteractables(Interactable _interact)
+    void AddOneInteract(params object[] interact)
     {
+        Interactable _interact = (Interactable)interact[0];
         if (!interactables.Contains(_interact)) interactables.Add(_interact);
     }
 
-    public void RemoveToInteractables(Interactable _interact)
+    public void RemoveToInteractables(params object[] interact)
     {
+        Interactable _interact = (Interactable)interact[0];
         if (interactables.Contains(_interact)) interactables.Remove(_interact);
     }
 
@@ -96,7 +94,8 @@ public class InteractSensor : MonoBehaviour
         Update_CooldownNextRecollection();
 
         //buscamos los interactuables
-        interactables = FindObjectsOfType<Interactable>().ToList();//hay que optimizar esto, es muy pesado un findobject en un Update
+        //interactables = FindObjectsOfType<Interactable>().ToList();//hay que optimizar esto, es muy pesado un findobject en un Update
+        List<Interactable> filtered = new List<Interactable>();
 
         for (int i = 0; i < interactables.Count; i++)
         {
@@ -111,12 +110,9 @@ public class InteractSensor : MonoBehaviour
             }
         }
 
-        interactables = new List<Interactable>(filtered);
-        filtered.Clear();
-
-        if (interactables.Count == 0) { return; }
-        if (interactables.Count == 1) current = interactables[0];
-        else current = interactables.ReturnMostClose(transform.position);//esto tambien se puede optimizar mas a delante con un return most close que busque por grupos
+        if (filtered.Count == 0) { return; }
+        if (filtered.Count == 1) current = filtered[0];
+        else current = filtered.ReturnMostClose(transform.position);//esto tambien se puede optimizar mas a delante con un return most close que busque por grupos
 
         //si no hay un most_close previo le asigno uno
         if (most_close == null)

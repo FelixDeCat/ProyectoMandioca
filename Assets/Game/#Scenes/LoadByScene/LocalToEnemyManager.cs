@@ -23,6 +23,7 @@ public class LocalToEnemyManager : MonoBehaviour
     void LoadScene(string scene)
     {
         // <-----
+        Main.instance.eventManager.TriggerEvent(GameEvents.INTERACTABLES_INITIALIZE);
     }
     void UnLoadScene(string scene)
     {

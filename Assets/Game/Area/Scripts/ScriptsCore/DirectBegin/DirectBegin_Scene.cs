@@ -37,6 +37,7 @@ namespace Tools.Testing
                 Fades_Screens.instance.Black();
                 Fades_Screens.instance.FadeOff(() => {});
                 LoadSceneHandler.instance.Off_LoadScreen();
+                Main.instance.eventManager.TriggerEvent(GameEvents.INTERACTABLES_INITIALIZE);
                 //Debug.Log("entro mas veces aca");
                 if (LockMouse)
                 {

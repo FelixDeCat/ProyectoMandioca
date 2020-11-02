@@ -32,6 +32,8 @@ public abstract class Interactable : MonoBehaviour
     public void SetPredicate(Func<bool> _pred) => predicate = _pred;
     WalkingEntity currentCollector;
 
+    public bool executing;
+
     public void Enter(WalkingEntity entity)
     {
         if (!can_interact) return;
@@ -65,6 +67,8 @@ public abstract class Interactable : MonoBehaviour
             {
                 autoexe_in_CD = true;
                 timer_cd = 0;
+                executing = true;
+                Main.instance.eventManager.TriggerEvent(GameEvents.DELETE_INTERACTABLE, this);
                 OnExecute(entity);
             }
         }
@@ -72,6 +76,12 @@ public abstract class Interactable : MonoBehaviour
         {
             updateDelay = true;
         }
+    }
+
+    public void ReturnToCanExecute()
+    {
+        executing = false;
+        Main.instance.eventManager.TriggerEvent(GameEvents.ADD_INTERACTABLE, this);
     }
 
     public void SetCanInteract(bool _caninteract)
@@ -120,12 +130,15 @@ public abstract class Interactable : MonoBehaviour
             }
             else
             {
+                executing = true;
+                Main.instance.eventManager.TriggerEvent(GameEvents.DELETE_INTERACTABLE, this);
                 OnExecute(currentCollector);
                 currentTime = 0;
                 updateDelay = false;
             }
         }
     }
+
     public abstract void OnEnter(WalkingEntity entity);
     public abstract void OnExecute(WalkingEntity collector);
     public abstract void OnExit(WalkingEntity collector);
