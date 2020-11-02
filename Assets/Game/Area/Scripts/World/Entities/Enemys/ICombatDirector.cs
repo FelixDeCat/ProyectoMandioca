@@ -4,9 +4,9 @@ using UnityEngine;
 
 public interface ICombatDirector 
 {
-    void SetTarget(EntityBase entity);
+    void SetTarget(Transform entity);
     float GetDistance();
-    EntityBase CurrentTarget();
+    Transform CurrentTarget();
     Vector3 CurrentPos();
     void ToAttack();
     bool IsInPos();

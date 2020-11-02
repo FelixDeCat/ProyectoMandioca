@@ -97,9 +97,9 @@ public class CrowEnemy : EnemyWithCombatDirector
     {
         if (!death)
         {
-            if (combatElement.Combat)
+            if (combatElement.Target != null && combatElement.Combat)
             {
-                if (Vector3.Distance(Main.instance.GetChar().transform.position, transform.position) > distancePos + 2)
+                if (Vector3.Distance(combatElement.Target.position, transform.position) > distancePos + 2)
                 {
                     combatElement.ExitCombat();
 
@@ -116,7 +116,7 @@ public class CrowEnemy : EnemyWithCombatDirector
             {
                 if (Vector3.Distance(Main.instance.GetChar().transform.position, transform.position) <= distancePos)
                 {
-                    combatElement.EnterCombat();
+                    combatElement.EnterCombat(Main.instance.GetChar().transform);
 
                     animator.SetBool("rotate", true);
                 }

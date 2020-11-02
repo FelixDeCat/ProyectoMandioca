@@ -13,7 +13,7 @@ public class Generic_Think_RangePosition : MonoStateBase
 
         if (UseCombatDirector)
         {
-            Get_Behaviours.combatDirectorComponent.EnterCombat();
+            Get_Behaviours.combatDirectorComponent.EnterCombat(Main.instance.GetChar().transform);
             Get_Behaviours.combatDirectorComponent.IAmReady();
         }
         else

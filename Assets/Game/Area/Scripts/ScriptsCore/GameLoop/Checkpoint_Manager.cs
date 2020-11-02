@@ -105,7 +105,7 @@ public class Checkpoint_Manager : MonoBehaviour
             }
         }
 
-        Main.instance.GetCombatDirector().AddNewTarget(Main.instance.GetChar());
+        Main.instance.GetCombatDirector().AddNewTarget(Main.instance.GetChar().transform);
         Main.instance.GetMyCamera().InstantPosition();
         //Invoke("Wait", 1f);
     }

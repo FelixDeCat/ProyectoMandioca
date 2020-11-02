@@ -41,11 +41,13 @@ namespace Tools.StateMachine
                 Vector3 forwardRotation = new Vector3(myForward.x, 0, myForward.z);
                 root.forward = Vector3.Lerp(root.forward, forwardRotation, rotationSpeed * Time.deltaTime);
 
+                Debug.Log("claro que tengo target");
+
                 if (enemy.IsInPos())
                 {
                     Vector3 pos1 = new Vector3(root.position.x, 0, root.position.z);
                     Vector3 pos2 = new Vector3(enemy.CurrentTarget().transform.position.x, 0, enemy.CurrentTarget().transform.position.z);
-
+                    Debug.Log("estoy en pos también");
                     if (Vector3.Distance(pos1, pos2) <= distanceMin && LineOfSight(enemy.CurrentTarget().transform) && CdOver())
                         sm.SendInput(CrowEnemy.CrowInputs.CHASING);
                 }

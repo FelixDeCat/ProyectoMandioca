@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using System;
 
-public abstract class Minion : Companion, ICombatDirector
+public abstract class Minion : Companion
 {
     public EntityBase owner;
     public EntityBase entityTarget;
@@ -20,7 +20,7 @@ public abstract class Minion : Companion, ICombatDirector
     {
         Main.instance.eventManager.TriggerEvent(GameEvents.MINION_SPAWN, new object[] { this });
 
-        Main.instance.GetCombatDirector().AddNewTarget(this);
+        //Main.instance.GetCombatDirector().AddNewTarget(this);
 
         IAInitialize();
     }

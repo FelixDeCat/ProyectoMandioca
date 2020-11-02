@@ -11,7 +11,7 @@ public class CombatDirectorElement : MonoBehaviour, ICombatDirector
     bool withPos;
 
     CombatDirector director;
-    public EntityBase Target { get; set; }
+    public Transform Target { get; set; }
     public bool Combat;
     public bool Attacking;
 
@@ -24,38 +24,43 @@ public class CombatDirectorElement : MonoBehaviour, ICombatDirector
     public void IAmReady()
     {
         Combat = true;
-        director.PrepareToAttack(this, Main.instance.GetChar());
+        director.PrepareToAttack(this, Target);
     }
 
     public void IAmNotReady()
     {
         Combat = false;
-        director.DeleteToPrepare(this, Main.instance.GetChar());
+        director.DeleteToPrepare(this, Target);
     }
     public void AttackRelease()
     {
-        director.AttackRelease(this, Main.instance.GetChar());
+        director.AttackRelease(this, Target);
     }
 
-    public void EnterCombat()
+    public void EnterCombat(Transform _target)
     {
-        director.AddToList(this, Main.instance.GetChar());
-        SetTarget(Main.instance.GetChar());
+        director.AddToList(this, _target);
+        SetTarget(_target);
         Combat = true;
     }
 
     public void ExitCombat()
     {
-        director.DeadEntity(this, Main.instance.GetChar());
+        director.DeadEntity(this, Target);
         Target = null;
         Combat = false;
     }
 
+    public void ChangeTarget(Transform newTarget)
+    {
+        director.ChangeTarget(this, newTarget, Target);
+    }
+
     #region ICombatDirector Functions
     public Vector3 CurrentPos() => transform.position;
-    public void SetTarget(EntityBase entity) => Target = entity;
+    public void SetTarget(Transform entity) => Target = entity;
     public bool IsInPos() => withPos;
-    public EntityBase CurrentTarget() => Target;
+    public Transform CurrentTarget() => Target;
     public float GetDistance() => distancePos;
     public void SetBool(bool isPos) => withPos = isPos;
     public void ResetCombat()

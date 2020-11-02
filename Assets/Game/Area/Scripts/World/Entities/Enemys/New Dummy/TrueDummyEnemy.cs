@@ -147,9 +147,9 @@ public class TrueDummyEnemy : EnemyWithCombatDirector
     {
         if (!death)
         {
-            if (combatElement.Combat)
+            if (combatElement.Target != null && combatElement.Combat)
             {
-                if (Vector3.Distance(Main.instance.GetChar().transform.position, transform.position) > combatDistance + 2)
+                if (Vector3.Distance(combatElement.Target.position, transform.position) > combatDistance + 2)
                 {
                     combatElement.ExitCombat();
                 }
@@ -159,7 +159,8 @@ public class TrueDummyEnemy : EnemyWithCombatDirector
             {
                 if (Vector3.Distance(Main.instance.GetChar().transform.position, transform.position) <= combatDistance)
                 {
-                    combatElement.EnterCombat();
+                    Debug.Log("upa");
+                    combatElement.EnterCombat(Main.instance.GetChar().transform);
                 }
             }
         }

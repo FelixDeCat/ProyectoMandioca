@@ -118,7 +118,7 @@ public class CharacterHead : CharacterControllable
     protected override void OnInitialize()
     {
         _advMode = GetComponent<AdventureMode>();
-        Main.instance.GetCombatDirector().AddNewTarget(this);
+        Main.instance.GetCombatDirector().AddNewTarget(transform);
         rb = GetComponent<Rigidbody>();
         combo_system.SetSound(chargeSound);
         feedbacks.Initialize();
@@ -773,7 +773,7 @@ public class CharacterHead : CharacterControllable
     {
         Main.instance.RemoveEntity(this);
         Main.instance.eventManager.TriggerEvent(GameEvents.ON_PLAYER_DEATH);
-        Main.instance.GetCombatDirector().RemoveTarget(this);
+        Main.instance.GetCombatDirector().RemoveTarget(transform);
     }
     void OnChangeLife(int current, int max) { }
 

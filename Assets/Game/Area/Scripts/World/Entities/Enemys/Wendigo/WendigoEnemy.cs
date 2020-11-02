@@ -267,7 +267,7 @@ public class WendigoEnemy : EnemyWithCombatDirector
                 //Si esta en la combatdistance
                 if (dist <= combatDistance && sm.Current.Name != "Observation")
                 {
-                    combatElement.EnterCombat();
+                    combatElement.EnterCombat(Main.instance.GetChar().transform);
                     sm.SendInput(WendigoInputs.OBSERVATION);
                 }
             }

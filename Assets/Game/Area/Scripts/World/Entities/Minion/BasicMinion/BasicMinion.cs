@@ -132,7 +132,7 @@ public class BasicMinion : Minion
     void DeathAnim()
     {
         //vector3, boolean, int
-        director.RemoveTarget(this);
+        director.RemoveTarget(transform);
         Main.instance.eventManager.TriggerEvent(GameEvents.MINION_DEAD, new object[] { transform.position });
         gameObject.SetActive(false);
     }
