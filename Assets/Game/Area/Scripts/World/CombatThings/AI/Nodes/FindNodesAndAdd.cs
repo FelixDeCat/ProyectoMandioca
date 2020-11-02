@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -10,6 +11,8 @@ public class FindNodesAndAdd : MonoBehaviour
     public bool render;
     public LocalNodeHandler manager;
     public bool clamp_to_floor;
+
+    public bool rename;
 
     bool canrender;
 
@@ -34,6 +37,14 @@ public class FindNodesAndAdd : MonoBehaviour
         //    timer = 0;
         //    manager.Find();
         //}
+
+        if (rename)
+        {
+            rename = false;
+            var nodes = GetComponentsInChildren<IA_Felix.Node>();
+            for (int i = 0; i < nodes.Length; i++) nodes[i].gameObject.name = "Node ["+ String.Format("{0:###}", i)+ "]";
+        }
+
 
         manager.Find();
 
