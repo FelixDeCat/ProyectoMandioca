@@ -10,7 +10,7 @@ public class DmgType_FloatDictionary : SerializableDictionary<Damagetype, float>
 public class CombatDirectorStorage : SerializableDictionary.Storage<List<CombatDirectorElement>> { }
 
 [Serializable]
-public class EntityBase_CDListDictionary : SerializableDictionary<EntityBase, List<CombatDirectorElement>, CombatDirectorStorage> { }
+public class EntityBase_CDListDictionary : SerializableDictionary<Transform, List<CombatDirectorElement>, CombatDirectorStorage> { }
 
 [Serializable]
 public class EnemyBase_IntDictionary : SerializableDictionary<EnemyBase, int> { }
