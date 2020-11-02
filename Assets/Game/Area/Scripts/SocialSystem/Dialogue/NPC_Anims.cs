@@ -64,7 +64,7 @@ public class NPC_Anims : MonoBehaviour
     public void Play_Explainning(string s) => myAnim.SetBool("Explaining", true);
     public void Play_GiveAReward(string s) => myAnim.SetTrigger("GiveAReward");
     public void Play_Peek(string s) => myAnim.SetTrigger("peek");
-    public void Play_EndPeek(string s) => myAnim.SetTrigger("endpeek");
+    public void Play_EndPeek(string s) => myAnim.SetTrigger("endPeek");
     public void Play_Idle(string s) { }
     public void Play_Cry(string s) { myAnim.SetBool("Crying", true); }
     public void Play_Thanks(string s) { }

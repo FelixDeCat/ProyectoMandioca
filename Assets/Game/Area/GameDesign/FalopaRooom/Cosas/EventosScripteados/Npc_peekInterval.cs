@@ -50,7 +50,6 @@ public class Npc_peekInterval : MonoBehaviour, IPauseable
             _count = 0;
             peeking = false;
             anim.Play_EndPeek("");
-            Debug.Log("esto pasa?");
         }
     }
 }
