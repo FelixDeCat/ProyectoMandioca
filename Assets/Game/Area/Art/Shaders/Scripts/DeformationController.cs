@@ -13,9 +13,12 @@ public class DeformationController : MonoBehaviour
 
     public GameObject pos;
 
-   
-    
 
+
+    private void Awake()
+    {
+        pos = FindObjectOfType<PosDeformation>().gameObject;
+    }
 
     private void Update()
     {
