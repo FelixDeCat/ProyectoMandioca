@@ -10,6 +10,7 @@ public class NPCFleing : Villager
 
     public void GoToPos_ExitEndless() => GoTo(pos_exit_endless.transform.position); 
     public void GoToPos_RunningDesesperated() {GoToNoAnim(pos_exit_endless.transform.position, () => anim.StopRunDesesperate("")); anim.StartRunDesesperate(""); }
+    public void GoToPos_RunningDesesperated(Vector3 pos) {GoToNoAnim(pos, () => anim.StopRunDesesperate("")); anim.StartRunDesesperate(""); }
 
     public void AddMax()
     {
