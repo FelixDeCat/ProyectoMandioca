@@ -18,9 +18,9 @@ public class EnemyWavesSpawner : MonoBehaviour
     }
     public void Update()
     {
-        if ( villageManager.gameState == VillageEventState.Start || villageManager.gameState == VillageEventState.WaitingToSpawn)
+        if (Main.instance.GetVillageManager().gameState == VillageEventState.Start || Main.instance.GetVillageManager().gameState == VillageEventState.WaitingToSpawn)
         {
-            StartCoroutine(SpawnWave(allWavesInfo[villageManager.currentPhase]));
+            StartCoroutine(SpawnWave(allWavesInfo[Main.instance.GetVillageManager().currentPhase]));
         }
     }
 
@@ -30,9 +30,9 @@ public class EnemyWavesSpawner : MonoBehaviour
         {
             yield return new WaitForSeconds(1f);
 
-            if (villageManager.gameState == VillageEventState.WaveInProgress && Main.instance.GetVillageManager().GetCurrentEnemiesCount() <= villageManager.minEnemiesToSpawnNextWave)
+            if (Main.instance.GetVillageManager().gameState == VillageEventState.WaveInProgress && Main.instance.GetVillageManager().GetCurrentEnemiesCount() <= Main.instance.GetVillageManager().minEnemiesToSpawnNextWave)
             {
-                villageManager.SetCurrentState(VillageEventState.WaitingToSpawn);
+                Main.instance.GetVillageManager().SetCurrentState(VillageEventState.WaitingToSpawn);
            
                 yield return new WaitForSeconds(2f);              
             }
@@ -41,7 +41,7 @@ public class EnemyWavesSpawner : MonoBehaviour
 
     IEnumerator SpawnWave(WaveInfo info)
     {
-        villageManager.SetCurrentState(VillageEventState.SpawningWave);
+        Main.instance.GetVillageManager().SetCurrentState(VillageEventState.SpawningWave);
         for (int i = 0; i < info.enemiesPerWave.Length; i++)
         {
             for (int j = 0; j < info.enemiesPerWave[i].enemyAmmount; j++)
@@ -50,7 +50,7 @@ public class EnemyWavesSpawner : MonoBehaviour
                 yield return new WaitForSeconds(timeBetweenEnemies);
             }
         }
-        villageManager.SetCurrentState(VillageEventState.WaveInProgress);
+        Main.instance.GetVillageManager().SetCurrentState(VillageEventState.WaveInProgress);
     }
 
 
@@ -65,8 +65,8 @@ public class EnemyWavesSpawner : MonoBehaviour
         
         enemy.Initialize();
         enemy.SpawnEnemy();
-        villageManager.AddEnemy(enemy);
-        enemy.lifesystem.AddEventOnDeath(() => villageManager.RemoveEnemy(enemy));
+        Main.instance.GetVillageManager().AddEnemy(enemy);
+        enemy.lifesystem.AddEventOnDeath(() => Main.instance.GetVillageManager().RemoveEnemy(enemy));
         enemy.lifesystem.AddEventOnDeath(() => enemy.ResetEntity());
         return enemy;
     }
