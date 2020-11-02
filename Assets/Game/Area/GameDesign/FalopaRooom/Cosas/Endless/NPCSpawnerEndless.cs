@@ -11,6 +11,7 @@ public class NPCSpawnerEndless : MonoBehaviour
     [SerializeField] int taradosToSpawn;
     [SerializeField] int taradosToWin;
     int taradosSpawned;
+    List<GameObject> NPCAlives = new List<GameObject>();
 
     public void SpawnTarados()
     {
@@ -18,14 +19,36 @@ public class NPCSpawnerEndless : MonoBehaviour
         {
             for (int i = 0; i < taradosToSpawn; i++)
             {
-                taradosSpawned++;
                 GameObject Spawned = GameObject.Instantiate(pelotudosASpawnear);
-                Spawned.transform.position = spawnPoint1.transform.position;
-                Spawned.GetComponent<Jacinta>().Initialize();
-                Spawned.GetComponent<Jacinta>().pos_doctor = endPoint;
-                Spawned.GetComponent<Jacinta>().GoToPos_Doctor();
+                NPCAlives.Add(Spawned);
+                Spawned.transform.position = spawnPoint1.transform.position + new Vector3(Random.Range(-4,4),0,Random.Range(-2,2));
+                Spawned.GetComponent<NPCFleing>().Initialize();
+                Spawned.GetComponent<NPCFleing>().pos_exit_endless = endPoint;
+                Spawned.GetComponent<NPCFleing>().GoToPos_RunningDesesperated();
             }
             Invoke("SpawnTarados", cdSpawn);
         }
     }
+
+    public void Update()
+    {
+        if (taradosSpawned > taradosToWin)
+        {
+            KillALL();
+        }
+    }
+
+    public void KillALL()
+    {
+        for (int i = 0; i < NPCAlives.Count; i++)
+        {
+            NPCAlives[i].SetActive(false);
+        }
+    }
+
+    public void AddMax()
+    {
+        taradosSpawned++;
+    }
+
 }

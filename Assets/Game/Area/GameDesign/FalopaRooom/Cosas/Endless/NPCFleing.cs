@@ -11,6 +11,11 @@ public class NPCFleing : Villager
     public void GoToPos_ExitEndless() => GoTo(pos_exit_endless.transform.position); 
     public void GoToPos_RunningDesesperated() {GoToNoAnim(pos_exit_endless.transform.position, () => anim.StopRunDesesperate("")); anim.StartRunDesesperate(""); }
 
+    public void AddMax()
+    {
+        FindObjectOfType<NPCSpawnerEndless>().AddMax();
+    }
+
     //no se para que sirve esto, pero tira error sino, asique decora muy bien
     #region En desuso
     protected override void OnFixedUpdate() { }
