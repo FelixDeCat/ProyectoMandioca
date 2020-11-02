@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System;
 
 public class NPCSpawnerEndless : MonoBehaviour
 {
@@ -21,7 +22,7 @@ public class NPCSpawnerEndless : MonoBehaviour
             {
                 GameObject Spawned = GameObject.Instantiate(pelotudosASpawnear);
                 NPCAlives.Add(Spawned);
-                Spawned.transform.position = spawnPoint1.transform.position + new Vector3(Random.Range(-4,4),0,Random.Range(-2,2));
+                Spawned.transform.position = spawnPoint1.transform.position + new Vector3(UnityEngine.Random.Range(-4,4),0, UnityEngine.Random.Range(-2,2));
                 Spawned.GetComponent<NPCFleing>().Initialize();
                 Spawned.GetComponent<NPCFleing>().pos_exit_endless = endPoint;
                 Spawned.GetComponent<NPCFleing>().GoToPos_RunningDesesperated();
@@ -49,6 +50,11 @@ public class NPCSpawnerEndless : MonoBehaviour
     public void AddMax()
     {
         taradosSpawned++;
+
+        if(taradosSpawned > Main.instance.GetVillageManager().villagersNeededPerPhase[Main.instance.GetVillageManager().currentPhase])
+        {
+            Main.instance.GetVillageManager().AddPhase();
+        }
     }
 
 }

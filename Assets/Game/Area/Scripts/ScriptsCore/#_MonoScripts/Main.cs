@@ -35,6 +35,9 @@ public class Main : MonoBehaviour
 
     BaseRoom _currentRoom;
 
+    SaveVillageManager villageManager = null;
+    public void SetVillageManager(SaveVillageManager _villageManager) => villageManager = _villageManager;
+    public SaveVillageManager GetVillageManager() => villageManager;
 
     private void Awake()
     {
