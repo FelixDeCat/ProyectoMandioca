@@ -7432,7 +7432,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f391121890253294f918366d8efc6a3a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  villagersNeededPerPhase: 020000001e000000
+  villagersNeededPerPhase: 0a000000140000001e000000
   villagersPerGroup: 6
   minEnemiesToSpawnNextWave: 3
 --- !u!1 &1045843832
@@ -10449,7 +10449,7 @@ PrefabInstance:
     - target: {fileID: 8344196748961038169, guid: 44b9cd9cf21a2b54db00305ba2f7e204,
         type: 3}
       propertyPath: OnDestroyed.m_PersistentCalls.m_Calls.Array.size
-      value: 1
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 8344196748961038169, guid: 44b9cd9cf21a2b54db00305ba2f7e204,
         type: 3}
@@ -10474,6 +10474,31 @@ PrefabInstance:
     - target: {fileID: 8344196748961038169, guid: 44b9cd9cf21a2b54db00305ba2f7e204,
         type: 3}
       propertyPath: OnDestroyed.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
+    - target: {fileID: 8344196748961038169, guid: 44b9cd9cf21a2b54db00305ba2f7e204,
+        type: 3}
+      propertyPath: OnDestroyed.m_PersistentCalls.m_Calls.Array.data[1].m_Mode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8344196748961038169, guid: 44b9cd9cf21a2b54db00305ba2f7e204,
+        type: 3}
+      propertyPath: OnDestroyed.m_PersistentCalls.m_Calls.Array.data[1].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 8344196748961038169, guid: 44b9cd9cf21a2b54db00305ba2f7e204,
+        type: 3}
+      propertyPath: OnDestroyed.m_PersistentCalls.m_Calls.Array.data[1].m_Target
+      value: 
+      objectReference: {fileID: 1024348967}
+    - target: {fileID: 8344196748961038169, guid: 44b9cd9cf21a2b54db00305ba2f7e204,
+        type: 3}
+      propertyPath: OnDestroyed.m_PersistentCalls.m_Calls.Array.data[1].m_MethodName
+      value: StartEvent
+      objectReference: {fileID: 0}
+    - target: {fileID: 8344196748961038169, guid: 44b9cd9cf21a2b54db00305ba2f7e204,
+        type: 3}
+      propertyPath: OnDestroyed.m_PersistentCalls.m_Calls.Array.data[1].m_Arguments.m_ObjectArgumentAssemblyTypeName
       value: UnityEngine.Object, UnityEngine
       objectReference: {fileID: 0}
     - target: {fileID: 8344196748961038170, guid: 44b9cd9cf21a2b54db00305ba2f7e204,
@@ -10858,7 +10883,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &1379832551
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -10876,6 +10901,17 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1024348965}
         m_MethodName: SpawnTarados
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 1024348967}
+        m_MethodName: StartEvent
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -10960,7 +10996,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1379832550}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -71.7, y: 5.6679688, z: 15.1}
+  m_LocalPosition: {x: -71.74, y: 5.6679688, z: 15.1}
   m_LocalScale: {x: 12.353, y: 12.353, z: 12.353}
   m_Children: []
   m_Father: {fileID: 1685012139}

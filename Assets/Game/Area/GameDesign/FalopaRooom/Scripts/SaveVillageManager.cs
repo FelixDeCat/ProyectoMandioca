@@ -20,6 +20,7 @@ public class SaveVillageManager : MonoBehaviour
     private void Start()
     {
         Main.instance.SetVillageManager(this);
+        gameState = VillageEventState.Disabled;
     }
 
     public void AddEnemy(EnemyBase enemy)
@@ -45,11 +46,13 @@ public class SaveVillageManager : MonoBehaviour
             SetCurrentState(VillageEventState.LevelCompleted);
         }
     }
+
+    public void StartEvent() => gameState = VillageEventState.Start;
 }
 
 
 
-public enum VillageEventState { Start, SpawningWave, WaveInProgress, WaitingToSpawn, LevelCompleted };
+public enum VillageEventState {Disabled, Start, SpawningWave, WaveInProgress, WaitingToSpawn, LevelCompleted };
 /// <EstadosDelJuego>
 /// Start: inicio del juego.
 /// Spawning: Durante la creacion de la wave.

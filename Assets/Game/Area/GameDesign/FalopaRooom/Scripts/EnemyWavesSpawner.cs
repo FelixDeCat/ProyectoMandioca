@@ -13,7 +13,6 @@ public class EnemyWavesSpawner : MonoBehaviour
     void Start()
     {
         villageManager = Main.instance.GetVillageManager();
-        villageManager.SetCurrentState(VillageEventState.Start);
         customSpawner = GetComponent<CustomSpawner>();
         StartCoroutine(checkEnemy());
     }
