@@ -32,7 +32,7 @@ namespace IA_Felix
 
         public List<Node> Execute(Node initial, Node final)
         {
-            Debug.Log("Inicio Execute");
+            Debug.Log("Inicio Execute... Initial: " + initial.gameObject.name + " Final:" + final.gameObject.name);
             path.Clear();
             open.Clear();
             closed.Clear();
@@ -63,8 +63,9 @@ namespace IA_Felix
 
                 ///////////////////////////////////////////////////
                 
-                if (current == final)
+                if (current.Equals(final))
                 {
+                    Debug.Log("Encontré el nodo final");
                     path.Clear();
                     Node curr = final;
                     while (!curr.Equals(initial))

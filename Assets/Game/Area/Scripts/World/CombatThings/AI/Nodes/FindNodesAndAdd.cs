@@ -41,7 +41,7 @@ public class FindNodesAndAdd : MonoBehaviour
         {
             clamp_to_floor = false;
 
-            var nodes = FindObjectsOfType<IA_Felix.Node>();
+            var nodes = GetComponentsInChildren<IA_Felix.Node>();
 
             foreach (var n in nodes)
             {
@@ -54,7 +54,7 @@ public class FindNodesAndAdd : MonoBehaviour
         {
             add = false;
 
-            var nodes = FindObjectsOfType<IA_Felix.Node>();
+            var nodes = GetComponentsInChildren<IA_Felix.Node>();
 
             foreach (var n in nodes)
             {
