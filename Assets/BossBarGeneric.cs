@@ -21,7 +21,6 @@ public class BossBarGeneric : MonoBehaviour
     public static void Close() => instance.CloseBar();
     public static void SetLife(float current, float max) => instance.Set_Life(current, max);
 
-    private void Start() => CloseBar();
     public void OpenBar() { anim = true; timer = 0; open = true; }
     public void CloseBar() { anim = true; timer = 0; open = false; }
     public void Hit() { anim_color = true; timer_color = 0; color_go = true; }
