@@ -22,6 +22,8 @@ public class Fly_module : MonoBehaviour
 
     float speedScaler;
 
+    [SerializeField] ParticleSystem Feedback;
+
     public void Init()
     {
 
@@ -39,6 +41,8 @@ public class Fly_module : MonoBehaviour
             OnFinishMovement?.Invoke();
             return;
         }
+
+        Feedback.Play();
 
         canUpdate = true;
         _rb.useGravity = false;
@@ -75,6 +79,8 @@ public class Fly_module : MonoBehaviour
             OnFinishMovement?.Invoke();
             return;
         }
+
+        Feedback.Stop();
 
         canUpdate = true;
 

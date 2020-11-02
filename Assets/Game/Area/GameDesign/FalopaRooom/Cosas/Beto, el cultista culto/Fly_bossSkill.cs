@@ -14,6 +14,7 @@ public class Fly_bossSkill : GOAP_Skills_Base
     Animator _anim;
 
 
+
     float speedScaler;
 
     protected override void OnEndSkill()
@@ -28,9 +29,8 @@ public class Fly_bossSkill : GOAP_Skills_Base
         _ent.OnSkillAction += Fly;
         _ent.flyModule.OnFinishMovement += EndSkill;
         _ent.canBeInterrupted = false;
-
-        _anim.Play("StartFly");
         
+        _anim.Play("StartFly");
     }
 
     void Fly()

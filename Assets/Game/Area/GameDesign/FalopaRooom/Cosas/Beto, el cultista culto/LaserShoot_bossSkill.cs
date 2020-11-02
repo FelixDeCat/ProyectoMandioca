@@ -21,6 +21,8 @@ public class LaserShoot_bossSkill : GOAP_Skills_Base
     Coroutine ametralladora;
     Coroutine waitToShoot;
 
+    [SerializeField] ParticleSystem FeedBack;
+
     protected override void OnEndSkill()
     {
         
@@ -33,7 +35,6 @@ public class LaserShoot_bossSkill : GOAP_Skills_Base
 
     protected override void OnExecute()
     {
-        
 
         _ent.OnTakeDmg += InterruptSkill;
         _ent.OnSkillAction += ShootLaser;
@@ -50,6 +51,8 @@ public class LaserShoot_bossSkill : GOAP_Skills_Base
         _amount++;
 
         ThrowData newData;
+
+        FeedBack.Play();
 
         if (_amount == amountLaser)
         {

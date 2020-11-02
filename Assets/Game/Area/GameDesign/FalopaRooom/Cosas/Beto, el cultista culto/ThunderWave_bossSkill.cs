@@ -15,8 +15,10 @@ public class ThunderWave_bossSkill : GOAP_Skills_Base
     [SerializeField] int knock = 200;
     [SerializeField] float radious = 5f;
     [SerializeField] float chargeTime = 5f;
-    [SerializeField] float timeBtwEndPartAndExplode = 2f;
+    [SerializeField] float timeBtwEndPartAndExplode = 0f;
     [SerializeField] LayerMask hitMask;
+    [SerializeField] ParticleSystem FeedbackStart;
+    [SerializeField] ParticleSystem FeedbackEnd;
 
     protected override void OnEndSkill()
     {
@@ -30,6 +32,7 @@ public class ThunderWave_bossSkill : GOAP_Skills_Base
         _ent.canBeInterrupted = false;
         _anim.Play("StartCastOrb");
         totemFeedback.StartChargeFeedback(() => StartCoroutine(TimeBtwEndPartAndExplode()));
+        FeedbackStart.Play();
     }
 
     protected override void OnFixedUpdate()
@@ -50,6 +53,7 @@ public class ThunderWave_bossSkill : GOAP_Skills_Base
         var affectedPO  = Extensions.FindInRadius<PlayObject>(owner, radious);
         hitMask = ~hitMask;
 
+        FeedbackEnd.Play();
 
         for (int i = 0; i < affectedPO.Count; i++)
         {
