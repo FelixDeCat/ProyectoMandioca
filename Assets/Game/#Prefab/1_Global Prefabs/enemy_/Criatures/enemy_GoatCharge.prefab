@@ -10446,6 +10446,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   poolname: goat
+  rig_path_finder: {fileID: 0}
   death: 0
   OnDeath:
     m_PersistentCalls:
@@ -10495,10 +10496,10 @@ MonoBehaviour:
   onHitFlashTime: 20
   petrifyEffect: {fileID: 1826450666108122238}
   particles:
-    hitParticle: {fileID: 3632140750100566763, guid: 48fe3e230b37f29449856c4f0dc77ca3,
+    hitParticle: {fileID: 1225212964409733209, guid: 0314b3d4b766c524abda73cde0b2eb32,
       type: 3}
     chargeFeedback: {fileID: 6104078838794585879}
-    stompParticle: {fileID: 2915597443917667638, guid: bf32aa152e880e94e896cf2727437513,
+    stompParticle: {fileID: 8387003314849357227, guid: 131b4b0d01e45474b9b5772bd85aa6c0,
       type: 3}
   sounds:
     takeDamage: {fileID: 8300000, guid: 43277c13790a78645ad12408151d90fa, type: 3}
@@ -10520,6 +10521,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   invulnerability: 
+  onlyVulnerablyTo: 
   resistances:
     m_keys: 
     m_values: []
@@ -11050,7 +11052,7 @@ Transform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
-  - {fileID: 1292516245881829252}
+  - {fileID: 760084264686122932}
   - {fileID: 2463193079536784696}
   m_Father: {fileID: 293843520634246214}
   m_RootOrder: 5
@@ -11439,7 +11441,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 98defc15317324545a90794eec92ddf1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!1001 &260820999265362284
+--- !u!1001 &1800651916764733788
 PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
@@ -11449,22 +11451,22 @@ PrefabInstance:
     - target: {fileID: 1328966494601189096, guid: 1337f4c48c971014d9974f087f570eb4,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: -0.15499973
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1328966494601189096, guid: 1337f4c48c971014d9974f087f570eb4,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.822
+      value: 0.7489999
       objectReference: {fileID: 0}
     - target: {fileID: 1328966494601189096, guid: 1337f4c48c971014d9974f087f570eb4,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: -0.759
+      value: -1.5810001
       objectReference: {fileID: 0}
     - target: {fileID: 1328966494601189096, guid: 1337f4c48c971014d9974f087f570eb4,
         type: 3}
       propertyPath: m_LocalRotation.x
-      value: -0.7071068
+      value: -1
       objectReference: {fileID: 0}
     - target: {fileID: 1328966494601189096, guid: 1337f4c48c971014d9974f087f570eb4,
         type: 3}
@@ -11479,7 +11481,7 @@ PrefabInstance:
     - target: {fileID: 1328966494601189096, guid: 1337f4c48c971014d9974f087f570eb4,
         type: 3}
       propertyPath: m_LocalRotation.w
-      value: 0.7071068
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1328966494601189096, guid: 1337f4c48c971014d9974f087f570eb4,
         type: 3}
@@ -11504,20 +11506,15 @@ PrefabInstance:
     - target: {fileID: 1328966494601189099, guid: 1337f4c48c971014d9974f087f570eb4,
         type: 3}
       propertyPath: m_Name
-      value: EvadeTrailJabali
-      objectReference: {fileID: 0}
-    - target: {fileID: 1328966494601189099, guid: 1337f4c48c971014d9974f087f570eb4,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 1
+      value: part_6_Cabra_charging
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 1337f4c48c971014d9974f087f570eb4, type: 3}
---- !u!4 &1292516245881829252 stripped
+--- !u!4 &760084264686122932 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 1328966494601189096, guid: 1337f4c48c971014d9974f087f570eb4,
     type: 3}
-  m_PrefabInstance: {fileID: 260820999265362284}
+  m_PrefabInstance: {fileID: 1800651916764733788}
   m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1847357540572399566
 PrefabInstance:

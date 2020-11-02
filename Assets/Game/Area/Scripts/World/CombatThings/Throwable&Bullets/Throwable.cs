@@ -86,7 +86,6 @@ public abstract class Throwable : MonoBehaviour,IPauseable
         myrig.velocity = Vector3.zero;
 
         sensor.SetLayers(layermask_enemy);
-        sensor.AddCallback_OnTriggerEnter(ReceiveEntityToDamage);
 
         transform.position = newPosition;
         transform.forward = newDirection;

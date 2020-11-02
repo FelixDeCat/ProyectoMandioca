@@ -113,8 +113,6 @@ public class DamageReceiver : MonoBehaviour
             return Attack_Result.inmune;
         }
 
-        if (GetComponent<CharacterHead>()) Debug.Log("CharacterDamage: " + data.damage);
-
         if (invulnerability.Contains(Damagetype.All) || invulnerability.Contains(data.damageType))
         {
             InmuneFeedback?.Invoke();

@@ -244,8 +244,8 @@ public class GoatEnemy : EnemyWithCombatDirector
         AudioManager.instance.PlaySound(sounds.takeDamage.name, rootTransform);
 
         sm.SendInput(GoatInputs.TAKE_DMG);
-
-        ParticlesManager.Instance.PlayParticle(particles.hitParticle.name, transform.position);
+        
+        ParticlesManager.Instance.PlayParticle(particles.hitParticle.name, transform.position + Vector3.up).transform.forward = -data.attackDir;
         cooldown = true;
         cdModuleNoStopeable.AddCD("TakeDamageCD", () => cooldown = false, tdRecall);
 
