@@ -21,16 +21,18 @@ public abstract class BaseDestructible : Environment
 
     private void Start()
     {
-        if (NoInitialize) return;     
+        if (NoInitialize) return;
+        Initialize();
     }
 
     protected override void OnInitialize()
     {
         _lifeSytstem.Initialize( _lifeSytstem.life, ()=> { }, () => { }, () => { });
 
-        damageReceiver.AddDead((x) => { OnDestroyed.Invoke(); DestroyDestructible(); }).AddTakeDamage((x) => OnTakeDamage.Invoke()).Initialize(transform,
-            GetComponent<Rigidbody>(),
-            _lifeSytstem);
+        damageReceiver
+            .AddDead((x) => { OnDestroyed.Invoke(); DestroyDestructible(); })
+            .AddTakeDamage((x) => OnTakeDamage.Invoke())
+            .Initialize(transform,GetComponent<Rigidbody>(),_lifeSytstem);
 
         AudioManager.instance.GetSoundPool(destroyedSound.name, AudioGroups.AMBIENT_FX, destroyedSound);
     }
