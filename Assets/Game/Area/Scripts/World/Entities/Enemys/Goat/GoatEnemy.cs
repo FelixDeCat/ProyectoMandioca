@@ -14,9 +14,7 @@ public class GoatEnemy : EnemyWithCombatDirector
     [SerializeField] GenericEnemyMove movement = null;
     [SerializeField] LineOfSight lineOfSight = null;
     [SerializeField] CharacterGroundSensor groundSensor = null;
-
-    public AnimationCurve animEmisive;
-
+    
     [Header("Combat Options")]
     [SerializeField] CombatComponent headAttack = null;
     [SerializeField] JabaliPushComponent pushAttack = null;
@@ -221,14 +219,11 @@ public class GoatEnemy : EnemyWithCombatDirector
 
         if (takeDmg == Attack_Result.parried || takeDmg == Attack_Result.blocked) e.GetComponent<CharacterHead>()?.UnequipShield(transform.forward);
 
-        if (e.GetComponent<CharacterHead>())
-        {
-            chargeOk = false;
-            cdModuleStopeable.AddCD("ChargeAttack", () => chargeOk = true, timeToObtainCharge);
-            pushAttack.Stop();
-            sm.SendInput(GoatInputs.IDLE);
-            animator.SetTrigger("PlayerCollision");
-        }
+        chargeOk = false;
+        cdModuleStopeable.AddCD("ChargeAttack", () => chargeOk = true, timeToObtainCharge);
+        pushAttack.Stop();
+        sm.SendInput(GoatInputs.IDLE);
+        animator.SetTrigger("PlayerCollision");
     }
 
     void PushAttack() => pushAttack.ManualTriggerAttack();

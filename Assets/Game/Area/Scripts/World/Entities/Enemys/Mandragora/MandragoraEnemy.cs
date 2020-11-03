@@ -12,8 +12,6 @@ public class MandragoraEnemy : EnemyWithCombatDirector
     [SerializeField] GenericEnemyMove movement = null;
     [SerializeField] CharacterGroundSensor groundSensor = null;
 
-    public AnimationCurve animEmisive;
-
     [Header("Combat Options")]
     [SerializeField] CombatComponent combatComponent = null;
     [SerializeField] int damage = 2;

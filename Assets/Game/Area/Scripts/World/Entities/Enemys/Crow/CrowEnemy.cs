@@ -9,9 +9,6 @@ public class CrowEnemy : EnemyWithCombatDirector
 {
     [SerializeField] bool showGizmoCombatDistance = false;
     [SerializeField] bool showGizmoDistancePos = false;
-    public AnimationCurve animEmisive;
-
-
     [SerializeField] float rotationSpeed = 8;
 
     [Header("Combat Options")]

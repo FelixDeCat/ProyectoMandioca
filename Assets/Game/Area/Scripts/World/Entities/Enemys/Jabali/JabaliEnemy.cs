@@ -10,9 +10,7 @@ public class JabaliEnemy : EnemyWithCombatDirector
     [SerializeField] GenericEnemyMove movement = null;
     [SerializeField] LineOfSight lineOfSight = null;
     [SerializeField] CharacterGroundSensor groundSensor = null;
-
-    public AnimationCurve animEmisive;
-
+    
     [Header("Combat Options")]
     [SerializeField] CombatComponent headAttack = null;
     [SerializeField] JabaliPushComponent pushAttack = null;
