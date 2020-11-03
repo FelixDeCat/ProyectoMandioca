@@ -126,20 +126,20 @@ namespace GOAP
             initial.valoresFloat = WorldState.instance.valoresFloat.Clone<Dictionary<string, float>>();
             initial.valoresInt = WorldState.instance.valoresInt.Clone<Dictionary<string, int>>();
 
-            foreach (var item in initial.valoresFloat)
-            {
-                Debug.Log("valores float " + item.Key + " --> " + item.Value);
-            }
+            //foreach (var item in initial.valoresFloat)
+            //{
+            //    Debug.Log("valores float " + item.Key + " --> " + item.Value);
+            //}
 
-            foreach (var item in initial.valoresBool)
-            {
-                Debug.Log("valores bool " + item.Key + " --> " + item.Value);
-            }
+            //foreach (var item in initial.valoresBool)
+            //{
+            //    Debug.Log("valores bool " + item.Key + " --> " + item.Value);
+            //}
 
-            foreach (var item in initial.valoresInt)
-            {
-                Debug.Log("valores int " + item.Key + " --> " + item.Value);
-            }
+            //foreach (var item in initial.valoresInt)
+            //{
+            //    Debug.Log("valores int " + item.Key + " --> " + item.Value);
+            //}
 
 
             //initial.valoresBool.UpdateWith(WorldState.instance.valoresBool);

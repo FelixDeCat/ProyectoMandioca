@@ -24,7 +24,7 @@ public class Piston : MonoBehaviour
     protected PingPongLerp pingponglerp;
     public virtual void Start()
     {
-        AudioManager.instance.GetSoundPool(ac_hitFloor.name, AudioGroups.GAME_FX, ac_hitFloor);
+        if(ac_hitFloor) AudioManager.instance.GetSoundPool(ac_hitFloor.name, AudioGroups.GAME_FX, ac_hitFloor);
         if (Anim)
         {
             pingponglerp = new PingPongLerp();
@@ -44,7 +44,7 @@ public class Piston : MonoBehaviour
 
     protected virtual void hitFloorFeedBack()
     {
-        AudioManager.instance.PlaySound(ac_hitFloor.name, transform);
+        if (ac_hitFloor) AudioManager.instance.PlaySound(ac_hitFloor.name, transform);
     }
     public void AnimationResult(float val_anim) => ToMove.position = Vector3.Lerp(_startPos.position, _EndPos.position, val_anim);
     protected virtual void Update() =>  pingponglerp?.Updatear();
