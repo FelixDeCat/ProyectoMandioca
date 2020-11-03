@@ -69,7 +69,7 @@ public abstract class Interactable : MonoBehaviour
                 autoexe_in_CD = true;
                 timer_cd = 0;
                 executing = true;
-                Main.instance.eventManager.TriggerEvent(GameEvents.DELETE_INTERACTABLE, this);
+                //Main.instance.eventManager.TriggerEvent(GameEvents.DELETE_INTERACTABLE, this);
                 OnExecute(entity);
             }
         }
@@ -137,7 +137,7 @@ public abstract class Interactable : MonoBehaviour
             else
             {
                 executing = true;
-                Main.instance.eventManager.TriggerEvent(GameEvents.DELETE_INTERACTABLE, this);
+                //Main.instance.eventManager.TriggerEvent(GameEvents.DELETE_INTERACTABLE, this);
                 OnExecute(currentCollector);
                 currentTime = 0;
                 updateDelay = false;
