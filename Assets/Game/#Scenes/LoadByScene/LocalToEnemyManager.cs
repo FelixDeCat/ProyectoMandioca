@@ -27,7 +27,7 @@ public class LocalToEnemyManager : MonoBehaviour
     }
     void UnLoadScene(string scene)
     {
-        EnemyManager.Instance.OnSaveStateEnemies(scene);
+        //EnemyManager.Instance.OnSaveStateEnemies(scene);
         // <-----
     }
     void SendEnemyScene(string scene, EnemyBase enemy)
