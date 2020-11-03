@@ -21,8 +21,7 @@ public abstract class BaseDestructible : Environment
 
     private void Start()
     {
-        if (NoInitialize) return;
-        OnInitialize();
+        if (NoInitialize) return;     
     }
 
     protected override void OnInitialize()

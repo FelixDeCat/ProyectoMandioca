@@ -14,7 +14,7 @@ public class NPCFleing : Villager
 
     public void AddMax()
     {
-        FindObjectOfType<NPCSpawnerEndless>().AddMax();
+        Main.instance.GetVillageManager().AddVillager(this);
     }
 
     //no se para que sirve esto, pero tira error sino, asique decora muy bien
