@@ -50,12 +50,15 @@ public class CharSounds
     public void Play_OffFightMusic() { AudioManager.instance.PlaySound(offFightMusic.name);  }
     public void NewOffFightMusic(AudioClip music)
     {
+        AudioManager.instance.StopAllSounds(offFightMusic.name);
         offFightMusic = music;
         AudioManager.instance.GetSoundPool(offFightMusic.name, AudioGroups.GAME_FX, offFightMusic);
+        
         Play_OffFightMusic();
     }
     public void NewOnFightMusic(AudioClip music)
     {
+        AudioManager.instance.StopAllSounds(onFightMusic.name);
         onFightMusic = music;
         AudioManager.instance.GetSoundPool(onFightMusic.name, AudioGroups.GAME_FX, onFightMusic);
         Play_OnFightMusic();

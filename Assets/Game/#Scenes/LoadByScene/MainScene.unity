@@ -9293,6 +9293,8 @@ GameObject:
   m_Component:
   - component: {fileID: 354564600}
   - component: {fileID: 354564598}
+  - component: {fileID: 354564601}
+  - component: {fileID: 354564599}
   m_Layer: 0
   m_Name: SwitchEnterTheDungeon
   m_TagString: Untagged
@@ -9363,6 +9365,17 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 354564599}
+        m_MethodName: changeTheMusic
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   OnExitTheGungeon:
     m_PersistentCalls:
       m_Calls:
@@ -9410,6 +9423,19 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 1
         m_CallState: 2
+--- !u!114 &354564599
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 354564597}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 58614cadff549094dbf5ec238f39f9d8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  dungeonMusic: {fileID: 8300000, guid: 816147d886fb6f446975b16a8a66a26f, type: 3}
 --- !u!4 &354564600
 Transform:
   m_ObjectHideFlags: 0
@@ -9424,6 +9450,18 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 10
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &354564601
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 354564597}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f5939359e4b50ea499d8aebd55228f63, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &355287119
 PrefabInstance:
   m_ObjectHideFlags: 0

@@ -92,7 +92,7 @@ public class CharacterHead : CharacterControllable
     [SerializeField] float parryRecall = 0;
     [SerializeField] float takeDamageRecall = 0;
     public Transform ShieldForward;
-    [SerializeField] CharFeedbacks feedbacks = null;
+    [SerializeField] public CharFeedbacks feedbacks = null;
 
     private bool blockRoll;
     public bool BlockRoll { set { blockRoll = value; } }
