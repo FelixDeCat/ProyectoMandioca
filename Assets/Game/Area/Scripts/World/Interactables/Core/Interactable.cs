@@ -40,7 +40,6 @@ public abstract class Interactable : MonoBehaviour
         if (!predicate.Invoke()) { return; }
         if (!autoexecute) if (feedback.Length > 0) foreach (var fdbck in feedback) fdbck.Show();
         OnEnter(entity);
-        Debug.Log("ON ENTER LCDSM.jpg");
         UE_OnEnter.Invoke();
     }
     public void Exit()
@@ -69,7 +68,7 @@ public abstract class Interactable : MonoBehaviour
                 autoexe_in_CD = true;
                 timer_cd = 0;
                 executing = true;
-                //Main.instance.eventManager.TriggerEvent(GameEvents.DELETE_INTERACTABLE, this);
+                Main.instance.eventManager.TriggerEvent(GameEvents.DELETE_INTERACTABLE, this);
                 OnExecute(entity);
             }
         }
@@ -137,7 +136,7 @@ public abstract class Interactable : MonoBehaviour
             else
             {
                 executing = true;
-                //Main.instance.eventManager.TriggerEvent(GameEvents.DELETE_INTERACTABLE, this);
+                Main.instance.eventManager.TriggerEvent(GameEvents.DELETE_INTERACTABLE, this);
                 OnExecute(currentCollector);
                 currentTime = 0;
                 updateDelay = false;

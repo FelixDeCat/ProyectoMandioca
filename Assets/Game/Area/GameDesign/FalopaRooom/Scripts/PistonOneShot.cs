@@ -46,6 +46,7 @@ public class PistonOneShot : Piston
     bool changeInteractableStatus(bool stat)
     {
         status = stat;
+        if (status) palanca.ReturnToCanExecute();
         return status;
     } 
     bool currStatus()
