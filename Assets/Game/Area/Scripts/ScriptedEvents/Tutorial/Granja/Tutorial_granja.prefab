@@ -1258,6 +1258,18 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 1
         m_CallState: 2
+      - m_Target: {fileID: 8009520162355717081}
+        m_MethodName: SetDialoge
+        m_Mode: 2
+        m_Arguments:
+          m_ObjectArgument: {fileID: 11400000, guid: 7874563a3a8ba18428d1d3f8916d4b9e,
+            type: 2}
+          m_ObjectArgumentAssemblyTypeName: DialogueTree, Assembly-CSharp
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 1
+        m_CallState: 2
   UEVENT_End:
     m_PersistentCalls:
       m_Calls: []
@@ -1895,6 +1907,17 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 0}
+        m_MethodName: 
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: 
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 0
   UEVENT_End:
     m_PersistentCalls:
       m_Calls: []
@@ -2178,8 +2201,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3747798463812125982}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 439.81, y: 40.43, z: -236.48145}
-  m_LocalScale: {x: 1, y: 5.754, z: 14.051}
+  m_LocalPosition: {x: 434.31, y: 40.43, z: -245.57}
+  m_LocalScale: {x: 1, y: 7.003194, z: 17.008736}
   m_Children: []
   m_Father: {fileID: 8009520163361891425}
   m_RootOrder: 31
@@ -2199,7 +2222,7 @@ MeshRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3747798463812125982}
-  m_Enabled: 1
+  m_Enabled: 0
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
@@ -2238,7 +2261,7 @@ BoxCollider:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3747798463812125982}
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
@@ -3025,7 +3048,7 @@ MonoBehaviour:
   movement_speed: 2
   radius_to_find_nodes: 1.5
   distance_to_close: 0.3
-  forwardspeed: 30
+  forwardspeed: 100
 --- !u!114 &2301988576649441669
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3210,6 +3233,7 @@ MonoBehaviour:
   PressUp:
     m_PersistentCalls:
       m_Calls: []
+  executing: 0
   UE_OnExecute:
     m_PersistentCalls:
       m_Calls: []
@@ -3234,6 +3258,9 @@ MonoBehaviour:
   useOneShot: 0
   stopAllOnDialogue: 0
   showButtons: 0
+  OnNewDialogue:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!1 &5962311903438720597
 GameObject:
   m_ObjectHideFlags: 0
@@ -4049,6 +4076,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   animationName: TranqueraOpen
+  useNpcAnims: 0
+  npcAnims: {fileID: 0}
 --- !u!1 &7112405264744257723
 GameObject:
   m_ObjectHideFlags: 0
@@ -4744,6 +4773,7 @@ MonoBehaviour:
   PressUp:
     m_PersistentCalls:
       m_Calls: []
+  executing: 0
   UE_OnExecute:
     m_PersistentCalls:
       m_Calls: []
@@ -4768,6 +4798,9 @@ MonoBehaviour:
   useOneShot: 0
   stopAllOnDialogue: 0
   showButtons: 0
+  OnNewDialogue:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!1 &8009520161873912103
 GameObject:
   m_ObjectHideFlags: 0
@@ -5260,6 +5293,7 @@ MonoBehaviour:
   PressUp:
     m_PersistentCalls:
       m_Calls: []
+  executing: 0
   UE_OnExecute:
     m_PersistentCalls:
       m_Calls: []
@@ -5281,10 +5315,25 @@ MonoBehaviour:
   dialogues:
   - {fileID: 11400000, guid: 0cd68882b4c900a4fb385cf2150d590b, type: 2}
   - {fileID: 11400000, guid: b88eaa9c9b03b2c4ba79de63e314c0d5, type: 2}
+  - {fileID: 11400000, guid: 7874563a3a8ba18428d1d3f8916d4b9e, type: 2}
   currentDialoge: {fileID: 11400000, guid: 0cd68882b4c900a4fb385cf2150d590b, type: 2}
   useOneShot: 0
   stopAllOnDialogue: 0
   showButtons: 0
+  OnNewDialogue:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 8009520162355717082}
+        m_MethodName: NPC_Can_Interact_Auto_True
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &2284995972686790023
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5519,6 +5568,7 @@ MonoBehaviour:
   PressUp:
     m_PersistentCalls:
       m_Calls: []
+  executing: 0
   UE_OnExecute:
     m_PersistentCalls:
       m_Calls: []
@@ -5545,6 +5595,9 @@ MonoBehaviour:
   useOneShot: 0
   stopAllOnDialogue: 0
   showButtons: 0
+  OnNewDialogue:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!1 &8009520163272125285
 GameObject:
   m_ObjectHideFlags: 0
@@ -5653,6 +5706,7 @@ MonoBehaviour:
   PressUp:
     m_PersistentCalls:
       m_Calls: []
+  executing: 0
   UE_OnExecute:
     m_PersistentCalls:
       m_Calls: []
@@ -5678,6 +5732,9 @@ MonoBehaviour:
   useOneShot: 0
   stopAllOnDialogue: 0
   showButtons: 0
+  OnNewDialogue:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!1 &8009520163315482634
 GameObject:
   m_ObjectHideFlags: 0

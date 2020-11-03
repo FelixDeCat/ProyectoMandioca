@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using Tools.Extensions;
+using System;
 
 /// <summary>
 /// los choices tienen que tener adentro un command place
@@ -23,6 +24,8 @@ public class DialogueManager : MonoBehaviour
     bool can_not_move = false;
     bool showButtons;
 
+    Action EndSubscription = delegate { };
+
     JoystickBasicInput joystick;
 
     private void Awake()
@@ -37,8 +40,9 @@ public class DialogueManager : MonoBehaviour
         joystick?.Refresh();
     }
 
-    public void StartDialogue(DialogueTree treedialog, bool _can_not_move = true, bool _showButtons = true)
+    public void StartDialogue(DialogueTree treedialog, bool _can_not_move = true, bool _showButtons = true, Action _EndSubscription = null)
     {
+        EndSubscription = _EndSubscription;
         showButtons = _showButtons;
         anim.Open(true);
         frontend.Open();
@@ -59,6 +63,8 @@ public class DialogueManager : MonoBehaviour
         currentNode = 0;
         anim.Open(true);
         frontend.Close();
+        EndSubscription?.Invoke();
+        EndSubscription = delegate { };
         if(can_not_move) Invoke("SendInputCharCanMove",0.01f);
     }
     void SendInputCharCanMove()

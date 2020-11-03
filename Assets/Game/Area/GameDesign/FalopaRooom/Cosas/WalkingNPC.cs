@@ -24,6 +24,7 @@ public abstract class Villager : NPCBase
     }
 
     public void NPC_Can_Interact(bool canInteract) => interactable.SetCanInteract(canInteract);
+    public void NPC_Can_Interact_Auto_True() => interactable.SetCanInteract(false, true);
 
     public void GoTo(Vector3 pos, Action _OnArriveCustomCallback = null)
     {

@@ -85,10 +85,16 @@ public abstract class Interactable : MonoBehaviour
         Main.instance.eventManager.TriggerEvent(GameEvents.ADD_INTERACTABLE, this);
     }
 
-    public void SetCanInteract(bool _caninteract)
+    public void SetCanInteract(bool _caninteract, bool back_with_timer = false)
     {
         can_interact = _caninteract;
+        if (back_with_timer)
+        {
+            Invoke("CanInteractAgain", 0.1f);
+        }
     }
+    void CanInteractAgain() { can_interact = true; }
+    
     public void InterruptExecute()
     {
         if (!predicate.Invoke()) return;

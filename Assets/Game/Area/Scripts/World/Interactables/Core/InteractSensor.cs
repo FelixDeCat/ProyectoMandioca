@@ -86,10 +86,6 @@ public class InteractSensor : MonoBehaviour
 
     public void CanInteract(bool val) => can_interact = val;
 
-    public bool CanInteractPredicate(Interactable interact)
-    {
-        return interact.CanInteract;
-    }
 
     private void Update()
     {
@@ -117,7 +113,7 @@ public class InteractSensor : MonoBehaviour
 
         if (filtered.Count == 0) { return; }
         if (filtered.Count == 1) current = filtered[0];
-        else current = filtered.ReturnMostClose(transform.position, CanInteractPredicate);//esto tambien se puede optimizar mas a delante con un return most close que busque por grupos
+        else current = filtered.ReturnMostClose(transform.position, x => x.CanInteract);//esto tambien se puede optimizar mas a delante con un return most close que busque por grupos
 
         //si no hay un most_close previo le asigno uno
         if (most_close == null)
