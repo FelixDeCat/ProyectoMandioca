@@ -139,6 +139,7 @@ namespace IA_Felix
     {
         Rigidbody rig;
         public float radius = 5;
+        public float distance_to_delete = 0.2f;
 
         public LayerMask detectableLayers;
 
@@ -157,6 +158,13 @@ namespace IA_Felix
 
         public List<Node> FindVecinos(Node MyNode)
         {
+            var to_eliminate = MyNode.FindInRadius(distance_to_delete, detectableLayers);
+            for (int i = 0; i < to_eliminate.Count; i++)
+            {
+                MonoBehaviour.DestroyImmediate(to_eliminate[i].gameObject);
+            }
+            to_eliminate.Clear();
+
             return MyNode.FindInRadius(radius, detectableLayers);
         }
     }

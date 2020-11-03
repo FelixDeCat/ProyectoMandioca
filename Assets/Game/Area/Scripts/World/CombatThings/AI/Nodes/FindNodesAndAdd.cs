@@ -11,8 +11,8 @@ public class FindNodesAndAdd : MonoBehaviour
     public bool render;
     public LocalNodeHandler manager;
     public bool clamp_to_floor;
-
     public bool rename;
+    public float dist_to_eliminate = 0.1f;
 
     bool canrender;
 
