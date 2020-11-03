@@ -79,8 +79,16 @@ public class MandragoraSaveState<T> : EnemiesRangeSaveState<T> where T : EnemyBa
         foreach (var item in temp.enemiesToSpawnDic)
             enemySpawn.Add(item.Key, item.Value);
         var aux = temp.GetComponentInChildren<TriggerDispatcher>();
-        triggerPos = aux.transform.position;
-        triggerScale = aux.transform.localScale;
+        if (aux != null)
+        {
+            triggerPos = aux.transform.position;
+            triggerScale = aux.transform.localScale;
+        }
+        else
+        {
+            Debug.LogError("Catcheo este error, es raro que pase, pero si pasa me corta la ejecucion y no me cargan las escenas");
+        }
+        
     }
 
     public override void LoadState(T enemy)
