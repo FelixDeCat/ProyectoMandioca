@@ -219,12 +219,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: abca4ad25b81755469b74e9010e2be8a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  npcs: []
-  npcsDisponibles:
-  - {fileID: 1309105981057224765}
+  npcs:
+  - {fileID: 466263241453615037}
   - {fileID: 7627658121899808582}
   - {fileID: 5345337965434731985}
-  - {fileID: 466263241453615037}
+  npcsDisponibles:
+  - {fileID: 1309105981057224765}
   triggerNpcArrived: {fileID: 1676452825}
   finalDest: {fileID: 3218403469224906468}
   startingPos: {fileID: 1451460431214178228}
@@ -4319,7 +4319,7 @@ PrefabInstance:
     - target: {fileID: 1589800780, guid: 64901781c2f29004ebbeeee93e85cd24, type: 3}
       propertyPath: toEliminate.Array.data[0]
       value: 
-      objectReference: {fileID: 7520135901495481625}
+      objectReference: {fileID: 0}
     - target: {fileID: 1589800780, guid: 64901781c2f29004ebbeeee93e85cd24, type: 3}
       propertyPath: toEliminate.Array.data[1]
       value: 
@@ -5174,7 +5174,7 @@ PrefabInstance:
         type: 3}
       propertyPath: vecinos.Array.data[0]
       value: 
-      objectReference: {fileID: 7520135901495481625}
+      objectReference: {fileID: 0}
     - target: {fileID: 4604546626471531821, guid: 64901781c2f29004ebbeeee93e85cd24,
         type: 3}
       propertyPath: vecinos.Array.data[1]
@@ -6068,18 +6068,6 @@ MonoBehaviour:
 --- !u!114 &5477661900170803567 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 9059713260977325886, guid: 64901781c2f29004ebbeeee93e85cd24,
-    type: 3}
-  m_PrefabInstance: {fileID: 3584303780170841681}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5a2ea357aabc8dc40adebc852315c574, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &7520135901495481625 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 6476988315762486088, guid: 64901781c2f29004ebbeeee93e85cd24,
     type: 3}
   m_PrefabInstance: {fileID: 3584303780170841681}
   m_PrefabAsset: {fileID: 0}
@@ -7106,7 +7094,7 @@ PrefabInstance:
     - target: {fileID: 4598128138623098415, guid: 946b3d241625caa45888c887b5f3daea,
         type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 946b3d241625caa45888c887b5f3daea, type: 3}
@@ -7164,6 +7152,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_ConnectedAnchor.z
       value: -0.24551702
+      objectReference: {fileID: 0}
+    - target: {fileID: 835024532532866824, guid: 99084e8f97001134991038b0c2e2df09,
+        type: 3}
+      propertyPath: Combat
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3005608376134925672, guid: 99084e8f97001134991038b0c2e2df09,
         type: 3}
@@ -7325,6 +7318,11 @@ PrefabInstance:
       propertyPath: m_ConnectedAnchor.z
       value: -0.00000019326077
       objectReference: {fileID: 0}
+    - target: {fileID: 9113692332199560730, guid: 99084e8f97001134991038b0c2e2df09,
+        type: 3}
+      propertyPath: poolname
+      value: 
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 99084e8f97001134991038b0c2e2df09, type: 3}
 --- !u!4 &3250727446419234150 stripped
@@ -7420,7 +7418,7 @@ PrefabInstance:
     - target: {fileID: 4598128138623098415, guid: 4df4542ca00e74b4abeaae0227bfee57,
         type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 4df4542ca00e74b4abeaae0227bfee57, type: 3}
@@ -9269,7 +9267,7 @@ PrefabInstance:
     - target: {fileID: 4598128138623098415, guid: 194037c24ba7494459731e2441aabdeb,
         type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 194037c24ba7494459731e2441aabdeb, type: 3}
