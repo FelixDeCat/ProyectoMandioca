@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class SaveVillageManager : MonoBehaviour
 {
@@ -14,10 +15,13 @@ public class SaveVillageManager : MonoBehaviour
     int currentEnemiesAlive = 0;
     public int currentPhase { get; private set; }
 
-    [SerializeField] Transform spawnPoint;
+    [SerializeField] Transform[] spawnPoints;
     [SerializeField] PointToGo endPoint;
 
     public VillageEventState gameState { get; private set; }
+    [SerializeField] UnityEvent OnPhaseChanged;
+    [SerializeField] UnityEvent OnVillagerArrived;
+    [SerializeField] UnityEvent OnEventCompleted;
 
     List<EnemyBase> currentEnemies = new List<EnemyBase>();
     List<NPCFleing> currentVillagers = new List<NPCFleing>();
@@ -25,7 +29,7 @@ public class SaveVillageManager : MonoBehaviour
     private void Start()
     {
         Main.instance.SetVillageManager(this);
-        gameState = VillageEventState.Disabled;
+        SetCurrentState(VillageEventState.Disabled);
     }
 
     public void AddEnemy(EnemyBase enemy)
@@ -48,7 +52,12 @@ public class SaveVillageManager : MonoBehaviour
         currentPhase++;
         if (currentPhase >= villagersNeededPerPhase.Length - 1)
         {
+            OnEventCompleted.Invoke();
             SetCurrentState(VillageEventState.LevelCompleted);
+        }
+        else
+        {
+            OnPhaseChanged.Invoke();
         }
     }
 
@@ -66,7 +75,7 @@ public class SaveVillageManager : MonoBehaviour
             for (int i = 0; i < villagersPerGroup; i++)
             {
                 GameObject Spawned = Instantiate(villagerPrefab);
-                Spawned.transform.position = spawnPoint.transform.position + new Vector3(Random.Range(-4, 4), 0, Random.Range(-2, 2));
+                Spawned.transform.position = spawnPoints[Random.Range(0,spawnPoints.Length-1)].transform.position + new Vector3(Random.Range(-4, 4), 0, Random.Range(-2, 2));
                 NPCFleing npc = Spawned.GetComponent<NPCFleing>();
                 npc.Initialize();
                 currentVillagers.Add(npc);
@@ -86,11 +95,11 @@ public class SaveVillageManager : MonoBehaviour
         currentVillagerCount++;
         if (currentVillagers.Contains(npc))
         {
+            OnVillagerArrived.Invoke();
             currentVillagers.Remove(npc);
-            Debug.Log("REMOVED VILLAGER");
         }
 
-        if (currentVillagerCount > villagersNeededPerPhase[currentPhase])
+        if (currentPhase != villagersNeededPerPhase.Length && currentVillagerCount >= villagersNeededPerPhase[currentPhase] )
         {
             AddPhase();
         }
