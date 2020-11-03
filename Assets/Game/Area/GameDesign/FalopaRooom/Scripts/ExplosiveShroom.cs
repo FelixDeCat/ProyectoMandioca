@@ -15,6 +15,11 @@ public class ExplosiveShroom : EntityBase
     [SerializeField] ParticleSystem particles = null;
 
 
+    private void Start()
+    {
+        Initialize();
+    }
+
     public void Explode()
     {
         StartCoroutine(TickExplode(explosionDelay));
