@@ -68,6 +68,6 @@ public class RunningVillager_Spawner : MonoBehaviour
 
         
 
-        StartCoroutine(WaitAndSpawn());
+        //StartCoroutine(WaitAndSpawn());
     }
 }

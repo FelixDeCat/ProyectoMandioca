@@ -18,15 +18,16 @@ public class EventosCamino : MonoBehaviour
 
     public void BeginEventosCaminoCuervo()
     {
-        Debug.Log("armo el evento");
+        
         objective_kill_cuervo.BeginObjetive(OnKillCuervo);
     }
 
     void OnKillCuervo()
     {
-        Debug.Log("corran mis chiquitos");
+        
         for (int i = 0; i < personitasEscondidas.Count; i++)
         {
+            personitasEscondidas[i].StopFetalPos("");
             personitasEscondidas[i].GetComponent<NPCFleing>().GoToPos_RunningDesesperated();
         }
        

@@ -47,8 +47,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   vecinos:
-  - {fileID: 2094290803}
   - {fileID: 1503146704}
+  - {fileID: 2094290803}
   toEliminate: []
   parent: {fileID: 0}
   costs:
@@ -177,8 +177,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   vecinos:
-  - {fileID: 1566016557}
   - {fileID: 2094290803}
+  - {fileID: 1566016557}
   toEliminate: []
   parent: {fileID: 0}
   costs:
@@ -437,8 +437,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   vecinos:
-  - {fileID: 1887402112}
   - {fileID: 1664708622}
+  - {fileID: 1887402112}
   toEliminate: []
   parent: {fileID: 0}
   costs:
@@ -520,6 +520,266 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
+--- !u!1 &670038990
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 670038991}
+  - component: {fileID: 670038995}
+  - component: {fileID: 670038994}
+  - component: {fileID: 670038993}
+  - component: {fileID: 670038992}
+  m_Layer: 9
+  m_Name: Node [25] (3)
+  m_TagString: Untagged
+  m_Icon: {fileID: 3306451490063965843, guid: 0000000000000000d000000000000000, type: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &670038991
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 670038990}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 47.906, y: 22.304, z: 25.635}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 1672743292521713070}
+  m_RootOrder: 98
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &670038995
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 670038990}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5a2ea357aabc8dc40adebc852315c574, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  vecinos:
+  - {fileID: 788297183}
+  toEliminate: []
+  parent: {fileID: 0}
+  costs:
+    cost: 0
+    fitness: 0
+    heuristic: 0
+  render:
+    gizmos: 1
+    draw_radius: 0
+    draw_neighbors: 1
+  finder:
+    radius: 3.31
+    distance_to_delete: 0.1
+    detectableLayers:
+      serializedVersion: 2
+      m_Bits: 512
+    encontrados: []
+    colliders: []
+  mask_hit_floor:
+    serializedVersion: 2
+    m_Bits: 2097152
+  execute: 0
+--- !u!65 &670038994
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 670038990}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1, y: 1, z: 1}
+  m_Center: {x: 0, y: 0, z: 0}
+--- !u!33 &670038993
+MeshFilter:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 670038990}
+  m_Mesh: {fileID: 6461297695846733525, guid: d29011299c790af42a26b41ec2a5ee56, type: 3}
+--- !u!23 &670038992
+MeshRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 670038990}
+  m_Enabled: 1
+  m_CastShadows: 1
+  m_ReceiveShadows: 1
+  m_DynamicOccludee: 1
+  m_MotionVectors: 1
+  m_LightProbeUsage: 1
+  m_ReflectionProbeUsage: 1
+  m_RenderingLayerMask: 1
+  m_RendererPriority: 0
+  m_Materials:
+  - {fileID: 10303, guid: 0000000000000000f000000000000000, type: 0}
+  m_StaticBatchInfo:
+    firstSubMesh: 0
+    subMeshCount: 0
+  m_StaticBatchRoot: {fileID: 0}
+  m_ProbeAnchor: {fileID: 0}
+  m_LightProbeVolumeOverride: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
+  m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
+  m_ImportantGI: 0
+  m_StitchLightmapSeams: 1
+  m_SelectedEditorRenderState: 3
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 0
+--- !u!1 &788297178
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 788297179}
+  - component: {fileID: 788297183}
+  - component: {fileID: 788297182}
+  - component: {fileID: 788297181}
+  - component: {fileID: 788297180}
+  m_Layer: 9
+  m_Name: Node [25] (2)
+  m_TagString: Untagged
+  m_Icon: {fileID: 3306451490063965843, guid: 0000000000000000d000000000000000, type: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &788297179
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 788297178}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 49.478, y: 22.304, z: 27.541}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 1672743292521713070}
+  m_RootOrder: 97
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &788297183
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 788297178}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5a2ea357aabc8dc40adebc852315c574, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  vecinos:
+  - {fileID: 8354695327450169093}
+  - {fileID: 1183899268}
+  - {fileID: 670038995}
+  toEliminate: []
+  parent: {fileID: 0}
+  costs:
+    cost: 0
+    fitness: 0
+    heuristic: 0
+  render:
+    gizmos: 1
+    draw_radius: 0
+    draw_neighbors: 1
+  finder:
+    radius: 4.85
+    distance_to_delete: 0.1
+    detectableLayers:
+      serializedVersion: 2
+      m_Bits: 512
+    encontrados: []
+    colliders: []
+  mask_hit_floor:
+    serializedVersion: 2
+    m_Bits: 2097152
+  execute: 0
+--- !u!65 &788297182
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 788297178}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1, y: 1, z: 1}
+  m_Center: {x: 0, y: 0, z: 0}
+--- !u!33 &788297181
+MeshFilter:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 788297178}
+  m_Mesh: {fileID: 6461297695846733525, guid: d29011299c790af42a26b41ec2a5ee56, type: 3}
+--- !u!23 &788297180
+MeshRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 788297178}
+  m_Enabled: 1
+  m_CastShadows: 1
+  m_ReceiveShadows: 1
+  m_DynamicOccludee: 1
+  m_MotionVectors: 1
+  m_LightProbeUsage: 1
+  m_ReflectionProbeUsage: 1
+  m_RenderingLayerMask: 1
+  m_RendererPriority: 0
+  m_Materials:
+  - {fileID: 10303, guid: 0000000000000000f000000000000000, type: 0}
+  m_StaticBatchInfo:
+    firstSubMesh: 0
+    subMeshCount: 0
+  m_StaticBatchRoot: {fileID: 0}
+  m_ProbeAnchor: {fileID: 0}
+  m_LightProbeVolumeOverride: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
+  m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
+  m_ImportantGI: 0
+  m_StitchLightmapSeams: 1
+  m_SelectedEditorRenderState: 3
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 0
 --- !u!1 &925318185
 GameObject:
   m_ObjectHideFlags: 0
@@ -567,8 +827,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   vecinos:
-  - {fileID: 1672743292293853378}
   - {fileID: 2107731589}
+  - {fileID: 1672743292293853378}
   toEliminate: []
   parent: {fileID: 0}
   costs:
@@ -650,6 +910,136 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
+--- !u!1 &1183899267
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1183899272}
+  - component: {fileID: 1183899268}
+  - component: {fileID: 1183899271}
+  - component: {fileID: 1183899270}
+  - component: {fileID: 1183899269}
+  m_Layer: 9
+  m_Name: Node [25] (1)
+  m_TagString: Untagged
+  m_Icon: {fileID: 3306451490063965843, guid: 0000000000000000d000000000000000, type: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1183899272
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1183899267}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 53.93, y: 22.489449, z: 28.59}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 1672743292521713070}
+  m_RootOrder: 96
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1183899268
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1183899267}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5a2ea357aabc8dc40adebc852315c574, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  vecinos:
+  - {fileID: 788297183}
+  - {fileID: 9055527678288695957}
+  toEliminate: []
+  parent: {fileID: 0}
+  costs:
+    cost: 0
+    fitness: 0
+    heuristic: 0
+  render:
+    gizmos: 1
+    draw_radius: 0
+    draw_neighbors: 1
+  finder:
+    radius: 4.91
+    distance_to_delete: 0.1
+    detectableLayers:
+      serializedVersion: 2
+      m_Bits: 512
+    encontrados: []
+    colliders: []
+  mask_hit_floor:
+    serializedVersion: 2
+    m_Bits: 2097152
+  execute: 0
+--- !u!65 &1183899271
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1183899267}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1, y: 1, z: 1}
+  m_Center: {x: 0, y: 0, z: 0}
+--- !u!33 &1183899270
+MeshFilter:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1183899267}
+  m_Mesh: {fileID: 6461297695846733525, guid: d29011299c790af42a26b41ec2a5ee56, type: 3}
+--- !u!23 &1183899269
+MeshRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1183899267}
+  m_Enabled: 1
+  m_CastShadows: 1
+  m_ReceiveShadows: 1
+  m_DynamicOccludee: 1
+  m_MotionVectors: 1
+  m_LightProbeUsage: 1
+  m_ReflectionProbeUsage: 1
+  m_RenderingLayerMask: 1
+  m_RendererPriority: 0
+  m_Materials:
+  - {fileID: 10303, guid: 0000000000000000f000000000000000, type: 0}
+  m_StaticBatchInfo:
+    firstSubMesh: 0
+    subMeshCount: 0
+  m_StaticBatchRoot: {fileID: 0}
+  m_ProbeAnchor: {fileID: 0}
+  m_LightProbeVolumeOverride: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
+  m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
+  m_ImportantGI: 0
+  m_StitchLightmapSeams: 1
+  m_SelectedEditorRenderState: 3
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 0
 --- !u!1 &1503146703
 GameObject:
   m_ObjectHideFlags: 0
@@ -697,8 +1087,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   vecinos:
-  - {fileID: 72957889}
   - {fileID: 1887402112}
+  - {fileID: 72957889}
   toEliminate: []
   parent: {fileID: 0}
   costs:
@@ -1086,8 +1476,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   vecinos:
-  - {fileID: 1503146704}
   - {fileID: 601860850}
+  - {fileID: 1503146704}
   toEliminate: []
   parent: {fileID: 0}
   costs:
@@ -1216,8 +1606,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   vecinos:
-  - {fileID: 375959198}
   - {fileID: 72957889}
+  - {fileID: 375959198}
   toEliminate: []
   parent: {fileID: 0}
   costs:
@@ -1346,8 +1736,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   vecinos:
-  - {fileID: 925318186}
   - {fileID: 551290237}
+  - {fileID: 925318186}
   toEliminate: []
   parent: {fileID: 0}
   costs:
@@ -1460,6 +1850,77 @@ MonoBehaviour:
   npc_Name: 
   useCommands: 1
   death_anim_cursor: 0
+--- !u!54 &1717772376
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 350027454337747255}
+  serializedVersion: 2
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_UseGravity: 1
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 112
+  m_CollisionDetection: 0
+--- !u!136 &1717772377
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 350027454337747255}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  m_Radius: 0.5
+  m_Height: 2.78
+  m_Direction: 1
+  m_Center: {x: 0, y: 1.2, z: 0}
+--- !u!114 &1717772375
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 350027454337747255}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b0d0df1e917ba3942bc1748f1a9644d7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  canMove: 0
+  rb: {fileID: 1717772376}
+  movement_speed: 5
+  radius_to_find_nodes: 6
+  distance_to_close: 0.1
+  forwardspeed: 20
+--- !u!114 &1717772378
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 350027454337747255}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: baaab1ae9dd09e64eb8a63bd91f0b2fb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  poolname: 
+  rig_path_finder: {fileID: 1717772375}
+  anim: {fileID: 368213100789338577}
+  rb: {fileID: 1717772376}
+  OnStartMovement:
+    m_PersistentCalls:
+      m_Calls: []
+  OnIHaveArrive:
+    m_PersistentCalls:
+      m_Calls: []
+  pos_exit_endless: {fileID: 3005650523840016166}
 --- !u!1 &368213099939610705
 GameObject:
   m_ObjectHideFlags: 0
@@ -1694,9 +2155,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   vecinos:
-  - {fileID: 1073715207012452959}
   - {fileID: 1237031990112261015}
-  - {fileID: 4627518675379050149}
+  - {fileID: 1073715207012452959}
   toEliminate:
   - {fileID: 4627518675379050149}
   parent: {fileID: 0}
@@ -1971,8 +2431,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   vecinos:
-  - {fileID: 4627518675379050149}
   - {fileID: 3032251065291053227}
+  - {fileID: 4627518675379050149}
   toEliminate: []
   parent: {fileID: 0}
   costs:
@@ -2081,13 +2541,10 @@ Transform:
   m_LocalPosition: {x: 356.06006, y: 102.82759, z: -247.28174}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
-  - {fileID: 2176790610993594496}
   - {fileID: 1672743292521713070}
   - {fileID: 1974147377997637950}
   - {fileID: 6850185983474654104}
-  - {fileID: 6646729402884241524}
   - {fileID: 4878938549563024362}
-  - {fileID: 873526199012707855}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -2528,8 +2985,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   vecinos:
-  - {fileID: 1672743292102454735}
   - {fileID: 1672743292426612011}
+  - {fileID: 1672743292102454735}
   toEliminate: []
   parent: {fileID: 0}
   costs:
@@ -2658,8 +3115,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   vecinos:
-  - {fileID: 1672743292426612011}
   - {fileID: 925318186}
+  - {fileID: 1672743292426612011}
   toEliminate: []
   parent: {fileID: 0}
   costs:
@@ -2769,7 +3226,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1672743292426612053}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 3.8901198, y: -2.1636505, z: -1.2600236}
+  m_LocalPosition: {x: 3.89, y: -2.1636505, z: -1.249}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1672743292521713070}
@@ -2996,8 +3453,11 @@ Transform:
   - {fileID: 1887402116}
   - {fileID: 601860854}
   - {fileID: 1664708618}
+  - {fileID: 1183899272}
+  - {fileID: 788297179}
+  - {fileID: 670038991}
   m_Father: {fileID: 6406624705101006613}
-  m_RootOrder: 1
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: -11.764001, z: 0}
 --- !u!114 &1672743292521713065
 MonoBehaviour:
@@ -3077,9 +3537,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   vecinos:
-  - {fileID: 5249898210483507213}
   - {fileID: 4467969464240949301}
-  - {fileID: 4367800027394627826}
+  - {fileID: 5249898210483507213}
   toEliminate:
   - {fileID: 4367800027394627826}
   parent: {fileID: 0}
@@ -3209,8 +3668,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   vecinos:
-  - {fileID: 5311917529739645397}
   - {fileID: 5783648340133014910}
+  - {fileID: 5311917529739645397}
   toEliminate: []
   parent: {fileID: 0}
   costs:
@@ -3503,8 +3962,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   vecinos:
-  - {fileID: 1237031990112261015}
   - {fileID: 4876331108470572772}
+  - {fileID: 1237031990112261015}
   toEliminate: []
   parent: {fileID: 0}
   costs:
@@ -3633,9 +4092,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   vecinos:
-  - {fileID: 3394180172986353643}
   - {fileID: 4367800027394627826}
-  - {fileID: 6276803780541418488}
+  - {fileID: 3394180172986353643}
   toEliminate:
   - {fileID: 6276803780541418488}
   parent: {fileID: 0}
@@ -3765,8 +4223,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   vecinos:
-  - {fileID: 5417642221180264336}
   - {fileID: 8182568852386556471}
+  - {fileID: 5417642221180264336}
   toEliminate: []
   parent: {fileID: 0}
   costs:
@@ -3876,7 +4334,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3475404565390359966}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 53.619095, y: 22.489449, z: 32.223007}
+  m_LocalPosition: {x: 54.77, y: 22.489449, z: 32.36}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1672743292521713070}
@@ -3895,9 +4353,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   vecinos:
-  - {fileID: 2508900882480622572}
   - {fileID: 8354695327450169093}
-  toEliminate: []
+  - {fileID: 1183899268}
+  - {fileID: 2508900882480622572}
+  toEliminate:
+  - {fileID: 788297183}
   parent: {fileID: 0}
   costs:
     cost: 0
@@ -3991,7 +4451,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   timeIntervalToPeek: 4
-  timeIntervalPeeking: 10
+  timeIntervalPeeking: 6
   anim: {fileID: 8445961311310959162}
   _count: 0
 --- !u!114 &8445961311310959162
@@ -4010,6 +4470,77 @@ MonoBehaviour:
   npc_Name: 
   useCommands: 1
   death_anim_cursor: 0
+--- !u!54 &1932486204
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3604640104420012682}
+  serializedVersion: 2
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_UseGravity: 1
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 112
+  m_CollisionDetection: 0
+--- !u!136 &1932486202
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3604640104420012682}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  m_Radius: 0.5
+  m_Height: 2.82
+  m_Direction: 1
+  m_Center: {x: 0, y: 1.36, z: 0}
+--- !u!114 &1932486203
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3604640104420012682}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b0d0df1e917ba3942bc1748f1a9644d7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  canMove: 0
+  rb: {fileID: 1932486204}
+  movement_speed: 5
+  radius_to_find_nodes: 6
+  distance_to_close: 0.1
+  forwardspeed: 20
+--- !u!114 &1932486205
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3604640104420012682}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: baaab1ae9dd09e64eb8a63bd91f0b2fb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  poolname: 
+  rig_path_finder: {fileID: 1932486203}
+  anim: {fileID: 8445961311310959162}
+  rb: {fileID: 1932486204}
+  OnStartMovement:
+    m_PersistentCalls:
+      m_Calls: []
+  OnIHaveArrive:
+    m_PersistentCalls:
+      m_Calls: []
+  pos_exit_endless: {fileID: 3005650523840016166}
 --- !u!1 &3792636240442198844
 GameObject:
   m_ObjectHideFlags: 0
@@ -4446,9 +4977,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   vecinos:
-  - {fileID: 3792636242026083237}
-  - {fileID: 3792636240930473760}
   - {fileID: 5773999250395731133}
+  - {fileID: 3792636242026083237}
   toEliminate:
   - {fileID: 3792636240930473760}
   parent: {fileID: 0}
@@ -4578,9 +5108,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   vecinos:
-  - {fileID: 3792636242026083237}
   - {fileID: 5773999250395731133}
   - {fileID: 3792636241272739333}
+  - {fileID: 3792636242026083237}
   toEliminate: []
   parent: {fileID: 0}
   costs:
@@ -4709,8 +5239,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   vecinos:
-  - {fileID: 3792636241969875385}
   - {fileID: 3792636241791010692}
+  - {fileID: 3792636241969875385}
   toEliminate: []
   parent: {fileID: 0}
   costs:
@@ -4839,8 +5369,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   vecinos:
-  - {fileID: 3792636241507275327}
   - {fileID: 3792636242160919475}
+  - {fileID: 3792636241507275327}
   toEliminate: []
   parent: {fileID: 0}
   costs:
@@ -5099,8 +5629,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   vecinos:
-  - {fileID: 3792636242453331883}
   - {fileID: 3792636242214066356}
+  - {fileID: 3792636242453331883}
   toEliminate: []
   parent: {fileID: 0}
   costs:
@@ -5229,8 +5759,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   vecinos:
-  - {fileID: 3792636242414137976}
   - {fileID: 3792636241800865136}
+  - {fileID: 3792636242414137976}
   toEliminate: []
   parent: {fileID: 0}
   costs:
@@ -5359,9 +5889,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   vecinos:
-  - {fileID: 3792636240930473760}
   - {fileID: 5773999250395731133}
   - {fileID: 3792636241894909963}
+  - {fileID: 3792636240930473760}
   toEliminate: []
   parent: {fileID: 0}
   costs:
@@ -5490,8 +6020,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   vecinos:
-  - {fileID: 3792636242215863926}
   - {fileID: 3792636242269402985}
+  - {fileID: 3792636242215863926}
   toEliminate: []
   parent: {fileID: 0}
   costs:
@@ -5750,8 +6280,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   vecinos:
-  - {fileID: 3792636241894909963}
   - {fileID: 3792636241533444369}
+  - {fileID: 3792636241894909963}
   toEliminate: []
   parent: {fileID: 0}
   costs:
@@ -5880,8 +6410,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   vecinos:
-  - {fileID: 5773999250395731133}
   - {fileID: 3792636242026340505}
+  - {fileID: 5773999250395731133}
   toEliminate: []
   parent: {fileID: 0}
   costs:
@@ -6010,8 +6540,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   vecinos:
-  - {fileID: 3792636241791010692}
   - {fileID: 3792636241507275327}
+  - {fileID: 3792636241791010692}
   toEliminate: []
   parent: {fileID: 0}
   costs:
@@ -6140,8 +6670,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   vecinos:
-  - {fileID: 3792636241670337990}
   - {fileID: 3792636242263452851}
+  - {fileID: 3792636241670337990}
   toEliminate: []
   parent: {fileID: 0}
   costs:
@@ -6270,8 +6800,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   vecinos:
-  - {fileID: 3792636241437293475}
   - {fileID: 3792636241031211866}
+  - {fileID: 3792636241437293475}
   toEliminate: []
   parent: {fileID: 0}
   costs:
@@ -6789,8 +7319,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   vecinos:
-  - {fileID: 3792636242026340505}
   - {fileID: 3792636241670337990}
+  - {fileID: 3792636242026340505}
   toEliminate: []
   parent: {fileID: 0}
   costs:
@@ -6919,8 +7449,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   vecinos:
-  - {fileID: 3792636242263452851}
   - {fileID: 3792636242176833377}
+  - {fileID: 3792636242263452851}
   toEliminate: []
   parent: {fileID: 0}
   costs:
@@ -7049,8 +7579,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   vecinos:
-  - {fileID: 3792636241010584617}
   - {fileID: 3792636241437293475}
+  - {fileID: 3792636241010584617}
   toEliminate: []
   parent: {fileID: 0}
   costs:
@@ -7309,8 +7839,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   vecinos:
-  - {fileID: 3792636242214066356}
   - {fileID: 3792636241257214161}
+  - {fileID: 3792636242214066356}
   toEliminate: []
   parent: {fileID: 0}
   costs:
@@ -7439,8 +7969,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   vecinos:
-  - {fileID: 3792636241924619653}
   - {fileID: 3792636241969875385}
+  - {fileID: 3792636241924619653}
   toEliminate: []
   parent: {fileID: 0}
   costs:
@@ -7569,8 +8099,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   vecinos:
-  - {fileID: 3792636241272739333}
   - {fileID: 3792636241377505503}
+  - {fileID: 3792636241272739333}
   toEliminate: []
   parent: {fileID: 0}
   costs:
@@ -7699,8 +8229,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   vecinos:
-  - {fileID: 3792636242518628827}
   - {fileID: 3792636241879798039}
+  - {fileID: 3792636242518628827}
   toEliminate: []
   parent: {fileID: 0}
   costs:
@@ -7829,8 +8359,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   vecinos:
-  - {fileID: 3792636241879798039}
   - {fileID: 3792636241010584617}
+  - {fileID: 3792636241879798039}
   toEliminate: []
   parent: {fileID: 0}
   costs:
@@ -7959,9 +8489,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   vecinos:
+  - {fileID: 3792636242225117432}
   - {fileID: 7965860738630128444}
   - {fileID: 3792636241798222344}
-  - {fileID: 3792636242225117432}
   toEliminate: []
   parent: {fileID: 0}
   costs:
@@ -8090,8 +8620,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   vecinos:
-  - {fileID: 3792636240930473760}
   - {fileID: 3792636240919581446}
+  - {fileID: 3792636240930473760}
   toEliminate: []
   parent: {fileID: 0}
   costs:
@@ -8220,8 +8750,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   vecinos:
-  - {fileID: 3792636241378028043}
   - {fileID: 3792636241696172955}
+  - {fileID: 3792636241378028043}
   toEliminate: []
   parent: {fileID: 0}
   costs:
@@ -8350,8 +8880,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   vecinos:
-  - {fileID: 3792636241365659066}
   - {fileID: 3792636242160919475}
+  - {fileID: 3792636241365659066}
   toEliminate: []
   parent: {fileID: 0}
   costs:
@@ -8740,8 +9270,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   vecinos:
-  - {fileID: 3792636241254295192}
   - {fileID: 3792636241800865136}
+  - {fileID: 3792636241254295192}
   toEliminate: []
   parent: {fileID: 0}
   costs:
@@ -8870,8 +9400,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   vecinos:
-  - {fileID: 3792636242367323934}
   - {fileID: 3792636241285703283}
+  - {fileID: 3792636242367323934}
   toEliminate: []
   parent: {fileID: 0}
   costs:
@@ -9000,8 +9530,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   vecinos:
-  - {fileID: 3792636241980017544}
   - {fileID: 3792636242518628827}
+  - {fileID: 3792636241980017544}
   toEliminate: []
   parent: {fileID: 0}
   costs:
@@ -9130,8 +9660,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   vecinos:
-  - {fileID: 3792636241492050181}
   - {fileID: 3792636241759085045}
+  - {fileID: 3792636241492050181}
   toEliminate: []
   parent: {fileID: 0}
   costs:
@@ -9390,8 +9920,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   vecinos:
-  - {fileID: 3792636242215863926}
   - {fileID: 3792636242492112193}
+  - {fileID: 3792636242215863926}
   toEliminate: []
   parent: {fileID: 0}
   costs:
@@ -9780,8 +10310,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   vecinos:
-  - {fileID: 3792636242367323934}
   - {fileID: 3792636240649398290}
+  - {fileID: 3792636242367323934}
   toEliminate: []
   parent: {fileID: 0}
   costs:
@@ -9910,8 +10440,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   vecinos:
-  - {fileID: 3792636242225117432}
   - {fileID: 3792636241924619653}
+  - {fileID: 3792636242225117432}
   toEliminate: []
   parent: {fileID: 0}
   costs:
@@ -10154,8 +10684,10 @@ Transform:
   - {fileID: 8091802046365532591}
   - {fileID: 1240944347444416118}
   - {fileID: 368213100561089050}
+  - {fileID: 873526199012707855}
+  - {fileID: 2176790610993594496}
   m_Father: {fileID: 6406624705101006613}
-  m_RootOrder: 5
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1414988412925540365
 MonoBehaviour:
@@ -10225,8 +10757,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   vecinos:
-  - {fileID: 4367800027394627826}
   - {fileID: 2770151978249445085}
+  - {fileID: 4367800027394627826}
   toEliminate: []
   parent: {fileID: 0}
   costs:
@@ -10355,8 +10887,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   vecinos:
-  - {fileID: 7568055296762098394}
   - {fileID: 4627518675379050149}
+  - {fileID: 7568055296762098394}
   toEliminate: []
   parent: {fileID: 0}
   costs:
@@ -10485,9 +11017,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   vecinos:
-  - {fileID: 5783648340133014910}
   - {fileID: 9055527678288695957}
-  toEliminate: []
+  - {fileID: 5783648340133014910}
+  toEliminate:
+  - {fileID: 1183899268}
   parent: {fileID: 0}
   costs:
     cost: 0
@@ -10615,8 +11148,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   vecinos:
-  - {fileID: 7488074959133794837}
   - {fileID: 1611325287325689869}
+  - {fileID: 7488074959133794837}
   toEliminate: []
   parent: {fileID: 0}
   costs:
@@ -10745,8 +11278,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   vecinos:
-  - {fileID: 4876331108470572772}
   - {fileID: 8847728997179215527}
+  - {fileID: 4876331108470572772}
   toEliminate: []
   parent: {fileID: 0}
   costs:
@@ -10875,8 +11408,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   vecinos:
-  - {fileID: 4467969464240949301}
   - {fileID: 6276803780541418488}
+  - {fileID: 4467969464240949301}
   toEliminate: []
   parent: {fileID: 0}
   costs:
@@ -11005,10 +11538,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   vecinos:
-  - {fileID: 3792636240930473760}
+  - {fileID: 3792636241378028043}
   - {fileID: 3792636240919581446}
   - {fileID: 3792636241272739333}
-  - {fileID: 3792636241378028043}
+  - {fileID: 3792636240930473760}
   toEliminate: []
   parent: {fileID: 0}
   costs:
@@ -11118,7 +11651,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6376361881614894311}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 47.83008, y: 22.291878, z: 30.790003}
+  m_LocalPosition: {x: 48.08, y: 22.291878, z: 31.67}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1672743292521713070}
@@ -11137,9 +11670,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   vecinos:
-  - {fileID: 9055527678288695957}
+  - {fileID: 788297183}
   - {fileID: 4040260905690183962}
-  toEliminate: []
+  - {fileID: 9055527678288695957}
+  toEliminate:
+  - {fileID: 1183899268}
+  - {fileID: 670038995}
   parent: {fileID: 0}
   costs:
     cost: 0
@@ -11150,7 +11686,7 @@ MonoBehaviour:
     draw_radius: 0
     draw_neighbors: 1
   finder:
-    radius: 8
+    radius: 6.3
     distance_to_delete: 0.1
     detectableLayers:
       serializedVersion: 2
@@ -11267,8 +11803,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   vecinos:
-  - {fileID: 3280570367206642533}
   - {fileID: 6149911802211088779}
+  - {fileID: 3280570367206642533}
   toEliminate: []
   parent: {fileID: 0}
   costs:
@@ -11527,9 +12063,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   vecinos:
-  - {fileID: 8354695327450169093}
   - {fileID: 5249898210483507213}
-  toEliminate: []
+  - {fileID: 8354695327450169093}
+  toEliminate:
+  - {fileID: 788297183}
+  - {fileID: 670038995}
   parent: {fileID: 0}
   costs:
     cost: 0
@@ -11701,11 +12239,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   vecinos:
-  - {fileID: 3792636241980017544}
-  - {fileID: 3792636241798222344}
-  - {fileID: 3792636242225117432}
-  - {fileID: 3792636242518628827}
   - {fileID: 2661672659768590415}
+  - {fileID: 3792636241980017544}
   toEliminate:
   - {fileID: 3792636242518628827}
   - {fileID: 3792636242225117432}
@@ -11837,8 +12372,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   vecinos:
-  - {fileID: 2661672659768590415}
   - {fileID: 1611325287325689869}
+  - {fileID: 2661672659768590415}
   toEliminate: []
   parent: {fileID: 0}
   costs:
@@ -11967,10 +12502,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   vecinos:
-  - {fileID: 7965860738630128444}
-  - {fileID: 3792636242225117432}
-  - {fileID: 3792636242518628827}
   - {fileID: 439591427284335109}
+  - {fileID: 7965860738630128444}
   toEliminate:
   - {fileID: 3792636242518628827}
   - {fileID: 3792636242225117432}
@@ -12086,8 +12619,9 @@ Transform:
   - {fileID: 4095064280336870677}
   - {fileID: 5313128888885272106}
   - {fileID: 2882515687653522596}
+  - {fileID: 6646729402884241524}
   m_Father: {fileID: 6406624705101006613}
-  m_RootOrder: 3
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &7822038063734397465
 GameObject:
@@ -12266,8 +12800,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   vecinos:
-  - {fileID: 8182568852386556471}
   - {fileID: 1672743292102454735}
+  - {fileID: 8182568852386556471}
   toEliminate: []
   parent: {fileID: 0}
   costs:
@@ -12426,8 +12960,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   vecinos:
-  - {fileID: 69160124974969371}
   - {fileID: 7568055296762098394}
+  - {fileID: 69160124974969371}
   toEliminate: []
   parent: {fileID: 0}
   costs:
@@ -12556,8 +13090,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   vecinos:
-  - {fileID: 4040260905690183962}
   - {fileID: 3394180172986353643}
+  - {fileID: 4040260905690183962}
   toEliminate: []
   parent: {fileID: 0}
   costs:
@@ -12686,8 +13220,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   vecinos:
-  - {fileID: 8847728997179215527}
   - {fileID: 3280570367206642533}
+  - {fileID: 8847728997179215527}
   toEliminate: []
   parent: {fileID: 0}
   costs:
@@ -12816,8 +13350,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   vecinos:
-  - {fileID: 3032251065291053227}
   - {fileID: 5417642221180264336}
+  - {fileID: 3032251065291053227}
   toEliminate: []
   parent: {fileID: 0}
   costs:
@@ -12946,8 +13480,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   vecinos:
-  - {fileID: 8388800980955576357}
   - {fileID: 8700799855826181980}
+  - {fileID: 8388800980955576357}
   toEliminate: []
   parent: {fileID: 0}
   costs:
@@ -13034,7 +13568,7 @@ PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
-    m_TransformParent: {fileID: 6406624705101006613}
+    m_TransformParent: {fileID: 4878938549563024362}
     m_Modifications:
     - target: {fileID: 649438286006094156, guid: 4bfaa79e47a9b4846b913e024a49a402,
         type: 3}
@@ -13074,7 +13608,7 @@ PrefabInstance:
     - target: {fileID: 649438286006094156, guid: 4bfaa79e47a9b4846b913e024a49a402,
         type: 3}
       propertyPath: m_RootOrder
-      value: 6
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 649438286006094156, guid: 4bfaa79e47a9b4846b913e024a49a402,
         type: 3}
@@ -13104,7 +13638,7 @@ PrefabInstance:
     - target: {fileID: 649438286006094156, guid: 4bfaa79e47a9b4846b913e024a49a402,
         type: 3}
       propertyPath: m_LocalScale.z
-      value: 8.956345
+      value: 8.956343
       objectReference: {fileID: 0}
     - target: {fileID: 649438286006094192, guid: 4bfaa79e47a9b4846b913e024a49a402,
         type: 3}
@@ -13149,7 +13683,7 @@ PrefabInstance:
     - target: {fileID: 649438286006094195, guid: 4bfaa79e47a9b4846b913e024a49a402,
         type: 3}
       propertyPath: m_Name
-      value: TriggerEmissor (2)
+      value: StopRunningVillagers_Trigger
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 4bfaa79e47a9b4846b913e024a49a402, type: 3}
@@ -13170,7 +13704,7 @@ PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
-    m_TransformParent: {fileID: 6406624705101006613}
+    m_TransformParent: {fileID: 6850185983474654104}
     m_Modifications:
     - target: {fileID: 5874338176155091728, guid: f20ee2572a3595040b1520b02c2e0996,
         type: 3}
@@ -13192,7 +13726,7 @@ PrefabInstance:
     - target: {fileID: 5874338176155091742, guid: f20ee2572a3595040b1520b02c2e0996,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: -10.82
+      value: -10.820007
       objectReference: {fileID: 0}
     - target: {fileID: 5874338176155091742, guid: f20ee2572a3595040b1520b02c2e0996,
         type: 3}
@@ -13202,7 +13736,7 @@ PrefabInstance:
     - target: {fileID: 5874338176155091742, guid: f20ee2572a3595040b1520b02c2e0996,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: 39.84
+      value: 39.839996
       objectReference: {fileID: 0}
     - target: {fileID: 5874338176155091742, guid: f20ee2572a3595040b1520b02c2e0996,
         type: 3}
@@ -13227,7 +13761,7 @@ PrefabInstance:
     - target: {fileID: 5874338176155091742, guid: f20ee2572a3595040b1520b02c2e0996,
         type: 3}
       propertyPath: m_RootOrder
-      value: 4
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 5874338176155091742, guid: f20ee2572a3595040b1520b02c2e0996,
         type: 3}
@@ -13274,7 +13808,8 @@ PrefabInstance:
       propertyPath: m_LocalScale.z
       value: 10.887765
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 5874338176155091729, guid: f20ee2572a3595040b1520b02c2e0996, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: f20ee2572a3595040b1520b02c2e0996, type: 3}
 --- !u!4 &6646729402884241524 stripped
 Transform:
@@ -14518,7 +15053,7 @@ PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
-    m_TransformParent: {fileID: 6406624705101006613}
+    m_TransformParent: {fileID: 4878938549563024362}
     m_Modifications:
     - target: {fileID: 649438286006094156, guid: 4bfaa79e47a9b4846b913e024a49a402,
         type: 3}
@@ -14558,7 +15093,7 @@ PrefabInstance:
     - target: {fileID: 649438286006094156, guid: 4bfaa79e47a9b4846b913e024a49a402,
         type: 3}
       propertyPath: m_RootOrder
-      value: 0
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 649438286006094156, guid: 4bfaa79e47a9b4846b913e024a49a402,
         type: 3}
@@ -14633,7 +15168,7 @@ PrefabInstance:
     - target: {fileID: 649438286006094195, guid: 4bfaa79e47a9b4846b913e024a49a402,
         type: 3}
       propertyPath: m_Name
-      value: TriggerEmissor (1)
+      value: StartRunningVillagers_Trigger
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 4bfaa79e47a9b4846b913e024a49a402, type: 3}
@@ -14659,12 +15194,12 @@ PrefabInstance:
     - target: {fileID: 888145626939450917, guid: d4a7d97c2a568b441afccadb780af220,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 67.8
+      value: 67.682
       objectReference: {fileID: 0}
     - target: {fileID: 888145626939450917, guid: d4a7d97c2a568b441afccadb780af220,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: -51.451
+      value: -51.127
       objectReference: {fileID: 0}
     - target: {fileID: 888145626939450917, guid: d4a7d97c2a568b441afccadb780af220,
         type: 3}
@@ -14694,7 +15229,7 @@ PrefabInstance:
     - target: {fileID: 888145626939450917, guid: d4a7d97c2a568b441afccadb780af220,
         type: 3}
       propertyPath: m_RootOrder
-      value: 2
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 888145626939450917, guid: d4a7d97c2a568b441afccadb780af220,
         type: 3}
@@ -14719,7 +15254,7 @@ PrefabInstance:
     - target: {fileID: 4774005655593224044, guid: d4a7d97c2a568b441afccadb780af220,
         type: 3}
       propertyPath: m_Name
-      value: point_to_go
+      value: Doctor_pointTogo
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d4a7d97c2a568b441afccadb780af220, type: 3}
@@ -15464,15 +15999,15 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 3218403469224906468, guid: 938a71d34ccdd82449d20cbce0ce8454,
         type: 3}
-    - target: {fileID: 4598128138623098411, guid: a8282e3cdcdfe3f4ca20e5b5c18378a8,
-        type: 3}
-      propertyPath: canMove
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 4598128138623098415, guid: a8282e3cdcdfe3f4ca20e5b5c18378a8,
         type: 3}
       propertyPath: m_Name
       value: RunningVillager
+      objectReference: {fileID: 0}
+    - target: {fileID: 4598128138623098415, guid: a8282e3cdcdfe3f4ca20e5b5c18378a8,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5063922817737310895, guid: a8282e3cdcdfe3f4ca20e5b5c18378a8,
         type: 3}
@@ -16593,12 +17128,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 9e3e7769c21a17c4f9f0f0963b61a4fb, type: 3}
---- !u!95 &7698651821645409763 stripped
-Animator:
-  m_CorrespondingSourceObject: {fileID: 4991172461848506497, guid: 9e3e7769c21a17c4f9f0f0963b61a4fb,
-    type: 3}
-  m_PrefabInstance: {fileID: 3428136389196619106}
-  m_PrefabAsset: {fileID: 0}
 --- !u!4 &314434810359709849 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 3156521039394348539, guid: 9e3e7769c21a17c4f9f0f0963b61a4fb,
@@ -16608,6 +17137,12 @@ Transform:
 --- !u!1 &3604640104420012682 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 2131731982692085736, guid: 9e3e7769c21a17c4f9f0f0963b61a4fb,
+    type: 3}
+  m_PrefabInstance: {fileID: 3428136389196619106}
+  m_PrefabAsset: {fileID: 0}
+--- !u!95 &7698651821645409763 stripped
+Animator:
+  m_CorrespondingSourceObject: {fileID: 4991172461848506497, guid: 9e3e7769c21a17c4f9f0f0963b61a4fb,
     type: 3}
   m_PrefabInstance: {fileID: 3428136389196619106}
   m_PrefabAsset: {fileID: 0}
@@ -16683,6 +17218,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: RunningVillager 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 4598128138623098415, guid: 946b3d241625caa45888c887b5f3daea,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 946b3d241625caa45888c887b5f3daea, type: 3}
@@ -16906,6 +17446,16 @@ PrefabInstance:
       propertyPath: poolname
       value: 
       objectReference: {fileID: 0}
+    - target: {fileID: 9113692332199560730, guid: 99084e8f97001134991038b0c2e2df09,
+        type: 3}
+      propertyPath: distancePos
+      value: 21.2
+      objectReference: {fileID: 0}
+    - target: {fileID: 9113692332199560730, guid: 99084e8f97001134991038b0c2e2df09,
+        type: 3}
+      propertyPath: combatDistance
+      value: 24.4
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 99084e8f97001134991038b0c2e2df09, type: 3}
 --- !u!4 &2882515687653522596 stripped
@@ -16986,6 +17536,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: RunningVillager 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4598128138623098415, guid: 4df4542ca00e74b4abeaae0227bfee57,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 4df4542ca00e74b4abeaae0227bfee57, type: 3}
@@ -17079,6 +17634,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: RunningVillager 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 4598128138623098415, guid: 194037c24ba7494459731e2441aabdeb,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8124541083667817794, guid: 194037c24ba7494459731e2441aabdeb,
         type: 3}
@@ -18849,12 +19409,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 966e34eef73121f4fba4edd5e2641ae5, type: 3}
---- !u!4 &3639143543466457892 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: -4216859302048453862, guid: 966e34eef73121f4fba4edd5e2641ae5,
-    type: 3}
-  m_PrefabInstance: {fileID: 8645329134888734782}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &350027454337747255 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: -927199367670048503, guid: 966e34eef73121f4fba4edd5e2641ae5,
@@ -18864,6 +19418,12 @@ GameObject:
 --- !u!95 &6632348714946909790 stripped
 Animator:
   m_CorrespondingSourceObject: {fileID: -6057140222963153312, guid: 966e34eef73121f4fba4edd5e2641ae5,
+    type: 3}
+  m_PrefabInstance: {fileID: 8645329134888734782}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &3639143543466457892 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: -4216859302048453862, guid: 966e34eef73121f4fba4edd5e2641ae5,
     type: 3}
   m_PrefabInstance: {fileID: 8645329134888734782}
   m_PrefabAsset: {fileID: 0}
