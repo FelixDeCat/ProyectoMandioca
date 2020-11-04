@@ -32,7 +32,7 @@ public class LocalSceneHandler : LoadComponent
     protected override IEnumerator LoadMe()
     {
         var trigger = GetComponentInChildren<TriggerDispatcher>();
-        trigger.SubscribeToEnter(OnEnterToThisScene);
+        trigger?.SubscribeToEnter(OnEnterToThisScene);
 
         myName = this.gameObject.name;
         KEY_LANDMARK = myName + "_Key_Landmark";
