@@ -11,6 +11,12 @@ public class RainTransition : MonoBehaviour
     public float rainValue;
 
 
+    private void Awake()
+    {
+        skybox.SetFloat("_Rain", 0);
+
+    }
+
 
     private void Update()
     {

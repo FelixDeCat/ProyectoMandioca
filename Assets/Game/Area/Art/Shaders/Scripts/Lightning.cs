@@ -17,7 +17,6 @@ public class Lightning : MonoBehaviour
 
     public Light lightningLight;
 
-    bool start;
     public bool startEffect;
 
     public float maxTimer;
@@ -26,70 +25,53 @@ public class Lightning : MonoBehaviour
     public float lightIntensity;
 
 
+    private Animator anim;
+
     private void Start()
     {
         color = lightningImage.color;
         color.a = 0;
         timer = 1;
+        anim = GetComponent<Animator>();
     }
 
 
     private void Update()
     {
-        lightningTimer -= Time.deltaTime;
-
-        if (lightningTimer <= 0)
+        if (startEffect)
         {
-            timer -= Time.deltaTime * multiplyValue;
-            brightColor   = timer ;
-            color.a = brightColor;
-            lightningImage.color = color;
+            lightningTimer -= Time.deltaTime;
 
-            lightningLight.intensity = 1;
+            if (lightningTimer <= 0)
+            {
+                timer -= Time.deltaTime * multiplyValue;
+                brightColor = timer;
+                color.a = brightColor;
+                lightningImage.color = color;
 
-         
+                lightningLight.intensity = 1;
+
+
+            }
+
+
+
+            if (timer <= -maxTimer)
+            {
+                timer = 1;
+                lightningLight.intensity = lightIntensity;
+
+            }
         }
+        
+
+    }
 
 
-
-        if (timer <= -maxTimer)
-        {
-            timer = 1;
-            lightningLight.intensity = lightIntensity;
-
-        }
-
-
-
-
-        //if (start)
-        //{
-        //    timer -= Time.deltaTime * 2;
-        //    lightningLight.intensity = 1;
-        //    brightColor = timer;
-        //    color.a = brightColor;
-        //    lightningImage.color = color;
-
-
-        //    if (brightColor <= 0)
-        //    {
-        //        lightningTimer = Random.Range(2, 5);
-        //        start = false;
-        //    }
-
-        //    return;
-
-
-        //}
-
-        //if (lightningTimer <= 0)
-        //{
-        //    start = true;
-
-        //    timer = 0;
-        //    lightningLight.intensity = 1;
-        //    brightColor = timer;
-        //}
+    public void StartAll()
+    {
+        startEffect = true;
+        anim.SetTrigger("Activate");
     }
 
 }
