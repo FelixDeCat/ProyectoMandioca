@@ -70,15 +70,17 @@ public class InteractSensor : MonoBehaviour
         timerfastrec = 0;
     }
 
-    public void Dissappear()
+    public void Dissappear(Interactable _interact)
     {
         most_close.Exit();
-        if (interactables.Contains(most_close)) interactables.Remove(most_close);
         most_close = null;
-        most_close = interactables.ReturnMostClose(transform.position);
-        if (most_close != null && I_Have_Good_Distace_To_Interact()) return;
-        ContextualBarSimple.instance.Hide();
-        WorldItemInfo.instance.Hide();
+        
+        most_close = interactables.ReturnMostClose(transform.position, x => x.CanInteract);
+        if (most_close != null && I_Have_Good_Distace_To_Interact())
+        {
+            ContextualBarSimple.instance.Show();
+            ContextualBarSimple.instance.Set_Sprite_Button_Custom(InputImageDatabase.InputImageType.interact);
+        }
     }
 
     bool can_show_info = true;

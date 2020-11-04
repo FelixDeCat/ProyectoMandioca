@@ -33,11 +33,11 @@ public class TestInteractableHold : Interactable
 
     public override void OnExecute(WalkingEntity collector)
     {
+        collector.GetComponentInChildren<InteractSensor>()?.Dissappear(this);
         if (!oneshot)
         {
             oneshot = true;
             _executeAction();
-            collector.GetComponent<InteractSensor>()?.Dissappear();
         }
     }
 

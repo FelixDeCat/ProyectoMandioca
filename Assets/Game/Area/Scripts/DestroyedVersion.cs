@@ -8,6 +8,8 @@ public class DestroyedVersion : MonoBehaviour
 
     float timer;
 
+    [SerializeField] float maxTimer = 1;
+
     bool animate;
     Color mycolor;
 
@@ -19,7 +21,7 @@ public class DestroyedVersion : MonoBehaviour
         render = GetComponentsInChildren<Renderer>();
         if(useFade) mycolor = render[0].material.color;
         animate = true;
-        timer = 1;
+        timer = maxTimer;
     }
 
     private void Update()

@@ -16,7 +16,7 @@ public class Palanca : Interactable
     public override void OnExecute(WalkingEntity collector)
     {
         Excecute.Invoke();
-        collector.GetComponent<InteractSensor>()?.Dissappear();
+        collector.GetComponent<InteractSensor>()?.Dissappear(this);
     }
 
     public override void OnInterrupt()

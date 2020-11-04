@@ -6,6 +6,7 @@ public class EventDestructible : MonoBehaviour
 {
     [SerializeField] AudioClip destroyedSound = null;
     [SerializeField] DestroyedVersion destroyed_version = null;
+    [SerializeField] Transform thunderImpactSpot = null;
     DestroyedVersion savedDestroyedVersion;
 
     private void Start()
@@ -32,7 +33,7 @@ public class EventDestructible : MonoBehaviour
             {
                 Vector3 aux;
                 if (c != savedDestroyedVersion.principalChild) aux = c.transform.position - savedDestroyedVersion.principalChild.transform.position;
-                else aux = c.transform.position - transform.position;
+                else aux = c.transform.position - thunderImpactSpot.position;
                 aux.Normalize();
                 c.AddForce(aux * 5, ForceMode.VelocityChange);
                 c.AddTorque(aux);
@@ -42,18 +43,13 @@ public class EventDestructible : MonoBehaviour
         {
             foreach (var c in childs)
             {
-                var aux = c.transform.position - transform.position;
+                var aux = c.transform.position - thunderImpactSpot.position;
                 aux.Normalize();
-                c.AddForce(aux * 5, ForceMode.VelocityChange);
+                c.AddForce(aux * 15, ForceMode.VelocityChange);
                 c.AddTorque(aux * 4);
             }
         }
 
         gameObject.SetActive(false);
-    }
-
-    private void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.Space)) BreakYourselfBaby();
     }
 }
