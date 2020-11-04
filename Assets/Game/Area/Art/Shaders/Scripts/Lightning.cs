@@ -23,6 +23,8 @@ public class Lightning : MonoBehaviour
     public float maxTimer;
     public float multiplyValue;
 
+    public float lightIntensity;
+
 
     private void Start()
     {
@@ -42,15 +44,22 @@ public class Lightning : MonoBehaviour
             brightColor   = timer ;
             color.a = brightColor;
             lightningImage.color = color;
+
+            lightningLight.intensity = 1;
+
+         
         }
 
-    
 
 
         if (timer <= -maxTimer)
         {
             timer = 1;
+            lightningLight.intensity = lightIntensity;
+
         }
+
+
 
 
         //if (start)
