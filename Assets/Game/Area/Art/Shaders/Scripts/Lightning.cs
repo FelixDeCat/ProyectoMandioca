@@ -11,7 +11,7 @@ public class Lightning : MonoBehaviour
 
     public float lightningTimer;
     private float brightColor;
-    private float timer;
+    public float timer;
 
     private Color color;
 
@@ -72,6 +72,14 @@ public class Lightning : MonoBehaviour
     {
         startEffect = true;
         anim.SetTrigger("Activate");
+    }
+
+    public void Stop()
+    {
+        startEffect = false;
+        anim.SetTrigger("Stop");
+
+
     }
 
 }

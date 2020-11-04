@@ -20,7 +20,7 @@ public class SwitchEnterDungeon : MonoBehaviour
         OnEnterTheGungeon.Invoke();
         dungeonDirLight.enabled = true;
         OutsideDirLight.enabled = false;
-        if(dungeon_ppv) dungeon_ppv.weight = 1;
+        if (dungeon_ppv) { dungeon_ppv.weight = 1; dungeon_ppv.isGlobal = true; } 
         if(forest_ppv) forest_ppv.weight = 0;
     }
     public void Exit_Dungeon()
