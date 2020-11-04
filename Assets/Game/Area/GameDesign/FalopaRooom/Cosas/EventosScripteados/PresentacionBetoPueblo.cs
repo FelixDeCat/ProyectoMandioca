@@ -16,6 +16,9 @@ public class PresentacionBetoPueblo : MonoBehaviour, ISpawner
     [SerializeField] Transform bridgePos;
     Transform currentPlaceToGo;
     [SerializeField] float betoSpeed;
+    [SerializeField] float particleDelay; // este es el tiempo entre que le decis Play a la particula y se rompe el puente
+    [SerializeField] ParticleSystem rayoQueRompePuente_cargando;//carga el rayo
+    [SerializeField] ParticleSystem rayoQueRompePuente_impacto;//tira el rayo
     [SerializeField] EventDestructible puente;
 
     CharacterHead _hero;
@@ -79,11 +82,13 @@ public class PresentacionBetoPueblo : MonoBehaviour, ISpawner
     void StartCastDestroyPuente()
     {
         _betoAnim.Play("StartCastOrb");
-        cdModule.AddCD("RomperPuente", DestroyPuente, 5);
+        if (rayoQueRompePuente_cargando != null) rayoQueRompePuente_cargando.Play();
+        cdModule.AddCD("RomperPuente", DestroyPuente, particleDelay);
     }
 
     void DestroyPuente()
     {
+        if (rayoQueRompePuente_impacto != null) rayoQueRompePuente_impacto.Play();
         _betoAnim.SetTrigger("finishSkill");
         puente.BreakYourselfBaby();
     }
