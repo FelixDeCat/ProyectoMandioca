@@ -21,6 +21,12 @@ public class EnemyProxyManager : LoadComponent
         }
     }
 
+    public void Test()
+    {
+        AlreadyProcessed = true;
+        StartCoroutine(Process());
+    }
+
 #if UNITY_EDITOR
     private void Update()
     {
@@ -47,7 +53,7 @@ public class EnemyProxyManager : LoadComponent
 
         for (int i = 0; i < proxys.Length; i++)
         {
-            if (proxys[i]) Destroy(proxys[i].gameObject);
+            if (proxys[i]) proxys[i].gameObject.SetActive(false);
             yield return null;
         }
 

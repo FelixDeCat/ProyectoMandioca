@@ -38,12 +38,14 @@ public class SpawnerSpot
     public Vector3 GetSurfacePos()
     {
         var pos = GetPosRandom(radious, spawnSpot);
-        pos.y += heightSpawn;
+        pos.y = spawnSpot.position.y + radious;
+        Debug.Log(pos.y);
 
         RaycastHit hit;
 
         if (Physics.Raycast(pos, Vector3.down, out hit, Mathf.Infinity, mask, QueryTriggerInteraction.Ignore))
             pos = hit.point;
+        else return GetSurfacePos();
 
         return pos;
     }
@@ -64,7 +66,7 @@ public class SpawnerSpot
     Vector3 GetPosRandom(float radio, Transform t)
     {
         Vector3 min = new Vector3(t.position.x - radio, 0, t.position.z - radio);
-        Vector3 max = new Vector3(t.position.x + radio, t.position.y, t.position.z + radio);
+        Vector3 max = new Vector3(t.position.x + radio, 0, t.position.z + radio);
         return new Vector3(Random.Range(min.x, max.x), t.position.y, Random.Range(min.z, max.z));
     }
 }

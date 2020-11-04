@@ -26,6 +26,7 @@ public class DestructibleSystem : MonoBehaviour
     public void OnReset()
     {
         maxLife = lifeSystem.life;
+        internalTier.Clear();
         foreach (var item in percentTier)
         {
             internalTier.Add(item.Key, item.Value);

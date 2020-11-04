@@ -33,6 +33,7 @@ public class EnemiesSaveStates<T> where T : EnemyBase
         var aux = enemy.GetComponent<ExecuteItemMision>();
         if (aux)
         {
+            aux.ResetID();
             foreach (var item in myIDs) aux.AddID(item.Key, item.Value);
         }
     }
@@ -168,7 +169,7 @@ public class TotemSpawnerState<T> : EnemiesSaveStates<T> where T : EnemyBase
         temp.maxSpawn = maxSpawn;
         temp.waveAmount = waveAmmount;
         temp.ChangePool(prefab);
-        var aux = temp.GetComponentInChildren<BoxCollider>();
+        var aux = temp.GetComponentInChildren<TriggerDispatcher>();
         aux.transform.position = triggerPos;
         aux.transform.localScale = triggerScale;
         var aux2 = temp.GetComponentInChildren<CastingBar>();

@@ -50,9 +50,11 @@ public class EnemyManager : MonoBehaviour
     public void OnSaveStateEnemies(string sceneName)
     {
         if (!scenesStates.ContainsKey(sceneName)) scenesStates.Add(sceneName, new List<EnemiesSaveStates<EnemyBase>>());
-        else scenesStates[sceneName].Clear();
+        else return;
 
         if (!enemiesPerScenes.ContainsKey(sceneName)) enemiesPerScenes.Add(sceneName, new List<EnemyBase>());
+
+        Debug.Log("count" + enemiesPerScenes[sceneName].Count);
 
         for (int i = 0; i < enemiesPerScenes[sceneName].Count; i++)
         {
@@ -77,6 +79,11 @@ public class EnemyManager : MonoBehaviour
             enemiesPerScenes[sceneName].Add(enemy);
             enemy.CurrentScene = sceneName;
         }
+    }
+
+    public void RespawnsEnemies()
+    {
+
     }
 
     public void DeleteEnemy(EnemyBase enemy)

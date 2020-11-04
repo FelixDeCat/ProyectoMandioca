@@ -41,8 +41,6 @@ public abstract class EnemyBase : NPCBase
     public virtual void ResetEntity()
     {
         StopAllCoroutines();
-        death = false;
-        EnemyManager.Instance.DeleteEnemy(this);
         lifesystem.ResetLifeSystem();
         OnResetEnemy?.Invoke();
         OnReset();
@@ -51,7 +49,7 @@ public abstract class EnemyBase : NPCBase
     protected abstract void OnReset();
 
     protected abstract void TakeDamageFeedback(DamageData data);
-    void Death(Vector3 dir) { Die(dir); OnDeath?.Invoke(); }
+    void Death(Vector3 dir) { Die(dir); OnDeath?.Invoke(); EnemyManager.Instance.DeleteEnemy(this); }
     protected abstract void Die(Vector3 dir);
     protected abstract bool IsDamage();
     protected virtual void InmuneFeedback() { }
