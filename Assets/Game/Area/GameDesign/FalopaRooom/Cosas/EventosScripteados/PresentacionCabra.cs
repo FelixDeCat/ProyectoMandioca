@@ -7,11 +7,12 @@ public class PresentacionCabra : MonoBehaviour
     [SerializeField] Transform root;
     [SerializeField] DamageReceiver dmgreceiver;
     [SerializeField] DamageData cabraDmg;
+    [SerializeField] ChangeToTarget changeToTarget;
 
     public float speed;
     public Transform destPos;
 
-    bool active = true;
+    bool active;
 
 
     private void Start()
@@ -20,8 +21,21 @@ public class PresentacionCabra : MonoBehaviour
 
         dmgreceiver.Initialize(dmgreceiver.transform, dmgreceiver.GetComponent<Rigidbody>(), dmgreceiver.GetComponent<_Base_Life_System>());
 
-        dmgreceiver.AddTakeDamage((cabraDmg) => dmgreceiver.GetComponent<NPC_Anims>().PlayDeath(""));
+        dmgreceiver.AddTakeDamage(OnTakeDamage);
 
+        dmgreceiver.GetComponent<NPC_Anims>().Play_Idle("");
+    }
+
+    void OnTakeDamage(DamageData dmg)
+    {
+        changeToTarget.ChangeTarget();
+        dmgreceiver.GetComponent<NPC_Anims>().StopRunDesesperate("");
+        dmgreceiver.GetComponent<NPC_Anims>().PlayDeath("");
+    }
+
+    public void StartRunning()
+    {
+        active = true;
         dmgreceiver.GetComponent<NPC_Anims>().StartRunDesesperate("");
     }
 
