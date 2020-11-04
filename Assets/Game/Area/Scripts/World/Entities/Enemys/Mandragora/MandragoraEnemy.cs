@@ -146,8 +146,11 @@ public class MandragoraEnemy : EnemyWithCombatDirector
 
     protected override void OnReset()
     {
-        ragdoll.Ragdoll(false, Vector3.zero);
-        death = false;
+        if (death)
+        {
+            ragdoll.Ragdoll(false, Vector3.zero);
+            death = false;
+        }
         trigger.gameObject.SetActive(true);
         cdModuleStopeable.ResetAll();
         cdModuleNonStopeable.ResetAll();

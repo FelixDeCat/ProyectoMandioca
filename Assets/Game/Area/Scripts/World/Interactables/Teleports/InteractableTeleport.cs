@@ -31,9 +31,10 @@ public class InteractableTeleport : Interactable
                 NewSceneStreamer.instance.LoadScene(sceneToChange, true, true, EndLoad, true);
                 //Main.instance.GetChar().transform.position = transform_destino.position;
             }
-           
         }
         if (teleportType == TeleportType.change_scene) Fades_Screens.instance.FadeOn(On_FadeOn_Ended);
+
+        ReturnToCanExecute();
     }
     void EndLoad()
     {

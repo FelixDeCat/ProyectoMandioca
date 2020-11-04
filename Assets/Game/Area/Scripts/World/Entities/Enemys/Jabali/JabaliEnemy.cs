@@ -111,8 +111,11 @@ public class JabaliEnemy : EnemyWithCombatDirector
 
     protected override void OnReset()
     {
-        ragdoll.Ragdoll(false, Vector3.zero);
-        death = false;
+        if (death)
+        {
+            ragdoll.Ragdoll(false, Vector3.zero);
+            death = false;
+        }
         chargeOk = true;
         cdModuleStopeable.ResetAll();
         cdModuleNoStopeable.ResetAll();

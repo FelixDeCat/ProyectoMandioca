@@ -122,8 +122,11 @@ public class GoatEnemy : EnemyWithCombatDirector
 
     protected override void OnReset()
     {
-        ragdoll.Ragdoll(false, Vector3.zero);
-        death = false;
+        if (death)
+        {
+            ragdoll.Ragdoll(false, Vector3.zero);
+            death = false;
+        }
         cdModuleStopeable.ResetAll();
         cdModuleNoStopeable.ResetAll();
         sm.SendInput(GoatInputs.DISABLE);
@@ -217,7 +220,7 @@ public class GoatEnemy : EnemyWithCombatDirector
             .SetPositionAndDirection(transform.position, transform.forward);
         Attack_Result takeDmg = e.TakeDamage(dmgData);
 
-        if (takeDmg == Attack_Result.parried || takeDmg == Attack_Result.blocked) e.GetComponent<CharacterHead>()?.UnequipShield(transform.forward);
+        //if (takeDmg == Attack_Result.parried || takeDmg == Attack_Result.blocked) e.GetComponent<CharacterHead>()?.UnequipShield(transform.forward);
 
         chargeOk = false;
         cdModuleStopeable.AddCD("ChargeAttack", () => chargeOk = true, timeToObtainCharge);
