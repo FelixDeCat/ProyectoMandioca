@@ -19,6 +19,7 @@ public class SaveVillageManager : MonoBehaviour
     [SerializeField] PointToGo endPoint;
 
     public VillageEventState gameState { get; private set; }
+    [SerializeField] UnityEvent OnEventStarted;
     [SerializeField] UnityEvent OnPhaseChanged;
     [SerializeField] UnityEvent OnVillagerArrived;
     [SerializeField] UnityEvent OnEventCompleted;
@@ -63,7 +64,7 @@ public class SaveVillageManager : MonoBehaviour
 
     public void StartEvent()
     {
-        Debug.Log("START EVENT");
+        OnEventStarted.Invoke();
         gameState = VillageEventState.Start;
         StartCoroutine(SpawnVillagers());
     }
@@ -75,7 +76,7 @@ public class SaveVillageManager : MonoBehaviour
             for (int i = 0; i < villagersPerGroup; i++)
             {
                 GameObject Spawned = Instantiate(villagerPrefab);
-                Spawned.transform.position = spawnPoints[Random.Range(0,spawnPoints.Length-1)].transform.position + new Vector3(Random.Range(-4, 4), 0, Random.Range(-2, 2));
+                Spawned.transform.position = spawnPoints[Random.Range(0,spawnPoints.Length)].transform.position + new Vector3(Random.Range(-4, 4), 0, Random.Range(-2, 2));
                 NPCFleing npc = Spawned.GetComponent<NPCFleing>();
                 npc.Initialize();
                 currentVillagers.Add(npc);
