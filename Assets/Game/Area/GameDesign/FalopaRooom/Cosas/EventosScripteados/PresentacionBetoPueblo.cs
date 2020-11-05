@@ -9,10 +9,13 @@ public class PresentacionBetoPueblo : MonoBehaviour, ISpawner
     [Header("Primera parte. Summon")]
     [SerializeField] SpawnerSpot spot = null;
     [SerializeField] PlayObject prefab = null;
-    public int amountSummoned;
     [SerializeField] TotemFeedback totemFeedback = new TotemFeedback();
+    public int amountSummoned;
+    int amountKilled;
+    List<PlayObject> summonedEnemies = new List<PlayObject>();
+    bool finishKillSummon;
 
-    [Header("Segunda parte. Summon")]
+    [Header("Segunda parte: Romper puente")]
     [SerializeField] Transform bridgePos;
     Transform currentPlaceToGo;
     [SerializeField] float betoSpeed;
@@ -63,8 +66,26 @@ public class PresentacionBetoPueblo : MonoBehaviour, ISpawner
 
     public void SpawnPrefab(Vector3 pos, string sceneName = null)
     {
-        spot.SpawnPrefab(pos, prefab, sceneName, this);
+        var newSpawn = spot.SpawnPrefab(pos, prefab, sceneName, this);
 
+        newSpawn.GetComponent<EnemyBase>().OnDeath.AddListener(OnEnemydead);
+        summonedEnemies.Add(newSpawn);
+    }
+
+    void OnEnemydead()
+    {
+        amountKilled++;
+        if (amountKilled >= amountSummoned)
+        {
+            finishKillSummon = true;
+
+            for (int i = 0; i < summonedEnemies.Count; i++)
+            {
+                summonedEnemies[i].GetComponent<EnemyBase>().OnDeath.RemoveListener(OnEnemydead);
+            }
+
+            summonedEnemies.Clear();
+        }
     }
 
     public void ReturnObject(PlayObject newPrefab)
@@ -97,6 +118,13 @@ public class PresentacionBetoPueblo : MonoBehaviour, ISpawner
     {
         cdModule.UpdateCD();
 
+        if (currentPlaceToGo == null && finishKillSummon)
+        {
+            StartCastDestroyPuente();
+            finishKillSummon = false;
+            return;
+        }
+
         if (currentPlaceToGo == null) return;
 
         var dir = (currentPlaceToGo.position - betoRoot.position).normalized;
@@ -112,7 +140,7 @@ public class PresentacionBetoPueblo : MonoBehaviour, ISpawner
             betoRoot.transform.position = currentPlaceToGo.position;
             currentPlaceToGo = null;
 
-            StartCastDestroyPuente();
+           // StartCastDestroyPuente();
         }
     }
 }
