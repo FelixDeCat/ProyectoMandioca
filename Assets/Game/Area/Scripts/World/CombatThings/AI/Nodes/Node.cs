@@ -158,14 +158,17 @@ namespace IA_Felix
 
         public List<Node> FindVecinos(Node MyNode)
         {
+            return MyNode.FindInRadius(radius, detectableLayers);
+        }
+
+        public void EliminateMostClose(Node MyNode)
+        {
             var to_eliminate = MyNode.FindInRadius(distance_to_delete, detectableLayers);
             for (int i = 0; i < to_eliminate.Count; i++)
             {
                 MonoBehaviour.DestroyImmediate(to_eliminate[i].gameObject);
             }
             to_eliminate.Clear();
-
-            return MyNode.FindInRadius(radius, detectableLayers);
         }
     }
 }
