@@ -18,11 +18,20 @@ public class Jacinta : Villager
 
     protected override void OnInitialize() { }
 
-    public void GoToPos_TechoHermana() => GoTo(pos_techo_hermana.transform.position, Jacinta_Arrive_Techo.Invoke);
+    public void GoToPos_TechoHermana() => GoToCustomAnim(pos_techo_hermana.transform.position, "RunNormal", Jacinta_Arrive_Techo.Invoke);
     public void GoToPos_HablaMelemaco() => GoTo(pos_habla_melemaco.transform.position, Jacinta_Arrive_AbajoEscalera.Invoke);
-    public void GoToPos_Esquinita() => GoTo(pos_esquinita.transform.position, Jacinta_Arrive_Esquinita.Invoke);
-    public void GoToPos_Doctor() => GoTo(pos_doctor.transform.position, Jacinta_Arrive_Doctor.Invoke);
+    public void GoToPos_Esquinita() => GoToCustomAnim(pos_esquinita.transform.position, "RunNormal", Jacinta_Arrive_Esquinita.Invoke);
+    public void GoToPos_Doctor() => GoToCustomAnim(pos_doctor.transform.position, "RunNormal", Jacinta_Arrive_Doctor.Invoke);
 
+    public void ExecuteAnimationCustom(string name)
+    {
+        anim.PlayAnimation(name);
+    }
+
+    public void ChangeSpeed(float newSpeed)
+    {
+        rig_path_finder.movement_speed = newSpeed;
+    }
 
     #region En desuso
     protected override void OnFixedUpdate() { }

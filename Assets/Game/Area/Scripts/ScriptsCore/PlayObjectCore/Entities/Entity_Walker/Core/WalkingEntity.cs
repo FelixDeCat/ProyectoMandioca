@@ -6,7 +6,7 @@ using System;
 
 public abstract class WalkingEntity : EntityBase
 {
-    [SerializeField] RigidbodyPathFinder rig_path_finder;
+    [SerializeField]protected RigidbodyPathFinder rig_path_finder;
     
     protected override void OnUpdate() { if (executeAStar) { rig_path_finder.Refresh(); } OnUpdateEntity(); }
     protected abstract void OnUpdateEntity();

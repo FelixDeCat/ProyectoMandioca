@@ -43,6 +43,15 @@ public abstract class Villager : NPCBase
         GoToPosition(pos);
     }
 
+    public void GoToCustomAnim(Vector3 pos, string animation,Action _OnArriveCustomCallback = null)
+    {
+        OnStartMovement.Invoke();
+        OnArriveCustom = _OnArriveCustomCallback;
+        canupdate = true;
+        anim.PlayAnimation(animation);
+        GoToPosition(pos);
+    }
+
     void IHaveArrive()
     {
         anim.StopWalk("");

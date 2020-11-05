@@ -10,6 +10,7 @@ public class PlayAnimFromString : MonoBehaviour
     Animator _anim;
 
     public bool useNpcAnims;
+    public bool startOnAwake;
     [SerializeField] NPC_Anims npcAnims;
 
     private void Start()
@@ -21,7 +22,9 @@ public class PlayAnimFromString : MonoBehaviour
         }
 
         _anim = GetComponent<Animator>();
-        StartAnimation();
+
+        if(startOnAwake)
+            StartAnimation();
     }
 
     public void StartAnimation()

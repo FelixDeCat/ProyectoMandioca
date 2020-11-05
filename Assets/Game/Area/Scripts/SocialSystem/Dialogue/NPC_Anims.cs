@@ -1,10 +1,12 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class NPC_Anims : MonoBehaviour
 {
     public Animator myAnim;
+    Dictionary<string, Action<string>> animRegistry = new Dictionary<string, Action<string>>();
 
     public string npc_Name;
 
@@ -20,6 +22,9 @@ public class NPC_Anims : MonoBehaviour
 
     private void Start()
     {
+        RegisterAnimations();
+
+
         if (useCommands)
         {
             Command
@@ -42,6 +47,35 @@ public class NPC_Anims : MonoBehaviour
                        ));
         }
         //NPC_Animation_Play_Jacinta_Reject
+    }
+
+    public void PlayAnimation(string animName)
+    {
+        animRegistry[animName].Invoke("");
+    }
+
+    void RegisterAnimations()
+    {
+        animRegistry.Add("Death", PlayDeath);
+        animRegistry.Add("Resurrect", PlayResurrect);
+        animRegistry.Add("Walk", StartWalk);
+        animRegistry.Add("StopWalk", StopWalk);
+        animRegistry.Add("RunDesesperated", StartRunDesesperate);
+        animRegistry.Add("StopRunDesesperated", StopRunDesesperate);
+        animRegistry.Add("RunNormal", StartRunNormal);
+        animRegistry.Add("StopRunNormal", StopRunNormal);
+        animRegistry.Add("FetalPos", StartFetalPos);
+        animRegistry.Add("StopFetalPos", StopFetalPos);
+        animRegistry.Add("Explain", Play_Explainning);
+        animRegistry.Add("GiveReward", Play_GiveAReward);
+        animRegistry.Add("Peek", Play_Peek);
+        animRegistry.Add("EndPeek", Play_EndPeek);
+        animRegistry.Add("Idle", Play_Idle);
+        animRegistry.Add("Cry", Play_Cry);
+        animRegistry.Add("StopCry", Stop_Crying);
+        animRegistry.Add("Thanks", Play_Thanks);
+        animRegistry.Add("Accept", Play_Accept);
+        animRegistry.Add("Reject", Play_Reject);
     }
 
     [Range(0,1)]
