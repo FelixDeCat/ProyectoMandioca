@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class EventosCamino : MonoBehaviour
+public class BullyCrow_EVENT : MonoBehaviour
 {
     [SerializeField] ObjetiveSubscriber objective_kill_cuervo;
 
