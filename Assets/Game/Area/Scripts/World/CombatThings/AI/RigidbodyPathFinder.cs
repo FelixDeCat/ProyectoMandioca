@@ -7,7 +7,7 @@ using IA2;
 using IA_Felix;
 
 [RequireComponent(typeof(Rigidbody))]
-public class RigidbodyPathFinder : GenericEnemyMove
+public class RigidbodyPathFinder : MonoBehaviour
 {
     public bool canMove;
 
@@ -39,7 +39,7 @@ public class RigidbodyPathFinder : GenericEnemyMove
         rb.isKinematic = true;
         nodefinder = new NodeFinder(radius_to_find_nodes);
         auxspeed = movement_speed;
-        Configure(roottt, rb, groundSensorrr);
+        //Configure(roottt, rb, groundSensorrr);
     }
 
     public void AddCallbackEnd(Action _callbackEndDinamic)
@@ -116,10 +116,14 @@ public class RigidbodyPathFinder : GenericEnemyMove
         }
 
         Vector3 dir = currentNode.transform.position - rb.transform.position;
-        Vector3 fowardRotation = ObstacleAvoidance(new Vector3(dir.x, 0, dir.z));
-        Rotation(fowardRotation.normalized);
-        MoveWRigidbodyV(ObstacleAvoidance(fowardRotation));
-
+        dir = new Vector3(dir.x, dir.y, dir.z);
+        dir.Normalize();
+        rb.velocity = new Vector3(dir.x * movement_speed, dir.y * movement_speed, dir.z * movement_speed);
+        // Vector3 fowardRotation = ObstacleAvoidance(new Vector3(dir.x, 0, dir.z));
+       //// Rotation(fowardRotation.normalized);
+       // MoveWRigidbodyV(ObstacleAvoidance(fowardRotation));
+        rb.transform.forward = Vector3.Lerp(rb.transform.forward, new Vector3(dir.x, 0, dir.z), forwardspeed * Time.deltaTime);
+        
 
     }
 }
