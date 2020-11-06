@@ -12,6 +12,8 @@ public class GenCounter : UI_Base
     public static GenCounter instance;
     private void Awake() => instance = this;
 
+    public static void OpenCounter() { instance.Open(); }
+    public static void CloseCounter() { instance.Close(); }
     public static void SetCounterInfo(string info_to_count, int current_val, int max_val, bool anim = false) => instance.SetInfo(info_to_count, current_val, max_val, anim);
     void SetInfo(string info_to_count, int current_val, int max_val, bool anim = false)
     {
@@ -20,20 +22,6 @@ public class GenCounter : UI_Base
         if (anim)
         {
             animator.Play("CountAnim");
-        }
-    }
-
-    private void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.G))
-        {
-
-            Open();
-        }
-        if (Input.GetKeyDown(KeyCode.F))
-        {
-            
-            SetCounterInfo("test", 2, 10, true);
         }
     }
 
