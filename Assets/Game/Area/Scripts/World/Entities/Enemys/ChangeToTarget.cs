@@ -37,7 +37,7 @@ public class ChangeToTarget : MonoBehaviour
     {
         for (int i = 0; i < enemies.Length; i++)
         {
-            enemies[i].GetComponent<CombatDirectorElement>().ChangeTarget(firstTarget);
+            enemies[i].GetComponent<CombatDirectorElement>().ChangeTarget(Main.instance.GetChar().transform);
         }
 
         Main.instance.GetCombatDirector().RemoveTarget(firstTarget);

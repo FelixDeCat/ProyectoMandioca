@@ -35,7 +35,7 @@ public class PresentacionCabra : MonoBehaviour
         cercaRota?.BreakYourselfBaby();
         changeToTarget.ChangeTarget();
         dmgreceiver.GetComponent<NPC_Anims>().ForcePlayAnimation("Dead2");
-        NPC_timer.AddCD("deleteNPC", () => Destroy(root.gameObject), 5f);
+        NPC_timer.AddCD("deleteNPC", () => Destroy(root.gameObject), 2f);
     }
 
     public void StartRunning()
