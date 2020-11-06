@@ -8,6 +8,7 @@ public class PresentacionCabra : MonoBehaviour
     [SerializeField] DamageReceiver dmgreceiver;
     [SerializeField] DamageData cabraDmg;
     [SerializeField] ChangeToTarget changeToTarget;
+    [SerializeField] EventDestructible cercaRota;
 
     public float speed;
     public Transform destPos;
@@ -28,6 +29,7 @@ public class PresentacionCabra : MonoBehaviour
 
     void OnTakeDamage(DamageData dmg)
     {
+        cercaRota.BreakYourselfBaby();
         changeToTarget.ChangeTarget();
         dmgreceiver.GetComponent<NPC_Anims>().StopRunDesesperate("");
         dmgreceiver.GetComponent<NPC_Anims>().PlayDeath("");
