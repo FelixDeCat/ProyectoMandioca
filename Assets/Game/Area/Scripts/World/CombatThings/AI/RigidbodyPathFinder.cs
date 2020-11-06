@@ -16,6 +16,7 @@ public class RigidbodyPathFinder : MonoBehaviour
     public float radius_to_find_nodes = 1.5f;
     public float distance_to_close = 0.1f;
     public float forwardspeed = 5f;
+    [SerializeField] Rigidbody rb;
 
     float auxspeed;
     public Transform roottt;
