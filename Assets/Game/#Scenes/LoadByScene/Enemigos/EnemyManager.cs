@@ -9,14 +9,19 @@ public class EnemyManager : MonoBehaviour
     public static EnemyManager Instance { get; private set; }
 
     Dictionary<string, List<EnemiesSaveStates<EnemyBase>>> scenesStates = new Dictionary<string, List<EnemiesSaveStates<EnemyBase>>>();
-
+    Dictionary<string, ProxyEnemyBase[]> proxysPerScene = new Dictionary<string, ProxyEnemyBase[]>();
     Dictionary<string, List<EnemyBase>> enemiesPerScenes = new Dictionary<string, List<EnemyBase>>();
+
+    List<string> scenesClear = new List<string>();
+    List<string> scenesToReset = new List<string>();
+
+    bool respawned;
 
     private void Awake() { Instance = this; }
 
     public void OnLoadEnemies(string sceneName, ProxyEnemyBase[] enemiesToCharge)
     {
-        if (enemiesPerScenes.ContainsKey(sceneName)) return;
+        if (enemiesPerScenes.ContainsKey(sceneName) || scenesClear.Contains(sceneName)) return;
         enemiesPerScenes.Add(sceneName, new List<EnemyBase>());
 
         if (!scenesStates.ContainsKey(sceneName))
@@ -29,10 +34,7 @@ public class EnemyManager : MonoBehaviour
                     enemiesToCharge[i].SpawnEnemy(aux);
                 }
                 catch (NullReferenceException) { Debug.LogWarning("!!!!!!En la escena: " + sceneName + " hay un proxy descarrilado"); }
-               
             }
-
-            enemiesToCharge = new ProxyEnemyBase[0];
         }
         else
         {
@@ -45,29 +47,16 @@ public class EnemyManager : MonoBehaviour
             scenesStates[sceneName].Clear();
             scenesStates.Remove(sceneName);
         }
+
+        proxysPerScene.Add(sceneName, enemiesToCharge);
     }
 
     public void OnSaveStateEnemies(string sceneName)
     {
         if (!scenesStates.ContainsKey(sceneName)) scenesStates.Add(sceneName, new List<EnemiesSaveStates<EnemyBase>>());
         else return;
-
         if (!enemiesPerScenes.ContainsKey(sceneName)) enemiesPerScenes.Add(sceneName, new List<EnemyBase>());
-
-        Debug.Log("count" + enemiesPerScenes[sceneName].Count);
-
-        for (int i = 0; i < enemiesPerScenes[sceneName].Count; i++)
-        {
-            if (!enemiesPerScenes[sceneName][i].death)
-            {
-                var aux = EnemySaveConverterAux.CreateEnemyState(enemiesPerScenes[sceneName][i]);
-                aux.SaveState(enemiesPerScenes[sceneName][i]);
-                scenesStates[sceneName].Add(aux);
-            }
-            PoolManager.instance.ReturnObject(enemiesPerScenes[sceneName][i]);
-        }
-
-        enemiesPerScenes.Remove(sceneName);
+        StartCoroutine(SaveStates(sceneName));
     }
 
     public void ChangeEnemyScene(string sceneName, EnemyBase enemy)
@@ -81,9 +70,23 @@ public class EnemyManager : MonoBehaviour
         }
     }
 
-    public void RespawnsEnemies()
+    public void SceneReset(string sceneName)
     {
+        if (!scenesToReset.Contains(sceneName) && !scenesClear.Contains(sceneName)) scenesToReset.Add(sceneName);
+    }
 
+    public void SceneClear(string sceneName)
+    {
+        if (!scenesClear.Contains(sceneName)) scenesClear.Add(sceneName);
+
+        if (scenesToReset.Contains(sceneName)) scenesToReset.Remove(sceneName);
+    }
+
+    public void RespawnsEnemies(string currentScene)
+    {
+        if (respawned || scenesToReset.Count == 0) return;
+
+        StartCoroutine(ResetScenesCoroutine(currentScene));
     }
 
     public void DeleteEnemy(EnemyBase enemy)
@@ -112,6 +115,58 @@ public class EnemyManager : MonoBehaviour
         aux.CurrentScene = sceneToSpawn;
         if (!string.IsNullOrEmpty(sceneToSpawn) && enemiesPerScenes.ContainsKey(sceneToSpawn)) enemiesPerScenes[sceneToSpawn].Add(aux);
         return aux;
+    }
+
+    IEnumerator SaveStates(string sceneName)
+    {
+        if (!enemiesPerScenes.ContainsKey(sceneName)) enemiesPerScenes.Add(sceneName, new List<EnemyBase>());
+
+        Debug.Log("count" + enemiesPerScenes[sceneName].Count);
+
+        for (int i = 0; i < enemiesPerScenes[sceneName].Count; i++)
+        {
+            if (!enemiesPerScenes[sceneName][i].death)
+            {
+                var aux = EnemySaveConverterAux.CreateEnemyState(enemiesPerScenes[sceneName][i]);
+                aux.SaveState(enemiesPerScenes[sceneName][i]);
+                scenesStates[sceneName].Add(aux);
+            }
+            PoolManager.instance.ReturnObject(enemiesPerScenes[sceneName][i]);
+            yield return null;
+        }
+
+        enemiesPerScenes.Remove(sceneName);
+        if (proxysPerScene.ContainsKey(sceneName)) proxysPerScene.Remove(sceneName);
+        if (scenesToReset.Contains(sceneName)) scenesToReset.Remove(sceneName); 
+    }
+
+    IEnumerator ResetScenesCoroutine(string currentScene)
+    {
+        respawned = true;
+        for (int i = 0; i < scenesToReset.Count; i++)
+        {
+            if (!proxysPerScene.ContainsKey(scenesToReset[i])) continue;
+
+            for (int y = 0; y < enemiesPerScenes[scenesToReset[i]].Count; y++)
+                PoolManager.instance.ReturnObject(enemiesPerScenes[scenesToReset[i]][y]);
+
+            enemiesPerScenes[scenesToReset[i]].Clear();
+            for (int y = 0; y < proxysPerScene[scenesToReset[i]].Length; y++)
+            {
+                try
+                {
+                    var aux = SpawnEnemy<EnemyBase>(proxysPerScene[scenesToReset[i]][y].myEnemy.name, scenesToReset[i]);
+                    proxysPerScene[scenesToReset[i]][y].SpawnEnemy(aux);
+                }
+                catch (NullReferenceException) { Debug.LogWarning("!!!!!!En la escena: " + scenesToReset[i] + " hay un proxy descarrilado"); }
+
+                yield return null;
+            }
+        }
+
+        scenesToReset.Clear();
+        respawned = false;
+        scenesToReset.Add(currentScene);
     }
 }
 

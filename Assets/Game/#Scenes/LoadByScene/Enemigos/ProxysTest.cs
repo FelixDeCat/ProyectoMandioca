@@ -4,14 +4,31 @@ using UnityEngine;
 
 public class ProxysTest : MonoBehaviour
 {
-    [SerializeField] EnemyProxyManager proxyManager = null;
+    [SerializeField] EnemyProxyManager[] proxyManager = new EnemyProxyManager[0];
+    [SerializeField] string[] AllScenes = new string[0];
+
+    [SerializeField] string sceneCurrent = "x80";
 
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.P)) EnemyManager.Instance.OnSaveStateEnemies("x80");
+        if (Input.GetKeyDown(KeyCode.P)) EnemyManager.Instance.OnSaveStateEnemies(sceneCurrent);
 
-        if (Input.GetKeyDown(KeyCode.O)) proxyManager.Test();
+        if (Input.GetKeyDown(KeyCode.O))
+        {
+            for (int i = 0; i < proxyManager.Length; i++)
+            {
+                proxyManager[i].Test();
+            }
+        }
 
-        if (Input.GetKeyDown(KeyCode.I)) EnemyManager.Instance.RespawnsEnemies();
+        if (Input.GetKeyDown(KeyCode.I)) EnemyManager.Instance.RespawnsEnemies(sceneCurrent);
+
+        if (Input.GetKeyDown(KeyCode.U))
+        {
+            for (int i = 0; i < AllScenes.Length; i++)
+            {
+                EnemyManager.Instance.SceneReset(AllScenes[i]);
+            }
+        }
     }
 }

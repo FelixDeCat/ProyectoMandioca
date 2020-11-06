@@ -7,6 +7,7 @@ public class EnemyProxyManager : LoadComponent
 {
     public string sceneName = "";
     [SerializeField] ProxyEnemyBase[] proxys = new ProxyEnemyBase[0];
+
     bool AlreadyProcessed = false;
 
     [Header("ExecuteInEditMode")]
