@@ -91,11 +91,13 @@ public class PresentacionBetoPueblo : MonoBehaviour, ISpawner
 
     public void ReturnObject(PlayObject newPrefab)
     {
-        
+        newPrefab.Spawner = null;
+        newPrefab.Off();
+
+        PoolManager.instance.ReturnObject(newPrefab);
     }
 
     //Segunda parte: romper puente
-
     void GoToPuente()
     {
         currentPlaceToGo = bridgePos;

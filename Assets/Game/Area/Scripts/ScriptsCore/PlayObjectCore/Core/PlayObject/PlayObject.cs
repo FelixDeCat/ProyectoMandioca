@@ -36,9 +36,10 @@ public abstract class PlayObject : MonoBehaviour, IPauseable
     public virtual void ReturnToSpawner()
     {
         if (Spawner != null) Spawner.ReturnObject(this);
-        else if (Pool) Pool.ReturnPlayObject(this);
+        else if (Pool) { Pool.ReturnPlayObject(this); }
         else
         {
+            Debug.Log("se destruye");
             Off();
             Destroy(this.gameObject);
         }
