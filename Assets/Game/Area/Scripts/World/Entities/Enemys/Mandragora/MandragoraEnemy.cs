@@ -107,14 +107,14 @@ public class MandragoraEnemy : EnemyWithCombatDirector
     {
         animator.SetBool("entry", true);
         mandragoraIsTrap = false;
-        AudioManager.instance.PlaySound(sounds.mandragoraSpawn_Clip.name);
+        AudioManager.instance.PlaySound(sounds.mandragoraSpawn_Clip.name,transform);
         trigger.gameObject.SetActive(false);
         base.SpawnEnemy();
     }
 
     public void AwakeMandragora()
     {
-        AudioManager.instance.PlaySound(sounds.mandragoraScream_Clip.name);
+        AudioManager.instance.PlaySound(sounds.mandragoraScream_Clip.name, transform);
         animator.SetBool("entry", true);
         trigger.StopAllCoroutines();
         trigger.gameObject.SetActive(false);
@@ -214,7 +214,7 @@ public class MandragoraEnemy : EnemyWithCombatDirector
     {
         combatComponent.ManualTriggerAttack();
         sm.SendInput(MandragoraInputs.ATTACK);
-        AudioManager.instance.PlaySound(sounds.mandragoraAttack_Clip.name);
+        AudioManager.instance.PlaySound(sounds.mandragoraAttack_Clip.name,transform);
     }
 
     public void AttackEntity(DamageReceiver e)
@@ -246,7 +246,7 @@ public class MandragoraEnemy : EnemyWithCombatDirector
     #region Life Things
     protected override void TakeDamageFeedback(DamageData data)
     {
-        AudioManager.instance.PlaySound(sounds._takeHit_AC.name);
+        AudioManager.instance.PlaySound(sounds._takeHit_AC.name,transform);
 
         sm.SendInput(MandragoraInputs.TAKE_DAMAGE);
 
@@ -260,7 +260,7 @@ public class MandragoraEnemy : EnemyWithCombatDirector
     protected override void Die(Vector3 dir)
     {
         groundSensor?.TurnOff();
-        AudioManager.instance.PlaySound(sounds.mandragoraDeath_Clip.name);
+        AudioManager.instance.PlaySound(sounds.mandragoraDeath_Clip.name,transform);
         sm.SendInput(MandragoraInputs.DIE);
         if (dir == Vector3.zero)
             ragdoll.Ragdoll(true, -rootTransform.forward);

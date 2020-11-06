@@ -33,7 +33,7 @@ namespace Tools.StateMachine
             base.Enter(input);
             anim.SetFloat("move", 0.3f);
             
-            AudioManager.instance.PlaySound(soundName);
+            AudioManager.instance.PlaySound(soundName,root);
         }
 
         protected override void Exit(TrueDummyEnemy.DummyEnemyInputs input)

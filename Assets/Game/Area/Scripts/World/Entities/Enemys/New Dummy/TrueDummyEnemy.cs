@@ -140,7 +140,7 @@ public class TrueDummyEnemy : EnemyWithCombatDirector
     }
     public override void SpawnEnemy()
     {
-        AudioManager.instance.PlaySound(sounds.entSpawn_clip.name);
+        AudioManager.instance.PlaySound(sounds.entSpawn_clip.name,transform);
         ParticlesManager.Instance.PlayParticle(particles._spawnParticules.name, transform.position);
         base.SpawnEnemy();
     }
@@ -197,7 +197,7 @@ public class TrueDummyEnemy : EnemyWithCombatDirector
     {
         combatComponent.ManualTriggerAttack();
         sm.SendInput(DummyEnemyInputs.ATTACK);
-        AudioManager.instance.PlaySound(sounds.entAttack_Clip.name);
+        AudioManager.instance.PlaySound(sounds.entAttack_Clip.name,transform);
     }
 
     public void WarningAttackParticle()
@@ -222,7 +222,7 @@ public class TrueDummyEnemy : EnemyWithCombatDirector
     #region Life Things
     protected override void TakeDamageFeedback(DamageData data)
     {
-        AudioManager.instance.PlaySound(sounds._takeHit_AC.name);
+        AudioManager.instance.PlaySound(sounds._takeHit_AC.name,transform);
 
         sm.SendInput(DummyEnemyInputs.TAKE_DAMAGE);
 
@@ -235,7 +235,7 @@ public class TrueDummyEnemy : EnemyWithCombatDirector
 
     protected override void Die(Vector3 dir)
     {
-        AudioManager.instance.PlaySound(sounds.entDeath_Clip.name);
+        AudioManager.instance.PlaySound(sounds.entDeath_Clip.name,transform);
         groundSensor?.TurnOff();
         sm.SendInput(DummyEnemyInputs.DIE);
         if (dir == Vector3.zero)

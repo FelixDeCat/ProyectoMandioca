@@ -163,7 +163,7 @@ public class CrowEnemy : EnemyWithCombatDirector
     Vector3 dir;
     public void DealDamage()
     {
-        AudioManager.instance.PlaySound(sounds.attackSound.name);
+        AudioManager.instance.PlaySound(sounds.attackSound.name, transform);
 
         ThrowData newData = new ThrowData().Configure(shootPivot.position, dir, throwForce, damage, rootTransform);
 
@@ -176,7 +176,7 @@ public class CrowEnemy : EnemyWithCombatDirector
 
     protected override void TakeDamageFeedback(DamageData data)
     {
-        AudioManager.instance.PlaySound(sounds.takeDmgSound.name);
+        AudioManager.instance.PlaySound(sounds.takeDmgSound.name,transform);
 
         sm.SendInput(CrowInputs.TAKE_DAMAGE);
 
