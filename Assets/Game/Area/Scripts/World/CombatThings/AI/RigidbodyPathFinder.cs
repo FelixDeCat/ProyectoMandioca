@@ -7,7 +7,7 @@ using IA2;
 using IA_Felix;
 
 [RequireComponent(typeof(Rigidbody))]
-public class RigidbodyPathFinder : MonoBehaviour
+public class RigidbodyPathFinder : GenericEnemyMove
 {
     public bool canMove;
     public Rigidbody rb;
@@ -19,6 +19,8 @@ public class RigidbodyPathFinder : MonoBehaviour
     public float forwardspeed = 5f;
 
     float auxspeed;
+    public Transform roottt;
+    public CharacterGroundSensor groundSensorrr;
 
     NodeFinder nodefinder;
     AStar astar = new AStar();
@@ -38,6 +40,7 @@ public class RigidbodyPathFinder : MonoBehaviour
         rb.isKinematic = true;
         nodefinder = new NodeFinder(radius_to_find_nodes);
         auxspeed = movement_speed;
+        Configure(roottt, rb, groundSensorrr);
     }
 
     public void AddCallbackEnd(Action _callbackEndDinamic)
@@ -73,7 +76,7 @@ public class RigidbodyPathFinder : MonoBehaviour
 
         canMove = true;
 
-        
+
     }
 
     bool dequeueNext = false;
@@ -112,13 +115,13 @@ public class RigidbodyPathFinder : MonoBehaviour
                 return;
             }
         }
-        
-        Vector3 dir = currentNode.transform.position - rb.transform.position;
-        dir = new Vector3(dir.x, dir.y, dir.z);
-        dir.Normalize();
-        rb.velocity = new Vector3(dir.x * movement_speed, dir.y * movement_speed, dir.z * movement_speed);
 
-        rb.transform.forward = Vector3.Lerp(rb.transform.forward, new Vector3(dir.x, 0, dir.z), forwardspeed * Time.deltaTime);
+        Vector3 dir = currentNode.transform.position - rb.transform.position;
+        Vector3 fowardRotation = ObstacleAvoidance(new Vector3(dir.x, 0, dir.z));
+        Rotation(fowardRotation.normalized);
+        MoveWRigidbodyV(ObstacleAvoidance(fowardRotation));
+
+
     }
 }
 
