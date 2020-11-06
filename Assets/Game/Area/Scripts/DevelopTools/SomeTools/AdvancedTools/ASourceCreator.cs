@@ -24,16 +24,21 @@ namespace Tools.Sound
 
             return source;
         }
-        public static AudioSource Create3DSource(AudioClip ac,string name, Transform parent, bool loop = false, bool playOnAwake = false)
+        public static AudioSource Create3DSource(AudioClip ac, string name, AudioMixerGroup mixerGroup, bool loop = false, bool playOnAwake = false)
         {
-            var source = parent
+            Transform cam = Camera.main.transform;
+
+            var source = cam
                 .gameObject
                 .CreateDefaultSubObject<AudioSource>("SOURCE-> " + name);
 
+            source.outputAudioMixerGroup = mixerGroup;
             source.clip = ac;
             source.loop = loop;
-            source.spatialBlend = 1;
+            source.spatialBlend = 0;
             source.playOnAwake = playOnAwake;
+            
+
             if (playOnAwake) source.Play();
 
             return source;

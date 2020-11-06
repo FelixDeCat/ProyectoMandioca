@@ -23,8 +23,9 @@ public class SoundPool : SingleObjectPool<AudioSource>
    }
    protected override void AddObject(int prewarm = 3)
    {
-      var newAudio = ASourceCreator.Create2DSource(_audioClip, _audioClip.name, _audioMixer, _loop, playOnAwake);
-      newAudio.gameObject.SetActive(false);
+      //var newAudio = ASourceCreator.Create2DSource(_audioClip, _audioClip.name, _audioMixer, _loop, playOnAwake);
+      var newAudio = ASourceCreator.Create3DSource(_audioClip, _audioClip.name, _audioMixer, _loop, playOnAwake);
+        newAudio.gameObject.SetActive(false);
       newAudio.transform.SetParent(transform);
       objects.Enqueue(newAudio);
    }

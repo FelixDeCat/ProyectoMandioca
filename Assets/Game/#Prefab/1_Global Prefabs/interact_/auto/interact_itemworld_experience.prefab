@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 7941249752761002219}
   - component: {fileID: 7717666947142472638}
   m_Layer: 0
-  m_Name: experience
+  m_Name: interact_itemworld_experience
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -51,10 +51,27 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   distancetoInteract: 3
   autoexecute: 1
+  cd_autoexecute: 0
   pointToMessage: {fileID: 8697729265398221661}
   feedback:
   - {fileID: 8697729266127985054}
   - {fileID: 8697729265575932405}
+  _withDelay: 0
+  delayTime: 0
+  drawGizmos: 0
+  UE_OnEnter:
+    m_PersistentCalls:
+      m_Calls: []
+  UE_OnExit:
+    m_PersistentCalls:
+      m_Calls: []
+  PressDown:
+    m_PersistentCalls:
+      m_Calls: []
+  PressUp:
+    m_PersistentCalls:
+      m_Calls: []
+  executing: 0
   item: {fileID: 11400000, guid: 510b34f739835d5428195b8e1c2f658c, type: 2}
   canrecolectoranim: 0
   to_collect:
@@ -74,7 +91,6 @@ MonoBehaviour:
   OnCreate:
     m_PersistentCalls:
       m_Calls: []
-  interceptor: {fileID: 0}
 --- !u!114 &7941249752761002219
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -176,6 +192,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   torot: {fileID: 9009386234381426599}
+  own: 0
+  loop: 0
   cant_to_rotate: {x: 0, y: 5, z: 0}
 --- !u!1 &8697729265966812749
 GameObject:
@@ -247,7 +265,7 @@ MeshFilter:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8697729266093108820}
-  m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+  m_Mesh: {fileID: 10207, guid: 0000000000000000e000000000000000, type: 0}
 --- !u!23 &8697729266093108818
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -265,7 +283,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 18cb921a4a6643848908fb75242508f2, type: 2}
+  - {fileID: 2100000, guid: a4642ef468a9f3c418ecf31ff9b30ab1, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -329,8 +347,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ba8bfdb16e232b948a2791af27b8abc0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ownTransform: 0
   toscale: {fileID: 8697729266093108819}
   cant_to_scale: {x: 0.5, y: 0.5, z: 0.5}
+  playOnAwake: 1
 --- !u!1 &9009386234381426598
 GameObject:
   m_ObjectHideFlags: 0
