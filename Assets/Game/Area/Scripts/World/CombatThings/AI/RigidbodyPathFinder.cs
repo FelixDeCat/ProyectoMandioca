@@ -59,8 +59,8 @@ public class RigidbodyPathFinder : MonoBehaviour
         initialNode = nodefinder.FindMostCloseNode(rb.transform.position);
         finalNode = nodefinder.FindMostCloseNode(pos);
 
-        if (initialNode == null) { Debug.LogError("Initial node es nulo"); }
-        if (finalNode == null) { Debug.LogError("final node es nulo"); }
+        if (initialNode == null) { Debug.Log("Initial node es nulo"); }
+        if (finalNode == null) { Debug.Log("final node es nulo"); }
 
         var col = astar.Execute(initialNode, finalNode);
 

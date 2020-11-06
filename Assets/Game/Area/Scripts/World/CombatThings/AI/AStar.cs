@@ -47,6 +47,7 @@ namespace IA_Felix
                 //seteo el nodo con costo mas chico como current
                 foreach (var n in open)
                 {
+                    if (n == null) continue;
                     if (n.costs.cost < small)
                     {
                         small = n.costs.cost;
