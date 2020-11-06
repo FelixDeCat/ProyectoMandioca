@@ -2,7 +2,7 @@
 public class GenericEnemyMove : MonoBehaviour
 {
     
-    Rigidbody rb;
+    public Rigidbody rb;
     Transform root;
 
     [SerializeField] float initialSpeed = 5;
