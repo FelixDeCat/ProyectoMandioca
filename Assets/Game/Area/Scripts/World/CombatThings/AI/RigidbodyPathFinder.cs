@@ -10,7 +10,6 @@ using IA_Felix;
 public class RigidbodyPathFinder : GenericEnemyMove
 {
     public bool canMove;
-    public Rigidbody rb;
 
     [Header("Configuration")]
     public float movement_speed = 0.3f;
