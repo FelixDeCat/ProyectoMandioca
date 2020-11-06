@@ -11,6 +11,7 @@ public class PresentacionBetoPueblo : MonoBehaviour, ISpawner
     [SerializeField] PlayObject prefab = null;
     [SerializeField] TotemFeedback totemFeedback = new TotemFeedback();
     public int amountSummoned;
+    public Transform totemPos;
     int amountKilled;
     List<PlayObject> summonedEnemies = new List<PlayObject>();
     bool finishKillSummon;

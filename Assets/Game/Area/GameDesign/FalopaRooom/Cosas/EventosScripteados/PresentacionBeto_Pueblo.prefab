@@ -105,6 +105,7 @@ Transform:
   - {fileID: 2268458800056496318}
   - {fileID: 1258524617625837705}
   - {fileID: 5754293263928395981}
+  - {fileID: 7213151410185771961}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -128,8 +129,7 @@ MonoBehaviour:
       serializedVersion: 2
       m_Bits: 2097152
     spawnSpot: {fileID: 0}
-  prefab: {fileID: 3901963547881250307, guid: 2a69aece938c0a04da1666b0c4108765, type: 3}
-  amountSummoned: 5
+  prefab: {fileID: 5162584254767064864, guid: 2596304084befab44897fdd8e02f55da, type: 3}
   totemFeedback:
     goToPos: {fileID: 3958526303383395777, guid: 9e3854d97844ae747993f6893668c5b0,
       type: 3}
@@ -138,6 +138,8 @@ MonoBehaviour:
       type: 3}
     startPos: {fileID: 2268458799978974399}
     pause: 0
+  amountSummoned: 1
+  totemPos: {fileID: 7213151410185771961}
   bridgePos: {fileID: 2268458800056496318}
   betoSpeed: 5
   particleDelay: 0
@@ -189,6 +191,36 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2cd0e1cf35d48c34a93c6a494b926756, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!1 &7784546612540689914
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 7213151410185771961}
+  m_Layer: 0
+  m_Name: TotemSpawnPos
+  m_TagString: Untagged
+  m_Icon: {fileID: 3936346786652291628, guid: 0000000000000000d000000000000000, type: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &7213151410185771961
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7784546612540689914}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 6.7, y: -4.99, z: 7.54}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 2268458800074217188}
+  m_RootOrder: 5
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &631680909444858249
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -346,11 +378,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalScale.z
       value: 9.00663
-      objectReference: {fileID: 0}
-    - target: {fileID: 649438286006094158, guid: 4bfaa79e47a9b4846b913e024a49a402,
-        type: 3}
-      propertyPath: m_Enabled
-      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 649438286006094192, guid: 4bfaa79e47a9b4846b913e024a49a402,
         type: 3}
