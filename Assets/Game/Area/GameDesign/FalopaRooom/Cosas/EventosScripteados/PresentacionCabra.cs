@@ -10,6 +10,8 @@ public class PresentacionCabra : MonoBehaviour
     [SerializeField] ChangeToTarget changeToTarget;
     [SerializeField] EventDestructible cercaRota;
 
+    CDModule NPC_timer = new CDModule();
+
     public float speed;
     public Transform destPos;
 
@@ -23,16 +25,17 @@ public class PresentacionCabra : MonoBehaviour
         dmgreceiver.Initialize(dmgreceiver.transform, dmgreceiver.GetComponent<Rigidbody>(), dmgreceiver.GetComponent<_Base_Life_System>());
 
         dmgreceiver.AddTakeDamage(OnTakeDamage);
-
+        
         dmgreceiver.GetComponent<NPC_Anims>().Play_Idle("");
+
     }
 
     void OnTakeDamage(DamageData dmg)
     {
         cercaRota?.BreakYourselfBaby();
         changeToTarget.ChangeTarget();
-        dmgreceiver.GetComponent<NPC_Anims>().StopRunDesesperate("");
-        dmgreceiver.GetComponent<NPC_Anims>().PlayDeath("");
+        dmgreceiver.GetComponent<NPC_Anims>().ForcePlayAnimation("Dead2");
+        NPC_timer.AddCD("deleteNPC", () => Destroy(root.gameObject), 5f);
     }
 
     public void StartRunning()

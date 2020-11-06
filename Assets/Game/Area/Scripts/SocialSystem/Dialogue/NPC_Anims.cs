@@ -76,11 +76,13 @@ public class NPC_Anims : MonoBehaviour
         animRegistry.Add("Thanks", Play_Thanks);
         animRegistry.Add("Accept", Play_Accept);
         animRegistry.Add("Reject", Play_Reject);
+        animRegistry.Add("ForceAnimation", ForcePlayAnimation);
     }
 
     [Range(0,1)]
     public float death_anim_cursor;
     public void PlayDeath(string s) => myAnim.SetFloat("Death", death_anim_cursor);
+    public void ForcePlayAnimation(string s) => myAnim.Play(s);
     public void PlayResurrect(string s) => myAnim.SetFloat("Death", -1);
 
     public void StartWalk(string s) => myAnim.SetBool("Walk", true);
