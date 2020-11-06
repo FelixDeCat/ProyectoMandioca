@@ -197,6 +197,8 @@ public class DialogueManager : MonoBehaviour
     void CanForceDialog() => canForce = true;
     public void ForceCarret()
     {
+        if (tree == null) return;
+
         if (canForce)
         {
             canForce = false;

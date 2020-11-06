@@ -283,20 +283,12 @@ public class CombatDirector : LoadComponent, IZoneElement
                 listAttackTarget[target].Add(e);
                 AssignPos(e, target);
             }
-            else
-            {
-                Debug.Log("jeje");
-            }
         }
         else
         {
             if (!waitToAttack[target].Contains(e))
             {
                 waitToAttack[target].Add(e);
-            }
-            else
-            {
-                Debug.Log("?");
             }
         }
 

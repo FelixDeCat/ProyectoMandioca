@@ -33,7 +33,6 @@ public class AteneaComboWombo : MonoBehaviour
 
     void ComboWombo_IsDeactive()
     {
-        Debug.Log("COMBO WOMBO DESACTIVADO");
         iscombowomboactive = false;
         OnIsDeactive.Invoke();
     }

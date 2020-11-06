@@ -50,7 +50,6 @@ public class Combat_Maniqui : EntityBase
 
         if (data.damageType == Damagetype.Heavy) 
         {
-            Debug.Log("HEAVY");
             if (IsComboWombo.Invoke()) { 
                 damageReceiver.InstaKill();
                 DeathByComboWombo.Invoke();

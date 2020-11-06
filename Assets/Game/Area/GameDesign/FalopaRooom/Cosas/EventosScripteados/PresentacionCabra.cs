@@ -29,7 +29,7 @@ public class PresentacionCabra : MonoBehaviour
 
     void OnTakeDamage(DamageData dmg)
     {
-        cercaRota.BreakYourselfBaby();
+        cercaRota?.BreakYourselfBaby();
         changeToTarget.ChangeTarget();
         dmgreceiver.GetComponent<NPC_Anims>().StopRunDesesperate("");
         dmgreceiver.GetComponent<NPC_Anims>().PlayDeath("");

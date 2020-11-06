@@ -39,7 +39,6 @@ public class SpawnerSpot
     {
         var pos = GetPosRandom(radious, spawnSpot);
         pos.y = spawnSpot.position.y + radious;
-        Debug.Log(pos.y);
 
         RaycastHit hit;
 

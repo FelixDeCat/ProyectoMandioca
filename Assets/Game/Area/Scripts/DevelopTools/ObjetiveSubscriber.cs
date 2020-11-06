@@ -30,8 +30,6 @@ public class ObjetiveSubscriber : MonoBehaviour
 
     void CatchedObjetives(Collider[] colls)
     {
-
-        Debug.Log("Catch: " + colls.Length + " colls" );
         objetive_cant = colls.Length;
 
         // Logica de Overrideo de Misiones

@@ -32,7 +32,6 @@ namespace IA_Felix
 
         public List<Node> Execute(Node initial, Node final)
         {
-            Debug.Log("Inicio Execute... Initial: " + initial.gameObject.name + " Final:" + final.gameObject.name);
             path.Clear();
             open.Clear();
             closed.Clear();
@@ -40,7 +39,6 @@ namespace IA_Felix
 
             open.Add(initial);
 
-            Debug.Log("Opens inicio: " + open.Count);
             while (open.Count > 0)
             {
                 float small = float.MaxValue;
@@ -65,7 +63,6 @@ namespace IA_Felix
                 
                 if (current.Equals(final))
                 {
-                    Debug.Log("Encontré el nodo final");
                     path.Clear();
                     Node curr = final;
                     while (!curr.Equals(initial))
@@ -83,8 +80,7 @@ namespace IA_Felix
 
                     if (final == null) 
                     {
-                        Debug.Log("Final es Null");
-                        return null; 
+                        return null;
                     }
                     v.costs.heuristic = Vector3.Distance(v.transform.position, final.transform.position);
                     v.costs.cost = v.costs.fitness + v.costs.heuristic;
@@ -93,7 +89,6 @@ namespace IA_Felix
                     {
                         v.parent = current;
                         open.Add(v);
-                        Debug.Log("Opens Add: " + v.gameObject.name);
                     }
                 }
             }

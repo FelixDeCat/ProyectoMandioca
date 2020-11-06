@@ -45,7 +45,6 @@ public class ExplosiveShroom : EntityBase
     protected override void OnInitialize()
     {
         data = GetComponent<DamageData>();
-        Debug.Log("init");
         data.Initialize(this);
         data
               .SetDamage(damage)
