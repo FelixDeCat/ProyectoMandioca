@@ -12,7 +12,6 @@ public class SaveVillageManager : MonoBehaviour
 
     [SerializeField] GameObject villagerPrefab;
     int currentVillagerCount = 0;
-    int currentEnemiesAlive = 0;
     public int currentPhase { get; private set; }
 
     [SerializeField] Transform[] spawnPoints;
@@ -31,27 +30,28 @@ public class SaveVillageManager : MonoBehaviour
     {
         Main.instance.SetVillageManager(this);
         SetCurrentState(VillageEventState.Disabled);
+        OnEventCompleted.AddListener(() => GenCounter.CloseCounter());
     }
 
     public void AddEnemy(EnemyBase enemy)
     {
         currentEnemies.Add(enemy);
-        currentEnemiesAlive++;
     }
     public void RemoveEnemy(EnemyBase enemy)
     {
-        currentEnemiesAlive--;
         if (currentEnemies.Contains(enemy))
+        {
             currentEnemies.Remove(enemy);
+        }
     }
-    public int GetCurrentEnemiesCount() => currentEnemiesAlive;
+    public int GetCurrentEnemiesCount() => currentEnemies.Count;
 
     public void SetCurrentState(VillageEventState state) => gameState = state;
 
     public void AddPhase()
     {
         currentPhase++;
-        if (currentPhase >= villagersNeededPerPhase.Length - 1)
+        if (currentPhase >= villagersNeededPerPhase.Length)
         {
             OnEventCompleted.Invoke();
             SetCurrentState(VillageEventState.LevelCompleted);
@@ -65,6 +65,8 @@ public class SaveVillageManager : MonoBehaviour
     public void StartEvent()
     {
         OnEventStarted.Invoke();
+        GenCounter.OpenCounter();
+        GenCounter.SetCounterInfo("Villagers", currentVillagerCount, villagersNeededPerPhase[villagersNeededPerPhase.Length-1], true);
         gameState = VillageEventState.Start;
         StartCoroutine(SpawnVillagers());
     }
@@ -79,12 +81,12 @@ public class SaveVillageManager : MonoBehaviour
                 Spawned.transform.position = spawnPoints[Random.Range(0,spawnPoints.Length)].transform.position + new Vector3(Random.Range(-4, 4), 0, Random.Range(-2, 2));
                 NPCFleing npc = Spawned.GetComponent<NPCFleing>();
                 npc.Initialize();
-                currentVillagers.Add(npc);
+                AddToVillagersAlive(npc);
                 npc.pos_exit_endless = endPoint;
                 npc.GoToPos_RunningDesesperated();
                 yield return new WaitForSeconds(timeBetweenVillSamegroup);
+                ReTarget();
             }
-
             while (currentVillagers.Count > 0)
                 yield return new WaitForSeconds(0.1f);
         }
@@ -98,12 +100,47 @@ public class SaveVillageManager : MonoBehaviour
         {
             OnVillagerArrived.Invoke();
             currentVillagers.Remove(npc);
+            GenCounter.SetCounterInfo("Villagers", currentVillagerCount, villagersNeededPerPhase[villagersNeededPerPhase.Length-1], true);
         }
 
         if (currentPhase != villagersNeededPerPhase.Length && currentVillagerCount >= villagersNeededPerPhase[currentPhase] )
         {
             AddPhase();
         }
+    }
+
+    public void AddToVillagersAlive(NPCFleing npc)
+    {
+        currentVillagers.Add(npc);
+    }
+    public void RemoveFromVillagersAlive(NPCFleing npc)
+    {
+        currentVillagers.Remove(npc);
+    }
+
+    public void ReTarget()
+    {
+        for (int i = 0; i < currentEnemies.Count; i++)
+        {
+            currentEnemies[i].GetComponent<CombatDirectorElement>().ChangeTarget(nearestNPC(currentEnemies[i].transform.position).transform);
+        }
+    }
+
+    public WalkingEntity nearestNPC(Vector3 position)
+    {
+
+        WalkingEntity nearest = Main.instance.GetChar(); 
+        if (currentVillagers.Count > 0)
+        {
+            for (int i = 0; i < currentVillagers.Count; i++)
+            {
+                if(Vector3.Distance(currentVillagers[i].transform.position, position) < Vector3.Distance(nearest.transform.position, position))
+                {
+                    nearest = currentVillagers[i];
+                }
+            }
+        }
+        return nearest;
     }
 }
 

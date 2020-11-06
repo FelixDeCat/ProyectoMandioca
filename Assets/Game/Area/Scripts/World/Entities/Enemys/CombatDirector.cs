@@ -302,10 +302,14 @@ public class CombatDirector : LoadComponent, IZoneElement
     ///<summary> Esta función facilita el cambio entre targets. Elimina del ataque hacia el anterior target y lo agrega al nuevo. </summary>
     public void ChangeTarget(CombatDirectorElement e, Transform newTarget, Transform oldTarget)
     {
-        if(oldTarget != null)
+        if (oldTarget != null)
+        {
             RemoveToList(e, oldTarget);
+            RemoveTarget(oldTarget);
+        }
         e.SetTarget(newTarget);
         AddToList(e, newTarget);
+        AddNewTarget(newTarget);
     }
     #endregion
     #region en desuso

@@ -15,6 +15,8 @@ public abstract class Villager : NPCBase
     [SerializeField] UnityEvent OnStartMovement;
     [SerializeField] UnityEvent OnIHaveArrive;
 
+    protected Action onArrivedEvent;
+
     protected override void StackedInitialize()
     {
         interactable = GetComponent<NPC_Interactable>();
@@ -57,5 +59,6 @@ public abstract class Villager : NPCBase
         anim.StopWalk("");
         OnIHaveArrive?.Invoke();
         OnArriveCustom?.Invoke();
+        if(onArrivedEvent != null) onArrivedEvent.Invoke();
     }
 }

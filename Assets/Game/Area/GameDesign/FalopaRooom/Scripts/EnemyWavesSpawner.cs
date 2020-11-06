@@ -62,12 +62,27 @@ public class EnemyWavesSpawner : MonoBehaviour
         EnemyBase enemy = EnemyManager.Instance.SpawnEnemy(enemyToSpawn.name, UnityEngine.SceneManagement.SceneManager.GetActiveScene().name, enemyToSpawn);
         enemy.transform.position = transform.position;
         //EnemyBase enemy = Instantiate(enemyToSpawn, transform.position, transform.rotation);
-        
+
         enemy.Initialize();
+        enemy.lifesystem.Initialize(enemy.lifesystem.life, ()=> { }, () => { }, () => Main.instance.GetVillageManager().RemoveEnemy(enemy));
         enemy.SpawnEnemy();
         Main.instance.GetVillageManager().AddEnemy(enemy);
-        enemy.lifesystem.AddEventOnDeath(() => Main.instance.GetVillageManager().RemoveEnemy(enemy));
         enemy.lifesystem.AddEventOnDeath(() => enemy.ResetEntity());
+        enemy.lifesystem.AddEventOnDeath(() => EnemyManager.Instance.DeleteEnemy(enemy));
+
+        enemy.GetComponent<DamageReceiver>().AddTakeDamage((DamageData data) => enemy.GetComponent<CombatDirectorElement>().ChangeTarget(Main.instance.GetChar().transform));
+        ChangeFocus(enemy);
         return enemy;
     }
+
+    public void ChangeFocus(EnemyBase enemy)
+    {
+        WalkingEntity nearest = Main.instance.GetVillageManager().nearestNPC(transform.position);
+        if (nearest != null)
+        {
+            enemy.GetComponent<CombatDirectorElement>().ChangeTarget(Main.instance.GetVillageManager().nearestNPC(enemy.transform.position).transform);
+            enemy.GetComponent<CombatDirectorElement>().SetBool(true);
+        }
+    }
+
 }
