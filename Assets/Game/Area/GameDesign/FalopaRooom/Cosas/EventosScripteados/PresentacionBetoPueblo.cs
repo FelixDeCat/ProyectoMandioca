@@ -18,6 +18,7 @@ public class PresentacionBetoPueblo : MonoBehaviour, ISpawner
 
     [Header("Segunda parte: Romper puente")]
     [SerializeField] Transform bridgePos;
+    [SerializeField] Transform exitPos;
     Transform currentPlaceToGo;
     [SerializeField] float betoSpeed;
     [SerializeField] float particleDelay; // este es el tiempo entre que le decis Play a la particula y se rompe el puente
@@ -115,6 +116,9 @@ public class PresentacionBetoPueblo : MonoBehaviour, ISpawner
         if (rayoQueRompePuente_impacto != null) rayoQueRompePuente_impacto.Play();
         _betoAnim.SetTrigger("finishSkill");
         puente.BreakYourselfBaby();
+
+        cdModule.AddCD("betoExit", () => { currentPlaceToGo = exitPos; betoSpeed *= 2f; }, 5f);
+        cdModule.AddCD("betoDelete", () => Destroy(betoRoot.gameObject), 30f);
     }
 
     void Update()
@@ -142,8 +146,6 @@ public class PresentacionBetoPueblo : MonoBehaviour, ISpawner
         {
             betoRoot.transform.position = currentPlaceToGo.position;
             currentPlaceToGo = null;
-
-           // StartCastDestroyPuente();
         }
     }
 }

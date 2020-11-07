@@ -17,7 +17,7 @@ public class PlayAnimFromString : MonoBehaviour
     {
         if(useNpcAnims)
         {
-            npcAnims.StartFetalPos("");
+            npcAnims.PlayAnimation(animationName);
             return;
         }
 
