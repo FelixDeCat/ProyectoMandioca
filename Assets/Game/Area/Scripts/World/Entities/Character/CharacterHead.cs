@@ -674,6 +674,7 @@ public class CharacterHead : CharacterControllable
     #region Item Effects
     public void TurnOnGreekOilEffect(float duration)
     {
+        Debug.Log("Greek OIL Turn On");
         DownWeaponsAction += TurnOffGreekOilEffect;
         imUsingItemOnWeapon = true;
         StartCoroutine(StartEffectOnSword(duration));
