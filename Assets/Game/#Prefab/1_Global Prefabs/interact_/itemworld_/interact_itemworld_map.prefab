@@ -259,6 +259,7 @@ GameObject:
   - component: {fileID: 4525989960812218975}
   - component: {fileID: 3375386799618913619}
   - component: {fileID: 7783237436274628020}
+  - component: {fileID: 2718752684459585264}
   m_Layer: 0
   m_Name: equiped
   m_TagString: Untagged
@@ -308,10 +309,32 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   EV_BeginUse:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 2718752684459585264}
+        m_MethodName: OpenMap
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   EV_EndUse:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 2718752684459585264}
+        m_MethodName: CloseMap
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   EV_RAW_BeginUse:
     m_PersistentCalls:
       m_Calls: []
@@ -331,6 +354,22 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   EV_Equip_Update:
+    m_PersistentCalls:
+      m_Calls: []
+--- !u!114 &2718752684459585264
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7784049035259318263}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7e95f5edbf740614789d8f277cc64f2e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  mapImage: {fileID: 21300000, guid: b13cec4aeaaf07449bc6ab242ffd8be4, type: 3}
+  predicate:
     m_PersistentCalls:
       m_Calls: []
 --- !u!1 &9056796885372431383
@@ -464,8 +503,8 @@ BoxCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 0.21602249, y: 0.1303258, z: 0.22134018}
-  m_Center: {x: 0.001329422, y: 0.04949355, z: -0.0039844513}
+  m_Size: {x: 1.0877581, y: 0.1575675, z: 0.8660617}
+  m_Center: {x: 0.060352802, y: 0.12213826, z: 0.05957961}
 --- !u!1001 &4867094973918796769
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -628,6 +667,56 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: MapModel
+      objectReference: {fileID: 0}
+    - target: {fileID: 6582912871282538341, guid: fb8f468d5b925da4a8b2468260b960b4,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0.70195264
+      objectReference: {fileID: 0}
+    - target: {fileID: 6582912871282538341, guid: fb8f468d5b925da4a8b2468260b960b4,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0.05405191
+      objectReference: {fileID: 0}
+    - target: {fileID: 6582912871282538341, guid: fb8f468d5b925da4a8b2468260b960b4,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0.123223625
+      objectReference: {fileID: 0}
+    - target: {fileID: 6582912871282538341, guid: fb8f468d5b925da4a8b2468260b960b4,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0.69939756
+      objectReference: {fileID: 0}
+    - target: {fileID: 6582912871282538341, guid: fb8f468d5b925da4a8b2468260b960b4,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6582912871282538341, guid: fb8f468d5b925da4a8b2468260b960b4,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0.2627201
+      objectReference: {fileID: 0}
+    - target: {fileID: 6582912871282538341, guid: fb8f468d5b925da4a8b2468260b960b4,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6582912871282538341, guid: fb8f468d5b925da4a8b2468260b960b4,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: -84.38901
+      objectReference: {fileID: 0}
+    - target: {fileID: 6582912871282538341, guid: fb8f468d5b925da4a8b2468260b960b4,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 99.325005
+      objectReference: {fileID: 0}
+    - target: {fileID: 6582912871282538341, guid: fb8f468d5b925da4a8b2468260b960b4,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: -84.906006
       objectReference: {fileID: 0}
     - target: {fileID: 7854398387707348342, guid: fb8f468d5b925da4a8b2468260b960b4,
         type: 3}
