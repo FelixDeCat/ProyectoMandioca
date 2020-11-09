@@ -23,7 +23,8 @@ public class GameUI_controller : MonoBehaviour
     [SerializeField] Sprite[] combatStatesSprites = new Sprite[0];
 
 
-    private SkillManager_Pasivas _skillManagerPasivas;
+    [SerializeField] Image customImage = null;
+    
 
     public FrontendStatBase lifeHeart;
     
@@ -39,6 +40,19 @@ public class GameUI_controller : MonoBehaviour
     public void UI_RefreshMenu(){} 
     public void OpenGameMenu(){}
     public void CloseGameMenu(){}
+
+
+    public void OpenCustomImage(Sprite img)
+    {
+        Debug.Log("Llego aca?");
+        customImage.sprite = img;
+        customImage.gameObject.SetActive(true);
+    }
+
+    public void CloseCustomImage()
+    {
+        customImage.gameObject.SetActive(false);
+    }
     #endregion
 
     public void OnChangeLife(int current, int max)
