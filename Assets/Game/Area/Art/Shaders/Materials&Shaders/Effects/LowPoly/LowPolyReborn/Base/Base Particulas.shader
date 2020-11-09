@@ -4,7 +4,7 @@ Shader "Style/New/BaseParticle"
 {
 	Properties
 	{
-		_EmissionColor("Emission Color", Color) = (1,1,1,0)
+		[HDR]_EmissionColor("Emission Color", Color) = (1,1,1,0)
 		_EmissionIntensity("Emission Intensity", Float) = 0
 		[HideInInspector] __dirty( "", Int ) = 1
 	}
@@ -50,7 +50,7 @@ Shader "Style/New/BaseParticle"
 			o.Normal = worldToTangentPos7_g110;
 			float4 temp_output_311_0 = i.vertexColor;
 			o.Albedo = temp_output_311_0.rgb;
-			o.Emission = saturate( ( i.vertexColor * _EmissionColor * _EmissionIntensity ) ).rgb;
+			o.Emission = ( i.vertexColor * _EmissionColor * _EmissionIntensity ).rgb;
 			o.Alpha = 1;
 		}
 
@@ -140,24 +140,23 @@ Shader "Style/New/BaseParticle"
 }
 /*ASEBEGIN
 Version=18301
-0;383;949;306;-968.7115;581.4476;1.325845;True;False
-Node;AmplifyShaderEditor.ColorNode;286;1234.642,-557.2474;Inherit;False;Property;_EmissionColor;Emission Color;0;0;Create;True;0;0;False;0;False;1,1,1,0;1,0.9843137,0,0;True;0;5;COLOR;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
+0;396;953;293;-1028.333;633.9229;1.198978;True;False
 Node;AmplifyShaderEditor.VertexColorNode;311;1241.27,-721.7657;Inherit;False;0;5;COLOR;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
-Node;AmplifyShaderEditor.RangedFloatNode;320;1213.453,-389.8579;Inherit;False;Property;_EmissionIntensity;Emission Intensity;1;0;Create;True;0;0;False;0;False;0;15;0;0;0;1;FLOAT;0
+Node;AmplifyShaderEditor.ColorNode;286;1234.642,-557.2474;Inherit;False;Property;_EmissionColor;Emission Color;0;1;[HDR];Create;True;0;0;False;0;False;1,1,1,0;1,0.9843137,0,0;True;0;5;COLOR;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
+Node;AmplifyShaderEditor.RangedFloatNode;320;1213.453,-389.8579;Inherit;False;Property;_EmissionIntensity;Emission Intensity;1;0;Create;True;0;0;False;0;False;0;16.76;0;0;0;1;FLOAT;0
 Node;AmplifyShaderEditor.PosVertexDataNode;318;904.7838,-399.1312;Inherit;False;0;0;5;FLOAT3;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
-Node;AmplifyShaderEditor.SimpleMultiplyOpNode;314;1543.281,-464.2932;Inherit;False;3;3;0;COLOR;0,0,0,0;False;1;COLOR;0,0,0,0;False;2;FLOAT;0;False;1;COLOR;0
+Node;AmplifyShaderEditor.SimpleMultiplyOpNode;314;1543.281,-464.2932;Inherit;True;3;3;0;COLOR;0,0,0,0;False;1;COLOR;0,0,0,0;False;2;FLOAT;0;False;1;COLOR;0
 Node;AmplifyShaderEditor.FunctionNode;312;1122.526,-315.8252;Inherit;False;NewLowPolyStyle;-1;;110;9366fbf697958664ea2b821af5ab3369;0;1;8;FLOAT3;0,0,0;False;2;FLOAT;9;FLOAT3;0
-Node;AmplifyShaderEditor.SaturateNode;321;1867.607,-460.3323;Inherit;False;1;0;COLOR;0,0,0,0;False;1;COLOR;0
 Node;AmplifyShaderEditor.SimpleMultiplyOpNode;323;1849.826,-305.9853;Inherit;False;2;2;0;FLOAT;0;False;1;FLOAT;0;False;1;FLOAT;0
+Node;AmplifyShaderEditor.SaturateNode;321;1959.101,-383.6511;Inherit;False;1;0;COLOR;0,0,0,0;False;1;COLOR;0
 Node;AmplifyShaderEditor.StandardSurfaceOutputNode;177;2112.932,-523.8054;Float;False;True;-1;2;ASEMaterialInspector;0;0;Standard;Style/New/BaseParticle;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;False;False;False;False;False;False;Back;0;False;-1;0;False;-1;False;0;False;-1;0;False;-1;False;0;Opaque;0.5;True;True;0;False;Opaque;;Geometry;All;14;all;True;True;True;True;0;False;-1;False;0;False;-1;255;False;-1;255;False;-1;0;False;-1;0;False;-1;0;False;-1;0;False;-1;0;False;-1;0;False;-1;0;False;-1;0;False;-1;False;2;15;10;25;False;0.5;True;0;5;False;-1;10;False;-1;0;0;False;-1;0;False;-1;0;False;-1;0;False;-1;0;False;0;0,0,0,0;VertexOffset;True;False;Cylindrical;False;Relative;0;;-1;-1;-1;-1;0;False;0;0;False;-1;-1;0;False;-1;0;0;0;False;0.1;False;-1;0;False;-1;16;0;FLOAT3;0,0,0;False;1;FLOAT3;0,0,0;False;2;FLOAT3;0,0,0;False;3;FLOAT;0;False;4;FLOAT;0;False;5;FLOAT;0;False;6;FLOAT3;0,0,0;False;7;FLOAT3;0,0,0;False;8;FLOAT;0;False;9;FLOAT;0;False;10;FLOAT;0;False;13;FLOAT3;0,0,0;False;11;FLOAT3;0,0,0;False;12;FLOAT3;0,0,0;False;14;FLOAT4;0,0,0,0;False;15;FLOAT3;0,0,0;False;0
 WireConnection;314;0;311;0
 WireConnection;314;1;286;0
 WireConnection;314;2;320;0
 WireConnection;312;8;318;0
-WireConnection;321;0;314;0
 WireConnection;323;1;312;9
 WireConnection;177;0;311;0
 WireConnection;177;1;312;0
-WireConnection;177;2;321;0
+WireConnection;177;2;314;0
 ASEEND*/
-//CHKSM=6DA4BC14C92CF43C5581831FBF06FB086EFA54B5
+//CHKSM=802E2C473CB309FD0916CABD8ED5D71BD310B9CD
