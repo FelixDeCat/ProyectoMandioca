@@ -5,7 +5,7 @@ using UnityEngine;
 using System.Linq;
 using UnityEngine.Events;
 
-public class PistonWithSteps : MonoBehaviour
+public class PistonWithSteps : EntityBase
 {
     [SerializeField] protected Transform _root = null;
     [SerializeField] protected List<Transform> nodes = new List<Transform>();
@@ -104,4 +104,12 @@ public class PistonWithSteps : MonoBehaviour
             Gizmos.DrawLine(nodes[i].position, nodes[i + 1].position);
         }
     }
+
+    protected override void OnInitialize() { }
+    protected override void OnTurnOn() { }
+    protected override void OnTurnOff() { }
+    protected override void OnUpdate() { }
+    protected override void OnFixedUpdate() { }
+    protected override void OnPause() { }
+    protected override void OnResume() { }
 }

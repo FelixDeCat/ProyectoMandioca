@@ -35,9 +35,10 @@ public class EntusiastaRompiendoRamas : PistonWithSteps
 
     public void RomperRamas()
     {
-       var ramitas = Extensions.FindInRadius<PropDestructible>(_rootRot.position, 5);
+        var ramitas = Extensions.FindInRadius<PropDestructible>(_rootRot.position, 5);
 
-       var data = new DamageData().SetDamage(5).SetDamageType(Damagetype.Normal);
+        var data = new DamageData().SetDamage(5).SetDamageType(Damagetype.Normal);
+        data.Initialize(this);
 
         foreach (PropDestructible item in ramitas)
         {
