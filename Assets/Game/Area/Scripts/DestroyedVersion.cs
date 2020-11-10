@@ -24,6 +24,33 @@ public class DestroyedVersion : MonoBehaviour
         timer = maxTimer;
     }
 
+    public void ExplosionForce(Vector3 explosionPoint, float force, float torqueForce)
+    {
+        var childs = GetComponentsInChildren<Rigidbody>();
+
+        if (principalChild)
+        {
+            foreach (var c in childs)
+            {
+                Vector3 aux;
+                if (c != principalChild) aux = c.transform.position - principalChild.transform.position;
+                else aux = c.transform.position - explosionPoint;
+                c.AddForce(aux * force, ForceMode.VelocityChange);
+                c.AddTorque(aux * torqueForce);
+            }
+        }
+        else
+        {
+            foreach (var c in childs)
+            {
+                var aux = c.transform.position - explosionPoint;
+                aux.Normalize();
+                c.AddForce(aux * force, ForceMode.VelocityChange);
+                c.AddTorque(aux * torqueForce);
+            }
+        }
+    }
+
     private void Update()
     {
         if (animate)

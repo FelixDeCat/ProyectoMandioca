@@ -8,6 +8,11 @@ public class PropDestructible : BaseDestructible
 
     public ParticleSystem dest_part;
 
+    [SerializeField] float force = 5;
+    [SerializeField] float torqueForce = 4;
+
+    [SerializeField] bool useScale = false;
+
     protected override void OnInitialize()
     {
         base.OnInitialize();
@@ -26,38 +31,16 @@ public class PropDestructible : BaseDestructible
         Calculate();
     }
 
-    protected override void OnDestroyDestructible()
+    protected override void OnDestroyDestructible(Vector3 dir = default)
     {
         if (savedDestroyedVersion)
         {
             savedDestroyedVersion.gameObject.SetActive(true);
             savedDestroyedVersion.transform.position = transform.position;
+            if (useScale) savedDestroyedVersion.transform.localScale = transform.localScale;
             savedDestroyedVersion.BeginDestroy();
 
-            var childs = savedDestroyedVersion.GetComponentsInChildren<Rigidbody>();
-
-            if (savedDestroyedVersion.principalChild)
-            {
-                foreach (var c in childs)
-                {
-                    Vector3 aux;
-                    if (c != savedDestroyedVersion.principalChild) aux = c.transform.position - savedDestroyedVersion.principalChild.transform.position;
-                    else aux = c.transform.position - transform.position;
-                    aux.Normalize();
-                    c.AddForce(aux * 5, ForceMode.VelocityChange);
-                    c.AddTorque(aux);
-                }
-            }
-            else
-            {
-                foreach (var c in childs)
-                {
-                    var aux = c.transform.position - transform.position;
-                    aux.Normalize();
-                    c.AddForce(aux * 5, ForceMode.VelocityChange);
-                    c.AddTorque(aux * 4);
-                }
-            }
+            savedDestroyedVersion.ExplosionForce(dir, force, torqueForce);
         }
 
         Off();

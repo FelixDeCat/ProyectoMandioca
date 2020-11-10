@@ -17,6 +17,8 @@ public abstract class BaseDestructible : Environment
     [SerializeField] UnityEvent OnTakeDamage = null;
     [SerializeField] UnityEvent OnDestroyed = null;
 
+    Transform target;
+
     public bool NoInitialize = false;
 
     private void Start()
@@ -31,7 +33,7 @@ public abstract class BaseDestructible : Environment
 
         damageReceiver
             .AddDead((x) => { OnDestroyed.Invoke(); DestroyDestructible(); })
-            .AddTakeDamage((x) => OnTakeDamage.Invoke())
+            .AddTakeDamage((x) => { OnTakeDamage.Invoke(); target = x.owner.transform; })
             .Initialize(transform,GetComponent<Rigidbody>(),_lifeSytstem);
 
         AudioManager.instance.GetSoundPool(destroyedSound.name, AudioGroups.AMBIENT_FX, destroyedSound);
@@ -40,9 +42,9 @@ public abstract class BaseDestructible : Environment
     public void DestroyDestructible()
     {
         AudioManager.instance.PlaySound(destroyedSound.name, transform);
-        OnDestroyDestructible();
+        OnDestroyDestructible(target ? target.position : transform.position);
     }
-    protected abstract void OnDestroyDestructible();
+    protected abstract void OnDestroyDestructible(Vector3 destroyPoint = default);
     protected abstract void FeedbackDamage();
 
 }
