@@ -11,6 +11,7 @@ public class SaveVillageManager : MonoBehaviour
     public int minEnemiesToSpawnNextWave = 3;
 
     [SerializeField] GameObject villagerPrefab;
+    [SerializeField] LayerMask mask_hit_floor;
     int currentVillagerCount = 0;
     public int currentPhase { get; private set; }
 
@@ -25,8 +26,8 @@ public class SaveVillageManager : MonoBehaviour
 
     List<EnemyBase> currentEnemies = new List<EnemyBase>();
     List<NPCFleing> currentVillagers = new List<NPCFleing>();
-   
-    private void Start()
+
+    public void InitializeVillage()
     {
         Main.instance.SetVillageManager(this);
         SetCurrentState(VillageEventState.Disabled);
@@ -78,10 +79,20 @@ public class SaveVillageManager : MonoBehaviour
             for (int i = 0; i < villagersPerGroup; i++)
             {
                 GameObject Spawned = Instantiate(villagerPrefab);
-                Spawned.transform.position = spawnPoints[Random.Range(0,spawnPoints.Length)].transform.position + new Vector3(Random.Range(-4, 4), 0, Random.Range(-2, 2));
+
+                Vector3 posToSpawn = spawnPoints[Random.Range(0, spawnPoints.Length)].transform.position + new Vector3(Random.Range(-4, 4), 0, Random.Range(-2, 2));
+
+                RaycastHit hit;
+                if (Physics.Raycast(posToSpawn + Spawned.transform.up * 10, Spawned.transform.up * -1, out hit, 30, mask_hit_floor))
+                {
+                    Spawned.transform.position = hit.point;
+                }
+
                 NPCFleing npc = Spawned.GetComponent<NPCFleing>();
                 npc.Initialize();
+                npc.On();
                 AddToVillagersAlive(npc);
+
                 npc.pos_exit_endless = endPoint;
                 npc.GoToPos_RunningDesesperated();
                 yield return new WaitForSeconds(timeBetweenVillSamegroup);
@@ -91,6 +102,11 @@ public class SaveVillageManager : MonoBehaviour
                 yield return new WaitForSeconds(0.1f);
         }
 
+    }
+
+    public void ClampToFloor()
+    {
+        
     }
 
     public void AddVillager(NPCFleing npc)

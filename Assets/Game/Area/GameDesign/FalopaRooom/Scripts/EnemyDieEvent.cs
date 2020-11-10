@@ -8,8 +8,8 @@ public class EnemyDieEvent : MonoBehaviour
     [SerializeField] ObjetiveSubscriber objectiveSuscriber;
     [SerializeField] UnityEvent onTrigger;
 
-    public void BeginEvent()
+    public void Initialize()
     {
         objectiveSuscriber.BeginObjetive( ()=> onTrigger.Invoke());
-    }    
+    }
 }

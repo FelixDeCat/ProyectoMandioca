@@ -30,9 +30,6 @@ public class NPCFleing : Villager
     protected override void OnResume() { }
     protected override void OnTurnOff() { }
     protected override void OnTurnOn() { }
-    protected override void OnUpdateEntity()
-    {
-
-    }
+    protected override void OnUpdateEntity() { }
     #endregion
 }

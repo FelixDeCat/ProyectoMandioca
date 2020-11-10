@@ -5,22 +5,24 @@ using UnityEngine;
 public class EnemyWavesSpawner : MonoBehaviour
 {
     public WaveInfo[] allWavesInfo;
-    SaveVillageManager villageManager = null;
+    SaveVillageManager village = null;
         
     public float timeBetweenEnemies = 1f;
     CustomSpawner customSpawner;
 
-    void Start()
+    public void InitializeEnemyWavesSpawner()
     {
-        villageManager = Main.instance.GetVillageManager();
+        village = Main.instance.GetVillageManager();
         customSpawner = GetComponent<CustomSpawner>();
         StartCoroutine(checkEnemy());
     }
     public void Update()
     {
-        if (Main.instance.GetVillageManager().gameState == VillageEventState.Start || Main.instance.GetVillageManager().gameState == VillageEventState.WaitingToSpawn)
+        if (village == null) return;
+
+        if (village.gameState == VillageEventState.Start || village.gameState == VillageEventState.WaitingToSpawn)
         {
-            StartCoroutine(SpawnWave(allWavesInfo[Main.instance.GetVillageManager().currentPhase]));
+            StartCoroutine(SpawnWave(allWavesInfo[village.currentPhase]));
         }
     }
 
@@ -30,9 +32,9 @@ public class EnemyWavesSpawner : MonoBehaviour
         {
             yield return new WaitForSeconds(1f);
 
-            if (Main.instance.GetVillageManager().gameState == VillageEventState.WaveInProgress && Main.instance.GetVillageManager().GetCurrentEnemiesCount() <= Main.instance.GetVillageManager().minEnemiesToSpawnNextWave)
+            if (village.gameState == VillageEventState.WaveInProgress && village.GetCurrentEnemiesCount() <= village.minEnemiesToSpawnNextWave)
             {
-                Main.instance.GetVillageManager().SetCurrentState(VillageEventState.WaitingToSpawn);
+                village.SetCurrentState(VillageEventState.WaitingToSpawn);
            
                 yield return new WaitForSeconds(2f);              
             }
@@ -41,7 +43,7 @@ public class EnemyWavesSpawner : MonoBehaviour
 
     IEnumerator SpawnWave(WaveInfo info)
     {
-        Main.instance.GetVillageManager().SetCurrentState(VillageEventState.SpawningWave);
+        village.SetCurrentState(VillageEventState.SpawningWave);
         for (int i = 0; i < info.enemiesPerWave.Length; i++)
         {
             for (int j = 0; j < info.enemiesPerWave[i].enemyAmmount; j++)
@@ -50,7 +52,7 @@ public class EnemyWavesSpawner : MonoBehaviour
                 yield return new WaitForSeconds(timeBetweenEnemies);
             }
         }
-        Main.instance.GetVillageManager().SetCurrentState(VillageEventState.WaveInProgress);
+        village.SetCurrentState(VillageEventState.WaveInProgress);
     }
 
 
@@ -64,9 +66,9 @@ public class EnemyWavesSpawner : MonoBehaviour
         //EnemyBase enemy = Instantiate(enemyToSpawn, transform.position, transform.rotation);
 
         enemy.Initialize();
-        enemy.lifesystem.Initialize(enemy.lifesystem.life, ()=> { }, () => { }, () => Main.instance.GetVillageManager().RemoveEnemy(enemy));
+        enemy.lifesystem.Initialize(enemy.lifesystem.life, ()=> { }, () => { }, () => village.RemoveEnemy(enemy));
         enemy.SpawnEnemy();
-        Main.instance.GetVillageManager().AddEnemy(enemy);
+        village.AddEnemy(enemy);
         enemy.lifesystem.AddEventOnDeath(() => enemy.ResetEntity());
         enemy.lifesystem.AddEventOnDeath(() => EnemyManager.Instance.DeleteEnemy(enemy));
 
@@ -77,10 +79,10 @@ public class EnemyWavesSpawner : MonoBehaviour
 
     public void ChangeFocus(EnemyBase enemy)
     {
-        WalkingEntity nearest = Main.instance.GetVillageManager().nearestNPC(transform.position);
+        WalkingEntity nearest = village.nearestNPC(transform.position);
         if (nearest != null)
         {
-            enemy.GetComponent<CombatDirectorElement>().ChangeTarget(Main.instance.GetVillageManager().nearestNPC(enemy.transform.position).transform);
+            enemy.GetComponent<CombatDirectorElement>().ChangeTarget(village.nearestNPC(enemy.transform.position).transform);
             enemy.GetComponent<CombatDirectorElement>().SetBool(true);
         }
     }

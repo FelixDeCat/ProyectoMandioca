@@ -59,8 +59,20 @@ public class EnemyManager : MonoBehaviour
         StartCoroutine(SaveStates(sceneName));
     }
 
+    bool Contains(EnemyBase enemy)
+    {
+        if (enemiesPerScenes.ContainsKey(enemy.CurrentScene))
+        {
+            if (enemiesPerScenes[enemy.CurrentScene].Contains(enemy)) return true;
+            else return false;
+        }
+        else return false;
+    }
+
     public void ChangeEnemyScene(string sceneName, EnemyBase enemy)
     {
+        if (!Contains(enemy)) return;
+
         if (enemy.CurrentScene != null && sceneName != enemy.CurrentScene)
         {
             enemiesPerScenes[enemy.CurrentScene].Remove(enemy);
