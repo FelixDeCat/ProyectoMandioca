@@ -38,8 +38,9 @@ public class TestInteractableHold : Interactable
         {
             oneshot = true;
             _executeAction();
-            SetCanInteract(true);
+            
         }
+        SetCanInteract(true, true);
     }
 
     public override void OnInterrupt()
