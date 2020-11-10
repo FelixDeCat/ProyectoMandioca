@@ -29,6 +29,7 @@ public class Lightning : MonoBehaviour
 
     private void Start()
     {
+        lightningImage.gameObject.SetActive(false);
         color = lightningImage.color;
         color.a = 0;
         timer = 1;
