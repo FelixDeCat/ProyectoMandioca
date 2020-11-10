@@ -10,6 +10,7 @@ public class Combat_Maniqui : EntityBase
     Rigidbody myRig;
     Collider myCol;
     _Base_Life_System myLifeSystem;
+    [SerializeField] Animator animv = null;
     [SerializeField] Feedback_Maniqui feedback = null;
 
     [SerializeField] UnityEvent DeathByComboWombo = null;
@@ -27,7 +28,6 @@ public class Combat_Maniqui : EntityBase
         myRig = damageReceiver.gameObject.GetComponent<Rigidbody>();
         myCol = myRig.gameObject.GetComponent<Collider>();
         feedback.Initialize(myRig.transform);
-
         damageReceiver.Initialize(this.transform, myRig, myLifeSystem);
         damageReceiver.AddDead(Death);
         damageReceiver.AddTakeDamage(TakeDamage);
@@ -36,15 +36,14 @@ public class Combat_Maniqui : EntityBase
     void Death(Vector3 hit_direction)
     {
         isactive = false;
+        animv.SetTrigger("Death");
         feedback.Play_part_Death();
         feedback.Play_Sound_Death();
         myRig.gameObject.GetComponent<Collider>();
         myCol.enabled = false;
-        feedback.EnableDeathParts();
     }
     void TakeDamage(DamageData data)
     {
-        
         feedback.Play_part_Hit();
         feedback.Play_Sound_Hit();
 
@@ -60,7 +59,8 @@ public class Combat_Maniqui : EntityBase
         else myLifeSystem.ResetLifeSystem();
         if (!isactive) return;
 
-        StartCoroutine(feedback.OnHitted(0.1f, Color.white));
+        animv.SetTrigger("TakeDamage");
+        //StartCoroutine(feedback.OnHitted(0.1f, Color.red));
     }
 
     #region For Combo Wombo
