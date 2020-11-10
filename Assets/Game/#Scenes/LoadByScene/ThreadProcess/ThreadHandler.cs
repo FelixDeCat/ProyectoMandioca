@@ -91,7 +91,7 @@ public class ThreadHandler : MonoBehaviour
            
             var aux = process_queue.Peek();
             CurrentProcess.text = "Processing... " + aux.Name_Process;
-            GameMessage.Log(new MsgLogData("Processing: " + aux.Name_Process, new Color(0, 0, 0, 0), Color.green, 0.5f));
+            //GameMessage.Log(new MsgLogData("Processing: " + aux.Name_Process, new Color(0, 0, 0, 0), Color.green, 0.5f));
             yield return aux.Process();
 
             string unique_key = aux.Key_Unique_Process;
