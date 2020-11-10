@@ -13,7 +13,7 @@ public abstract class Villager : NPCBase
     NPC_Interactable interactable;
 
     [SerializeField] UnityEvent OnStartMovement;
-    [SerializeField] UnityEvent OnIHaveArrive;
+    public UnityEvent OnIHaveArrive;
 
     protected Action onArrivedEvent;
 

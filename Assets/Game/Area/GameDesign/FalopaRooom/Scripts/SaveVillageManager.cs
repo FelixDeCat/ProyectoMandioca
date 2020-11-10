@@ -91,6 +91,7 @@ public class SaveVillageManager : MonoBehaviour
                 NPCFleing npc = Spawned.GetComponent<NPCFleing>();
                 npc.Initialize();
                 npc.On();
+                npc.OnIHaveArrive.AddListener(npc.AddMax);
                 AddToVillagersAlive(npc);
 
                 npc.pos_exit_endless = endPoint;
@@ -105,6 +106,11 @@ public class SaveVillageManager : MonoBehaviour
     }
 
     public void ClampToFloor()
+    {
+        
+    }
+
+    void AddVillagerCallback()
     {
         
     }

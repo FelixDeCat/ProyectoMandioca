@@ -21,6 +21,7 @@ public class NPCFleing : Villager
     public void AddMax()
     {
         Main.instance.GetVillageManager().AddVillager(this);
+        this.gameObject.SetActive(false);
     }
 
     //no se para que sirve esto, pero tira error sino, asique decora muy bien
