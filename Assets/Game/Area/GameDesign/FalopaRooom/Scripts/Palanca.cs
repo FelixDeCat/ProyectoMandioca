@@ -17,7 +17,7 @@ public class Palanca : Interactable
     {
         Excecute.Invoke();
         collector.GetComponent<InteractSensor>()?.Dissappear(this);
-        SetCanInteract(true);
+        SetCanInteract(true, true);
     }
 
     public override void OnInterrupt()
