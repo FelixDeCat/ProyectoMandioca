@@ -57,9 +57,8 @@ GameObject:
   - component: {fileID: 2958642272497526944}
   - component: {fileID: 8910807541025977372}
   - component: {fileID: 7443515202202057280}
-  - component: {fileID: 1806184892716166807}
   m_Layer: 10
-  m_Name: interact_hittable_Jarron
+  m_Name: interact_hittable_Jarron 1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -124,10 +123,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   invulnerability: 
-  resistances: 
-  debilities: 
-  debilityAddDmg: 0
-  resistanceRestDmg: 0
+  onlyVulnerablyTo: 
+  resistances:
+    m_keys: 
+    m_values: []
+  debilities:
+    m_keys: 
+    m_values: []
   knockbackMultiplier: 0
 --- !u!114 &8910807541025977372
 MonoBehaviour:
@@ -166,24 +168,12 @@ MonoBehaviour:
   OnDestroyed:
     m_PersistentCalls:
       m_Calls: []
+  NoInitialize: 0
   destroy: 1
   dest_part: {fileID: 0}
---- !u!114 &1806184892716166807
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1647711985062465133}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 172985c39e39d4596bf38b7def010e52, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  myPlayObjects: []
-  debug: 1
-  acty: 0
-  onGrid: 0
+  force: 5
+  torqueForce: 4
+  useScale: 0
 --- !u!1 &1647711985604861393
 GameObject:
   m_ObjectHideFlags: 0
