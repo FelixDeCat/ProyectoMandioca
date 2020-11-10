@@ -70,6 +70,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   invulnerability: 
+  onlyVulnerablyTo: 
   resistances:
     m_keys: 
     m_values: []
@@ -129,6 +130,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   poolname: 
+  rig_path_finder: {fileID: 0}
   death: 0
   OnDeath:
     m_PersistentCalls:
@@ -195,6 +197,7 @@ MonoBehaviour:
   damageTime: 0
   attackDir: {x: 0, y: 0, z: 0}
   owner: {fileID: 0}
+  ownerRoot: {fileID: 0}
 --- !u!135 &7384994373284001984
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -251,6 +254,8 @@ MonoBehaviour:
   IDs:
     m_keys: 
     m_values: 
+  IdToExecute: 0
+  indexItem: 0
 --- !u!1001 &2795067290752722851
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -258,6 +263,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 5775757230759414316}
     m_Modifications:
+    - target: {fileID: 806416404200814946, guid: 03cf6d44af5c3854eb717b1458ae1fb5,
+        type: 3}
+      propertyPath: m_Materials.Array.data[1]
+      value: 
+      objectReference: {fileID: 2100000, guid: 3043f080c408e7548840154ce1b0d223, type: 2}
     - target: {fileID: 4348414018708924526, guid: 03cf6d44af5c3854eb717b1458ae1fb5,
         type: 3}
       propertyPath: ShapeModule.radius.value
