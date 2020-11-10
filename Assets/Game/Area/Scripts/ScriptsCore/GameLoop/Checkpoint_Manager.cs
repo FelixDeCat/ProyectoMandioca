@@ -28,8 +28,7 @@ public class Checkpoint_Manager : MonoBehaviour
         else Destroy(this.gameObject);
     }
 
-    public Checkpoint currentNormal;
-    public Checkpoint currentImportant;
+    public Checkpoint current;
     public Transform spawnpoint;
     public List<Checkpoint> AllCheckPoint = new List<Checkpoint>();
 
@@ -37,60 +36,42 @@ public class Checkpoint_Manager : MonoBehaviour
     public void ConfigureCheckPoint(Checkpoint checkpoint, ref Action<Checkpoint> callback)
     {
         AllCheckPoint.Add(checkpoint);
-        if (currentNormal == null && !checkpoint.IsImportant) currentNormal = checkpoint;
-        if (currentImportant == null && checkpoint.IsImportant) currentImportant = checkpoint;
+        if (current == null) current = checkpoint;
         callback = SetSpawn;
     }
 
     void SetSpawn(Checkpoint checkpoint)
     {
-        if (!checkpoint.IsImportant) 
-        {
-            currentNormal = checkpoint; 
-        }
-        else
-        {
-            currentNormal = checkpoint;
-            currentImportant = checkpoint; 
-        }
+        current = checkpoint;
     }
 
     public void StopGame()
     {
-        //Fades_Screens.instance.Black(); Fades_Screens.instance.FadeOff(() => { });
-        //LoadSceneHandler.instance.On_LoadScreen();
         var chr = Main.instance.GetChar();
         chr.StopMovement();
-        //chr.Pause();
     }
 
     public void StartGame()
     {
-        //Fades_Screens.instance.Black(); Fades_Screens.instance.FadeOff(() => { });
-        //LoadSceneHandler.instance.Off_LoadScreen();
-        currentNormal = AllCheckPoint[0];
+        current = AllCheckPoint[0];
         SpawnChar();
     }
 
-    public void SpawnChar(bool important = false)
+    public void SpawnChar()
     {
         var chr = Main.instance.GetChar();
-
         chr.StopMovement();
-        //chr.Resume();
         chr.GetBackControl();
 
-        var togo = important ? currentImportant : currentNormal;
-
-        if (togo != null)
+        if (current != null)
         {
-            if (togo.sceneName != "" && string.IsNullOrEmpty(togo.sceneName))
+            if (current.sceneName != "" && string.IsNullOrEmpty(current.sceneName))
             {
-                NewSceneStreamer.instance.LoadScene(togo.sceneName, true, true);
+                NewSceneStreamer.instance.LoadScene(current.sceneName, true, true, EndLoadScene);
             }
             else
             {
-                PositionateChar(togo.Mytranform);
+                PositionateChar(current.Mytranform);
             }
         }
         else
@@ -105,9 +86,16 @@ public class Checkpoint_Manager : MonoBehaviour
             }
         }
 
+
+
         Main.instance.GetCombatDirector().AddNewTarget(Main.instance.GetChar().transform);
         Main.instance.GetMyCamera().InstantPosition();
         //Invoke("Wait", 1f);
+    }
+
+    void EndLoadScene()
+    {
+        PositionateChar(current.Mytranform);
     }
 
     void PositionateChar(Transform tr = null)

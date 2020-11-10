@@ -6,12 +6,9 @@ public class Checkpoint : MonoBehaviour
 {
     [SerializeField] UnityEvent OnActivated = null;
     Action<Checkpoint> OnCheckPointActivated;
-    [SerializeField] bool isAImportantCheckPoint = false;
-    public bool IsImportant { get { return isAImportantCheckPoint; } }
     public string sceneName = "";
 
     public Transform Mytranform;
-
 
     public void Initialize()
     {
@@ -24,6 +21,7 @@ public class Checkpoint : MonoBehaviour
         if (obj != null) { 
             OnCheckPointActivated?.Invoke(this);
             OnActivated.Invoke();
+
         }
     }
 }

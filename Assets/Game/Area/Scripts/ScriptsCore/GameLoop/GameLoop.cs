@@ -101,7 +101,7 @@ public class GameLoop : MonoBehaviour
         }
 
         //xq el win va invertido? porque si gano deberia ir al checkpoint mas cercano... y para el checkpoint mas cercano es [inportant = false]
-        Checkpoint_Manager.instance.SpawnChar(!win);
+        Checkpoint_Manager.instance.SpawnChar();
 
         yield return operation;
 
