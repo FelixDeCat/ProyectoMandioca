@@ -61,6 +61,7 @@ public class EnemyManager : MonoBehaviour
 
     bool Contains(EnemyBase enemy)
     {
+        if (enemy == null) { Debug.LogError("me llegó un enemy null"); return false; }
         if (enemiesPerScenes.ContainsKey(enemy.CurrentScene))
         {
             if (enemiesPerScenes[enemy.CurrentScene].Contains(enemy)) return true;

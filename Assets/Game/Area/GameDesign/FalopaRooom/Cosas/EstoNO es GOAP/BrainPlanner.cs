@@ -88,8 +88,6 @@ namespace GOAP
                     Debug.Log(item.Name);
                 }
 
-                Debug.LogError("Paro aca");
-
                 GetComponent<Dude>().ExecutePlan(
                     plan
                     .Select(pa => pa.Name)

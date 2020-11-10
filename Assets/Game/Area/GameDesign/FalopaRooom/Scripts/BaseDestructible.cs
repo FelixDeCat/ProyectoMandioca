@@ -33,10 +33,16 @@ public abstract class BaseDestructible : Environment
 
         damageReceiver
             .AddDead((x) => { OnDestroyed.Invoke(); DestroyDestructible(); })
-            .AddTakeDamage((x) => { OnTakeDamage.Invoke(); target = x.owner.transform; })
+            .AddTakeDamage(TakeDamage)
             .Initialize(transform,GetComponent<Rigidbody>(),_lifeSytstem);
 
         AudioManager.instance.GetSoundPool(destroyedSound.name, AudioGroups.AMBIENT_FX, destroyedSound);
+    }
+
+    void TakeDamage(DamageData data)
+    {
+        OnTakeDamage.Invoke();
+        target = data.owner.transform;
     }
 
     public void DestroyDestructible()
