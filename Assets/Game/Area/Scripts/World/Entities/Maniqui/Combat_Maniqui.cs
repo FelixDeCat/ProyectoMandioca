@@ -31,6 +31,7 @@ public class Combat_Maniqui : EntityBase
         damageReceiver.Initialize(this.transform, myRig, myLifeSystem);
         damageReceiver.AddDead(Death);
         damageReceiver.AddTakeDamage(TakeDamage);
+        animv.GetComponent<AnimEvent>()?.Add_Callback("DeadEvent", ManiquiDissappear);
     }  
 
     void Death(Vector3 hit_direction)
@@ -42,6 +43,12 @@ public class Combat_Maniqui : EntityBase
         myRig.gameObject.GetComponent<Collider>();
         myCol.enabled = false;
     }
+
+    void ManiquiDissappear()
+    {
+        gameObject.SetActive(false);
+    }
+
     void TakeDamage(DamageData data)
     {
         feedback.Play_part_Hit();

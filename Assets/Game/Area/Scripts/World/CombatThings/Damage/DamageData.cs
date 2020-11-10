@@ -20,10 +20,16 @@ public class DamageData : MonoBehaviour
     [HideInInspector] public float damageTime;
     [HideInInspector] public Vector3 attackDir;
     [HideInInspector] public EntityBase owner;
+    [HideInInspector] public Transform ownerRoot;
 
     public void Initialize(EntityBase _owner)
     {
         owner = _owner;
+        if (owner) ownerRoot = owner.transform;
+    }
+    public void Initialize(Transform _owner)
+    {
+        ownerRoot = _owner;
     }
     public DamageData SetDamage(int dmg)
     {

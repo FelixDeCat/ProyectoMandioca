@@ -72,7 +72,7 @@ public class EnemyManager : MonoBehaviour
 
     public void ChangeEnemyScene(string sceneName, EnemyBase enemy)
     {
-        if (!Contains(enemy)) return;
+        if (enemy.CurrentScene == null || !Contains(enemy)) return;
 
         if (enemy.CurrentScene != null && sceneName != enemy.CurrentScene)
         {

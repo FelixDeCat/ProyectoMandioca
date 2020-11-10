@@ -42,7 +42,7 @@ public abstract class BaseDestructible : Environment
     void TakeDamage(DamageData data)
     {
         OnTakeDamage.Invoke();
-        target = data.owner.transform;
+        target = data.ownerRoot;
     }
 
     public void DestroyDestructible()
