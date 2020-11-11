@@ -27,8 +27,13 @@ public class SaveVillageManager : MonoBehaviour
     List<EnemyBase> currentEnemies = new List<EnemyBase>();
     List<NPCFleing> currentVillagers = new List<NPCFleing>();
 
+    bool alreadyInit = false;
+
     public void InitializeVillage()
     {
+        if(alreadyInit) return;
+
+        alreadyInit = true;
         Main.instance.SetVillageManager(this);
         SetCurrentState(VillageEventState.Disabled);
         OnEventCompleted.AddListener(() => GenCounter.CloseCounter());
@@ -163,6 +168,11 @@ public class SaveVillageManager : MonoBehaviour
             }
         }
         return nearest;
+    }
+    private void Update()
+    {
+        Debug.Log(currentPhase);
+        Debug.Log(gameState);
     }
 }
 
