@@ -24901,7 +24901,6 @@ GameObject:
   - component: {fileID: 4206374051379906606}
   - component: {fileID: 3371125276018704027}
   - component: {fileID: 6372912291107489939}
-  - component: {fileID: 755134760336385051}
   m_Layer: 10
   m_Name: enemy_DummyEnemyConSpecialAttack
   m_TagString: Untagged
@@ -24955,23 +24954,24 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   poolname: dummies
-  attacking: 0
+  rig_path_finder: {fileID: 0}
   death: 0
-  Invinsible: 0
-  combatDistance: 10
-  combat: 0
-  distancePos: 2
+  OnDeath:
+    m_PersistentCalls:
+      m_Calls: []
   dmgData: {fileID: -410891244881964470}
   dmgReceiver: {fileID: 4206374051379906606}
   lifesystem: {fileID: 3901963547881250315}
   rootTransform: {fileID: 8876724433603634177}
+  animator: {fileID: 59744928475455899}
+  OnResetEnemy:
+    m_PersistentCalls:
+      m_Calls: []
+  combatElement: {fileID: 0}
+  distancePos: 2
+  combatDistance: 10
   movement: {fileID: 2394791246306970868}
-  animEmisive:
-    serializedVersion: 2
-    m_Curve: []
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
+  groundSensor: {fileID: 0}
   combatComponent: {fileID: 1582673471552856206}
   damage: 2
   normalDistance: 7
@@ -24987,18 +24987,21 @@ MonoBehaviour:
     specialAttack_CD: 3
   recallTime: 0.2
   anim: {fileID: 8834015786254092219}
-  animator: {fileID: 59744928475455899}
   onHitColor: {r: 1, g: 0, b: 0, a: 1}
   onHitFlashTime: 20
   ragdoll: {fileID: 8134049112971819852}
-  petrifyEffect: {fileID: 8229267165560118049}
+  warningAttack_pos: {fileID: 0}
   particles:
     _spawnParticules: {fileID: 6206070129678694543}
     myGroundParticle: {fileID: 8238413575544424874}
     greenblood: {fileID: 8394986563999064836}
+    warningAttack: {fileID: 0}
   sounds:
     _takeHit_AC: {fileID: 8300000, guid: 57b86101144db497c9041510353adce3, type: 3}
     clip_walkEnt: {fileID: 8300000, guid: e320c7d1427a404459b867b2dd91dfef, type: 3}
+    entDeath_Clip: {fileID: 0}
+    entAttack_Clip: {fileID: 0}
+    entSpawn_clip: {fileID: 0}
   canvasDebugModel: {fileID: 5466874822759246093, guid: a7004dbae37b1d14a9c02c2b9a6ac397,
     type: 3}
 --- !u!114 &8134049112971819852
@@ -25033,6 +25036,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 99373cd774316fd49a2709769e1bc38f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  rb: {fileID: 0}
   initialSpeed: 2
   avoidWeight: 1
   avoidanceRadious: 1
@@ -25088,12 +25092,14 @@ MonoBehaviour:
   tickDamage: 0
   finalDamage: 0
   damageType: 0
+  damageInfo: 3
   owner_position: {x: 0, y: 0, z: 0}
   knockbackForce: 0
   hasDamageTick: 0
   damageTime: 0
   attackDir: {x: 0, y: 0, z: 0}
   owner: {fileID: 0}
+  ownerRoot: {fileID: 0}
 --- !u!114 &4206374051379906606
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -25107,10 +25113,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   invulnerability: 
-  resistances: 
-  debilities: 
-  debilityAddDmg: 0
-  resistanceRestDmg: 0
+  onlyVulnerablyTo: 
+  resistances:
+    m_keys: 
+    m_values: []
+  debilities:
+    m_keys: 
+    m_values: []
   knockbackMultiplier: 1
 --- !u!136 &3371125276018704027
 CapsuleCollider:
@@ -25138,20 +25147,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 31c654aceed85c84397fac2e8e3003a9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &755134760336385051
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3901963547881250308}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 172985c39e39d4596bf38b7def010e52, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  myPlayObjects: []
-  onGrid: 0
 --- !u!1 &3909154650993246213
 GameObject:
   m_ObjectHideFlags: 0
@@ -26881,18 +26876,6 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 2824319966224003434}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &8229267165560118049 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 6126649117267208779, guid: 0eaf7fc8a16763f41bc669ca1e8c7f50,
-    type: 3}
-  m_PrefabInstance: {fileID: 2824319966224003434}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: edf3a104d1cb67340ab8ea6199d5f7c9, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1001 &3034244030725939350
 PrefabInstance:
   m_ObjectHideFlags: 0

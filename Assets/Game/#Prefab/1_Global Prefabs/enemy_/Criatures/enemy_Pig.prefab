@@ -10650,7 +10650,6 @@ GameObject:
   - component: {fileID: 6733651048786057550}
   - component: {fileID: 6196249987741586598}
   - component: {fileID: 6837444698053349650}
-  - component: {fileID: -6525184677019622763}
   - component: {fileID: 8390082932570871550}
   m_Layer: 10
   m_Name: enemy_Pig
@@ -10704,6 +10703,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   poolname: jabalies
+  rig_path_finder: {fileID: 0}
   death: 0
   OnDeath:
     m_PersistentCalls:
@@ -10722,12 +10722,6 @@ MonoBehaviour:
   movement: {fileID: 6733651048786057550}
   lineOfSight: {fileID: 3296736856270995490}
   groundSensor: {fileID: 2813422273276361586}
-  animEmisive:
-    serializedVersion: 2
-    m_Curve: []
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
   headAttack: {fileID: 3951395813138206272}
   pushAttack: {fileID: 3952242282522720112}
   normalDistance: 9
@@ -10776,6 +10770,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   invulnerability: 
+  onlyVulnerablyTo: 
   resistances:
     m_keys: 
     m_values: []
@@ -10807,6 +10802,7 @@ MonoBehaviour:
   damageTime: 0
   attackDir: {x: 0, y: 0, z: 0}
   owner: {fileID: 0}
+  ownerRoot: {fileID: 0}
 --- !u!114 &3951395813138206272
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -10870,6 +10866,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 99373cd774316fd49a2709769e1bc38f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  rb: {fileID: 0}
   initialSpeed: 4
   avoidWeight: 1
   avoidanceRadious: 1.5
@@ -10903,21 +10900,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 31c654aceed85c84397fac2e8e3003a9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &-6525184677019622763
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3951395813138206299}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 172985c39e39d4596bf38b7def010e52, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  myPlayObjects: []
-  debug: 0
-  acty: 0
 --- !u!114 &8390082932570871550
 MonoBehaviour:
   m_ObjectHideFlags: 0

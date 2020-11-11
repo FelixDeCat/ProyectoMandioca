@@ -23,6 +23,7 @@ namespace Tools.StateMachine
             sounds.mytransform = transform;
             anim.SetTrigger("Awake");
             sounds.Initianlize();
+            particles.Initialize();
         }
         public void DebugText(string _state)
         {
@@ -72,16 +73,24 @@ namespace Tools.StateMachine
         public void Damaged()
         {
             sounds.GetDamageClip();
+            ParticlesManager.Instance.PlayParticle(particles.takeDmg.name, transform.position);
         }
         public void Death()
         {
             sounds.DeathClip();
         }
     }
+
+    [System.Serializable]
     public class DataBaseWendigoParticles
     {
         public ParticleSystem castParticles = null;
         public ParticleSystem takeDmg = null;
+
+        public void Initialize()
+        {
+            ParticlesManager.Instance.GetParticlePool(takeDmg.name, takeDmg, 5);
+        }
     }
 
     [System.Serializable]

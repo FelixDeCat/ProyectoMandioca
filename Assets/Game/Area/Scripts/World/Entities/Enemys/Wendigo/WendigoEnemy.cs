@@ -23,6 +23,9 @@ public class WendigoEnemy : EnemyWithCombatDirector
     [SerializeField] int damage = 2;
     [SerializeField] LineOfSight lineOfSight = null;
     [SerializeField] float throwTime;
+
+    [SerializeField] float hitTime = 0.1f;
+    [SerializeField] Color hitColor = Color.red;
     private bool cooldown = false;
     bool stopCD;
     bool isRotating;
@@ -354,6 +357,7 @@ public class WendigoEnemy : EnemyWithCombatDirector
     protected override void TakeDamageFeedback(DamageData data)
     {
         view.Damaged();
+        StartCoroutine(OnHitted(hitTime, hitColor));
     }
 
     protected override void Die(Vector3 dir)
