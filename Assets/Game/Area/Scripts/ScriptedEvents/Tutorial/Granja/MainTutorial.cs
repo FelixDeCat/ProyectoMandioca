@@ -19,6 +19,8 @@ public class MainTutorial : MonoBehaviour
     bool objetive_armored_ent = false;
     bool objetive_plants = false;
 
+    public UnityEngine.UI.Text deb;
+
     public void TRIGGER_StartTutorial()
     {
         ChangeFase(FASE_LIBERA_CAMINO_JACINTA);
@@ -36,17 +38,20 @@ public class MainTutorial : MonoBehaviour
 
     void FinishObjetive_All_Jacinta_Ents_Killed() => ChangeFase(FASE_ACTIVO_DOCTOR);
     void FinishObjetive_Way_To_Doctor_Cleared() => ChangeFase(FASE_CAMINO_A_DOCTOR_DESPEJADO);
-    void FinishObjetive_Curative_Plants_Recollected(int ID) { objetive_plants = true; DoctorRequirements(); }
-    void FinishObjetive_Armored_Ent_Killed() { ChangeFase(FASE_ARMORED_ENT_ASESINATADO); objetive_armored_ent = true; DoctorRequirements(); }
+    void FinishObjetive_Curative_Plants_Recollected(int ID) {
+        Debug.Log("Objetivo de plantas");
+            objetive_plants = true; DoctorRequirements(); }
+    void FinishObjetive_Armored_Ent_Killed() { Debug.Log("Objetivo de Ent Acorazado"); 
+        ChangeFase(FASE_ARMORED_ENT_ASESINATADO); objetive_armored_ent = true; DoctorRequirements(); }
     void DoctorRequirements()
     {
-        if (objetive_armored_ent && objetive_plants)
+        if (objetive_plants)
         {
             ChangeFase(FASE_PLANTAS_ENTREGADAS);
         }
     }
 
     #region auxs
-    void ChangeFase(int val) =>  ManagerGlobalFases.instance.ModifyFase(ID_TUTORIAL, val);
+    void ChangeFase(int val) { deb.text = val.ToString(); ManagerGlobalFases.instance.ModifyFase(ID_TUTORIAL, val); }
     #endregion
 }
