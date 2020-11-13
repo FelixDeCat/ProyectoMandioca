@@ -137,8 +137,8 @@ public class PauseManager : MonoBehaviour
 
         if (inSettings)
         {
-            if (Input.GetKeyDown(KeyCode.Joystick1Button4)) settingsHud.ChangeScreen(1);
-            else if (Input.GetKeyDown(KeyCode.Joystick1Button5)) settingsHud.ChangeScreen(-1);
+            if (Input.GetKeyDown(KeyCode.Joystick1Button4)) settingsHud.ChangeScreen(-1);
+            else if (Input.GetKeyDown(KeyCode.Joystick1Button5)) settingsHud.ChangeScreen(1);
         }
     }
 

@@ -5,6 +5,7 @@ using UnityEngine.Audio;
 using UnityEngine.UI;
 using Tools;
 using TMPro;
+using System.Linq;
 
 public class Settings : MonoBehaviour
 {
@@ -42,8 +43,9 @@ public class Settings : MonoBehaviour
         screenOpen.Add(0, OpenGameplay);
         screenOpen.Add(1, OpenGraphics);
         screenOpen.Add(2, OpenAudio);
-
+        
         data = BinarySerialization.Deserialize<SettingsData>(SettingsDataName);
+        Debug.Log(data.resolutionWidht + " / " + data.resolutionHeight);
 
         resolutions = Screen.resolutions;
 
@@ -66,14 +68,25 @@ public class Settings : MonoBehaviour
         var volumeTwo = 100 * (data.volumeMusic + 80) / 100;
         volumeMusicSlider.value = 1 * volumeTwo / 100;
 
-        //fullScreenUI.isOn = data.fullScreen;
-        //resolutionDrop.ClearOptions();
-        //resolutionDrop.AddOptions(resolutionsString);
-        //resolutionDrop.value = current;
-        //resolutionDrop.RefreshShownValue();
+        Debug.Log(data.resolutionWidht +" / "+ data.resolutionHeight);
 
-        //qualityDrop.value = data.qualityIndex;
-        //qualityDrop.RefreshShownValue();
+        resolutionDrop.ClearOptions();
+        resolutionDrop.AddOptions(resolutionsString);
+        resolutionDrop.value = current;
+        resolutionDrop.RefreshShownValue();
+        qualityDrop.value = data.qualityIndex;
+        qualityDrop.RefreshShownValue();
+        fullScreenUI.isOn = data.fullScreen;
+        shadowsDrop.value = data.shadows;
+        shadowsDrop.RefreshShownValue();
+        antiAliassingDrop.value = data.antiAliassing;
+        antiAliassingDrop.RefreshShownValue();
+        lightsToggle.isOn = data.lights;
+
+        horSensSlider.value = data.sensHorizontal;
+        verSensSlider.value = data.sensVertical;
+        invertHorToggle.isOn = data.invertHorizontal;
+        invertVerToggle.isOn = data.invertVertical;
     }
 
     #region Audio
@@ -124,7 +137,7 @@ public class Settings : MonoBehaviour
 
     #endregion
 
-
+    #region Graphics
     public void SetQuality(int value)
     {
         QualitySettings.SetQualityLevel(value);
@@ -141,7 +154,6 @@ public class Settings : MonoBehaviour
 
         data.resolutionWidht = change.width;
         data.resolutionHeight = change.height;
-        Debug.Log("entro");
 
         BinarySerialization.Serialize(SettingsDataName, data);
     }
@@ -152,6 +164,66 @@ public class Settings : MonoBehaviour
         data.fullScreen = value;
         BinarySerialization.Serialize(SettingsDataName, data);
     }
+
+    public void SetShadows(int value)
+    {
+        QualitySettings.shadows = (ShadowQuality)value;
+        data.shadows = value;
+        BinarySerialization.Serialize(SettingsDataName, data);
+    }
+
+    public void SetAntiAliasing(int value)
+    {
+        QualitySettings.antiAliasing = value;
+        data.antiAliassing = value;
+        BinarySerialization.Serialize(SettingsDataName, data);
+    }
+
+    public void SetLights(bool value)
+    {
+        QualitySettings.realtimeReflectionProbes = value;
+        data.lights = value;
+        BinarySerialization.Serialize(SettingsDataName, data);
+    }
+    #endregion
+
+    #region Gameplay
+    public void SetSensHorizontal(float value)
+    {
+        cameraRot.ChangeSensitivityHor(value);
+
+        data.sensHorizontal = value;
+
+        BinarySerialization.Serialize(SettingsDataName, data);
+    }
+
+    public void SetSensVertical(float value)
+    {
+        cameraRot.ChangeSensitivityVer(value);
+
+        data.sensVertical = value;
+
+        BinarySerialization.Serialize(SettingsDataName, data);
+    }
+
+    public void InvertHorizontal(bool value)
+    {
+        cameraRot.InvertAxisHor(value);
+
+        data.invertHorizontal = value;
+
+        BinarySerialization.Serialize(SettingsDataName, data);
+    }
+
+    public void InvertVertical(bool value)
+    {
+        cameraRot.InvertAxisVert(value);
+
+        data.invertVertical = value;
+
+        BinarySerialization.Serialize(SettingsDataName, data);
+    }
+    #endregion
 
     #region Change Screens
     [SerializeField] GameObject gameplaySettings = null;
@@ -166,7 +238,6 @@ public class Settings : MonoBehaviour
         if (current < 0) current = screenOpen.Count - 1;
         else if (current >= screenOpen.Count) current = 0;
 
-        current = _input;
         screenOpen[current]();
     }
 
