@@ -16,8 +16,11 @@ public class PauseManager : MonoBehaviour
     [SerializeField] GameObject mainFirstButton = null;
     [SerializeField] GameObject mainButtons = null;
     [SerializeField] GameObject cheatsHud = null;
+    [SerializeField] Settings settingsHud = null;
 
+    SettingsData data;
     bool inPauseHud;
+    bool inSettings;
 
     private void Awake()
     {
@@ -29,6 +32,13 @@ public class PauseManager : MonoBehaviour
     private void Start()
     {
         cheatsHud.SetActive(false);
+
+        if (BinarySerialization.IsFileExist(Settings.SettingsDataName)) data = BinarySerialization.Deserialize<SettingsData>(Settings.SettingsDataName);
+        else
+        {
+            data = new SettingsData();
+            BinarySerialization.Serialize(Settings.SettingsDataName, data);
+        }
     }
 
     public void PauseHud()
@@ -76,9 +86,12 @@ public class PauseManager : MonoBehaviour
         Main.instance.GetChar().getInput.inMenu = false;
     }
 
-    public void Settings()
+    public void SettingsScreen()
     {
-
+        mainButtons.SetActive(false);
+        settingsHud.gameObject.SetActive(true);
+        settingsHud.OpenGameplay();
+        inSettings = true;
     }
 
     public void Cheats()
@@ -93,6 +106,8 @@ public class PauseManager : MonoBehaviour
         mainButtons.SetActive(true);
         Debug_UI_Tools.instance.Toggle(false);
         cheatsHud.SetActive(false);
+        settingsHud.gameObject.SetActive(false);
+        inSettings = false;
         MyEventSystem.instance.SelectGameObject(mainFirstButton);
     }
 
@@ -118,6 +133,12 @@ public class PauseManager : MonoBehaviour
                 ResumeHud();
             else
                 BackToPause();
+        }
+
+        if (inSettings)
+        {
+            if (Input.GetKeyDown(KeyCode.Joystick1Button4)) settingsHud.ChangeScreen(1);
+            else if (Input.GetKeyDown(KeyCode.Joystick1Button5)) settingsHud.ChangeScreen(-1);
         }
     }
 
