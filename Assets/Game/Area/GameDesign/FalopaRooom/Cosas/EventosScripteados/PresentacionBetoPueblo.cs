@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class PresentacionBetoPueblo : MonoBehaviour, ISpawner
 {
@@ -19,6 +20,7 @@ public class PresentacionBetoPueblo : MonoBehaviour, ISpawner
     [Header("Segunda parte: Romper puente")]
     [SerializeField] Transform bridgePos;
     [SerializeField] Transform exitPos;
+    [SerializeField] Transform totemSummon_pos;
     Transform currentPlaceToGo;
     [SerializeField] float betoSpeed;
     [SerializeField] float particleDelay; // este es el tiempo entre que le decis Play a la particula y se rompe el puente
@@ -26,6 +28,7 @@ public class PresentacionBetoPueblo : MonoBehaviour, ISpawner
     [SerializeField] ParticleSystem rayoQueRompePuente_impacto;//tira el rayo
     [SerializeField] EventDestructible puente;
 
+    public UnityEvent OnFinishBetoEvento;
     CharacterHead _hero;
     Animator _betoAnim;
 
@@ -55,9 +58,7 @@ public class PresentacionBetoPueblo : MonoBehaviour, ISpawner
     {
         for (int i = 0; i < amountSummoned; i++)
         {
-            Vector3 pos = spot.GetSurfacePos(_hero.Root);
-
-            totemFeedback.StartGoToFeedback(pos, (x) => SpawnPrefab(x));    
+            totemFeedback.StartGoToFeedback(totemSummon_pos, (x) => SpawnPrefab(x));    
         }
 
         _betoAnim.SetTrigger("finishSkill");
@@ -72,6 +73,7 @@ public class PresentacionBetoPueblo : MonoBehaviour, ISpawner
 
         newSpawn.GetComponent<EnemyBase>().OnDeath.AddListener(OnEnemydead);
         summonedEnemies.Add(newSpawn);
+        newSpawn.GetComponent<TotemSpawner>().OnTotemEnter();
     }
 
     void OnEnemydead()
@@ -118,7 +120,10 @@ public class PresentacionBetoPueblo : MonoBehaviour, ISpawner
         puente.BreakYourselfBaby();
 
         cdModule.AddCD("betoExit", () => { currentPlaceToGo = exitPos; betoSpeed *= 2f; }, 5f);
-        cdModule.AddCD("betoDelete", () => Destroy(betoRoot.gameObject), 30f);
+        cdModule.AddCD("betoDelete", () => OnFinishBetoEvento?.Invoke(), 30f);//termina el evento aca por ahora
+
+
+
     }
 
     void Update()

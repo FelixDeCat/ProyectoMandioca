@@ -51,6 +51,8 @@ public class TentacleWall : MonoBehaviour
     public void CloseTentacles()
     {
         _anim.Play("End");
+
+        cdModule.AddCD("offTentacle", () => gameObject.SetActive(false), 2);
     }
 
     public void AttackTentacles()

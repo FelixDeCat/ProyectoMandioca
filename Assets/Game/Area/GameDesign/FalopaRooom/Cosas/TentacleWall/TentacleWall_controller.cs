@@ -32,13 +32,4 @@ public class TentacleWall_controller : MonoBehaviour
             tentacles[i].CloseTentacles();
         }
     }
-
-    private void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.G))
-            OpenTentacles();
-
-        if(Input.GetKeyDown(KeyCode.N))
-            CloseTentacles();
-    }
 }
