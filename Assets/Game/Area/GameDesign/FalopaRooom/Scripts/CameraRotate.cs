@@ -125,25 +125,25 @@ public class CameraRotate : MonoBehaviour
         }
     }
     float timer;
-    string ChangeSensitivityHor(float val)
+    public string ChangeSensitivityHor(float val)
     {
         sensitivityHorizontal = val;
         return val.ToString();
     }
-    string ChangeSensitivityVer(float val)
+    public string ChangeSensitivityVer(float val)
     {
         sensitivityVertical = val;
         return val.ToString();
     }
     int vertAxis = 1;
-    string InvertAxisVert(bool val)
+    public string InvertAxisVert(bool val)
     {
         if (val) vertAxis = -1;
         else vertAxis = 1;
         return "";
     }
     int horAxis = 1;
-    string InvertAxisHor(bool val)
+    public string InvertAxisHor(bool val)
     {
         if (val) horAxis = -1;
         else horAxis = 1;
