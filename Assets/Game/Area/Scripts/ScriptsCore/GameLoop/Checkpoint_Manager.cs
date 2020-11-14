@@ -37,12 +37,7 @@ public class Checkpoint_Manager : MonoBehaviour
     {
         AllCheckPoint.Add(checkpoint);
         if (current == null) current = checkpoint;
-        callback = SetSpawn;
-    }
-
-    void SetSpawn(Checkpoint checkpoint)
-    {
-        current = checkpoint;
+        callback = x => current = x;
     }
 
     public void StopGame()

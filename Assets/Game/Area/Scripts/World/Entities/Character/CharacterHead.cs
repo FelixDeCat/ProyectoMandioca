@@ -131,10 +131,6 @@ public class CharacterHead : CharacterControllable
         ChildrensUpdates += move.OnUpdate;
         move.SetCallbacks(OnBeginRoll, OnEndRoll);
 
-        //Asi se que estoy en el infierno
-        GameLoop.instance.ADD_EVENT_GoToHell(() => HellMode(true));
-        GameLoop.instance.ADD_EVENT_BackFromHell(() => HellMode(false));
-
         charBlock
             .Initialize()
             .SetFeedbacks(feedbacks)

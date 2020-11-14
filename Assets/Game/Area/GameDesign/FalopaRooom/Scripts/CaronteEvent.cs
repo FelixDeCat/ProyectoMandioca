@@ -60,7 +60,7 @@ public class CaronteEvent : MonoBehaviour
         character.ToggleShield(true);
         character.ToggleSword(true);
 
-        GameLoop.instance.Resurrect(true);
+        //GameLoop.instance.Resurrect(true);
     }
 
     #region aux func
