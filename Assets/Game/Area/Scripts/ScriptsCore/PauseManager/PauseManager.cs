@@ -33,12 +33,14 @@ public class PauseManager : MonoBehaviour
     {
         cheatsHud.SetActive(false);
 
-        if (BinarySerialization.IsFileExist(Settings.SettingsDataName)) data = BinarySerialization.Deserialize<SettingsData>(Settings.SettingsDataName);
-        else
-        {
-            data = new SettingsData();
-            BinarySerialization.Serialize(Settings.SettingsDataName, data);
-        }
+        //if (BinarySerialization.IsFileExist(Settings.SettingsDataName)) data = BinarySerialization.Deserialize<SettingsData>(Settings.SettingsDataName);
+        //else
+        //{
+        //    data = new SettingsData();
+        //    BinarySerialization.Serialize(Settings.SettingsDataName, data);
+        //}
+
+
     }
 
     public void PauseHud()

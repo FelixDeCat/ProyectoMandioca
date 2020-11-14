@@ -43,8 +43,10 @@ public class Settings : MonoBehaviour
         screenOpen.Add(0, OpenGameplay);
         screenOpen.Add(1, OpenGraphics);
         screenOpen.Add(2, OpenAudio);
-        
-        data = BinarySerialization.Deserialize<SettingsData>(SettingsDataName);
+
+        if (BinarySerialization.IsFileExist(SettingsDataName)) data = BinarySerialization.Deserialize<SettingsData>(SettingsDataName);
+        else data = new SettingsData();
+
         Debug.Log(data.resolutionWidht + " / " + data.resolutionHeight);
 
         resolutions = Screen.resolutions;
@@ -87,6 +89,8 @@ public class Settings : MonoBehaviour
         verSensSlider.value = data.sensVertical;
         invertHorToggle.isOn = data.invertHorizontal;
         invertVerToggle.isOn = data.invertVertical;
+
+        gameObject.SetActive(false);
     }
 
     #region Audio
@@ -190,7 +194,7 @@ public class Settings : MonoBehaviour
     #region Gameplay
     public void SetSensHorizontal(float value)
     {
-        cameraRot.ChangeSensitivityHor(value);
+        cameraRot?.ChangeSensitivityHor(value);
 
         data.sensHorizontal = value;
 
@@ -199,7 +203,7 @@ public class Settings : MonoBehaviour
 
     public void SetSensVertical(float value)
     {
-        cameraRot.ChangeSensitivityVer(value);
+        cameraRot?.ChangeSensitivityVer(value);
 
         data.sensVertical = value;
 
@@ -208,7 +212,7 @@ public class Settings : MonoBehaviour
 
     public void InvertHorizontal(bool value)
     {
-        cameraRot.InvertAxisHor(value);
+        cameraRot?.InvertAxisHor(value);
 
         data.invertHorizontal = value;
 
@@ -217,7 +221,7 @@ public class Settings : MonoBehaviour
 
     public void InvertVertical(bool value)
     {
-        cameraRot.InvertAxisVert(value);
+        cameraRot?.InvertAxisVert(value);
 
         data.invertVertical = value;
 
