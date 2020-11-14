@@ -65,12 +65,14 @@ public class Checkpoint_Manager : MonoBehaviour
 
         if (current != null)
         {
-            if (current.sceneName != "" && string.IsNullOrEmpty(current.sceneName))
+            if (!string.IsNullOrEmpty(current.sceneName))
             {
+                Debug.Log("Un checkpoint con escena para cargar");
                 NewSceneStreamer.instance.LoadScene(current.sceneName, true, true, EndLoadScene);
             }
             else
             {
+                Debug.Log("Estoy recibiendo una escena nula, solo voy a posicionar al char");
                 PositionateChar(current.Mytranform);
             }
         }
@@ -85,8 +87,6 @@ public class Checkpoint_Manager : MonoBehaviour
                 PositionateChar();
             }
         }
-
-
 
         Main.instance.GetCombatDirector().AddNewTarget(Main.instance.GetChar().transform);
         Main.instance.GetMyCamera().InstantPosition();

@@ -32,12 +32,9 @@ public class NewSceneStreamer : MonoBehaviour
     private void Start()
     {
         SceneManager.sceneLoaded += OnSceneLoaded;
-       // SceneManager.sceneUnloaded += OnSceneUnLoaded;
-        //Checkpoint_Manager.instance.StopGame();
-        //GCHandle.DisableGC();
-        LoadScene(firstScene, true, true, EndLoad, false);
+        LoadScene(firstScene, true, true, EndFirstLoad, false);
     }
-    public void EndLoad()
+    public void EndFirstLoad()
     {
         Checkpoint_Manager.instance.StartGame();
     }
@@ -45,8 +42,22 @@ public class NewSceneStreamer : MonoBehaviour
     public void LoadScene(string sceneName, bool LoadScreen = false, bool LoadNeighbor = false, Action OnEnd = null, bool waitToLoad = false)
     {
         this.OnEnd = OnEnd;
-        if (string.IsNullOrEmpty(sceneName) || string.Equals(sceneName, currentScene)) return;
-        ThreadHandler.EnqueueProcess(new ThreadObject(LoadCurrentScene(sceneName, LoadScreen, LoadNeighbor, true), "Chunk => "+ sceneName), LoadScreen);
+        if (!string.IsNullOrEmpty(sceneName))
+        {
+            if (string.Equals(sceneName, currentScene))
+            {
+                //esta escena que me piden ya está cargada
+                Debug.Log(sceneName + " > Me piden una escena ya cargada");
+                if (OnEnd != null) OnEnd.Invoke();
+            }
+            else
+            {
+                //no esta cargada, se la meto en la cola
+                Debug.Log(sceneName + " > Cargando por primera vez");
+                ThreadHandler.EnqueueProcess(new ThreadObject(LoadCurrentScene(sceneName, LoadScreen, LoadNeighbor, true), "Chunk => " + sceneName), LoadScreen);
+            }
+        }
+        else Debug.LogWarning("Me llego string de escena nulo o vacio");
     }
     
 
@@ -179,8 +190,6 @@ public class NewSceneStreamer : MonoBehaviour
             //yield return op;
             //LocalToEnemyManager.OnUnLoadScene(u);
             #endregion
-
-
         }
 
     }
