@@ -29,7 +29,7 @@ public class ThreadHandler : MonoBehaviour
     void AddThreadObject(ThreadObject obj, Action callbackEndProcess = null)
     {
         string unique_key = obj.Key_Unique_Process;
-        if (callbackEndProcess != null) { 
+        if (callbackEndProcess != null) {
             //esto es xq se van a encolar muchas cosas, por ahi viene alguno y me nullea mi primer callback
             EndProcess = callbackEndProcess; 
         }
@@ -101,6 +101,8 @@ public class ThreadHandler : MonoBehaviour
 
             process_queue.Dequeue();
         }
+
+        process_queue.Clear();
 
         EndProcess?.Invoke();
         EndProcess = delegate { };

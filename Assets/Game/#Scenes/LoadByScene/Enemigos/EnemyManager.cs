@@ -116,6 +116,14 @@ public class EnemyManager : MonoBehaviour
         }
     }
 
+    public IEnumerator ExecuteSceneRebuildEnemies(string SceneName)
+    {
+        //este SceneName se va a cargar porque el checkpoint me dijo que se encuentra ahí
+        Debug.Log("Hello hello, aca poner la lógica de respawn de enemigos. pdta: quitar el waitforseconds <3");
+        yield return new WaitForSeconds(2);
+        yield return null;
+    }
+
     public void ResetAllStates()
     {
         scenesStates.Clear();
