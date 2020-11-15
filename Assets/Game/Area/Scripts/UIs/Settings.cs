@@ -35,7 +35,7 @@ public class Settings : MonoBehaviour
     [SerializeField] Toggle invertVerToggle = null;
 
     public const string SettingsDataName = "Settings";
-    SettingsData data;
+    SettingsData data = new SettingsData();
     Resolution[] resolutions;
 
     private void Start()
@@ -44,8 +44,7 @@ public class Settings : MonoBehaviour
         screenOpen.Add(1, OpenGraphics);
         screenOpen.Add(2, OpenAudio);
 
-        if (BinarySerialization.IsFileExist(SettingsDataName)) data = BinarySerialization.Deserialize<SettingsData>(SettingsDataName);
-        else data = new SettingsData();
+        if (JSONSerialization.IsFileExist(SettingsDataName)) JSONSerialization.Deserialize<SettingsData>(SettingsDataName, data);
 
         Debug.Log(data.resolutionWidht + " / " + data.resolutionHeight);
 
@@ -105,7 +104,7 @@ public class Settings : MonoBehaviour
 
         if (muteToggle.isOn && value > 0.1f) muteToggle.isOn = false;
 
-        BinarySerialization.Serialize(SettingsDataName, data);
+        JSONSerialization.Serialize(SettingsDataName, data);
     }
 
     public void SetVolumeFx(float value)
@@ -116,7 +115,7 @@ public class Settings : MonoBehaviour
 
         if (volumeMasterSlider.value < value) volumeMasterSlider.value = value;
 
-        BinarySerialization.Serialize(SettingsDataName, data);
+        JSONSerialization.Serialize(SettingsDataName, data);
     }
 
     public void SetVolumeMusic(float value)
@@ -127,7 +126,7 @@ public class Settings : MonoBehaviour
 
         if (volumeMasterSlider.value < value) volumeMasterSlider.value = value;
 
-        BinarySerialization.Serialize(SettingsDataName, data);
+        JSONSerialization.Serialize(SettingsDataName, data);
     }
 
     public void MuteAudio(bool mute)
@@ -136,7 +135,7 @@ public class Settings : MonoBehaviour
 
         if (mute) volumeMasterSlider.value = volumeMasterSlider.minValue;
 
-        BinarySerialization.Serialize(SettingsDataName, data);
+        JSONSerialization.Serialize(SettingsDataName, data);
     }
 
     #endregion
@@ -148,7 +147,7 @@ public class Settings : MonoBehaviour
 
         data.qualityIndex = value;
 
-        BinarySerialization.Serialize(SettingsDataName, data);
+        JSONSerialization.Serialize(SettingsDataName, data);
     }
 
     public void SetResolution(int value)
@@ -159,35 +158,35 @@ public class Settings : MonoBehaviour
         data.resolutionWidht = change.width;
         data.resolutionHeight = change.height;
 
-        BinarySerialization.Serialize(SettingsDataName, data);
+        JSONSerialization.Serialize(SettingsDataName, data);
     }
 
     public void SetFullScreenMode(bool value)
     {
         Screen.fullScreen = value;
         data.fullScreen = value;
-        BinarySerialization.Serialize(SettingsDataName, data);
+        JSONSerialization.Serialize(SettingsDataName, data);
     }
 
     public void SetShadows(int value)
     {
         QualitySettings.shadows = (ShadowQuality)value;
         data.shadows = value;
-        BinarySerialization.Serialize(SettingsDataName, data);
+        JSONSerialization.Serialize(SettingsDataName, data);
     }
 
     public void SetAntiAliasing(int value)
     {
         QualitySettings.antiAliasing = value;
         data.antiAliassing = value;
-        BinarySerialization.Serialize(SettingsDataName, data);
+        JSONSerialization.Serialize(SettingsDataName, data);
     }
 
     public void SetLights(bool value)
     {
         QualitySettings.realtimeReflectionProbes = value;
         data.lights = value;
-        BinarySerialization.Serialize(SettingsDataName, data);
+        JSONSerialization.Serialize(SettingsDataName, data);
     }
     #endregion
 
@@ -198,7 +197,7 @@ public class Settings : MonoBehaviour
 
         data.sensHorizontal = value;
 
-        BinarySerialization.Serialize(SettingsDataName, data);
+        JSONSerialization.Serialize(SettingsDataName, data);
     }
 
     public void SetSensVertical(float value)
@@ -207,7 +206,7 @@ public class Settings : MonoBehaviour
 
         data.sensVertical = value;
 
-        BinarySerialization.Serialize(SettingsDataName, data);
+        JSONSerialization.Serialize(SettingsDataName, data);
     }
 
     public void InvertHorizontal(bool value)
@@ -216,7 +215,7 @@ public class Settings : MonoBehaviour
 
         data.invertHorizontal = value;
 
-        BinarySerialization.Serialize(SettingsDataName, data);
+        JSONSerialization.Serialize(SettingsDataName, data);
     }
 
     public void InvertVertical(bool value)
@@ -225,7 +224,7 @@ public class Settings : MonoBehaviour
 
         data.invertVertical = value;
 
-        BinarySerialization.Serialize(SettingsDataName, data);
+        JSONSerialization.Serialize(SettingsDataName, data);
     }
     #endregion
 

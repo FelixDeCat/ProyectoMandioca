@@ -9,7 +9,7 @@ public static class JSONSerialization
     public static void Serialize<T>(string newPath, T data)
     {
         //Creamos el archivo de texto
-        StreamWriter file = File.CreateText(Application.dataPath + "/" + newPath + ".json");
+        StreamWriter file = File.CreateText(DirectoryDocuments(newPath) + ".json");
         string json = JsonUtility.ToJson(data, true);
 
         file.Write(json);
@@ -18,9 +18,9 @@ public static class JSONSerialization
 
     public static void Deserialize<T>(string newPath, T data)
     {
-        if(File.Exists(Application.dataPath + "/" + newPath + ".json"))
+        if(File.Exists(DirectoryDocuments(newPath) + ".json"))
         {
-            string infoJSON = File.ReadAllText(Application.dataPath + "/" + newPath + ".json");
+            string infoJSON = File.ReadAllText(DirectoryDocuments(newPath) + ".json");
             JsonUtility.FromJsonOverwrite(infoJSON, data);
         }
         else
@@ -29,5 +29,17 @@ public static class JSONSerialization
         }
     }
 
-    public static bool IsFileExist(string path) => File.Exists(Application.dataPath + "/" + path + ".json");
+    public static bool IsFileExist(string path) => File.Exists(DirectoryDocuments(path) + ".json");
+
+    public static string DirectoryDocuments(string path)
+    {
+        string pathDocuments = System.Environment.GetFolderPath(System.Environment.SpecialFolder.MyDocuments).Replace("\\", "/") + "/Mandioca";
+
+        if (!Directory.Exists(pathDocuments))
+            Directory.CreateDirectory(pathDocuments);
+
+        pathDocuments += "/" + path;
+
+        return pathDocuments;
+    }
 }
