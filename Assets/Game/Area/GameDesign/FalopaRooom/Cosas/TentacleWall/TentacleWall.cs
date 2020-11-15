@@ -2,13 +2,13 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class TentacleWall : MonoBehaviour
+public class TentacleWall : EnemyBase
 {
     [SerializeField] Animator _anim;
     [SerializeField] AnimEvent animEvent;
     [SerializeField] BoxCollider boxCol;
     [SerializeField] GameObject damageTrigger;
-    DamageData dmgData;
+    new DamageData dmgData;
 
 
     CDModule cdModule;
@@ -28,7 +28,6 @@ public class TentacleWall : MonoBehaviour
 
         cdModule = new CDModule();
     }
-
 
     void ResetTentacleAttack()
     {
@@ -90,4 +89,13 @@ public class TentacleWall : MonoBehaviour
         //{
         //}
     }
+
+    protected override void OnReset() { }
+    protected override void TakeDamageFeedback(DamageData data) { }
+    protected override void Die(Vector3 dir) { }
+    protected override bool IsDamage() { return true; }
+    protected override void OnUpdateEntity() { }
+    protected override void OnTurnOn() { }
+    protected override void OnTurnOff() { }
+    protected override void OnFixedUpdate() { }
 }
