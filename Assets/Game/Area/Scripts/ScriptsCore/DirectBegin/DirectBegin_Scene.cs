@@ -34,6 +34,7 @@ namespace Tools.Testing
             }
             else
             {
+                Main.instance.GetChar().transform.position = new Vector3(5000,0,5000);
                 Fades_Screens.instance.Black();
                 Fades_Screens.instance.FadeOff(() => {});
                 LoadSceneHandler.instance.Off_LoadScreen();

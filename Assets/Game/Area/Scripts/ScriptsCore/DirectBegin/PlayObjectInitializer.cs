@@ -20,6 +20,6 @@ public class PlayObjectInitializer : MonoBehaviour
     {
         
         yield return new WaitForSeconds(0.01f);
-        Checkpoint_Manager.instance.StartGame();
+        GameLoop.instance.StartGame();
     }
 }

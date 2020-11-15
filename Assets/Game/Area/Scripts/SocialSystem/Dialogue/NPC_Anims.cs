@@ -51,7 +51,8 @@ public class NPC_Anims : MonoBehaviour
 
     public void PlayAnimation(string animName)
     {
-        animRegistry[animName].Invoke("");
+        if (animRegistry.ContainsKey(animName))
+            animRegistry[animName].Invoke("");
     }
 
     void RegisterAnimations()
@@ -79,7 +80,7 @@ public class NPC_Anims : MonoBehaviour
         animRegistry.Add("ForceAnimation", ForcePlayAnimation);
     }
 
-    [Range(0,1)]
+    [Range(0, 1)]
     public float death_anim_cursor;
     public void PlayDeath(string s) => myAnim.SetFloat("Death", death_anim_cursor);
     public void ForcePlayAnimation(string s) => myAnim.Play(s);
@@ -107,5 +108,5 @@ public class NPC_Anims : MonoBehaviour
     public void Play_Accept(string s) { myAnim.SetBool("Explaining", false); myAnim.SetTrigger("Accepted"); }
     public void Play_Reject(string s) { myAnim.SetBool("Explaining", false); myAnim.SetTrigger("Rejected"); }
 
-    public void Stop_Crying(string s) { myAnim.SetBool("Crying", false); } 
+    public void Stop_Crying(string s) { myAnim.SetBool("Crying", false); }
 }

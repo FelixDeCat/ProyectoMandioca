@@ -1,63 +1,18 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using UnityEngine.SceneManagement;
-using DevelopTools.UI;
-using System;
-
+﻿using UnityEngine;
+using UnityEngine.Events;
 public class GameLoop : MonoBehaviour
 {
     public static GameLoop instance; private void Awake() => instance = this;
+    [Header("GameLoop Events")]
+    public UnityEvent UE_OnStartGame;
+    public UnityEvent UE_OnStopGame;
+    [Header("Transition Events")]
+    public UnityEvent UE_OnPlayerDeath;
+    public UnityEvent UE_OnTeleport;
+    void Start() => Main.instance.GetChar().Life.ADD_EVENT_Death(OnPlayerDeath);
+    public void StartGame() { UE_OnStartGame.Invoke(); }
+    public void BehindTeleportCheking() => UE_OnTeleport.Invoke();
+    public void StopGame() => UE_OnStopGame.Invoke();
+    public void OnPlayerDeath() => UE_OnPlayerDeath.Invoke();
 
-    private bool godMode = false;
-    CharacterHead character;
-
-    bool startGame;
-    void Start()
-    {
-        character = Main.instance.GetChar();
-        character.Life.ADD_EVENT_Death(OnPlayerDeath);
-        TooglesConfig();
-        startGame = true;
-    }
-
-    void OnPlayerDeath()
-    {
-        if (!godMode)
-        {
-            Invoke("FastResurrect", 0.5f);
-        }
-        else
-        {
-            character.Life.Heal_AllHealth();
-        }
-    }
-
-    public void FastResurrect()
-    {
-        Main.instance.GetChar().Life.Heal_AllHealth();
-        Checkpoint_Manager.instance.SpawnChar();
-    }
-
-
-    #region Toggles [GODMODE]
-    void TooglesConfig()
-    {
-        Debug_UI_Tools.instance.CreateToogle("GODMODE", false, ToogleDebug);
-    }
-    string ToogleDebug(bool active)
-    {
-        godMode = active;
-        return active ? "debug activado" : "debug desactivado";
-    }
-    #endregion
-
-    private void Update()
-    {
-        if (!startGame) return;
-        if (character.transform.position.y < -100)
-        {
-            Checkpoint_Manager.instance.SpawnChar();
-        }
-    }
 }

@@ -226,7 +226,7 @@ public class LocalSceneHandler : LoadComponent
 
     public void OnEnterToThisScene()
     {
-        NewSceneStreamer.instance.LoadScene(SceneData.name, false, true);
+        NewSceneStreamer.instance.LoadScene(SceneData.name);
         LocalToEnemyManager.ResetScenes(SceneData.scenes_to_reset);
         //aca iria lo del enemyManager?
     }

@@ -11,7 +11,7 @@ public class KillZone : MonoBehaviour
 
         if (_hero != null)
         {
-            Checkpoint_Manager.instance.SpawnChar();
+            GameLoop.instance.OnPlayerDeath();
         }
         else if (other.GetComponent<DamageReceiver>())
         {

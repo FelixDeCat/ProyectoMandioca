@@ -27,47 +27,34 @@ public class NewSceneStreamer : MonoBehaviour
     bool IsLoaded(string sceneName) => loaded.Contains(sceneName);
     bool IsLoading(string sceneName) => loading.Contains(sceneName);
 
-    Action OnEnd = delegate { };
-
     private void Start()
     {
         SceneManager.sceneLoaded += OnSceneLoaded;
-        LoadScene(firstScene, true, true, EndFirstLoad, false);
-    }
-    public void EndFirstLoad()
-    {
-        Checkpoint_Manager.instance.StartGame();
+        LoadScene(firstScene, OnEndLoad);
     }
 
-    public void LoadScene(string sceneName, bool LoadScreen = false, bool LoadNeighbor = false, Action OnEnd = null, bool waitToLoad = false)
+    public void LoadScene(string sceneName, Action OnEnd = null)
     {
-        this.OnEnd = OnEnd;
         if (!string.IsNullOrEmpty(sceneName))
         {
-            if (string.Equals(sceneName, currentScene))
-            {
-                //esta escena que me piden ya está cargada
-                Debug.Log(sceneName + " > Me piden una escena ya cargada");
-                if (OnEnd != null) OnEnd.Invoke();
-            }
-            else
-            {
-                //no esta cargada, se la meto en la cola
-                Debug.Log(sceneName + " > Cargando por primera vez");
-                ThreadHandler.EnqueueProcess(new ThreadObject(LoadCurrentScene(sceneName, LoadScreen, LoadNeighbor, true), "Chunk => " + sceneName), LoadScreen);
-            }
+            ThreadHandler.EnqueueProcess(new ThreadObject(LoadCurrentScene(sceneName), "Chunk => " + sceneName), OnEnd);
         }
         else Debug.LogWarning("Me llego string de escena nulo o vacio");
     }
+
+    void OnEndLoad()
+    {
+        GameLoop.instance.StartGame();
+    }
     
 
-    IEnumerator LoadCurrentScene(string sceneName, bool LoadScreen = false, bool LoadNeighbor = false, bool waitToLoad = false)
+    IEnumerator LoadCurrentScene(string sceneName)
     {
         currentScene = sceneName;
 
         if (!IsLoaded(currentScene)) 
         {
-            StartCoroutine(LoadAsyncAdditive(sceneName, LoadScreen, LoadNeighbor, true));
+            StartCoroutine(LoadAsyncAdditive(sceneName));
             yield return null;
         }
 
@@ -81,68 +68,17 @@ public class NewSceneStreamer : MonoBehaviour
 
         TryToExecuteParameter(sceneName, SceneData.Detail_Parameter.full_load);
 
-        if (LoadNeighbor)
-        {
-            if (waitToLoad)
-            {
-                yield return LoadNeighbors(currentScene, localref[currentScene].SceneData);
-            }
-            else
-            {
-                StartCoroutine(LoadNeighbors(currentScene, localref[currentScene].SceneData));
-            }
-            
-        }
-
-        //failsafeTime = Time.realtimeSinceStartup + maxLoadWaitTime;
-        //while ((loading.Count > 0) && (Time.realtimeSinceStartup < failsafeTime)) { yield return null; }
+        yield return LoadNeighbors(currentScene, localref[currentScene].SceneData);
 
         LocalToEnemyManager.OnLoadScene(sceneName);
-
-        if (OnEnd != null)
-        {
-            OnEnd.Invoke();
-            OnEnd = delegate { };
-        }
-        else
-        {
-           // Debug.LogWarning("El OnEnd es null");
-        }
 
         yield return null;
     }
 
     void TryToExecuteParameter(string sceneName, SceneData.Detail_Parameter parameter)
     {
-        
-
         StartCoroutine(localref[sceneName].ExecuteLoadParameter(parameter));
-
-        //if (localref.ContainsKey(sceneName))
-        //{
-
-        //    //if (hotScenesParameters.ContainsKey(sceneName)) hotScenesParameters.Remove(sceneName);
-        //}
-        //else
-        //{
-        //    Debug.Log("No tengo la key");
-        //    if (!hotScenesParameters.ContainsKey(sceneName))
-        //    {
-        //        hotScenesParameters.Add(sceneName, parameter);
-        //    }
-        //    else
-        //    {
-        //        hotScenesParameters[sceneName] = parameter;
-        //    }
-        //}
     }
-    //void ExecuteParameterByScene(string sceneName)
-    //{
-    //    if (!localref.ContainsKey(sceneName) || !hotScenesParameters.ContainsKey(sceneName)) return;
-    //    StartCoroutine(localref[sceneName].ExecuteLoadParameter(hotScenesParameters[sceneName]));
-    //    hotScenesParameters.Remove(sceneName);
-    //}
-    
 
     IEnumerator LoadNeighbors(string currentScene, SceneData data)
     {
@@ -155,7 +91,7 @@ public class NewSceneStreamer : MonoBehaviour
             
             if (!loaded.Contains(parameters[i].scene))
             {
-                yield return LoadAsyncAdditive(parameters[i].scene, false, false, false);
+                yield return LoadAsyncAdditive(parameters[i].scene);
                 yield return null;
             }
 
@@ -191,42 +127,26 @@ public class NewSceneStreamer : MonoBehaviour
             //LocalToEnemyManager.OnUnLoadScene(u);
             #endregion
         }
-
     }
 
-    IEnumerator LoadAsyncAdditive(string sceneName, bool LoadScreen = false, bool LoadNeighbor = false, bool exe = true)
+    IEnumerator LoadAsyncAdditive(string sceneName)
     {
-        //if (LoadScreen)
-        //{
-        //    Fades_Screens.instance.Black();
-        //    //LoadSceneHandler.instance.On_LoadScreen();
-        //}
-
         if (!IsLoading(sceneName) && !IsLoaded(sceneName))
         {
             loading.Add(sceneName);
-            
             AsyncOperation asyncOperation = SceneManager.LoadSceneAsync(sceneName, LoadSceneMode.Additive);
-
             MsgLogData msgLogData = new MsgLogData("Loading... " + sceneName, new Color(0, 0, 0, 0), new Color(1, 1, 1, 1), 1f);
-
             while (asyncOperation.progress < 0.9f)
             {
                 yield return new WaitForEndOfFrame();
                 ThreadHandler.AuxiliarDebug("Loading subscene " + sceneName + " => %" + asyncOperation.progress * 100);
-
                 yield return null;
             }
             while (!asyncOperation.isDone)
             {
                 yield return null;
             }
-            //Fades_Screens.instance.FadeOff(() => { });
-
-            
-            //yield return asyncOperation;
         }
-
         yield return null;
     }
 

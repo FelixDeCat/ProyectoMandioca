@@ -27,9 +27,11 @@ public class InteractableTeleport : Interactable
             }
             else
             {
-                Checkpoint_Manager.instance.StopGame();
-                NewSceneStreamer.instance.LoadScene(sceneToChange, true, true, EndLoad, true);
-                //Main.instance.GetChar().transform.position = transform_destino.position;
+                Fades_Screens.instance.Black();
+                Fades_Screens.instance.FadeOff(() => { });
+                LoadSceneHandler.instance.On_LoadScreen();
+                GameLoop.instance.StopGame();
+                NewSceneStreamer.instance.LoadScene(sceneToChange, EndLoad);
             }
         }
         if (teleportType == TeleportType.change_scene) Fades_Screens.instance.FadeOn(On_FadeOn_Ended);
@@ -38,7 +40,10 @@ public class InteractableTeleport : Interactable
     }
     void EndLoad()
     {
-        Checkpoint_Manager.instance.StartGame(); 
+        Fades_Screens.instance.Black();
+        Fades_Screens.instance.FadeOff(() => { });
+        LoadSceneHandler.instance.Off_LoadScreen();
+        GameLoop.instance.StartGame();
         Main.instance.GetChar().GetCharMove().StopDamageFall();
         Main.instance.GetChar().transform.position = transform_destino.position;
     }

@@ -18,6 +18,7 @@ public class Fades_Screens : MonoBehaviour
     private void Awake() { instance = this; if(startOn) canvas_group.alpha = 1; }
     public void Black() { Anim = false; canvas_group.alpha = 1; }
     public void Transparent() { Anim = false; canvas_group.alpha = 0; }
+    public bool IsBlackScreen() => canvas_group.alpha > 0.9f;
     public void FadeOn(Action FadeOnEndCallback)
     {
         EndOn = FadeOnEndCallback;

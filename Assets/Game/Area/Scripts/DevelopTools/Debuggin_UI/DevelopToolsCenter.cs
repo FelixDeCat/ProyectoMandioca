@@ -11,22 +11,41 @@ public class DevelopToolsCenter : MonoBehaviour
 
     bool open_wrench = false;
     bool open_debugView = false;
-    
+
+
+    #region God Mode
+    bool godMode = false;
+    public bool GodMode { get { return godMode; } }
+    public void SetGodMode(bool val) { godMode = val; }
+    #endregion
+
     private void Start()
     {
         ToogleDebug(false);
-        DevelopTools.UI.Debug_UI_Tools.instance.CreateToogle("Dummy Enemy State Machine Debug", false, ToogleDebug);
-       // DevelopTools.UI.Debug_UI_Tools.instance.CreateToogle("Range Enemy State Machine Debug", false, ToogleDebugRange);
-        //DevelopTools.UI.Debug_UI_Tools.instance.CreateToogle("Jabalies State Machine Debug", false, ToogleDebugJabali);
 
-        DevelopTools.UI.Debug_UI_Tools.instance.CreateToogle("Cubitos Render", false, CubitosRender);
+        Debug_UI_Tools.instance.CreateToogle("GODMODE", false, ToogleGodMOdeDebug);
+        Debug_UI_Tools.instance.CreateToogle("Armas", false, Armas);
 
-        DevelopTools.UI.Debug_UI_Tools.instance.CreateToogle("Armas", false, Armas);
-        DevelopTools.UI.Debug_UI_Tools.instance.CreateToogle("NormalAttack", true, GodDamage);
+       // Debug_UI_Tools.instance.CreateToogle("Dummy Enemy State Machine Debug", false, ToogleDebug);
 
-        DevelopTools.UI.Debug_UI_Tools.instance.CreateToogle("Magnificar Ents", false, ToogleMagnoFace);
+      // Debug_UI_Tools.instance.CreateToogle("Cubitos Render", false, CubitosRender);
+
         
+       // Debug_UI_Tools.instance.CreateToogle("NormalAttack", true, GodDamage);
+
+        Debug_UI_Tools.instance.CreateToogle("Magnificar Ents", false, ToogleMagnoFace);
+
+        
+
     }
+
+    #region Toggles [GODMODE]
+    string ToogleGodMOdeDebug(bool active)
+    {
+        SetGodMode(active);
+        return active ? "debug activado" : "debug desactivado";
+    }
+    #endregion
 
     public string ToogleMagnoFace(bool val)
     {
