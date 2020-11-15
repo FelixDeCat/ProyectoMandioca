@@ -6,9 +6,9 @@ using UnityEngine;
 [Serializable]
 public class SettingsData
 {
-    public float volumeMaster = 0;
-    public float volumeMusic = 0;
-    public float volumeFx = 0;
+    public float volumeMaster = 0.5f;
+    public float volumeMusic = 0.5f;
+    public float volumeFx = 0.5f;
     public bool muteSound = false;
 
     public int resolutionWidht = 1920;

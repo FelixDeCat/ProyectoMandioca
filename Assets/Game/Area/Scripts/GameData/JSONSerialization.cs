@@ -9,6 +9,7 @@ public static class JSONSerialization
     public static void Serialize<T>(string newPath, T data)
     {
         //Creamos el archivo de texto
+
         StreamWriter file = File.CreateText(DirectoryDocuments(newPath) + ".json");
         string json = JsonUtility.ToJson(data, true);
 

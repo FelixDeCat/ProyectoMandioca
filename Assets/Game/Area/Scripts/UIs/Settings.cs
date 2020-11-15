@@ -45,9 +45,11 @@ public class Settings : MonoBehaviour
         screenOpen.Add(2, OpenAudio);
 
         if (JSONSerialization.IsFileExist(SettingsDataName)) JSONSerialization.Deserialize<SettingsData>(SettingsDataName, data);
-
-        Debug.Log(data.resolutionWidht + " / " + data.resolutionHeight);
-
+        else
+        {
+            data.resolutionWidht = Screen.currentResolution.width;
+            data.resolutionHeight = Screen.currentResolution.height;
+        }
         resolutions = Screen.resolutions;
 
         List<string> resolutionsString = new List<string>();
@@ -62,14 +64,8 @@ public class Settings : MonoBehaviour
 
         muteToggle.isOn = data.muteSound;
         volumeMasterSlider.value = data.volumeMaster;
-        var volume = 100 * (data.volumeMaster + 80) / 100;
-        volumeMasterSlider.value = 1 * volume / 100;
-        var volumeOne = 100 * (data.volumeFx + 80) / 100;
-        volumeFxSlider.value = 1 * volumeOne / 100;
-        var volumeTwo = 100 * (data.volumeMusic + 80) / 100;
-        volumeMusicSlider.value = 1 * volumeTwo / 100;
-
-        Debug.Log(data.resolutionWidht +" / "+ data.resolutionHeight);
+        volumeFxSlider.value = data.volumeFx;
+        volumeMusicSlider.value = data.volumeMusic;
 
         resolutionDrop.ClearOptions();
         resolutionDrop.AddOptions(resolutionsString);
@@ -96,7 +92,7 @@ public class Settings : MonoBehaviour
 
     public void SetVolume(float value)
     {
-        data.volumeMaster = Mathf.Log10(value) * 20;
+        data.volumeMaster = value;
 
         if (volumeFxSlider.value > volumeMasterSlider.value) volumeFxSlider.value = volumeMasterSlider.value;
 
@@ -111,7 +107,7 @@ public class Settings : MonoBehaviour
     {
         var volume = Mathf.Log10(value) * 20;
         fxMixer.SetFloat("Volume", volume);
-        data.volumeFx = volume;
+        data.volumeFx = value;
 
         if (volumeMasterSlider.value < value) volumeMasterSlider.value = value;
 
@@ -122,7 +118,7 @@ public class Settings : MonoBehaviour
     {
         var volume = Mathf.Log10(value) * 20;
         musicMixer.SetFloat("Volume", volume);
-        data.volumeMusic = volume;
+        data.volumeMusic = value;
 
         if (volumeMasterSlider.value < value) volumeMasterSlider.value = value;
 
@@ -193,7 +189,7 @@ public class Settings : MonoBehaviour
     #region Gameplay
     public void SetSensHorizontal(float value)
     {
-        cameraRot?.ChangeSensitivityHor(value);
+        cameraRot.ChangeSensitivityHor(value);
 
         data.sensHorizontal = value;
 
@@ -202,7 +198,7 @@ public class Settings : MonoBehaviour
 
     public void SetSensVertical(float value)
     {
-        cameraRot?.ChangeSensitivityVer(value);
+        cameraRot.ChangeSensitivityVer(value);
 
         data.sensVertical = value;
 
@@ -211,7 +207,7 @@ public class Settings : MonoBehaviour
 
     public void InvertHorizontal(bool value)
     {
-        cameraRot?.InvertAxisHor(value);
+        cameraRot.InvertAxisHor(value);
 
         data.invertHorizontal = value;
 
@@ -220,7 +216,7 @@ public class Settings : MonoBehaviour
 
     public void InvertVertical(bool value)
     {
-        cameraRot?.InvertAxisVert(value);
+        cameraRot.InvertAxisVert(value);
 
         data.invertVertical = value;
 

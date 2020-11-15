@@ -54,11 +54,6 @@ public class CameraRotate : MonoBehaviour
 
         initialVector = transform.position - (myChar.transform.position + offsetVec);
         initialVector.x = 0;
-
-        Debug_UI_Tools.instance.CreateSlider("HorSens", sensitivityHorizontal, minHorSens, maxHorSens, ChangeSensitivityHor);
-        Debug_UI_Tools.instance.CreateSlider("VertSens", sensitivityVertical, minVertSens, maxVertSens, ChangeSensitivityVer);
-        Debug_UI_Tools.instance.CreateToogle("Invert Horizontal", false, InvertAxisHor);
-        Debug_UI_Tools.instance.CreateToogle("Invert Vertical", false, InvertAxisVert);
     }
 
     float prevDist = 0f;
@@ -147,6 +142,7 @@ public class CameraRotate : MonoBehaviour
     {
         if (val) horAxis = -1;
         else horAxis = 1;
+
         return "";
     }
 
