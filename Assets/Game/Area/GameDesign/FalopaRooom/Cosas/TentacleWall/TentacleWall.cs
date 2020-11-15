@@ -8,8 +8,6 @@ public class TentacleWall : EnemyBase
     [SerializeField] AnimEvent animEvent;
     [SerializeField] BoxCollider boxCol;
     [SerializeField] GameObject damageTrigger;
-    new DamageData dmgData;
-
 
     CDModule cdModule;
     bool attacking;

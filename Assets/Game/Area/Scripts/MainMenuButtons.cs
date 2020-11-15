@@ -1,7 +1,7 @@
 ﻿using System.Collections;
 using UnityEngine;
 using UnityEngine.EventSystems;
-using UnityEngine.UI;
+using Tools;
 
 public class MainMenuButtons : MonoBehaviour
 {
@@ -10,16 +10,7 @@ public class MainMenuButtons : MonoBehaviour
 
     private void Awake()
     {
-        eventSystem = FindObjectOfType<EventSystem>();
-        eventSystem?.SetSelectedGameObject(null);
-        StartCoroutine(SelectButtonCoroutine(primaryButton));
+        MyEventSystem.instance.SelectGameObject(primaryButton);
     }
-
-    IEnumerator SelectButtonCoroutine(GameObject button)
-    {
-        yield return new WaitForEndOfFrame();
-        eventSystem?.SetSelectedGameObject(button);
-    }
-
-    public void SelectButton(GameObject button) => eventSystem?.SetSelectedGameObject(button);
+    
 }

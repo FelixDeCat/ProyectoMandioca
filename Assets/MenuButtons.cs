@@ -2,10 +2,12 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using Tools;
 
 public class MenuButtons : MonoBehaviour
 {
-    [SerializeField] MainMenuButtons selectorButtons = null;
+    [SerializeField] Settings settingsScreen = null;
+    [SerializeField] Button backButton = null;
 
     public Animator animLoadM;
     public Animator animSttngsM;
@@ -25,13 +27,17 @@ public class MenuButtons : MonoBehaviour
     public string sceneGym6 = "MainScene";
     public string sceneBlocking = "TerrainTestGonzaSinChar";
 
+    bool inSettings = true;
+
 
     private void Start()
     {
+        MyEventSystem.instance.SelectGameObject(mainButtons[0].gameObject);
         Main.instance.GetChar().transform.position = new Vector3(1000, 1000, 1000);
         LoadSceneHandler.instance.Off_LoadScreen();
         Invoke("FadeOff",1f);
     }
+
     void FadeOff()
     {
         Fades_Screens.instance.FadeOff(() => { });
@@ -52,12 +58,23 @@ public class MenuButtons : MonoBehaviour
             item.interactable = false;
         }
         fadeAnim.SetTrigger("MenuFade");
+        backButton.gameObject.SetActive(true);
     }
 
     public void Settings()
     {
+        settingsScreen.gameObject.SetActive(true);
+        _currentAnim = animSttngsM;
+        _currentAnim.SetTrigger("Open");
+        foreach (var item in mainButtons) item.interactable = false;
+        fadeAnim.SetTrigger("MenuFade");
+        settingsScreen.OpenGameplay();
 
+        inSettings = true;
+
+        backButton.gameObject.SetActive(true);
     }
+
     public void Quit()
     {
 #if UNITY_EDITOR
@@ -77,28 +94,34 @@ public class MenuButtons : MonoBehaviour
     public void ReactivateButtons(Animator currentAnim)//cuando quiera salir de los miniMenues
     {
         fadeAnim.SetTrigger("Off");
-        currentAnim.SetTrigger("Off");
+        currentAnim?.SetTrigger("Off");
         foreach(var item in mainButtons) item.interactable = true;
     }
 
     private void Update()
     {
-        if (_currentAnim != null && Input.GetKeyDown(KeyCode.Mouse0))
+        //if (_currentAnim != null && Input.GetKeyDown(KeyCode.Mouse0))
+        //{
+        //    StartCoroutine(BackCoroutine(0.2f));
+        //}
+        if(_currentAnim != null && Input.GetKeyDown(KeyCode.Joystick1Button1))
         {
-            StartCoroutine(BackCoroutine(0.2f));
+            Back();
         }
-        else if(_currentAnim != null && Input.GetKeyDown(KeyCode.Joystick1Button1))
+
+        if (inSettings)
         {
-            StartCoroutine(BackCoroutine(0));
+            if (Input.GetKeyDown(KeyCode.Joystick1Button4)) settingsScreen.ChangeScreen(-1);
+            else if (Input.GetKeyDown(KeyCode.Joystick1Button5)) settingsScreen.ChangeScreen(1);
         }
     }
 
-    IEnumerator BackCoroutine(float time)
-    {
-        yield return new WaitForSeconds(time);
+   public void Back()
+   {
         ReactivateButtons(_currentAnim);
-        selectorButtons.SelectButton(mainButtons[0].gameObject);
+        MyEventSystem.instance.SelectGameObject(mainButtons[0].gameObject);
         _currentAnim = null;
+        backButton.gameObject.SetActive(false);
     }
 
     public void goToGym()

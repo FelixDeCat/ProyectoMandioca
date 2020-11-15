@@ -62,6 +62,8 @@ public class Settings : MonoBehaviour
             if (resolutions[i].width == data.resolutionWidht && resolutions[i].height == data.resolutionHeight) current = i;
         }
 
+        if (!cameraRot) cameraRot = FindObjectOfType<CameraRotate>();
+
         muteToggle.isOn = data.muteSound;
         volumeMasterSlider.value = data.volumeMaster;
         volumeFxSlider.value = data.volumeFx;
