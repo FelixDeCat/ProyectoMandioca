@@ -8,7 +8,7 @@ public abstract class EnemyBase : NPCBase
 {
     #region Variables
     [HideInInspector] public bool death;
-    public string CurrentScene { get; set; }
+    public string CurrentScene;
     protected bool petrified = false;
 
     public virtual void StunStart() => petrified = true;
