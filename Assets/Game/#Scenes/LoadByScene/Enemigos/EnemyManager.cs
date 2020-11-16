@@ -125,9 +125,10 @@ public class EnemyManager : MonoBehaviour
         for (int i = 0; i < scenesToReset.Count; i++)
         {
             if (!proxysPerScene.ContainsKey(scenesToReset[i])) continue;
-
+            Debug.Log(scenesToReset[i]);
             for (int y = 0; y < enemiesPerScenes[scenesToReset[i]].Count; y++)
             {
+                Debug.Log(enemiesPerScenes[scenesToReset[i]][y].name);
                 enemiesPerScenes[scenesToReset[i]][y].ReturnToSpawner();
                 yield return null;
             }
@@ -196,7 +197,7 @@ public class EnemyManager : MonoBehaviour
             if (!proxysPerScene.ContainsKey(scenesToReset[i])) continue;
 
             for (int y = 0; y < enemiesPerScenes[scenesToReset[i]].Count; y++)
-                PoolManager.instance.ReturnObject(enemiesPerScenes[scenesToReset[i]][y]);
+                enemiesPerScenes[scenesToReset[i]][y].ReturnToSpawner();
 
             enemiesPerScenes[scenesToReset[i]].Clear();
             for (int y = 0; y < proxysPerScene[scenesToReset[i]].Length; y++)

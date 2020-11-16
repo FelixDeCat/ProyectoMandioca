@@ -39,7 +39,6 @@ public abstract class PlayObject : MonoBehaviour, IPauseable
         else if (Pool) { Pool.ReturnPlayObject(this); }
         else
         {
-            Debug.Log("se destruye");
             Off();
             Destroy(this.gameObject);
         }
