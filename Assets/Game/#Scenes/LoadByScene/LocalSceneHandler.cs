@@ -228,6 +228,7 @@ public class LocalSceneHandler : LoadComponent
     {
         NewSceneStreamer.instance.LoadScene(SceneData.name);
         LocalToEnemyManager.ResetScenes(SceneData.scenes_to_reset);
+        EnemyManager.Instance.SceneReset(SceneData.name);
         //aca iria lo del enemyManager?
     }
 

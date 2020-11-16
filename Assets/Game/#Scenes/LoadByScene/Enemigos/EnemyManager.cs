@@ -113,15 +113,42 @@ public class EnemyManager : MonoBehaviour
         {
             scenesStates[sceneName].Clear();
             scenesStates.Remove(sceneName);
+            if (scenesToReset.Contains(sceneName)) scenesToReset.Remove(sceneName);
         }
     }
 
-    public IEnumerator ExecuteSceneRebuildEnemies(string SceneName)
+    public IEnumerator ExecuteSceneRebuildEnemies(string currentScene)
     {
-        //este SceneName se va a cargar porque el checkpoint me dijo que se encuentra ahí
-        Debug.Log("Hello hello, aca poner la lógica de respawn de enemigos. pdta: quitar el waitforseconds <3");
-        yield return new WaitForSeconds(2);
-        yield return null;
+        if (respawned || scenesToReset.Count == 0) yield break;
+
+        respawned = true;
+        for (int i = 0; i < scenesToReset.Count; i++)
+        {
+            if (!proxysPerScene.ContainsKey(scenesToReset[i])) continue;
+
+            for (int y = 0; y < enemiesPerScenes[scenesToReset[i]].Count; y++)
+            {
+                enemiesPerScenes[scenesToReset[i]][y].ReturnToSpawner();
+                yield return null;
+            }
+
+            enemiesPerScenes[scenesToReset[i]].Clear();
+            for (int y = 0; y < proxysPerScene[scenesToReset[i]].Length; y++)
+            {
+                try
+                {
+                    var aux = SpawnEnemy<EnemyBase>(proxysPerScene[scenesToReset[i]][y].myEnemy.name, scenesToReset[i]);
+                    proxysPerScene[scenesToReset[i]][y].SpawnEnemy(aux);
+                }
+                catch (NullReferenceException) { Debug.LogWarning("!!!!!!En la escena: " + scenesToReset[i] + " hay un proxy descarrilado"); }
+
+                yield return null;
+            }
+        }
+
+        scenesToReset.Clear();
+        respawned = false;
+        scenesToReset.Add(currentScene);
     }
 
     public void ResetAllStates()
@@ -152,7 +179,7 @@ public class EnemyManager : MonoBehaviour
                 aux.SaveState(enemiesPerScenes[sceneName][i]);
                 scenesStates[sceneName].Add(aux);
             }
-            PoolManager.instance.ReturnObject(enemiesPerScenes[sceneName][i]);
+            enemiesPerScenes[sceneName][i].ReturnToSpawner();
             yield return null;
         }
 
