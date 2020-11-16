@@ -277,6 +277,7 @@ public class CustomCamera : MonoBehaviour
     float returnTime;
     Transform finalPos;
     Transform lookAtTarget;
+    Vector3 lookPos;
 
     public void StartCinematic(float _goTime, float _cinematicTime, float _returnTime, Transform _finalPos, Transform _lookAt)
     {
@@ -284,7 +285,7 @@ public class CustomCamera : MonoBehaviour
         cinematicTime = _cinematicTime;
         returnTime = _returnTime;
         finalPos = _finalPos;
-        lookAtTarget = _lookAt;
+        lookPos = _lookAt.position;
         cameraState = CameraCinematicState.cameraGo;        
     }
 
@@ -295,7 +296,6 @@ public class CustomCamera : MonoBehaviour
         else if (cameraState == CameraCinematicState.cameraGo)
         {
             Main.instance.GetChar().Pause();
-            Main.instance.Pause();
             myCameras[1].transform.parent = null;
             startPos = transform.position;
             ChangeCamera();
@@ -306,8 +306,11 @@ public class CustomCamera : MonoBehaviour
         {
             timer += Time.deltaTime;
             myCameras[1].transform.position = Vector3.Lerp(startPos, finalPos.position, timer / goTime);
-
-            if(timer > goTime)
+            
+            //Esto es para el smooth
+            lookAtTarget.position = Vector3.Lerp(charTransform.position, lookPos, timer / goTime);                
+            
+            if (timer > goTime)
             {
                 timer = 0;
                 cameraState = CameraCinematicState.inCinematic;
@@ -317,10 +320,11 @@ public class CustomCamera : MonoBehaviour
         {
             timer += Time.deltaTime;
 
+            lookAtTarget.position = lookPos;
+
             if (timer > cinematicTime)
             {
                 timer = 0;
-                lookAtTarget = charTransform;
                 cameraState = CameraCinematicState.cameraReturn;
             }
         }
@@ -329,6 +333,9 @@ public class CustomCamera : MonoBehaviour
             myCameras[1].transform.position = Vector3.Lerp(finalPos.position, myCameras[0].transform.position, timer / returnTime);
             timer += Time.deltaTime;
 
+            //Esto es para el smooth
+            lookAtTarget.position = Vector3.Lerp(lookPos, charTransform.position, timer / returnTime);
+            
             if (timer > returnTime)
             {
                 timer = 0;
@@ -337,11 +344,9 @@ public class CustomCamera : MonoBehaviour
                 ChangeCamera();
                 cameraState = CameraCinematicState.off;
 
-                Main.instance.Play();
                 Main.instance.GetChar().Resume();
             }
         }
-
     }
 }
 
