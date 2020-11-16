@@ -23,6 +23,7 @@ public class NPCFleingCanDie : NPCFleing
 
         onArrivedEvent += () => Main.instance.GetVillageManager().ReTarget();
         onArrivedEvent += () => Main.instance.GetVillageManager().RemoveFromVillagersAlive(this);
+        onArrivedEvent += () => Main.instance.GetCombatDirector().RemoveTarget(transform);
     }
           
 
@@ -37,5 +38,6 @@ public class NPCFleingCanDie : NPCFleing
         Main.instance.GetVillageManager().RemoveFromVillagersAlive(this);
         Main.instance.GetVillageManager().ReTarget();
         gameObject.SetActive(false);
+        Main.instance.GetCombatDirector().RemoveTarget(transform);
     }
 }

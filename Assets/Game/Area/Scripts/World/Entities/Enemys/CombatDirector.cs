@@ -305,7 +305,6 @@ public class CombatDirector : LoadComponent, IZoneElement
         if (oldTarget != null)
         {
             RemoveToList(e, oldTarget);
-            RemoveTarget(oldTarget);
         }
         e.SetTarget(newTarget);
         AddToList(e, newTarget);

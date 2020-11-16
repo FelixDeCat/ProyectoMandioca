@@ -49,6 +49,8 @@ public class CustomCamera : MonoBehaviour
     float startHorizontal;
     float StartVertical;
     [SerializeField] RotateTheCamera _rotOfCamera = null;
+    [SerializeField] CameraRotate cameraRotate = null;
+    Transform cinematicCamParent = null;
 
     [SerializeField] EventInt invertAxis = null;
 
@@ -61,7 +63,9 @@ public class CustomCamera : MonoBehaviour
         pingpongZoom.Configure(Zoom, false);
         changeCameraconf(0);
         original_shake_amount = shakeAmmount;
-        charTransform = Main.instance.GetChar().GetLookatPosition();
+        lookAtTarget = charTransform = Main.instance.GetChar().GetLookatPosition();
+        cinematicCamParent = myCameras[1].transform.parent;
+        
         //skillCloseUp_Camera.SubscribeOnTurnOnCamera(CloseToCharacter);
         //skillCloseUp_Camera.SubscribeOnTurnOnCamera(ExitToCharacte);
     }
@@ -93,6 +97,7 @@ public class CustomCamera : MonoBehaviour
         if (!active || activateOverTheSholder)
             return;
 
+        MakeCinematic();
         SmoothToTarget();
     }
     private void LateUpdate()
@@ -124,7 +129,7 @@ public class CustomCamera : MonoBehaviour
         //}
         Vector3 smoothedposition = Vector3.Slerp(transform.position, moveOffset, smooth * Time.deltaTime);
         transform.position = smoothedposition;
-        if (lookAt) transform.LookAt(charTransform);
+        if (lookAt) transform.LookAt(lookAtTarget);
     }
     public void InstantPosition()
     {
@@ -178,9 +183,8 @@ public class CustomCamera : MonoBehaviour
     //            index = 0;
     //        changeCameraconf(index);
     //    }
-
-
     //}
+
     void ChangeCamera()
     {
         if (index < myCameras.Count - 1)
@@ -189,6 +193,7 @@ public class CustomCamera : MonoBehaviour
             index = 0;
         changeCameraconf(index);
     }
+
     void changeCameraconf(int i)
     {
         target = myCameras[i].transform;
@@ -255,12 +260,96 @@ public class CustomCamera : MonoBehaviour
         {
             activateOverTheSholder = true;
         }
-
-
     }
+
     private void OnTriggerStay(Collider other)
     {
         if (other.gameObject.layer == 21)
             _rotOfCamera.MovementFromMesh(_speedAwayOfMesh);
     }
+
+    CameraCinematicState cameraState = CameraCinematicState.off;
+
+    float timer = 0f;
+    Vector3 startPos;
+    float goTime;
+    float cinematicTime;
+    float returnTime;
+    Transform finalPos;
+    Transform lookAtTarget;
+
+    public void StartCinematic(float _goTime, float _cinematicTime, float _returnTime, Transform _finalPos, Transform _lookAt)
+    {
+        goTime = _goTime;
+        cinematicTime = _cinematicTime;
+        returnTime = _returnTime;
+        finalPos = _finalPos;
+        lookAtTarget = _lookAt;
+        cameraState = CameraCinematicState.cameraGo;        
+    }
+
+    void MakeCinematic()
+    {
+        if (cameraState == CameraCinematicState.off)
+            return;
+        else if (cameraState == CameraCinematicState.cameraGo)
+        {
+            Main.instance.GetChar().Pause();
+            Main.instance.Pause();
+            myCameras[1].transform.parent = null;
+            startPos = transform.position;
+            ChangeCamera();
+            cameraState = CameraCinematicState.cameraGoing;
+            cameraRotate.forceStop = true;
+        }
+        else if(cameraState == CameraCinematicState.cameraGoing)
+        {
+            timer += Time.deltaTime;
+            myCameras[1].transform.position = Vector3.Lerp(startPos, finalPos.position, timer / goTime);
+
+            if(timer > goTime)
+            {
+                timer = 0;
+                cameraState = CameraCinematicState.inCinematic;
+            }
+        }
+        else if (cameraState == CameraCinematicState.inCinematic)
+        {
+            timer += Time.deltaTime;
+
+            if (timer > cinematicTime)
+            {
+                timer = 0;
+                lookAtTarget = charTransform;
+                cameraState = CameraCinematicState.cameraReturn;
+            }
+        }
+        else if (cameraState == CameraCinematicState.cameraReturn)
+        {
+            myCameras[1].transform.position = Vector3.Lerp(finalPos.position, myCameras[0].transform.position, timer / returnTime);
+            timer += Time.deltaTime;
+
+            if (timer > returnTime)
+            {
+                timer = 0;
+                cameraRotate.forceStop = false;
+                myCameras[1].transform.parent = cinematicCamParent;
+                ChangeCamera();
+                cameraState = CameraCinematicState.off;
+
+                Main.instance.Play();
+                Main.instance.GetChar().Resume();
+            }
+        }
+
+    }
+}
+
+enum CameraCinematicState
+{
+    off,
+    cameraGo,
+    cameraGoing,
+    inCinematic,
+    cameraReturn
 }

@@ -45,6 +45,8 @@ public class CameraRotate : MonoBehaviour
     [SerializeField] Vector3 offsetVec = new Vector3(0, 2f, 0);
     float zoomDist;
 
+    [HideInInspector] public bool forceStop = false;
+
     private void Start()
     {
         myChar = Main.instance.GetChar();
@@ -168,13 +170,13 @@ public class CameraRotate : MonoBehaviour
 
     public void RotateHorizontal(float axis)
     {
-        if (UseBezier) return;
+        if (UseBezier || forceStop) return;
         rotatorX.transform.RotateAround(myChar.transform.position, Vector3.up, axis * sensitivityHorizontal * Time.deltaTime * horAxis);
         lookAtTrans.transform.RotateAround(myChar.transform.position, Vector3.up, axis * sensitivityHorizontal * Time.deltaTime * horAxis);
     }
     public void RotateVertical(float vertical)
     {
-        if (UseBezier) return;
+        if (UseBezier || forceStop) return;
         float rotateDegrees = 0f;
 
         rotateDegrees += vertical * vertAxis;
@@ -192,7 +194,7 @@ public class CameraRotate : MonoBehaviour
 
     public void RotateHorizontalByBezier(float axis)
     {
-        if (!UseBezier) return;
+        if (!UseBezier || forceStop) return;
         foreach (var item in bezierPoints)
         {
             item.transform.RotateAround(myChar.transform.position, Vector3.up, axis * sensitivityHorizontal * Time.deltaTime * horAxis);
@@ -202,7 +204,7 @@ public class CameraRotate : MonoBehaviour
 
     public void RotateVerticalByBezier(float vertical)
     {
-        if (!UseBezier) return;
+        if (!UseBezier || forceStop) return;
         sliderTime = Mathf.Clamp(sliderTime + (vertical * vertAxis) / 100, 0, 1);
     }
 
@@ -213,8 +215,6 @@ public class CameraRotate : MonoBehaviour
         {
             float angle = Vector3.Angle(distToChar, new Vector3(myChar.transform.position.x - item.transform.position.x, 0, myChar.transform.position.z - item.transform.position.z));
             item.transform.RotateAround(myChar.transform.position, Vector3.up, -angle);
-        }
-
-
+        }        
     }
 }
