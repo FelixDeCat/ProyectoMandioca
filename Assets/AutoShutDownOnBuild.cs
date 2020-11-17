@@ -3,9 +3,10 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 
+
 public class AutoShutDownOnBuild : MonoBehaviour
 {
-
+    
     public UnityEvent OnEnable;
     public UnityEvent OnDisable;
     bool en;
@@ -28,7 +29,7 @@ public class AutoShutDownOnBuild : MonoBehaviour
         if (Input.GetKey(KeyCode.LeftShift) && Input.GetKeyDown(KeyCode.L))
         {
             en = !en;
-            if (en) OnEnable.Invoke();
+            if (en) { OnEnable.Invoke(); Main.instance.eventManager.TriggerEvent(GameEvents.INTERACTABLES_INITIALIZE); }
             else OnDisable.Invoke();
         }
     }
