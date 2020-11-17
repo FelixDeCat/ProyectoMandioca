@@ -9,7 +9,7 @@ Material:
   m_PrefabAsset: {fileID: 0}
   m_Name: FaunaNoWind
   m_Shader: {fileID: 4800000, guid: 93a4612f4eaa96b429d1c8d0ab631bcf, type: 3}
-  m_ShaderKeywords: 
+  m_ShaderKeywords: _USEALBEDO_ON
   m_LightmapFlags: 2
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
@@ -103,6 +103,10 @@ Material:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
+    - _TextureSample0:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     - _WindMask:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
@@ -135,6 +139,7 @@ Material:
     - _Intensity1: 5.85
     - _IntensityWind: 0
     - _IntensityWind1: 0.01
+    - _MaskIntensity: 1
     - _MaskWind: 0
     - _MaskWind1: 0.131
     - _MetalicIntensity: 0
@@ -155,6 +160,7 @@ Material:
     - _SpeedWind1: 2.2
     - _SrcBlend: 1
     - _UVSec: 0
+    - _UseAlbedo: 1
     - _UseEmission: 0
     - _UseEmission1: 0
     - _UseSmoothness: 0
@@ -169,7 +175,10 @@ Material:
     - _min: -1
     - _speed: 2.2
     m_Colors:
+    - _AutoTextureTiling: {r: 3, g: 3, b: 0, a: 0}
     - _Color: {r: 1, g: 1, b: 1, a: 1}
+    - _ColorAforAutoTexture: {r: 0, g: 0, b: 0, a: 0}
+    - _ColorBforAutoTexture: {r: 0, g: 0, b: 0, a: 0}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
     - _EmissionColor1: {r: 0, g: 0, b: 0, a: 0}
     - _MainColor: {r: 0.39215687, g: 0.39215687, b: 0.39215687, a: 1}
