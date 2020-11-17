@@ -61,7 +61,6 @@ public class EnemyManager : MonoBehaviour
 
     bool Contains(EnemyBase enemy)
     {
-        Debug.Log("lo contengo");
         if (enemy == null) { Debug.LogError("me llegó un enemy null"); return false; }
         if (enemiesPerScenes.ContainsKey(enemy.CurrentScene))
         {
@@ -77,7 +76,6 @@ public class EnemyManager : MonoBehaviour
 
         if (enemy.CurrentScene != null && sceneName != enemy.CurrentScene)
         {
-            Debug.Log("me cambio a " + sceneName);
             enemiesPerScenes[enemy.CurrentScene].Remove(enemy);
             if (!enemiesPerScenes.ContainsKey(sceneName)) enemiesPerScenes.Add(sceneName, new List<EnemyBase>());
             enemiesPerScenes[sceneName].Add(enemy);
@@ -87,7 +85,7 @@ public class EnemyManager : MonoBehaviour
 
     public void SceneReset(string sceneName)
     {
-        if (!scenesToReset.Contains(sceneName) && !scenesClear.Contains(sceneName)) { scenesToReset.Add(sceneName); Debug.Log(sceneName); }
+        if (!scenesToReset.Contains(sceneName) && !scenesClear.Contains(sceneName)) scenesToReset.Add(sceneName);
     }
 
     public void SceneClear(string sceneName)

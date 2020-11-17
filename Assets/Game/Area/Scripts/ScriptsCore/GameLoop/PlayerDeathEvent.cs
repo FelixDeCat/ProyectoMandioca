@@ -36,9 +36,7 @@ public class PlayerDeathEvent : MonoBehaviour
         else 
             RestartGame();
     }
-
-   
-
+    
     void RestartGame()
     {
         Debug.Log("Restart");
