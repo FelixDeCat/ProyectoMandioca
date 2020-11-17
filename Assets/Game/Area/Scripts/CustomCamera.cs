@@ -306,10 +306,11 @@ public class CustomCamera : MonoBehaviour
         {
             timer += Time.deltaTime;
             myCameras[1].transform.position = Vector3.Lerp(startPos, finalPos.position, timer / goTime);
-            
+
             //Esto es para el smooth
-            lookAtTarget.position = Vector3.Lerp(charTransform.position, lookPos, timer / goTime);                
-            
+            lookAtTarget.position = Vector3.Lerp(charTransform.position, lookPos, timer / goTime);
+            //El calculo esta bien pero el SmoothToPos del lookAtPos hace que la camara gire rarito
+
             if (timer > goTime)
             {
                 timer = 0;
@@ -330,12 +331,13 @@ public class CustomCamera : MonoBehaviour
         }
         else if (cameraState == CameraCinematicState.cameraReturn)
         {
-            myCameras[1].transform.position = Vector3.Lerp(finalPos.position, myCameras[0].transform.position, timer / returnTime);
             timer += Time.deltaTime;
+            myCameras[1].transform.position = Vector3.Lerp(finalPos.position, myCameras[0].transform.position, timer / returnTime);
 
             //Esto es para el smooth
             lookAtTarget.position = Vector3.Lerp(lookPos, charTransform.position, timer / returnTime);
-            
+            //Aca también
+
             if (timer > returnTime)
             {
                 timer = 0;
