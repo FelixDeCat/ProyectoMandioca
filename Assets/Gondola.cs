@@ -9,12 +9,10 @@ public class Gondola : MonoBehaviour
 
     public void ANIM_Open()
     {
-        Debug.Log("open");
-        gondola_anim.SetTrigger("Open");
+        gondola_anim.Play("Open");
     }
     public void ANIM_Close()
     {
-        Debug.Log("close");
-        gondola_anim.SetTrigger("Close");
+        gondola_anim.Play("Close");
     }
 }
