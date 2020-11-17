@@ -23,30 +23,28 @@ public class TriggerDispatcher : MonoBehaviour
     private void OnTriggerEnter(Collider other)
     {
         StartCoroutine(LateEnter(other));
-        OnExecute( OnTriggerEnterEvent,other);
+        OnExecute(OnTriggerEnterEvent, other, TriggerMode.enter);
     }
 
     IEnumerator LateEnter(Collider other)
     {
         yield return new WaitForEndOfFrame();
-        OnExecute(OnTriggerLateEnterEvent, other);
+        OnExecute(OnTriggerLateEnterEvent, other, TriggerMode.lateEnter);
     }
 
     private void OnTriggerExit(Collider other)
     {
-        OnExecute(OnTriggerExitEvent, other);
+        OnExecute(OnTriggerExitEvent, other, TriggerMode.exit);
     }
 
-    void OnExecute(UnityEvent eventToInvoke, Collider other)
+    void OnExecute(UnityEvent eventToInvoke, Collider other, TriggerMode _mode)
     {
         if (CheckCollision(other))
         {
             eventToInvoke.Invoke();
 
             foreach (var r in receivers)
-            {
-                r.Execute(other);
-            }
+                r.Execute(other, _mode);
         }               
     }
 
@@ -71,4 +69,12 @@ public enum Entities //In progress
     all,
     player,
     enemy
+}
+
+public enum TriggerMode
+{
+    all,
+    enter,
+    exit,
+    lateEnter
 }
