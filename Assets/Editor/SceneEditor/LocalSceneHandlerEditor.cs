@@ -53,7 +53,7 @@ public class LocalSceneHandlerEditor : Editor
             _data = EditorGUILayout.ObjectField("my data:", _data, typeof(SceneData), false) as SceneData;
 
 
-            
+
 
             _landmark = EditorGUILayout.ObjectField("Landmark:", _landmark, typeof(GameObject), false) as GameObject;
             _gameplay = EditorGUILayout.ObjectField("Lowdetail:", _gameplay, typeof(GameObject), false) as GameObject;
@@ -64,10 +64,7 @@ public class LocalSceneHandlerEditor : Editor
             EditorGUI.EndDisabledGroup();
 
             //Debug. Te limpia las referencias para que despues puedas cargarlo de nuevo
-            if (GUILayout.Button("Reset Variables"))
-            {
 
-            }
             //Boton de carga
             if (GUILayout.Button("Load Scene"))
             {
