@@ -24,8 +24,8 @@ public class NewSceneStreamer : MonoBehaviour
 
     [SerializeField] float maxLoadWaitTime = 5;
 
-    bool IsLoaded(string sceneName) => loaded.Contains(sceneName);
-    bool IsLoading(string sceneName) => loading.Contains(sceneName);
+    bool IsLoaded(string sceneName) => loaded.Contains(sceneName) || loaded.Contains(sceneName.ToLower()) || loaded.Contains(sceneName.ToUpper());
+    bool IsLoading(string sceneName) => loading.Contains(sceneName) || loading.Contains(sceneName.ToLower()) || loading.Contains(sceneName.ToUpper()); 
 
     private void Start()
     {
@@ -52,7 +52,7 @@ public class NewSceneStreamer : MonoBehaviour
     {
         currentScene = sceneName;
 
-        if (!IsLoaded(currentScene)) 
+        if (!IsLoaded(currentScene))
         {
             StartCoroutine(LoadAsyncAdditive(sceneName));
             yield return null;
@@ -133,6 +133,7 @@ public class NewSceneStreamer : MonoBehaviour
     {
         if (!IsLoading(sceneName) && !IsLoaded(sceneName))
         {
+            Debug.Log("Cargando: " + sceneName);
             loading.Add(sceneName);
             AsyncOperation asyncOperation = SceneManager.LoadSceneAsync(sceneName, LoadSceneMode.Additive);
             MsgLogData msgLogData = new MsgLogData("Loading... " + sceneName, new Color(0, 0, 0, 0), new Color(1, 1, 1, 1), 1f);
