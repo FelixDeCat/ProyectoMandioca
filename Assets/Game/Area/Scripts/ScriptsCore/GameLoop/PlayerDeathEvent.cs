@@ -21,10 +21,18 @@ public class PlayerDeathEvent : MonoBehaviour
         Main.instance.GetChar().Life.Heal_AllHealth();
         string scene_to_load = Checkpoint_Manager.instance.GetSceneToLoadFromCheckPoint();
 
-        if (NewSceneStreamer.instance)
-            NewSceneStreamer.instance.LoadScene(scene_to_load, OnSceneLoaded);
+        if (scene_to_load != "")
+        {
+            if (NewSceneStreamer.instance)
+                NewSceneStreamer.instance.LoadScene(scene_to_load, OnSceneLoaded);
+            else
+                RestartGame();
+        }
         else
+        {
+            Debug.LogWarning("Ojo que el checkpoint no tiene escena, se te va a teletransportar sin carga");
             RestartGame();
+        }
     }
 
     void OnSceneLoaded()
