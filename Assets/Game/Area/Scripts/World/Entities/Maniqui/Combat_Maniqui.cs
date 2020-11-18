@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 
-public class Combat_Maniqui : EntityBase
+public class Combat_Maniqui : MonoBehaviour
 {
     DamageReceiver damageReceiver;
     Rigidbody myRig;
@@ -16,17 +16,15 @@ public class Combat_Maniqui : EntityBase
     [SerializeField] UnityEvent DeathByComboWombo = null;
 
 
-    bool isactive;
+    bool isactive = true;
 
     private void Start()
     {
-        isactive = true;
         damageReceiver = GetComponentInChildren<DamageReceiver>();
-        myLifeSystem = damageReceiver.gameObject.GetComponent<_Base_Life_System>();
-        myLifeSystem.Initialize();
+        myLifeSystem = damageReceiver.GetComponent<_Base_Life_System>();
         myLifeSystem.CreateADummyLifeSystem();
-        myRig = damageReceiver.gameObject.GetComponent<Rigidbody>();
-        myCol = myRig.gameObject.GetComponent<Collider>();
+        myRig = damageReceiver.GetComponent<Rigidbody>();
+        myCol = myRig.GetComponent<Collider>();
         feedback.Initialize(myRig.transform);
         damageReceiver.Initialize(this.transform, myRig, myLifeSystem);
         damageReceiver.AddDead(Death);
@@ -40,7 +38,6 @@ public class Combat_Maniqui : EntityBase
         animv.SetTrigger("Death");
         feedback.Play_part_Death();
         feedback.Play_Sound_Death();
-        myRig.gameObject.GetComponent<Collider>();
         myCol.enabled = false;
     }
 
@@ -67,7 +64,6 @@ public class Combat_Maniqui : EntityBase
         if (!isactive) return;
 
         animv.SetTrigger("TakeDamage");
-        //StartCoroutine(feedback.OnHitted(0.1f, Color.red));
     }
 
     #region For Combo Wombo
@@ -79,15 +75,5 @@ public class Combat_Maniqui : EntityBase
         this.forceshutdowncombo = forceShutDownCombo;
 
     }
-    #endregion
-
-    #region en desuso
-    protected override void OnFixedUpdate() { }
-    protected override void OnInitialize() { }
-    protected override void OnPause() { }
-    protected override void OnResume() { }
-    protected override void OnTurnOff() { }
-    protected override void OnTurnOn() { }
-    protected override void OnUpdate() { }
     #endregion
 }

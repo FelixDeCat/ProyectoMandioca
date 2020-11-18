@@ -18,7 +18,6 @@ public class CharLifeSystem: _Base_Life_System
 
     public CharLifeSystem Configure_CharLifeSystem()
     {
-        Initialize();
         lifesystem.Config(life, EVENT_OnLoseLife, EVENT_OnGainLife, EVENT_OnDeath, life);
 
         lifesystem.AddCallback_LifeChange(OnLifeChange);

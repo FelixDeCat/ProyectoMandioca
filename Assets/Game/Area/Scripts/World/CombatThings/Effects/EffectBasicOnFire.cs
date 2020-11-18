@@ -5,33 +5,36 @@ using UnityEngine;
 public class EffectBasicOnFire : EffectBase
 {
     [SerializeField] ParticleSystem feedbackFireDot = null;
-    [SerializeField] GenericLifeSystem lifeSystem = null;
+    DamageReceiver lifeSystem = null;
 
     [SerializeField] float timeTick = 0.5f;
     [SerializeField] int damagePerTick = 1;
+    float timer;
+
+    protected override void OnInitialize()
+    {
+        base.OnInitialize();
+        lifeSystem = GetComponentInParent<DamageReceiver>();
+    }
 
     protected override void OffEffect()
     {
         feedbackFireDot.gameObject.SetActive(false);
-        StopAllCoroutines();
+        timer = 0;
     }
 
     protected override void OnEffect()
     {
         feedbackFireDot.gameObject.SetActive(true);
-        StartCoroutine(DamageTick());
-    }
-
-    IEnumerator DamageTick()
-    {
-        while (true)
-        {
-            yield return new WaitForSeconds(timeTick);
-            lifeSystem.Hit(damagePerTick);
-        }
     }
 
     protected override void OnTickEffect(float cdPercent)
     {
+        timer += Time.deltaTime;
+        if (timer >= timeTick)
+        {
+            lifeSystem.DamageTick(damagePerTick, Damagetype.Fire);
+            timer = 0;
+        }
     }
 }

@@ -173,6 +173,26 @@ public class DamageReceiver : MonoBehaviour
         return death ? Attack_Result.death : Attack_Result.sucessful;
     }
 
+    public void DamageTick(int damage, Damagetype dmgType)
+    {
+        if (_LifeSystem != null && _LifeSystem.life <= 0) return;
+
+        if (onlyVulnerablyTo.Count != 0 && !onlyVulnerablyTo.Contains(dmgType)) return;
+
+        if (invulnerability.Contains(Damagetype.All) || invulnerability.Contains(dmgType)) return;
+
+        float tempDmg = damage;
+
+        if (resistances.ContainsKey(dmgType)) tempDmg *= resistances[dmgType];
+        else if (debilities.ContainsKey(dmgType)) tempDmg *= debilities[dmgType];
+
+        int dmg = (int)tempDmg;
+
+        bool death = _LifeSystem.Hit(dmg);
+
+        if (death) OnDead?.Invoke(Vector3.zero);
+    }
+
     public void InstaKill()
     {
         if (_LifeSystem != null && _LifeSystem.Life <= 0) return;

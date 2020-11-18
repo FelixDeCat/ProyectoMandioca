@@ -28,8 +28,8 @@ namespace Tools.StateMachine
             //charMove.MovementHorizontal(LeftHorizontal());
             //charMove.MovementVertical(LeftVertical());
 
-            charMove.RotateHorizontal(LeftHorizontal());
-            charMove.RotateVertical(LeftVertical());
+            //charMove.RotateHorizontal(LeftHorizontal());
+            //charMove.RotateVertical(LeftVertical());
 
             ChangeAttacking?.Invoke(true);
             

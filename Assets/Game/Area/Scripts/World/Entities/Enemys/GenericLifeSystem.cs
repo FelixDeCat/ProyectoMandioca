@@ -16,13 +16,9 @@ public class GenericLifeSystem : _Base_Life_System
     public void AddEventOnDeath(Action listener) { DeadCallback += listener; }
     public void RemoveEventOnDeath(Action listener) { DeadCallback -= listener; DeadCallback = delegate { }; }
 
-    private void Awake()
-    {
-        CreateLifeBar();
-    }
+    private void Awake()=>CreateLifeBar();
     protected void CreateLifeBar()
     {
-        Initialize();
         lifesystem.Config(life, OnHitCallback, EVENT_OnGainLife, EVENT_OnDeath, life);
     }
     void EVENT_OnGainLife() { }
@@ -40,35 +36,6 @@ public class GenericLifeSystem : _Base_Life_System
     //{
     //    return lifeSystemEnemy.Hit(_val);
     //}
-
-    
-    public void DoTSystem(float duration, float timePerTick, int tickDamage, Damagetype damagetype, Action onFinishCallback )
-    {
-        StartCoroutine(DoT(duration, timePerTick, tickDamage, damagetype, onFinishCallback));
-    }
-
-    IEnumerator DoT(float duration, float timePerTick, int tickDamage, Damagetype damagetype, Action onFinishCallback)
-    {
-        float countTime = 0;
-        float tickTimeCount = 0;
-        
-        while (countTime <= duration)
-        {
-            countTime += Time.fixedDeltaTime;
-
-            tickTimeCount += Time.fixedDeltaTime;
-
-            if (tickTimeCount >= timePerTick)
-            {
-                Hit(tickDamage);
-                tickTimeCount = 0;
-            }
-
-            yield return null;
-        }
-        
-        onFinishCallback.Invoke();
-    }
 
     public void ChangeLife(int newLife)
     {

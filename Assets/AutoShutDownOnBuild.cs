@@ -30,7 +30,7 @@ public class AutoShutDownOnBuild : MonoBehaviour
         {
             en = !en;
             if (en) { OnEnable.Invoke(); Main.instance.eventManager.TriggerEvent(GameEvents.INTERACTABLES_INITIALIZE); }
-            else OnDisable.Invoke();
+            else { OnDisable.Invoke(); Main.instance.eventManager.TriggerEvent(GameEvents.INTERACTABLES_INITIALIZE); }
         }
     }
 }
