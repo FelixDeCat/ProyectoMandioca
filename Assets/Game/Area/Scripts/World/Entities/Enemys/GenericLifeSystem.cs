@@ -5,7 +5,6 @@ using System;
 
 public class GenericLifeSystem : _Base_Life_System
 {
-
     bool isdeath;
 
     public event Action DeadCallback = delegate { };
@@ -31,12 +30,7 @@ public class GenericLifeSystem : _Base_Life_System
             isdeath = true;
         }
     }
-
-    //public bool Hit(int _val)
-    //{
-    //    return lifeSystemEnemy.Hit(_val);
-    //}
-
+    
     public void ChangeLife(int newLife)
     {
         lifesystem.SetLife(newLife);

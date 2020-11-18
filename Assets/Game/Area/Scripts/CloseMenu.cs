@@ -10,5 +10,4 @@ public class CloseMenu : MonoBehaviour
     {
         panel.SetActive(false);
     }
-    
 }

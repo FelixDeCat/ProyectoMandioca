@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class LockOn
 {
-
     //seteo del booleano
     bool onLockOn;
     public bool isLockOn() => onLockOn;

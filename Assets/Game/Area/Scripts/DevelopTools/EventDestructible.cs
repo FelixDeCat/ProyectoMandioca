@@ -25,35 +25,8 @@ public class EventDestructible : MonoBehaviour
             savedDestroyedVersion.transform.position = transform.position;
             savedDestroyedVersion.BeginDestroy();
 
-            var childs = savedDestroyedVersion.GetComponentsInChildren<Rigidbody>();
-
-            if (savedDestroyedVersion.principalChild)
-            {
-                foreach (var c in childs)
-                {
-                    Vector3 aux;
-                    if (c != savedDestroyedVersion.principalChild) aux = c.transform.position - savedDestroyedVersion.principalChild.transform.position;
-                    else aux = c.transform.position - thunderImpactSpot.position;
-                    aux.Normalize();
-                    c.AddForce(aux * 5, ForceMode.VelocityChange);
-                    c.AddTorque(aux);
-                }
-            }
-            else
-            {
-                foreach (var c in childs)
-                {
-                    var aux = c.transform.position - thunderImpactSpot.position;
-                    aux.Normalize();
-                    c.AddForce(aux * 15, ForceMode.VelocityChange);
-                    c.AddTorque(aux * 4);
-                }
-            }
+            savedDestroyedVersion.ExplosionForce(thunderImpactSpot.position, 15, 4);
         }
-        
-
-        
-
         gameObject.SetActive(false);
     }
 }

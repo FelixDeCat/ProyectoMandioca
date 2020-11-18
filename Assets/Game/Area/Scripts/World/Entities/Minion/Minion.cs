@@ -18,10 +18,6 @@ public abstract class Minion : Companion
 
     protected override void OnInitialize()
     {
-        Main.instance.eventManager.TriggerEvent(GameEvents.MINION_SPAWN, new object[] { this });
-
-        //Main.instance.GetCombatDirector().AddNewTarget(this);
-
         IAInitialize();
     }
 

@@ -17,16 +17,6 @@ public class GameEvents
     /// </summary>
     public const string ENEMY_SPAWN = "EnemySpawn";
 
-    /// <summary>
-    /// [ Minion : ref del Minion ]
-    /// </summary>
-    public const string MINION_SPAWN = "MinionSpawn";
-
-    /// <summary>
-    /// [ vector3: posicion ]
-    /// </summary>
-    public const string MINION_DEAD = "MinionDead";
-
 
     /// <summary>
     /// [ EntityBase: target parreado ]

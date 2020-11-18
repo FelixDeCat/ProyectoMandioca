@@ -11,17 +11,13 @@ public class DestroyedVersion : MonoBehaviour
     [SerializeField] float maxTimer = 1;
 
     bool animate;
-    Color mycolor;
-
-    [SerializeField] bool useFade = true;
     public Rigidbody principalChild = null;
 
     public void BeginDestroy()
     {
         render = GetComponentsInChildren<Renderer>();
-        if(useFade) mycolor = render[0].material.color;
-        animate = true;
         timer = maxTimer;
+        animate = true;
     }
 
     public void ExplosionForce(Vector3 explosionPoint, float force, float torqueForce)
@@ -58,7 +54,6 @@ public class DestroyedVersion : MonoBehaviour
             if (timer > 0)
             {
                 timer = timer - 0.3f * Time.deltaTime;
-                foreach (var r in render) if (useFade) r.material.color = new Color(mycolor.r, mycolor.g, mycolor.b, timer);
             }
             else
             {

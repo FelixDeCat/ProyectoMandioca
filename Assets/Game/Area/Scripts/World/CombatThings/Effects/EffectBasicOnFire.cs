@@ -9,7 +9,7 @@ public class EffectBasicOnFire : EffectBase
 
     [SerializeField] float timeTick = 0.5f;
     [SerializeField] int damagePerTick = 1;
-    float timer;
+    float timerPerTick;
 
     protected override void OnInitialize()
     {
@@ -20,7 +20,7 @@ public class EffectBasicOnFire : EffectBase
     protected override void OffEffect()
     {
         feedbackFireDot.gameObject.SetActive(false);
-        timer = 0;
+        timerPerTick = 0;
     }
 
     protected override void OnEffect()
@@ -30,11 +30,11 @@ public class EffectBasicOnFire : EffectBase
 
     protected override void OnTickEffect(float cdPercent)
     {
-        timer += Time.deltaTime;
-        if (timer >= timeTick)
+        timerPerTick += Time.deltaTime;
+        if (timerPerTick >= timeTick)
         {
             lifeSystem.DamageTick(damagePerTick, Damagetype.Fire);
-            timer = 0;
+            timerPerTick = 0;
         }
     }
 }

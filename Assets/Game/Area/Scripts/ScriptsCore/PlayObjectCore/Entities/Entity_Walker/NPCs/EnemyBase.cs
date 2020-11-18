@@ -35,7 +35,7 @@ public abstract class EnemyBase : NPCBase
     {
         rb = GetComponent<Rigidbody>();
         dmgData?.Initialize(this);
-        dmgReceiver.SetIsDamage(IsDamage).AddDead(Death).AddTakeDamage(TakeDamageFeedback).AddInmuneFeedback(InmuneFeedback).Initialize(rootTransform, rb, lifesystem);
+        dmgReceiver?.SetIsDamage(IsDamage).AddDead(Death).AddTakeDamage(TakeDamageFeedback).AddInmuneFeedback(InmuneFeedback).Initialize(rootTransform, rb, lifesystem);
     }
 
     public virtual void ResetEntity()
