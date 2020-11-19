@@ -2921,7 +2921,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 32
+  m_RootOrder: 35
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &112054670
 GameObject:
@@ -4445,7 +4445,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 23
+  m_RootOrder: 26
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &158896225 stripped
 Transform:
@@ -7601,7 +7601,7 @@ Transform:
   m_LocalScale: {x: 1, y: 12.34, z: 16.957}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 34
+  m_RootOrder: 37
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &262290307
 PrefabInstance:
@@ -7698,6 +7698,133 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 262290307}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &262642001
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 262642007}
+  - component: {fileID: 262642006}
+  - component: {fileID: 262642005}
+  - component: {fileID: 262642004}
+  - component: {fileID: 262642003}
+  m_Layer: 0
+  m_Name: '[trigger] shutdown environment gungeon'
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &262642003
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 262642001}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1ac55cd863630e648a149902268e6473, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  OnTriggerEnterEvent:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 354564598}
+        m_MethodName: EnableCompleteDungeon
+        m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  OnTriggerExitEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  OnTriggerLateEnterEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  receivers: []
+  entitiesThatCanTrigger: 1
+--- !u!65 &262642004
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 262642001}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1, y: 1, z: 1}
+  m_Center: {x: 0, y: 0, z: 0}
+--- !u!23 &262642005
+MeshRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 262642001}
+  m_Enabled: 0
+  m_CastShadows: 1
+  m_ReceiveShadows: 1
+  m_DynamicOccludee: 1
+  m_MotionVectors: 1
+  m_LightProbeUsage: 1
+  m_ReflectionProbeUsage: 1
+  m_RenderingLayerMask: 1
+  m_RendererPriority: 0
+  m_Materials:
+  - {fileID: 2100000, guid: 4b4591bcb515e604190fd01bb44ef877, type: 2}
+  m_StaticBatchInfo:
+    firstSubMesh: 0
+    subMeshCount: 0
+  m_StaticBatchRoot: {fileID: 0}
+  m_ProbeAnchor: {fileID: 0}
+  m_LightProbeVolumeOverride: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
+  m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
+  m_ImportantGI: 0
+  m_StitchLightmapSeams: 1
+  m_SelectedEditorRenderState: 3
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 0
+--- !u!33 &262642006
+MeshFilter:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 262642001}
+  m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!4 &262642007
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 262642001}
+  m_LocalRotation: {x: 0.000000006272865, y: -0.6259793, z: 0.0000000073923916, w: 0.7798397}
+  m_LocalPosition: {x: -65.74, y: 25.56, z: -304.06}
+  m_LocalScale: {x: 192.53412, y: 61.130955, z: 16.210217}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 20
+  m_LocalEulerAnglesHint: {x: 0, y: -77.508, z: 0}
 --- !u!1001 &264020974
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -9153,7 +9280,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 21
+  m_RootOrder: 24
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &320562857
 GameObject:
@@ -11810,7 +11937,7 @@ Transform:
   m_LocalScale: {x: 2.9143, y: 10.703, z: 27.837}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 33
+  m_RootOrder: 36
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &411965250
 PrefabInstance:
@@ -14947,7 +15074,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   receivers: []
-  entitiesThatCanTrigger: 0
+  entitiesThatCanTrigger: 1
 --- !u!1001 &488685685
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -15261,6 +15388,134 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9e7b89b619e326a4ab65e9480de71a16, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!1 &504541667
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 504541673}
+  - component: {fileID: 504541672}
+  - component: {fileID: 504541671}
+  - component: {fileID: 504541670}
+  - component: {fileID: 504541669}
+  m_Layer: 0
+  m_Name: '[trigger] shutdown environment gungeon'
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &504541669
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 504541667}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1ac55cd863630e648a149902268e6473, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  OnTriggerEnterEvent:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 354564598}
+        m_MethodName: EnableCompleteDungeon
+        m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  OnTriggerExitEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  OnTriggerLateEnterEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  receivers: []
+  entitiesThatCanTrigger: 1
+--- !u!65 &504541670
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 504541667}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1, y: 1, z: 1}
+  m_Center: {x: 0, y: 0, z: 0}
+--- !u!23 &504541671
+MeshRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 504541667}
+  m_Enabled: 0
+  m_CastShadows: 1
+  m_ReceiveShadows: 1
+  m_DynamicOccludee: 1
+  m_MotionVectors: 1
+  m_LightProbeUsage: 1
+  m_ReflectionProbeUsage: 1
+  m_RenderingLayerMask: 1
+  m_RendererPriority: 0
+  m_Materials:
+  - {fileID: 2100000, guid: 4b4591bcb515e604190fd01bb44ef877, type: 2}
+  m_StaticBatchInfo:
+    firstSubMesh: 0
+    subMeshCount: 0
+  m_StaticBatchRoot: {fileID: 0}
+  m_ProbeAnchor: {fileID: 0}
+  m_LightProbeVolumeOverride: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
+  m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
+  m_ImportantGI: 0
+  m_StitchLightmapSeams: 1
+  m_SelectedEditorRenderState: 3
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 0
+--- !u!33 &504541672
+MeshFilter:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 504541667}
+  m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!4 &504541673
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 504541667}
+  m_LocalRotation: {x: -0.0000000033184016, y: -0.41832465, z: 0.000000006289418,
+    w: 0.9082976}
+  m_LocalPosition: {x: 20.713, y: 44.858, z: -219.39}
+  m_LocalScale: {x: 17.18978, y: 22.641094, z: 16.210217}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 19
+  m_LocalEulerAnglesHint: {x: 0, y: -49.458004, z: 0}
 --- !u!1001 &505954451
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -18231,7 +18486,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 18
+  m_RootOrder: 21
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &603900935
 PrefabInstance:
@@ -21986,7 +22241,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 29
+  m_RootOrder: 32
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &755131219
 PrefabInstance:
@@ -23806,7 +24061,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 35
+  m_RootOrder: 38
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &825545710
 PrefabInstance:
@@ -25105,8 +25360,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   vecinos:
-  - {fileID: 3584303780340247943}
   - {fileID: 3584303779418131230}
+  - {fileID: 3584303780340247943}
   toEliminate: []
   parent: {fileID: 0}
   costs:
@@ -25626,7 +25881,7 @@ Transform:
   - {fileID: 1240765447}
   - {fileID: 888151771}
   m_Father: {fileID: 0}
-  m_RootOrder: 20
+  m_RootOrder: 23
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &885360354
 GameObject:
@@ -33327,7 +33582,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 24
+  m_RootOrder: 27
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1137902102
 MonoBehaviour:
@@ -35175,6 +35430,133 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1215219548}
   m_Mesh: {fileID: -2597845070582366753, guid: 1f93e94ca74d6ec49b4c7ecf1a1465e5, type: 3}
+--- !u!1 &1216570650
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1216570656}
+  - component: {fileID: 1216570655}
+  - component: {fileID: 1216570654}
+  - component: {fileID: 1216570653}
+  - component: {fileID: 1216570652}
+  m_Layer: 0
+  m_Name: '[trigger] shutdown environment gungeon'
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1216570652
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1216570650}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1ac55cd863630e648a149902268e6473, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  OnTriggerEnterEvent:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 354564598}
+        m_MethodName: EnableCompleteDungeon
+        m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  OnTriggerExitEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  OnTriggerLateEnterEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  receivers: []
+  entitiesThatCanTrigger: 1
+--- !u!65 &1216570653
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1216570650}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1, y: 1, z: 1}
+  m_Center: {x: 0, y: 0, z: 0}
+--- !u!23 &1216570654
+MeshRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1216570650}
+  m_Enabled: 0
+  m_CastShadows: 1
+  m_ReceiveShadows: 1
+  m_DynamicOccludee: 1
+  m_MotionVectors: 1
+  m_LightProbeUsage: 1
+  m_ReflectionProbeUsage: 1
+  m_RenderingLayerMask: 1
+  m_RendererPriority: 0
+  m_Materials:
+  - {fileID: 2100000, guid: 4b4591bcb515e604190fd01bb44ef877, type: 2}
+  m_StaticBatchInfo:
+    firstSubMesh: 0
+    subMeshCount: 0
+  m_StaticBatchRoot: {fileID: 0}
+  m_ProbeAnchor: {fileID: 0}
+  m_LightProbeVolumeOverride: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
+  m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
+  m_ImportantGI: 0
+  m_StitchLightmapSeams: 1
+  m_SelectedEditorRenderState: 3
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 0
+--- !u!33 &1216570655
+MeshFilter:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1216570650}
+  m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!4 &1216570656
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1216570650}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 219.495, y: 32.69, z: -261.349}
+  m_LocalScale: {x: 14.921684, y: 46.973225, z: 25.024706}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 18
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &1216686676
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -38719,7 +39101,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 31
+  m_RootOrder: 34
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &1336867461
 PrefabInstance:
@@ -40572,7 +40954,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 27
+  m_RootOrder: 30
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &1413651990 stripped
 Transform:
@@ -40887,7 +41269,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 19
+  m_RootOrder: 22
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1425822895
 GameObject:
@@ -42767,7 +43149,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   receivers: []
-  entitiesThatCanTrigger: 0
+  entitiesThatCanTrigger: 1
 --- !u!1001 &1475992591
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -44022,7 +44404,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 25
+  m_RootOrder: 28
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1518581442
 MonoBehaviour:
@@ -45166,7 +45548,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 26
+  m_RootOrder: 29
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1574624655
 MonoBehaviour:
@@ -45582,7 +45964,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 28
+  m_RootOrder: 31
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1595700899
 MonoBehaviour:
@@ -46041,7 +46423,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 36
+  m_RootOrder: 39
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &1600962864
 PrefabInstance:
@@ -53210,7 +53592,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 22
+  m_RootOrder: 25
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1878514512
 GameObject:
@@ -53692,7 +54074,7 @@ RectTransform:
   m_Children:
   - {fileID: 1016882844}
   m_Father: {fileID: 0}
-  m_RootOrder: 37
+  m_RootOrder: 40
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
@@ -65717,7 +66099,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 30
+  m_RootOrder: 33
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &2135986352
 GameObject:
@@ -66729,10 +67111,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   vecinos:
-  - {fileID: 1521409244953138516}
   - {fileID: 1309136276515993690}
-  - {fileID: 4726029266849549462}
+  - {fileID: 1521409244953138516}
   - {fileID: 7740034488396759910}
+  - {fileID: 4726029266849549462}
   toEliminate: []
   parent: {fileID: 0}
   costs:
@@ -68875,8 +69257,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   vecinos:
-  - {fileID: 368213100450089018}
   - {fileID: 368213100136866777}
+  - {fileID: 368213100450089018}
   toEliminate: []
   parent: {fileID: 0}
   costs:
@@ -71314,8 +71696,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   vecinos:
-  - {fileID: 1309105981523807119}
   - {fileID: 1309105981988178795}
+  - {fileID: 1309105981523807119}
   toEliminate: []
   parent: {fileID: 0}
   costs:
@@ -71655,8 +72037,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   vecinos:
-  - {fileID: 2307826315976979595}
   - {fileID: 7341460703200673595}
+  - {fileID: 2307826315976979595}
   toEliminate: []
   parent: {fileID: 0}
   costs:
@@ -72269,9 +72651,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   vecinos:
   - {fileID: 1309136276515993690}
+  - {fileID: 7740034488396759910}
   - {fileID: 224646571209488253}
   - {fileID: 4726029266849549462}
-  - {fileID: 7740034488396759910}
   toEliminate: []
   parent: {fileID: 0}
   costs:
@@ -72676,8 +73058,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   vecinos:
-  - {fileID: 1430644855509733604}
   - {fileID: 4313522816891145299}
+  - {fileID: 1430644855509733604}
   toEliminate: []
   parent: {fileID: 0}
   costs:
@@ -75013,8 +75395,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   vecinos:
   - {fileID: 6151778932777962458}
-  - {fileID: 368213101776042016}
   - {fileID: 8698585774704833585}
+  - {fileID: 368213101776042016}
   toEliminate:
   - {fileID: 368213101776042016}
   parent: {fileID: 0}
@@ -75518,8 +75900,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   vecinos:
-  - {fileID: 3651661478584034989}
   - {fileID: 6771908930780119838}
+  - {fileID: 3651661478584034989}
   toEliminate: []
   parent: {fileID: 0}
   costs:
@@ -76787,8 +77169,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   vecinos:
-  - {fileID: 874145526}
   - {fileID: 3584303780862220868}
+  - {fileID: 874145526}
   toEliminate: []
   parent: {fileID: 0}
   costs:
@@ -76917,8 +77299,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   vecinos:
-  - {fileID: 3584303781422167195}
   - {fileID: 3584303781135278368}
+  - {fileID: 3584303781422167195}
   toEliminate: []
   parent: {fileID: 0}
   costs:
@@ -77828,8 +78210,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   vecinos:
-  - {fileID: 3584303781422167195}
   - {fileID: 3584303780769269015}
+  - {fileID: 3584303781422167195}
   toEliminate: []
   parent: {fileID: 0}
   costs:
@@ -77959,8 +78341,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   vecinos:
   - {fileID: 3584303780900705537}
-  - {fileID: 3584303779509711009}
   - {fileID: 6142200040319627801}
+  - {fileID: 3584303779509711009}
   toEliminate: []
   parent: {fileID: 0}
   costs:
@@ -78062,8 +78444,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   vecinos:
-  - {fileID: 3584303780900705537}
   - {fileID: 3584303779991691652}
+  - {fileID: 3584303780900705537}
   - {fileID: 6142200040319627801}
   toEliminate:
   - {fileID: 3584303779991691652}
@@ -79317,8 +79699,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   vecinos:
-  - {fileID: 3584303779525001276}
   - {fileID: 3584303781128537044}
+  - {fileID: 3584303779525001276}
   toEliminate: []
   parent: {fileID: 0}
   costs:
@@ -79650,8 +80032,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   vecinos:
-  - {fileID: 3584303779889122814}
   - {fileID: 3584303780862220868}
+  - {fileID: 3584303779889122814}
   toEliminate: []
   parent: {fileID: 0}
   costs:
@@ -79779,8 +80161,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   vecinos:
-  - {fileID: 3584303779623387351}
   - {fileID: 3584303780151457074}
+  - {fileID: 3584303779623387351}
   toEliminate: []
   parent: {fileID: 0}
   costs:
@@ -80265,8 +80647,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   vecinos:
-  - {fileID: 3584303779997644194}
   - {fileID: 3584303779991691652}
+  - {fileID: 3584303779997644194}
   toEliminate: []
   parent: {fileID: 0}
   costs:
@@ -80820,8 +81202,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   vecinos:
-  - {fileID: 7750778513868076440}
   - {fileID: 3584303781127812268}
+  - {fileID: 7750778513868076440}
   - {fileID: 3584303780831174236}
   toEliminate: []
   parent: {fileID: 0}
@@ -81436,8 +81818,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   vecinos:
-  - {fileID: 3584303780749464005}
   - {fileID: 3584303780804626967}
+  - {fileID: 3584303780749464005}
   toEliminate: []
   parent: {fileID: 0}
   costs:
@@ -81704,8 +82086,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   vecinos:
-  - {fileID: 3584303781442594721}
   - {fileID: 3584303781359324479}
+  - {fileID: 3584303781442594721}
   toEliminate: []
   parent: {fileID: 0}
   costs:
@@ -82120,8 +82502,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   vecinos:
-  - {fileID: 3584303779889122814}
   - {fileID: 3584303779475217671}
+  - {fileID: 3584303779889122814}
   toEliminate: []
   parent: {fileID: 0}
   costs:
@@ -85197,8 +85579,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   vecinos:
   - {fileID: 1521409244953138516}
-  - {fileID: 224646571209488253}
   - {fileID: 7740034488396759910}
+  - {fileID: 224646571209488253}
   toEliminate: []
   parent: {fileID: 0}
   costs:
@@ -85728,8 +86110,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   vecinos:
-  - {fileID: 1456621834374886707}
   - {fileID: 5093591603742957632}
+  - {fileID: 1456621834374886707}
   toEliminate: []
   parent: {fileID: 0}
   costs:
@@ -87227,9 +87609,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   vecinos:
+  - {fileID: 7650206103671130190}
   - {fileID: 8551197434106522218}
   - {fileID: 8917105598049979055}
-  - {fileID: 7650206103671130190}
   toEliminate: []
   parent: {fileID: 0}
   costs:
@@ -87457,8 +87839,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   vecinos:
-  - {fileID: 3154818423600913750}
   - {fileID: 214682252028071657}
+  - {fileID: 3154818423600913750}
   toEliminate: []
   parent: {fileID: 0}
   costs:
@@ -87839,10 +88221,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   vecinos:
-  - {fileID: 3584303779997644194}
-  - {fileID: 3584303779509711009}
   - {fileID: 3584303779991691652}
+  - {fileID: 3584303779997644194}
   - {fileID: 3584303779397078191}
+  - {fileID: 3584303779509711009}
   toEliminate: []
   parent: {fileID: 0}
   costs:
@@ -89926,8 +90308,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   vecinos:
-  - {fileID: 1677479430282971052}
   - {fileID: 1333131961340013555}
+  - {fileID: 1677479430282971052}
   toEliminate: []
   parent: {fileID: 0}
   costs:
@@ -90681,8 +91063,8 @@ MonoBehaviour:
   vecinos:
   - {fileID: 1521409244953138516}
   - {fileID: 224646571209488253}
-  - {fileID: 2327713565950141185}
   - {fileID: 4726029266849549462}
+  - {fileID: 2327713565950141185}
   toEliminate: []
   parent: {fileID: 0}
   costs:
@@ -90718,8 +91100,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   vecinos:
-  - {fileID: 3584303781089406252}
   - {fileID: 3584303781127812268}
+  - {fileID: 3584303781089406252}
   - {fileID: 3584303780831174236}
   - {fileID: 3584303780537696127}
   - {fileID: 2444345137454769899}
@@ -94013,8 +94395,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   vecinos:
-  - {fileID: 368213101776042016}
   - {fileID: 8698585774704833585}
+  - {fileID: 368213101776042016}
   - {fileID: 368213100038312827}
   - {fileID: 4399388181714051006}
   - {fileID: 368213100156837239}
@@ -94344,8 +94726,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   vecinos:
-  - {fileID: 368213101776042016}
   - {fileID: 2868036302936886600}
+  - {fileID: 368213101776042016}
   - {fileID: 368213100038312827}
   - {fileID: 8569770646728989089}
   toEliminate:
