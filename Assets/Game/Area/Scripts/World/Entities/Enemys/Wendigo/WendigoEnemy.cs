@@ -30,6 +30,7 @@ public class WendigoEnemy : EnemyWithCombatDirector
     bool stopCD;
     bool isRotating;
     EventStateMachine<WendigoInputs> sm;
+    CDModule cdModule = new CDModule();
 
     EffectReceiver myEffectReceiver;
     protected override void OnInitialize()     //Inicia las cosas
@@ -123,6 +124,7 @@ public class WendigoEnemy : EnemyWithCombatDirector
         //Crear y Transiciones. Tree en Discord
         ConfigureState.Create(idle)
         .SetTransition(WendigoInputs.OBSERVATION, obs)
+        .SetTransition(WendigoInputs.DEATH, death)
         .Done();
 
         ConfigureState.Create(obs)
@@ -143,10 +145,12 @@ public class WendigoEnemy : EnemyWithCombatDirector
 
         ConfigureState.Create(grabThing)
                .SetTransition(WendigoInputs.OBSERVATION, obs)
+               .SetTransition(WendigoInputs.DEATH, death)
                .Done();
 
         ConfigureState.Create(range)
                .SetTransition(WendigoInputs.OBSERVATION, obs)
+               .SetTransition(WendigoInputs.DEATH, death)
                .Done();
 
         ConfigureState.Create(prepMelee)
@@ -159,6 +163,7 @@ public class WendigoEnemy : EnemyWithCombatDirector
         ConfigureState.Create(melee)
                .SetTransition(WendigoInputs.OBSERVATION, obs)
                .SetTransition(WendigoInputs.PREPARERANGE, prepRange)
+               .SetTransition(WendigoInputs.DEATH, death)
                .Done();
 
         ConfigureState.Create(petry)
@@ -185,8 +190,8 @@ public class WendigoEnemy : EnemyWithCombatDirector
         new WendigoGrabRock(grabThing, () => hasThrowable = true, view, sm);
         new WendigoPrepareRange(prepRange, view, moveComponent, combatElement, sm, throwTime).SetRoot(rootTransform);
         new WendigoRange(prepRange, view, Rotate, sm);
-
-
+        new DummyDieState<WendigoInputs>(death, sm, ragdoll, () => { }, ReturnToSpawner, cdModule);
+        new DummyDisableState<WendigoInputs>(disable, sm, EnableObject, DisableObject);
     }
     protected void Rotate()
     {
@@ -286,11 +291,13 @@ public class WendigoEnemy : EnemyWithCombatDirector
 
             myEffectReceiver?.UpdateStates();
 
+
         }
         //Update de StateMachine
         if (sm != null)
             sm.Update();
 
+        cdModule.UpdateCD();
     }
     protected override void OnPause()
     {
@@ -362,7 +369,7 @@ public class WendigoEnemy : EnemyWithCombatDirector
 
     protected override void Die(Vector3 dir)
     {
-        sm.SendInput(WendigoInputs.IDLE);
+        sm.SendInput(WendigoInputs.DEATH);
         if (dir == Vector3.zero)
             ragdoll.Ragdoll(true, -rootTransform.forward);
         else

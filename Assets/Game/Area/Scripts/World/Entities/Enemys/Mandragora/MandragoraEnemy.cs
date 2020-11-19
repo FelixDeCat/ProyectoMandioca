@@ -385,7 +385,7 @@ public class MandragoraEnemy : EnemyWithCombatDirector
 
         new DummyTDState(takeDamage, sm, recallTime).SetAnimator(animator).SetCD(cdModuleStopeable);
 
-        new DummyDieState(die, sm, ragdoll, OnDead, ReturnToSpawner).SetAnimator(animator).SetDirector(director).SetRigidbody(rb).SetCD(cdModuleStopeable);
+        new DummyDieState<MandragoraInputs>(die, sm, ragdoll, OnDead, ReturnToSpawner,cdModuleStopeable);
 
         new DummyDisableState<MandragoraInputs>(disable, sm, EnableObject, DisableObject);
     }

@@ -23,12 +23,10 @@ public class OutlineFeedback : FeedbackInteractBase
 
     protected override void OnShow()
     {
-        Debug.Log("me muestro" + myMat.Length);
         for(int i = 0; i < myMat.Length; i++)
         {
             if (myMat[i].shader.name == shader_name)
             {
-                Debug.Log("me cambio");
                 myMat[i].SetFloat(borderOpacity, borderOpacityOn);
             }
         }

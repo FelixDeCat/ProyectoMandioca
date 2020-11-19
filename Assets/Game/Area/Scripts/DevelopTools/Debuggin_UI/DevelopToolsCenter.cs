@@ -12,6 +12,8 @@ public class DevelopToolsCenter : MonoBehaviour
     bool open_wrench = false;
     bool open_debugView = false;
 
+    [SerializeField] GameObject[] childs = new GameObject[0];
+
 
     #region God Mode
     bool godMode = false;
@@ -34,7 +36,6 @@ public class DevelopToolsCenter : MonoBehaviour
        // Debug_UI_Tools.instance.CreateToogle("NormalAttack", true, GodDamage);
 
         Debug_UI_Tools.instance.CreateToogle("Magnificar Ents", false, ToogleMagnoFace);
-
         
 
     }
@@ -112,5 +113,11 @@ public class DevelopToolsCenter : MonoBehaviour
     string ToogleDebug(bool active) { enemydebug = active; FindObjectsOfType<TrueDummyEnemy>().ToList().ForEach(x => x.ToogleDebug(active)); return active ? "debug activado" : "debug desactivado"; }
    // string ToogleDebugRange(bool active) { enemydebug = active; FindObjectsOfType<RangeDummy>().ToList().ForEach(x => x.debug_options.ToogleDebug(active)); return active ? "debug activado" : "debug desactivado"; }
     //string ToogleDebugJabali(bool active) { enemydebug = active; FindObjectsOfType<JabaliEnemy>().ToList().ForEach(x => x.ToogleDebug(active)); return active ? "debug activado" : "debug desactivado"; }
+
+    public void ShowChilds(bool b)
+    {
+        for (int i = 0; i < childs.Length; i++)
+            childs[i].SetActive(b);
+    }
 
 }

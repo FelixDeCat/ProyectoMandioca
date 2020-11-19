@@ -82,6 +82,7 @@ public class RagdollComponent : MonoBehaviour
     public void DesactiveBones()
     {
         for (int i = 0; i < myBones.Length; i++) myBones[i].GetComponent<Collider>().enabled = false;
+        Debug.Log("mis güesitos");
     }
 
     Vector3 force;

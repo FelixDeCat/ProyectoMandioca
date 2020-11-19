@@ -29,8 +29,18 @@ public class AutoShutDownOnBuild : MonoBehaviour
         if (Input.GetKey(KeyCode.LeftShift) && Input.GetKeyDown(KeyCode.L))
         {
             en = !en;
-            if (en) { OnEnable.Invoke(); Main.instance.eventManager.TriggerEvent(GameEvents.INTERACTABLES_INITIALIZE); }
-            else { OnDisable.Invoke(); Main.instance.eventManager.TriggerEvent(GameEvents.INTERACTABLES_INITIALIZE); }
+            if (en)
+            {
+                OnEnable.Invoke();
+                Main.instance.eventManager.TriggerEvent(GameEvents.INTERACTABLES_INITIALIZE);
+                DevelopToolsCenter.instance.ShowChilds(true);
+            }
+            else
+            {
+                OnDisable.Invoke();
+                Main.instance.eventManager.TriggerEvent(GameEvents.INTERACTABLES_INITIALIZE);
+                DevelopToolsCenter.instance.ShowChilds(false);
+            }
         }
     }
 }

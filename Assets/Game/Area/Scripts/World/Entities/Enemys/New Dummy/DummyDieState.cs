@@ -3,32 +3,26 @@ using System;
 
 namespace Tools.StateMachine
 {
-    public class DummyDieState : DummyEnemyStates
+    public class DummyDieState<T> : StatesFunctions<T>
     {
         RagdollComponent ragdoll;
         Action OnDead;
         ParticleSystem particle;
         Action OnDissappear;
+        CDModule cdModule;
 
-        public DummyDieState(EState<TrueDummyEnemy.DummyEnemyInputs> myState, EventStateMachine<TrueDummyEnemy.DummyEnemyInputs> _sm, RagdollComponent _ragdoll,
-                             Action _OnDead, Action _OnDissappear) : base(myState, _sm)
+        public DummyDieState(EState<T> myState, EventStateMachine<T> _sm, RagdollComponent _ragdoll,
+                             Action _OnDead, Action _OnDissappear, CDModule _cdModule) : base(myState, _sm)
         {
             OnDead = _OnDead;
             ragdoll = _ragdoll;
             OnDissappear = _OnDissappear;
+            cdModule = _cdModule;
         }
 
-        public DummyDieState(EState<TrueDummyEnemy.DummyEnemyInputs> myState, EventStateMachine<TrueDummyEnemy.DummyEnemyInputs> _sm, RagdollComponent _ragdoll,
-                     ParticleSystem _particle, Action _OnDissappear) : base(myState, _sm)
-        {
-            particle = _particle;
-            ragdoll = _ragdoll;
-            OnDissappear = _OnDissappear;
-        }
-        protected override void Enter(EState<TrueDummyEnemy.DummyEnemyInputs> input)
+        protected override void Enter(EState<T> lastState)
         {
             particle?.gameObject.SetActive(false);
-            combatDirector.DeadEntity(ragdoll.GetComponent<CombatDirectorElement>(), ragdoll.GetComponent<CombatDirectorElement>().CurrentTarget());
             cdModule.AddCD("DesactiveBones", () =>
             {
                 OnDead?.Invoke();
@@ -36,6 +30,22 @@ namespace Tools.StateMachine
             }, 5);
 
             cdModule.AddCD("Dead", () => OnDissappear?.Invoke(), 8);
+        }
+
+        protected override void Exit(T input)
+        {
+        }
+
+        protected override void FixedUpdate()
+        {
+        }
+
+        protected override void LateUpdate()
+        {
+        }
+
+        protected override void Update()
+        {
         }
     }
 }

@@ -246,6 +246,7 @@ public class TrueDummyEnemy : EnemyWithCombatDirector
         combatElement.ExitCombat();
         Main.instance.RemoveEntity(this);
         myEffectReceiver?.EndAllEffects();
+        particles.myGroundParticle.gameObject.SetActive(false);
     }
 
     protected override bool IsDamage()
@@ -371,7 +372,7 @@ public class TrueDummyEnemy : EnemyWithCombatDirector
 
         new DummyTDState(takeDamage, sm, recallTime).SetAnimator(animator).SetCD(cdModuleStopeable);
 
-        new DummyDieState(die, sm, ragdoll, particles.myGroundParticle, ReturnToSpawner).SetAnimator(animator).SetDirector(director).SetRigidbody(rb).SetCD(cdModuleStopeable);
+        new DummyDieState<DummyEnemyInputs>(die, sm, ragdoll, ()=> { }, ReturnToSpawner, cdModuleStopeable);
 
         new DummyDisableState<DummyEnemyInputs>(disable, sm, EnableObject, DisableObject);
     }
