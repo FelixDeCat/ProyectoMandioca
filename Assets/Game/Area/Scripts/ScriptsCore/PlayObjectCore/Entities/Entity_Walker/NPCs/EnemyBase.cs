@@ -41,7 +41,7 @@ public abstract class EnemyBase : NPCBase
     public virtual void ResetEntity()
     {
         StopAllCoroutines();
-        lifesystem.ResetLifeSystem();
+        lifesystem?.ResetLifeSystem();
         OnResetEnemy?.Invoke();
         OnReset();
     }

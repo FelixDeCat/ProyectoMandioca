@@ -10446,8 +10446,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   poolname: goat
+  isOn: 0
   rig_path_finder: {fileID: 0}
   death: 0
+  CurrentScene: 
   OnDeath:
     m_PersistentCalls:
       m_Calls: []
@@ -10465,22 +10467,16 @@ MonoBehaviour:
   movement: {fileID: 6733651048786057550}
   lineOfSight: {fileID: 5735071754009111437}
   groundSensor: {fileID: 2813422273276361586}
-  animEmisive:
-    serializedVersion: 2
-    m_Curve: []
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
   headAttack: {fileID: 3951395813138206272}
   pushAttack: {fileID: 3952242282522720112}
   stompAttack: {fileID: 5961832912220664901}
   normalDistance: 9
   timeParried: 2
-  goatType: 2
-  normalDamage: 4
-  normalAttAnticipation: 0.5
+  goatType: 1
+  normalDamage: 10
+  normalAttAnticipation: 1
   cdToHeadAttack: 3
-  normalKockback: 30
+  normalKockback: 200
   pushDamage: 4
   distanceToCharge: 6
   chargeTime: 3
@@ -10553,6 +10549,7 @@ MonoBehaviour:
   damageTime: 0
   attackDir: {x: 0, y: 0, z: 0}
   owner: {fileID: 0}
+  ownerRoot: {fileID: 0}
 --- !u!114 &3951395813138206272
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -10617,6 +10614,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 99373cd774316fd49a2709769e1bc38f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  rb: {fileID: 0}
   initialSpeed: 4
   avoidWeight: 1
   avoidanceRadious: 1.5
