@@ -668,6 +668,8 @@ public class CharacterHead : CharacterControllable
     #endregion
 
     #region Item Effects
+    public bool CanUseEffect() => imUsingItemOnWeapon ? false : true;
+
     public void TurnOnGreekOilEffect(float duration)
     {
         Debug.Log("Greek OIL Turn On");
