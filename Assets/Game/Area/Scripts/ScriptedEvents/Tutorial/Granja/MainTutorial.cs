@@ -19,8 +19,6 @@ public class MainTutorial : MonoBehaviour
     bool objetive_armored_ent = false;
     bool objetive_plants = false;
 
-    public UnityEngine.UI.Text deb;
-
     public void TRIGGER_StartTutorial()
     {
         ChangeFase(FASE_LIBERA_CAMINO_JACINTA);
@@ -52,6 +50,6 @@ public class MainTutorial : MonoBehaviour
     }
 
     #region auxs
-    void ChangeFase(int val) { deb.text = val.ToString(); ManagerGlobalFases.instance.ModifyFase(ID_TUTORIAL, val); }
+    void ChangeFase(int val) { ManagerGlobalFases.instance.ModifyFase(ID_TUTORIAL, val); }
     #endregion
 }

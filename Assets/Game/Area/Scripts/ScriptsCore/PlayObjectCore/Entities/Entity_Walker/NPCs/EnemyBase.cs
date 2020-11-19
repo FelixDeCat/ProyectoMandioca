@@ -85,7 +85,14 @@ public abstract class EnemyBase : NPCBase
 
     protected override void OnResume()
     {
-        animator.speed = currentAnimSpeed;
+        if (animator == null)
+        {
+            Debug.LogError("catcheo error para no cortar la ejecucion: el animator es null");
+        }
+        else
+        {
+            animator.speed = currentAnimSpeed;
+        }
     }
 
     #endregion
