@@ -40,7 +40,6 @@ public class TestInteractableHold : Interactable
             _executeAction();
             
         }
-        SetCanInteract(true, true);
     }
 
     public override void OnInterrupt()

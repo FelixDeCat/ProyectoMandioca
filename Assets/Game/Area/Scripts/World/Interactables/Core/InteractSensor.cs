@@ -9,7 +9,7 @@ public class InteractSensor : MonoBehaviour
 {
     public bool isclose;
 
-    List<Interactable> interactables = new List<Interactable>();
+    public List<Interactable> interactables = new List<Interactable>();
     public List<Interactable> Interacts { get { return interactables; } }
     Interactable current;
 
@@ -74,7 +74,8 @@ public class InteractSensor : MonoBehaviour
     {
         most_close.Exit();
         most_close = null;
-        
+
+        RemoveToInteractables(_interact);
         most_close = interactables.ReturnMostClose(transform.position, x => x.CanInteract);
         if (most_close != null && I_Have_Good_Distace_To_Interact())
         {

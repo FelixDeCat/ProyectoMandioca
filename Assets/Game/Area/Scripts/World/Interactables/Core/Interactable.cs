@@ -1,4 +1,4 @@
-﻿using System.Collections;
+﻿ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System;
@@ -96,7 +96,13 @@ public abstract class Interactable : MonoBehaviour
         can_interact = true;
         ReturnToCanExecute();
     }
-    
+
+    public void CanInteractLoop()
+    {
+        can_interact = true;
+        Invoke("CanInteractAgain", 0.1f);
+    }
+   
     public void InterruptExecute()
     {
         if (!predicate.Invoke()) return;
