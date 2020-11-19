@@ -9,7 +9,7 @@ public class ChangeToTarget : MonoBehaviour
 
     [SerializeField] bool activeWithTrigger = false;
 
-    public void ActiveFirstTarget()
+    public void TRIGGER_ActiveFirstTarget()
     {
         Main.instance.GetCombatDirector().AddNewTarget(firstTarget);
         for (int i = 0; i < enemies.Length; i++)
@@ -18,6 +18,11 @@ public class ChangeToTarget : MonoBehaviour
             enemies[i].On();
             enemies[i].GetComponent<CombatDirectorElement>().EnterCombat(firstTarget);
         }
+    }
+
+    public void TRIGGER_ShutDownEvent()
+    {
+
     }
 
     private void Start()
