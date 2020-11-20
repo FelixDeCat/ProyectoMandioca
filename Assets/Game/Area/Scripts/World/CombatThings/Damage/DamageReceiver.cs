@@ -105,7 +105,7 @@ public class DamageReceiver : MonoBehaviour
     {
         if (IsDmg != null && IsDmg()) return Attack_Result.inmune;
 
-        if (_LifeSystem != null && _LifeSystem.life <= 0) return Attack_Result.inmune;
+        if (_LifeSystem != null && _LifeSystem.Life <= 0) return Attack_Result.inmune;
 
         if (onlyVulnerablyTo.Count != 0 && !onlyVulnerablyTo.Contains(data.damageType))
         {
@@ -175,7 +175,7 @@ public class DamageReceiver : MonoBehaviour
 
     public void DamageTick(int damage, Damagetype dmgType)
     {
-        if (_LifeSystem != null && _LifeSystem.life <= 0) return;
+        if (_LifeSystem != null && _LifeSystem.Life <= 0) return;
 
         if (onlyVulnerablyTo.Count != 0 && !onlyVulnerablyTo.Contains(dmgType)) return;
 

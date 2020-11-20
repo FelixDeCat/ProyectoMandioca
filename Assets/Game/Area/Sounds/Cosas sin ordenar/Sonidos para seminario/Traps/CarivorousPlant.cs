@@ -12,6 +12,7 @@ public class CarivorousPlant : EnemyBase
     [SerializeField] ForceMode mode = ForceMode.Acceleration;
     [SerializeField] AnimEvent animEvent = null;
     [SerializeField] LayerMask characterLayer = 0;
+    EffectReceiver effectReceiver;
 
     [SerializeField] float radious = 3f;
     public int dmg = 5;
@@ -44,6 +45,8 @@ public class CarivorousPlant : EnemyBase
 
         animEvent.Add_Callback("DealDamage", DamageCharacter);
         animEvent.Add_Callback("DissapearPlant", DissappearPlant);
+
+        effectReceiver = dmgReceiver.GetComponent<EffectReceiver>();
     }
 
     protected override void OnUpdateEntity()
@@ -97,6 +100,8 @@ public class CarivorousPlant : EnemyBase
                 attackRecall = false;
             }
         }
+
+        effectReceiver.UpdateStates();
     }
 
     void DamageCharacter()
@@ -111,6 +116,7 @@ public class CarivorousPlant : EnemyBase
 
     protected override void Die(Vector3 dir)
     {
+        effectReceiver.EndAllEffects();
         AudioManager.instance.PlaySound(_death_Clip.name, transform);
         animator.SetTrigger("Dead");
         OnDeath.Invoke();
