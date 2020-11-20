@@ -81,7 +81,7 @@ public class ObjetiveSubscriber : MonoBehaviour
                 {
                     exeObjetive = colls[i].gameObject.AddComponent<ExecuteObjetive>();
                 }
-                Debug.Log("Se subscribe: " + colls[i].gameObject.name + " al " + this.gameObject.name);
+                Debug.Log("OBJETIVE CATCHER |||| SUBS. [" + colls[i].gameObject.name + "] => [" + this.gameObject.name+"]");
                 //me subscribo
                 exeObjetive.SubscribeToExecuteObjetive(ObjetiveFinish);
             }

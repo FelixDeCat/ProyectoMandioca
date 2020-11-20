@@ -92,7 +92,12 @@ public abstract class Interactable : MonoBehaviour
             Invoke("CanInteractAgain", 0.1f);
         }
     }
-    void CanInteractAgain() { 
+    public void CanNotInteractAgain()
+    {
+        can_interact = true;
+        ReturnToCanExecute();
+    }
+    public void CanInteractAgain() { 
         can_interact = true;
         ReturnToCanExecute();
     }

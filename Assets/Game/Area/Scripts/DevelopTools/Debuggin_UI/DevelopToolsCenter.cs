@@ -18,7 +18,11 @@ public class DevelopToolsCenter : MonoBehaviour
     #region God Mode
     bool godMode = false;
     public bool GodMode { get { return godMode; } }
-    public void SetGodMode(bool val) { godMode = val; }
+    public void SetGodMode(bool val) 
+    { 
+        godMode = val;
+        Main.instance.GetChar().gameObject.GetComponent<CharTest>().EnableHyperJump();
+    }
     #endregion
 
     private void Start()
@@ -43,6 +47,7 @@ public class DevelopToolsCenter : MonoBehaviour
     #region Toggles [GODMODE]
     string ToogleGodMOdeDebug(bool active)
     {
+
         SetGodMode(active);
         return active ? "debug activado" : "debug desactivado";
     }

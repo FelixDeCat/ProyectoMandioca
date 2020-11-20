@@ -83,7 +83,7 @@ public class CharacterInput : MonoBehaviour
 
     private void Start()
     {
-        DevelopTools.UI.Debug_UI_Tools.instance.CreateToogle("Input de Rotacion", true, ChangeRotation);
+        
         LoadSceneHandler.instance.OnEndLoad += (x) =>
         {
             if (x != Menu && x != Load && inMenu)
@@ -198,19 +198,19 @@ public class CharacterInput : MonoBehaviour
         joystickMessage.Open();
         joystickMessage.Message(_isJoystick);
     }
-    public string ChangeRotation(bool value)
-    {
-        if (value)
-        {
-            input_type = InputType.Mouse;
-            return "teclado y raton detectado";
-        }
-        else
-        {
-            input_type = InputType.Joystick;
-            return "joystick detectado";
-        }
-    }
+    //public string ChangeRotation(bool value)
+    //{
+    //    if (value)
+    //    {
+    //        input_type = InputType.Mouse;
+    //        return "teclado y raton detectado";
+    //    }
+    //    else
+    //    {
+    //        input_type = InputType.Joystick;
+    //        return "joystick detectado";
+    //    }
+    //}
     #endregion
 
 

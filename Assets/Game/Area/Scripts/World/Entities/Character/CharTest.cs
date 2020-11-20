@@ -9,15 +9,10 @@ public class CharTest : MonoBehaviour
 
     public bool hyperJump;
 
-    void Start()
-    {
-        DevelopTools.UI.Debug_UI_Tools.instance.CreateToogle("Hyper Jump", false, HyperJump);
-    }
 
-    public string HyperJump(bool active)
+    public void EnableHyperJump()
     {
-        hyperJump = active;
-        return "HYperjump";
+        hyperJump = true;
     }
 
     public string ChangeSpeed(bool active)

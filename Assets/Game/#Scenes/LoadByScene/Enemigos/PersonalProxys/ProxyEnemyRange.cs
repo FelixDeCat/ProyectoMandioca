@@ -11,7 +11,14 @@ public class ProxyEnemyRange : ProxyEnemyBase
     {
         base.SpawnEnemy(enemy);
         var temp = enemy.GetComponent<EnemyWithCombatDirector>();
-        temp.SetRange(attackRange);
-        temp.combatDistance = visionRange;
+        if (temp != null)
+        {
+            temp.SetRange(attackRange);
+            temp.combatDistance = visionRange;
+        }
+        else
+        {
+            Debug.LogWarning("["+enemy.gameObject.name+"] no tiene EnemyWithCombatDirector " + "[SCENE=> "+ enemy.gameObject.scene.name+"]");
+        }
     }
 }
