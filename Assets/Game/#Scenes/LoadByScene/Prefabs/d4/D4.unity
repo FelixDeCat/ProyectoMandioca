@@ -480,6 +480,37 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 155692695}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &169521643
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 169521644}
+  m_Layer: 0
+  m_Name: parent
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &169521644
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 169521643}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children:
+  - {fileID: 1212249363}
+  m_Father: {fileID: 1282117750}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &188339884
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -4507,7 +4538,7 @@ Transform:
   - {fileID: 648847244}
   - {fileID: 188339885}
   - {fileID: 787382595}
-  m_Father: {fileID: 1282117750}
+  m_Father: {fileID: 169521644}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1282117749
@@ -4519,6 +4550,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1282117750}
+  - component: {fileID: 1282117751}
   m_Layer: 0
   m_Name: EscentialEnvironment
   m_TagString: Untagged
@@ -4537,10 +4569,23 @@ Transform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
-  - {fileID: 1212249363}
+  - {fileID: 169521644}
   m_Father: {fileID: 0}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1282117751
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1282117749}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c0f2d5f8fbc97074684b3f4633b281af, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  parent: {fileID: 169521643}
 --- !u!1001 &1361588647
 PrefabInstance:
   m_ObjectHideFlags: 0
