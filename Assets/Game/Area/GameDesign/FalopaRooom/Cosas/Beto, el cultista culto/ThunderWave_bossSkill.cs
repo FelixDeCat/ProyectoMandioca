@@ -105,13 +105,13 @@ public class ThunderWave_bossSkill : GOAP_Skills_Base
         
     }
 
-    void OnDrawGizmosSelected()
-    {
-        // Display the explosion radius when selected
-        Gizmos.color = new Color(1, 1, 0, 0.75F);
-        Gizmos.DrawSphere(transform.position, radious);
+    //void OnDrawGizmosSelected()
+    //{
+    //    // Display the explosion radius when selected
+    //    Gizmos.color = new Color(1, 1, 0, 0.75F);
+    //    Gizmos.DrawSphere(transform.position, radious);
 
-        if(_ent)
-            Gizmos.DrawLine(_ent.Root().position + Vector3.up, Main.instance.GetChar().Root.position + Vector3.up);
-    }
+    //    if(_ent)
+    //        Gizmos.DrawLine(_ent.Root().position + Vector3.up, Main.instance.GetChar().Root.position + Vector3.up);
+    //}
 }

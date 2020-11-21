@@ -13,6 +13,7 @@ public class NPCFleing : Villager
 
     public void GoToPos_ExitEndless() => GoTo(pos_exit_endless.transform.position); 
     public void GoToPos_RunningDesesperated() {GoToNoAnim(pos_exit_endless.transform.position, () => anim.StopRunDesesperate("")); anim.StartRunDesesperate(""); }
+
     public void GoToPos_RunningDesesperatedSecondPoint() {GoToNoAnim(pos_exit_endless2.transform.position, () => anim.StopRunDesesperate("")); anim.StartRunDesesperate(""); }
     public void GoToPos_RunningDesesperatedThirdPoint() {GoToNoAnim(pos_exit_endless3.transform.position, () => anim.StopRunDesesperate("")); anim.StartRunDesesperate(""); }
     public void GoToPos_RunningDesesperatedFourthPoint() {GoToNoAnim(pos_exit_endless4.transform.position, () => anim.StopRunDesesperate("")); anim.StartRunDesesperate(""); }
@@ -22,6 +23,11 @@ public class NPCFleing : Villager
     {
         Main.instance.GetVillageManager().AddVillager(this);
         this.gameObject.SetActive(false);
+    }
+
+    public void PlayAnim(string animName)
+    {
+        anim.PlayAnimation(animName);
     }
 
     //no se para que sirve esto, pero tira error sino, asique decora muy bien

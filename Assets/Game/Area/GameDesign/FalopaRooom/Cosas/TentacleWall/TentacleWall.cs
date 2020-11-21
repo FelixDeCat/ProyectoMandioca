@@ -47,6 +47,8 @@ public class TentacleWall : EnemyBase
 
     public void CloseTentacles()
     {
+        if (!gameObject.activeInHierarchy) return;
+
         _anim.Play("End");
 
         cdModule.AddCD("offTentacle", () => gameObject.SetActive(false), 2);
