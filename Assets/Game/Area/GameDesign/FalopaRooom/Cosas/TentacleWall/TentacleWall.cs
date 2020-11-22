@@ -8,15 +8,21 @@ public class TentacleWall : EnemyBase
     [SerializeField] AnimEvent animEvent;
     [SerializeField] BoxCollider boxCol;
     [SerializeField] GameObject damageTrigger;
+    [SerializeField] float rotSpeed;
 
     CDModule cdModule;
     bool attacking;
+    bool inRange = false;
 
     [SerializeField] int damage;
     [SerializeField] float distanceToAttack;
 
+    Transform characterT;
+
     private void Start()
     {
+        characterT = Main.instance.GetChar().Root;
+
         animEvent.Add_Callback("attack", () => damageTrigger.SetActive(true));
         animEvent.Add_Callback("end", () => gameObject.SetActive(false));
         animEvent.Add_Callback("finishAttack", ResetTentacleAttack);
@@ -35,14 +41,11 @@ public class TentacleWall : EnemyBase
         damageTrigger.SetActive(false);
         boxCol.enabled = true;
     }
-    //public void OpenTentacles()
-    //{
-    //    _anim.Play("Start");
-    //}
+
 
     private void Update()
     {
-        cdModule.UpdateCD();
+        //Debug.Log(canupdate);
     }
 
     public void CloseTentacles()
@@ -50,8 +53,6 @@ public class TentacleWall : EnemyBase
         if (!gameObject.activeInHierarchy) return;
 
         _anim.Play("End");
-
-        cdModule.AddCD("offTentacle", () => gameObject.SetActive(false), 2);
     }
 
     public void AttackTentacles()
@@ -90,6 +91,18 @@ public class TentacleWall : EnemyBase
         //}
     }
 
+    public void IsInRange(bool value) { inRange = value; }
+
+    void LookAtPlayer()
+    {
+        if (attacking) return;
+        if (!inRange) return;
+
+        var auxDir = (characterT.position - transform.position).normalized;
+       
+        transform.forward += Vector3.Lerp(transform.forward, auxDir, Time.fixedDeltaTime * rotSpeed);
+    }
+
     protected override void OnReset() { }
     protected override void TakeDamageFeedback(DamageData data) { }
     protected override void Die(Vector3 dir) { }
@@ -97,5 +110,7 @@ public class TentacleWall : EnemyBase
     protected override void OnUpdateEntity() { }
     protected override void OnTurnOn() { }
     protected override void OnTurnOff() { }
-    protected override void OnFixedUpdate() { }
+    protected override void OnFixedUpdate() {  cdModule.UpdateCD(); LookAtPlayer(); }
+ 
+
 }

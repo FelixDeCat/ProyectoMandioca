@@ -10,7 +10,7 @@ public class TentacleWall_controller : MonoBehaviour
     Transform characterT;
 
     float _count;
-    [SerializeField] float intervalTimeTentacle = 5;
+    [SerializeField] float intervalTimeTentacle = 12;
 
     bool randomTentaclesOn = false;
     CDModule timer = new CDModule();
@@ -36,6 +36,7 @@ public class TentacleWall_controller : MonoBehaviour
         for (int i = 0; i < tentacles.Count; i++)
         {
             tentacles[i].gameObject.SetActive(true);
+            tentacles[i].On();
         }
     }
 
@@ -44,6 +45,7 @@ public class TentacleWall_controller : MonoBehaviour
         for (int i = 0; i < tentacles.Count; i++)
         {
             tentacles[i].CloseTentacles();
+            tentacles[i].Off();
         }
     }
 
@@ -52,6 +54,7 @@ public class TentacleWall_controller : MonoBehaviour
         for (int i = 0; i < col.Length; i++)
         {
             col[i].gameObject.SetActive(true);
+            col[i].On();
         }
     }
 
@@ -60,6 +63,7 @@ public class TentacleWall_controller : MonoBehaviour
         for (int i = 0; i < col.Length; i++)
         {
             col[i].CloseTentacles();
+            col[i].Off();
         }
     }
 
@@ -76,7 +80,7 @@ public class TentacleWall_controller : MonoBehaviour
             _count = 0;
             var aux = tentacles.Where(t => Vector3.Distance(t.transform.position, characterT.position) <= 7).ToArray();
             OpenTentacles(aux);
-            timer.AddCD("closeSelectedTentacles", () => CloseTentacles(aux), 3);
+            timer.AddCD("closeSelectedTentacles", () => CloseTentacles(aux), 5);
         }
 
     }
