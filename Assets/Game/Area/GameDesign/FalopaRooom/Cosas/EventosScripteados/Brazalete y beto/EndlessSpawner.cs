@@ -17,7 +17,7 @@ public class EndlessSpawner : IPauseable
     public event Action OnStartWaveTimer;
     [SerializeField] float _count;
 
-    bool isOn = false;
+    public bool isOn = false;
 
     Dictionary<int, PlayObject[]> waveRegistry = new Dictionary<int, PlayObject[]>();
 
@@ -36,7 +36,7 @@ public class EndlessSpawner : IPauseable
     public void Start()
     {
         isOn = true;
-        OnStartWaveTimer?.Invoke();
+        //OnStartWaveTimer?.Invoke();
         currentWaveIndex = 0;
     }
 
@@ -89,10 +89,12 @@ public class EndlessSpawner : IPauseable
     public void Pause()
     {
         isOn = false;
+        
     }
 
     public void Resume()
     {
+        
         isOn = true;
     }
 }

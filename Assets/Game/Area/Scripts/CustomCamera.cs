@@ -4,6 +4,7 @@ using System.Linq;
 using UnityEngine;
 using Tools.Extensions;
 using Tools.EventClasses;
+using System;
 
 public class CustomCamera : MonoBehaviour
 {
@@ -147,7 +148,7 @@ public class CustomCamera : MonoBehaviour
     {
         if (shakeDurationCurrent > 0)
         {
-            transform.position += Random.insideUnitSphere * shakeAmmount;
+            transform.position += UnityEngine.Random.insideUnitSphere * shakeAmmount;
             shakeDurationCurrent -= Time.deltaTime;
         }
         else
@@ -278,14 +279,16 @@ public class CustomCamera : MonoBehaviour
     Transform finalPos;
     Transform lookAtTarget;
     Vector3 lookPos;
+    public event Action OnFinishCinematicEvent;
 
-    public void StartCinematic(float _goTime, float _cinematicTime, float _returnTime, Transform _finalPos, Transform _lookAt)
+    public void StartCinematic(float _goTime, float _cinematicTime, float _returnTime, Transform _finalPos, Transform _lookAt, Action callback = null)
     {
         goTime = _goTime;
         cinematicTime = _cinematicTime;
         returnTime = _returnTime;
         finalPos = _finalPos;
         lookPos = _lookAt.position;
+        OnFinishCinematicEvent = callback;
         cameraState = CameraCinematicState.cameraGo;        
     }
 
@@ -346,6 +349,7 @@ public class CustomCamera : MonoBehaviour
                 ChangeCamera();
                 cameraState = CameraCinematicState.off;
 
+                OnFinishCinematicEvent?.Invoke();
                 Main.instance.GetChar().Resume();
             }
         }

@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -14,5 +15,10 @@ public class CameraCinematic : MonoBehaviour
     public void StartCinematic()
     {
         Main.instance.GetMyCamera().StartCinematic(goTime, cinematicTime, returnTime, targetPos, lookAt);
+    }
+
+    public void StartCinematic(Action OnFinishCinematic_Callback)
+    {
+        Main.instance.GetMyCamera().StartCinematic(goTime, cinematicTime, returnTime, targetPos, lookAt, OnFinishCinematic_Callback);
     }
 }

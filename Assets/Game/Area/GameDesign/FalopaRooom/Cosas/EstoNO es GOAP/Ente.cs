@@ -82,7 +82,7 @@ namespace GOAP
         {
             //Movement
             _rb = GetComponent<Rigidbody>();
-            flyModule.Init();
+            if(flyModule != null) flyModule.Init();
 
             //Life
             _lifeSystem = GetComponent<GenericLifeSystem>();
@@ -127,7 +127,7 @@ namespace GOAP
 
             BossBarGeneric.SetLife(Life.Life, Life.LifeMax);
 
-            if (heightLevel == 1)
+            if (flyModule != null && heightLevel == 1)
                 flyModule.LoseMagicFly();
 
 

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using GOAP;
 using System;
+using System.Linq;
 
 public class Brazalete_event : MonoBehaviour, ISpawner
 {
@@ -13,13 +14,17 @@ public class Brazalete_event : MonoBehaviour, ISpawner
     [SerializeField] GameObject brazalete;
 
     Animator betoAnim;
+    Animator ateneaAnim;
     bool eventOn = false;
     CDModule timer = new CDModule();
     Action OnReachedDestination; 
 
     [Header("Movement Settings")]
     [SerializeField] Transform flyingPos;
-    Transform currentPlaceToGo;
+    [SerializeField] Transform getAway_pos;
+    [SerializeField] Transform brazaletDrop_pos;
+    Transform currentPlaceToGo_beto;
+    Transform currentPlaceToGo_brazalete;
     [SerializeField] float betoSpeed;
 
     [Header("Summoning Settings")]
@@ -27,17 +32,31 @@ public class Brazalete_event : MonoBehaviour, ISpawner
     [SerializeField] SpawnerSpot spot = null;
     [SerializeField] Transform posibleSpawnSpots;
     [SerializeField] PlayObject spawnPrefab;
-    List<PlayObject> summonedEnemies = new List<PlayObject>();
+    [SerializeField] List<PlayObject> summonedEnemies = new List<PlayObject>();
     int amountKilled;
     int amountSummoned;
+    bool activeSpawn = false;
     [SerializeField] int summonLimit;
     [SerializeField] EndlessSpawner wave_handler = new EndlessSpawner();
+    [SerializeField] float endlessDuration;
 
     [Header("Miscelaneos")]
     [SerializeField] NPCFleing[] aldeanosAsustados;
     [SerializeField] TentacleWall_controller tentaculos;
+    [SerializeField] DamageData ateneaDmg;
 
-    
+
+    [Header("CameraEvents")]
+    [SerializeField] CameraCinematic ateneaAparece_camEvent;
+
+    [Header("DialogueEvents")]
+    [SerializeField] NPC_Dialog ateneaDialogue;
+
+    [Header("Particles")]
+    [SerializeField] ParticleSystem ateneaAtaque;
+    [SerializeField] ParticleSystem brazaletPart;
+
+
     void Start()
     {
         wave_handler.Init();
@@ -49,12 +68,50 @@ public class Brazalete_event : MonoBehaviour, ISpawner
         }
 
         betoAnim = beto.GetComponent<Ente>().Anim();
+        ateneaAnim = atenea.GetComponentInChildren<Animator>();
 
         //EventSusbcriber
         beto.GetComponent<Ente>().OnTakeDmg += BetoStartsFlying;
         beto.GetComponent<Ente>().OnSkillAction += GoToFlyPos;
 
+        var _animAtenea = atenea.GetComponentInChildren<AnimEvent>();
+        _animAtenea.Add_Callback("ateneaAttack", OnExecuteAteneaAttack);
 
+        //_animEvent.Add_Callback("finishSkill", OnFinishSkillCast);
+    }
+
+    void OnExecuteAteneaAttack()
+    {
+        Debug.Log("EVENTO ATENEA");
+
+        if (ateneaAtaque != null) { ateneaAtaque.transform.position = beto.transform.position; ateneaAtaque.Play(); } 
+
+
+        void BetoGetDamaged()
+        {
+            Debug.Log("beto es golpeado");
+            ateneaDmg = GetComponent<DamageData>().SetDamage(0);
+            ateneaDmg.Initialize(transform);
+
+            beto.GetComponentInChildren<DamageReceiver>().TakeDamage(ateneaDmg);
+        }
+        void BetoHuye()
+        {
+            Debug.Log("beto huye");
+            ateneaAtaque.Stop();
+            brazalete.transform.position = beto.transform.position;
+            brazalete.gameObject.SetActive(true);
+            brazaletPart.Play();
+            currentPlaceToGo_brazalete = brazaletDrop_pos;
+            currentPlaceToGo_beto = getAway_pos;
+            betoSpeed *= 2;
+        }
+
+        timer.AddCD("betoEsGolpeado", BetoGetDamaged, 3);
+        timer.AddCD("betoEsGolpeadoOtraVez", BetoGetDamaged, 8);
+        timer.AddCD("betoHuye", BetoHuye, 15);
+
+        
     }
 
     public void InitEvent()
@@ -74,6 +131,38 @@ public class Brazalete_event : MonoBehaviour, ISpawner
         tentaculos.StartRandomTentacles();
     }
 
+
+    void AteneaCleanEnemies_StartEvent()
+    {
+        activeSpawn = false;
+        wave_handler.Pause();
+        tentaculos.StopRandomTentacles();
+        tentaculos.CloseTentacles();
+        atenea.SetActive(true);
+
+
+        KillAllEnemies();
+        timer.AddCD("killAll", KillAllEnemies, 1);
+        timer.AddCD("killAllAgain", () => { KillAllEnemies(); ateneaAnim.Play("Atenea_SmiteBegin"); }, 3);
+        timer.AddCD("apareceAtenea", () => {ateneaAparece_camEvent.StartCinematic(ateneaDialogue.StopDialogue); ateneaDialogue.Talk();  }, 4);
+    }
+
+    void KillAllEnemies()
+    {
+        //Debug.Log("entro aca");
+        
+        ateneaDmg = GetComponent<DamageData>().SetDamage(5000).SetDamageInfo(DamageInfo.Normal).SetDamageType(Damagetype.Explosion).SetKnockback(500);
+        ateneaDmg.Initialize(transform);
+
+        List<DamageReceiver> enemigos = summonedEnemies.Where(e => e != null).Select(e => e.GetComponent<DamageReceiver>()).ToList();
+
+        foreach (var item in enemigos)
+        {
+            item.TakeDamage(ateneaDmg);
+        }
+
+    }
+
     #region SummoningFase
 
     void BetoStartsFlying()
@@ -89,14 +178,21 @@ public class Brazalete_event : MonoBehaviour, ISpawner
         timer.AddCD("timeToPlayFly",
                      () => betoAnim.Play("StartFly"),
                     2);
+
+        timer.AddCD("ateneaSaveTheDay",
+                     () => AteneaCleanEnemies_StartEvent(),
+                    endlessDuration);
     }
 
     void StartSummonWaves()
     {
         OnReachedDestination -= StartSummonWaves;
+        beto.GetComponent<Ente>().heightLevel = 1;//solo es para que pase al idle de volar
+        betoAnim.Play("Awake");
 
         wave_handler.OnStartWaveTimer += SummonWave;
         wave_handler.Start();
+        activeSpawn = true;
     }
 
     public void SummonWave()
@@ -138,9 +234,8 @@ public class Brazalete_event : MonoBehaviour, ISpawner
     void OnEnemydead()
     {
         amountKilled++;
-        if (amountKilled >= summonedEnemies.Count)
+        if (amountKilled >= amountSummoned)
         {
-
             for (int i = 0; i < summonedEnemies.Count; i++)
             {
                 summonedEnemies[i].GetComponent<EnemyBase>().OnDeath.RemoveListener(OnEnemydead);
@@ -163,12 +258,9 @@ public class Brazalete_event : MonoBehaviour, ISpawner
 
     #endregion
 
-
-
-
     #region CharacterMovement
 
-    void GoToFlyPos() { currentPlaceToGo = flyingPos; beto.GetComponent<Ente>().OnSkillAction -= GoToFlyPos; }
+    void GoToFlyPos() { currentPlaceToGo_beto = flyingPos; beto.GetComponent<Ente>().OnSkillAction -= GoToFlyPos; }
 
     void Update()
     {
@@ -178,28 +270,51 @@ public class Brazalete_event : MonoBehaviour, ISpawner
         if (!eventOn) return;
 
         timer.UpdateCD();
-        wave_handler.OnUpdate();
+
+        if(activeSpawn) wave_handler.OnUpdate();
+
         BetoMove();
+
+        BrazaleteMove();
 
     }
 
     void BetoMove()
     {
-        if (currentPlaceToGo == null) return;
+        if (currentPlaceToGo_beto == null) return;
 
-        var dir = (currentPlaceToGo.position - beto.transform.position).normalized;
+        var dir = (currentPlaceToGo_beto.position - beto.transform.position).normalized;
 
 
 
-        if (Vector3.Distance(beto.transform.position, currentPlaceToGo.position) >= .5f)
+        if (Vector3.Distance(beto.transform.position, currentPlaceToGo_beto.position) >= .5f)
         {
             beto.transform.position += dir * betoSpeed * Time.deltaTime;
         }
         else
         {
-            beto.transform.position = currentPlaceToGo.position;
-            currentPlaceToGo = null;
+            beto.transform.position = currentPlaceToGo_beto.position;
+            currentPlaceToGo_beto = null;
             OnReachedDestination?.Invoke();
+        }
+    }
+
+    void BrazaleteMove()
+    {
+        if (currentPlaceToGo_brazalete == null) return;
+
+        var dir = (currentPlaceToGo_brazalete.position - brazalete.transform.position).normalized;
+
+
+
+        if (Vector3.Distance(beto.transform.position, currentPlaceToGo_beto.position) >= .5f)
+        {
+            brazalete.transform.position += dir * 2 * Time.deltaTime;
+        }
+        else
+        {
+            brazalete.transform.position = currentPlaceToGo_brazalete.position;
+            currentPlaceToGo_brazalete = null;
         }
     }
 
