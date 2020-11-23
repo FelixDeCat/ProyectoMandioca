@@ -22,10 +22,4 @@ public class CameraCinematic : MonoBehaviour
         Main.instance.GetMyCamera().StartCinematic(goTime, cinematicTime, returnTime, targetPos, lookAt, OnFinishCinematic_Callback);
     }
 
-    public void OnDrawGizmos()
-    {
-        Gizmos.matrix = targetPos.localToWorldMatrix;
-        Gizmos.DrawFrustum(targetPos.position, 60, 250, 0, 1.7f);
-        Gizmos.DrawSphere(targetPos.transform.position, 1f);
-    }
 }
