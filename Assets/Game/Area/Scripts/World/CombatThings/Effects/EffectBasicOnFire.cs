@@ -11,10 +11,16 @@ public class EffectBasicOnFire : EffectBase
     [SerializeField] int damagePerTick = 1;
     float timerPerTick;
 
+    [SerializeField] Color onHitColor = Color.red;
+    [SerializeField] float onHitFlashTime = 20f;
+    Material[] mats;
+
+
     protected override void OnInitialize()
     {
         base.OnInitialize();
         lifeSystem = GetComponentInParent<DamageReceiver>();
+        mats = lifeSystem.GetComponentInChildren<SkinnedMeshRenderer>().materials;
     }
 
     protected override void OffEffect()
@@ -35,6 +41,24 @@ public class EffectBasicOnFire : EffectBase
         {
             lifeSystem.DamageTick(damagePerTick, Damagetype.Fire);
             timerPerTick = 0;
+            StartCoroutine(OnHitted());
         }
+    }
+
+    protected IEnumerator OnHitted()
+    {
+        for (int i = 0; i < onHitFlashTime; i++)
+        {
+            if (i < (onHitFlashTime / 2f))
+            {
+                mats[0].SetColor("_EmissionColor", Color.Lerp(Color.black, onHitColor, i / (onHitFlashTime / 2f)));
+            }
+            else
+            {
+                mats[0].SetColor("_EmissionColor", Color.Lerp(onHitColor, Color.black, (i - (onHitFlashTime / 2f)) / (onHitFlashTime / 2f)));
+            }
+            yield return new WaitForSeconds(0.01f);
+        }
+        mats[0].SetColor("_EmissionColor", Color.black);
     }
 }
