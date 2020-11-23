@@ -24,7 +24,7 @@ public class CameraCinematic : MonoBehaviour
 
     public void OnDrawGizmos()
     {
-
+        Gizmos.matrix = targetPos.localToWorldMatrix;
         Gizmos.DrawFrustum(targetPos.position, 60, 250, 0, 1.7f);
         Gizmos.DrawSphere(targetPos.transform.position, 1f);
     }
