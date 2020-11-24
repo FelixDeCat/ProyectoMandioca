@@ -120,7 +120,7 @@ public class PresentacionBetoPueblo : MonoBehaviour, ISpawner
         puente.BreakYourselfBaby();
 
         cdModule.AddCD("betoExit", () => { currentPlaceToGo = exitPos; betoSpeed *= 2f; }, 5f);
-        cdModule.AddCD("betoDelete", () => OnFinishBetoEvento?.Invoke(), 30f);//termina el evento aca por ahora
+        cdModule.AddCD("betoDelete", () => OnFinishBetoEvento?.Invoke(), 8f);//termina el evento aca por ahora
 
 
 
