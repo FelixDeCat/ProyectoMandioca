@@ -5,7 +5,7 @@ using GOAP;
 using System;
 using System.Linq;
 
-public class Brazalete_event : MonoBehaviour, ISpawner
+public class Brazalete_event : MonoBehaviour, ISpawner, IPauseable
 {
 
     [Header("Characters")]
@@ -60,6 +60,7 @@ public class Brazalete_event : MonoBehaviour, ISpawner
 
     void Start()
     {
+        PauseManager.Instance.AddToPause(this);
         wave_handler.Init();
         totemFeedback.Initialize(StartCoroutine);
 
@@ -81,6 +82,7 @@ public class Brazalete_event : MonoBehaviour, ISpawner
 
         brazalete.SetActive(false);
         //_animEvent.Add_Callback("finishSkill", OnFinishSkillCast);
+        
     }
 
     void OnExecuteAteneaAttack()
@@ -274,8 +276,6 @@ public class Brazalete_event : MonoBehaviour, ISpawner
 
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.L))
-            BetoStartsFlying();
 
         if (!eventOn) return;
 
@@ -335,5 +335,17 @@ public class Brazalete_event : MonoBehaviour, ISpawner
       
     }
 
+    public void Pause()
+    {
+        eventOn = false;
+        betoAnim.speed = 0;
+        atenea.GetComponentInChildren<Animator>().speed = 0;
+    }
 
+    public void Resume()
+    {
+        betoAnim.speed = 1;
+        eventOn = true;
+        atenea.GetComponentInChildren<Animator>().speed = 1;
+    }
 }
