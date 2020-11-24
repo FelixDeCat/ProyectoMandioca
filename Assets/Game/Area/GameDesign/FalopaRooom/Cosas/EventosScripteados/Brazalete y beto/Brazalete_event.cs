@@ -111,6 +111,7 @@ public class Brazalete_event : MonoBehaviour, ISpawner
         {
             brazalete.transform.position = beto.transform.position;
             brazalete.gameObject.SetActive(true);
+            brazalete.GetComponent<Interactable>().CanInteractAgain();
             brazaletPart.Play();
             currentPlaceToGo_brazalete = brazaletDrop_pos;
             
