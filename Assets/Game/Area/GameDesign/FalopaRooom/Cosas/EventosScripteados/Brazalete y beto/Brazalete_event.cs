@@ -78,6 +78,8 @@ public class Brazalete_event : MonoBehaviour, ISpawner
         var _animAtenea = atenea.GetComponentInChildren<AnimEvent>();
         _animAtenea.Add_Callback("ateneaAttack", OnExecuteAteneaAttack);
 
+
+        brazalete.SetActive(false);
         //_animEvent.Add_Callback("finishSkill", OnFinishSkillCast);
     }
 
