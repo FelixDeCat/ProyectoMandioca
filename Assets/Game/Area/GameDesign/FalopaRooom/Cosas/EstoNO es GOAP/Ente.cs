@@ -121,7 +121,7 @@ namespace GOAP
         void TakeDamageFeedback(DamageData dData)
         {
             //Debug.Log("Y ACA? ESTO ESTA EN EL ENTE");
-            WorldState.instance.valoresBool["OwnerGetDamage"] = true;
+            if(WorldState.instance != null) WorldState.instance.valoresBool["OwnerGetDamage"] = true;
             StartCoroutine(OnHitted(onHitFlashTime, onHitColor));
             if(takeDamage_fb) takeDamage_fb.Play();
 

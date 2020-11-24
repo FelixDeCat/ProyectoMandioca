@@ -43,6 +43,7 @@ public class Brazalete_event : MonoBehaviour, ISpawner
     [Header("Miscelaneos")]
     [SerializeField] NPCFleing[] aldeanosAsustados;
     [SerializeField] TentacleWall_controller tentaculos;
+    [SerializeField] TentacleWall_controller tentaculos_fijos;
     [SerializeField] DamageData ateneaDmg;
 
 
@@ -90,7 +91,7 @@ public class Brazalete_event : MonoBehaviour, ISpawner
         void BetoGetDamaged()
         {
             Debug.Log("beto es golpeado");
-            ateneaDmg = GetComponent<DamageData>().SetDamage(0);
+            ateneaDmg = GetComponent<DamageData>().SetDamage(0).SetKnockback(0);
             ateneaDmg.Initialize(transform);
 
             beto.GetComponentInChildren<DamageReceiver>().TakeDamage(ateneaDmg);
@@ -99,17 +100,23 @@ public class Brazalete_event : MonoBehaviour, ISpawner
         {
             Debug.Log("beto huye");
             ateneaAtaque.Stop();
+            currentPlaceToGo_beto = getAway_pos;
+            betoSpeed *= 7;
+            tentaculos_fijos.CloseTentacles();
+        }
+
+        void BrazaleteDrop()
+        {
             brazalete.transform.position = beto.transform.position;
             brazalete.gameObject.SetActive(true);
             brazaletPart.Play();
             currentPlaceToGo_brazalete = brazaletDrop_pos;
-            currentPlaceToGo_beto = getAway_pos;
-            betoSpeed *= 2;
+            
         }
 
-        timer.AddCD("betoEsGolpeado", BetoGetDamaged, 3);
-        timer.AddCD("betoEsGolpeadoOtraVez", BetoGetDamaged, 8);
-        timer.AddCD("betoHuye", BetoHuye, 15);
+        timer.AddCD("betoEsGolpeado", () => { BetoGetDamaged(); BrazaleteDrop(); }, 2);
+        timer.AddCD("betoEsGolpeadoOtraVez", BetoGetDamaged, 6);
+        timer.AddCD("betoHuye", BetoHuye, 9);
 
         
     }
@@ -129,6 +136,7 @@ public class Brazalete_event : MonoBehaviour, ISpawner
         tentaculos.CloseTentacles();
 
         tentaculos.StartRandomTentacles();
+        tentaculos_fijos.OpenTentacles();
     }
 
 
@@ -143,8 +151,8 @@ public class Brazalete_event : MonoBehaviour, ISpawner
 
         KillAllEnemies();
         timer.AddCD("killAll", KillAllEnemies, 1);
-        timer.AddCD("killAllAgain", () => { KillAllEnemies(); ateneaAnim.Play("Atenea_SmiteBegin"); }, 3);
-        timer.AddCD("apareceAtenea", () => {ateneaAparece_camEvent.StartCinematic(ateneaDialogue.StopDialogue); ateneaDialogue.Talk();  }, 4);
+        timer.AddCD("killAllAgain", () => { KillAllEnemies(); ateneaAnim.Play("Atenea_SmiteBegin"); }, 4);
+        timer.AddCD("apareceAtenea", () => { KillAllEnemies(); ateneaAparece_camEvent.StartCinematic(ateneaDialogue.StopDialogue); ateneaDialogue.Talk();  }, 4);
     }
 
     void KillAllEnemies()
@@ -154,12 +162,14 @@ public class Brazalete_event : MonoBehaviour, ISpawner
         ateneaDmg = GetComponent<DamageData>().SetDamage(5000).SetDamageInfo(DamageInfo.Normal).SetDamageType(Damagetype.Explosion).SetKnockback(500);
         ateneaDmg.Initialize(transform);
 
-        List<DamageReceiver> enemigos = summonedEnemies.Where(e => e != null).Select(e => e.GetComponent<DamageReceiver>()).ToList();
+        List<DamageReceiver> enemigos = summonedEnemies.Where(e => e != null && e.isOn).Select(e => e.GetComponent<DamageReceiver>()).ToList();
 
         foreach (var item in enemigos)
         {
             item.TakeDamage(ateneaDmg);
         }
+
+
 
     }
 
@@ -234,15 +244,6 @@ public class Brazalete_event : MonoBehaviour, ISpawner
     void OnEnemydead()
     {
         amountKilled++;
-        if (amountKilled >= amountSummoned)
-        {
-            for (int i = 0; i < summonedEnemies.Count; i++)
-            {
-                summonedEnemies[i].GetComponent<EnemyBase>().OnDeath.RemoveListener(OnEnemydead);
-            }
-
-            summonedEnemies.Clear();
-        }
 
         if ((summonedEnemies.Count - amountKilled) < summonLimit)
             wave_handler.Resume();
@@ -250,6 +251,12 @@ public class Brazalete_event : MonoBehaviour, ISpawner
 
     public void ReturnObject(PlayObject newPrefab)
     {
+        Debug.Log("alguno vuelve?");
+
+        if (summonedEnemies.Contains(newPrefab)) summonedEnemies.Remove(newPrefab);
+
+        newPrefab.GetComponent<EnemyBase>().OnDeath.RemoveListener(OnEnemydead);
+
         newPrefab.Spawner = null;
         newPrefab.Off();
 
@@ -307,9 +314,9 @@ public class Brazalete_event : MonoBehaviour, ISpawner
 
 
 
-        if (Vector3.Distance(beto.transform.position, currentPlaceToGo_beto.position) >= .5f)
+        if (Vector3.Distance(brazalete.transform.position, currentPlaceToGo_brazalete.position) >= .5f)
         {
-            brazalete.transform.position += dir * 2 * Time.deltaTime;
+            brazalete.transform.position += dir * 3 * Time.deltaTime;
         }
         else
         {
