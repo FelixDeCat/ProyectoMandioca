@@ -4,5 +4,5 @@ using UnityEngine;
 
 public interface IScriptedEvent
 {
-    void Reset();
+    void ResetEvent();
 }

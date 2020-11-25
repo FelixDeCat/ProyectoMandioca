@@ -40,7 +40,7 @@ public class ScriptedEvents_Manager : MonoBehaviour
         foreach (var item in eventRegistry)
         {
             if(!item.Value)
-                item.Key.Reset();
+                item.Key.ResetEvent();
         }
     }
 
