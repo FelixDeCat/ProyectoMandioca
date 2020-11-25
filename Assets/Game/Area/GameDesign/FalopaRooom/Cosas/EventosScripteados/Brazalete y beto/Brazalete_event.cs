@@ -150,7 +150,11 @@ public class Brazalete_event : MonoBehaviour, ISpawner, IPauseable, IScriptedEve
 
         timer.AddCD("betoEsGolpeado", () => { BetoGetDamaged(); BrazaleteDrop(); }, 2);
         timer.AddCD("betoEsGolpeadoOtraVez", BetoGetDamaged, 6);
-        timer.AddCD("betoHuye", () => { BetoHuye(); currentPlaceToGo_atenea = ateneaFinal_pos; ateneaDialogue_ground.gameObject.SetActive(true); ateneaDialogue_ground.GetComponent<NPC_Interactable>().CanInteractAgain(); }, 9);
+        timer.AddCD("betoHuye", () => { BetoHuye();
+                                        currentPlaceToGo_atenea = ateneaFinal_pos;
+                                        ateneaDialogue_ground.gameObject.SetActive(true);
+                                        ateneaDialogue_ground.GetComponent<NPC_Interactable>().CanInteractAgain(); }
+                                        , 9);
         
 
 

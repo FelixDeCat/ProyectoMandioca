@@ -49,7 +49,7 @@ public abstract class EnemyBase : NPCBase
     protected abstract void OnReset();
 
     protected abstract void TakeDamageFeedback(DamageData data);
-    void Death(Vector3 dir) { Die(dir); OnDeath?.Invoke(); EnemyManager.Instance.DeleteEnemy(this); }
+    void Death(Vector3 dir) { OnDeath?.Invoke(); Die(dir);  EnemyManager.Instance.DeleteEnemy(this); }
     protected abstract void Die(Vector3 dir);
     protected abstract bool IsDamage();
     protected virtual void InmuneFeedback() { }

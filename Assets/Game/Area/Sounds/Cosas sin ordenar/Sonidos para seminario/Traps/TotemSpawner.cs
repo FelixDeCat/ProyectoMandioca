@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -7,11 +8,16 @@ public class TotemSpawner : Totem
     [SerializeField] CustomSpawner spawner = null;
     [SerializeField] protected AudioClip ac_Summon;
 
+    public event Action<List<PlayObject>> RemainingSpawnedOnTotemDeath;
+
     protected override void OnInitialize()
     {
         base.OnInitialize();
         AudioManager.instance.GetSoundPool(ac_Summon.name, AudioGroups.GAME_FX, ac_Summon);
     }
+
+    public CustomSpawner GetSpawner => spawner;
+
     protected override void InternalEndCast()
     {
         for (int i = 0; i < spawner.waveAmount; i++)

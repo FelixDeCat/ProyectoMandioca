@@ -32,6 +32,7 @@ public class CustomSpawner : MonoBehaviour, ISpawner
     [SerializeField] private float totalTime = 15;
 
     List<PlayObject> mySpawns = new List<PlayObject>();
+    public List<PlayObject> GetMySpawns => mySpawns;
     private enum SpawnMode{Time, Waves}
 
     private void Start()
@@ -64,6 +65,7 @@ public class CustomSpawner : MonoBehaviour, ISpawner
             }
         }
     }
+    public int GetCurrentSpawn => currentSpawn;
 
     public bool ReachMaxSpawn() => currentSpawn >= maxSpawn ? true : false;
 
