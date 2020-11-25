@@ -97,4 +97,12 @@ public class EndlessSpawner : IPauseable
         
         isOn = true;
     }
+
+    public void Reset()
+    {
+        _count = 0;
+        currentWaveIndex = 0;
+        currentWave = first;
+        isOn = false;
+    }
 }

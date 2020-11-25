@@ -56,4 +56,17 @@ public class CDModule
 
         EndCDCallbacks.Clear();
     }
+
+    public void ResetAllWithoutExecute()
+    {
+        foreach (var item in EndCDCallbacks)
+        {
+            if (!EndCDCallbacks.ContainsKey(item.Key)) return;
+
+            EndCDCallbacks[item.Key][1]();
+            //EndCDCallbacks.Remove(item.Key);
+        }
+
+        EndCDCallbacks.Clear();
+    }
 }

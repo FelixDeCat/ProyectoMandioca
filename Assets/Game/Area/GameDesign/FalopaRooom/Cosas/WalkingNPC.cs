@@ -54,6 +54,11 @@ public abstract class Villager : NPCBase
         GoToPosition(pos);
     }
 
+    public void StopMoving()
+    {
+        Stop();
+    }
+
     void IHaveArrive()
     {
         anim.StopWalk("");

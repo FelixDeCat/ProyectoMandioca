@@ -43,6 +43,11 @@ public class RigidbodyPathFinder : MonoBehaviour
         //Configure(roottt, rb, groundSensorrr);
     }
 
+    public void StopMovement()
+    {
+        canMove = false;
+    }
+
     public void AddCallbackEnd(Action _callbackEndDinamic)
     {
         callbackEndDinamic = _callbackEndDinamic;

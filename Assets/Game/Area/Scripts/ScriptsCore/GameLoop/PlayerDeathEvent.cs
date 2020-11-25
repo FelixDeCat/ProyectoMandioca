@@ -54,5 +54,6 @@ public class PlayerDeathEvent : MonoBehaviour
         Fades_Screens.instance.Black();
         Fades_Screens.instance.FadeOff(() => { });
         LoadSceneHandler.instance.Off_LoadScreen();
+        Main.instance.GetScriptedEventManager().ResetEvents();
     }
 }

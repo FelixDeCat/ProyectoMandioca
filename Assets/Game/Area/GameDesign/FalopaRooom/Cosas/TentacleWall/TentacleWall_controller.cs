@@ -85,5 +85,6 @@ public class TentacleWall_controller : MonoBehaviour
 
     }
 
+    public List<TentacleWall> GetAllTentacles => tentacles;
 
 }

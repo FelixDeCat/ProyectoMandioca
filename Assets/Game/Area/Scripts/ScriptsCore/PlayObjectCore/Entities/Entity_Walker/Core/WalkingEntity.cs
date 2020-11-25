@@ -14,5 +14,6 @@ public abstract class WalkingEntity : EntityBase
     public void InitializePathFinder(Rigidbody rb) { rig_path_finder.Initialize(rb); }
     protected virtual void Callback_IHaveArrived(Action EndArrived) { rig_path_finder.AddCallbackEnd(EndArrived); }
     public void GoToPosition(Vector3 pos) { rig_path_finder.Execute(pos); executeAStar = true; }
-    
+    public void Stop() {  executeAStar = false; rig_path_finder.StopMovement(); }
+
 }

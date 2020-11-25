@@ -30,6 +30,7 @@ public class Main : MonoBehaviour
     [SerializeField] TimeManager timeManager = null;
     [SerializeField] Spawner spawner = null;
     [SerializeField] CombatDirector combatDirector = null;
+    [SerializeField] ScriptedEvents_Manager scriptedEvents_manager = null;
 
     public GameUI_controller gameUiController;
 
@@ -141,6 +142,11 @@ public class Main : MonoBehaviour
         }
     }
 
+    //que feo esto aca
+    public void SetScriptedEventManager(ScriptedEvents_Manager e)
+    {
+        scriptedEvents_manager = e;
+    }
 
     /////////////////////////////////////////////////////////////////////
     /// PUBLIC GETTERS
@@ -158,6 +164,7 @@ public class Main : MonoBehaviour
     public void SetRoom(BaseRoom newRoom) => _currentRoom = newRoom;
     public BaseRoom GetRoom() => _currentRoom;
     public CustomCamera GetMyCamera() => myCamera;
+    public ScriptedEvents_Manager GetScriptedEventManager() => scriptedEvents_manager;
     public void CameraShake() => myCamera.BeginShakeCamera();
     public void Vibrate() { if(character.getInput.input_type == CharacterInput.InputType.Joystick)  rumble.OneShootRumble(); }
     public void Vibrate(float _strengh = 1, float _time_to_rumble = 0.2f) { if (character.getInput.input_type == CharacterInput.InputType.Joystick) rumble.OneShootRumble(_strengh, _time_to_rumble); }
