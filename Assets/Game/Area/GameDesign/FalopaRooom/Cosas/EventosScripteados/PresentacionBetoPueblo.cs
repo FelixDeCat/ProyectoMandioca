@@ -20,6 +20,7 @@ public class PresentacionBetoPueblo : MonoBehaviour, ISpawner, IScriptedEvent, I
     bool finishKillSummon;
     Action OnReachDestination;
     [SerializeField] GameObject trigger;
+    [SerializeField] TentacleWall_controller tentacles;
 
     public UnityEvent OnKillAllEnemies;
 
@@ -92,6 +93,7 @@ public class PresentacionBetoPueblo : MonoBehaviour, ISpawner, IScriptedEvent, I
 
     void StartSummon()
     {
+        Debug.Log("Comeinzo a tirar");
         OnReachDestination = null;
         _betoAnim.Play("StartCastStaff");
         totemFeedback.StartChargeFeedback(Summon);
@@ -99,20 +101,22 @@ public class PresentacionBetoPueblo : MonoBehaviour, ISpawner, IScriptedEvent, I
 
     void Summon()
     {
+        Debug.Log("entro al summon");
         for (int i = 0; i < amountSummoned; i++)
         {
-            totemFeedback.StartGoToFeedback(totemSummon_pos, (x) => SpawnPrefab(x));    
+            Debug.Log("entro al for");
+            totemFeedback.StartGoToFeedback(totemSummon_pos, (x) => SpawnPrefab(x, "z37"));    
         }
 
         _betoAnim.SetTrigger("finishSkill");
 
-        GoToPuente();
+        //GoToPuente();
 
     }
 
     public void SpawnPrefab(Vector3 pos, string sceneName = null)
     {
-
+        Debug.Log("entro al spawn");
 
         var newSpawn = spot.SpawnPrefab(pos, prefab, sceneName, this);
 
@@ -185,10 +189,10 @@ public class PresentacionBetoPueblo : MonoBehaviour, ISpawner, IScriptedEvent, I
     }
 
     //Segunda parte: romper puente
-    void GoToPuente()
-    {
-        currentPlaceToGo = bridgePos;
-    }
+    //void GoToPuente()
+    //{
+    //    currentPlaceToGo = bridgePos;
+    //}
 
     void StartCastDestroyPuente()
     {
@@ -250,7 +254,6 @@ public class PresentacionBetoPueblo : MonoBehaviour, ISpawner, IScriptedEvent, I
     public void ResetEvent()
     {
         amountKilled = 0;
-        amountSummoned = 0;
         summonedEnemies.Clear();
         puente.gameObject.SetActive(true);
         betoRoot.transform.position = originalBeto_pos;
@@ -262,6 +265,8 @@ public class PresentacionBetoPueblo : MonoBehaviour, ISpawner, IScriptedEvent, I
         OnReachDestination = null;
         currentPlaceToGo = null;
         trigger.SetActive(true);
+        tentacles.CloseTentacles();
+        totemFeedback.StopAll();
     }
 
     public void Pause()

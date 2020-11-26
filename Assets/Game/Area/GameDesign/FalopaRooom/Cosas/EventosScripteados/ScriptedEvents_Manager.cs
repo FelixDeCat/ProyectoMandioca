@@ -4,12 +4,8 @@ using UnityEngine;
 
 public class ScriptedEvents_Manager : MonoBehaviour
 {
-
-    [SerializeField] Brazalete_event brazaletEvent;
-
     Dictionary<IScriptedEvent, bool> eventRegistry = new Dictionary<IScriptedEvent, bool>();
 
-    public int debug;
 
     private void Start()
     {
@@ -42,10 +38,5 @@ public class ScriptedEvents_Manager : MonoBehaviour
             if(!item.Value)
                 item.Key.ResetEvent();
         }
-    }
-
-    private void Update()
-    {
-        debug = eventRegistry.Count;
     }
 }

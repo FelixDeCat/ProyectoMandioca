@@ -17,7 +17,8 @@ public class Brazalete_event : MonoBehaviour, ISpawner, IPauseable, IScriptedEve
     Animator ateneaAnim;
     [SerializeField] bool eventOn = false;
     CDModule timer = new CDModule();
-    Action OnReachedDestination; 
+    Action OnReachedDestination_beto; 
+    Action OnReachedDestination_Atena;
 
     [Header("Movement Settings")]
     [SerializeField] Transform flyingPos;
@@ -84,20 +85,12 @@ public class Brazalete_event : MonoBehaviour, ISpawner, IPauseable, IScriptedEve
 
         
         ateneaAnim = atenea.GetComponentInChildren<Animator>();
-
-        //EventSusbcriber
-        //beto.GetComponent<Ente>().OnTakeDmg += BetoStartsFlying;
-        
+       
 
         var _animAtenea = atenea.GetComponentInChildren<AnimEvent>();
         _animAtenea.Add_Callback("ateneaAttack", OnExecuteAteneaAttack);
 
-
-        brazalete.SetActive(false);
-        //_animEvent.Add_Callback("finishSkill", OnFinishSkillCast);
-
-
-       
+        brazalete.SetActive(false);     
     }
 
     void SetResetThings()
@@ -136,7 +129,7 @@ public class Brazalete_event : MonoBehaviour, ISpawner, IPauseable, IScriptedEve
             currentPlaceToGo_beto = getAway_pos;
             betoSpeed *= 7;
             tentaculos_fijos.CloseTentacles();
-            OnReachedDestination += () => beto.SetActive(false);
+            OnReachedDestination_beto += () => beto.SetActive(false);
         }
 
         void BrazaleteDrop()
@@ -152,6 +145,7 @@ public class Brazalete_event : MonoBehaviour, ISpawner, IPauseable, IScriptedEve
         timer.AddCD("betoEsGolpeadoOtraVez", BetoGetDamaged, 6);
         timer.AddCD("betoHuye", () => { BetoHuye();
                                         currentPlaceToGo_atenea = ateneaFinal_pos;
+                                        OnReachedDestination_Atena = FinishBrazaletEvent;
                                         ateneaDialogue_ground.gameObject.SetActive(true);
                                         ateneaDialogue_ground.GetComponent<NPC_Interactable>().CanInteractAgain(); }
                                         , 9);
@@ -225,7 +219,7 @@ public class Brazalete_event : MonoBehaviour, ISpawner, IPauseable, IScriptedEve
     void BetoStartsFlying()
     {
 
-        OnReachedDestination += StartSummonWaves;
+        OnReachedDestination_beto += StartSummonWaves;
 
         timer.AddCD("timeToPlayFly",
                      () => betoAnim.Play("StartFly"),
@@ -238,7 +232,7 @@ public class Brazalete_event : MonoBehaviour, ISpawner, IPauseable, IScriptedEve
 
     void StartSummonWaves()
     {
-        OnReachedDestination -= StartSummonWaves;
+        OnReachedDestination_beto -= StartSummonWaves;
         beto.GetComponent<Ente>().heightLevel = 1;//solo es para que pase al idle de volar
         betoAnim.Play("Awake");
 
@@ -344,7 +338,7 @@ public class Brazalete_event : MonoBehaviour, ISpawner, IPauseable, IScriptedEve
         {
             beto.transform.position = currentPlaceToGo_beto.position;
             currentPlaceToGo_beto = null;
-            OnReachedDestination?.Invoke();
+            OnReachedDestination_beto?.Invoke();
         }
     }
 
@@ -379,6 +373,8 @@ public class Brazalete_event : MonoBehaviour, ISpawner, IPauseable, IScriptedEve
         {
             atenea.transform.position = currentPlaceToGo_atenea.position;
             currentPlaceToGo_atenea = null;
+            OnReachedDestination_Atena?.Invoke();
+            OnReachedDestination_Atena = null;
         }
     }
 
@@ -421,12 +417,15 @@ public class Brazalete_event : MonoBehaviour, ISpawner, IPauseable, IScriptedEve
         activeSpawn = false;
         totemFeedback.StopAll();
         ateneaDialogue_ground.gameObject.SetActive(false);
-        OnReachedDestination = null;
+        OnReachedDestination_beto = null;
+        OnReachedDestination_Atena = null;
+
+        tentaculos_fijos.CloseTentacles();
 
         timer.ResetAllWithoutExecute();
         wave_handler.Reset();
         wave_handler.OnStartWaveTimer -= SummonWave;
-        OnReachedDestination -= StartSummonWaves;
+        OnReachedDestination_beto -= StartSummonWaves;
         beto.GetComponent<Ente>().OnSkillAction -= GoToFlyPos;
 
         amountSummoned = 0;
@@ -447,7 +446,6 @@ public class Brazalete_event : MonoBehaviour, ISpawner, IPauseable, IScriptedEve
 
         summonedEnemies.Clear();
 
-        //StartCoroutine(ReturnAnyEnemyResagado());
 
     }
 
