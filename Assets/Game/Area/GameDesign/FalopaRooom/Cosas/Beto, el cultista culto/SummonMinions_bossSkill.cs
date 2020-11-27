@@ -12,6 +12,8 @@ public class SummonMinions_bossSkill : GOAP_Skills_Base, ISpawner
     [SerializeField] int amountSummoned = 5;
     [SerializeField] float spellDuration;
 
+    List<PlayObject> summonedEnemies = new List<PlayObject>();
+
     [SerializeField] ParticleSystem FeedBack;
 
     Animator _anim;
@@ -97,14 +99,21 @@ public class SummonMinions_bossSkill : GOAP_Skills_Base, ISpawner
 
     public void SpawnPrefab(Vector3 pos, string sceneName = null)
     {
-        spot.SpawnPrefab(pos, prefab, sceneName, this);
+       var newSpawn = spot.SpawnPrefab(pos, prefab, sceneName, this);
 
-       
+        summonedEnemies.Add(newSpawn);
+
+
     }
 
     public void ReturnObject(PlayObject newPrefab)
     {
-        Debug.Log("VUEEELVEE QUE LA VIDA SE ME VAAA");
+        if (summonedEnemies.Contains(newPrefab)) summonedEnemies.Remove(newPrefab);
+
+        newPrefab.Spawner = null;
+        newPrefab.Off();
+
+        PoolManager.instance.ReturnObject(newPrefab);
     }
 
     protected override void OnInterruptSkill()

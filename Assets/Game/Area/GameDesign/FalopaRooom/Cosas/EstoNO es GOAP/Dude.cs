@@ -46,6 +46,7 @@ namespace GOAP
             if (initialized)
             {
                 isOn = true;
+                _fsm.Feed(ActionEntity.ThinkPlan);
                 return;
             }
             

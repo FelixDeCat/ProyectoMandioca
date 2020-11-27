@@ -189,6 +189,7 @@ namespace GOAP
 
         public void ResetEnte()
         {
+            Stop();
             PauseManager.Instance.RemoveToPause(this);
             isOn = false;
             _lifeSystem.ResetLifeSystem();
