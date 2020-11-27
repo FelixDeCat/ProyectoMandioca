@@ -270,8 +270,7 @@ public class Brazalete_event : MonoBehaviour, ISpawner, IPauseable, IScriptedEve
     public void SpawnPrefab(Vector3 pos, string sceneName = null)
     {
         if (!activeSpawn) return;
-        Debug.Log(amountSummoned + " amountSummoned");
-        Debug.Log(wave_handler.GetCurrenWave().Length + " lenght");
+
         var newSpawn = spot.SpawnPrefab(pos, wave_handler.GetCurrenWave()[amountSummoned], sceneName, this);
 
         newSpawn.GetComponent<EnemyBase>().OnDeath.AddListener(OnEnemydead);

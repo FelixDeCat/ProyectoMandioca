@@ -44,7 +44,7 @@ public class SummonMinions_bossSkill : GOAP_Skills_Base, ISpawner
         {
             Vector3 pos = spot.GetSurfacePos(heroRoot);
 
-            totemFeedback.StartGoToFeedback(pos, (x) => SpawnPrefab(x));
+            totemFeedback.StartGoToFeedback(pos, (x) => SpawnPrefab(x, "D4"));
         }
 
         _anim.SetTrigger("finishSkill");
@@ -104,7 +104,7 @@ public class SummonMinions_bossSkill : GOAP_Skills_Base, ISpawner
 
     public void ReturnObject(PlayObject newPrefab)
     {
-        
+        Debug.Log("VUEEELVEE QUE LA VIDA SE ME VAAA");
     }
 
     protected override void OnInterruptSkill()
