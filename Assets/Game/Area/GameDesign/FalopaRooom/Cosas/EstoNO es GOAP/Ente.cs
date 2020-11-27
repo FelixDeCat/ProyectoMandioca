@@ -194,7 +194,7 @@ namespace GOAP
             _lifeSystem.ResetLifeSystem();
             heightLevel = 0;
             _anim.Play("IdleGround");
-            GetComponent<Dude>().Pause();
+            GetComponent<Dude>().ResetDude();
             BossBarGeneric.Close();
            
         }

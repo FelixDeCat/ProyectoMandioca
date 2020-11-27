@@ -43,7 +43,12 @@ namespace GOAP
 
         public void Initialize()
         {
-            if (initialized) return;
+            if (initialized)
+            {
+                isOn = true;
+                return;
+            }
+            
 
             initialized = true;
             isOn = true;
@@ -321,6 +326,12 @@ namespace GOAP
             }
 
 
+        }
+
+        public void ResetDude()
+        {
+            _fsm.Feed(ActionEntity.Idle);
+            isOn = false;
         }
 
         public void Pause()
