@@ -43,7 +43,7 @@ namespace Tools.StateMachine
         {
             base.Update();
 
-            if (!IsCd())
+            if (!IsCd() && enemy.CurrentTarget())
             {
                 Vector3 myForward = (enemy.CurrentTarget().transform.position - root.position).normalized;
                 Vector3 forwardRotation = new Vector3(myForward.x, 0, myForward.z);

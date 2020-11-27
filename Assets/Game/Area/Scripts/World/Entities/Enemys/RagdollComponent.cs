@@ -27,7 +27,10 @@ public class RagdollComponent : MonoBehaviour
             myBones = GetComponentsInChildren<Bone>();
         else
             myBones = parentBonesToFind?.GetComponentsInChildren<Bone>();
-        
+
+        principalBonePos = principalBone.transform.localPosition;
+        principalBoneRot = principalBone.transform.localRotation;
+
         Ragdoll(false, Vector3.zero);
     }
 

@@ -24,6 +24,7 @@ public class SpawnerSpot
         if (prefabToSpawn.GetComponent<EnemyBase>())
         {
             newObject = EnemyManager.Instance.SpawnEnemy(prefabToSpawn.name, sceneToSpawn, prefabToSpawn.GetComponent<EnemyBase>());
+            newObject.transform.position = pos;
             newObject.GetComponent<EnemyBase>().SpawnEnemy();
         }
         else
