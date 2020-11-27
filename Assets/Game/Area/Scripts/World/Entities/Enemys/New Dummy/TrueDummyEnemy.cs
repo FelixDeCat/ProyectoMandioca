@@ -141,8 +141,8 @@ public class TrueDummyEnemy : EnemyWithCombatDirector
     public override void SpawnEnemy()
     {
         AudioManager.instance.PlaySound(sounds.entSpawn_clip.name,transform);
-        ParticlesManager.Instance.PlayParticle(particles._spawnParticules.name, transform.position);
         base.SpawnEnemy();
+        ParticlesManager.Instance.PlayParticle(particles._spawnParticules.name, transform.position);
     }
     protected override void OnUpdateEntity()
     {

@@ -6,6 +6,7 @@ public class EffectBasicOnFire : EffectBase
 {
     [SerializeField] ParticleSystem feedbackFireDot = null;
     DamageReceiver lifeSystem = null;
+    [SerializeField] SkinnedMeshRenderer mesh;
 
     [SerializeField] float timeTick = 0.5f;
     [SerializeField] int damagePerTick = 1;
@@ -20,7 +21,8 @@ public class EffectBasicOnFire : EffectBase
     {
         base.OnInitialize();
         lifeSystem = GetComponentInParent<DamageReceiver>();
-        mats = lifeSystem.GetComponentInChildren<SkinnedMeshRenderer>().materials;
+        if (!mesh) mesh = lifeSystem.GetComponentInChildren<SkinnedMeshRenderer>();
+        mats = mesh.materials;
     }
 
     protected override void OffEffect()

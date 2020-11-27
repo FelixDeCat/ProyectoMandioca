@@ -92,6 +92,8 @@ public class MisionManager : MonoBehaviour
                 {
                     m.data.MisionItems[i].SetCurrentValue(stores[key]);
                 }
+
+                m.data.MisionItems[i].InitCheck(ItemMisionFeedbackCompleted);
             }
 
             if (CheckIfMissionIsCompleted(m.id_mision))
@@ -180,6 +182,8 @@ public class MisionManager : MonoBehaviour
         if (m != null)
         {
             Debug.Log("Terminando la mision: " + m.mision_name);
+
+
 
             if (m.CanFinishMision())
             {

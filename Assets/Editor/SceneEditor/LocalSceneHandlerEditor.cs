@@ -48,12 +48,8 @@ public class LocalSceneHandlerEditor : Editor
             EditorGUILayout.Space();
 
             //Forma de ver si las variables cargaron. Eso solo visual
-            EditorGUI.BeginDisabledGroup(true);
-
             _data = EditorGUILayout.ObjectField("my data:", _data, typeof(SceneData), false) as SceneData;
-
-
-
+            EditorGUI.BeginDisabledGroup(true);
 
             _landmark = EditorGUILayout.ObjectField("Landmark:", _landmark, typeof(GameObject), false) as GameObject;
             _gameplay = EditorGUILayout.ObjectField("Lowdetail:", _gameplay, typeof(GameObject), false) as GameObject;

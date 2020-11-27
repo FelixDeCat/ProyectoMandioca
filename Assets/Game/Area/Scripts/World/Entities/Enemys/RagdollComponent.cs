@@ -68,9 +68,6 @@ public class RagdollComponent : MonoBehaviour
 
         if (active)
         {
-            principalBonePos = principalBone.transform.localPosition;
-            principalBoneRot = principalBone.transform.localRotation;
-
             Vector3 temp = dir * explosionForce;
 
             principalBone.GetComponent<Rigidbody>().AddForce(temp, ForceMode.Impulse);

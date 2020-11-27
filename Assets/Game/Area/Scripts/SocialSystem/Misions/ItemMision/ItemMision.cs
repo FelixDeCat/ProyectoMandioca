@@ -91,4 +91,16 @@ public class ItemMision
 
         OnRefresh.Invoke();
     }
+
+    public void InitCheck(Action ItemCompleted)
+    {
+        if (itemType != ItemType.one_objective_Bool && currentvalue >= maxvalue)
+        {
+            currentvalue = maxvalue;
+            iscompleted = true;
+            ItemCompleted.Invoke();
+        }
+
+        OnRefresh.Invoke();
+    }
 }
