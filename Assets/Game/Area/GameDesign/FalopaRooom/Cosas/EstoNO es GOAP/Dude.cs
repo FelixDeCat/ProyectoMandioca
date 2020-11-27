@@ -36,7 +36,7 @@ namespace GOAP
 
         GOAP_Skills_Base _currentSkill;
 
-        bool paused = false;
+        public bool isOn = false;
         bool initialized = false;
 
         public string debugState;
@@ -45,11 +45,8 @@ namespace GOAP
         {
             if (initialized) return;
 
-           
-
-
             initialized = true;
-
+            isOn = true;
             _ent = GetComponent<Ente>();
             _planner = GetComponent<BrainPlanner>();
 
@@ -313,12 +310,7 @@ namespace GOAP
 
         private void Update()
         {
-            if(Input.GetKeyDown(KeyCode.K))
-            {
-                Initialize();
-            }
-
-            if (paused) return;
+            if (!isOn) return;
 
             //Never forget
             if (_fsm != null)
@@ -333,12 +325,12 @@ namespace GOAP
 
         public void Pause()
         {
-            paused = true;
+            isOn = false;
         }
 
         public void Resume()
         {
-            paused = false;
+            isOn = true;
         }
     }
 }

@@ -6,8 +6,10 @@ using System.Linq;
 
 namespace GOAP
 {
-    public class Ente : MonoBehaviour
+    public class Ente : MonoBehaviour, IPauseable
     {
+        [SerializeField] bool isOn = false;
+
         //events
         public event Action<Ente, Waypoint, bool> OnReachDestination = delegate { };
         public event Action OnReachDestinationNoParameters = delegate { };
@@ -62,6 +64,8 @@ namespace GOAP
 
         void FixedUpdate()
         {
+            if (!isOn) return;
+
             if (_dest_pos != Vector3.zero)
             {
                 _rb.velocity += _dir * currentSpeed * Time.fixedDeltaTime;
@@ -71,6 +75,7 @@ namespace GOAP
 
         private void Update()
         {
+            if (!isOn) return;
 
             _anim.SetFloat("speed", _rb.velocity.magnitude);
             _anim.SetInteger("heighLevel", heightLevel);
@@ -101,7 +106,8 @@ namespace GOAP
             OnFinishAttack += () => attackSensor.gameObject.SetActive(false);
         }
 
-        public void Initialize() { GetComponent<Dude>().Initialize(); BossBarGeneric.Open();
+        public void Initialize() {
+            PauseManager.Instance.AddToPause(this);isOn = true;  GetComponent<Dude>().Initialize(); BossBarGeneric.Open();
             BossBarGeneric.SetLife(Life.Life, Life.LifeMax);
         }
 
@@ -173,11 +179,24 @@ namespace GOAP
 
         void Death(Vector3 v3)
         {
+            Debug.Log("esto esta pasando?");
             OnDeath?.Invoke();
-
+            PauseManager.Instance.RemoveToPause(this);
             BossBarGeneric.SetLife(0, Life.LifeMax);
             BossBarGeneric.Close();
             Destroy(gameObject);
+        }
+
+        public void ResetEnte()
+        {
+            PauseManager.Instance.RemoveToPause(this);
+            isOn = false;
+            _lifeSystem.ResetLifeSystem();
+            heightLevel = 0;
+            _anim.Play("IdleGround");
+            GetComponent<Dude>().Pause();
+            BossBarGeneric.Close();
+           
         }
 
         #endregion
@@ -332,6 +351,18 @@ namespace GOAP
             //if (_gizmoRealTarget != null)
             //    Gizmos.DrawCube(_gizmoRealTarget.transform.position + Vector3.up * 1f, Vector3.one * 0.3f);
 
+        }
+
+        public void Pause()
+        {
+            isOn = false;
+            _anim.speed = 0;
+        }
+
+        public void Resume()
+        {
+            isOn = true;
+            _anim.speed = 1;
         }
 
 
