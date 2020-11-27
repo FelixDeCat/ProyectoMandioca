@@ -32,8 +32,8 @@ namespace GOAP
         {
             var initialState = new AStarState<Node>();
             initialState.open.Add(from);
-            initialState.gs[from] = 0;
-            initialState.fs[from] = h(from, to);
+            initialState.costs[from] = 0;
+            initialState.fitnesses[from] = h(from, to);
             initialState.previous[from] = null;
             initialState.current = from;
 
@@ -43,7 +43,7 @@ namespace GOAP
                 //Debugger gets buggy af with this, can't watch variable:
                 state = state.Clone();
 
-                var candidate = state.open.OrderBy(x => state.fs[x]).First();
+                var candidate = state.open.OrderBy(x => state.fitnesses[x]).First();
                 state.current = candidate;
 
                 //DebugGoap(state);
@@ -61,7 +61,7 @@ namespace GOAP
                     if (neighbours == null || !neighbours.Any())
                         continue;
 
-                    var gCandidate = state.gs[candidate];
+                    var gCandidate = state.costs[candidate];
 
                     foreach (var ne in neighbours)
                     {
@@ -71,12 +71,12 @@ namespace GOAP
                         var gNeighbour = gCandidate + ne.cost;
                         state.open.Add(ne.endpoint);
 
-                        if (gNeighbour > state.gs.DefaultGet(ne.endpoint, () => gNeighbour))
+                        if (gNeighbour > state.costs.DefaultGet(ne.endpoint, () => gNeighbour))
                             continue;
 
                         state.previous[ne.endpoint] = candidate;
-                        state.gs[ne.endpoint] = gNeighbour;
-                        state.fs[ne.endpoint] = gNeighbour + h(ne.endpoint, to);
+                        state.costs[ne.endpoint] = gNeighbour;
+                        state.fitnesses[ne.endpoint] = gNeighbour + h(ne.endpoint, to);
                     }
                 }
             }
@@ -98,7 +98,7 @@ namespace GOAP
             var candidate = state.current;
             U.Log("OPEN SET " + state.open.Aggregate("", (a, x) => a + x.ToString() + "\n\n"));
             U.Log("CLOSED SET " + state.closed.Aggregate("", (a, x) => a + x.ToString() + "\n\n"));
-            U.Log("CHOSEN CANDIDATE COST " + state.fs[candidate] + ":" + candidate.ToString());
+            U.Log("CHOSEN CANDIDATE COST " + state.fitnesses[candidate] + ":" + candidate.ToString());
             if (state is AStarState<GoapState>)
             {
                 U.Log("SEQUENCE FOR CANDIDATE" +
@@ -122,7 +122,7 @@ namespace GOAP
                                 .Select(x => x as GoapState)
                                 .Where(x => x != null && x.generatingAction != null)
                                 .Aggregate("", (a2, x) => a2 + "-->" + x.generatingAction.Name + "(" + x.step + ")")
-                            + " (COST: g" + (state.gs)[y as Node] + "   f" + state.fs[y as Node] + ")"
+                            + " (COST: g" + (state.costs)[y as Node] + "   f" + state.fitnesses[y as Node] + ")"
                             + "\n"
                         )
                 );

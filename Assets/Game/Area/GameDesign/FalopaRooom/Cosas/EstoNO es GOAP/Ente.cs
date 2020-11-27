@@ -107,7 +107,12 @@ namespace GOAP
         }
 
         public void Initialize() {
+
             PauseManager.Instance.AddToPause(this);isOn = true;  GetComponent<Dude>().Initialize(); BossBarGeneric.Open();
+
+            GetComponent<Dude>().Initialize();
+            BossBarGeneric.Open();
+
             BossBarGeneric.SetLife(Life.Life, Life.LifeMax);
         }
 
@@ -174,7 +179,7 @@ namespace GOAP
                 yield return new WaitForSeconds(0.01f);
             }
             mats[0].SetColor("_EmissionColor", Color.black);
-           
+
         }
 
         void Death(Vector3 v3)
@@ -197,7 +202,7 @@ namespace GOAP
             _anim.Play("IdleGround");
             GetComponent<Dude>().ResetDude();
             BossBarGeneric.Close();
-           
+
         }
 
         #endregion
@@ -232,9 +237,9 @@ namespace GOAP
 
         protected virtual IEnumerator Navigate(Vector3 destination)
         {
-            
+
             nodeDebug = destination;
-            
+
             var srcWp = Navigation.instance.NearestTo(transform.position, heightLevel);
             var dstWp = Navigation.instance.NearestTo(destination, heightLevel);
 
@@ -292,7 +297,7 @@ namespace GOAP
         public void Rotation(Vector3 forward){_root.forward = Vector3.Lerp(_root.forward, forward, rootSpeed * Time.deltaTime);}
 
 
-     
+
 
         #endregion
 
@@ -329,9 +334,9 @@ namespace GOAP
             //Gizmos.DrawSphere(_root.position, 1);
             //izmos.DrawSphere(nodeDebug, 1);
 
-            
 
-            Gizmos.color = Color.red;           
+
+            Gizmos.color = Color.red;
             Gizmos.DrawLine(_root.position, _dest_pos);
 
             Gizmos.color = Color.green;
@@ -372,4 +377,3 @@ namespace GOAP
     }
 
 }
-

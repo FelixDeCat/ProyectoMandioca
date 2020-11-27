@@ -19,8 +19,6 @@ public class RigidbodyPathFinder : MonoBehaviour
     [SerializeField] Rigidbody rb;
 
     float auxspeed;
-    public Transform roottt;
-    public CharacterGroundSensor groundSensorrr;
 
     NodeFinder nodefinder;
     AStar astar = new AStar();

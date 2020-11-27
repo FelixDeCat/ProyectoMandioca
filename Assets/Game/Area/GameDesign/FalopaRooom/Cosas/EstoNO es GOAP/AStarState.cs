@@ -3,41 +3,41 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-public class AStarState<Node>
+public class AStarState<T>
 {
-    public HashSet<Node> open;
-    public HashSet<Node> closed;
-    public Dictionary<Node, float> gs;
-    public Dictionary<Node, float> fs;
-    public Dictionary<Node, Node> previous;
-    public Node current;
+    public HashSet<T> open;
+    public HashSet<T> closed;
+    public Dictionary<T, float> costs;
+    public Dictionary<T, float> fitnesses;
+    public Dictionary<T, T> previous;
+    public T current;
     public bool finished;
 
     public AStarState()
     {
-        open = new HashSet<Node>();
-        closed = new HashSet<Node>();
-        gs = new Dictionary<Node, float>();
-        fs = new Dictionary<Node, float>();
-        previous = new Dictionary<Node, Node>();
-        current = default(Node);
+        open = new HashSet<T>();
+        closed = new HashSet<T>();
+        costs = new Dictionary<T, float>();
+        fitnesses = new Dictionary<T, float>();
+        previous = new Dictionary<T, T>();
+        current = default(T);
         finished = false;
     }
 
-    public AStarState(AStarState<Node> copy)
+    public AStarState(AStarState<T> copy)
     {
-        open = new HashSet<Node>(copy.open);
-        closed = new HashSet<Node>(copy.closed);
-        gs = new Dictionary<Node, float>(copy.gs);
-        fs = new Dictionary<Node, float>(copy.fs);
-        previous = new Dictionary<Node, Node>(copy.previous);
+        open = new HashSet<T>(copy.open);
+        closed = new HashSet<T>(copy.closed);
+        costs = new Dictionary<T, float>(copy.costs);
+        fitnesses = new Dictionary<T, float>(copy.fitnesses);
+        previous = new Dictionary<T, T>(copy.previous);
         current = copy.current;
         finished = copy.finished;
     }
 
-    public AStarState<Node> Clone()
+    public AStarState<T> Clone()
     {
-        return new AStarState<Node>(this);
+        return new AStarState<T>(this);
     }
 }
 

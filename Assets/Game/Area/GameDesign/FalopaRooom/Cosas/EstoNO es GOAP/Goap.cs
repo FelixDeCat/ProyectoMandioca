@@ -17,37 +17,51 @@ namespace GOAP
 
 
             yield return AStarNormal<GoapState>.Run(
+
+                //from
                 from,
+
+                //heuristic
                 (curr) => to(curr),
+
+                //predicate
                 curr => to(curr) == 0,
+
+                //explode
                 curr =>
                 {
                     if (watchdog == 0)
                     {
-                        Debug.Log("ESTO ACA PUEDE SER QUE ENTRE?");
                         return Enumerable.Empty<AStarNormal<GoapState>.Arc>();
                     }
-                        
+
                     else
                         watchdog--;
 
-                    return actions.Where(action => action.preconditions(curr))//curr.worldStateSnap))
-                                  .Aggregate(new FList<AStarNormal<GoapState>.Arc>(), (possibleList, action) =>
-                                  {
-                                      var newState = new GoapState(curr);
-                                      action.effects(newState);//(newState.worldStateSnap);
-                                      newState.generatingAction = action;
-                                      newState.step = curr.step + 1;
-                                      return possibleList + new AStarNormal<GoapState>.Arc(newState, action.Cost);
-                                  });
+                    return actions
+                                    //filtro todas las goap actions por las que cumplen las pre condiciones
+                                    .Where(goap_action => goap_action.preconditions(curr))
+
+
+                                    .Aggregate(new FList<AStarNormal<GoapState>.Arc>(), (possibleList, action) =>
+                                    {
+                                        var newState = new GoapState(curr);//creo una copia de mi general goap state
+                                        action.effects(newState); //le voy agregando los efectos del current state al general
+                                        newState.generatingAction = action;
+                                        newState.step = curr.step + 1;
+                                        return possibleList + new AStarNormal<GoapState>.Arc(newState, action.Cost);
+                                    });
                 },
+
+                //EndCallback
                 (p) =>
                 {
-                    Debug.Log("este es el que bvbvusadsadaSFDADWSA  " + p);
-                    //TimeSlicing 2 - Este es el callBack final del AStar y lo estoy usando para hacer el callback final del goap
                     if (p != null)
                     {
-                        callback?.Invoke(p.Skip(1).Select(x => x.generatingAction));
+                        if (callback != null)
+                        {
+                            callback.Invoke(p.Skip(1).Select(x => x.generatingAction));
+                        }
                     }
                     else
                     {
