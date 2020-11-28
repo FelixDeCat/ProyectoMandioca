@@ -33,6 +33,8 @@ public class NewSceneStreamer : MonoBehaviour
         LoadScene(firstScene, OnEndLoad);
     }
 
+    public void RemoveToSceneLoaded()=> SceneManager.sceneLoaded -= OnSceneLoaded;
+
     public void LoadScene(string sceneName, Action OnEnd = null)
     {
         if (!string.IsNullOrEmpty(sceneName))

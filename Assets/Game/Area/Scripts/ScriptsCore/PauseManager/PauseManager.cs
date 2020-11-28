@@ -21,6 +21,7 @@ public class PauseManager : MonoBehaviour
     SettingsData data;
     bool inPauseHud;
     bool inSettings;
+    bool canPress;
 
     private void Awake()
     {
@@ -32,15 +33,6 @@ public class PauseManager : MonoBehaviour
     private void Start()
     {
         cheatsHud.SetActive(false);
-
-        //if (BinarySerialization.IsFileExist(Settings.SettingsDataName)) data = BinarySerialization.Deserialize<SettingsData>(Settings.SettingsDataName);
-        //else
-        //{
-        //    data = new SettingsData();
-        //    BinarySerialization.Serialize(Settings.SettingsDataName, data);
-        //}
-
-
     }
 
     public void PauseHud()
@@ -50,6 +42,7 @@ public class PauseManager : MonoBehaviour
         pauseHud.Open();
         mainButtons.SetActive(true);
         MyEventSystem.instance.SelectGameObject(mainFirstButton);
+        canPress = false;
         inPauseHud = true;
     }
 
@@ -116,6 +109,7 @@ public class PauseManager : MonoBehaviour
     public void ReturnToMenu()
     {
         var myGameCores = FindObjectsOfType<DontDestroy>().Where(x => x.transform != transform.parent).ToArray();
+        NewSceneStreamer.instance.RemoveToSceneLoaded();
 
         for (int i = 0; i < myGameCores.Length; i++)
             Destroy(myGameCores[i].gameObject);
@@ -142,6 +136,14 @@ public class PauseManager : MonoBehaviour
             if (Input.GetKeyDown(KeyCode.Joystick1Button4)) settingsHud.ChangeScreen(-1);
             else if (Input.GetKeyDown(KeyCode.Joystick1Button5)) settingsHud.ChangeScreen(1);
         }
+
+        if (Input.GetButtonDown("Pause") && canPress)
+        {
+            BackToPause();
+            ResumeHud();
+        }
+
+        if (!canPress) canPress = true;
     }
 
     public void AddToPause(IPauseable po) => pausingPlayObjects.Add(po);

@@ -81,6 +81,7 @@ public class InteractSensor : MonoBehaviour
         {
             ContextualBarSimple.instance.Show();
             ContextualBarSimple.instance.Set_Sprite_Button_Custom(InputImageDatabase.InputImageType.interact);
+            most_close.Enter(collector);
         }
     }
 
