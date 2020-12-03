@@ -17,8 +17,6 @@ public class PlayerDeathEvent : MonoBehaviour
     {
         LoadSceneHandler.instance.On_LoadScreen();
         Fades_Screens.instance.FadeOff(() => { });
-
-        Main.instance.GetChar().Life.Heal_AllHealth();
         string scene_to_load = Checkpoint_Manager.instance.GetSceneToLoadFromCheckPoint();
 
         if (scene_to_load != "")
@@ -48,12 +46,14 @@ public class PlayerDeathEvent : MonoBehaviour
     void RestartGame()
     {
         Debug.Log("Restart");
+        Main.instance.GetChar().Life.Heal_AllHealth();
         Checkpoint_Manager.instance.SpawnChar();
         Main.instance.GetCombatDirector().AddNewTarget(Main.instance.GetChar().transform);
         Main.instance.GetMyCamera().InstantPosition();
         Fades_Screens.instance.Black();
         Fades_Screens.instance.FadeOff(() => { });
         LoadSceneHandler.instance.Off_LoadScreen();
+        Main.instance.eventManager.TriggerEvent(GameEvents.ON_PLAYER_RESPAWN);
         if(Main.instance.GetScriptedEventManager()) Main.instance.GetScriptedEventManager().ResetEvents();
     }
 }

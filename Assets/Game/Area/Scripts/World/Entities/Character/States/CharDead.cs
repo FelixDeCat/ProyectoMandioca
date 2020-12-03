@@ -7,18 +7,23 @@ namespace Tools.StateMachine
 
     public class CharDead : CharacterStates
     {
-        public CharDead(EState<CharacterHead.PlayerInputs> myState, EventStateMachine<CharacterHead.PlayerInputs> _sm) : base(myState, _sm)
+        float timeToScreen;
+        float timer;
+
+        public CharDead(EState<CharacterHead.PlayerInputs> myState, EventStateMachine<CharacterHead.PlayerInputs> _sm, float _timeToScreen) : base(myState, _sm)
         {
+            timeToScreen = _timeToScreen;
         }
 
         protected override void Enter(EState<CharacterHead.PlayerInputs> input)
         {
-            charAnim.Dead();
+            charAnim.Dead(true);
         }
 
         protected override void Update()
         {
-            //Acá se puede hacer que después de cierto tiempo te tire la pantalla de muerte con eventos o algo así.
+            timer += Time.deltaTime;
+            if (timer >= timeToScreen) GameLoop.instance.OnPlayerDeath();
         }
 
         protected override void FixedUpdate()
@@ -34,6 +39,8 @@ namespace Tools.StateMachine
         protected override void Exit(CharacterHead.PlayerInputs input)
         {
             base.Exit(input);
+            charAnim.Dead(false);
+            timer = 0;
         }
     }
 }

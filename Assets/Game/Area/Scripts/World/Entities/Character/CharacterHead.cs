@@ -427,6 +427,7 @@ public class CharacterHead : CharacterControllable
             .Done();
 
         ConfigureState.Create(dead)
+            .SetTransition(PlayerInputs.IDLE, idle)
             .Done();
 
         stateMachine = new EventStateMachine<PlayerInputs>(idle, debug_options.DebugState);
@@ -511,7 +512,7 @@ public class CharacterHead : CharacterControllable
         CharFalling tempFalling = new CharFalling(falling, stateMachine);
         tempFalling.SetAnimator(charanim).SetMovement(this.move).SetLeftAxis(GetLeftHorizontal, GetLeftVertical);
 
-        new CharDead(dead, stateMachine);
+        new CharDead(dead, stateMachine, 4).SetAnimator(charanim);
 
         groundSensor.SetFallingSystem(this.move.fallMaxDistance, () => stateMachine.SendInput(PlayerInputs.FALLING), tempFalling.ActivateCD);
     }
@@ -773,6 +774,7 @@ public class CharacterHead : CharacterControllable
         Main.instance.RemoveEntity(this);
         Main.instance.eventManager.TriggerEvent(GameEvents.ON_PLAYER_DEATH);
         Main.instance.GetCombatDirector().RemoveTarget(transform);
+        stateMachine.SendInput(PlayerInputs.DEAD);
     }
     void OnChangeLife(int current, int max) { }
 

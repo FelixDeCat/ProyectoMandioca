@@ -9,7 +9,6 @@ public class GameLoop : MonoBehaviour
     [Header("Transition Events")]
     public UnityEvent UE_OnPlayerDeath;
     public UnityEvent UE_OnTeleport;
-    void Start() => Main.instance.GetChar().Life.ADD_EVENT_Death(OnPlayerDeath);
     public void StartGame() { UE_OnStartGame.Invoke(); }
     public void BehindTeleportCheking() => UE_OnTeleport.Invoke();
     public void StopGame() => UE_OnStopGame.Invoke();

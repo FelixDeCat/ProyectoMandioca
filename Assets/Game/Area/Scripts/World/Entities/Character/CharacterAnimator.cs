@@ -21,7 +21,7 @@ public class CharacterAnimator : BaseAnimator
     public void NormalAttack() => myAnim.SetTrigger("NormalAttack");
     public void HeavyAttack() => myAnim.SetTrigger("HeavyAttack");
     public void SetForceHeavy() => myAnim.SetBool("ForceHeavy", true);
-    public void Dead() => myAnim.SetTrigger("Death");
+    public void Dead(bool b) { myAnim.SetBool("Dead", b); if (b) myAnim.SetTrigger("DeathTrigger"); }
 
     public void BashDashAnim() => myAnim.SetTrigger("BashDash");
     public void ForceAttack(bool b) { myAnim.SetBool("ForceAttack", b); if(b) myAnim.SetTrigger("ForceCombo"); }

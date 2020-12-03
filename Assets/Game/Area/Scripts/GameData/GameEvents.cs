@@ -23,6 +23,7 @@ public class GameEvents
     /// </summary>
     public const string ON_PLAYER_PARRY = "OnPlayerParry";
     public const string ON_PLAYER_DEATH = "CharacterIsDeath";
+    public const string ON_PLAYER_RESPAWN = "OnPlayerRespawn";
     public const string GAME_END_LOAD = "GameEndLoad";
     public const string COMBAT_ENTER = "CombatEnter";
     public const string COMBAT_EXIT = "CombatExit";
