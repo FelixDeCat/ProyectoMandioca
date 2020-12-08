@@ -5,6 +5,7 @@ using UnityEngine.Events;
 using UnityEngine.UI;
 using Tools.EventClasses;
 using UnityEngine.SceneManagement;
+using Tools;
 
 public class CharacterInput : MonoBehaviour
 {
@@ -91,10 +92,40 @@ public class CharacterInput : MonoBehaviour
         };
     }
     public bool inMenu = true;
+    public bool inCinematic = false;
 
     private void Update()
     {
-        if (inMenu) return;
+        if (!isJoystick)
+        {
+            if (inputControlCheck.GetInputState() == InputControl.eInputState.Controler)
+            {
+                input_type = InputType.Joystick;
+                isJoystick = true;
+
+                InputImageDatabase.instance.ChangeInput(InputImageDatabase.InputImageCode.joystick);
+                Main.instance.eventManager.TriggerEvent(GameEvents.CHANGE_INPUT, "Joystick");
+                SendMessage(isJoystick);
+            }
+        }
+        else
+        {
+            if (inputControlCheck.GetInputState() == InputControl.eInputState.MouseKeyboard)
+            {
+                input_type = InputType.Mouse;
+                isJoystick = false;
+
+
+                InputImageDatabase.instance.ChangeInput(InputImageDatabase.InputImageCode.mouse);
+                Main.instance.eventManager.TriggerEvent(GameEvents.CHANGE_INPUT, "Mouse");
+                SendMessage(isJoystick);
+            }
+        }
+
+        if (inMenu)
+        {
+            return;
+        }
 
         LeftHorizontal.Invoke(Input.GetAxis("Horizontal"));
         LeftVertical.Invoke(Input.GetAxis("Vertical"));
@@ -151,30 +182,6 @@ public class CharacterInput : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.LeftControl) || Input.GetKeyDown(KeyCode.RightControl)) SwitchActive.Invoke();
 
             RefreshHelper();
-
-        if (!isJoystick) {
-            if (inputControlCheck.GetInputState() == InputControl.eInputState.Controler) 
-            {
-                input_type = InputType.Joystick;
-                isJoystick = true;
-
-                InputImageDatabase.instance.ChangeInput(InputImageDatabase.InputImageCode.joystick);
-                Main.instance.eventManager.TriggerEvent(GameEvents.CHANGE_INPUT, "Joystick");
-                SendMessage(isJoystick);
-            }
-        }
-        else {
-            if (inputControlCheck.GetInputState() == InputControl.eInputState.MouseKeyboard) 
-            {
-                input_type = InputType.Mouse;
-                isJoystick = false;
-
-                
-                InputImageDatabase.instance.ChangeInput(InputImageDatabase.InputImageCode.mouse);
-                Main.instance.eventManager.TriggerEvent(GameEvents.CHANGE_INPUT, "Mouse");
-                SendMessage(isJoystick);
-            }
-        }
     }
 
     public void MouseInputs()

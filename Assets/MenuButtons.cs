@@ -16,6 +16,7 @@ public class MenuButtons : MonoBehaviour
     public Animator fadeAnim;
 
     public Button[] mainButtons;
+    [SerializeField] Button loadScreenButton = null;
 
     private Animator _currentAnim;
 
@@ -59,6 +60,7 @@ public class MenuButtons : MonoBehaviour
         }
         fadeAnim.SetTrigger("MenuFade");
         backButton.gameObject.SetActive(true);
+        MyEventSystem.instance.SelectGameObject(loadScreenButton.gameObject);
     }
 
     public void Settings()

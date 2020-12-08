@@ -16,7 +16,6 @@ namespace Tools
 
         private void Awake()
         {
-            own = GetComponent<EventSystem>();
             inputmodule = GetComponent<StandaloneInputModule>();
 
             if (instance == null) instance = this;
@@ -25,7 +24,12 @@ namespace Tools
 
         private void Update()
         {
-            if (inputmodule.input.GetButtonDown("Submit"))
+            if (own.currentSelectedGameObject != null && own.currentSelectedGameObject != current)
+            {
+                current = own.currentSelectedGameObject;
+            }
+
+            if (Mathf.Abs(Input.GetAxis("Horizontal_Menu")) > 0 || Mathf.Abs(Input.GetAxis("Vertical_Menu")) > 0)
             {
                 if (own.currentSelectedGameObject == null)
                 {
@@ -33,13 +37,11 @@ namespace Tools
                 }
             }
         }
-
         public EventSystem GetMyEventSystem() => own;
-
 
         public void Set_First(GameObject go) { current = go; own.SetSelectedGameObject(go); }
         public void Delete_First() => current = null;
-        public void SelectGameObject(GameObject go) => own.SetSelectedGameObject(go);
+        public void SelectGameObject(GameObject go) { if(go != null) current = go; own.SetSelectedGameObject(go); }
         public void DeselectGameObject() => own.SetSelectedGameObject(null);
     }
 }
