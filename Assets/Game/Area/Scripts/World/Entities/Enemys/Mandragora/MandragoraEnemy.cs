@@ -58,7 +58,7 @@ public class MandragoraEnemy : EnemyWithCombatDirector
     public class MandragoraAudio
     {
         public AudioClip _takeHit_AC;
-        public AudioClip clip_walkEnt;
+        ///public AudioClip clip_walkEnt;
         public AudioClip mandragoraScream_Clip;
         public AudioClip mandragoraSpawn_Clip;
         public AudioClip mandragoraAttack_Clip;
@@ -73,7 +73,6 @@ public class MandragoraEnemy : EnemyWithCombatDirector
         ParticlesManager.Instance.GetParticlePool(particles.greenblood.name, particles.greenblood, 8);
 
         AudioManager.instance.GetSoundPool(sounds._takeHit_AC.name, AudioGroups.GAME_FX, sounds._takeHit_AC);
-        AudioManager.instance.GetSoundPool(sounds.clip_walkEnt.name, AudioGroups.GAME_FX, sounds.clip_walkEnt, true);
         AudioManager.instance.GetSoundPool(sounds.mandragoraAttack_Clip.name, AudioGroups.GAME_FX, sounds.mandragoraAttack_Clip);
         AudioManager.instance.GetSoundPool(sounds.mandragoraScream_Clip.name, AudioGroups.GAME_FX, sounds.mandragoraScream_Clip);
         AudioManager.instance.GetSoundPool(sounds.mandragoraSpawn_Clip.name, AudioGroups.GAME_FX, sounds.mandragoraSpawn_Clip);
@@ -373,7 +372,7 @@ public class MandragoraEnemy : EnemyWithCombatDirector
 
         new DummyIdleState(idle, sm, movement, distancePos, normalDistance, combatElement).SetAnimator(animator).SetRoot(rootTransform).SetDirector(director);
 
-        new DummyFollowState(goToPos, sm, movement, normalDistance, distancePos, combatElement, sounds.clip_walkEnt.name).SetAnimator(animator).SetRoot(rootTransform);
+        new DummyFollowState(goToPos, sm, movement, normalDistance, distancePos, combatElement).SetAnimator(animator).SetRoot(rootTransform);
 
         new DummyChasing(chasing, sm, () => combatElement.Attacking, distancePos, movement, combatElement).SetDirector(director).SetRoot(rootTransform);
 
