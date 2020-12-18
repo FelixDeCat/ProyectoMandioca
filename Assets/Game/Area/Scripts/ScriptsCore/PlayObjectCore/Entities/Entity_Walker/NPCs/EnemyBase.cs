@@ -34,6 +34,7 @@ public abstract class EnemyBase : NPCBase
     protected override void OnInitialize()
     {
         rb = GetComponent<Rigidbody>();
+        InitializePathFinder(rb);
         dmgData?.Initialize(this);
         dmgReceiver?.SetIsDamage(IsDamage).AddDead(Death).AddTakeDamage(TakeDamageFeedback).AddInmuneFeedback(InmuneFeedback).Initialize(rootTransform, rb, lifesystem);
     }
@@ -49,7 +50,7 @@ public abstract class EnemyBase : NPCBase
     protected abstract void OnReset();
 
     protected abstract void TakeDamageFeedback(DamageData data);
-    void Death(Vector3 dir) { OnDeath?.Invoke(); Die(dir);  EnemyManager.Instance.DeleteEnemy(this); }
+    protected void Death(Vector3 dir) { OnDeath?.Invoke(); Die(dir);  EnemyManager.Instance.DeleteEnemy(this); }
     protected abstract void Die(Vector3 dir);
     protected abstract bool IsDamage();
     protected virtual void InmuneFeedback() { }

@@ -202,7 +202,6 @@ namespace GOAP
             _anim.Play("IdleGround");
             GetComponent<Dude>().ResetDude();
             BossBarGeneric.Close();
-
         }
 
         #endregion
@@ -331,11 +330,6 @@ namespace GOAP
         {
             if (_dest_pos == Vector3.zero) return;
 
-            //Gizmos.DrawSphere(_root.position, 1);
-            //izmos.DrawSphere(nodeDebug, 1);
-
-
-
             Gizmos.color = Color.red;
             Gizmos.DrawLine(_root.position, _dest_pos);
 
@@ -344,19 +338,6 @@ namespace GOAP
 
             if (_gizmoPath == null)
                 return;
-
-
-            // Gizmos.color = Color.blue;
-            //var points = _gizmoPath.Select(w => FloorPos(w));
-            //Vector3 last = points.First();
-            //foreach (var p in points.Skip(1))
-            //{
-            //    Gizmos.DrawLine(p + Vector3.up, last + Vector3.up);
-            //    last = p;
-            //}
-            //if (_gizmoRealTarget != null)
-            //    Gizmos.DrawCube(_gizmoRealTarget.transform.position + Vector3.up * 1f, Vector3.one * 0.3f);
-
         }
 
         public void Pause()
@@ -364,7 +345,6 @@ namespace GOAP
             isOn = false;
             _anim.speed = 0;
         }
-
         public void Resume()
         {
             isOn = true;

@@ -17,7 +17,7 @@ namespace Tools
         private void Awake()
         {
             inputmodule = GetComponent<StandaloneInputModule>();
-
+            own = GetComponent<EventSystem>();
             if (instance == null) instance = this;
             else throw new System.Exception("!!!!!!!!!!! Hay dos event system !!!!!!!!!!!!!!");
         }

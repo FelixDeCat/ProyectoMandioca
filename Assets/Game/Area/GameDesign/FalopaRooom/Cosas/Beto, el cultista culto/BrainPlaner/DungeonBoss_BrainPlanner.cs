@@ -12,7 +12,6 @@ public class DungeonBoss_BrainPlanner : BrainPlanner
     public int fly;
     public int avoid;
     public int thunderWave;
-
     protected override List<GoapAction> GetActionList()
     {
         return new List<GoapAction>()
@@ -28,17 +27,6 @@ public class DungeonBoss_BrainPlanner : BrainPlanner
                             gS.valoresFloat["DistanceToHero"] = 10f;
                             gS.valoresBool["Fly"] = true;
                         }),
-                    //new GoapAction("Avoid Hero")
-                    //    .SetCost(avoid)
-                    //    .Pre(gS =>  gS.valoresFloat["DistanceToHero"] <= 2f)
-
-                    //    .Effect(gS =>
-                    //    {
-                    //        gS.valoresBool["OwnerGetDamage"] = false;
-                    //        gS.valoresBool["Fly"] = true;
-                    //        gS.valoresBool["LaserShoot"] = true;
-                    //        gS.valoresFloat["DistanceToHero"] = 30f;
-                    //    }),
                     new GoapAction("useSkill Fly")
                         .SetCost(fly)
                         .Pre(gS => gS.valoresBool["Fly"] && gS.valoresBool["OnGround"]) 
@@ -84,7 +72,6 @@ public class DungeonBoss_BrainPlanner : BrainPlanner
 
             };
     }
-
     protected override int Final(GoapState gS)
     {
         int h = 0;
@@ -94,7 +81,6 @@ public class DungeonBoss_BrainPlanner : BrainPlanner
         if (gS.valoresBool["OwnerGetDamage"]) h += 1;
         return h;
     }
-
     protected override Dictionary<string, ItemType> TypeDic()
     {
         return new Dictionary<string, ItemType>()

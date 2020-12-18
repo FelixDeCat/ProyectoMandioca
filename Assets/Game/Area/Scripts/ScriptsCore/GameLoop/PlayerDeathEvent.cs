@@ -8,8 +8,18 @@ public class PlayerDeathEvent : MonoBehaviour
 
     public void UE_EVENT_PlayerDeath()
     {
+       // BeginEffect();
+        OnEndEffect();
+    }
+
+    public void BeginEffect()
+    {
+        DeathEffectPostProcess.instance.StartAnimation(OnEndEffect);
+    }
+    public void OnEndEffect()
+    {
         Fades_Screens.instance.Black();
-        Main.instance.GetChar().transform.position = new Vector3(5000,0,5000);
+        Main.instance.GetChar().transform.position = new Vector3(5000, 0, 5000);
         Invoke("BeginEvent", wait_time_to_start);
     }
 

@@ -16,7 +16,7 @@ public class Palanca : Interactable
     public override void OnExecute(WalkingEntity collector)
     {
         Excecute.Invoke();
-        collector.GetComponent<InteractSensor>()?.Dissappear(this);
+        
     }
 
     public override void OnInterrupt()
@@ -26,5 +26,6 @@ public class Palanca : Interactable
     public override void OnExit(WalkingEntity collector)
     {
         ContextualBarSimple.instance.Hide();
+        collector.GetComponent<InteractSensor>()?.Dissappear(this);
     }
 }

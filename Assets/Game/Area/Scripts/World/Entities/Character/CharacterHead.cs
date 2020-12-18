@@ -512,7 +512,7 @@ public class CharacterHead : CharacterControllable
         CharFalling tempFalling = new CharFalling(falling, stateMachine);
         tempFalling.SetAnimator(charanim).SetMovement(this.move).SetLeftAxis(GetLeftHorizontal, GetLeftVertical);
 
-        new CharDead(dead, stateMachine, 4).SetAnimator(charanim);
+        new CharDead(dead, stateMachine, 0).SetAnimator(charanim);
 
         groundSensor.SetFallingSystem(this.move.fallMaxDistance, () => stateMachine.SendInput(PlayerInputs.FALLING), tempFalling.ActivateCD);
     }

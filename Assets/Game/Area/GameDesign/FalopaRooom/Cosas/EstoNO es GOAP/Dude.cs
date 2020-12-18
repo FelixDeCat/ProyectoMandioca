@@ -49,7 +49,6 @@ namespace GOAP
                 _fsm.Feed(ActionEntity.ThinkPlan);
                 return;
             }
-            
 
             initialized = true;
             isOn = true;

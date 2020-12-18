@@ -111,6 +111,10 @@ namespace GOAP
         {
             return _waypoints.Where((wp) => wp.heighLevel == heighLevel && Vector3.Distance(targetWp.transform.position, wp.transform.position) > 10).FirstOrDefault();
         }
+        public Waypoint GetFarAwayWp(Waypoint targetWp)
+        {
+            return _waypoints.Where((wp) => Vector3.Distance(targetWp.transform.position, wp.transform.position) > 10).FirstOrDefault();
+        }
 
         public Waypoint NearestTo(Vector3 pos)
         {

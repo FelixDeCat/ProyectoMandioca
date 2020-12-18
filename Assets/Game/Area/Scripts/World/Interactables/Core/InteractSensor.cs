@@ -72,7 +72,7 @@ public class InteractSensor : MonoBehaviour
 
     public void Dissappear(Interactable _interact)
     {
-        most_close.Exit();
+        //most_close.Exit();
         most_close = null;
 
         RemoveToInteractables(_interact);

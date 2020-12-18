@@ -10,20 +10,31 @@ namespace Tools.StateMachine
         float timeToScreen;
         float timer;
 
+        bool execute_timer;
+
         public CharDead(EState<CharacterHead.PlayerInputs> myState, EventStateMachine<CharacterHead.PlayerInputs> _sm, float _timeToScreen) : base(myState, _sm)
         {
             timeToScreen = _timeToScreen;
+            
         }
 
         protected override void Enter(EState<CharacterHead.PlayerInputs> input)
         {
             charAnim.Dead(true);
+            execute_timer = true;
         }
 
         protected override void Update()
         {
-            timer += Time.deltaTime;
-            if (timer >= timeToScreen) GameLoop.instance.OnPlayerDeath();
+            if (execute_timer)
+            {
+                timer += Time.deltaTime;
+                if (timer >= timeToScreen)
+                {
+                    execute_timer = false;
+                    GameLoop.instance.OnPlayerDeath();
+                }
+            }
         }
 
         protected override void FixedUpdate()
