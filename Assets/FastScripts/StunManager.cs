@@ -9,21 +9,21 @@ public class StunManager : MonoBehaviour
     /////////////////////////
     float timer;
     const float SPEED = 1;
-    [SerializeField] EnemyExample[] toStuneds = new EnemyExample[0];
+    //[SerializeField] EnemyExample[] toStuneds = new EnemyExample[0];
     StunHandler stunHandler = new StunHandler();
-    private void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.G))
-            for (int i = 0; i < toStuneds.Length; i++)
-                stunHandler.Stun(toStuneds[i]);
+    //private void Update()
+    //{
+    //    //if (Input.GetKeyDown(KeyCode.G))
+    //    //    for (int i = 0; i < toStuneds.Length; i++)
+    //    //        stunHandler.Stun(toStuneds[i]);
 
-        if (timer < 1) timer = timer + SPEED * Time.deltaTime;
-        else
-        {
-            timer = 0;
-            stunHandler.FeedPulse();
-        }
-    }
+    //    if (timer < 1) timer = timer + SPEED * Time.deltaTime;
+    //    else
+    //    {
+    //        timer = 0;
+    //        stunHandler.FeedPulse();
+    //    }
+    //}
 
     /////////////////////////
     /// STUN HANDLER
