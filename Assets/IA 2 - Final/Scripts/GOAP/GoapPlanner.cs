@@ -70,8 +70,12 @@ namespace IA2Final
             OnCantPlan?.Invoke();
         }
 
-        private static float GetHeuristic(GOAPState from, GOAPState goal) => goal.values.Count(kv => !kv.In(from.values));
-        private static bool Satisfies(GOAPState state, GOAPState to) => to.values.All(kv => kv.In(state.values));
+        private static float GetHeuristic(GOAPState from, GOAPState goal) => goal.values.boolValues.Count(kv => !kv.In(from.values.boolValues)) +
+            goal.values.intValues.Count(kv => !kv.In(from.values.intValues)) + goal.values.floatValues.Count(kv => !kv.In(from.values.floatValues)) +
+            goal.values.stringValues.Count(kv => !kv.In(from.values.stringValues));
+        private static bool Satisfies(GOAPState state, GOAPState to) => to.values.boolValues.All(kv => kv.In(state.values.boolValues)) &&
+            to.values.intValues.All(kv => kv.In(state.values.intValues)) && to.values.floatValues.All(kv => kv.In(state.values.floatValues)) &&
+            to.values.stringValues.All(kv => kv.In(state.values.stringValues));
 
         private static IEnumerable<WeightedNode<GOAPState>> Explode(GOAPState node, IEnumerable<GOAPAction> actions,
                                                                     ref int watchdog)
@@ -79,11 +83,11 @@ namespace IA2Final
             if (watchdog == 0) return Enumerable.Empty<WeightedNode<GOAPState>>();
             watchdog--;
 
-            return actions.Where(action => action.preconditions.All(kv => kv.In(node.values)))
+            return actions.Where(action => action.preconditions.All(x=> x.Invoke(node.values)))
                           .Aggregate(new List<WeightedNode<GOAPState>>(), (possibleList, action) =>
                           {
                               var newState = new GOAPState(node);
-                              newState.values.UpdateWith(action.effects);
+                              for (int i = 0; i < action.effects.Count; i++) action.effects[i](newState.values);
                               newState.generatingAction = action;
                               newState.step = node.step + 1;
 

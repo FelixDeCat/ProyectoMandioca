@@ -1,12 +1,13 @@
 ﻿using System.Collections.Generic;
 using IA2Final.FSM;
 using UnityEngine;
+using System;
 
 namespace IA2Final { 
 public class GOAPAction {
 
-    public Dictionary<string, bool> preconditions { get; private set; }
-    public Dictionary<string, bool> effects       { get; private set; }
+    public List<Func<GOAPValue, bool>> preconditions { get; private set; }
+    public List<Action<GOAPValue>> effects       { get; private set; }
     public string                   name          { get; private set; }
     public float                    cost          { get; private set; }
     public IState                   linkedState   { get; private set; }
@@ -15,8 +16,8 @@ public class GOAPAction {
     public GOAPAction(string name) {
         this.name     = name;
         cost          = 1f;
-        preconditions = new Dictionary<string, bool>();
-        effects       = new Dictionary<string, bool>();
+            preconditions = new List<Func<GOAPValue, bool>>();
+            effects = new List<Action<GOAPValue>>();
     }
 
     public GOAPAction Cost(float cost) {
@@ -30,15 +31,14 @@ public class GOAPAction {
         return this;
     }
 
-    public GOAPAction Pre(string s, bool value) {
-        preconditions[s] = value;
+    public GOAPAction Pre(string s, Func<GOAPValue, bool> value) {
+        preconditions.Add(value);
         return this;
     }
-
-    public GOAPAction Effect(string s, bool value) {
-        effects[s] = value;
+        public GOAPAction Effect(string s, Action<GOAPValue> changeValue) {
+        effects.Add(changeValue);
         return this;
-    }
+        }
 
     public GOAPAction LinkedState(IState state) {
         linkedState = state;

@@ -5,7 +5,7 @@ namespace IA2Final
 {
     public class GOAPState
     {
-        public Dictionary<string, bool> values = new Dictionary<string, bool>();
+        public GOAPValue values = new GOAPValue();
         public GOAPAction generatingAction = null;
         public int step = 0;
 
@@ -17,13 +17,10 @@ namespace IA2Final
 
         public GOAPState(GOAPState source, GOAPAction gen = null)
         {
-            foreach (var elem in source.values)
-            {
-                if (values.ContainsKey(elem.Key))
-                    values[elem.Key] = elem.Value;
-                else
-                    values.Add(elem.Key, elem.Value);
-            }
+            foreach (var elem in source.values.boolValues) values.boolValues.Add(elem.Key, elem.Value);
+            foreach (var elem in source.values.intValues) values.intValues.Add(elem.Key, elem.Value);
+            foreach (var elem in source.values.floatValues) values.floatValues.Add(elem.Key, elem.Value);
+            foreach (var elem in source.values.stringValues) values.stringValues.Add(elem.Key, elem.Value);
             generatingAction = gen;
         }
         #endregion
@@ -34,8 +31,8 @@ namespace IA2Final
             var result =
                 other != null
                 && other.generatingAction == generatingAction       //Very important to keep! TODO: REVIEW
-                && other.values.Count == values.Count
-                && other.values.All(kv => kv.In(values));
+                && other.values.boolValues.Count == values.boolValues.Count
+                && other.values.boolValues.All(kv => kv.In(values.boolValues));
             //&& other.values.All(kv => values.Contains(kv));
             return result;
         }
@@ -52,13 +49,13 @@ namespace IA2Final
             //return hashCode;
 
             //Heuristic count+first value hash multiplied by polynomial primes
-            return values.Count == 0 ? 0 : 31 * values.Count + 31 * 31 * values.First().GetHashCode();
+            return values.boolValues.Count == 0 ? 0 : 31 * values.boolValues.Count + 31 * 31 * values.boolValues.First().GetHashCode();
         }
 
         public override string ToString()
         {
             var str = "";
-            foreach (var kv in values.OrderBy(x => x.Key))
+            foreach (var kv in values.boolValues.OrderBy(x => x.Key))
             {
                 str += $"{kv.Key:12} : {kv.Value}\n";
             }
