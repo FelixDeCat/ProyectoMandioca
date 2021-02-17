@@ -5,8 +5,6 @@ using UnityEngine;
 public class DamageFloor : PlayObject
 {
     DamageData dmgDATA;
-
-    [SerializeField] ParticleSystem telegraphAttack = null;
     //[SerializeField] ParticleSystem fireAttack = null;
 
     void OnEnable()

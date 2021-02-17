@@ -5,9 +5,9 @@ using UnityEngine;
 public class Npc_peekInterval : MonoBehaviour, IPauseable
 {
 
-    [SerializeField] float timeIntervalToPeek;
-    [SerializeField] float timeIntervalPeeking;
-    [SerializeField] NPC_Anims anim;
+    [SerializeField] float timeIntervalToPeek = 4;
+    [SerializeField] float timeIntervalPeeking = 3;
+    [SerializeField] NPC_Anims anim = null;
 
     bool peeking = false;
     bool canUpdate;

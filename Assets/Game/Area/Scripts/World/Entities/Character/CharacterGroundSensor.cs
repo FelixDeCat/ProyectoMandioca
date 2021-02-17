@@ -15,14 +15,9 @@ public class CharacterGroundSensor : MonoBehaviour
 
     [SerializeField] float gravityMultiplier = 0.2f;
     [SerializeField] float maxAceleration = 15;
-    [SerializeField] float maxhHeight = 1f;
 
-    [SerializeField] float heightSlope = 0.5f;
-    [SerializeField] float heightPadding = 0.05f;
     [SerializeField] float maxGroundAngle = 120;
 
-    Vector2 input;
-    float angle;
     float groundAngle;
 
     RaycastHit raycastInfo;

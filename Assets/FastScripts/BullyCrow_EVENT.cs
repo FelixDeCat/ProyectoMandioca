@@ -5,7 +5,7 @@ using UnityEngine.Events;
 
 public class BullyCrow_EVENT : MonoBehaviour
 {
-    [SerializeField] ObjetiveSubscriber objective_kill_cuervo;
+    [SerializeField] ObjetiveSubscriber objective_kill_cuervo = null;
 
     [SerializeField] List<NPC_Anims> personitasEscondidas = new List<NPC_Anims>();
 

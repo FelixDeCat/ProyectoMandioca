@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class CentralMarket : MonoBehaviour
 {
-    [SerializeField] SaveVillageManager saveVillageManger;
+    [SerializeField] SaveVillageManager saveVillageManger = null;
     public EnemyDieEvent[] Catchers;
     public EnemyWavesSpawner[] enemySpawners;
 

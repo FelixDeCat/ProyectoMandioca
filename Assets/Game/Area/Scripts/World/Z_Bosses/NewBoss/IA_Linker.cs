@@ -8,7 +8,7 @@ namespace GOAP
     public class IA_Linker
     {
         HumanBoss human;
-        [SerializeField] Transform Root;
+        [SerializeField] Transform Root = null;
         public MyWorldState myWorld; MyWorldState Get_LocalREF_World() => myWorld;
         public SkillManager SkillManager; SkillManager Get_LocalRef_Skills() => SkillManager;
         public HumanStates States; HumanStates Get_LocalREF_States() => States;

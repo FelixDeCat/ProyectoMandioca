@@ -28,7 +28,7 @@ public class HumanBoss : EnemyBase
 
     [Header("Human Boss")]
 
-    [SerializeField] IA_Linker IA;
+    [SerializeField] IA_Linker IA = null;
 
     public Transform Root() => rootTransform;
 

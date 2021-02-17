@@ -22,12 +22,11 @@ public class WendigoEnemy : EnemyWithCombatDirector
     [SerializeField] float throwMultipier = 6;
     [SerializeField] int damage = 2;
     [SerializeField] LineOfSight lineOfSight = null;
-    [SerializeField] float throwTime;
+    [SerializeField] float throwTime = 3;
 
     [SerializeField] float hitTime = 0.1f;
     [SerializeField] Color hitColor = Color.red;
     private bool cooldown = false;
-    bool stopCD;
     bool isRotating;
     EventStateMachine<WendigoInputs> sm;
     CDModule cdModule = new CDModule();
@@ -102,8 +101,6 @@ public class WendigoEnemy : EnemyWithCombatDirector
             SetStates();
         else
             sm.SendInput(WendigoInputs.IDLE);
-
-        stopCD = true;
     }
 
     public enum WendigoInputs { IDLE, OBSERVATION, GRABTHING, PREPARERANGE, PREPAREMELEE, RANGEAR, MELEEAR, PETRIFY, DEATH, DISABLED };

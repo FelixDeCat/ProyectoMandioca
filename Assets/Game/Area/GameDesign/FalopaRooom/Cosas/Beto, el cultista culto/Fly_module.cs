@@ -22,7 +22,7 @@ public class Fly_module : MonoBehaviour
 
     float speedScaler;
 
-    [SerializeField] ParticleSystem Feedback;
+    [SerializeField] ParticleSystem Feedback = null;
 
     public void Init()
     {

@@ -7,12 +7,12 @@ using UnityEngine.Events;
 public abstract class Villager : NPCBase
 {
     [Header("Villager Variables")]
-    [SerializeField] protected NPC_Anims anim;
+    [SerializeField] protected NPC_Anims anim = null;
     public Rigidbody rb;
     Action OnArriveCustom = delegate { };
     NPC_Interactable interactable;
 
-    [SerializeField] UnityEvent OnStartMovement;
+    [SerializeField] UnityEvent OnStartMovement = null;
     public UnityEvent OnIHaveArrive;
 
     protected Action onArrivedEvent;

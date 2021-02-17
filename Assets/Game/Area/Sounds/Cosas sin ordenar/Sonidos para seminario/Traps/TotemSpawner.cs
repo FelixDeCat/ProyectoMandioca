@@ -6,9 +6,7 @@ using UnityEngine;
 public class TotemSpawner : Totem
 {
     [SerializeField] CustomSpawner spawner = null;
-    [SerializeField] protected AudioClip ac_Summon;
-
-    public event Action<List<PlayObject>> RemainingSpawnedOnTotemDeath;
+    [SerializeField] protected AudioClip ac_Summon = null;
 
     protected override void OnInitialize()
     {

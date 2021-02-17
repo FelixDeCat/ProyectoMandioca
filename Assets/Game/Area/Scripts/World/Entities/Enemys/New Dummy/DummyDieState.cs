@@ -7,7 +7,6 @@ namespace Tools.StateMachine
     {
         RagdollComponent ragdoll;
         Action OnDead;
-        ParticleSystem particle;
         Action OnDissappear;
         CDModule cdModule;
 
@@ -22,7 +21,6 @@ namespace Tools.StateMachine
 
         protected override void Enter(EState<T> lastState)
         {
-            particle?.gameObject.SetActive(false);
             cdModule.AddCD("DesactiveBones", () =>
             {
                 OnDead?.Invoke();

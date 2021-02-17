@@ -10,19 +10,19 @@ public class SaveVillageManager : MonoBehaviour
     [SerializeField] float timeBetweenVillSamegroup = 0.3f;
     public int minEnemiesToSpawnNextWave = 3;
 
-    [SerializeField] GameObject villagerPrefab;
-    [SerializeField] LayerMask mask_hit_floor;
+    [SerializeField] GameObject villagerPrefab = null;
+    [SerializeField] LayerMask mask_hit_floor = 1<<21;
     int currentVillagerCount = 0;
     public int currentPhase { get; private set; }
 
-    [SerializeField] Transform[] spawnPoints;
-    [SerializeField] PointToGo endPoint;
+    [SerializeField] Transform[] spawnPoints = new Transform[0];
+    [SerializeField] PointToGo endPoint = null;
 
     public VillageEventState gameState { get; private set; }
-    [SerializeField] UnityEvent OnEventStarted;
-    [SerializeField] UnityEvent OnPhaseChanged;
-    [SerializeField] UnityEvent OnVillagerArrived;
-    [SerializeField] UnityEvent OnEventCompleted;
+    [SerializeField] UnityEvent OnEventStarted = null;
+    [SerializeField] UnityEvent OnPhaseChanged = null;
+    [SerializeField] UnityEvent OnVillagerArrived = null;
+    [SerializeField] UnityEvent OnEventCompleted = null;
 
     List<EnemyBase> currentEnemies = new List<EnemyBase>();
     List<NPCFleing> currentVillagers = new List<NPCFleing>();

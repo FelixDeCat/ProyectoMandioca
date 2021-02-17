@@ -4,11 +4,11 @@ using UnityEngine;
 
 public class PresentacionCabra : MonoBehaviour
 {
-    [SerializeField] Transform root;
-    [SerializeField] DamageReceiver dmgreceiver;
-    [SerializeField] DamageData cabraDmg;
-    [SerializeField] ChangeToTarget changeToTarget;
-    [SerializeField] EventDestructible cercaRota;
+    [SerializeField] Transform root = null;
+    [SerializeField] DamageReceiver dmgreceiver = null;
+    [SerializeField] DamageData cabraDmg = null;
+    [SerializeField] ChangeToTarget changeToTarget = null;
+    [SerializeField] EventDestructible cercaRota = null;
 
     CDModule NPC_timer = new CDModule();
 

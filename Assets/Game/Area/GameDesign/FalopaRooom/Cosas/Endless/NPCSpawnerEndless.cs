@@ -5,14 +5,14 @@ using System;
 
 public class NPCSpawnerEndless : MonoBehaviour
 {
-    [SerializeField] GameObject pelotudosASpawnear;
-    [SerializeField] Transform spawnPoint1;
-    [SerializeField] Transform spawnPoint2;
-    [SerializeField] Transform spawnPoint3;
-    [SerializeField] PointToGo endPoint;
-    [SerializeField] float cdSpawn;
-    [SerializeField] int taradosToSpawn;
-    [SerializeField] int taradosToWin;
+    [SerializeField] GameObject pelotudosASpawnear = null;
+    [SerializeField] Transform spawnPoint1 = null;
+    [SerializeField] Transform spawnPoint2 = null;
+    [SerializeField] Transform spawnPoint3 = null;
+    [SerializeField] PointToGo endPoint = null;
+    [SerializeField] float cdSpawn = 5;
+    [SerializeField] int taradosToSpawn = 5;
+    [SerializeField] int taradosToWin = 30;
     int taradosSpawned;
     Transform pointToSpawn;
     List<GameObject> NPCAlives = new List<GameObject>();

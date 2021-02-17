@@ -4,18 +4,17 @@ using UnityEngine;
 
 public class TentacleWall : EnemyBase
 {
-    [SerializeField] Animator _anim;
-    [SerializeField] AnimEvent animEvent;
-    [SerializeField] BoxCollider boxCol;
-    [SerializeField] GameObject damageTrigger;
-    [SerializeField] float rotSpeed;
+    [SerializeField] Animator _anim = null;
+    [SerializeField] AnimEvent animEvent = null;
+    [SerializeField] BoxCollider boxCol = null;
+    [SerializeField] GameObject damageTrigger = null;
+    [SerializeField] float rotSpeed = 10;
 
     CDModule cdModule;
     bool attacking;
     bool inRange = false;
 
-    [SerializeField] int damage;
-    [SerializeField] float distanceToAttack;
+    [SerializeField] int damage = 10;
 
     Transform characterT;
 
@@ -40,12 +39,6 @@ public class TentacleWall : EnemyBase
         attacking = false;
         damageTrigger.SetActive(false);
         boxCol.enabled = true;
-    }
-
-
-    private void Update()
-    {
-        //Debug.Log(canupdate);
     }
 
     public void CloseTentacles()

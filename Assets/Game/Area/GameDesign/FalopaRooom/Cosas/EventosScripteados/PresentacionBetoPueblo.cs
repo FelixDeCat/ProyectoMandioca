@@ -7,7 +7,7 @@ using GOAP;
 
 public class PresentacionBetoPueblo : MonoBehaviour, ISpawner, IScriptedEvent, IPauseable
 {
-    [SerializeField] Transform betoRoot;
+    [SerializeField] Transform betoRoot = null;
 
     [Header("Primera parte. Summon")]
     [SerializeField] SpawnerSpot spot = null;
@@ -19,21 +19,21 @@ public class PresentacionBetoPueblo : MonoBehaviour, ISpawner, IScriptedEvent, I
     List<PlayObject> summonedEnemies = new List<PlayObject>();
     bool finishKillSummon;
     Action OnReachDestination;
-    [SerializeField] GameObject trigger;
-    [SerializeField] TentacleWall_controller tentacles;
+    [SerializeField] GameObject trigger = null;
+    [SerializeField] TentacleWall_controller tentacles = null;
 
     public UnityEvent OnKillAllEnemies;
 
     [Header("Segunda parte: Romper puente")]
-    [SerializeField] Transform bridgePos;
-    [SerializeField] Transform exitPos;
-    [SerializeField] Transform totemSummon_pos;
+    [SerializeField] Transform bridgePos = null;
+    [SerializeField] Transform exitPos = null;
+    [SerializeField] Transform totemSummon_pos = null;
     Transform currentPlaceToGo;
-    [SerializeField] float betoSpeed;
-    [SerializeField] float particleDelay; // este es el tiempo entre que le decis Play a la particula y se rompe el puente
-    [SerializeField] ParticleSystem rayoQueRompePuente_cargando;//carga el rayo
-    [SerializeField] ParticleSystem rayoQueRompePuente_impacto;//tira el rayo
-    [SerializeField] EventDestructible puente;
+    [SerializeField] float betoSpeed = 10;
+    [SerializeField] float particleDelay = 1; // este es el tiempo entre que le decis Play a la particula y se rompe el puente
+    [SerializeField] ParticleSystem rayoQueRompePuente_cargando = null;//carga el rayo
+    [SerializeField] ParticleSystem rayoQueRompePuente_impacto = null;//tira el rayo
+    [SerializeField] EventDestructible puente = null;
 
     TotemSpawner totem;
 

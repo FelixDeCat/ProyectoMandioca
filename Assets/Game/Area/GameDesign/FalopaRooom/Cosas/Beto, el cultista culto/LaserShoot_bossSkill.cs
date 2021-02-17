@@ -16,12 +16,12 @@ public class LaserShoot_bossSkill : GOAP_Skills_Base
     [SerializeField] PlayObject corruptVomito_pf = null;
  
     [SerializeField] float timeBwtShoots = 0.5f;
-    [SerializeField]  float _countTime;
+    [SerializeField]  float _countTime = 5;
 
     Coroutine ametralladora;
     Coroutine waitToShoot;
 
-    [SerializeField] ParticleSystem FeedBack;
+    [SerializeField] ParticleSystem FeedBack = null;
 
     protected override void OnEndSkill()
     {

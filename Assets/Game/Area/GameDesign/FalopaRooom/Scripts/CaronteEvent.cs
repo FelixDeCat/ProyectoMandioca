@@ -1,9 +1,5 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using GOAP;
 using UnityEngine;
-using System;
-using GOAP;
-using UnityEngine.SceneManagement;
 
 
 public class CaronteEvent : MonoBehaviour
@@ -17,7 +13,7 @@ public class CaronteEvent : MonoBehaviour
     //[SerializeField] CaronteHand hand_pf = null;
     [SerializeField] Ente caronte_pf = null;
     //[SerializeField] float delayedHand = 5;
-    [SerializeField] float delayedCaronteSpawn = 5;
+    //[SerializeField] float delayedCaronteSpawn = 5;
     [SerializeField] Transform caronteSpawnSpot = null;
 
     CaronteCinematic_Controller cinematic;

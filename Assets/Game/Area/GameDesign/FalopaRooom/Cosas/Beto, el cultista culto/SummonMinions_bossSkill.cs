@@ -10,11 +10,9 @@ public class SummonMinions_bossSkill : GOAP_Skills_Base, ISpawner
 
     [SerializeField] PlayObject prefab = null;
     [SerializeField] int amountSummoned = 5;
-    [SerializeField] float spellDuration;
+    [SerializeField] float spellDuration = 5;
 
     List<PlayObject> summonedEnemies = new List<PlayObject>();
-
-    [SerializeField] ParticleSystem FeedBack;
 
     Animator _anim;
     Ente _ent;

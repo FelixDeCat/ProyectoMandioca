@@ -60,7 +60,7 @@ namespace GOAP
         [SerializeField] float onHitFlashTime = 0.1f;
         [SerializeField] bool damageFeedback = false;
         public bool canBeInterrupted = true;
-        [SerializeField] SkinnedMeshRenderer skinnedMeshrenderer;
+        [SerializeField] SkinnedMeshRenderer skinnedMeshrenderer = null;
 
         void FixedUpdate()
         {

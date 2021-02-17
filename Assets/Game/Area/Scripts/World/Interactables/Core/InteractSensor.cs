@@ -189,7 +189,6 @@ public class InteractSensor : MonoBehaviour
     [Range(0f, 1f)]
     public float time_to_fast_recollection = 0.5f;
     bool calculate_fast_recollection = false;
-    [SerializeField] bool can_fast_recollecion = false;
     [SerializeField] float timerfastrec = 0;
     void Update_CheckFastRecollection()
     {
@@ -199,14 +198,9 @@ public class InteractSensor : MonoBehaviour
             {
                 timerfastrec = timerfastrec + 1 * Time.deltaTime;
             }
-            else
-            {
-                can_fast_recollecion = true;
-            }
         }
         else
         {
-            can_fast_recollecion = false;
             timerfastrec = 0;
         }
     }

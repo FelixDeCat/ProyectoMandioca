@@ -9,9 +9,9 @@ public class Brazalete_event : MonoBehaviour, ISpawner, IPauseable, IScriptedEve
 {
 
     [Header("Characters")]
-    [SerializeField] GameObject beto;
-    [SerializeField] GameObject atenea;
-    [SerializeField] GameObject brazalete;
+    [SerializeField] GameObject beto = null;
+    [SerializeField] GameObject atenea = null;
+    [SerializeField] GameObject brazalete = null;
 
     Animator betoAnim;
     Animator ateneaAnim;
@@ -21,10 +21,10 @@ public class Brazalete_event : MonoBehaviour, ISpawner, IPauseable, IScriptedEve
     Action OnReachedDestination_Atena;
 
     [Header("Movement Settings")]
-    [SerializeField] Transform flyingPos;
-    [SerializeField] Transform getAway_pos;
-    [SerializeField] Transform brazaletDrop_pos;
-    [SerializeField] Transform ateneaFinal_pos;
+    [SerializeField] Transform flyingPos = null;
+    [SerializeField] Transform getAway_pos = null;
+    [SerializeField] Transform brazaletDrop_pos = null;
+    [SerializeField] Transform ateneaFinal_pos = null;
     Transform currentPlaceToGo_beto;
     Transform currentPlaceToGo_brazalete;
     Transform currentPlaceToGo_atenea;
@@ -33,34 +33,34 @@ public class Brazalete_event : MonoBehaviour, ISpawner, IPauseable, IScriptedEve
     [Header("Summoning Settings")]
     [SerializeField] TotemFeedback totemFeedback = new TotemFeedback();
     [SerializeField] SpawnerSpot spot = null;
-    [SerializeField] Transform posibleSpawnSpots;
-    [SerializeField] PlayObject spawnPrefab;
+    [SerializeField] Transform posibleSpawnSpots = null;
+    [SerializeField] PlayObject spawnPrefab = null;
     [SerializeField] List<PlayObject> summonedEnemies = new List<PlayObject>();
     int amountKilled;
     int amountSummoned;
     bool activeSpawn = false;
-    [SerializeField] int summonLimit;
+    [SerializeField] int summonLimit = 5;
     [SerializeField] EndlessSpawner wave_handler = new EndlessSpawner();
-    [SerializeField] float endlessDuration;
+    [SerializeField] float endlessDuration = 60;
 
     [Header("Miscelaneos")]
-    [SerializeField] NPCFleing[] aldeanosAsustados;
-    [SerializeField] TentacleWall_controller tentaculos;
-    [SerializeField] TentacleWall_controller tentaculos_fijos;
-    [SerializeField] DamageData ateneaDmg;
-    [SerializeField] GameObject initTrigger;
+    [SerializeField] NPCFleing[] aldeanosAsustados = new NPCFleing[0];
+    [SerializeField] TentacleWall_controller tentaculos = null;
+    [SerializeField] TentacleWall_controller tentaculos_fijos = null;
+    [SerializeField] DamageData ateneaDmg = null;
+    [SerializeField] GameObject initTrigger = null;
 
 
     [Header("CameraEvents")]
-    [SerializeField] CameraCinematic ateneaAparece_camEvent;
+    [SerializeField] CameraCinematic ateneaAparece_camEvent = null;
 
     [Header("DialogueEvents")]
-    [SerializeField] NPC_Dialog ateneaDialogue_fly;
-    [SerializeField] NPC_Dialog ateneaDialogue_ground;
+    [SerializeField] NPC_Dialog ateneaDialogue_fly = null;
+    [SerializeField] NPC_Dialog ateneaDialogue_ground = null;
 
     [Header("Particles")]
-    [SerializeField] ParticleSystem ateneaAtaque;
-    [SerializeField] ParticleSystem brazaletPart;
+    [SerializeField] ParticleSystem ateneaAtaque = null;
+    [SerializeField] ParticleSystem brazaletPart = null;
 
 
     //Reset things

@@ -7,15 +7,15 @@ using System;
 public class EndlessSpawner : IPauseable
 {
 
-    [SerializeField] PlayObject[] enemiesPrefabs;
-    [SerializeField] PlayObject[] currentWave;
+    [SerializeField] PlayObject[] enemiesPrefabs = new PlayObject[0];
+    [SerializeField] PlayObject[] currentWave = new PlayObject[0];
     PlayObject[] first;
     PlayObject[] second;
     PlayObject[] third;
-    [SerializeField] float[] waveTimers;
+    [SerializeField] float[] waveTimers = new float[0];
     int currentWaveIndex = 0;
     public event Action OnStartWaveTimer;
-    [SerializeField] float _count;
+    [SerializeField] float _count = 7;
 
     public bool isOn = false;
 

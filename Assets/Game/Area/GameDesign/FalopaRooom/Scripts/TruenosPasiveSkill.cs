@@ -5,15 +5,15 @@ using Tools.Extensions;
 
 public class TruenosPasiveSkill : MonoBehaviour
 {
-    [SerializeField] float range;
-    [SerializeField] float knockbackFoes;
-    [SerializeField] int damage;
-    [SerializeField] float stunTimer;
+    [SerializeField] float range = 10;
+    [SerializeField] float knockbackFoes = 15;
+    [SerializeField] int damage = 7;
+    [SerializeField] float stunTimer = 6;
 
     [SerializeField] Damagetype damageType = Damagetype.Normal;
     DamageData dmgDATA;
 
-    [SerializeField] ParticleSystem particlesLindas;
+    [SerializeField] ParticleSystem particlesLindas = null;
 
     CharacterHead _hero;
 

@@ -6,7 +6,7 @@ using UnityEngine.UI;
 
 public class CultistMap : MonoBehaviour
 {
-    [SerializeField] Sprite mapImage;
+    [SerializeField] Sprite mapImage = null;
 
     public EventCounterPredicate predicate;
 

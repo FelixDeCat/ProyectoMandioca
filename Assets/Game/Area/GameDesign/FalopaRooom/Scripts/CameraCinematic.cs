@@ -5,12 +5,12 @@ using UnityEngine;
 
 public class CameraCinematic : MonoBehaviour
 {
-    [SerializeField] Transform targetPos;
-    [SerializeField] Transform lookAt;
+    [SerializeField] Transform targetPos = null;
+    [SerializeField] Transform lookAt = null;
 
-    [SerializeField] float goTime;
-    [SerializeField] float cinematicTime;
-    [SerializeField] float returnTime;
+    [SerializeField] float goTime = 5;
+    [SerializeField] float cinematicTime = 7;
+    [SerializeField] float returnTime = 5;
 
     public void StartCinematic()
     {

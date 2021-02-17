@@ -20,7 +20,7 @@ public class BombEnemy : EnemyBase
     EntityBase target;
 
     private bool cooldown = false;
-    bool petrify;
+    bool petrify = false;
 
     [Header("Spawn Options")]
     [SerializeField] PlayObject trapToDie = null;

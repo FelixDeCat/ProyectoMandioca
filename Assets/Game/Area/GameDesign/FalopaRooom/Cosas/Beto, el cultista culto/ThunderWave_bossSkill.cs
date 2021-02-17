@@ -16,9 +16,9 @@ public class ThunderWave_bossSkill : GOAP_Skills_Base
     [SerializeField] float radious = 5f;
     [SerializeField] float chargeTime = 5f;
     [SerializeField] float timeBtwEndPartAndExplode = 0f;
-    [SerializeField] LayerMask hitMask;
-    [SerializeField] ParticleSystem FeedbackStart;
-    [SerializeField] ParticleSystem FeedbackEnd;
+    [SerializeField] LayerMask hitMask = 1<<21;
+    [SerializeField] ParticleSystem FeedbackStart = null;
+    [SerializeField] ParticleSystem FeedbackEnd = null;
 
     protected override void OnEndSkill()
     {

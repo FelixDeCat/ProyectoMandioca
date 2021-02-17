@@ -34,11 +34,6 @@ public class CameraRotate : MonoBehaviour
     [SerializeField] float clampYDown = 0;
     Vector3 initialVector;
 
-    [Header("DebugOptions")]
-    [SerializeField] float minHorSens = 80;
-    [SerializeField] float maxHorSens = 90;
-    [SerializeField] float minVertSens = 20;
-    [SerializeField] float maxVertSens = 10;
 
     [SerializeField] Transform camConfig = null;
 

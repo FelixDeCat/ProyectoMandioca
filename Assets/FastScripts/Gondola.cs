@@ -5,7 +5,7 @@ using UnityEngine;
 public class Gondola : MonoBehaviour
 {
     [SerializeField]
-    Animator gondola_anim;
+    Animator gondola_anim = null;
 
     public void ANIM_Open()
     {

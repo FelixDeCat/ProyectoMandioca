@@ -5,10 +5,10 @@ using UnityEngine.UI;
 
 public class UI_Button_Scene : MonoBehaviour
 {
-    [SerializeField] TextMeshProUGUI txt_name;
+    [SerializeField] TextMeshProUGUI txt_name = null;
     Action<string> OnPress = delegate { };
     Button myButton;
-    [SerializeField] Image feedbackSelected;
+    [SerializeField] Image feedbackSelected = null;
     string myName;
     public void Configure(string _Name, Action<string> callbackPress)
     {

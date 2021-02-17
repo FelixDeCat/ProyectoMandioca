@@ -26,7 +26,6 @@ public class CustomCamera : MonoBehaviour
     public float horizontal;
     public float vertical;
 
-    Collider currentObstacle;
     [SerializeField] float sensitivity;
     [SerializeField] private SkillCloseUp_Camera skillCloseUp_Camera = null;
 
@@ -46,7 +45,6 @@ public class CustomCamera : MonoBehaviour
     public CamConfiguration overTheSholderCam;
     public bool activateOverTheSholder;
     public int index;
-    JoystickBasicInput _joystick;
     float startHorizontal;
     float StartVertical;
     [SerializeField] RotateTheCamera _rotOfCamera = null;

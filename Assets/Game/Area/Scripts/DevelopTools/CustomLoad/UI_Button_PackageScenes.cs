@@ -10,7 +10,7 @@ public class UI_Button_PackageScenes : MonoBehaviour
     Action<HashSet<string>> callbackOnPress = delegate { };
     string[] scenes;
 
-    [SerializeField] TextMeshProUGUI txt_name;
+    [SerializeField] TextMeshProUGUI txt_name = null;
     Button myButton;
 
     public void Configure(string _name, Action<HashSet<string>> _callbackOnPress,  params string[] _scenes)

@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class GreekOil : MonoBehaviour
 {
-    [SerializeField] EventCounterPredicate predicate;
+    [SerializeField] EventCounterPredicate predicate = new EventCounterPredicate();
     [SerializeField] float duration = 60;
     CharacterHead character;
     public bool MyPredicate() => Main.instance.GetChar().CanUseEffect();

@@ -9,7 +9,7 @@ namespace GOAP
     [System.Serializable]
     public class GenBrainPlanner : EntityData
     {
-        IEnumerator plan;
+        IEnumerator plan = null;
         public event Action OnCantPlan;
         public float distanceDebug;
         public bool OnGround_debug;

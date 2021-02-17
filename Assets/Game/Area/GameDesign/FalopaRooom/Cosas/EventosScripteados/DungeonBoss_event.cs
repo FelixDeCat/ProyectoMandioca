@@ -5,9 +5,9 @@ using GOAP;
 
 public class DungeonBoss_event : MonoBehaviour, IScriptedEvent
 {
-    [SerializeField] GameObject beto;
+    [SerializeField] GameObject beto = null;
 
-    [SerializeField] GameObject trigger;
+    [SerializeField] GameObject trigger = null;
 
     //Reset settings
     Vector3 originialBeto_pos;

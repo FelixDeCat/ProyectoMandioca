@@ -11,7 +11,7 @@ public class PlayAnimFromString : MonoBehaviour
 
     public bool useNpcAnims;
     public bool startOnAwake;
-    [SerializeField] NPC_Anims npcAnims;
+    [SerializeField] NPC_Anims npcAnims = null;
 
     private void Start()
     {

@@ -24,6 +24,11 @@ public class ThreadObject
         return ((ThreadObject)obj).Key_Unique_Process == this.Key_Unique_Process;
     }
 
+    public override int GetHashCode()
+    {
+        return base.GetHashCode();
+    }
+
     public IEnumerator Process()
     {
         yield return process;

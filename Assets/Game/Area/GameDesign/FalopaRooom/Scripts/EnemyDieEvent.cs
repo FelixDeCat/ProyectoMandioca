@@ -5,8 +5,8 @@ using UnityEngine.Events;
 
 public class EnemyDieEvent : MonoBehaviour
 {
-    [SerializeField] ObjetiveSubscriber objectiveSuscriber;
-    [SerializeField] UnityEvent onTrigger;
+    [SerializeField] ObjetiveSubscriber objectiveSuscriber = null;
+    [SerializeField] UnityEvent onTrigger = null;
 
     public void Initialize()
     {
