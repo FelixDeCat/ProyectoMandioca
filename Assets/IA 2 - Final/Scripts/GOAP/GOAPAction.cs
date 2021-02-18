@@ -31,11 +31,11 @@ public class GOAPAction {
         return this;
     }
 
-    public GOAPAction Pre(string s, Func<GOAPValue, bool> value) {
+    public GOAPAction Pre(Func<GOAPValue, bool> value) {
         preconditions.Add(value);
         return this;
     }
-        public GOAPAction Effect(string s, Action<GOAPValue> changeValue) {
+        public GOAPAction Effect(Action<GOAPValue> changeValue) {
         effects.Add(changeValue);
         return this;
         }
