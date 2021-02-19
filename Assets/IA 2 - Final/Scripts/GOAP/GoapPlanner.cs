@@ -70,8 +70,10 @@ namespace IA2Final
             OnCantPlan?.Invoke();
         }
 
-        private static float GetHeuristic(GOAPState from, GOAPState goal) => goal.values.boolValues.Count(kv => !kv.In(from.values.boolValues)) +
-            goal.values.intValues.Count(kv => !kv.In(from.values.intValues)) + goal.values.floatValues.Count(kv => !kv.In(from.values.floatValues)) +
+        private static float GetHeuristic(GOAPState from, GOAPState goal, int seed = 0, float seedF = 0) =>
+            goal.values.boolValues.Count(kv => !kv.In(from.values.boolValues)) +
+            goal.values.intValues.Aggregate(seed, (s, g) => { s += Mathf.Abs(from.values.intValues[g.Key] - g.Value); return s; }) +
+            goal.values.floatValues.Aggregate(seedF, (s, g) => { s += Mathf.Abs(from.values.floatValues[g.Key] - g.Value); return s; }) +
             goal.values.stringValues.Count(kv => !kv.In(from.values.stringValues));
         private static bool Satisfies(GOAPState state, GOAPState to) => to.values.boolValues.All(kv => kv.In(state.values.boolValues)) &&
             to.values.intValues.All(kv => kv.In(state.values.intValues)) && to.values.floatValues.All(kv => kv.In(state.values.floatValues)) &&

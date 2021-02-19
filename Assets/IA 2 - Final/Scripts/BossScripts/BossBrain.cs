@@ -16,24 +16,30 @@ public class BossBrain : MonoBehaviour
     BossTPState tpState;
     FiniteStateMachine fsm;
 
+    BossModel model;
+
     [SerializeField] float distanceToMele = 5;
     [SerializeField] int meleDamage = 10;
     [SerializeField] int shootDamage = 5;
     [SerializeField] int flameDamage = 15;
     [SerializeField] int phantomShootDamage = 20;
     [SerializeField] int tpDamage = 5;
-    int flameStaminaNeed = 3;
-    int phantomShootStamina = 4;
-    int lifeToChangePhase = 50;
-    int maxStamina = 10;
-    int currentStamina;
-    int currentLife;
+    [SerializeField] int flameStaminaNeed = 3;
+    [SerializeField] int phantomShootStamina = 4;
+    [SerializeField] int lifeToChangePhase = 50;
 
-    string flameName = "Flame";
-    string shootName = "PhantomShoot";
+    bool abilityCooldown = true;
+    bool attackCooldown = true;
+    bool tpCooldown = false;
 
-    private void Awake()
+    int dashCount = 0;
+    int heavyCount = 0;
+    int parryCount = 0;
+    string charAbilityMostUsed = "Heavy";
+
+    public void Initialize(BossModel boss)
     {
+        model = boss;
         idleState = new BossIdleState();
         meleState = new BossMeleState();
         shootState = new BossShootState();
@@ -49,11 +55,17 @@ public class BossBrain : MonoBehaviour
         shootAbState.OnNeedsReplan += Replan;
         stunState.OnNeedsReplan += Replan;
         tpState.OnNeedsReplan += Replan;
-    }
 
-    void Start()
-    {
         PlanAndExecute();
+
+
+        Main.instance.GetChar().AddListenerToDash(() => { dashCount += 1; if (dashCount > heavyCount && dashCount > parryCount) charAbilityMostUsed = "Dash"; });
+        Main.instance.GetChar().AddParry(() => { parryCount += 1; if (parryCount > dashCount && parryCount > heavyCount) charAbilityMostUsed = "Parry"; });
+        Main.instance.GetChar().GetCharacterAttack().Add_callback_Heavy_attack(() =>
+        {
+            heavyCount += 1;
+            if (heavyCount > dashCount && heavyCount > parryCount) charAbilityMostUsed = "Heavy";
+        });
     }
 
     float timeToPlan = 0.3f;
@@ -126,7 +138,7 @@ public class BossBrain : MonoBehaviour
                                               new GOAPAction(GOAPStatesName.OnStunAbility)
                                                  .Pre(x=>x.intValues[GOAPParametersName.OwnLife] < lifeToChangePhase ? true: false)
                                                  .Pre(x=>x.intValues[GOAPParametersName.Stamina] <= 0 ? true : false)
-                                                 .Effect(x => x.intValues[GOAPParametersName.Stamina] = maxStamina)
+                                                 .Effect(x => x.intValues[GOAPParametersName.Stamina] = model.maxStamina)
                                                  .LinkedState(stunState),
 
                                               new GOAPAction(GOAPStatesName.OnTPAbility)
@@ -167,13 +179,13 @@ public class BossBrain : MonoBehaviour
 
         from.values.floatValues[GOAPParametersName.CharDistance] = Vector3.Distance(transform.position, Main.instance.GetChar().transform.position);
         from.values.intValues[GOAPParametersName.CharLife] = Main.instance.GetChar().Life.Life;
-        from.values.intValues[GOAPParametersName.OwnLife] = currentLife;
-        from.values.stringValues[GOAPParametersName.CharAbilityMostUsed] = "Dash";
-        from.values.boolValues[GOAPParametersName.TPOnCooldown] = false;
-        from.values.boolValues[GOAPParametersName.AbilityOnCooldown] = true;
-        from.values.intValues[GOAPParametersName.Stamina] = currentStamina;
-        from.values.stringValues[GOAPParametersName.LastOwnAbility] = "";
-        from.values.boolValues[GOAPParametersName.AttackOnCooldown] = true;
+        from.values.intValues[GOAPParametersName.OwnLife] = model.CurrentLife;
+        from.values.stringValues[GOAPParametersName.CharAbilityMostUsed] = charAbilityMostUsed;
+        from.values.boolValues[GOAPParametersName.TPOnCooldown] = tpCooldown;
+        from.values.boolValues[GOAPParametersName.AbilityOnCooldown] = abilityCooldown;
+        from.values.intValues[GOAPParametersName.Stamina] = model.CurrentStamina;
+        from.values.stringValues[GOAPParametersName.LastOwnAbility] = model.MyAbilityMostUsed;
+        from.values.boolValues[GOAPParametersName.AttackOnCooldown] = attackCooldown;
 
         var to = new GOAPState();
         to.values.intValues[GOAPParametersName.CharLife] = 0;
@@ -184,7 +196,6 @@ public class BossBrain : MonoBehaviour
 
         planner.Run(from, to, actions, StartCoroutine);
     }
-
 
     private void OnPlanCompleted(IEnumerable<GOAPAction> plan)
     {
@@ -198,4 +209,10 @@ public class BossBrain : MonoBehaviour
 
         Debug.Log("No pude planear");
     }
+
+    public void ActualizeAbCD(bool value) => abilityCooldown = value;
+
+    public void ActualizeAttCD(bool value) => attackCooldown = value;
+
+    public void ActualizeTPCD(bool value) => tpCooldown = value;
 }
