@@ -7,8 +7,8 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Effects_Enviroment_FakeLight
-  m_Shader: {fileID: 4800000, guid: 0a8402a0a270bf14d81c428385030576, type: 3}
+  m_Name: Custom_IA_IADeformation
+  m_Shader: {fileID: 4800000, guid: bb966b4810126654481302eee963fe03, type: 3}
   m_ShaderKeywords: 
   m_LightmapFlags: 0
   m_EnableInstancingVariants: 0
@@ -19,12 +19,20 @@ Material:
   m_SavedProperties:
     serializedVersion: 3
     m_TexEnvs:
-    - _Lines:
+    - _Albedo:
+        m_Texture: {fileID: 2800000, guid: fc2bcc518ac2c184dbb5e3ec5eb43d5a, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _Clouds:
         m_Texture: {fileID: 2800000, guid: e1d4affda974e204fa329d1672d5960a, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
+    - _Noise:
+        m_Texture: {fileID: 2800000, guid: 85b0fe455db181d4ebd25c8a834985e1, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     - _TextureSample0:
-        m_Texture: {fileID: 2800000, guid: 872f743a53ae7c44cb30c0f71fd5181e, type: 3}
+        m_Texture: {fileID: 2800000, guid: 18bf786a61ed66b478f8dde7de91e317, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _texcoord:
@@ -32,16 +40,9 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     m_Floats:
-    - _EmissionIntensity: 15
-    - _Float0: 0.03
-    - _Lenght: 0.13
-    - _LinesAmmount: 15
-    - _NoiseScale: 15
-    - _OpacityIntensity: 0.142
-    - _Strengh: 1.53
-    - __dirty: 1
+    - _Float0: 22.4
+    - _Float1: -0.9
+    - _Float2: 0.03
+    - __dirty: 0
     m_Colors:
-    - _Color0: {r: 0.38538745, g: 0, b: 0.38679248, a: 0}
-    - _Color1: {r: 0.6509434, g: 0, b: 0.6102594, a: 0}
-    - _LinesColor: {r: 0.6132076, g: 0.6132076, b: 0.6132076, a: 0}
-    - _MainColor: {r: 0, g: 0, b: 0, a: 0}
+    - _Color0: {r: 0.66669554, g: 0, b: 1.049595, a: 0}
