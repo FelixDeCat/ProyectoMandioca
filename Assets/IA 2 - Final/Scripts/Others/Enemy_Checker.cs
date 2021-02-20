@@ -9,25 +9,35 @@ public class Enemy_Checker : MonoBehaviour
     [SerializeField] GameObject _key;
     [SerializeField] Transform _pivot;
     [SerializeField] float _updatetime;
+    bool _clear;
     // Start is called before the first frame update
    
 
     // Update is called once per frame
     void Update()
     {
-        StartCoroutine(Checking());
+        if(!_clear)
+            StartCoroutine(Checking());
+
     }
     IEnumerator Checking()
     {
         yield return new WaitForSeconds(_updatetime);
-        var overlapsphere = Physics.OverlapSphere(transform.position, _radius,_enemyLayer);
-
-        if (overlapsphere.Length - 1 == 0)
+        if (!_clear)
         {
-            var key=Instantiate(_key);
-            key.transform.position = _pivot.position;
-            Destroy(this.gameObject);
+            var overlapsphere = Physics.OverlapSphere(transform.position, _radius, _enemyLayer);
+
+            if (overlapsphere.Length == 0)
+            {
+                var key = Instantiate(_key);
+                key.transform.position = _pivot.position;
+                _clear = true;
+                Destroy(this.gameObject);
+
+                Debug.Log(overlapsphere.Length);
+            }
         }
+       
        
     }
 }
