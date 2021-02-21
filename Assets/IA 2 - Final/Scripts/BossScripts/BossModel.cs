@@ -9,6 +9,7 @@ public class BossModel : EnemyBase
     public int CurrentStamina { get; private set; }
     public int CurrentLife { get => lifesystem.Life; }
     public string MyAbilityMostUsed { get; private set; }
+    public bool ShieldActive { get; set; }
     string lastAbilityUsed = "";
 
     protected override void OnInitialize()

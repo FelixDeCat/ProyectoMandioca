@@ -13,6 +13,7 @@ public class GOAPParametersName
     public const string Stamina = "Stamina";
     public const string LastOwnAbility = "LastOwnAbility";
     public const string AttackOnCooldown = "AttackOnCooldown";
+    public const string ShieldActive = "ShieldActive";
 }
 public class GOAPStatesName
 {
@@ -23,4 +24,5 @@ public class GOAPStatesName
     public const string OnShootAbility = "OnShootAbility";
     public const string OnStunAbility = "OnShootAbility";
     public const string OnTPAbility = "OnTPAbility";
+    public const string OnSpawnAbility = "OnSpawnAbility";
 }

@@ -4,11 +4,11 @@ using UnityEngine;
 
 namespace IA2Final.FSM
 {
-    public class BossFlyingState : MonoBaseState
+    public class BossSpawnState : MonoBaseState
     {
         public override event Action OnNeedsReplan;
 
-        public BossFlyingState()
+        public BossSpawnState()
         {
         }
 

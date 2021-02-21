@@ -14,6 +14,7 @@ public class BossBrain : MonoBehaviour
     BossShootAbility shootAbState;
     BossStunState stunState;
     BossTPState tpState;
+    BossSpawnState spawnState;
     FiniteStateMachine fsm;
 
     BossModel model;
@@ -22,10 +23,12 @@ public class BossBrain : MonoBehaviour
     [SerializeField] int meleDamage = 10;
     [SerializeField] int shootDamage = 5;
     [SerializeField] int flameDamage = 15;
+    [SerializeField] int spawnDamage = 10;
     [SerializeField] int phantomShootDamage = 20;
     [SerializeField] int tpDamage = 5;
     [SerializeField] int flameStaminaNeed = 3;
     [SerializeField] int phantomShootStamina = 4;
+    [SerializeField] int spawnStaminaNeed = 5;
     [SerializeField] int lifeToChangePhase = 50;
 
     bool abilityCooldown = true;
@@ -47,6 +50,7 @@ public class BossBrain : MonoBehaviour
         shootAbState = new BossShootAbility();
         stunState = new BossStunState();
         tpState = new BossTPState();
+        spawnState = new BossSpawnState();
 
         idleState.OnNeedsReplan += Replan;
         meleState.OnNeedsReplan += Replan;
@@ -55,6 +59,7 @@ public class BossBrain : MonoBehaviour
         shootAbState.OnNeedsReplan += Replan;
         stunState.OnNeedsReplan += Replan;
         tpState.OnNeedsReplan += Replan;
+        spawnState.OnNeedsReplan += Replan;
 
         PlanAndExecute();
 
@@ -115,6 +120,7 @@ public class BossBrain : MonoBehaviour
 
                                               new GOAPAction(GOAPStatesName.OnFlameAbility)
                                                  .Pre(x=> !x.boolValues[GOAPParametersName.AbilityOnCooldown] ? true : false)
+                                                 .Pre(x=>!x.boolValues[GOAPParametersName.ShieldActive])
                                                  .Pre(x => x.stringValues[GOAPParametersName.CharAbilityMostUsed] != "Dash" ? true : false)
                                                  .Effect(x=>x.boolValues[GOAPParametersName.AbilityOnCooldown] = true)
                                                  .Effect(x => {
@@ -124,8 +130,22 @@ public class BossBrain : MonoBehaviour
                                                  .Effect(x=>x.stringValues[GOAPParametersName.CharAbilityMostUsed] = "Dash")
                                                  .LinkedState(flameState),
 
+                                              new GOAPAction(GOAPStatesName.OnSpawnAbility)
+                                                 .Pre(x=> !x.boolValues[GOAPParametersName.AbilityOnCooldown] ? true : false)
+                                                 .Pre(x=>!x.boolValues[GOAPParametersName.ShieldActive])
+                                                 .Pre(x => x.stringValues[GOAPParametersName.CharAbilityMostUsed] != "Heavy" ? true : false)
+                                                 .Effect(x=>x.boolValues[GOAPParametersName.AbilityOnCooldown] = true)
+                                                 .Effect(x => {
+                                                     x.intValues[GOAPParametersName.CharLife] -= spawnDamage;
+                                                     if(x.intValues[GOAPParametersName.CharLife]<0) x.intValues[GOAPParametersName.CharLife] = 0;
+                                                     } )
+                                                 .Effect(x=>x.stringValues[GOAPParametersName.CharAbilityMostUsed] = "Heavy")
+                                                 .Effect(x=>x.boolValues[GOAPParametersName.ShieldActive] = true)
+                                                 .LinkedState(spawnState),
+
                                               new GOAPAction(GOAPStatesName.OnShootAbility)
                                                  .Pre(x=> !x.boolValues[GOAPParametersName.AbilityOnCooldown] ? true : false)
+                                                 .Pre(x=>!x.boolValues[GOAPParametersName.ShieldActive])
                                                  .Pre(x => x.stringValues[GOAPParametersName.CharAbilityMostUsed] != "Parry" ? true : false)
                                                  .Effect(x=>x.boolValues[GOAPParametersName.AbilityOnCooldown] = true)
                                                  .Effect(x => {
@@ -155,6 +175,7 @@ public class BossBrain : MonoBehaviour
                                               new GOAPAction(GOAPStatesName.OnFlameAbility)
                                                  .Pre(x=> x.intValues[GOAPParametersName.Stamina] > 0)
                                                  .Pre(x => x.stringValues[GOAPParametersName.CharAbilityMostUsed] != "Dash" ? true : false)
+                                                 .Pre(x=>!x.boolValues[GOAPParametersName.ShieldActive])
                                                  .Effect(x=>x.intValues[GOAPParametersName.Stamina] -= flameStaminaNeed)
                                                  .Effect(x => {
                                                      x.intValues[GOAPParametersName.CharLife] -= flameDamage;
@@ -163,8 +184,22 @@ public class BossBrain : MonoBehaviour
                                                  .Effect(x=>x.stringValues[GOAPParametersName.CharAbilityMostUsed] = "Dash")
                                                  .LinkedState(flameState),
 
+                                              new GOAPAction(GOAPStatesName.OnSpawnAbility)
+                                                 .Pre(x=> x.intValues[GOAPParametersName.Stamina] > 0)
+                                                 .Pre(x=>!x.boolValues[GOAPParametersName.ShieldActive])
+                                                 .Pre(x => x.stringValues[GOAPParametersName.CharAbilityMostUsed] != "Heavy" ? true : false)
+                                                 .Effect(x=>x.intValues[GOAPParametersName.Stamina] -= spawnStaminaNeed)
+                                                 .Effect(x => {
+                                                     x.intValues[GOAPParametersName.CharLife] -= spawnDamage;
+                                                     if(x.intValues[GOAPParametersName.CharLife]<0) x.intValues[GOAPParametersName.CharLife] = 0;
+                                                     } )
+                                                 .Effect(x=>x.stringValues[GOAPParametersName.CharAbilityMostUsed] = "Heavy")
+                                                 .Effect(x=>x.boolValues[GOAPParametersName.ShieldActive] = true)
+                                                 .LinkedState(spawnState),
+
                                               new GOAPAction(GOAPStatesName.OnShootAbility)
                                                  .Pre(x=> x.intValues[GOAPParametersName.Stamina] > 0)
+                                                 .Pre(x=>!x.boolValues[GOAPParametersName.ShieldActive])
                                                  .Pre(x => x.stringValues[GOAPParametersName.CharAbilityMostUsed] != "Parry" ? true : false)
                                                  .Effect(x=>x.intValues[GOAPParametersName.Stamina] -= phantomShootStamina)
                                                  .Effect(x => {
@@ -184,6 +219,7 @@ public class BossBrain : MonoBehaviour
         from.values.boolValues[GOAPParametersName.TPOnCooldown] = tpCooldown;
         from.values.boolValues[GOAPParametersName.AbilityOnCooldown] = abilityCooldown;
         from.values.intValues[GOAPParametersName.Stamina] = model.CurrentStamina;
+        from.values.boolValues[GOAPParametersName.ShieldActive] = model.ShieldActive;
         from.values.stringValues[GOAPParametersName.LastOwnAbility] = model.MyAbilityMostUsed;
         from.values.boolValues[GOAPParametersName.AttackOnCooldown] = attackCooldown;
 
