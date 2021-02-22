@@ -1,14 +1,14 @@
-﻿using System;
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ThrowSpell : Throwable
+public class BossProjectile : Throwable
 {
     [SerializeField] AudioClip parrySound = null;
     [SerializeField] ParticleSystem explosionParticle = null;
     [SerializeField] ParticleSystem mainParticles = null;
-    [SerializeField] float lifeTime = 12; 
+    [SerializeField] float lifeTime = 12;
+    Transform target;
 
     bool move;
     bool noFloorCollision;
@@ -23,22 +23,23 @@ public class ThrowSpell : Throwable
         ParticlesManager.Instance.GetParticlePool(explosionParticle.name, explosionParticle);
     }
 
+    public void SetTarget(Transform _target) => target = _target;
+
     protected override void InternalThrow()
     {
-        myrig.AddForce(savethrowdata.Direction * savethrowdata.Force, ForceMode.VelocityChange);
         move = true;
         noFloorCollision = true;
         timer = 0;
     }
+
+
 
     protected override void InternalParry()
     {
         noFloorCollision = true;
         timer = 0;
         AudioManager.instance.PlaySound(parrySound.name);
-        move = false;
         timerToDissappear = 0;
-        Dissappear();
     }
 
     protected override void OnFloorCollision()
@@ -57,14 +58,17 @@ public class ThrowSpell : Throwable
         base.Update();
 
         if (move)
+        {
+            transform.forward = (target.position - transform.position).normalized + Vector3.up;
             myrig.velocity = transform.forward * savethrowdata.Force;
+        }
         else
             myrig.velocity = Vector3.zero;
 
         if (noFloorCollision)
         {
             timer += Time.deltaTime;
-            if(timer >= timeToCol)
+            if (timer >= timeToCol)
             {
                 timer = 0;
                 noFloorCollision = false;
@@ -78,7 +82,7 @@ public class ThrowSpell : Throwable
             move = false;
             timerToDissappear = 0;
             Dissappear();
-        } 
+        }
     }
 
     protected override void NonParry()

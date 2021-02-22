@@ -13,6 +13,7 @@ public class FireColumn : PlayObject
     bool active = false;
     float timer;
     [SerializeField] ParticleSystem fireParticle = null;
+    bool canDamage = true;
 
     protected override void OnInitialize()
     {
@@ -38,10 +39,16 @@ public class FireColumn : PlayObject
         }
         else if (active)
         {
-            RaycastHit hit;
+            if (canDamage)
+            {
+                RaycastHit hit;
 
-            if(Physics.Raycast(transform.position, transform.up, out hit, 10, characterLayer))
-                hit.transform.GetComponent<DamageReceiver>().TakeDamage(dmgData.SetPositionAndDirection(transform.position, transform.up));
+                if (Physics.Raycast(transform.position, transform.up, out hit, 10, characterLayer))
+                {
+                    hit.transform.GetComponent<DamageReceiver>().TakeDamage(dmgData.SetPositionAndDirection(transform.position, transform.up));
+                    canDamage = false;
+                }
+            }
 
             if (timer >= timeActive)
                 ReturnToSpawner();
@@ -53,6 +60,7 @@ public class FireColumn : PlayObject
         timer = 0;
         active = false;
         fireParticle.Stop();
+        canDamage = true;
     }
 
     protected override void OnTurnOn()

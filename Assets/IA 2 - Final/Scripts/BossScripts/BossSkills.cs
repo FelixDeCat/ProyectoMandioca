@@ -7,6 +7,11 @@ public abstract class BossSkills : MonoBehaviour
 {
     Action SkillOver;
 
+    public virtual void Initialize()
+    {
+
+    }
+
     public void UseSkill(Action _SkillOver)
     {
         SkillOver = _SkillOver;
