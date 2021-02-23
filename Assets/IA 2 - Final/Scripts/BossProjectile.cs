@@ -21,9 +21,8 @@ public class BossProjectile : Throwable
         base.Start();
         AudioManager.instance.GetSoundPool(parrySound.name, AudioGroups.GAME_FX, parrySound);
         ParticlesManager.Instance.GetParticlePool(explosionParticle.name, explosionParticle);
+        target = Main.instance.GetChar().transform;
     }
-
-    public void SetTarget(Transform _target) => target = _target;
 
     protected override void InternalThrow()
     {
@@ -59,7 +58,7 @@ public class BossProjectile : Throwable
 
         if (move)
         {
-            transform.forward = (target.position - transform.position).normalized + Vector3.up;
+            transform.forward = ((target.position+Vector3.up) - transform.position).normalized;
             myrig.velocity = transform.forward * savethrowdata.Force;
         }
         else
