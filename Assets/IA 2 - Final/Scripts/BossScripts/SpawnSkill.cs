@@ -30,10 +30,10 @@ public class SpawnSkill : BossSkills, ISpawner
         int ammountToSpawn = Random.Range(minSpawn, maxSpawn + 1);
         spot.spawnSpot.position = Main.instance.GetChar().transform.position;
 
-       for (int i = 0; i < ammountToSpawn; i++)
+        for (int i = 0; i < ammountToSpawn; i++)
         {
             Vector3 pos = spot.GetSurfacePos();
-
+            pos.y += 1;
             totemFeedback.StartGoToFeedback(pos, (x) => SpawnPrefab(x, currentScene));
         }
         shieldObject.SetActive(true);
