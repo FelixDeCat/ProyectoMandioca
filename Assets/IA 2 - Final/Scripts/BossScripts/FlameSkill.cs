@@ -17,6 +17,8 @@ public class FlameSkill : BossSkills
     [SerializeField] FlameData circularData = new FlameData();
     [SerializeField] FlameData directionalData = new FlameData();
     [SerializeField] FireColumn flamePrefab = null;
+    [SerializeField] Animator anim = null;
+    [SerializeField] AnimEvent animEvent = null;
     ObjectPool_PlayObject myPool;
     Transform target;
     List<Action> modeSelector;
@@ -25,6 +27,13 @@ public class FlameSkill : BossSkills
     {
         base.Initialize();
 
+        animEvent.Add_Callback("FlameSkill", () =>
+        {
+            int index = UnityEngine.Random.Range(0, modeSelector.Count);
+
+            modeSelector[index].Invoke();
+        });
+
         myPool = PoolManager.instance.GetObjectPool(flamePrefab.name, flamePrefab);
         target = Main.instance.GetChar().Root;
         modeSelector = new List<Action>() { () => StartCoroutine(SpawnFlames(directionalData, DirectionalMode)), () => StartCoroutine(SpawnFlames(circularData, CircularMode)) };
@@ -32,9 +41,8 @@ public class FlameSkill : BossSkills
 
     protected override void OnUseSkill()
     {
-        int index = UnityEngine.Random.Range(0, modeSelector.Count);
-
-        modeSelector[index].Invoke();
+        anim.SetBool("OnFlame", true);
+        anim.Play("FlameSkill");
     }
 
     protected override void OnInterruptSkill()
@@ -43,6 +51,8 @@ public class FlameSkill : BossSkills
 
     protected override void OnOverSkill()
     {
+        Debug.Log("se vuelve falso");
+        anim.SetBool("OnFlame", false);
     }
 
     IEnumerator SpawnFlames(FlameData data, Action spawnMode)

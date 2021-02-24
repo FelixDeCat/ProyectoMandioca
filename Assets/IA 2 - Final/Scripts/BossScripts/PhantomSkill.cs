@@ -13,6 +13,9 @@ public class PhantomSkill : BossSkills
     [SerializeField] int itteration = 6;
     [SerializeField] float timeToItteration = 1;
     [SerializeField] float distanceToChar = 5;
+    [SerializeField] Animator anim = null;
+    [SerializeField] AnimEvent animEvent = null;
+    [SerializeField] Transform shootPoint = null;
     Transform target;
     Vector3 firstPos;
 
@@ -22,6 +25,8 @@ public class PhantomSkill : BossSkills
     public override void Initialize()
     {
         base.Initialize();
+
+        animEvent.Add_Callback("Shoot", Shoot);
         data.Owner = model;
         data.Force = projectileSpeed;
         data.Damage = projectileDamage;
@@ -37,6 +42,13 @@ public class PhantomSkill : BossSkills
         StartCoroutine(PhantomItterator());
     }
 
+    void Shoot()
+    {
+        data.Position = shootPoint.position;
+        data.Direction = model.forward;
+        ThrowablePoolsManager.instance.Throw(projectile.name, data);
+    }
+
     IEnumerator PhantomItterator()
     {
         for (int i = 0; i < itteration; i++)
@@ -48,9 +60,7 @@ public class PhantomSkill : BossSkills
             lastPosition = probPosition[index];
             ParticlesManager.Instance.PlayParticle(appearParticle.name, model.position);
             model.forward = (target.position - model.position).normalized;
-            data.Position = model.position;
-            data.Direction = model.forward;
-            ThrowablePoolsManager.instance.Throw(projectile.name, data);
+            anim.Play("PhantomShoot");
             yield return new WaitForSeconds(timeToItteration);
         }
 
@@ -65,6 +75,7 @@ public class PhantomSkill : BossSkills
     {
         model.position = firstPos;
         ParticlesManager.Instance.PlayParticle(appearParticle.name, model.position);
+        anim.Play("Idle");
     }
 
     Vector3 PosSwitcher(string posName)

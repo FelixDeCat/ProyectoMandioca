@@ -12,15 +12,17 @@ public class SpawnSkill : BossSkills, ISpawner
     int currentEnemies;
     [SerializeField] string currentScene = "bossRoom";
     [SerializeField] GameObject shieldObject = null;
+    [SerializeField] Animator anim = null;
+    [SerializeField] AnimEvent animEvent = null;
 
     public override void Initialize()
     {
         base.Initialize();
+        animEvent.Add_Callback("SpawnSkill", () => totemFeedback.StartChargeFeedback(SpawnEnemies));
         totemFeedback.Initialize(StartCoroutine);
     }
     protected override void OnInterruptSkill()
     {
-        throw new System.NotImplementedException();
     }
 
     void SpawnEnemies()
@@ -35,6 +37,7 @@ public class SpawnSkill : BossSkills, ISpawner
             totemFeedback.StartGoToFeedback(pos, (x) => SpawnPrefab(x, currentScene));
         }
         shieldObject.SetActive(true);
+        anim.SetBool("OnSpawn", false);
     }
 
     protected override void OnOverSkill()
@@ -44,7 +47,8 @@ public class SpawnSkill : BossSkills, ISpawner
 
     protected override void OnUseSkill()
     {
-        totemFeedback.StartChargeFeedback(SpawnEnemies);
+        anim.SetBool("OnSpawn", true);
+        anim.Play("SpawnSkill");
     }
 
     public void SpawnPrefab(Vector3 pos, string sceneName = null)
