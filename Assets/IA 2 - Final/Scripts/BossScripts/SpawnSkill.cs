@@ -21,6 +21,7 @@ public class SpawnSkill : BossSkills, ISpawner
         animEvent.Add_Callback("SpawnSkill", () => totemFeedback.StartChargeFeedback(SpawnEnemies));
         totemFeedback.Initialize(StartCoroutine);
     }
+
     protected override void OnInterruptSkill()
     {
     }
