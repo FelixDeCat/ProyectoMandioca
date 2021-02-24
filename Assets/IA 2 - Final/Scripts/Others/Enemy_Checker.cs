@@ -40,4 +40,9 @@ public class Enemy_Checker : MonoBehaviour
        
        
     }
+
+    private void OnDrawGizmos()
+    {
+        Gizmos.DrawWireSphere(_pivot.position, _radius);
+    }
 }
