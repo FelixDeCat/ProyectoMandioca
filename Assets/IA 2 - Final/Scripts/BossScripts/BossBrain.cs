@@ -33,6 +33,10 @@ public class BossBrain : MonoBehaviour
     [SerializeField] int spawnStaminaNeed = 5;
     [SerializeField] int lifeToChangePhase = 50;
     [SerializeField] Animator anim = null;
+    [SerializeField] BossSkills flameSkill = null;
+    [SerializeField] BossSkills phantomSkill = null;
+    [SerializeField] BossSkills tpSkill = null;
+    [SerializeField] SpawnSkill spawnSkill = null;
 
     int dashCount = 0;
     int heavyCount = 0;
@@ -44,12 +48,12 @@ public class BossBrain : MonoBehaviour
         model = boss;
         idleState = new BossIdleState(model);
         meleState = new BossMeleState(model, anim);
-        shootState = new BossShootState();
-        flameState = new BossFlameState();
-        shootAbState = new BossShootAbility();
+        shootState = new BossShootState(model, anim);
+        flameState = new BossFlameState(model, flameSkill);
+        shootAbState = new BossShootAbility(model, phantomSkill);
         stunState = new BossStunState();
-        tpState = new BossTPState();
-        spawnState = new BossSpawnState();
+        tpState = new BossTPState(model, tpSkill);
+        spawnState = new BossSpawnState(model, spawnSkill);
         
 
         idleState.OnNeedsReplan += Replan;

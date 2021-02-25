@@ -1,4 +1,4 @@
-﻿using System.Collections;
+﻿using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -14,6 +14,7 @@ public class SpawnSkill : BossSkills, ISpawner
     [SerializeField] GameObject shieldObject = null;
     [SerializeField] Animator anim = null;
     [SerializeField] AnimEvent animEvent = null;
+    public Action OnSpawn;
 
     public override void Initialize()
     {
@@ -28,7 +29,7 @@ public class SpawnSkill : BossSkills, ISpawner
 
     void SpawnEnemies()
     {
-        int ammountToSpawn = Random.Range(minSpawn, maxSpawn + 1);
+        int ammountToSpawn = UnityEngine.Random.Range(minSpawn, maxSpawn + 1);
         spot.spawnSpot.position = Main.instance.GetChar().transform.position;
 
         for (int i = 0; i < ammountToSpawn; i++)
@@ -39,6 +40,7 @@ public class SpawnSkill : BossSkills, ISpawner
         }
         shieldObject.SetActive(true);
         anim.SetBool("OnSpawn", false);
+        OnSpawn?.Invoke();
     }
 
     protected override void OnOverSkill()
