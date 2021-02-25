@@ -19,6 +19,7 @@ public class TPSkill : BossSkills
         base.Initialize();
         hand.gameObject.SetActive(true);
         hand.WallCollision += () => moving = false;
+        hand.gameObject.SetActive(false);
         target = Main.instance.GetChar().Root;
     }
 
@@ -28,6 +29,7 @@ public class TPSkill : BossSkills
         hand.transform.position = new Vector3(model.position.x, hand.transform.position.y, model.position.z);
         hand.transform.forward = CalculeBestDirection();
         initPos = hand.transform.position;
+        moving = true;
         StartCoroutine(HandMove());
     }
 
@@ -36,7 +38,7 @@ public class TPSkill : BossSkills
         while (moving)
         {
             hand.transform.position += hand.transform.forward * handSpeed * Time.deltaTime;
-            if (Vector3.Distance(hand.transform.position, initPos) >= maxDistance) moving = false;
+            if (Vector3.Distance(hand.transform.position, initPos) >= maxDistance) { moving = false; }
             yield return new WaitForSeconds(0.01f);
         }
 
@@ -61,11 +63,9 @@ public class TPSkill : BossSkills
         playerDir.y = 0;
         dirToPlayer.y = 0;
 
-        Vector3 firstTest = Vector3.Reflect(playerDir, dirToPlayer);
-        Debug.Log(firstTest);
+        Vector3 firstTest = -dirToPlayer;
 
         if (!Physics.Raycast(model.position, firstTest, minDistance, wallLayer, QueryTriggerInteraction.Ignore)){ return firstTest;}
-        if (!Physics.Raycast(model.position, -firstTest, minDistance, wallLayer, QueryTriggerInteraction.Ignore)) return -firstTest;
         return dirToPlayer;
     }
 }
