@@ -3,7 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 using IA2Final;
 using IA2Final.FSM;
+using System;
 
+[Serializable]
 public class BossBrain : MonoBehaviour
 {
     //Estados
@@ -19,7 +21,7 @@ public class BossBrain : MonoBehaviour
 
     BossModel model;
 
-    [SerializeField] float distanceToMele = 5;
+    public float distanceToMele = 5;
     [SerializeField] int meleDamage = 10;
     [SerializeField] int shootDamage = 5;
     [SerializeField] int flameDamage = 15;
@@ -31,10 +33,6 @@ public class BossBrain : MonoBehaviour
     [SerializeField] int spawnStaminaNeed = 5;
     [SerializeField] int lifeToChangePhase = 50;
 
-    bool abilityCooldown = true;
-    bool attackCooldown = true;
-    bool tpCooldown = false;
-
     int dashCount = 0;
     int heavyCount = 0;
     int parryCount = 0;
@@ -43,7 +41,7 @@ public class BossBrain : MonoBehaviour
     public void Initialize(BossModel boss)
     {
         model = boss;
-        idleState = new BossIdleState();
+        idleState = new BossIdleState(model);
         meleState = new BossMeleState();
         shootState = new BossShootState();
         flameState = new BossFlameState();
@@ -51,6 +49,7 @@ public class BossBrain : MonoBehaviour
         stunState = new BossStunState();
         tpState = new BossTPState();
         spawnState = new BossSpawnState();
+        
 
         idleState.OnNeedsReplan += Replan;
         meleState.OnNeedsReplan += Replan;
@@ -216,12 +215,12 @@ public class BossBrain : MonoBehaviour
         from.values.intValues[GOAPParametersName.CharLife] = Main.instance.GetChar().Life.Life;
         from.values.intValues[GOAPParametersName.OwnLife] = model.CurrentLife;
         from.values.stringValues[GOAPParametersName.CharAbilityMostUsed] = charAbilityMostUsed;
-        from.values.boolValues[GOAPParametersName.TPOnCooldown] = tpCooldown;
-        from.values.boolValues[GOAPParametersName.AbilityOnCooldown] = abilityCooldown;
+        from.values.boolValues[GOAPParametersName.TPOnCooldown] = model.TPOnCooldown;
+        from.values.boolValues[GOAPParametersName.AbilityOnCooldown] = model.AbilityOnCooldown;
         from.values.intValues[GOAPParametersName.Stamina] = model.CurrentStamina;
         from.values.boolValues[GOAPParametersName.ShieldActive] = model.ShieldActive;
         from.values.stringValues[GOAPParametersName.LastOwnAbility] = model.MyAbilityMostUsed;
-        from.values.boolValues[GOAPParametersName.AttackOnCooldown] = attackCooldown;
+        from.values.boolValues[GOAPParametersName.AttackOnCooldown] = model.AttackOnCooldown;
 
         var to = new GOAPState();
         to.values.intValues[GOAPParametersName.CharLife] = 0;
@@ -239,16 +238,13 @@ public class BossBrain : MonoBehaviour
         fsm.Active = true;
     }
 
+    public void ActiveFSM() => fsm.Active = true;
+    public void DesactiveFSM() => fsm.Active = false;
+
     private void OnCantPlan()
     {
         //TODO: debuggeamos para ver por qué no pudo planear y encontrar como hacer para que no pase nunca mas
 
         Debug.Log("No pude planear");
     }
-
-    public void ActualizeAbCD(bool value) => abilityCooldown = value;
-
-    public void ActualizeAttCD(bool value) => attackCooldown = value;
-
-    public void ActualizeTPCD(bool value) => tpCooldown = value;
 }
