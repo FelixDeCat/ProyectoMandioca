@@ -32,6 +32,7 @@ public class BossBrain : MonoBehaviour
     [SerializeField] int phantomShootStamina = 4;
     [SerializeField] int spawnStaminaNeed = 5;
     [SerializeField] int lifeToChangePhase = 50;
+    [SerializeField] Animator anim = null;
 
     int dashCount = 0;
     int heavyCount = 0;
@@ -42,7 +43,7 @@ public class BossBrain : MonoBehaviour
     {
         model = boss;
         idleState = new BossIdleState(model);
-        meleState = new BossMeleState();
+        meleState = new BossMeleState(model, anim);
         shootState = new BossShootState();
         flameState = new BossFlameState();
         shootAbState = new BossShootAbility();
