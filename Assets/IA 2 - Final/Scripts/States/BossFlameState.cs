@@ -19,6 +19,7 @@ namespace IA2Final.FSM
 
         public override void UpdateLoop()
         {
+            flameSkill.OnUpdate();
         }
 
         void CompleteAbility()

@@ -18,7 +18,7 @@ public class TPSkill : BossSkills
     {
         base.Initialize();
         hand.gameObject.SetActive(true);
-        hand.WallCollision += () => moving = false;
+        hand.WallCollision += () => { moving = false; OverSkill(); };
         hand.gameObject.SetActive(false);
         target = Main.instance.GetChar().Root;
     }
@@ -31,6 +31,17 @@ public class TPSkill : BossSkills
         initPos = hand.transform.position;
         moving = true;
         StartCoroutine(HandMove());
+    }
+
+    public override void OnUpdate()
+    {
+        base.OnUpdate();
+        if (moving)
+        {
+            hand.transform.position += hand.transform.forward * handSpeed * Time.deltaTime;
+            if (Vector3.Distance(hand.transform.position, initPos) >= maxDistance) { moving = false; OverSkill(); }
+        }
+
     }
 
     IEnumerator HandMove()

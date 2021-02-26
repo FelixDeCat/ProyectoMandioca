@@ -108,6 +108,18 @@ public class BossModel : EnemyBase
     {
     }
 
+    protected override void OnPause()
+    {
+        base.OnPause();
+        brain.DesactiveFSM();
+    }
+
+    protected override void OnResume()
+    {
+        base.OnResume();
+        brain.ActiveFSM();
+    }
+
     protected override void OnReset()
     {
     }

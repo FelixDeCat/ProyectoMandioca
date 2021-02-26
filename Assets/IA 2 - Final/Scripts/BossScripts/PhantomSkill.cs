@@ -39,7 +39,7 @@ public class PhantomSkill : BossSkills
     protected override void OnUseSkill()
     {
         firstPos = model.position;
-        StartCoroutine(PhantomItterator());
+        Itteration(itteration, timeToItteration, PhantomShoot, OverSkill);
     }
 
     void Shoot()
@@ -49,22 +49,16 @@ public class PhantomSkill : BossSkills
         ThrowablePoolsManager.instance.Throw(projectile.name, data);
     }
 
-    IEnumerator PhantomItterator()
+    void PhantomShoot()
     {
-        for (int i = 0; i < itteration; i++)
-        {
-            probPosition.Remove(lastPosition);
-            int index = Random.Range(0, probPosition.Count);
-            model.position = PosSwitcher(probPosition[index]);
-            probPosition.Add(lastPosition);
-            lastPosition = probPosition[index];
-            ParticlesManager.Instance.PlayParticle(appearParticle.name, model.position);
-            model.forward = (target.position - model.position).normalized;
-            anim.Play("PhantomShoot");
-            yield return new WaitForSeconds(timeToItteration);
-        }
-
-        OverSkill();
+        probPosition.Remove(lastPosition);
+        int index = Random.Range(0, probPosition.Count);
+        model.position = PosSwitcher(probPosition[index]);
+        probPosition.Add(lastPosition);
+        lastPosition = probPosition[index];
+        ParticlesManager.Instance.PlayParticle(appearParticle.name, model.position);
+        model.forward = (target.position - model.position).normalized;
+        anim.Play("PhantomShoot");
     }
 
     protected override void OnInterruptSkill()

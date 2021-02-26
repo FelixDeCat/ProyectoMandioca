@@ -69,4 +69,16 @@ public class SpawnSkill : BossSkills, ISpawner
         PoolManager.instance.ReturnObject(newPrefab);
         if (currentEnemies == 0) OverSkill();
     }
+
+    public override void Pause()
+    {
+        base.Pause();
+        totemFeedback.pause = true;
+    }
+
+    public override void Resume()
+    {
+        base.Resume();
+        totemFeedback.pause = false;
+    }
 }

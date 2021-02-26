@@ -36,13 +36,15 @@ public class FlameSkill : BossSkills
 
         myPool = PoolManager.instance.GetObjectPool(flamePrefab.name, flamePrefab);
         target = Main.instance.GetChar().Root;
-        modeSelector = new List<Action>() { () => StartCoroutine(SpawnFlames(directionalData, DirectionalMode)), () => StartCoroutine(SpawnFlames(circularData, CircularMode)) };
+        modeSelector = new List<Action>() { () => Itteration(directionalData.flamesAmmount,directionalData.timeToTick, DirectionalMode, OverSkill),
+            () => Itteration(circularData.flamesAmmount,circularData.timeToTick, CircularMode, OverSkill) };
     }
 
     protected override void OnUseSkill()
     {
         anim.SetBool("OnFlame", true);
         anim.Play("FlameSkill");
+
     }
 
     protected override void OnInterruptSkill()
