@@ -6,6 +6,8 @@ using System;
 public abstract class BossSkills : MonoBehaviour
 {
     Action SkillOver;
+    bool onUse;
+    bool pause;
 
     public virtual void Initialize()
     {
@@ -14,14 +16,18 @@ public abstract class BossSkills : MonoBehaviour
 
     public void UseSkill(Action _SkillOver)
     {
+        if (onUse) return;
+
         SkillOver = _SkillOver;
         OnUseSkill();
+        onUse = true;
     }
 
     protected abstract void OnUseSkill();
 
     protected void OverSkill()
     {
+        if (!onUse) return;
         SkillOver?.Invoke();
         OnOverSkill();
     }
@@ -30,6 +36,8 @@ public abstract class BossSkills : MonoBehaviour
 
     public void InterruptSkill()
     {
+        if(!onUse) return;
+
         OnInterruptSkill();
         OverSkill();
     }

@@ -50,6 +50,7 @@ public class BossModel : EnemyBase
     string lastAbilityUsed = "";
     CDModule cdModule = new CDModule();
     bool cooldown;
+    bool onCombat;
 
     protected override void OnInitialize()
     {
@@ -63,17 +64,23 @@ public class BossModel : EnemyBase
         meleAttack.Configure(MeleAttack);
         dmgData.SetDamage(meleDamage).SetDamageInfo(DamageInfo.NonBlockAndParry).SetKnockback(meleKnockback);
         brain.Initialize(this, StartCoroutine);
-        BossBarGeneric.Open();
-        BossBarGeneric.SetLife(lifesystem.Life, lifesystem.LifeMax);
 
         AudioManager.instance.GetSoundPool(sounds.takeDamage_sound.name, AudioGroups.GAME_FX, sounds.takeDamage_sound);
 
         ParticlesManager.Instance.GetParticlePool(particles.takeDamage_particle.name, particles.takeDamage_particle);
 
-        //StartCombat();
+        StartCombat();
     }
 
-    public void StartCombat() => brain.PlanAndExecute();
+    public void StartCombat() 
+    {
+        if (onCombat) return;
+        brain.PlanAndExecute();
+        BossBarGeneric.Open();
+        BossBarGeneric.SetLife(lifesystem.Life, lifesystem.LifeMax);
+        Main.instance.eventManager.SubscribeToEvent(GameEvents.ON_PLAYER_RESPAWN, ResetBossOnDead);
+        onCombat = true;
+    }
 
     void ShootEvent()
     {
@@ -137,7 +144,20 @@ public class BossModel : EnemyBase
 
     void ResetBossOnDead()
     {
-
+        brain.ResetBrain();
+        StopAllCoroutines();
+        animator.Play("Idle");
+        animator.SetBool("OnSpawn", false);
+        animator.SetBool("OnFlame", false);
+        lifesystem.ResetLifeSystem();
+        BossBarGeneric.SetLife(lifesystem.Life, lifesystem.LifeMax);
+        onCombat = false;
+        CurrentStamina = maxStamina;
+        MyAbilityMostUsed = "";
+        lastAbilityUsed = "";
+        cdModule.ResetAll();
+        BossBarGeneric.Close();
+        Main.instance.eventManager.UnsubscribeToEvent(GameEvents.ON_PLAYER_RESPAWN, ResetBossOnDead);
     }
 
     #region Functions to States

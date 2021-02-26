@@ -255,4 +255,13 @@ public class BossBrain
 
         Debug.Log("No pude planear");
     }
+
+    public void ResetBrain()
+    {
+        DesactiveFSM();
+        flameSkill.InterruptSkill();
+        phantomSkill.InterruptSkill();
+        spawnSkill.InterruptSkill();
+        tpSkill.InterruptSkill();
+    }
 }
