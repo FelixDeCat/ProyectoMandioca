@@ -20,6 +20,24 @@ public class BossModel : EnemyBase
     [SerializeField] float tpCooldownTime = 10;
     [SerializeField] float abilityCooldownTime = 8;
 
+    [SerializeField] float recallTime = 0.2f;
+    [SerializeField] Color onHitColor = Color.red;
+    [SerializeField] float onHitFlashTime = 20;
+
+    [SerializeField] CaronteSounds sounds = new CaronteSounds();
+    [SerializeField] CaronteParticles particles = new CaronteParticles();
+
+    [System.Serializable]
+    public class CaronteSounds
+    {
+        public AudioClip takeDamage_sound = null;
+    }
+    [System.Serializable]
+    public class CaronteParticles
+    {
+        public ParticleSystem takeDamage_particle = null;
+    }
+
     #region Properties
     public int CurrentStamina { get; private set; }
     public int CurrentLife { get => lifesystem.Life; }
@@ -31,6 +49,7 @@ public class BossModel : EnemyBase
     #endregion
     string lastAbilityUsed = "";
     CDModule cdModule = new CDModule();
+    bool cooldown;
 
     protected override void OnInitialize()
     {
@@ -44,7 +63,14 @@ public class BossModel : EnemyBase
         meleAttack.Configure(MeleAttack);
         dmgData.SetDamage(meleDamage).SetDamageInfo(DamageInfo.NonBlockAndParry).SetKnockback(meleKnockback);
         brain.Initialize(this, StartCoroutine);
-        StartCombat();
+        BossBarGeneric.Open();
+        BossBarGeneric.SetLife(lifesystem.Life, lifesystem.LifeMax);
+
+        AudioManager.instance.GetSoundPool(sounds.takeDamage_sound.name, AudioGroups.GAME_FX, sounds.takeDamage_sound);
+
+        ParticlesManager.Instance.GetParticlePool(particles.takeDamage_particle.name, particles.takeDamage_particle);
+
+        //StartCombat();
     }
 
     public void StartCombat() => brain.PlanAndExecute();
@@ -89,15 +115,29 @@ public class BossModel : EnemyBase
 
     protected override void TakeDamageFeedback(DamageData data)
     {
+        AudioManager.instance.PlaySound(sounds.takeDamage_sound.name);
+
+        ParticlesManager.Instance.PlayParticle(particles.takeDamage_particle.name, transform.position + Vector3.up);
+        cooldown = true;
+        cdModule.AddCD("TakeDamageCD", () => cooldown = false, recallTime);
+        BossBarGeneric.SetLife(lifesystem.Life, lifesystem.LifeMax);
+
+        StartCoroutine(OnHitted(onHitFlashTime, onHitColor));
     }
 
     protected override bool IsDamage()
     {
-        return false;
+        if (cooldown) return true;
+        else return false;
     }
 
     protected override void Die(Vector3 dir)
     {
+    }
+
+    void ResetBossOnDead()
+    {
+
     }
 
     #region Functions to States
