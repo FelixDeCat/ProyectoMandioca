@@ -36,7 +36,7 @@ namespace IA2Final.FSM
         public override void Enter(IState from, Dictionary<string, object> transitionParameters = null)
         {
             base.Enter(from, transitionParameters);
-            anim.Play("ShootAttack");
+            anim.Play("NormalShot");
         }
 
         public override Dictionary<string, object> Exit(IState to)

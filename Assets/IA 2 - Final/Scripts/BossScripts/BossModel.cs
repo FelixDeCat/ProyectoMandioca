@@ -7,8 +7,14 @@ public class BossModel : EnemyBase
     [SerializeField] BossBrain brain = new BossBrain();
     public int maxStamina = 9;
     [SerializeField] float rotSpeed = 10;
-    [SerializeField] Transform root = null;
-    [SerializeField] Transform target = null;
+    Transform target = null;
+    [SerializeField] Transform shootPosition = null;
+    [SerializeField] AnimEvent animEvent = null;
+    [SerializeField] ThrowData throwData = new ThrowData();
+    [SerializeField] Throwable projectile = null;
+    [SerializeField] int meleDamage = 4;
+    [SerializeField] float meleKnockback = 10;
+    [SerializeField] CombatComponent meleAttack;
 
     [SerializeField] float attackCooldownTime = 3;
     [SerializeField] float tpCooldownTime = 10;
@@ -32,7 +38,32 @@ public class BossModel : EnemyBase
         target = Main.instance.GetChar().Root;
         CurrentStamina = maxStamina;
         MyAbilityMostUsed = "";
-        brain.Initialize(this);
+        ThrowablePoolsManager.instance.CreateAPool(projectile.name, projectile);
+        animEvent.Add_Callback("NormalShoot", ShootEvent);
+        animEvent.Add_Callback("MeleAttack", MeleEvent);
+        meleAttack.Configure(MeleAttack);
+        dmgData.SetDamage(meleDamage).SetDamageInfo(DamageInfo.NonBlockAndParry).SetKnockback(meleKnockback);
+        brain.Initialize(this, StartCoroutine);
+        StartCombat();
+    }
+
+    public void StartCombat() => brain.PlanAndExecute();
+
+    void ShootEvent()
+    {
+        throwData.Position = shootPosition.position;
+        throwData.Direction = rootTransform.forward;
+        ThrowablePoolsManager.instance.Throw(projectile.name, throwData);
+    }
+
+    void MeleEvent()
+    {
+        meleAttack.ManualTriggerAttack();
+    }
+
+    void MeleAttack(DamageReceiver dmgReceiver)
+    {
+        dmgReceiver.TakeDamage(dmgData.SetPositionAndDirection(rootTransform.position, rootTransform.forward));
     }
 
     protected override void OnUpdateEntity()
@@ -84,7 +115,7 @@ public class BossModel : EnemyBase
     public void RotateToChar()
     {
         Vector3 newForward = (target.position - transform.position).normalized;
-        root.forward = Vector3.Slerp(root.forward, newForward, rotSpeed * Time.deltaTime);
+        rootTransform.forward = Vector3.Slerp(rootTransform.forward, newForward, rotSpeed * Time.deltaTime);
     }
 
     public bool DistanceToCharacter() => Vector3.Distance(transform.position, target.position) <= brain.distanceToMele ? true : false;

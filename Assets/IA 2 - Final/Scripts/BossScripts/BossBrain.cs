@@ -6,7 +6,7 @@ using IA2Final.FSM;
 using System;
 
 [Serializable]
-public class BossBrain : MonoBehaviour
+public class BossBrain
 {
     //Estados
     BossIdleState idleState;
@@ -42,10 +42,16 @@ public class BossBrain : MonoBehaviour
     int heavyCount = 0;
     int parryCount = 0;
     string charAbilityMostUsed = "Heavy";
+    Func<IEnumerator, Coroutine> Coroutine;
 
-    public void Initialize(BossModel boss)
+    public void Initialize(BossModel boss, Func<IEnumerator, Coroutine> _Coroutine)
     {
+        flameSkill.Initialize();
+        phantomSkill.Initialize();
+        tpSkill.Initialize();
+        spawnSkill.Initialize();
         model = boss;
+        Coroutine = _Coroutine;
         idleState = new BossIdleState(model);
         meleState = new BossMeleState(model, anim);
         shootState = new BossShootState(model, anim);
@@ -64,9 +70,6 @@ public class BossBrain : MonoBehaviour
         stunState.OnNeedsReplan += Replan;
         tpState.OnNeedsReplan += Replan;
         spawnState.OnNeedsReplan += Replan;
-
-        PlanAndExecute();
-
 
         Main.instance.GetChar().AddListenerToDash(() => { dashCount += 1; if (dashCount > heavyCount && dashCount > parryCount) charAbilityMostUsed = "Dash"; });
         Main.instance.GetChar().AddParry(() => { parryCount += 1; if (parryCount > dashCount && parryCount > heavyCount) charAbilityMostUsed = "Parry"; });
@@ -92,7 +95,7 @@ public class BossBrain : MonoBehaviour
         PlanAndExecute();
     }
 
-    private void PlanAndExecute()
+    public void PlanAndExecute()
     {
         var actions = new List<GOAPAction>{
                                               new GOAPAction(GOAPStatesName.OnIdle)
@@ -216,7 +219,7 @@ public class BossBrain : MonoBehaviour
 
         var from = new GOAPState();
 
-        from.values.floatValues[GOAPParametersName.CharDistance] = Vector3.Distance(transform.position, Main.instance.GetChar().transform.position);
+        from.values.floatValues[GOAPParametersName.CharDistance] = Vector3.Distance(model.transform.position, Main.instance.GetChar().transform.position);
         from.values.intValues[GOAPParametersName.CharLife] = Main.instance.GetChar().Life.Life;
         from.values.intValues[GOAPParametersName.OwnLife] = model.CurrentLife;
         from.values.stringValues[GOAPParametersName.CharAbilityMostUsed] = charAbilityMostUsed;
@@ -234,12 +237,12 @@ public class BossBrain : MonoBehaviour
         planner.OnPlanCompleted += OnPlanCompleted;
         planner.OnCantPlan += OnCantPlan;
 
-        planner.Run(from, to, actions, StartCoroutine);
+        planner.Run(from, to, actions, Coroutine);
     }
 
     private void OnPlanCompleted(IEnumerable<GOAPAction> plan)
     {
-        fsm = GoapPlanner.ConfigureFSM(plan, StartCoroutine);
+        fsm = GoapPlanner.ConfigureFSM(plan, Coroutine);
         fsm.Active = true;
     }
 
