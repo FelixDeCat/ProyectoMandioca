@@ -63,6 +63,7 @@ public class PhantomSkill : BossSkills
 
     protected override void OnInterruptSkill()
     {
+
     }
 
     protected override void OnOverSkill()

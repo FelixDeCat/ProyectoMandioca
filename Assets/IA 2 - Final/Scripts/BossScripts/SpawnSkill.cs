@@ -15,6 +15,7 @@ public class SpawnSkill : BossSkills, ISpawner
     [SerializeField] Animator anim = null;
     [SerializeField] AnimEvent animEvent = null;
     public Action OnSpawn;
+    List<PlayObject> currentSpawnedEnemies = new List<PlayObject>();
 
     public override void Initialize()
     {
@@ -25,6 +26,13 @@ public class SpawnSkill : BossSkills, ISpawner
 
     protected override void OnInterruptSkill()
     {
+        totemFeedback.InterruptCharge();
+        for (int i = 0; i < 1; i++)
+        {
+            if (currentSpawnedEnemies.Count == 0) break;
+            currentSpawnedEnemies[i].ReturnToSpawner();
+            i -= 1;
+        }
     }
 
     void SpawnEnemies()
@@ -56,7 +64,7 @@ public class SpawnSkill : BossSkills, ISpawner
 
     public void SpawnPrefab(Vector3 pos, string sceneName = null)
     {
-        spot.SpawnPrefab(pos, entAcorazed, sceneName, this);
+        currentSpawnedEnemies.Add(spot.SpawnPrefab(pos, entAcorazed, sceneName, this));
         currentEnemies += 1;
     }
 
@@ -65,7 +73,7 @@ public class SpawnSkill : BossSkills, ISpawner
         currentEnemies -= 1;
         newPrefab.Spawner = null;
         newPrefab.Off();
-
+        currentSpawnedEnemies.Remove(newPrefab);
         PoolManager.instance.ReturnObject(newPrefab);
         if (currentEnemies == 0) OverSkill();
     }

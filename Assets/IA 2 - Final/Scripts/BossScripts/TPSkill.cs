@@ -58,6 +58,7 @@ public class TPSkill : BossSkills
 
     protected override void OnInterruptSkill()
     {
+        hand.transform.position = initPos;
     }
 
     protected override void OnOverSkill()

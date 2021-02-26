@@ -187,6 +187,7 @@ public class BossModel : EnemyBase
     public void RotateToChar()
     {
         Vector3 newForward = (target.position - transform.position).normalized;
+        newForward.y = 0;
         rootTransform.forward = Vector3.Slerp(rootTransform.forward, newForward, rotSpeed * Time.deltaTime);
     }
 
