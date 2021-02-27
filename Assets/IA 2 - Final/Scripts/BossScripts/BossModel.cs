@@ -178,7 +178,7 @@ public class BossModel : EnemyBase
     }
 
     #region Functions to States
-    public void ChangeLasAbility(string last)
+    public void ChangeLastAbility(string last)
     {
         if (last == lastAbilityUsed)
             MyAbilityMostUsed = last;

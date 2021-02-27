@@ -27,6 +27,7 @@ namespace IA2Final.FSM
             model.ShieldActive = true;
             timerComplete = true;
             model.AbilityCooldown();
+            model.ChangeLastAbility("Spawn");
         }
 
         public override void Enter(IState from, Dictionary<string, object> transitionParameters = null)

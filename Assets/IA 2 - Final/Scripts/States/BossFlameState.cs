@@ -26,6 +26,7 @@ namespace IA2Final.FSM
         {
             timerComplete = true;
             model.AbilityCooldown();
+            model.ChangeLastAbility("Flame");
         }
 
         public override void Enter(IState from, Dictionary<string, object> transitionParameters = null)

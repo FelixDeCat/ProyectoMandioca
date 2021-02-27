@@ -25,6 +25,7 @@ namespace IA2Final.FSM
         void CompleteAbility()
         {
             timerComplete = true;
+            model.ChangeLastAbility("Phantom");
             model.AbilityCooldown();
         }
 
