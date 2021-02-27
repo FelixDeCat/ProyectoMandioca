@@ -31,6 +31,7 @@ namespace IA2Final.FSM
                     timerComplete = true;
                 }
             }
+            model.RotateToChar();
         }
 
         public override void Enter(IState from, Dictionary<string, object> transitionParameters = null)

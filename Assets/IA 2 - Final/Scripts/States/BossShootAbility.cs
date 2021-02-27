@@ -20,7 +20,6 @@ namespace IA2Final.FSM
         public override void UpdateLoop()
         {
             phantomSkill.OnUpdate();
-            Debug.Log("me quedo acá eternamente");
         }
 
         void CompleteAbility()
@@ -64,6 +63,8 @@ namespace IA2Final.FSM
                     Debug.Log(Transitions.ContainsKey(GOAPStatesName.OnShootAttack));
                 }
             }
+
+            OnNeedsReplan?.Invoke();
 
             return this;
         }

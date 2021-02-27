@@ -97,6 +97,8 @@ public class BossBrain
 
     public void PlanAndExecute()
     {
+        int minLifeValue = Mathf.Clamp(Main.instance.GetChar().Life.Life - 12, 0, Main.instance.GetChar().Life.Life);
+
         var actions = new List<GOAPAction>{
                                               new GOAPAction(GOAPStatesName.OnIdle)
                                                  .Pre(x => x.boolValues[GOAPParametersName.AbilityOnCooldown] ? true :false)
@@ -111,7 +113,7 @@ public class BossBrain
                                                  .Effect(x => x.boolValues[GOAPParametersName.AttackOnCooldown] = true)
                                                  .Effect(x => {
                                                      x.intValues[GOAPParametersName.CharLife] -= meleDamage;
-                                                     if(x.intValues[GOAPParametersName.CharLife]<0) x.intValues[GOAPParametersName.CharLife] = 0;
+                                                     if(x.intValues[GOAPParametersName.CharLife]<minLifeValue) x.intValues[GOAPParametersName.CharLife] = minLifeValue;
                                                      })
                                                  .LinkedState(meleState).Cost(3),
 
@@ -121,7 +123,7 @@ public class BossBrain
                                                  .Effect(x=> x.boolValues[GOAPParametersName.AttackOnCooldown] = true)
                                                  .Effect(x => {
                                                      x.intValues[GOAPParametersName.CharLife] -= shootDamage;
-                                                     if(x.intValues[GOAPParametersName.CharLife]<0) x.intValues[GOAPParametersName.CharLife] = 0;
+                                                     if(x.intValues[GOAPParametersName.CharLife]<minLifeValue) x.intValues[GOAPParametersName.CharLife] = minLifeValue;
                                                      } )
                                                  .LinkedState(shootState),
 
@@ -132,7 +134,7 @@ public class BossBrain
                                                  .Effect(x=>x.boolValues[GOAPParametersName.AbilityOnCooldown] = true)
                                                  .Effect(x => {
                                                      x.intValues[GOAPParametersName.CharLife] -= flameDamage;
-                                                     if(x.intValues[GOAPParametersName.CharLife]<0) x.intValues[GOAPParametersName.CharLife] = 0;
+                                                     if(x.intValues[GOAPParametersName.CharLife]<minLifeValue) x.intValues[GOAPParametersName.CharLife] = minLifeValue;
                                                      } )
                                                  .Effect(x=>x.stringValues[GOAPParametersName.CharAbilityMostUsed] = "Dash")
                                                  .LinkedState(flameState),
@@ -144,7 +146,7 @@ public class BossBrain
                                                  .Effect(x=>x.boolValues[GOAPParametersName.AbilityOnCooldown] = true)
                                                  .Effect(x => {
                                                      x.intValues[GOAPParametersName.CharLife] -= spawnDamage;
-                                                     if(x.intValues[GOAPParametersName.CharLife]<0) x.intValues[GOAPParametersName.CharLife] = 0;
+                                                     if(x.intValues[GOAPParametersName.CharLife]<minLifeValue) x.intValues[GOAPParametersName.CharLife] = minLifeValue;
                                                      } )
                                                  .Effect(x=>x.stringValues[GOAPParametersName.CharAbilityMostUsed] = "Heavy")
                                                  .Effect(x=>x.boolValues[GOAPParametersName.ShieldActive] = true)
@@ -157,7 +159,7 @@ public class BossBrain
                                                  .Effect(x=>x.boolValues[GOAPParametersName.AbilityOnCooldown] = true)
                                                  .Effect(x => {
                                                      x.intValues[GOAPParametersName.CharLife] -= phantomShootDamage;
-                                                     if(x.intValues[GOAPParametersName.CharLife]<0) x.intValues[GOAPParametersName.CharLife] = 0;
+                                                     if(x.intValues[GOAPParametersName.CharLife]<minLifeValue) x.intValues[GOAPParametersName.CharLife] = minLifeValue;
                                                      } )
                                                  .Effect(x=>x.stringValues[GOAPParametersName.CharAbilityMostUsed] = "Parry")
                                                  .LinkedState(shootAbState),
@@ -173,7 +175,7 @@ public class BossBrain
                                                  .Pre(x => x.floatValues[GOAPParametersName.CharDistance] <= distanceToMele ? true : false)
                                                  .Effect(x => {
                                                      x.intValues[GOAPParametersName.CharLife] -= tpDamage;
-                                                     if(x.intValues[GOAPParametersName.CharLife]<0) x.intValues[GOAPParametersName.CharLife] = 0;
+                                                     if(x.intValues[GOAPParametersName.CharLife]<minLifeValue) x.intValues[GOAPParametersName.CharLife] = minLifeValue;
                                                      } )
                                                  .Effect(x=>x.boolValues[GOAPParametersName.TPOnCooldown] = true)
                                                  .Effect(x=>x.floatValues[GOAPParametersName.CharDistance] = 20)
@@ -231,7 +233,7 @@ public class BossBrain
         from.values.boolValues[GOAPParametersName.AttackOnCooldown] = model.AttackOnCooldown;
 
         var to = new GOAPState();
-        to.values.intValues[GOAPParametersName.CharLife] = 0;
+        to.values.intValues[GOAPParametersName.CharLife] = minLifeValue;
 
         var planner = new GoapPlanner();
         planner.OnPlanCompleted += OnPlanCompleted;

@@ -59,7 +59,6 @@ namespace IA2Final
                     {
                         distances[neighbour] = newDistance;
                         parents[neighbour] = dequeued.Element;
-
                         queue.Enqueue(new WeightedNode<T>(neighbour, newDistance + getHeuristic(neighbour)));
                     }
 

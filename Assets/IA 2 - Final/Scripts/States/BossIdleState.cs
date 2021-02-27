@@ -8,6 +8,7 @@ namespace IA2Final.FSM
     {
         public override event Action OnNeedsReplan;
         BossModel model;
+        bool planing = false;
 
         public BossIdleState(BossModel _model)
         {
@@ -26,17 +27,21 @@ namespace IA2Final.FSM
 
         public override Dictionary<string, object> Exit(IState to)
         {
+            planing = false;
             return base.Exit(to);
         }
 
         public override IState ProcessInput()
         {
+            if (planing) return this;
+
             if (model.DistanceToCharacter())
             {
                 if (!model.TPOnCooldown)
                 {
                     if (Transitions.ContainsKey(GOAPStatesName.OnTPAbility)) return Transitions[GOAPStatesName.OnTPAbility];
                     OnNeedsReplan?.Invoke();
+                    planing = true;
                     Debug.Log("se intenta tepear");
                     return this;
                 }
@@ -46,7 +51,7 @@ namespace IA2Final.FSM
                 if (Transitions.ContainsKey(GOAPStatesName.OnFlameAbility)) return Transitions[GOAPStatesName.OnFlameAbility];
                 else if (Transitions.ContainsKey(GOAPStatesName.OnShootAbility)) return Transitions[GOAPStatesName.OnShootAbility];
                 else if (Transitions.ContainsKey(GOAPStatesName.OnSpawnAbility)) return Transitions[GOAPStatesName.OnSpawnAbility];
-                
+                planing = true;
                 OnNeedsReplan?.Invoke();
                 return this;
             }
@@ -55,6 +60,7 @@ namespace IA2Final.FSM
                 if (!model.DistanceToCharacter() && Transitions.ContainsKey(GOAPStatesName.OnShootAttack)) return Transitions[GOAPStatesName.OnShootAttack];
                 else if (model.DistanceToCharacter() && Transitions.ContainsKey(GOAPStatesName.OnMeleAttack)) return Transitions[GOAPStatesName.OnMeleAttack];
                 Debug.Log("quiere atacar");
+                planing = true;
                 OnNeedsReplan?.Invoke();
                 return this;
             }
