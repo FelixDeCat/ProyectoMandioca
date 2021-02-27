@@ -37,6 +37,7 @@ namespace IA2Final.FSM
                 {
                     if (Transitions.ContainsKey(GOAPStatesName.OnTPAbility)) return Transitions[GOAPStatesName.OnTPAbility];
                     OnNeedsReplan?.Invoke();
+                    Debug.Log("se intenta tepear");
                     return this;
                 }
             }
@@ -45,13 +46,15 @@ namespace IA2Final.FSM
                 if (Transitions.ContainsKey(GOAPStatesName.OnFlameAbility)) return Transitions[GOAPStatesName.OnFlameAbility];
                 else if (Transitions.ContainsKey(GOAPStatesName.OnShootAbility)) return Transitions[GOAPStatesName.OnShootAbility];
                 else if (Transitions.ContainsKey(GOAPStatesName.OnSpawnAbility)) return Transitions[GOAPStatesName.OnSpawnAbility];
+                
                 OnNeedsReplan?.Invoke();
                 return this;
             }
-            if (!model.AttackOnCooldown)
+            else if (!model.AttackOnCooldown)
             {
                 if (!model.DistanceToCharacter() && Transitions.ContainsKey(GOAPStatesName.OnShootAttack)) return Transitions[GOAPStatesName.OnShootAttack];
                 else if (model.DistanceToCharacter() && Transitions.ContainsKey(GOAPStatesName.OnMeleAttack)) return Transitions[GOAPStatesName.OnMeleAttack];
+                Debug.Log("quiere atacar");
                 OnNeedsReplan?.Invoke();
                 return this;
             }

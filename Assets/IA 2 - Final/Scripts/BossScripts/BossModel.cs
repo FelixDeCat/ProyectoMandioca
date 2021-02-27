@@ -155,7 +155,7 @@ public class BossModel : EnemyBase
         brain.ResetBrain();
         StopAllCoroutines();
         BossBarGeneric.Close();
-        gameObject.SetActive(false);
+
     }
 
     void ResetBossOnDead()

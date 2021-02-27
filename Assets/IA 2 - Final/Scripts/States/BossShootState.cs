@@ -54,6 +54,7 @@ namespace IA2Final.FSM
             {
                 if (!model.TPOnCooldown && model.DistanceToCharacter())
                 {
+                    Debug.Log("me quiero tepear");
                     OnNeedsReplan?.Invoke();
                     return this;
                 }

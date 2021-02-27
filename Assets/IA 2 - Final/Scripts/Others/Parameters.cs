@@ -17,12 +17,12 @@ public class GOAPParametersName
 }
 public class GOAPStatesName
 {
-    public const string OnIdle = "OnIdle";
-    public const string OnMeleAttack = "OnMeleAtack";
-    public const string OnShootAttack = "OnShootAttack";
-    public const string OnFlameAbility = "OnFlameAbility";
-    public const string OnShootAbility = "OnShootAbility";
-    public const string OnStunAbility = "OnShootAbility";
-    public const string OnTPAbility = "OnTPAbility";
-    public const string OnSpawnAbility = "OnSpawnAbility";
+    public const string OnIdle = "OnBossIdleState";
+    public const string OnMeleAttack = "OnBossMeleState";
+    public const string OnShootAttack = "OnBossShootState";
+    public const string OnFlameAbility = "OnBossFlameState";
+    public const string OnShootAbility = "OnBossShootAbility";
+    public const string OnStunAbility = "OnBossStunState";
+    public const string OnTPAbility = "OnBossTPState";
+    public const string OnSpawnAbility = "OnBossSpawnState";
 }

@@ -44,10 +44,9 @@ public abstract class BossSkills : MonoBehaviour,IPauseable
             {
                 timer = 0;
                 currentItteration += 1;
-                Debug.Log("eh");
             }
 
-            if (currentItteration >= itterationAmmount) { Debug.Log("nani"); ItterationOver?.Invoke(); }
+            if (currentItteration >= itterationAmmount)  ItterationOver?.Invoke();
         }
     }
 
@@ -88,7 +87,6 @@ public abstract class BossSkills : MonoBehaviour,IPauseable
         timeToItter = timeBetweenItteration;
         ItterFunc = ItterationAction;
         ItterationOver = _ItterationOver;
-        Debug.Log(itterationAmmount);
         updating = true;
     }
 }

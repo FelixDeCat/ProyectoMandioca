@@ -59,7 +59,7 @@ namespace IA2Final.FSM
                 if (!model.AttackOnCooldown)
                 {
                     if (Transitions.ContainsKey(GOAPStatesName.OnMeleAttack) && model.DistanceToCharacter()) return Transitions[GOAPStatesName.OnMeleAttack];
-                    else if (Transitions.ContainsKey(GOAPStatesName.OnShootAbility) && !model.DistanceToCharacter()) return Transitions[GOAPStatesName.OnShootAbility];
+                    else if (Transitions.ContainsKey(GOAPStatesName.OnShootAttack) && !model.DistanceToCharacter()) return Transitions[GOAPStatesName.OnShootAttack];
                 }
             }
 
