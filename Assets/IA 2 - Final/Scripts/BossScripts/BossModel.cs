@@ -51,6 +51,7 @@ public class BossModel : EnemyBase
     CDModule cdModule = new CDModule();
     bool cooldown;
     bool onCombat;
+    Vector3 initPos;
 
     protected override void OnInitialize()
     {
@@ -68,8 +69,6 @@ public class BossModel : EnemyBase
         AudioManager.instance.GetSoundPool(sounds.takeDamage_sound.name, AudioGroups.GAME_FX, sounds.takeDamage_sound);
 
         ParticlesManager.Instance.GetParticlePool(particles.takeDamage_particle.name, particles.takeDamage_particle);
-
-        StartCombat();
     }
 
     public void StartCombat() 
@@ -80,6 +79,7 @@ public class BossModel : EnemyBase
         BossBarGeneric.SetLife(lifesystem.Life, lifesystem.LifeMax);
         Main.instance.eventManager.SubscribeToEvent(GameEvents.ON_PLAYER_RESPAWN, ResetBossOnDead);
         onCombat = true;
+        initPos = transform.position;
     }
 
     void ShootEvent()
@@ -152,6 +152,10 @@ public class BossModel : EnemyBase
 
     protected override void Die(Vector3 dir)
     {
+        brain.ResetBrain();
+        StopAllCoroutines();
+        BossBarGeneric.Close();
+        gameObject.SetActive(false);
     }
 
     void ResetBossOnDead()
@@ -169,6 +173,7 @@ public class BossModel : EnemyBase
         lastAbilityUsed = "";
         cdModule.ResetAll();
         BossBarGeneric.Close();
+        transform.position = initPos;
         Main.instance.eventManager.UnsubscribeToEvent(GameEvents.ON_PLAYER_RESPAWN, ResetBossOnDead);
     }
 

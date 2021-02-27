@@ -60,7 +60,7 @@ public class BossBrain
         stunState = new BossStunState();
         tpState = new BossTPState(model, tpSkill);
         spawnState = new BossSpawnState(model, spawnSkill);
-        
+
 
         idleState.OnNeedsReplan += Replan;
         meleState.OnNeedsReplan += Replan;
@@ -243,11 +243,11 @@ public class BossBrain
     private void OnPlanCompleted(IEnumerable<GOAPAction> plan)
     {
         fsm = GoapPlanner.ConfigureFSM(plan, Coroutine);
-        fsm.Active = true;
+        if (fsm != null) fsm.Active = true;
     }
 
-    public void ActiveFSM() => fsm.Active = true;
-    public void DesactiveFSM() => fsm.Active = false;
+    public void ActiveFSM() { if (fsm != null) fsm.Active = true; }
+    public void DesactiveFSM() { if (fsm != null) fsm.Active = false; }
 
     private void OnCantPlan()
     {
