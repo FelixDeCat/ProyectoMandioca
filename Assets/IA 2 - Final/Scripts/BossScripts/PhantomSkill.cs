@@ -16,6 +16,7 @@ public class PhantomSkill : BossSkills
     [SerializeField] Animator anim = null;
     [SerializeField] AnimEvent animEvent = null;
     [SerializeField] Transform shootPoint = null;
+    [SerializeField] LayerMask wallMask = 1 << 0;
     Transform target;
     Vector3 firstPos;
 
@@ -75,11 +76,23 @@ public class PhantomSkill : BossSkills
 
     Vector3 PosSwitcher(string posName)
     {
-        if (posName == "Right") return target.position + target.right * distanceToChar;
-        else if (posName == "Forward") return target.position + target.forward * distanceToChar;
-        else if (posName == "Left") return target.position - target.right * distanceToChar;
-        else if (posName == "Backward") return target.position - target.forward * distanceToChar;
+        Vector3 posResult = Vector3.zero;
+        if (posName == "Right") posResult = target.right;
+        else if (posName == "Forward") posResult = target.forward;
+        else if (posName == "Left") posResult = -target.right;
+        else if (posName == "Backward") posResult = -target.forward;
 
-        return Vector3.zero;
+        posResult = ConfirmDir(posResult);
+
+        return posResult;
+    }
+
+    Vector3 ConfirmDir(Vector3 dir)
+    {
+        return model.position - dir * distanceToChar;
+        if(Physics.Raycast(model.position, dir, distanceToChar, wallMask))
+        {
+            return model.position - dir * distanceToChar;
+        }
     }
 }

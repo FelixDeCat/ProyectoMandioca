@@ -51,6 +51,7 @@ public class BossModel : EnemyBase
     CDModule cdModule = new CDModule();
     bool cooldown;
     bool onCombat;
+    bool inSecondPhase;
     Vector3 initPos;
 
     protected override void OnInitialize()
@@ -174,6 +175,7 @@ public class BossModel : EnemyBase
         cdModule.ResetAll();
         BossBarGeneric.Close();
         transform.position = initPos;
+        inSecondPhase = false;
         Main.instance.eventManager.UnsubscribeToEvent(GameEvents.ON_PLAYER_RESPAWN, ResetBossOnDead);
     }
 
@@ -204,8 +206,9 @@ public class BossModel : EnemyBase
         cdModule.AddCD("AttackCD", () => AttackOnCooldown = false, attackCooldownTime);
     }
 
-    public void AbilityCooldown()
+    public void AbilityCooldown(int restStamina)
     {
+        if (inSecondPhase) { CurrentStamina -= restStamina; if (CurrentStamina < 0) CurrentStamina = 0; }
         AbilityOnCooldown = true;
         cdModule.AddCD("AbilityCD", () => AbilityOnCooldown = false, abilityCooldownTime);
     }

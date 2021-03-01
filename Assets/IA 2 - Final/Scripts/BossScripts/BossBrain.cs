@@ -55,11 +55,11 @@ public class BossBrain
         idleState = new BossIdleState(model);
         meleState = new BossMeleState(model, anim);
         shootState = new BossShootState(model, anim);
-        flameState = new BossFlameState(model, flameSkill);
-        shootAbState = new BossShootAbility(model, phantomSkill);
+        flameState = new BossFlameState(model, flameSkill,flameStaminaNeed);
+        shootAbState = new BossShootAbility(model, phantomSkill,phantomShootStamina);
         stunState = new BossStunState();
         tpState = new BossTPState(model, tpSkill);
-        spawnState = new BossSpawnState(model, spawnSkill);
+        spawnState = new BossSpawnState(model, spawnSkill,spawnStaminaNeed);
 
 
         idleState.OnNeedsReplan += Replan;
@@ -112,7 +112,7 @@ public class BossBrain
                                                  .Pre(x => x.floatValues[GOAPParametersName.CharDistance] <= distanceToMele ? true : false)
                                                  .Effect(x => x.boolValues[GOAPParametersName.AttackOnCooldown] = true)
                                                  .Effect(x => {
-                                                     x.intValues[GOAPParametersName.CharLife] -= meleDamage;
+                                                     x.intValues[GOAPParametersName.CharLife] -= x.boolValues[GOAPParametersName.ShieldActive] ?12 : meleDamage;
                                                      if(x.intValues[GOAPParametersName.CharLife]<minLifeValue) x.intValues[GOAPParametersName.CharLife] = minLifeValue;
                                                      })
                                                  .LinkedState(meleState).Cost(3),
@@ -122,7 +122,7 @@ public class BossBrain
                                                  .Pre(x=> !x.boolValues[GOAPParametersName.AttackOnCooldown] ? true : false)
                                                  .Effect(x=> x.boolValues[GOAPParametersName.AttackOnCooldown] = true)
                                                  .Effect(x => {
-                                                     x.intValues[GOAPParametersName.CharLife] -= shootDamage;
+                                                     x.intValues[GOAPParametersName.CharLife] -= x.boolValues[GOAPParametersName.ShieldActive] ?12 : shootDamage;
                                                      if(x.intValues[GOAPParametersName.CharLife]<minLifeValue) x.intValues[GOAPParametersName.CharLife] = minLifeValue;
                                                      } )
                                                  .LinkedState(shootState),

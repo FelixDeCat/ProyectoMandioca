@@ -10,12 +10,16 @@ namespace IA2Final.FSM
         public override event Action OnNeedsReplan;
         BossModel model;
         bool timerComplete;
+        int staminaNeed;
 
-        public BossSpawnState(BossModel _model, SpawnSkill _skill)
+        public BossSpawnState(BossModel _model, SpawnSkill _skill, int _staminaNeed)
         {
+            staminaNeed = _staminaNeed;
             model = _model;
             spawnSkill = _skill;
         }
+
+        public void ChangeSkill(SpawnSkill _skill) => spawnSkill = _skill;
 
         public override void UpdateLoop()
         {
@@ -26,7 +30,7 @@ namespace IA2Final.FSM
         {
             model.ShieldActive = true;
             timerComplete = true;
-            model.AbilityCooldown();
+            model.AbilityCooldown(staminaNeed);
             model.ChangeLastAbility("Spawn");
         }
 

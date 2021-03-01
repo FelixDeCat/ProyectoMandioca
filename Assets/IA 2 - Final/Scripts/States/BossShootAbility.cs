@@ -10,12 +10,17 @@ namespace IA2Final.FSM
         public override event Action OnNeedsReplan;
         BossModel model;
         bool timerComplete;
+        int staminaNeed;
 
-        public BossShootAbility(BossModel _model, BossSkills _skill)
+        public void ChangeSkill(BossSkills _skill) => phantomSkill = _skill;
+
+        public BossShootAbility(BossModel _model, BossSkills _skill, int _staminaNeed)
         {
+            staminaNeed = _staminaNeed;
             model = _model;
             phantomSkill = _skill;
         }
+
 
         public override void UpdateLoop()
         {
@@ -26,7 +31,7 @@ namespace IA2Final.FSM
         {
             timerComplete = true;
             model.ChangeLastAbility("Phantom");
-            model.AbilityCooldown();
+            model.AbilityCooldown(staminaNeed);
         }
 
         public override void Enter(IState from, Dictionary<string, object> transitionParameters = null)
