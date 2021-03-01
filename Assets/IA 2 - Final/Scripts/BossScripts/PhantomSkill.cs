@@ -89,10 +89,11 @@ public class PhantomSkill : BossSkills
 
     Vector3 ConfirmDir(Vector3 dir)
     {
-        return model.position - dir * distanceToChar;
-        if(Physics.Raycast(model.position, dir, distanceToChar, wallMask))
+        if (Physics.Raycast(model.position, dir, distanceToChar, wallMask))
         {
-            return model.position - dir * distanceToChar;
+            return target.position - dir * distanceToChar;
         }
+        else
+            return target.position + dir * distanceToChar;
     }
 }
