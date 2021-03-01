@@ -27,6 +27,10 @@ public class BossModel : EnemyBase
     [SerializeField] CaronteSounds sounds = new CaronteSounds();
     [SerializeField] CaronteParticles particles = new CaronteParticles();
 
+    public float yMaxPos = 10.47f;
+    public float yMinPos = 5.47f;
+    public float ascendSpeed = 2;
+
     [System.Serializable]
     public class CaronteSounds
     {
@@ -143,6 +147,27 @@ public class BossModel : EnemyBase
         BossBarGeneric.SetLife(lifesystem.Life, lifesystem.LifeMax);
 
         StartCoroutine(OnHitted(onHitFlashTime, onHitColor));
+
+        if (!inSecondPhase && CurrentLife <= lifesystem.LifeMax * brain.lifeToChangePhase)
+            ChangePhase();
+    }
+
+    void ChangePhase()
+    {
+        inSecondPhase = true;
+        brain.ChangePhase();
+        StartCoroutine(Fly());
+    }
+
+    IEnumerator Fly()
+    {
+        while (transform.position.y < yMaxPos)
+        {
+            transform.position +=Vector3.up * ascendSpeed * Time.deltaTime;
+            yield return new WaitForSeconds(0.001f);
+        }
+
+        brain.PlanAndExecute();
     }
 
     protected override bool IsDamage()

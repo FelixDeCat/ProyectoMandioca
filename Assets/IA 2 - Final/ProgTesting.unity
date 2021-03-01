@@ -1667,6 +1667,9 @@ Transform:
   - {fileID: 476314416}
   - {fileID: 1651495405}
   - {fileID: 708894039}
+  - {fileID: 1299210584}
+  - {fileID: 634339694}
+  - {fileID: 1471907451}
   m_Father: {fileID: 1526585689}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -2140,6 +2143,9 @@ MonoBehaviour:
     phantomSkill: {fileID: 0}
     tpSkill: {fileID: 0}
     spawnSkill: {fileID: 0}
+    phantomSkillSecondStage: {fileID: 0}
+    flameSkillSecondStage: {fileID: 0}
+    spawnSkillSecondStage: {fileID: 0}
   maxStamina: 9
   rotSpeed: 10
   shootPosition: {fileID: 0}
@@ -2164,6 +2170,9 @@ MonoBehaviour:
     takeDamage_sound: {fileID: 0}
   particles:
     takeDamage_particle: {fileID: 0}
+  yMaxPos: 10.47
+  yMinPos: 5.47
+  ascendSpeed: 2
 --- !u!4 &236179742
 Transform:
   m_ObjectHideFlags: 0
@@ -4650,6 +4659,63 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 2197c82f50fd1714684e4e128950043a, type: 3}
+--- !u!1 &634339693
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 634339694}
+  - component: {fileID: 634339695}
+  m_Layer: 10
+  m_Name: Flame 2nd Stage
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &634339694
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 634339693}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 166088919}
+  m_RootOrder: 5
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &634339695
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 634339693}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d12a176e65ae39b4b9f786e56f2ea720, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  circularData:
+    timeToTick: 0.7
+    flamesAmmount: 9
+    roundsAmmount: 7
+    flameSeparation: 2.5
+  directionalData:
+    timeToTick: 0.7
+    flamesAmmount: 10
+    roundsAmmount: 7
+    flameSeparation: 1
+  flamePrefab: {fileID: 4895292320555670638, guid: d40ab8dd1d3794e4c8f7d1f79dddb0fa,
+    type: 3}
+  anim: {fileID: 2015293154}
+  animEvent: {fileID: 2015293155}
 --- !u!1 &637396606 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: -927199367670048503, guid: 2197c82f50fd1714684e4e128950043a,
@@ -6082,8 +6148,8 @@ MonoBehaviour:
       serializedVersion: 2
       m_Bits: 2097152
     spawnSpot: {fileID: 1592806623}
-  minSpawn: 2
-  maxSpawn: 5
+  minSpawn: 1
+  maxSpawn: 3
   totemFeedback:
     goToPos: {fileID: 3958526303383395777, guid: 9e3854d97844ae747993f6893668c5b0,
       type: 3}
@@ -9355,6 +9421,72 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 6.3209105, y: 6.29979, z: 0.1843552}
   m_Center: {x: -3.1604548, y: 0.15147749, z: 0.016165268}
+--- !u!1 &1299210583
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1299210584}
+  - component: {fileID: 1299210585}
+  m_Layer: 10
+  m_Name: Spawn 2nd Stage
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1299210584
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1299210583}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 166088919}
+  m_RootOrder: 4
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1299210585
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1299210583}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0d2f609ae53ca3540bbde5c3f16f8c71, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  spot:
+    radious: 10
+    heightSpawn: 20
+    mask:
+      serializedVersion: 2
+      m_Bits: 2097152
+    spawnSpot: {fileID: 1592806623}
+  minSpawn: 3
+  maxSpawn: 6
+  totemFeedback:
+    goToPos: {fileID: 3958526303383395777, guid: 9e3854d97844ae747993f6893668c5b0,
+      type: 3}
+    timeToGoPos: 1
+    chargeParticle: {fileID: 2953673145211013142, guid: 560ae8d399aa93f4db18b114d3b1a7e7,
+      type: 3}
+    startPos: {fileID: 1004090438}
+    pause: 0
+  entAcorazed: {fileID: 1689909679678146708, guid: 862910d2641d7594395ac5ab1657fce6,
+    type: 3}
+  currentScene: bossRoom
+  shieldObject: {fileID: 506393381}
+  anim: {fileID: 2015293154}
+  animEvent: {fileID: 2015293155}
 --- !u!1001 &1308647714
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -9900,6 +10032,65 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 2197c82f50fd1714684e4e128950043a, type: 3}
+--- !u!1 &1471907450
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1471907451}
+  - component: {fileID: 1471907452}
+  m_Layer: 10
+  m_Name: Phantom 2nd Stage
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1471907451
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1471907450}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 166088919}
+  m_RootOrder: 6
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1471907452
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1471907450}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: de3503d01899f7d45843f89db3090965, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  appearParticle: {fileID: 6693979285813507717, guid: 53b3dd2c5fe63fb4e9aa624e2a3933b6,
+    type: 3}
+  projectile: {fileID: 5983961856760078477, guid: 554c31a8cef57b242bc83428b94dbfca,
+    type: 3}
+  model: {fileID: 1526585689}
+  projectileSpeed: 3.5
+  projectileDamage: 5
+  itteration: 8
+  timeToItteration: 1.5
+  distanceToChar: 4
+  anim: {fileID: 2015293154}
+  animEvent: {fileID: 2015293155}
+  shootPoint: {fileID: 499254571}
+  wallMask:
+    serializedVersion: 2
+    m_Bits: 8421377
 --- !u!1 &1475422656
 GameObject:
   m_ObjectHideFlags: 0
@@ -10332,7 +10523,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1526585686}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 27.98, y: 6.91, z: 30.82}
+  m_LocalPosition: {x: 27.98, y: 5.47, z: 30.82}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 166088919}
@@ -10464,6 +10655,9 @@ MonoBehaviour:
     phantomSkill: {fileID: 1651495406}
     tpSkill: {fileID: 708894040}
     spawnSkill: {fileID: 842247027}
+    phantomSkillSecondStage: {fileID: 1471907452}
+    flameSkillSecondStage: {fileID: 634339695}
+    spawnSkillSecondStage: {fileID: 1299210585}
   maxStamina: 9
   rotSpeed: 10
   shootPosition: {fileID: 499254571}
@@ -10490,6 +10684,9 @@ MonoBehaviour:
   particles:
     takeDamage_particle: {fileID: 3632140750100566763, guid: 48fe3e230b37f29449856c4f0dc77ca3,
       type: 3}
+  yMaxPos: 10.47
+  yMinPos: 5.47
+  ascendSpeed: 2
 --- !u!1 &1530131570 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: -927199367670048503, guid: 2197c82f50fd1714684e4e128950043a,
@@ -11766,6 +11963,9 @@ MonoBehaviour:
   anim: {fileID: 2015293154}
   animEvent: {fileID: 2015293155}
   shootPoint: {fileID: 499254571}
+  wallMask:
+    serializedVersion: 2
+    m_Bits: 8421377
 --- !u!1001 &1653016364
 PrefabInstance:
   m_ObjectHideFlags: 0

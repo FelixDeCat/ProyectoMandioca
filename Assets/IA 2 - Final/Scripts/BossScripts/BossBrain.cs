@@ -31,12 +31,15 @@ public class BossBrain
     [SerializeField] int flameStaminaNeed = 3;
     [SerializeField] int phantomShootStamina = 4;
     [SerializeField] int spawnStaminaNeed = 5;
-    [SerializeField] int lifeToChangePhase = 50;
+    public float lifeToChangePhase = 0.5f;
     [SerializeField] Animator anim = null;
     [SerializeField] BossSkills flameSkill = null;
     [SerializeField] BossSkills phantomSkill = null;
     [SerializeField] BossSkills tpSkill = null;
     [SerializeField] SpawnSkill spawnSkill = null;
+    [SerializeField] BossSkills phantomSkillSecondStage = null;
+    [SerializeField] BossSkills flameSkillSecondStage = null;
+    [SerializeField] SpawnSkill spawnSkillSecondStage = null;
 
     int dashCount = 0;
     int heavyCount = 0;
@@ -93,6 +96,18 @@ public class BossBrain
         fsm.Active = false;
 
         PlanAndExecute();
+    }
+
+    public void ChangePhase()
+    {
+        DesactiveFSM();
+        flameSkill.InterruptSkill();
+        phantomSkill.InterruptSkill();
+        spawnSkill.InterruptSkill();
+        tpSkill.InterruptSkill();
+        flameState.ChangeSkill(flameSkillSecondStage);
+        shootAbState.ChangeSkill(phantomSkillSecondStage);
+        spawnState.ChangeSkill(spawnSkillSecondStage);
     }
 
     public void PlanAndExecute()
@@ -276,5 +291,11 @@ public class BossBrain
         phantomSkill.InterruptSkill();
         spawnSkill.InterruptSkill();
         tpSkill.InterruptSkill();
+        flameSkillSecondStage.InterruptSkill();
+        phantomSkillSecondStage.InterruptSkill();
+        spawnSkillSecondStage.InterruptSkill();
+        flameState.ChangeSkill(flameSkill);
+        shootAbState.ChangeSkill(phantomSkill);
+        spawnState.ChangeSkill(spawnSkill);
     }
 }
