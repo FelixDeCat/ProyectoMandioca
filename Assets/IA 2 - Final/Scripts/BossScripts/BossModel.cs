@@ -244,5 +244,7 @@ public class BossModel : EnemyBase
         cdModule.AddCD("TPCD", () => TPOnCooldown = false, tpCooldownTime);
     }
 
+    public void RestartStamina() => CurrentStamina = maxStamina;
+
     #endregion
 }

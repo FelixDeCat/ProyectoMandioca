@@ -31,6 +31,7 @@ public class BossBrain
     [SerializeField] int flameStaminaNeed = 3;
     [SerializeField] int phantomShootStamina = 4;
     [SerializeField] int spawnStaminaNeed = 5;
+    [SerializeField] float timeStuned = 5;
     public float lifeToChangePhase = 0.5f;
     [SerializeField] Animator anim = null;
     [SerializeField] BossSkills flameSkill = null;
@@ -60,7 +61,7 @@ public class BossBrain
         shootState = new BossShootState(model, anim);
         flameState = new BossFlameState(model, flameSkill,flameStaminaNeed);
         shootAbState = new BossShootAbility(model, phantomSkill,phantomShootStamina);
-        stunState = new BossStunState();
+        stunState = new BossStunState(timeStuned, model.yMinPos, model.yMaxPos, model.ascendSpeed, model);
         tpState = new BossTPState(model, tpSkill);
         spawnState = new BossSpawnState(model, spawnSkill,spawnStaminaNeed);
 
