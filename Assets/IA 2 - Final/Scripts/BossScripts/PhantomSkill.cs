@@ -26,8 +26,6 @@ public class PhantomSkill : BossSkills
     public override void Initialize()
     {
         base.Initialize();
-
-        animEvent.Add_Callback("Shoot", Shoot);
         data.Owner = model;
         data.Force = projectileSpeed;
         data.Damage = projectileDamage;
@@ -39,6 +37,7 @@ public class PhantomSkill : BossSkills
 
     protected override void OnUseSkill()
     {
+        animEvent.Add_Callback("Shoot", Shoot);
         firstPos = model.position;
         Itteration(itteration, timeToItteration, PhantomShoot, OverSkill);
     }
@@ -52,7 +51,7 @@ public class PhantomSkill : BossSkills
 
     void PhantomShoot()
     {
-        probPosition.Remove(lastPosition);
+        if(probPosition.Contains(lastPosition)) probPosition.Remove(lastPosition);
         int index = Random.Range(0, probPosition.Count);
         model.position = PosSwitcher(probPosition[index]);
         probPosition.Add(lastPosition);
@@ -69,6 +68,7 @@ public class PhantomSkill : BossSkills
 
     protected override void OnOverSkill()
     {
+        animEvent.Remove_Callback("Shoot", Shoot);
         model.position = firstPos;
         ParticlesManager.Instance.PlayParticle(appearParticle.name, model.position);
         anim.Play("Idle");

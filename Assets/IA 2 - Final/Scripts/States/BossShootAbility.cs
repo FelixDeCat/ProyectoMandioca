@@ -54,7 +54,6 @@ namespace IA2Final.FSM
             {
                 if (!model.TPOnCooldown && model.DistanceToCharacter())
                 {
-                    Debug.Log("me quiero tepear");
                     OnNeedsReplan?.Invoke();
                     return this;
                 }
@@ -63,10 +62,8 @@ namespace IA2Final.FSM
 
                 if (!model.AttackOnCooldown)
                 {
-                    Debug.Log("efectivamente");
                     if (Transitions.ContainsKey(GOAPStatesName.OnMeleAttack) && model.DistanceToCharacter()) return Transitions[GOAPStatesName.OnMeleAttack];
                     else if (Transitions.ContainsKey(GOAPStatesName.OnShootAttack) && !model.DistanceToCharacter()) return Transitions[GOAPStatesName.OnShootAttack];
-                    Debug.Log(Transitions.ContainsKey(GOAPStatesName.OnShootAttack));
                 }
             }
 

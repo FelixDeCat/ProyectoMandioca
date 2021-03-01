@@ -31,14 +31,13 @@ public class BossProjectile : Throwable
         timer = 0;
     }
 
-
-
     protected override void InternalParry()
     {
         noFloorCollision = true;
         timer = 0;
         AudioManager.instance.PlaySound(parrySound.name);
         timerToDissappear = 0;
+        Dissappear();
     }
 
     protected override void OnFloorCollision()

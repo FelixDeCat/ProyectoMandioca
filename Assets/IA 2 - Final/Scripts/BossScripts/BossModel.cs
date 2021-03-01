@@ -163,10 +163,11 @@ public class BossModel : EnemyBase
     {
         while (transform.position.y < yMaxPos)
         {
-            transform.position +=Vector3.up * ascendSpeed * Time.deltaTime;
+            transform.position += Vector3.up * ascendSpeed * Time.deltaTime;
             yield return new WaitForSeconds(0.001f);
         }
-
+        cdModule.ResetAll();
+        Debug.Log("equisde");
         brain.PlanAndExecute();
     }
 

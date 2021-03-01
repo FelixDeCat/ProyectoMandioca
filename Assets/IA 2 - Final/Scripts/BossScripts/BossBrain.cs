@@ -54,6 +54,9 @@ public class BossBrain
         phantomSkill.Initialize();
         tpSkill.Initialize();
         spawnSkill.Initialize();
+        flameSkillSecondStage.Initialize();
+        phantomSkillSecondStage.Initialize();
+        spawnSkillSecondStage.Initialize();
         model = boss;
         Coroutine = _Coroutine;
         idleState = new BossIdleState(model);
@@ -211,6 +214,7 @@ public class BossBrain
                                                  .Pre(x=>!x.boolValues[GOAPParametersName.ShieldActive])
                                                  .Pre(x => x.stringValues[GOAPParametersName.CharAbilityMostUsed] != "Dash" ? true : false)
                                                  .Effect(x=>x.intValues[GOAPParametersName.Stamina] -= flameStaminaNeed)
+                                                 .Effect(x=>x.boolValues[GOAPParametersName.AbilityOnCooldown] = true)
                                                  .Effect(x => {
                                                      x.intValues[GOAPParametersName.CharLife] -= flameDamage;
                                                      if(x.intValues[GOAPParametersName.CharLife]<0) x.intValues[GOAPParametersName.CharLife] = 0;
@@ -221,9 +225,11 @@ public class BossBrain
                                               new GOAPAction(GOAPStatesName.OnSpawnAbility)
                                                  .Pre(x=>x.intValues[GOAPParametersName.OwnLife] <= model.lifesystem.LifeMax * lifeToChangePhase)
                                                  .Pre(x=> x.intValues[GOAPParametersName.Stamina] > 0)
+                                                 .Pre(x=> !x.boolValues[GOAPParametersName.AbilityOnCooldown] ? true : false)
                                                  .Pre(x=>!x.boolValues[GOAPParametersName.ShieldActive])
                                                  .Pre(x => x.stringValues[GOAPParametersName.CharAbilityMostUsed] != "Heavy" ? true : false)
                                                  .Effect(x=>x.intValues[GOAPParametersName.Stamina] -= spawnStaminaNeed)
+                                                 .Effect(x=>x.boolValues[GOAPParametersName.AbilityOnCooldown] = true)
                                                  .Effect(x => {
                                                      x.intValues[GOAPParametersName.CharLife] -= spawnDamage;
                                                      if(x.intValues[GOAPParametersName.CharLife]<0) x.intValues[GOAPParametersName.CharLife] = 0;
@@ -236,8 +242,10 @@ public class BossBrain
                                                  .Pre(x=>x.intValues[GOAPParametersName.OwnLife] <= model.lifesystem.LifeMax * lifeToChangePhase)
                                                  .Pre(x=> x.intValues[GOAPParametersName.Stamina] > 0)
                                                  .Pre(x=>!x.boolValues[GOAPParametersName.ShieldActive])
+                                                 .Pre(x=> !x.boolValues[GOAPParametersName.AbilityOnCooldown] ? true : false)
                                                  .Pre(x => x.stringValues[GOAPParametersName.CharAbilityMostUsed] != "Parry" ? true : false)
                                                  .Effect(x=>x.intValues[GOAPParametersName.Stamina] -= phantomShootStamina)
+                                                 .Effect(x=>x.boolValues[GOAPParametersName.AbilityOnCooldown] = true)
                                                  .Effect(x => {
                                                      x.intValues[GOAPParametersName.CharLife] -= phantomShootDamage;
                                                      if(x.intValues[GOAPParametersName.CharLife]<0) x.intValues[GOAPParametersName.CharLife] = 0;

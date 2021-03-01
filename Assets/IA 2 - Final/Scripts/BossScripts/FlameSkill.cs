@@ -27,21 +27,21 @@ public class FlameSkill : BossSkills
     {
         base.Initialize();
 
-        animEvent.Add_Callback("FlameSkill", () =>
-        {
-            int index = UnityEngine.Random.Range(0, modeSelector.Count);
-
-            modeSelector[index].Invoke();
-        });
-
         myPool = PoolManager.instance.GetObjectPool(flamePrefab.name, flamePrefab);
         target = Main.instance.GetChar().Root;
         modeSelector = new List<Action>() { () => Itteration(directionalData.flamesAmmount,directionalData.timeToTick, DirectionalMode, OverSkill),
             () => Itteration(circularData.flamesAmmount,circularData.timeToTick, CircularMode, OverSkill) };
     }
 
+    void Callback()
+    {
+        int index = UnityEngine.Random.Range(0, modeSelector.Count);
+        modeSelector[index].Invoke();
+    }
+
     protected override void OnUseSkill()
     {
+        animEvent.Add_Callback("FlameSkill", Callback);
         anim.SetBool("OnFlame", true);
         anim.Play("FlameSkill");
 
@@ -53,8 +53,8 @@ public class FlameSkill : BossSkills
 
     protected override void OnOverSkill()
     {
-        Debug.Log("se vuelve falso");
         anim.SetBool("OnFlame", false);
+        animEvent.Remove_Callback("FlameSkill", Callback);
     }
 
     IEnumerator SpawnFlames(FlameData data, Action spawnMode)
