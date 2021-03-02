@@ -16,7 +16,7 @@ public class Palanca : Interactable
     public override void OnExecute(WalkingEntity collector)
     {
         Excecute.Invoke();
-        
+        ContextualBarSimple.instance.Hide();
     }
 
     public override void OnInterrupt()
