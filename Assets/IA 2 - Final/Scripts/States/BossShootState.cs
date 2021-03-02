@@ -27,6 +27,7 @@ namespace IA2Final.FSM
                 timer += Time.deltaTime;
                 if (timer >= animDuration)
                 {
+                    timer = 0;
                     model.AttackCooldown();
                     timerComplete = true;
                 }

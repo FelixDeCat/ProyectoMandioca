@@ -24,6 +24,7 @@ namespace IA2Final.FSM
         public override void UpdateLoop()
         {
             spawnSkill.OnUpdate();
+            model.RotateToChar();
         }
 
         void CompleteAbility()

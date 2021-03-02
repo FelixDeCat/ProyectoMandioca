@@ -97,6 +97,7 @@ public class BossBrain
         else
             return;
 
+        fsm.CurrentState.Exit(null);
         fsm.Active = false;
 
         PlanAndExecute();
@@ -279,6 +280,7 @@ public class BossBrain
 
     private void OnPlanCompleted(IEnumerable<GOAPAction> plan)
     {
+        if (Main.instance.GetChar().Life.Life <= 0) return;
         fsm = GoapPlanner.ConfigureFSM(plan, Coroutine);
         if (fsm != null) fsm.Active = true;
     }

@@ -30,7 +30,6 @@ public class TPSkill : BossSkills
         hand.transform.forward = CalculeBestDirection();
         initPos = hand.transform.position;
         moving = true;
-        StartCoroutine(HandMove());
     }
 
     public override void OnUpdate()
@@ -42,18 +41,6 @@ public class TPSkill : BossSkills
             if (Vector3.Distance(hand.transform.position, initPos) >= maxDistance) { moving = false; OverSkill(); }
         }
 
-    }
-
-    IEnumerator HandMove()
-    {
-        while (moving)
-        {
-            hand.transform.position += hand.transform.forward * handSpeed * Time.deltaTime;
-            if (Vector3.Distance(hand.transform.position, initPos) >= maxDistance) { moving = false; }
-            yield return new WaitForSeconds(0.01f);
-        }
-
-        OverSkill();
     }
 
     protected override void OnInterruptSkill()

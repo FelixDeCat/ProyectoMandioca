@@ -25,6 +25,7 @@ namespace IA2Final.FSM
         public override void UpdateLoop()
         {
             phantomSkill.OnUpdate();
+            model.RotateToChar();
         }
 
         void CompleteAbility()

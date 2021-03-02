@@ -54,7 +54,7 @@ public class BossModel : EnemyBase
     string lastAbilityUsed = "";
     CDModule cdModule = new CDModule();
     bool cooldown;
-    bool onCombat;
+    public bool onCombat;
     bool inSecondPhase;
     Vector3 initPos;
 
@@ -167,7 +167,6 @@ public class BossModel : EnemyBase
             yield return new WaitForSeconds(0.001f);
         }
         cdModule.ResetAll();
-        Debug.Log("equisde");
         brain.PlanAndExecute();
     }
 
