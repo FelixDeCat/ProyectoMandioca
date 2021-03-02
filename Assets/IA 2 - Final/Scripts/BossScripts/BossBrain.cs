@@ -276,6 +276,12 @@ public class BossBrain
         from.values.stringValues[GOAPParametersName.LastOwnAbility] = model.MyAbilityMostUsed;
         from.values.boolValues[GOAPParametersName.AttackOnCooldown] = model.AttackOnCooldown;
 
+        Debug.Log(from.values.intValues[GOAPParametersName.OwnLife] <= model.lifesystem.LifeMax * lifeToChangePhase);
+        Debug.Log(from.values.intValues[GOAPParametersName.Stamina]);
+        Debug.Log(from.values.boolValues[GOAPParametersName.ShieldActive]);
+        Debug.Log(from.values.boolValues[GOAPParametersName.AbilityOnCooldown]);
+        Debug.Log(from.values.stringValues[GOAPParametersName.CharAbilityMostUsed]);
+
         var to = new GOAPState();
         to.values.intValues[GOAPParametersName.CharLife] = minLifeValue;
 
@@ -301,6 +307,7 @@ public class BossBrain
         //TODO: debuggeamos para ver por qué no pudo planear y encontrar como hacer para que no pase nunca mas
 
         Debug.Log("No pude planear");
+        //Replan();
     }
 
     public void ResetBrain()

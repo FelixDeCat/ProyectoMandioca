@@ -55,6 +55,7 @@ public abstract class BossSkills : MonoBehaviour,IPauseable
         if (!onUse) return;
         SkillOver?.Invoke();
         updating = false;
+        onUse = false;
         currentItteration = 0;
         timer = 0;
         OnOverSkill();

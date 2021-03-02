@@ -29,17 +29,16 @@ public class SpawnSkill : BossSkills, ISpawner
     protected override void OnInterruptSkill()
     {
         totemFeedback.InterruptCharge();
-        for (int i = 0; i < currentSpawnedEnemies.Count; i++)
+        int enemies = currentSpawnedEnemies.Count;
+        for (int i = 0; i < enemies; i++)
         {
-            if (currentSpawnedEnemies.Count == 0) break;
-            Debug.Log(currentEnemies - 1);
             currentSpawnedEnemies[currentEnemies-1].ReturnToSpawner();
         }
     }
 
     void SpawnEnemies()
     {
-        int ammountToSpawn = UnityEngine.Random.Range(minSpawn, maxSpawn);
+        int ammountToSpawn = UnityEngine.Random.Range(minSpawn, maxSpawn + 1);
         spot.spawnSpot.position = Main.instance.GetChar().transform.position;
 
         for (int i = 0; i < ammountToSpawn; i++)
@@ -81,7 +80,7 @@ public class SpawnSkill : BossSkills, ISpawner
         newPrefab.Off();
         currentSpawnedEnemies.Remove(newPrefab);
         PoolManager.instance.ReturnObject(newPrefab);
-        if (currentEnemies == 0) OverSkill();
+        if (currentEnemies <= 0) OverSkill();
     }
 
     public override void Pause()
