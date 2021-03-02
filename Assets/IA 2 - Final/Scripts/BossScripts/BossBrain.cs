@@ -105,6 +105,7 @@ public class BossBrain
 
     public void ChangePhase()
     {
+        fsm.CurrentState.Exit(null);
         DesactiveFSM();
         flameSkill.InterruptSkill();
         phantomSkill.InterruptSkill();
@@ -121,13 +122,19 @@ public class BossBrain
 
         var actions = new List<GOAPAction>{
                                               new GOAPAction(GOAPStatesName.OnIdle)
-                                                 .Pre(x => x.boolValues[GOAPParametersName.AbilityOnCooldown] ? true :false)
+                                                 .Pre(x =>{if(x.boolValues[GOAPParametersName.ShieldActive])
+                                                         return true;
+                                                     else
+                                                     {
+                                                         if(x.boolValues[GOAPParametersName.AbilityOnCooldown]) return true;
+                                                             else return false; } })
                                                  .Pre(x => x.boolValues[GOAPParametersName.AttackOnCooldown] ? true : false)
                                                  .Effect(x => x.boolValues[GOAPParametersName.AbilityOnCooldown] = false)
                                                  .Effect(x => x.boolValues[GOAPParametersName.AttackOnCooldown] = false)
                                                  .LinkedState(idleState),
 
                                               new GOAPAction(GOAPStatesName.OnMeleAttack)
+                                                 .Pre(x=>x.intValues[GOAPParametersName.OwnLife] > model.lifesystem.LifeMax * lifeToChangePhase)
                                                  .Pre(x => !x.boolValues[GOAPParametersName.AttackOnCooldown] ? true : false)
                                                  .Pre(x => x.floatValues[GOAPParametersName.CharDistance] <= distanceToMele ? true : false)
                                                  .Effect(x => x.boolValues[GOAPParametersName.AttackOnCooldown] = true)
@@ -142,7 +149,7 @@ public class BossBrain
                                                  .Pre(x=> !x.boolValues[GOAPParametersName.AttackOnCooldown] ? true : false)
                                                  .Effect(x=> x.boolValues[GOAPParametersName.AttackOnCooldown] = true)
                                                  .Effect(x => {
-                                                     x.intValues[GOAPParametersName.CharLife] -= x.boolValues[GOAPParametersName.ShieldActive] ?12 : shootDamage;
+                                                     x.intValues[GOAPParametersName.CharLife] -= x.boolValues[GOAPParametersName.ShieldActive] ?3000 : shootDamage;
                                                      if(x.intValues[GOAPParametersName.CharLife]<minLifeValue) x.intValues[GOAPParametersName.CharLife] = minLifeValue;
                                                      } )
                                                  .LinkedState(shootState),
@@ -197,6 +204,7 @@ public class BossBrain
                                                  .LinkedState(stunState),
 
                                               new GOAPAction(GOAPStatesName.OnTPAbility)
+                                                 .Pre(x=>x.intValues[GOAPParametersName.OwnLife] > model.lifesystem.LifeMax * lifeToChangePhase)
                                                  .Pre(x=> !x.boolValues[GOAPParametersName.TPOnCooldown])
                                                  .Pre(x => x.floatValues[GOAPParametersName.CharDistance] <= distanceToMele ? true : false)
                                                  .Effect(x => {
@@ -297,6 +305,7 @@ public class BossBrain
 
     public void ResetBrain()
     {
+        fsm.CurrentState.Exit(null);
         DesactiveFSM();
         flameSkill.InterruptSkill();
         phantomSkill.InterruptSkill();

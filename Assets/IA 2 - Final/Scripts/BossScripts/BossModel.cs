@@ -156,6 +156,9 @@ public class BossModel : EnemyBase
     {
         inSecondPhase = true;
         brain.ChangePhase();
+        animator.Play("Idle");
+        animator.SetBool("OnSpawn", false);
+        animator.SetBool("OnFlame", false);
         StartCoroutine(Fly());
     }
 
@@ -181,7 +184,6 @@ public class BossModel : EnemyBase
         brain.ResetBrain();
         StopAllCoroutines();
         BossBarGeneric.Close();
-
     }
 
     void ResetBossOnDead()

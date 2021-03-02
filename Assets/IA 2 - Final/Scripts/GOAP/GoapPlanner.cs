@@ -27,7 +27,7 @@ namespace IA2Final
             astar.OnCantCalculate += OnCantCalculate;
 
             var astarEnumerator = astar.Run(from,
-                                            state => Satisfies(state, to),
+                                            state => { Debug.Log(state.values.intValues[GOAPParametersName.CharLife]); return Satisfies(state, to); },
                                             node => Explode(node, actions, ref _watchdog),
                                             state => GetHeuristic(state, to));
 
