@@ -39,8 +39,6 @@ public class SpawnSkill : BossSkills, ISpawner
     void SpawnEnemies()
     {
         int ammountToSpawn = UnityEngine.Random.Range(minSpawn, maxSpawn + 1);
-        spot.spawnSpot.position = Main.instance.GetChar().transform.position;
-
         for (int i = 0; i < ammountToSpawn; i++)
         {
             Vector3 pos = spot.GetSurfacePos();
