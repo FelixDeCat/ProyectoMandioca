@@ -225,7 +225,7 @@ public class BossModel : EnemyBase
         rootTransform.forward = Vector3.Slerp(rootTransform.forward, newForward, rotSpeed * Time.deltaTime);
     }
 
-    public bool DistanceToCharacter() => Vector3.Distance(transform.position, target.position) <= brain.distanceToMele ? true : false;
+    public bool DistanceToCharacter() => Vector3.Distance(transform.position, target.position) <= brain.distanceToMele && !inSecondPhase ? true : false;
 
     public void AttackCooldown()
     {
