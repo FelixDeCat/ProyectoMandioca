@@ -198,7 +198,7 @@ public class BossBrain
                                                  .LinkedState(shootAbState),
 
                                               new GOAPAction(GOAPStatesName.OnStunAbility)
-                                                 .Pre(x=>x.intValues[GOAPParametersName.OwnLife] <= lifeToChangePhase ? true: false)
+                                                 .Pre(x=>x.intValues[GOAPParametersName.OwnLife] <= model.lifesystem.LifeMax * lifeToChangePhase ? true: false)
                                                  .Pre(x=>x.intValues[GOAPParametersName.Stamina] <= 0 ? true : false)
                                                  .Effect(x => x.intValues[GOAPParametersName.Stamina] = model.maxStamina)
                                                  .LinkedState(stunState),

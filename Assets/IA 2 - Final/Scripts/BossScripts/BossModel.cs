@@ -154,12 +154,12 @@ public class BossModel : EnemyBase
 
     void ChangePhase()
     {
-        inSecondPhase = true;
         brain.ChangePhase();
         animator.Play("Idle");
         animator.SetBool("OnSpawn", false);
         animator.SetBool("OnFlame", false);
         StartCoroutine(Fly());
+        inSecondPhase = true;
     }
 
     IEnumerator Fly()
@@ -235,7 +235,7 @@ public class BossModel : EnemyBase
 
     public void AbilityCooldown(int restStamina)
     {
-        if (inSecondPhase) { CurrentStamina -= restStamina; if (CurrentStamina < 0) CurrentStamina = 0; }
+        if (inSecondPhase) { Debug.Log("le resto " + restStamina); CurrentStamina -= restStamina; if (CurrentStamina < 0) CurrentStamina = 0; }
         AbilityOnCooldown = true;
         cdModule.AddCD("AbilityCD", () => AbilityOnCooldown = false, abilityCooldownTime);
     }
