@@ -9,13 +9,14 @@ public class SpawnSkill : BossSkills, ISpawner
     [SerializeField] int maxSpawn = 5;
     [SerializeField] TotemFeedback totemFeedback = new TotemFeedback();
     [SerializeField] EnemyBase entAcorazed;
-    public int currentEnemies;
+    int currentEnemies;
     [SerializeField] string currentScene = "bossRoom";
     [SerializeField] GameObject shieldObject = null;
     [SerializeField] Animator anim = null;
     [SerializeField] AnimEvent animEvent = null;
+    [SerializeField] DamageReceiver dmgReceiver = null;
     public Action OnSpawn;
-    public List<PlayObject> currentSpawnedEnemies = new List<PlayObject>();
+    List<PlayObject> currentSpawnedEnemies = new List<PlayObject>();
 
     public override void Initialize()
     {
@@ -50,11 +51,13 @@ public class SpawnSkill : BossSkills, ISpawner
         shieldObject.SetActive(true);
         anim.SetBool("OnSpawn", false);
         OnSpawn?.Invoke();
+        dmgReceiver.AddInvulnerability(Damagetype.All);
     }
 
     protected override void OnOverSkill()
     {
         shieldObject.SetActive(false);
+        dmgReceiver.RemoveInvulnerability(Damagetype.All);
         animEvent.Remove_Callback("SpawnSkill", Callback);
     }
 
