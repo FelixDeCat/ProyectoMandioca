@@ -129,7 +129,6 @@ public class BossBrain
                                                          if(x.boolValues[GOAPParametersName.AbilityOnCooldown]) return true;
                                                              else return false; } })
                                                  .Pre(x => x.boolValues[GOAPParametersName.AttackOnCooldown] ? true : false)
-                                                 .Pre(x=>x.intValues[GOAPParametersName.Stamina] > 0)
                                                  .Effect(x => x.boolValues[GOAPParametersName.AbilityOnCooldown] = false)
                                                  .Effect(x => x.boolValues[GOAPParametersName.AttackOnCooldown] = false)
                                                  .LinkedState(idleState),
@@ -232,7 +231,7 @@ public class BossBrain
                                                  .Effect(x=>x.boolValues[GOAPParametersName.AbilityOnCooldown] = true)
                                                  .Effect(x => {
                                                      x.intValues[GOAPParametersName.CharLife] -= flameDamage;
-                                                     if(x.intValues[GOAPParametersName.CharLife]<0) x.intValues[GOAPParametersName.CharLife] = 0;
+                                                     if(x.intValues[GOAPParametersName.CharLife]<minLifeValue) x.intValues[GOAPParametersName.CharLife] = minLifeValue;
                                                      } )
                                                  .Effect(x=>x.stringValues[GOAPParametersName.CharAbilityMostUsed] = "Dash")
                                                  .Effect(x=>x.stringValues[GOAPParametersName.LastOwnAbility] = "Flame")
@@ -249,7 +248,7 @@ public class BossBrain
                                                  .Effect(x=>x.boolValues[GOAPParametersName.AbilityOnCooldown] = true)
                                                  .Effect(x => {
                                                      x.intValues[GOAPParametersName.CharLife] -= spawnDamage;
-                                                     if(x.intValues[GOAPParametersName.CharLife]<0) x.intValues[GOAPParametersName.CharLife] = 0;
+                                                     if(x.intValues[GOAPParametersName.CharLife]<minLifeValue) x.intValues[GOAPParametersName.CharLife] = minLifeValue;
                                                      } )
                                                  .Effect(x=>x.stringValues[GOAPParametersName.CharAbilityMostUsed] = "Heavy")
                                                  .Effect(x=>x.stringValues[GOAPParametersName.LastOwnAbility] = "Spawn")
@@ -267,7 +266,7 @@ public class BossBrain
                                                  .Effect(x=>x.boolValues[GOAPParametersName.AbilityOnCooldown] = true)
                                                  .Effect(x => {
                                                      x.intValues[GOAPParametersName.CharLife] -= phantomShootDamage;
-                                                     if(x.intValues[GOAPParametersName.CharLife]<0) x.intValues[GOAPParametersName.CharLife] = 0;
+                                                     if(x.intValues[GOAPParametersName.CharLife]<minLifeValue) x.intValues[GOAPParametersName.CharLife] = minLifeValue;
                                                      } )
                                                  .Effect(x=>x.stringValues[GOAPParametersName.CharAbilityMostUsed] = "Parry")
                                                  .Effect(x=>x.stringValues[GOAPParametersName.LastOwnAbility] = "Phantom")
