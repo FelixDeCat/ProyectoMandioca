@@ -4,5 +4,9 @@ using UnityEngine;
 
 public class ReturnToMainMenu : MonoBehaviour
 {
-    public void ReturnToMenu() => PauseManager.Instance.ReturnToMenu();
+    public void ReturnToMenu()
+    {
+        PauseManager.Instance.Pause();
+        PauseManager.Instance.ReturnToMenu();
+    }
 }

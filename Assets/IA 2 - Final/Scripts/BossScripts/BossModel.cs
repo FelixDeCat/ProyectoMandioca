@@ -51,7 +51,6 @@ public class BossModel : EnemyBase
     public bool TPOnCooldown { get; private set; }
     public bool ShieldActive { get; set; }
     #endregion
-    string lastAbilityUsed = "";
     CDModule cdModule = new CDModule();
     bool cooldown;
     public bool onCombat;
@@ -198,7 +197,6 @@ public class BossModel : EnemyBase
         onCombat = false;
         CurrentStamina = maxStamina;
         MyAbilityMostUsed = "";
-        lastAbilityUsed = "";
         cdModule.ResetAll();
         BossBarGeneric.Close();
         transform.position = initPos;
@@ -210,13 +208,6 @@ public class BossModel : EnemyBase
     public void ChangeLastAbility(string last)
     {
         MyAbilityMostUsed = last;
-        //if (last == lastAbilityUsed)
-        //    MyAbilityMostUsed = last;
-        //else
-        //{
-        //    MyAbilityMostUsed = "";
-        //    lastAbilityUsed = last;
-        //}
     }
 
     public void RotateToChar()
@@ -236,7 +227,7 @@ public class BossModel : EnemyBase
 
     public void AbilityCooldown(int restStamina)
     {
-        if (inSecondPhase) { Debug.Log("le resto " + restStamina); CurrentStamina -= restStamina; if (CurrentStamina < 0) CurrentStamina = 0; }
+        if (inSecondPhase) { CurrentStamina -= restStamina; if (CurrentStamina < 0) CurrentStamina = 0; }
         AbilityOnCooldown = true;
         cdModule.AddCD("AbilityCD", () => AbilityOnCooldown = false, abilityCooldownTime);
     }

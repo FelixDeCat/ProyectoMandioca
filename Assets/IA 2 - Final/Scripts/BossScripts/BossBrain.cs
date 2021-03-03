@@ -146,7 +146,7 @@ public class BossBrain
                                                  .LinkedState(meleState).Cost(3),
 
                                               new GOAPAction(GOAPStatesName.OnShootAttack)
-                                                 .Pre(x=> x.floatValues[GOAPParametersName.CharDistance]>distanceToMele ? true : false)
+                                                 .Pre(x=> x.floatValues[GOAPParametersName.CharDistance]>distanceToMele || x.intValues[GOAPParametersName.OwnLife] <= model.lifesystem.LifeMax * lifeToChangePhase ? true : false)
                                                  .Pre(x=> !x.boolValues[GOAPParametersName.AttackOnCooldown] ? true : false)
                                                  .Pre(x=>x.intValues[GOAPParametersName.Stamina] > 0)
                                                  .Effect(x=> x.boolValues[GOAPParametersName.AttackOnCooldown] = true)
@@ -204,6 +204,7 @@ public class BossBrain
 
                                               new GOAPAction(GOAPStatesName.OnStunAbility)
                                                  .Pre(x=>x.intValues[GOAPParametersName.OwnLife] <= model.lifesystem.LifeMax * lifeToChangePhase ? true: false)
+                                                 .Pre(x=>!x.boolValues[GOAPParametersName.ShieldActive])
                                                  .Pre(x=>x.intValues[GOAPParametersName.Stamina] <= 0 ? true : false)
                                                  .Effect(x => x.intValues[GOAPParametersName.Stamina] = model.maxStamina)
                                                  .LinkedState(stunState),
@@ -285,12 +286,6 @@ public class BossBrain
         from.values.boolValues[GOAPParametersName.ShieldActive] = model.ShieldActive;
         from.values.stringValues[GOAPParametersName.LastOwnAbility] = model.MyAbilityMostUsed;
         from.values.boolValues[GOAPParametersName.AttackOnCooldown] = model.AttackOnCooldown;
-
-        Debug.Log(from.values.intValues[GOAPParametersName.OwnLife] <= model.lifesystem.LifeMax * lifeToChangePhase);
-        Debug.Log(from.values.intValues[GOAPParametersName.Stamina]);
-        Debug.Log(from.values.boolValues[GOAPParametersName.ShieldActive]);
-        Debug.Log(from.values.boolValues[GOAPParametersName.AbilityOnCooldown]);
-        Debug.Log(from.values.stringValues[GOAPParametersName.CharAbilityMostUsed]);
 
         var to = new GOAPState();
         to.values.intValues[GOAPParametersName.CharLife] = minLifeValue;
