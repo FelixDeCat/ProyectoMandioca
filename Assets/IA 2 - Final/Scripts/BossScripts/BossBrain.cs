@@ -129,6 +129,7 @@ public class BossBrain
                                                          if(x.boolValues[GOAPParametersName.AbilityOnCooldown]) return true;
                                                              else return false; } })
                                                  .Pre(x => x.boolValues[GOAPParametersName.AttackOnCooldown] ? true : false)
+                                                 .Pre(x=>x.intValues[GOAPParametersName.Stamina] > 0)
                                                  .Effect(x => x.boolValues[GOAPParametersName.AbilityOnCooldown] = false)
                                                  .Effect(x => x.boolValues[GOAPParametersName.AttackOnCooldown] = false)
                                                  .LinkedState(idleState),
@@ -147,6 +148,7 @@ public class BossBrain
                                               new GOAPAction(GOAPStatesName.OnShootAttack)
                                                  .Pre(x=> x.floatValues[GOAPParametersName.CharDistance]>distanceToMele ? true : false)
                                                  .Pre(x=> !x.boolValues[GOAPParametersName.AttackOnCooldown] ? true : false)
+                                                 .Pre(x=>x.intValues[GOAPParametersName.Stamina] > 0)
                                                  .Effect(x=> x.boolValues[GOAPParametersName.AttackOnCooldown] = true)
                                                  .Effect(x => {
                                                      x.intValues[GOAPParametersName.CharLife] -= x.boolValues[GOAPParametersName.ShieldActive] ?3000 : shootDamage;
@@ -166,6 +168,7 @@ public class BossBrain
                                                      if(x.intValues[GOAPParametersName.CharLife]<minLifeValue) x.intValues[GOAPParametersName.CharLife] = minLifeValue;
                                                      } )
                                                  .Effect(x=>x.stringValues[GOAPParametersName.CharAbilityMostUsed] = "Dash")
+                                                 .Effect(x=>x.stringValues[GOAPParametersName.LastOwnAbility] = "Flame")
                                                  .LinkedState(flameState),
 
                                               new GOAPAction(GOAPStatesName.OnSpawnAbility)
@@ -180,6 +183,7 @@ public class BossBrain
                                                      if(x.intValues[GOAPParametersName.CharLife]<minLifeValue) x.intValues[GOAPParametersName.CharLife] = minLifeValue;
                                                      } )
                                                  .Effect(x=>x.stringValues[GOAPParametersName.CharAbilityMostUsed] = "Heavy")
+                                                 .Effect(x=>x.stringValues[GOAPParametersName.LastOwnAbility] = "Spawn")
                                                  .Effect(x=>x.boolValues[GOAPParametersName.ShieldActive] = true)
                                                  .LinkedState(spawnState),
 
@@ -195,6 +199,7 @@ public class BossBrain
                                                      if(x.intValues[GOAPParametersName.CharLife]<minLifeValue) x.intValues[GOAPParametersName.CharLife] = minLifeValue;
                                                      } )
                                                  .Effect(x=>x.stringValues[GOAPParametersName.CharAbilityMostUsed] = "Parry")
+                                                 .Effect(x=>x.stringValues[GOAPParametersName.LastOwnAbility] = "Phantom")
                                                  .LinkedState(shootAbState),
 
                                               new GOAPAction(GOAPStatesName.OnStunAbility)
@@ -229,6 +234,7 @@ public class BossBrain
                                                      if(x.intValues[GOAPParametersName.CharLife]<0) x.intValues[GOAPParametersName.CharLife] = 0;
                                                      } )
                                                  .Effect(x=>x.stringValues[GOAPParametersName.CharAbilityMostUsed] = "Dash")
+                                                 .Effect(x=>x.stringValues[GOAPParametersName.LastOwnAbility] = "Flame")
                                                  .LinkedState(flameState),
 
                                               new GOAPAction(GOAPStatesName.OnSpawnAbility)
@@ -245,6 +251,7 @@ public class BossBrain
                                                      if(x.intValues[GOAPParametersName.CharLife]<0) x.intValues[GOAPParametersName.CharLife] = 0;
                                                      } )
                                                  .Effect(x=>x.stringValues[GOAPParametersName.CharAbilityMostUsed] = "Heavy")
+                                                 .Effect(x=>x.stringValues[GOAPParametersName.LastOwnAbility] = "Spawn")
                                                  .Effect(x=>x.boolValues[GOAPParametersName.ShieldActive] = true)
                                                  .LinkedState(spawnState),
 
@@ -262,6 +269,7 @@ public class BossBrain
                                                      if(x.intValues[GOAPParametersName.CharLife]<0) x.intValues[GOAPParametersName.CharLife] = 0;
                                                      } )
                                                  .Effect(x=>x.stringValues[GOAPParametersName.CharAbilityMostUsed] = "Parry")
+                                                 .Effect(x=>x.stringValues[GOAPParametersName.LastOwnAbility] = "Phantom")
                                                  .LinkedState(shootAbState),
                                           };
 

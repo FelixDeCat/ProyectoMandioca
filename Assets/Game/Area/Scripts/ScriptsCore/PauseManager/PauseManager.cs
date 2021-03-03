@@ -109,7 +109,7 @@ public class PauseManager : MonoBehaviour
     public void ReturnToMenu()
     {
         var myGameCores = FindObjectsOfType<DontDestroy>().Where(x => x.transform != transform.parent).ToArray();
-        NewSceneStreamer.instance.RemoveToSceneLoaded();
+        NewSceneStreamer.instance?.RemoveToSceneLoaded();
 
         for (int i = 0; i < myGameCores.Length; i++)
             Destroy(myGameCores[i].gameObject);

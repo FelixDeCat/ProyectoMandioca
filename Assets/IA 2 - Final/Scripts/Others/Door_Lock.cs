@@ -19,7 +19,6 @@ public class Door_Lock : MonoBehaviour
         if (other.gameObject.GetComponent<Key_container>())
         {
             OpenDoor(true);
-           
         }
     }
 

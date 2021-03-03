@@ -62,9 +62,7 @@ public class TPSkill : BossSkills
         playerDir.y = 0;
         dirToPlayer.y = 0;
 
-        Vector3 firstTest = -dirToPlayer;
-
-        if (!Physics.Raycast(model.position, firstTest, minDistance, wallLayer, QueryTriggerInteraction.Ignore)){ return firstTest;}
-        return dirToPlayer;
+        if (!Physics.Raycast(model.position, dirToPlayer, minDistance, wallLayer, QueryTriggerInteraction.Ignore)){ return dirToPlayer; }
+        return -dirToPlayer;
     }
 }

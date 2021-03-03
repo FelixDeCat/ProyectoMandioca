@@ -44,7 +44,14 @@ namespace IA2Final.FSM
                     return this;
                 }
             }
-            if (!model.AbilityOnCooldown && !model.ShieldActive)
+            if(!model.ShieldActive && model.CurrentStamina <= 0)
+            {
+                if (Transitions.ContainsKey(GOAPStatesName.OnStunAbility)) return Transitions[GOAPStatesName.OnStunAbility];
+
+                OnNeedsReplan?.Invoke();
+                return this;
+            }
+            else if (!model.AbilityOnCooldown && !model.ShieldActive)
             {
                 if (Transitions.ContainsKey(GOAPStatesName.OnFlameAbility)) return Transitions[GOAPStatesName.OnFlameAbility];
                 else if (Transitions.ContainsKey(GOAPStatesName.OnShootAbility)) return Transitions[GOAPStatesName.OnShootAbility];

@@ -37,6 +37,7 @@ namespace IA2Final
         public static FiniteStateMachine ConfigureFSM(IEnumerable<GOAPAction> plan, Func<IEnumerator, Coroutine> startCoroutine)
         {
             var prevState = plan.First().linkedState;
+            foreach(var action in plan) action.linkedState.Transitions = new Dictionary<string, IState>();
 
             var fsm = new FiniteStateMachine(prevState, startCoroutine);
 

@@ -209,13 +209,14 @@ public class BossModel : EnemyBase
     #region Functions to States
     public void ChangeLastAbility(string last)
     {
-        if (last == lastAbilityUsed)
-            MyAbilityMostUsed = last;
-        else
-        {
-            MyAbilityMostUsed = "";
-            lastAbilityUsed = last;
-        }
+        MyAbilityMostUsed = last;
+        //if (last == lastAbilityUsed)
+        //    MyAbilityMostUsed = last;
+        //else
+        //{
+        //    MyAbilityMostUsed = "";
+        //    lastAbilityUsed = last;
+        //}
     }
 
     public void RotateToChar()

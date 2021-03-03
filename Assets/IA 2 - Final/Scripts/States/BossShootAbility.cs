@@ -53,6 +53,14 @@ namespace IA2Final.FSM
 
             if (Transitions.Count != 0)
             {
+                if(model.CurrentStamina <= 0)
+                {
+                    if (Transitions.ContainsKey(GOAPStatesName.OnStunAbility)) return Transitions[GOAPStatesName.OnStunAbility];
+
+                    OnNeedsReplan?.Invoke();
+                    return this;
+                }
+
                 if (!model.TPOnCooldown && model.DistanceToCharacter())
                 {
                     OnNeedsReplan?.Invoke();
