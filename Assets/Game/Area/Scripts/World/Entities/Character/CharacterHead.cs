@@ -1065,7 +1065,7 @@ public class CharacterHead : CharacterControllable
     {
         [SerializeField] UnityEngine.UI.Text txt_debug = null;
         public void DebugState(string state) { if (txt_debug != null) txt_debug.text = state; }
-        public void StartDebug() { if (txt_debug != null) txt_debug.enabled = false; DevelopTools.UI.Debug_UI_Tools.instance.CreateToogle("Character State Machine Debug", true, ToogleDebug); }
+        public void StartDebug() { if (txt_debug != null) txt_debug.enabled = false; DevelopTools.UI.Debug_UI_Tools.instance.CreateToogle("Character State Machine Debug", false, ToogleDebug); }
         string ToogleDebug(bool active) { if (txt_debug != null) txt_debug.enabled = active; return active ? "debug activado" : "debug desactivado"; }
     }
     #endregion

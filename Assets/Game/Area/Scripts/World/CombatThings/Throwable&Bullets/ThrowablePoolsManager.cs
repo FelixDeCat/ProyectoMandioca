@@ -9,10 +9,10 @@ public class ThrowablePoolsManager : MonoBehaviour
     
     public Dictionary<string, PoolThrowable> registry = new Dictionary<string, PoolThrowable>();
 
-    public void Throw(string pool_name, ThrowData _trowData)
+    public Throwable Throw(string pool_name, ThrowData _trowData)
     {
             if (registry[pool_name] == null) { throw new System.Exception("ERROR: no hay un pool con ese nombre");}
-        registry[pool_name].Throw(_trowData);
+        return registry[pool_name].Throw(_trowData);
 
 
     }

@@ -1,13 +1,15 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using TMPro;
 
 public class BossBarGeneric : MonoBehaviour
 {
     public static BossBarGeneric instance;
     private void Awake() => instance = this;
-    [SerializeField] GenericBar_Sprites bar = null;
-    [SerializeField] CanvasGroup cgroup = null;
+    [SerializeField] GenericBar_Sprites bar;
+    [SerializeField] CanvasGroup cgroup;
+    [SerializeField] TextMeshProUGUI percentTxt = null;
     float timer;
     bool anim;
     bool open;
@@ -24,7 +26,7 @@ public class BossBarGeneric : MonoBehaviour
     public void OpenBar() { anim = true; timer = 0; open = true; }
     public void CloseBar() { anim = true; timer = 0; open = false; }
     public void Hit() { anim_color = true; timer_color = 0; color_go = true; }
-    public void Set_Life(float current, float max) { Hit(); bar.Configure(max, 0.01f); bar.SetValue(current); }
+    public void Set_Life(float current, float max) { Hit(); bar.Configure(max, 0.01f); bar.SetValue(current); percentTxt.text = "" + (int)((current / max) * 100) + "%"; }
 
     void Update()
     {

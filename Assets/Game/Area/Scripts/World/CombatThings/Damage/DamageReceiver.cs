@@ -165,10 +165,9 @@ public class DamageReceiver : MonoBehaviour
         }
 
         bool death = _LifeSystem.Hit(dmg);
+            takeDmg?.Invoke(data);
 
         if (death) OnDead?.Invoke(data.attackDir);
-        
-       takeDmg?.Invoke(data);
 
         return death ? Attack_Result.death : Attack_Result.sucessful;
     }
