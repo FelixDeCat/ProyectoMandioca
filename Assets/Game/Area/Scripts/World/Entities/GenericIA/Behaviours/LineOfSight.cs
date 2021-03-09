@@ -43,7 +43,7 @@ public class LineOfSight : MonoBehaviour
             RaycastHit raycastInfo;
             bool obstaclesBetween = true;
 
-            if (Physics.Raycast(myTransform.position + offset , _directionToTarget , out raycastInfo, 100, layermask, QueryTriggerInteraction.Ignore))
+            if (Physics.Raycast(myTransform.position + offset , _directionToTarget , out raycastInfo, viewDistance, layermask, QueryTriggerInteraction.Ignore))
             {
                 if (raycastInfo.transform == _target)
                     obstaclesBetween = false;
@@ -75,7 +75,7 @@ public class LineOfSight : MonoBehaviour
 
             Gizmos.DrawSphere(target.position, 0.1f);
             //   Gizmos.DrawLine(myTransform.position + offset, target.position + offset);
-            Gizmos.DrawRay(myTransform.position+ offset, dir +offset);
+            Gizmos.DrawLine(myTransform.position+ offset, myTransform.position + offset + dir * viewDistance);
         }
 
        

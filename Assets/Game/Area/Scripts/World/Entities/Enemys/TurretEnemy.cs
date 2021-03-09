@@ -40,6 +40,7 @@ public class TurretEnemy : PlayObject
     {
         target = Main.instance.GetChar().transform;
         dmgData.SetDamage(damage).SetDamageInfo(DamageInfo.NonBlockAndParry).SetDamageType(dmgType).SetKnockback(knockback);
+        lineOfSight?.Configurate(transform);
     }
     protected override void OnTurnOn()
     {
@@ -93,21 +94,23 @@ public class TurretEnemy : PlayObject
     {
     }
 
-    void RayController()
+    void RayController(Vector3 dir)
     {
         if (shooting)
         {
             RaycastHit hit;
 
-            if (!damageOn && Physics.Raycast(rayStartPosition.position, root.forward, out hit, rayDistance, contactMask, QueryTriggerInteraction.Ignore))
+            if (Physics.Raycast(rayStartPosition.position, dir, out hit, rayDistance, contactMask, QueryTriggerInteraction.Ignore))
             {
-                ray.transform.localScale = new Vector3(ray.transform.localScale.x, Vector3.Distance(ray.transform.position, hit.point), ray.transform.localScale.z);
-                if (hit.collider.GetComponent<DamageReceiver>())
+                ray.transform.localScale = new Vector3(ray.transform.localScale.x, Vector3.Distance(ray.transform.position, hit.point) / 2, ray.transform.localScale.z);
+                if (!damageOn && hit.collider.GetComponent<DamageReceiver>())
                 {
                     hit.collider.GetComponent<DamageReceiver>().TakeDamage(dmgData.SetPositionAndDirection(root.position, root.forward));
                     damageOn = true;
                 }
             }
+            else
+                ray.transform.localScale = new Vector3(ray.transform.localScale.x, rayDistance / 2, ray.transform.localScale.z);
 
             if (timer >= rayDuration)
             {
@@ -123,6 +126,7 @@ public class TurretEnemy : PlayObject
                 timer = 0;
                 shooting = true;
                 ray.SetActive(true);
+                ray.transform.up = root.forward;
             }
         }
     }
@@ -132,10 +136,11 @@ public class TurretEnemy : PlayObject
         if (lineOfSight.OnSight(target))
         {
             Vector3 dir = (target.position - transform.position).normalized;
+            Vector3 secondDir = (target.position+ lineOfSight.offset - rayStartPosition.position).normalized;
             root.forward = Vector3.Lerp(root.forward, dir, Time.deltaTime * rotSpeed);
+            ray.transform.up = secondDir;
             timer += Time.deltaTime;
-
-            RayController();
+            RayController(secondDir);
         }
         else if (timer != 0 || shooting != false)
         {
@@ -149,7 +154,7 @@ public class TurretEnemy : PlayObject
     {
         timer += Time.deltaTime;
 
-        RayController();
+        RayController(root.forward);
     }
     float rooting;
     Vector3 startDir;
@@ -163,18 +168,21 @@ public class TurretEnemy : PlayObject
 
             RaycastHit hit;
 
-            if (!damageOn && Physics.Raycast(rayStartPosition.position, root.forward, out hit, rayDistance, contactMask, QueryTriggerInteraction.Ignore))
+            if (Physics.Raycast(rayStartPosition.position, root.forward, out hit, rayDistance, contactMask, QueryTriggerInteraction.Ignore))
             {
-                ray.transform.localScale = new Vector3(ray.transform.localScale.x, Vector3.Distance(ray.transform.position, hit.point), ray.transform.localScale.z);
-                if (hit.collider.GetComponent<DamageReceiver>())
+                ray.transform.localScale = new Vector3(ray.transform.localScale.x, Vector3.Distance(ray.transform.position, hit.point) / 2, ray.transform.localScale.z);
+                if (!damageOn && hit.collider.GetComponent<DamageReceiver>())
                 {
                     hit.collider.GetComponent<DamageReceiver>().TakeDamage(dmgData.SetPositionAndDirection(root.position, root.forward));
                     damageOn = true;
                 }
             }
+            else
+                ray.transform.localScale = new Vector3(ray.transform.localScale.x, rayDistance / 2, ray.transform.localScale.z);
 
             if (rooting >= 1)
             {
+                rooting = 0;
                 shooting = false;
                 root.forward = finalDir;
                 ray.SetActive(false);
@@ -183,7 +191,7 @@ public class TurretEnemy : PlayObject
         else
         {
             timer += Time.deltaTime;
-            root.forward = Vector3.Lerp(finalDir, finalDir, timer/timeToActivateRay);
+            root.forward = Vector3.Lerp(finalDir, startDir, timer/timeToActivateRay);
 
             if (timer >= timeToActivateRay)
             {
@@ -191,6 +199,7 @@ public class TurretEnemy : PlayObject
                 root.forward = finalDir;
                 timer = 0;
                 ray.SetActive(true);
+                ray.transform.up = root.forward;
             }
         }
     }
