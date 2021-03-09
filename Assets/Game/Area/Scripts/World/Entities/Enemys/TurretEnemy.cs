@@ -28,6 +28,7 @@ public class TurretEnemy : PlayObject
     [SerializeField] LineOfSight lineOfSight = null;
     [SerializeField] float rotSpeed = 5;
 
+    float animSpeed;
     float timer = 0;
     bool shooting;
     bool damageOn;
@@ -73,15 +74,19 @@ public class TurretEnemy : PlayObject
 
     protected override void OnPause()
     {
+        animSpeed = anim.speed;
+        anim.speed = 0;
     }
 
     protected override void OnResume()
     {
+        anim.speed = animSpeed;
     }
 
     protected override void OnTurnOff()
     {
         ray.SetActive(false);
+        anim.SetBool("Shoot", false);
         shooting = false;
         damageOn = false;
         damageTimer = 0;
@@ -114,6 +119,7 @@ public class TurretEnemy : PlayObject
 
             if (timer >= rayDuration)
             {
+                anim.SetBool("Shoot", false);
                 shooting = false;
                 timer = 0;
                 ray.SetActive(false);
@@ -123,6 +129,7 @@ public class TurretEnemy : PlayObject
         {
             if(timer>= timeToActivateRay)
             {
+                anim.SetBool("Shoot", true);
                 timer = 0;
                 shooting = true;
                 ray.SetActive(true);
@@ -146,6 +153,7 @@ public class TurretEnemy : PlayObject
         {
             ray.SetActive(false);
             shooting = false;
+            anim.SetBool("Shoot", false);
             timer = 0;
         }
     }
@@ -183,6 +191,7 @@ public class TurretEnemy : PlayObject
             if (rooting >= 1)
             {
                 rooting = 0;
+                anim.SetBool("Shoot", false);
                 shooting = false;
                 root.forward = finalDir;
                 ray.SetActive(false);
@@ -198,6 +207,7 @@ public class TurretEnemy : PlayObject
                 shooting = true;
                 root.forward = finalDir;
                 timer = 0;
+                anim.SetBool("Shoot", true);
                 ray.SetActive(true);
                 ray.transform.up = root.forward;
             }
