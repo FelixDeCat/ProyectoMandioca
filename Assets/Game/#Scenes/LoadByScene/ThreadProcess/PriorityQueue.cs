@@ -5,63 +5,44 @@ using UnityEngine;
 
 public class PriorityQueue<T>
 {
-    public enum Priority { high, low, med }
+    public enum Priority { error ,high, low, med }
 
-    Dictionary<Priority, List<T>> allcollections = new Dictionary<Priority, List<T>>();
+    Dictionary<Priority, Queue<T>> elements = new Dictionary<Priority, Queue<T>>();
 
-    public void Enqueue(T val, Priority priority, bool _override = false)
+    public PriorityQueue()
     {
-        if (!allcollections[priority].Contains(val))
-        {
-            allcollections[priority].Add(val);
-        }
-        else
-        {
-            if (_override)
-            {
-                for (int i = 0; i < allcollections[priority].Count; i++)
-                {
-                    if (allcollections[priority].Equals(val))
-                    {
-
-                        break;
-                    }
-                    else
-                    {
-                        continue;
-                    }
-                }
-            }
-        }
-
+        elements.Add(Priority.high, new Queue<T>());
+        elements.Add(Priority.med, new Queue<T>());
+        elements.Add(Priority.low, new Queue<T>());
     }
 
+    public void Add_ElementByPriority(T obj, Priority priority)
+    {
+        elements[priority].Enqueue(obj);
+    }
 
-    //public T Dequeue()
-    //{
+    public T Pull()
+    {
+        Priority pr = Priority.error;
+        for (int i = 0; i < elements.Count; i++)
+        {
+            if (elements[IndexToPriority(i)].Count > 0)
+            {
+                pr = IndexToPriority(i);
+                break;
+            }
+        }
+        if (pr == Priority.error) { throw new Exception(); }
+        return elements[pr].Dequeue();
+    }
 
-    //}
+    private Priority IndexToPriority(int index)
+    {
+        if (index == 0) return Priority.high;
+        if (index == 1) return Priority.med;
+        if (index == 2) return Priority.low;
+        return Priority.error;
+    }
 
-
-
-    /*
-     
-     entra 1, T con su priority
-    selecciono la colleccion
-    lo agrego
-
-    tiene que tener remove
-
-    tiene que tener...
-
-    //parte de queue
-    peek
-    enqueue
-    dequeue
-    //parte de lista
-    remove
-    removeAt
-     
-     */
 
 }
