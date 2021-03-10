@@ -187,10 +187,11 @@ Shader "Others/Effects/DecalFireDepth"
 				float4 screenPos = i.ase_texcoord1;
 				float4 ase_screenPosNorm = screenPos / screenPos.w;
 				ase_screenPosNorm.z = ( UNITY_NEAR_CLIP_VALUE >= 0 ) ? ase_screenPosNorm.z : ase_screenPosNorm.z * 0.5 + 0.5;
-				float2 UV22_g3 = ase_screenPosNorm.xy;
+				float2 temp_output_73_0_g1 = ase_screenPosNorm.xy;
+				float2 UV22_g3 = float4( temp_output_73_0_g1, 0.0 , 0.0 ).xy;
 				float2 localUnStereo22_g3 = UnStereo( UV22_g3 );
 				float2 break64_g1 = localUnStereo22_g3;
-				float clampDepth69_g1 = SAMPLE_DEPTH_TEXTURE( _CameraDepthTexture, ase_screenPosNorm.xy );
+				float clampDepth69_g1 = SAMPLE_DEPTH_TEXTURE( _CameraDepthTexture, float4( temp_output_73_0_g1, 0.0 , 0.0 ).xy );
 				#ifdef UNITY_REVERSED_Z
 				float staticSwitch38_g1 = ( 1.0 - clampDepth69_g1 );
 				#else
@@ -220,8 +221,8 @@ Shader "Others/Effects/DecalFireDepth"
 }
 /*ASEBEGIN
 Version=18301
-0;416;970;273;39.93457;228.257;1;True;False
-Node;AmplifyShaderEditor.FunctionNode;1;-898.9636,-28.76183;Inherit;False;Reconstruct World Position From Depth;-1;;1;e7094bcbcc80eb140b2a3dbe6a861de8;0;0;1;FLOAT4;0
+0;416;1017;273;-24.23529;148.3202;1.113095;True;False
+Node;AmplifyShaderEditor.FunctionNode;1;-898.9636,-28.76183;Inherit;False;Reconstruct World Position From Depth;-1;;1;e7094bcbcc80eb140b2a3dbe6a861de8;0;1;73;FLOAT2;0,0;False;1;FLOAT4;0
 Node;AmplifyShaderEditor.TransformPositionNode;5;-559.7772,-34.97086;Inherit;False;World;Object;False;Fast;True;1;0;FLOAT3;0,0,0;False;4;FLOAT3;0;FLOAT;1;FLOAT;2;FLOAT;3
 Node;AmplifyShaderEditor.ScaleNode;11;-364.2932,-29.05496;Inherit;False;2;1;0;FLOAT3;0,0,0;False;1;FLOAT3;0
 Node;AmplifyShaderEditor.LengthOpNode;7;-233.3047,-30.65215;Inherit;False;1;0;FLOAT3;0,0,0;False;1;FLOAT;0
@@ -262,4 +263,4 @@ WireConnection;15;0;20;0
 WireConnection;15;3;17;0
 WireConnection;0;0;15;0
 ASEEND*/
-//CHKSM=05ABAE674D8727D612CE279BB712F0D9332E038F
+//CHKSM=8CFE612980BF3EB19FBC2248953DE9D30A5DA09A
