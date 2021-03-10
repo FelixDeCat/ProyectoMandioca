@@ -191,7 +191,7 @@ Shader "Test/DecalBox"
 }
 /*ASEBEGIN
 Version=18301
-0;385;1004;304;881.2039;184.4353;1;True;False
+0;416;1017;273;1336.131;118.7714;2.25225;True;False
 Node;AmplifyShaderEditor.FunctionNode;1;-1693.757,61.22354;Inherit;False;Reconstruct World Position From Depth;-1;;1;e7094bcbcc80eb140b2a3dbe6a861de8;0;1;73;FLOAT2;0,0;False;1;FLOAT4;0
 Node;AmplifyShaderEditor.TransformPositionNode;2;-1093.208,83.73988;Inherit;False;World;Object;False;Fast;True;1;0;FLOAT3;0,0,0;False;4;FLOAT3;0;FLOAT;1;FLOAT;2;FLOAT;3
 Node;AmplifyShaderEditor.RangedFloatNode;11;-988.7958,276.4491;Inherit;False;Property;_Size;Size;1;0;Create;True;0;0;False;0;False;0;0;0;0;0;1;FLOAT;0
@@ -220,11 +220,11 @@ Node;AmplifyShaderEditor.SimpleMultiplyOpNode;10;38.37851,-52.18427;Inherit;Fals
 Node;AmplifyShaderEditor.RangedFloatNode;44;-188.6198,179.5418;Inherit;False;Property;_Opacity;Opacity;6;0;Create;True;0;0;False;0;False;0;1;0;1;0;1;FLOAT;0
 Node;AmplifyShaderEditor.DynamicAppendNode;4;251.9895,-73.43882;Inherit;False;FLOAT4;4;0;FLOAT;0;False;1;FLOAT;0;False;2;FLOAT;0;False;3;FLOAT;0;False;1;FLOAT4;0
 Node;AmplifyShaderEditor.VertexColorNode;34;400.0615,219.1587;Inherit;False;0;5;COLOR;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
-Node;AmplifyShaderEditor.ColorNode;5;121.9593,43.96516;Inherit;False;Property;_ColorRune;Color Rune;0;1;[HDR];Create;True;0;0;False;0;False;0,0,0,0;38.93715,0,32.82137,0;True;0;5;COLOR;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
+Node;AmplifyShaderEditor.ColorNode;5;121.9593,43.96516;Inherit;False;Property;_ColorRune;Color Rune;0;1;[HDR];Create;True;0;0;False;0;False;0,0,0,0;51.98415,0,2.492431,0;True;0;5;COLOR;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
 Node;AmplifyShaderEditor.SimpleMultiplyOpNode;14;419.8333,-61.69406;Inherit;False;2;2;0;FLOAT4;0,0,0,0;False;1;COLOR;0,0,0,0;False;1;FLOAT4;0
 Node;AmplifyShaderEditor.SimpleMultiplyOpNode;43;564.2589,86.58283;Inherit;False;2;2;0;COLOR;0,0,0,0;False;1;FLOAT;0;False;1;COLOR;0
 Node;AmplifyShaderEditor.SimpleMultiplyOpNode;33;606.8981,-62.3937;Inherit;False;2;2;0;FLOAT4;0,0,0,0;False;1;COLOR;0,0,0,0;False;1;FLOAT4;0
-Node;AmplifyShaderEditor.TemplateMultiPassMasterNode;0;764.3102,-45.8551;Float;False;True;-1;2;ASEMaterialInspector;100;1;Test/DecalBox;0770190933193b94aaa3065e307002fa;True;Unlit;0;0;Unlit;2;True;3;1;False;-1;10;False;-1;0;1;False;-1;0;False;-1;True;0;False;-1;0;False;-1;False;False;False;False;False;False;True;0;False;-1;True;0;False;-1;True;True;True;True;True;0;False;-1;False;False;False;True;False;255;False;-1;255;False;-1;255;False;-1;7;False;-1;1;False;-1;1;False;-1;1;False;-1;7;False;-1;1;False;-1;1;False;-1;1;False;-1;True;1;False;-1;True;3;False;-1;True;True;0;False;-1;0;False;-1;True;1;RenderType=Opaque=RenderType;True;2;0;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;1;LightMode=ForwardBase;False;0;;0;0;Standard;1;Vertex Position,InvertActionOnDeselection;1;0;1;True;False;;0
+Node;AmplifyShaderEditor.TemplateMultiPassMasterNode;0;733.3102,-60.8551;Float;False;True;-1;2;ASEMaterialInspector;100;1;Test/DecalBox;0770190933193b94aaa3065e307002fa;True;Unlit;0;0;Unlit;2;True;3;1;False;-1;10;False;-1;0;1;False;-1;0;False;-1;True;0;False;-1;0;False;-1;False;False;False;False;False;False;True;0;False;-1;True;0;False;-1;True;True;True;True;True;0;False;-1;False;False;False;True;False;255;False;-1;255;False;-1;255;False;-1;7;False;-1;1;False;-1;1;False;-1;1;False;-1;7;False;-1;1;False;-1;1;False;-1;1;False;-1;True;1;False;-1;True;3;False;-1;True;True;0;False;-1;0;False;-1;True;1;RenderType=Opaque=RenderType;True;2;0;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;1;LightMode=ForwardBase;False;0;;0;0;Standard;1;Vertex Position,InvertActionOnDeselection;1;0;1;True;False;;0
 WireConnection;2;0;1;0
 WireConnection;12;0;2;0
 WireConnection;12;1;11;0
@@ -265,4 +265,4 @@ WireConnection;33;0;14;0
 WireConnection;33;1;43;0
 WireConnection;0;0;33;0
 ASEEND*/
-//CHKSM=55BD0F552141E5216FBD1EC15788A31DA286BC48
+//CHKSM=487F4087F11D1E55C06A423AB9A6E42A5D8D6360
