@@ -16,11 +16,13 @@ public class ElectricOrb : Waves
     [SerializeField] float orbRadiusExplosion = 6;
     [SerializeField] float explosionKnocback = 200;
     [SerializeField] int explosionDMG = 5;
+    [SerializeField] ParticleSystem explosionPart = null;
     [SerializeField] Waves prefabBullet = null;
     [SerializeField] Collider myCollider = null;
     protected override void Start()
     {
         base.Start();
+        ParticlesManager.Instance.GetParticlePool(explosionPart.name, explosionPart);
     }
 
     protected override void Update()
@@ -31,6 +33,11 @@ public class ElectricOrb : Waves
 
     public void Explode()
     {
+
+        ParticlesManager.Instance.PlayParticle(explosionPart.name,transform.position);
+
+        Main.instance.GetMyCamera().BeginShakeCamera(/*poner aca el valor que quiera*/);
+        Main.instance.Vibrate();
         myCollider.enabled = false;
 
         var enemies = Extensions.FindInRadius<DamageReceiver>(this.transform.position, orbRadiusExplosion);
@@ -60,6 +67,8 @@ public class ElectricOrb : Waves
     protected override void OnTriggerEnter(Collider other)
     {
         base.OnTriggerEnter(other);
+        if (other.GetComponent<EnemyBase>())
+            Explode();
         damageTimer = 0;
     }
 

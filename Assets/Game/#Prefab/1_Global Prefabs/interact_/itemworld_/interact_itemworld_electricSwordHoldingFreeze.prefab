@@ -336,7 +336,6 @@ GameObject:
   - component: {fileID: 5996067234966134578}
   - component: {fileID: 137521589715409176}
   - component: {fileID: 8963359842929995918}
-  - component: {fileID: 7974235905523158930}
   - component: {fileID: 4188159900316964273}
   m_Layer: 0
   m_Name: equiped
@@ -422,18 +421,7 @@ MonoBehaviour:
         m_CallState: 2
   EV_UpdateUse:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 5996067234966134578}
-        m_MethodName: OnUpdate
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
   EV_Equip:
     m_PersistentCalls:
       m_Calls:
@@ -448,7 +436,7 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-      - m_Target: {fileID: 7974235905523158930}
+      - m_Target: {fileID: 0}
         m_MethodName: OnEquip
         m_Mode: 1
         m_Arguments:
@@ -462,7 +450,7 @@ MonoBehaviour:
   EV_Unequip:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 7974235905523158930}
+      - m_Target: {fileID: 5996067234966134578}
         m_MethodName: OnUnequip
         m_Mode: 1
         m_Arguments:
@@ -475,18 +463,7 @@ MonoBehaviour:
         m_CallState: 2
   EV_Equip_Update:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 5996067234966134578}
-        m_MethodName: OnUpdate
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
 --- !u!114 &5996067234966134578
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -505,7 +482,7 @@ MonoBehaviour:
   cooldown: 0.3
   electricOrb: {fileID: 6818310375270316040, guid: ee24ce74c1c09e243a88141f1c35460a,
     type: 3}
-  orbSpeed: 1.25
+  orbSpeed: 2.5
   orbLifeTime: 6
   charSpeed: 0
 --- !u!114 &137521589715409176
@@ -537,26 +514,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5ec55efb820a944499bb93082517942a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  cooldown: 2.5
---- !u!114 &7974235905523158930
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5996067234966134579}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 88b70cac46bcc154aab18dc172bd9fb0, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  range: 7
-  knockbackFoes: 3000
-  damage: 25
-  stunTimer: 2.5
-  damageType: 3
-  particlesLindas: {fileID: 7533945366381977600, guid: 7263f956c13a734489ee9e2da4da731b,
-    type: 3}
+  cooldown: 8
 --- !u!114 &4188159900316964273
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -581,6 +539,7 @@ MonoBehaviour:
   damageTime: 0
   attackDir: {x: 0, y: 0, z: 0}
   owner: {fileID: 0}
+  ownerRoot: {fileID: 0}
 --- !u!1 &6409254428324394772
 GameObject:
   m_ObjectHideFlags: 0

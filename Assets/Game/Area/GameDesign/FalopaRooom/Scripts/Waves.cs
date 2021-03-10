@@ -14,6 +14,11 @@ public class Waves : MonoBehaviour
 
     protected virtual void Start()
     {
+        OnInitialize();
+    }
+
+    public virtual void OnInitialize()
+    {
         dmgDATA = GetComponent<DamageData>();
         if (canDamageEnemy)
             dmgDATA.Initialize(Main.instance.GetChar());

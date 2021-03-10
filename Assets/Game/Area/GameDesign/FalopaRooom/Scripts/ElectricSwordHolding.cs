@@ -45,30 +45,46 @@ public class ElectricSwordHolding : MonoBehaviour
     {
         if (!canUpdate) return;
         timer += Time.deltaTime;
-        if (timer >= cooldown)
+       /* if (timer >= cooldown)
         {
             ExecuteLong();
             canUpdate = false;
-        }
+        }*/
     }
 
     public void OnEquip()
     {
         //Sonidos?
         myChar = Main.instance.GetChar();
-        myChar.charAnimEvent.Add_Callback(spawnBullet, Spawn);
+        myChar.charAnimEvent.Add_Callback(spawnBullet, DetonateOrb);
         myChar.charAnimEvent.Add_Callback(spawnOrb, InstantiateOrb);
+    }
+
+    public void OnEquipAux()
+    {
+        //Sonidos?
+        myChar = Main.instance.GetChar();
+        myChar.charAnimEvent.Add_Callback(spawnBullet, InstantiateOrb);
+        myChar.charAnimEvent.Add_Callback(spawnOrb,DetonateOrb );
     }
     public void UnEquip()
     {
-        myChar.charAnimEvent.Remove_Callback(spawnBullet, Spawn);
+        myChar.charAnimEvent.Remove_Callback(spawnBullet, DetonateOrb);
         myChar.charAnimEvent.Remove_Callback(spawnOrb, InstantiateOrb);
+        //Sonidos? quiza
+    }
+
+    public void UnEquipAux()
+    {
+        myChar.charAnimEvent.Remove_Callback(spawnBullet, InstantiateOrb);
+        myChar.charAnimEvent.Remove_Callback(spawnOrb, DetonateOrb);
         //Sonidos? quiza
     }
 
     public void OnExecute(int charges)
     {
-        if (charges == 0) ExecuteShort();
+        //if (charges == 0)
+            ExecuteShort();
     }
 
     void InstantiateOrb()
@@ -88,6 +104,23 @@ public class ElectricSwordHolding : MonoBehaviour
     {
         myChar.charanim.ThrowLightningBullets();
         //Aca llamo al animator para que empiece a disparar
+    }
+
+    void DetonateOrb()
+    {
+        var orb = Instantiate(electricOrb);
+        orb.SetSpeed(orbSpeed).SetLifeTime(orbLifeTime);
+        orb.transform.forward = myChar.GetCharMove().GetRotatorDirection();
+        orb.transform.position = myChar.transform.position + Vector3.up + orb.transform.forward;
+        StartCoroutine(AndaBienPls(orb));
+        /*orb.OnInitialize();
+        orb.Explode()*/
+    }
+
+    IEnumerator AndaBienPls(ElectricOrb orb)
+    {
+        yield return new WaitForEndOfFrame();
+        orb.Explode();
     }
 
     void Spawn()

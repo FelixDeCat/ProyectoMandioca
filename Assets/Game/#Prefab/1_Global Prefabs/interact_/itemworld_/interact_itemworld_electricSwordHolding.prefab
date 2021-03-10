@@ -308,6 +308,7 @@ MonoBehaviour:
   - {fileID: 6168525697419640368}
   _withDelay: 0
   delayTime: 0
+  drawGizmos: 0
   UE_OnEnter:
     m_PersistentCalls:
       m_Calls: []
@@ -320,6 +321,7 @@ MonoBehaviour:
   PressUp:
     m_PersistentCalls:
       m_Calls: []
+  executing: 0
   item: {fileID: 11400000, guid: 427bdc3aaeecabc48aab5f79fb0f9706, type: 2}
   canrecolectoranim: 0
   to_collect:
@@ -457,6 +459,12 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+  EV_RAW_BeginUse:
+    m_PersistentCalls:
+      m_Calls: []
+  EV_RAW_EndUse:
+    m_PersistentCalls:
+      m_Calls: []
   EV_Execute:
     m_PersistentCalls:
       m_Calls:
@@ -489,7 +497,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 8183936281229808298}
-        m_MethodName: OnEquip
+        m_MethodName: OnEquipAux
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -501,7 +509,18 @@ MonoBehaviour:
         m_CallState: 2
   EV_Unequip:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 8183936281229808298}
+        m_MethodName: UnEquipAux
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   EV_Equip_Update:
     m_PersistentCalls:
       m_Calls:
@@ -534,9 +553,9 @@ MonoBehaviour:
   cooldown: 0.3
   electricOrb: {fileID: 6818310375270316040, guid: ee24ce74c1c09e243a88141f1c35460a,
     type: 3}
-  orbSpeed: 3
+  orbSpeed: 8
   orbLifeTime: 5
-  charSpeed: 2.5
+  charSpeed: 0
 --- !u!114 &2543956436091573376
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -551,6 +570,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   cast_type: 0
   AddCharges: 0
+  contextual_charge: {fileID: 0}
   casting: 0.2
 --- !u!114 &6827775377154669846
 MonoBehaviour:
@@ -564,7 +584,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5ec55efb820a944499bb93082517942a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  cooldown: 3
+  cooldown: 8
 --- !u!1 &8752117971065794028
 GameObject:
   m_ObjectHideFlags: 0
