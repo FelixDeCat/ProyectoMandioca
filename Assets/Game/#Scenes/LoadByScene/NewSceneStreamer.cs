@@ -39,13 +39,14 @@ public class NewSceneStreamer : MonoBehaviour
     {
         if (!string.IsNullOrEmpty(sceneName))
         {
-            ThreadHandler.EnqueueProcess(new ThreadObject(LoadCurrentScene(sceneName), "Chunk => " + sceneName), OnEnd);
+            ThreadHandler.EnqueueProcess(new ThreadObject(LoadCurrentScene(sceneName), "Chunk => " + sceneName), OnEnd, Felito_CustomCollections.Priority.high);
         }
         else Debug.LogWarning("Me llego string de escena nulo o vacio");
     }
 
     void OnEndLoad()
     {
+        Debug.Log("START GAME");
         GameLoop.instance.StartGame();
     }
     

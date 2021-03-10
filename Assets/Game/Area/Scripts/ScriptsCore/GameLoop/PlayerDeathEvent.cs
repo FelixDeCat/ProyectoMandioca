@@ -48,7 +48,7 @@ public class PlayerDeathEvent : MonoBehaviour
         if (EnemyManager.Instance)
             ThreadHandler.EnqueueProcess(
                 new ThreadObject(EnemyManager.Instance.ExecuteSceneRebuildEnemies(Checkpoint_Manager.instance.GetSceneToLoadFromCheckPoint()), "Respawneando Enemigos","null", RestartGame), 
-                RestartGame);
+                RestartGame, Felito_CustomCollections.Priority.high);
         else 
             RestartGame();
     }

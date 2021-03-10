@@ -125,12 +125,15 @@ public class LocalSceneHandler : LoadComponent
             }
             else
             {
-                ThreadHandler.EnqueueProcess(new ThreadObject(Inst(preftype), "+ " + this.gameObject.name + "::> " + preftype.ToString(), GetKeyByPrefType(preftype)));
-                if (preftype == PrefabType.gameplay) go = gameplay;
-                if (preftype == PrefabType.landmark) go = landmark;
-                if (preftype == PrefabType.low) go = low_detail;
-                if (preftype == PrefabType.med) go = medium_detail;
-                if (preftype == PrefabType.high) go = hight_detail;
+                Felito_CustomCollections.Priority priority = Felito_CustomCollections.Priority.high;
+
+                if (preftype == PrefabType.gameplay) { go = gameplay; priority = Felito_CustomCollections.Priority.high; }
+                if (preftype == PrefabType.landmark) { go = landmark; priority = Felito_CustomCollections.Priority.high; }
+                if (preftype == PrefabType.low) { go = low_detail; priority = Felito_CustomCollections.Priority.high; }
+                if (preftype == PrefabType.med) { go = medium_detail; priority = Felito_CustomCollections.Priority.med; }
+                if (preftype == PrefabType.high) { go = hight_detail; priority = Felito_CustomCollections.Priority.low; }
+
+                ThreadHandler.EnqueueProcess(new ThreadObject(Inst(preftype), "+ " + this.gameObject.name + "::> " + preftype.ToString(), GetKeyByPrefType(preftype)), null , priority);
 
                 if (go != null)
                 {
@@ -148,7 +151,7 @@ public class LocalSceneHandler : LoadComponent
             {
                 if (go.activeSelf)
                 {
-                    ThreadHandler.EnqueueProcess(new ThreadObject(ShutDownProcess(go), "(-)" + this.gameObject.name + preftype.ToString(), GetKeyByPrefType(preftype)));
+                    ThreadHandler.EnqueueProcess(new ThreadObject(ShutDownProcess(go), "(-)" + this.gameObject.name + preftype.ToString(), GetKeyByPrefType(preftype)), null, Felito_CustomCollections.Priority.low);
                 }
             }
         }
@@ -156,7 +159,7 @@ public class LocalSceneHandler : LoadComponent
         {
             if (go != null)
             {
-                ThreadHandler.EnqueueProcess(new ThreadObject(DestroyProcess(go), "(X)" + this.gameObject.name + preftype.ToString(), GetKeyByPrefType(preftype)));
+                ThreadHandler.EnqueueProcess(new ThreadObject(DestroyProcess(go), "(X)" + this.gameObject.name + preftype.ToString(), GetKeyByPrefType(preftype)), null, Felito_CustomCollections.Priority.low);
             }
         }
     }
@@ -173,7 +176,7 @@ public class LocalSceneHandler : LoadComponent
 
     IEnumerator ShutDownProcess(GameObject go)
     {
-        if(go) go.SetActive(false);
+        if (go) go.SetActive(false);
         yield return null;
     }
     IEnumerator DestroyProcess(GameObject go)
