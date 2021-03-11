@@ -36,7 +36,7 @@ public class ElectricOrb : Waves
 
         ParticlesManager.Instance.PlayParticle(explosionPart.name,transform.position);
 
-        Main.instance.GetMyCamera().BeginShakeCamera(/*poner aca el valor que quiera*/);
+        Main.instance.GetMyCamera().BeginShakeCamera(0.3f);
         Main.instance.Vibrate();
         myCollider.enabled = false;
 
