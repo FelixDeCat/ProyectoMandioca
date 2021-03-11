@@ -912,7 +912,9 @@ namespace AmplifyShaderEditor
 
 					for( int i = 0; i < texCount; i++ )
 					{
-						EditorGUI.DrawPreviewTexture( individuals, m_textures[ m_outputConns[ i ] ], null, ScaleMode.ScaleAndCrop );
+						
+						//EditorGUI.DrawPreviewTexture( individuals, m_textures[ m_outputConns[ i ] ], null, ScaleMode.ScaleAndCrop );
+						EditorGUI.DrawPreviewTexture( individuals, m_outputPorts[ m_outputConns[ i ] ].OutputPreviewTexture, null, ScaleMode.ScaleAndCrop );
 						individuals.y += individuals.height;
 					}
 				}
@@ -1315,6 +1317,22 @@ namespace AmplifyShaderEditor
 			IOUtils.AddFieldValueToString( ref nodeInfo, guid );
 			IOUtils.AddFieldValueToString( ref nodeInfo, m_textureCoordSet );
 			IOUtils.AddFieldValueToString( ref nodeInfo, m_autoNormal );
+		}
+
+		public override void RefreshExternalReferences()
+		{
+			base.RefreshExternalReferences();
+			if( m_substanceGraph != null )
+			{
+				int count = m_outputPorts.Count;
+				for( int i = 0; i < count; i++ )
+				{
+					if( m_autoNormal && m_textureTypes[ i ] == ASEProceduralOutputType.Normal )
+						m_outputPorts[ i ].ChangeType( WirePortDataType.FLOAT3, false );
+					else
+						m_outputPorts[ i ].ChangeType( WirePortDataType.FLOAT4, false );
+				}
+			}
 		}
 
 		public SubstanceGraph SubstanceGraph

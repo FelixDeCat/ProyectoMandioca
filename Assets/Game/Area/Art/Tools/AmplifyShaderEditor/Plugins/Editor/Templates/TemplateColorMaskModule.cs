@@ -50,13 +50,13 @@ namespace AmplifyShaderEditor
 			if( newValidData && m_validData != newValidData )
 			{
 				m_independentModule = data.IndependentModule;
+				m_target = data.Target;
 				if( string.IsNullOrEmpty( data.InlineData ) )
 				{
 					for( int i = 0; i < 4; i++ )
 					{
 						m_colorMask[ i ] = data.ColorMaskData[ i ];
 					}
-					m_target = data.Target;
 					m_inlineColorMask.ResetProperty();
 				}
 				else
@@ -78,6 +78,7 @@ namespace AmplifyShaderEditor
 			if( EditorGUI.EndChangeCheck() )
 			{
 				m_isDirty = true;
+				CustomEdited = true;
 			}
 		}
 
@@ -112,7 +113,7 @@ namespace AmplifyShaderEditor
 		public override string GenerateShaderData( bool isSubShader )
 		{
 			if( m_inlineColorMask.IsValid )
-				return ColorMaskOp + m_inlineColorMask.GetValueOrProperty();
+				return ColorMaskOp + m_inlineColorMask.GetValueOrProperty() + Target;
 
 			int count = 0;
 			string colorMask = string.Empty;
@@ -135,6 +136,7 @@ namespace AmplifyShaderEditor
 
 		public override void ReadFromString( ref uint index, ref string[] nodeParams )
 		{
+			base.ReadFromString( ref index, ref  nodeParams );
 			bool validDataOnMeta = m_validData;
 			if( UIUtils.CurrentShaderVersion() > TemplatesManager.MPShaderVersion )
 			{
@@ -157,6 +159,7 @@ namespace AmplifyShaderEditor
 
 		public override void WriteToString( ref string nodeInfo )
 		{
+			base.WriteToString( ref nodeInfo );
 			IOUtils.AddFieldValueToString( ref nodeInfo, m_validData );
 			if( m_validData )
 			{

@@ -74,7 +74,8 @@ namespace AmplifyShaderEditor
 		SetPropertyOnPass,
 		SetPropertyOnSubShader,
 		SetShaderProperty,
-		SetMaterialProperty
+		SetMaterialProperty,
+		ExcludeAllPassesBut
 	}
 
 	public enum PropertyActionsEnum
@@ -112,7 +113,8 @@ namespace AmplifyShaderEditor
 		StencilFail,
 		StencilZFail,
 		RenderType,
-		RenderQueue
+		RenderQueue,
+		DisableBatching
 	}
 
 	public enum AseOptionsSetup
@@ -251,6 +253,16 @@ namespace AmplifyShaderEditor
 		public override string ToString()
 		{
 			return ActionType + " " + ActionData + " " + ActionDataIdx;
+		}
+
+		public bool GetIntValueFromActionBuffer( out int result )
+		{
+			return int.TryParse( ActionBuffer, out result );
+		}
+
+		public bool GetFloatValueFromActionBuffer( out float result )
+		{
+			return float.TryParse( ActionBuffer, out result );
 		}
 	}
 
@@ -462,7 +474,8 @@ namespace AmplifyShaderEditor
 			{"SetPropertyOnPass", AseOptionsActionType.SetPropertyOnPass },
 			{"SetPropertyOnSubShader", AseOptionsActionType.SetPropertyOnSubShader },
 			{"SetShaderProperty", AseOptionsActionType.SetShaderProperty },
-			{"SetMaterialProperty", AseOptionsActionType.SetMaterialProperty }
+			{"SetMaterialProperty", AseOptionsActionType.SetMaterialProperty },
+			{"ExcludeAllPassesBut",AseOptionsActionType.ExcludeAllPassesBut}
 		};
 
 		public static Dictionary<string, AseOptionItemSetup> AseOptionItemSetupDict = new Dictionary<string, AseOptionItemSetup>
@@ -863,6 +876,7 @@ namespace AmplifyShaderEditor
 					case AseOptionsActionType.RemoveUndefine:
 					case AseOptionsActionType.ExcludePass:
 					case AseOptionsActionType.IncludePass:
+					case AseOptionsActionType.ExcludeAllPassesBut:
 					break;
 					case AseOptionsActionType.SetShaderProperty:
 					{
@@ -1124,6 +1138,12 @@ namespace AmplifyShaderEditor
 									{
 										actionItem.ActionDataIdx = 0;
 									}
+								}
+								break;
+								case PropertyActionsEnum.DisableBatching:
+								{
+									if( arr.Length > 1 )
+										actionItem.ActionData = arr[ 1 ];
 								}
 								break;
 							}
