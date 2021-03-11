@@ -14,6 +14,7 @@ public class ElectricSwordHolding : MonoBehaviour
     [SerializeField] ElectricOrb electricOrb = null;
     [SerializeField] float orbSpeed = 2;
     [SerializeField] float orbLifeTime = 5;
+    [SerializeField] ParticleSystem particlesLindasPre = null;
 
     CharacterHead myChar;
     [Header("Other")]
@@ -23,6 +24,7 @@ public class ElectricSwordHolding : MonoBehaviour
     float timer = 0;
     const string spawnBullet = "SpawnBullet";
     const string spawnOrb = "SpawnOrb";
+    const string spawnOrbPart = "SpawnOrbPart";
 
     public void OnPress()
     {
@@ -58,6 +60,7 @@ public class ElectricSwordHolding : MonoBehaviour
         myChar = Main.instance.GetChar();
         myChar.charAnimEvent.Add_Callback(spawnBullet, DetonateOrb);
         myChar.charAnimEvent.Add_Callback(spawnOrb, InstantiateOrb);
+
     }
 
     public void OnEquipAux()
@@ -66,11 +69,15 @@ public class ElectricSwordHolding : MonoBehaviour
         myChar = Main.instance.GetChar();
         myChar.charAnimEvent.Add_Callback(spawnBullet, InstantiateOrb);
         myChar.charAnimEvent.Add_Callback(spawnOrb,DetonateOrb );
+        myChar.charAnimEvent.Add_Callback(spawnOrbPart, InstantiateOrbPart);
+        ParticlesManager.Instance.GetParticlePool(particlesLindasPre.name, particlesLindasPre);
+
     }
     public void UnEquip()
     {
         myChar.charAnimEvent.Remove_Callback(spawnBullet, DetonateOrb);
         myChar.charAnimEvent.Remove_Callback(spawnOrb, InstantiateOrb);
+
         //Sonidos? quiza
     }
 
@@ -78,6 +85,8 @@ public class ElectricSwordHolding : MonoBehaviour
     {
         myChar.charAnimEvent.Remove_Callback(spawnBullet, InstantiateOrb);
         myChar.charAnimEvent.Remove_Callback(spawnOrb, DetonateOrb);
+        myChar.charAnimEvent.Remove_Callback(spawnOrbPart, InstantiateOrbPart);
+
         //Sonidos? quiza
     }
 
@@ -104,6 +113,11 @@ public class ElectricSwordHolding : MonoBehaviour
     {
         myChar.charanim.ThrowLightningBullets();
         //Aca llamo al animator para que empiece a disparar
+    }
+
+    void InstantiateOrbPart()
+    {
+        ParticlesManager.Instance.PlayParticle(particlesLindasPre.name, myChar.transform.position);
     }
 
     void DetonateOrb()
