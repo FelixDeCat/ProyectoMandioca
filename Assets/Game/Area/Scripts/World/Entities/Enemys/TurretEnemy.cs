@@ -40,7 +40,7 @@ public class TurretEnemy : PlayObject
     protected override void OnInitialize()
     {
         target = Main.instance.GetChar().transform;
-        dmgData.SetDamage(damage).SetDamageInfo(DamageInfo.NonBlockAndParry).SetDamageType(dmgType).SetKnockback(knockback);
+        dmgData.SetDamage(damage).SetDamageInfo(DamageInfo.NonBlockAndParry).SetDamageType(dmgType).SetKnockback(knockback).Initialize(transform);
         lineOfSight?.Configurate(transform);
     }
     protected override void OnTurnOn()
