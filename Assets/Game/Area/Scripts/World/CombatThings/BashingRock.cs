@@ -39,6 +39,7 @@ public class BashingRock : DashBashInteract
     {
         target = null;
         timer = 0;
+        rb.constraints = RigidbodyConstraints.FreezeAll;
     }
 
     protected override void OnFixedUpdate()
@@ -56,18 +57,31 @@ public class BashingRock : DashBashInteract
         }
     }
 
-
+    Vector3 lastAngularVel;
+    Vector3 lastVel;
     protected override void OnPause()
     {
-        rb.velocity = Vector3.zero;
+        if (pushing)
+        {
+            rb.constraints = RigidbodyConstraints.FreezeAll;
+            lastVel = rb.velocity;
+            lastAngularVel = rb.angularVelocity;
+        }
     }
 
     protected override void OnResume()
     {
+        if (pushing)
+        {
+            rb.constraints = RigidbodyConstraints.None;
+            rb.velocity = lastVel;
+            rb.angularVelocity = lastAngularVel;
+        }
     }
 
     protected override void OnTurnOff()
     {
+        pushing = false;
     }
 
 
@@ -92,6 +106,8 @@ public class BashingRock : DashBashInteract
 
     protected override void Push(Vector3 dir)
     {
+        Debug.Log("golpea3");
+        rb.constraints = RigidbodyConstraints.None;
         currentSpeed = minSpeed;
         pushing = true;
         myDir = dir;
@@ -122,7 +138,8 @@ public class BashingRock : DashBashInteract
 
     private void OnCollisionEnter(Collision collision)
     {
-        if (collision.transform.GetComponent<DamageReceiver>() && currentSpeed > minSpeed)
+        if (!pushing) return;
+        if (!collision.transform.GetComponent<CharacterHead>() && collision.transform.GetComponent<DamageReceiver>())
         {
             collision.transform.GetComponent<DamageReceiver>().TakeDamage(dmgData.SetPositionAndDirection(transform.position, myDir));
 

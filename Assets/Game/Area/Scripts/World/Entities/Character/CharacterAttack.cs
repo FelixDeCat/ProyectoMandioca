@@ -156,18 +156,21 @@ public class CharacterAttack
 
         if (Physics.Raycast(forwardPos.position + Vector3.up, forwardPos.forward, out hit, 2, enemyLayer))
         {
+            hit.collider.GetComponent<DashBashInteract>()?.OnPush(forwardPos.forward);
             hit.collider.GetComponent<EffectReceiver>()?.TakeEffect(EffectName.OnElectrified, bashDashPetrifyTime);
             inHit = true;
         }
 
         if (Physics.Raycast(forwardPos.position + Vector3.up, forwardPos.forward + forwardPos.right, out hit, 2, enemyLayer))
         {
+            hit.collider.GetComponent<DashBashInteract>()?.OnPush(forwardPos.forward);
             hit.collider.GetComponent<EffectReceiver>()?.TakeEffect(EffectName.OnElectrified, bashDashPetrifyTime);
             inHit = true;
         }
 
         if (Physics.Raycast(forwardPos.position + Vector3.up, forwardPos.forward - forwardPos.right, out hit, 2, enemyLayer))
         {
+            hit.collider.GetComponent<DashBashInteract>()?.OnPush(forwardPos.forward);
             hit.collider.GetComponent<EffectReceiver>()?.TakeEffect(EffectName.OnElectrified, bashDashPetrifyTime);
             inHit = true;
         }
