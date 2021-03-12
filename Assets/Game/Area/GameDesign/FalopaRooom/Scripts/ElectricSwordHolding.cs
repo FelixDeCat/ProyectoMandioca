@@ -37,7 +37,6 @@ public class ElectricSwordHolding : MonoBehaviour
     public void OnStopUse()
     {
         //Aca tambien
-        Main.instance.GetChar().SwordAbilityRelease();
         myChar.charanim.SetLightnings(false);
         canUpdate = false;
         //Llamar animevent que salga de disparar
@@ -98,6 +97,7 @@ public class ElectricSwordHolding : MonoBehaviour
 
     void InstantiateOrb()
     {
+        Main.instance.GetChar().SwordAbilityRelease();
         var orb = Instantiate(electricOrb);
         orb.SetSpeed(orbSpeed).SetLifeTime(orbLifeTime);
         orb.transform.forward = myChar.GetCharMove().GetRotatorDirection();
@@ -122,6 +122,7 @@ public class ElectricSwordHolding : MonoBehaviour
 
     void DetonateOrb()
     {
+        Main.instance.GetChar().SwordAbilityRelease();
         var orb = Instantiate(electricOrb);
         orb.SetSpeed(orbSpeed).SetLifeTime(orbLifeTime);
         orb.transform.forward = myChar.GetCharMove().GetRotatorDirection();
