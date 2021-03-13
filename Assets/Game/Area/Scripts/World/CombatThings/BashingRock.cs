@@ -22,6 +22,8 @@ public class BashingRock : DashBashInteract
 
     [SerializeField] float timeSearchingTarget = 3;
     [SerializeField] float lifeTime = 8;
+    [SerializeField] DestroyedVersion modelDestroyedVersion = null;
+    DestroyedVersion savedDestroyedVersion;
 
     float timer;
     Transform target;
@@ -33,6 +35,8 @@ public class BashingRock : DashBashInteract
     protected override void OnInitialize()
     {
         dmgData.SetDamage(damage).SetDamageInfo(DamageInfo.NonBlockAndParry).SetKnockback(knockback).SetDamageType(dmgType).Initialize(transform);
+        savedDestroyedVersion = Main.instance.GetSpawner().SpawnItem(modelDestroyedVersion.gameObject, transform).GetComponent<DestroyedVersion>();
+        if (savedDestroyedVersion) savedDestroyedVersion.gameObject.SetActive(false);
     }
 
     protected override void OnTurnOn()
@@ -116,6 +120,14 @@ public class BashingRock : DashBashInteract
 
     protected override void EndPushAbs()
     {
+        if (savedDestroyedVersion)
+        {
+            savedDestroyedVersion.gameObject.SetActive(true);
+            savedDestroyedVersion.transform.position = transform.position;
+            savedDestroyedVersion.BeginDestroy();
+
+            savedDestroyedVersion.ExplosionForce(myDir, 10, 8);
+        }
         gameObject.SetActive(false);
     }
 

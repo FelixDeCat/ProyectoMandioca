@@ -153,6 +153,7 @@ public class CharacterHead : CharacterControllable
             .SetCharMove(move)
             .SetFeedbacks(feedbacks)
             .SetForward(rot)
+            .SetDashBashSuccessful(SlowMO)
             .Initialize(this);
 
         if (IsComboWomboActive)

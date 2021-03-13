@@ -79,6 +79,8 @@ public class CharacterAttack
     public CharacterAttack SetForward(Transform _forward) { forwardPos = _forward; return this; }
     public CharacterAttack SetCharMove(CharacterMovement _move) { move = _move; return this; }
 
+    public CharacterAttack SetDashBashSuccessful(Action _dealDashBash) { DealDashBash = _dealDashBash; return this; }
+
     public void Add_callback_Normal_attack(Action callback) { NormalAttack += callback; }
     public void Add_callback_Heavy_attack(Action callback) { HeavyAttack += callback; }
     public void Remove_callback_Normal_attack(Action callback) { NormalAttack -= callback; }
@@ -156,22 +158,19 @@ public class CharacterAttack
 
         if (Physics.Raycast(forwardPos.position + Vector3.up, forwardPos.forward, out hit, 2, enemyLayer))
         {
-            hit.collider.GetComponent<DashBashInteract>()?.OnPush(forwardPos.forward);
-            hit.collider.GetComponent<EffectReceiver>()?.TakeEffect(EffectName.OnElectrified, bashDashPetrifyTime);
+            DashBashSuccessful(hit);
             inHit = true;
         }
 
         if (Physics.Raycast(forwardPos.position + Vector3.up, forwardPos.forward + forwardPos.right, out hit, 2, enemyLayer))
         {
-            hit.collider.GetComponent<DashBashInteract>()?.OnPush(forwardPos.forward);
-            hit.collider.GetComponent<EffectReceiver>()?.TakeEffect(EffectName.OnElectrified, bashDashPetrifyTime);
+            DashBashSuccessful(hit);
             inHit = true;
         }
 
         if (Physics.Raycast(forwardPos.position + Vector3.up, forwardPos.forward - forwardPos.right, out hit, 2, enemyLayer))
         {
-            hit.collider.GetComponent<DashBashInteract>()?.OnPush(forwardPos.forward);
-            hit.collider.GetComponent<EffectReceiver>()?.TakeEffect(EffectName.OnElectrified, bashDashPetrifyTime);
+            DashBashSuccessful(hit);
             inHit = true;
         }
         if (inHit)
@@ -180,6 +179,18 @@ public class CharacterAttack
             feedbacks.particles.bashDashHit.Play();
         }
         return inHit;
+    }
+
+    void DashBashSuccessful(RaycastHit hit)
+    {
+        if (hit.collider.GetComponent<DashBashInteract>())
+        {
+            hit.collider.GetComponent<DashBashInteract>().OnPush(forwardPos.forward);
+            Main.instance.Vibrate(1f, 0.2f);
+            Main.instance.CameraShake();
+            DealDashBash?.Invoke();
+        }
+        hit.collider.GetComponent<EffectReceiver>()?.TakeEffect(EffectName.OnElectrified, bashDashPetrifyTime);
     }
 
     #region PRE-ATTACK
@@ -263,6 +274,7 @@ public class CharacterAttack
     #endregion
 
     #region POST-ATTACK
+    Action DealDashBash;
     public void ConfigureDealsSuscessful(Action deal_inNormal, Action deal_inHeavy, Action _kill_inNormal, Action _kill_inHeavy, Action _break_Object)
     {
         DealSuccesfullNormal = deal_inNormal;
