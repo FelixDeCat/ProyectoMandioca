@@ -34,6 +34,14 @@ public class CameraRotate : MonoBehaviour
     [SerializeField] float clampYDown = 0;
     Vector3 initialVector;
 
+    [Header("Vertical Tilt")]
+    [SerializeField] float maxHeight;
+    [SerializeField] float minHeight;
+    [SerializeField] float comebackSpeed;
+    bool isTilting;
+    float tiltLerp;
+
+    //[SerializeField] CameraTiltType camType = CameraTiltType.CamaraReDura;
 
     [SerializeField] Transform camConfig = null;
 
@@ -58,7 +66,24 @@ public class CameraRotate : MonoBehaviour
     private void Update()
     {
         //if (Input.GetKeyDown(KeyCode.Space)) MoveCamBehindChar();
+
+        if (!isTilting && Mathf.Abs(tiltLerp) > 0.1f);
+        {
+            if (tiltLerp > 0)
+                tiltLerp -= Time.deltaTime * comebackSpeed;
+            else if (tiltLerp < 0)
+                tiltLerp += Time.deltaTime * comebackSpeed;
+
+            Vector3 newPos;
+            if (tiltLerp > 0)
+                newPos = Vector3.Lerp(myChar.transform.position + offsetVec, myChar.transform.position + offsetVec + new Vector3(0, maxHeight, 0), tiltLerp);
+            else
+                newPos = Vector3.Lerp(myChar.transform.position + offsetVec, myChar.transform.position + offsetVec - new Vector3(0, minHeight, 0), Mathf.Abs(tiltLerp));
+            if (newPos.y < myChar.transform.position.y + offsetVec.y + maxHeight && newPos.y > myChar.transform.position.y + offsetVec.y - minHeight)
+                lookAtTrans.transform.position = newPos;
+        }
     }
+
 
     private void LateUpdate()
     {
@@ -115,6 +140,9 @@ public class CameraRotate : MonoBehaviour
                 camConfig.transform.rotation = bezierPoints[0].transform.rotation;
             }
         }
+        camConfig.transform.position = Vector3.Lerp(bezierPoints[1].transform.position, bezierPoints[0].transform.position, 0.5f + tiltLerp/2f);
+
+
     }
     float timer;
     public string ChangeSensitivityHor(float val)
@@ -169,6 +197,7 @@ public class CameraRotate : MonoBehaviour
         rotatorX.transform.RotateAround(myChar.transform.position, Vector3.up, axis * sensitivityHorizontal * Time.deltaTime * horAxis);
         lookAtTrans.transform.RotateAround(myChar.transform.position, Vector3.up, axis * sensitivityHorizontal * Time.deltaTime * horAxis);
     }
+
     public void RotateVertical(float vertical)
     {
         if (UseBezier || forceStop) return;
@@ -203,6 +232,41 @@ public class CameraRotate : MonoBehaviour
         sliderTime = Mathf.Clamp(sliderTime + (vertical * vertAxis) / 100, 0, 1);
     }
 
+    public void TiltVertical(float vertical)
+    {
+        if (vertical == 0) { isTilting = false; return; }
+        //Vector3 newPos;
+        //if (camType == CameraTiltType.CamaraReDura)
+        //{
+        //    newPos = lookAtTrans.transform.position + transform.up * vertical * sensitivityVertical * Time.deltaTime;
+        //}
+        //else if (camType == CameraTiltType.case2)
+        //{
+        //    if (vertical > 0)
+        //        newPos = Vector3.Lerp(myChar.transform.position + offsetVec, myChar.transform.position + offsetVec + new Vector3(0, maxHeight, 0), vertical);
+        //    else
+        //        newPos = Vector3.Lerp(myChar.transform.position + offsetVec, myChar.transform.position + offsetVec - new Vector3(0, minHeight, 0), Mathf.Abs(vertical));
+        //}
+        //else
+        //{
+        Vector3 newPos;
+        isTilting = true;
+        tiltLerp = Mathf.Clamp(tiltLerp + vertical * sensitivityVertical * Time.deltaTime * vertAxis, -1, 1f);
+
+        if (tiltLerp > 0)
+        {
+            newPos = Vector3.Lerp(myChar.transform.position + offsetVec, myChar.transform.position + offsetVec + new Vector3(0, maxHeight, 0), tiltLerp);
+            camConfig.transform.position = Extensions.GetPointOnBezierCurve(bezierPoints[0], bezierPoints[1], tiltLerp);
+        }
+        else
+        {
+            newPos = Vector3.Lerp(myChar.transform.position + offsetVec, myChar.transform.position + offsetVec - new Vector3(0, minHeight, 0), Mathf.Abs(tiltLerp));
+
+        }
+        if (newPos.y < myChar.transform.position.y + offsetVec.y + maxHeight && newPos.y > myChar.transform.position.y + offsetVec.y - minHeight)
+            lookAtTrans.transform.position = newPos;
+    }
+
     public void CameraStartPosition()
     {
         Vector3 distToChar = new Vector3(myChar.transform.position.x - posToCheckpoint.position.x, 0, myChar.transform.position.z - posToCheckpoint.position.z);
@@ -210,6 +274,14 @@ public class CameraRotate : MonoBehaviour
         {
             float angle = Vector3.Angle(distToChar, new Vector3(myChar.transform.position.x - item.transform.position.x, 0, myChar.transform.position.z - item.transform.position.z));
             item.transform.RotateAround(myChar.transform.position, Vector3.up, -angle);
-        }        
+        }
     }
 }
+
+//public enum CameraTiltType
+//{
+//    CamaraReDura,
+//    case2,
+//    case3
+
+//}
