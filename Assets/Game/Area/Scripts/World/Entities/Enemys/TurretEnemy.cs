@@ -13,7 +13,7 @@ public class TurretEnemy : PlayObject
     [SerializeField] Transform root = null;
     [SerializeField] Animator anim = null;
     [SerializeField] float timeToDamage = 0.5f;
-    [SerializeField] GameObject ray = null;
+    [SerializeField] RayoLaser_Bounce ray = null;
     [SerializeField] Transform rayStartPosition = null;
 
     [SerializeField] DamageData dmgData = null;
@@ -76,16 +76,18 @@ public class TurretEnemy : PlayObject
     {
         animSpeed = anim.speed;
         anim.speed = 0;
+        ray.Pause();
     }
 
     protected override void OnResume()
     {
         anim.speed = animSpeed;
+        ray.Resume();
     }
 
     protected override void OnTurnOff()
     {
-        ray.SetActive(false);
+        ray.Off();
         anim.SetBool("Shoot", false);
         shooting = false;
         damageOn = false;
@@ -107,7 +109,7 @@ public class TurretEnemy : PlayObject
 
             if (Physics.Raycast(rayStartPosition.position, dir, out hit, rayDistance, contactMask, QueryTriggerInteraction.Ignore))
             {
-                ray.transform.localScale = new Vector3(ray.transform.localScale.x, Vector3.Distance(ray.transform.position, hit.point) / 2, ray.transform.localScale.z);
+                ray.SetFinalPos(hit.point);
                 if (!damageOn && hit.collider.GetComponent<DamageReceiver>())
                 {
                     hit.collider.GetComponent<DamageReceiver>().TakeDamage(dmgData.SetPositionAndDirection(root.position, root.forward));
@@ -115,14 +117,14 @@ public class TurretEnemy : PlayObject
                 }
             }
             else
-                ray.transform.localScale = new Vector3(ray.transform.localScale.x, rayDistance / 2, ray.transform.localScale.z);
+                ray.SetFinalPos(ray.transform.position + dir * rayDistance);
 
             if (timer >= rayDuration)
             {
                 anim.SetBool("Shoot", false);
                 shooting = false;
                 timer = 0;
-                ray.SetActive(false);
+                ray.Off();
             }
         }
         else
@@ -132,8 +134,7 @@ public class TurretEnemy : PlayObject
                 anim.SetBool("Shoot", true);
                 timer = 0;
                 shooting = true;
-                ray.SetActive(true);
-                ray.transform.up = root.forward;
+                ray.On();
             }
         }
     }
@@ -145,13 +146,12 @@ public class TurretEnemy : PlayObject
             Vector3 dir = (target.position - transform.position).normalized;
             Vector3 secondDir = (target.position+ lineOfSight.offset - rayStartPosition.position).normalized;
             root.forward = Vector3.Lerp(root.forward, dir, Time.deltaTime * rotSpeed);
-            ray.transform.up = secondDir;
             timer += Time.deltaTime;
             RayController(secondDir);
         }
         else if (timer != 0 || shooting != false)
         {
-            ray.SetActive(false);
+            ray.Off();
             shooting = false;
             anim.SetBool("Shoot", false);
             timer = 0;
@@ -178,7 +178,7 @@ public class TurretEnemy : PlayObject
 
             if (Physics.Raycast(rayStartPosition.position, root.forward, out hit, rayDistance, contactMask, QueryTriggerInteraction.Ignore))
             {
-                ray.transform.localScale = new Vector3(ray.transform.localScale.x, Vector3.Distance(ray.transform.position, hit.point) / 2, ray.transform.localScale.z);
+                ray.SetFinalPos(hit.point);
                 if (!damageOn && hit.collider.GetComponent<DamageReceiver>())
                 {
                     hit.collider.GetComponent<DamageReceiver>().TakeDamage(dmgData.SetPositionAndDirection(root.position, root.forward));
@@ -186,7 +186,7 @@ public class TurretEnemy : PlayObject
                 }
             }
             else
-                ray.transform.localScale = new Vector3(ray.transform.localScale.x, rayDistance / 2, ray.transform.localScale.z);
+                ray.SetFinalPos(ray.transform.position + root.forward * rayDistance);
 
             if (rooting >= 1)
             {
@@ -194,7 +194,7 @@ public class TurretEnemy : PlayObject
                 anim.SetBool("Shoot", false);
                 shooting = false;
                 root.forward = finalDir;
-                ray.SetActive(false);
+                ray.Off();
             }
         }
         else
@@ -208,8 +208,7 @@ public class TurretEnemy : PlayObject
                 root.forward = finalDir;
                 timer = 0;
                 anim.SetBool("Shoot", true);
-                ray.SetActive(true);
-                ray.transform.up = root.forward;
+                ray.On();
             }
         }
     }

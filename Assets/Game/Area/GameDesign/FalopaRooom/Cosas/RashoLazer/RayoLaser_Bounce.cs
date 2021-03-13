@@ -7,30 +7,39 @@ public class RayoLaser_Bounce : MonoBehaviour
 {
     [SerializeField] int reflections = 0;
     [SerializeField] float maxLength = 100f;
-
-    LineRenderer lineRenderer;
-    Ray ray;
+    [SerializeField] LineRenderer lineRenderer = null;
     RaycastHit hit;
-    Vector3 direction;
+    float time;
 
-    bool on = true;
-
-    private void Awake()
+    public void On()
     {
-        lineRenderer = GetComponent<LineRenderer>();
+        lineRenderer.enabled = true;
+        lineRenderer.SetPosition(0, transform.position);
     }
 
-    void Restart()
+    public void Off()
     {
-        on = true;
-        lineRenderer.enabled = on;
+        lineRenderer.enabled = false;
     }
 
-    private void Update()
+    public void Pause()
     {
-        if (!on) return;
+        if (lineRenderer.enabled) lineRenderer.material.SetFloat("_TimeScale", 0);
+    }
+    
+    public void Resume()
+    {
+        if (lineRenderer.enabled) lineRenderer.material.SetFloat("_TimeScale", 1);
+    }
 
-        ray = new Ray(transform.position, transform.forward);
+    public void SetFinalPos(Vector3 pos)
+    {
+        lineRenderer.SetPosition(1, pos);
+    }
+
+    public void OnUpdate()
+    {
+        var ray = new Ray(transform.position, transform.forward);
 
         lineRenderer.positionCount = 1;
         lineRenderer.SetPosition(0, transform.position);
