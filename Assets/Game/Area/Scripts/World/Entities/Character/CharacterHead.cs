@@ -234,6 +234,11 @@ public class CharacterHead : CharacterControllable
         combo_system.OnUpdate();
     }
 
+    public void AddCallbackToReadyCombo(Action _callback, bool add = true)
+    {
+        combo_system.AddCallback_OnComboready(_callback, add);
+    }
+
     public void GetBackControl()
     {
         stateMachine.SendInput(PlayerInputs.IDLE);

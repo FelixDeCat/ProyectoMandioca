@@ -21,6 +21,7 @@ public class GameUI_controller : MonoBehaviour
     public GameObject skillInfoContainer;
     [SerializeField] Image combatStateImage = null;
     [SerializeField] Sprite[] combatStatesSprites = new Sprite[0];
+    [SerializeField] GameObject comboTutoScreen = null;
 
 
     [SerializeField] Image customImage = null;
@@ -60,6 +61,8 @@ public class GameUI_controller : MonoBehaviour
         lifeHeart.OnValueChange(current, max);
         lifeHeart.OnValueChangeWithDelay(current,1f,max, true);
     }
+
+    public void ActiveOrDesactiveComboScreen(bool b) => comboTutoScreen.SetActive(b);
     public void ResetYellowHeart(){}
     public void Set_Opened_UI() { openUI = true; Main.instance.Pause(); }
     public void Set_Closed_UI() { openUI = false; Main.instance.Play(); }

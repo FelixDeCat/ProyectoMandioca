@@ -34,7 +34,7 @@ public class ComboWomboSystem
 
     comboStates comboState = comboStates.disabled;
 
-    public void AddCallback_OnComboready(Action callback) => OnComboReady = callback;
+    public void AddCallback_OnComboready(Action callback, bool add = true) { if (add) OnComboReady += callback; else OnComboReady -= callback; }
     public void AddCallback_OnComboReset(Action callback) => OnComboResetFeedback = callback;
     public void AddCallback_OnExecuteCombo(Action callback) => executeCombo += callback;
     public void RemoveCallback_OnExecuteCombo(Action callback) => executeCombo -= callback;
