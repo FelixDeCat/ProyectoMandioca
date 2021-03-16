@@ -75,7 +75,7 @@ public class CombatDirector : LoadComponent, IZoneElement
         }
 
         #region Checkea si no hay mas entities subscriptos y le dice al character que ya no esta en combate
-        if (target == head)
+        if (target == head.transform)
             if (attackingTarget[target].Count + listAttackTarget[target].Count <= 0 && head.Combat)
                 head.CombatExit();
         #endregion
@@ -292,7 +292,7 @@ public class CombatDirector : LoadComponent, IZoneElement
             }
         }
 
-        if (target == head)
+        if (target == head.transform)
         {
             if (attackingTarget[target].Count + listAttackTarget[target].Count > 0 && !head.Combat)
                 head.CombatEnter();

@@ -4,8 +4,9 @@ using UnityEngine;
 
 public class ComboTutorial : MonoBehaviour
 {
-
     bool tutorialOn;
+    [SerializeField] NPC_Dialog dialog = null;
+
     private void Start()
     {
         Main.instance.GetChar().AddCallbackToReadyCombo(PauseAll);
@@ -33,6 +34,19 @@ public class ComboTutorial : MonoBehaviour
         PauseManager.Instance.Resume();
         Main.instance.gameUiController.ActiveOrDesactiveComboScreen(false);
         Main.instance.GetChar().UNITY_EVENT_OnInteractDown();
+        Main.instance.eventManager.SubscribeToEvent(GameEvents.COMBAT_EXIT, DisplayDialogue);
+    }
+
+    void DisplayDialogue()
+    {
+        dialog.Talk();
+        Main.instance.eventManager.UnsubscribeToEvent(GameEvents.COMBAT_EXIT, DisplayDialogue);
+        PauseManager.Instance.Pause();
+    }
+
+    public void DestroyAfterDialogue()
+    {
+        PauseManager.Instance.Resume();
         Destroy(this.gameObject);
     }
 }
