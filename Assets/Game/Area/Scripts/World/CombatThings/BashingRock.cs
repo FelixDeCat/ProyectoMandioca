@@ -30,7 +30,7 @@ public class BashingRock : DashBashInteract
     bool pushing;
     float currentSpeed;
 
-    Vector3 myDir;
+    public Vector3 myDir { get; set; }
 
     protected override void OnInitialize()
     {

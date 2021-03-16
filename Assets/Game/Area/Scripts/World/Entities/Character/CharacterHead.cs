@@ -636,7 +636,6 @@ public class CharacterHead : CharacterControllable
     public void CombatEnter()
     {
         Main.instance.eventManager.TriggerEvent(GameEvents.COMBAT_ENTER);
-        Debug.Log("wenas");
         feedbacks.sounds.index = 0;
         AudioManager.instance.getLerp().TransitionBetweenSnapshots(feedbacks.sounds.index, feedbacks.sounds.lerpSpeed);
         Combat = true;
@@ -645,7 +644,6 @@ public class CharacterHead : CharacterControllable
     public void CombatExit()
     {
         Main.instance.eventManager.TriggerEvent(GameEvents.COMBAT_EXIT);
-        Debug.Log("hola?");
         feedbacks.sounds.index = 1;
         AudioManager.instance.getLerp().TransitionBetweenSnapshots(feedbacks.sounds.index, feedbacks.sounds.lerpSpeed);
         Combat = false;
