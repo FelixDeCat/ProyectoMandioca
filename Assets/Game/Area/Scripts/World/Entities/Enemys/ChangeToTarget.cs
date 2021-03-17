@@ -11,6 +11,7 @@ public class ChangeToTarget : MonoBehaviour
 
     public void TRIGGER_ActiveFirstTarget()
     {
+        Debug.Log("maldito seas cuervo");
         Main.instance.GetCombatDirector().AddNewTarget(firstTarget);
         for (int i = 0; i < enemies.Length; i++)
         {
