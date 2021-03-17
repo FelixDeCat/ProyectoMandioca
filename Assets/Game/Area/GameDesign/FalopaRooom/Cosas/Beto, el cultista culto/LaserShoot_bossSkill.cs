@@ -17,12 +17,13 @@ public class LaserShoot_bossSkill : GOAP_Skills_Base
  
     [SerializeField] float timeBwtShoots = 0.5f;
     [SerializeField]  float _countTime = 5;
-
+    [SerializeField] AudioClip _chargeShot;
+    [SerializeField] AudioClip _shootShot;
     Coroutine ametralladora;
     Coroutine waitToShoot;
 
     [SerializeField] ParticleSystem FeedBack = null;
-
+    
     protected override void OnEndSkill()
     {
         
@@ -39,6 +40,7 @@ public class LaserShoot_bossSkill : GOAP_Skills_Base
         _ent.OnTakeDmg += InterruptSkill;
         _ent.OnSkillAction += ShootLaser;
 
+        AudioManager.instance.PlaySound(_chargeShot.name,transform);
         _amount = 0;
         _countTime = 0;
         _anim.Play("StartCastOrb");
@@ -66,7 +68,12 @@ public class LaserShoot_bossSkill : GOAP_Skills_Base
         ThrowablePoolsManager.instance.Throw(rayo_pf.name, newData);
 
         if(_amount >= amountLaser)
+        {
             _anim.SetTrigger("finishSkill");
+            AudioManager.instance.PlaySound(_chargeShot.name, transform);
+
+        }
+
 
     }
 
@@ -101,6 +108,9 @@ public class LaserShoot_bossSkill : GOAP_Skills_Base
         ThrowablePoolsManager.instance.CreateAPool(rayo_pf.name, rayo_pf); 
         
         PoolManager.instance.GetObjectPool(corruptVomito_pf.name, corruptVomito_pf);
+
+        AudioManager.instance.GetSoundPool(_chargeShot.name, AudioGroups.GAME_FX, _chargeShot);
+        AudioManager.instance.GetSoundPool(_shootShot.name, AudioGroups.GAME_FX, _shootShot);
     }
 
     protected override void OnPause()

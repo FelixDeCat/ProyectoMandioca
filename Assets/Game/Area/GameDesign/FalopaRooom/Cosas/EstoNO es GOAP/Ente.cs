@@ -61,7 +61,7 @@ namespace GOAP
         [SerializeField] bool damageFeedback = false;
         public bool canBeInterrupted = true;
         [SerializeField] SkinnedMeshRenderer skinnedMeshrenderer = null;
-
+        [SerializeField] AudioClip _evilLaugh;
         void FixedUpdate()
         {
             if (!isOn) return;
@@ -104,6 +104,7 @@ namespace GOAP
             //prendo y apago el sensor cuando la animacion lo pide
             OnMeleeAttack += () => attackSensor.gameObject.SetActive(true);
             OnFinishAttack += () => attackSensor.gameObject.SetActive(false);
+
         }
 
         public void Initialize() {
@@ -114,6 +115,8 @@ namespace GOAP
             BossBarGeneric.Open();
 
             BossBarGeneric.SetLife(Life.Life, Life.LifeMax);
+            AudioManager.instance.GetSoundPool(_evilLaugh.name, AudioGroups.GAME_FX, _evilLaugh);
+            AudioManager.instance.PlaySound(_evilLaugh.name, transform);
         }
 
         //void OnPlayerInMeleeRange(GameObject go) { OnMeleeRangeWithPlayer?.Invoke(); Debug.Log("TE ALCANCEEE"); }

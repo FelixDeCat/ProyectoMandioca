@@ -11,7 +11,8 @@ public class SummonMinions_bossSkill : GOAP_Skills_Base, ISpawner
     [SerializeField] PlayObject prefab = null;
     [SerializeField] int amountSummoned = 5;
     [SerializeField] float spellDuration = 5;
-
+    [SerializeField] AudioClip _chargeSpawn;
+    [SerializeField] AudioClip _shootSpawn;
     List<PlayObject> summonedEnemies = new List<PlayObject>();
 
     Animator _anim;
@@ -35,6 +36,7 @@ public class SummonMinions_bossSkill : GOAP_Skills_Base, ISpawner
         //owner.GetComponent<Ente>().OnFinishSkill += EndSkill;
         _ent.canBeInterrupted = false;
         _anim.Play("StartCastStaff");
+        AudioManager.instance.PlaySound(_chargeSpawn.name, transform);
         totemFeedback.StartChargeFeedback(Summon);
     }
 
@@ -48,6 +50,7 @@ public class SummonMinions_bossSkill : GOAP_Skills_Base, ISpawner
         }
 
         _anim.SetTrigger("finishSkill");
+        AudioManager.instance.PlaySound(_shootSpawn.name, transform);
         StartCoroutine(SpellDuration());
     }
 
@@ -68,6 +71,8 @@ public class SummonMinions_bossSkill : GOAP_Skills_Base, ISpawner
         //owner.GetComponent<Ente>().OnTakeDmg += InterruptSkill;
         _anim = owner.GetComponentInChildren<Animator>();
         _ent = owner.GetComponent<Ente>();
+        AudioManager.instance.GetSoundPool(_chargeSpawn.name, AudioGroups.GAME_FX, _chargeSpawn);
+        AudioManager.instance.GetSoundPool(_shootSpawn.name, AudioGroups.GAME_FX, _shootSpawn);
     }
 
     protected override void OnPause()

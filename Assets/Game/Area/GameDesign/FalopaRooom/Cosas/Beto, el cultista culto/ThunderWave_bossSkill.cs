@@ -19,6 +19,8 @@ public class ThunderWave_bossSkill : GOAP_Skills_Base
     [SerializeField] LayerMask hitMask = 1<<21;
     [SerializeField] ParticleSystem FeedbackStart = null;
     [SerializeField] ParticleSystem FeedbackEnd = null;
+    [SerializeField] AudioClip _chargeAttack;
+    [SerializeField] AudioClip _shootAttack;
 
     protected override void OnEndSkill()
     {
@@ -31,6 +33,7 @@ public class ThunderWave_bossSkill : GOAP_Skills_Base
     {
         _ent.canBeInterrupted = false;
         _anim.Play("StartCastOrb");
+        AudioManager.instance.PlaySound(_chargeAttack.name, transform);
         totemFeedback.StartChargeFeedback(() => StartCoroutine(TimeBtwEndPartAndExplode()));
         FeedbackStart.Play();
     }
@@ -63,6 +66,7 @@ public class ThunderWave_bossSkill : GOAP_Skills_Base
 
             obj.TakeDamage(dmgData);
         }
+        AudioManager.instance.PlaySound(_shootAttack.name, transform);
 
         EndSkill();
     }
@@ -73,6 +77,8 @@ public class ThunderWave_bossSkill : GOAP_Skills_Base
         _anim = owner.GetComponentInChildren<Animator>();
         dmgData = GetComponent<DamageData>().SetDamage(damage).SetDamageInfo(DamageInfo.NonParry).SetKnockback(knock);
         totemFeedback.Initialize(StartCoroutine);
+        AudioManager.instance.GetSoundPool(_chargeAttack.name, AudioGroups.GAME_FX, _chargeAttack);
+        AudioManager.instance.GetSoundPool(_shootAttack.name, AudioGroups.GAME_FX, _shootAttack);
     }
 
     protected override void OnPause()

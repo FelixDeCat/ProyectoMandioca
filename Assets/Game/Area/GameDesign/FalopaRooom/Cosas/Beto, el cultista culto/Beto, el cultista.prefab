@@ -85,6 +85,8 @@ MonoBehaviour:
     m_Bits: 1280
   FeedbackStart: {fileID: 5448507489653208108}
   FeedbackEnd: {fileID: 2290777234811237263}
+  _chargeAttack: {fileID: 8300000, guid: 7c331970c1f5e204a8744d69853cb085, type: 3}
+  _shootAttack: {fileID: 8300000, guid: b88dc5a2ef50b3f49be6928b29cd2976, type: 3}
 --- !u!114 &1481552301
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -109,6 +111,7 @@ MonoBehaviour:
   damageTime: 0
   attackDir: {x: 0, y: 0, z: 0}
   owner: {fileID: 0}
+  ownerRoot: {fileID: 0}
 --- !u!1 &1867540105
 GameObject:
   m_ObjectHideFlags: 0
@@ -284,6 +287,8 @@ MonoBehaviour:
     type: 3}
   timeBwtShoots: 0.5
   _countTime: 0
+  _chargeShot: {fileID: 8300000, guid: 7c331970c1f5e204a8744d69853cb085, type: 3}
+  _shootShot: {fileID: 8300000, guid: 2926a388d65a198418a57a963f312f9f, type: 3}
   FeedBack: {fileID: 6705495504206465392}
 --- !u!1 &6414162559105731498
 GameObject:
@@ -481,6 +486,7 @@ MonoBehaviour:
   damageTime: 0
   attackDir: {x: 0, y: 0, z: 0}
   owner: {fileID: 0}
+  ownerRoot: {fileID: 0}
 --- !u!114 &6414162559785903210
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -493,6 +499,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 736f54b23ae203040ad9a79d7d9a5273, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isOn: 0
   _root: {fileID: 6414162559785587999}
   lefthand_Shooter: {fileID: 0}
   attackSensor: {fileID: 0}
@@ -509,6 +516,7 @@ MonoBehaviour:
   damageFeedback: 0
   canBeInterrupted: 1
   skinnedMeshrenderer: {fileID: 5662374335745597984}
+  _evilLaugh: {fileID: 8300000, guid: eed949171c8880940ab7007e721e3e60, type: 3}
 --- !u!114 &6414162559785903209
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -544,6 +552,7 @@ MonoBehaviour:
   _target: {fileID: 0}
   auxTarget: {fileID: 0}
   _auxCount: 0
+  isOn: 0
   debugState: 
 --- !u!136 &6414162559785903200
 CapsuleCollider:
@@ -659,7 +668,8 @@ MonoBehaviour:
   prefab: {fileID: 3901963547881250307, guid: 2a69aece938c0a04da1666b0c4108765, type: 3}
   amountSummoned: 3
   spellDuration: 1
-  FeedBack: {fileID: 0}
+  _chargeSpawn: {fileID: 8300000, guid: 7c331970c1f5e204a8744d69853cb085, type: 3}
+  _shootSpawn: {fileID: 8300000, guid: 7337103a38977704caefdd124c8e58ab, type: 3}
 --- !u!114 &1486639178
 MonoBehaviour:
   m_ObjectHideFlags: 0
