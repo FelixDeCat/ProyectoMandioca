@@ -133,6 +133,7 @@ MonoBehaviour:
   damageTime: 0
   attackDir: {x: 0, y: 0, z: 0}
   owner: {fileID: 0}
+  ownerRoot: {fileID: 0}
 --- !u!1 &2443024701442604470
 GameObject:
   m_ObjectHideFlags: 0
@@ -190,6 +191,7 @@ MonoBehaviour:
   - {fileID: 1466267241324049101}
   _withDelay: 0
   delayTime: 0
+  drawGizmos: 0
   UE_OnEnter:
     m_PersistentCalls:
       m_Calls: []
@@ -202,6 +204,7 @@ MonoBehaviour:
   PressUp:
     m_PersistentCalls:
       m_Calls: []
+  executing: 0
   item: {fileID: 11400000, guid: 8f5650f0e20952448882145579981b50, type: 2}
   canrecolectoranim: 0
   to_collect:
@@ -276,7 +279,6 @@ GameObject:
   - component: {fileID: 3482681056625853461}
   - component: {fileID: 4727598802959696924}
   - component: {fileID: 5845814151322671494}
-  - component: {fileID: 3580424687409821561}
   - component: {fileID: 8535809844166092552}
   m_Layer: 0
   m_Name: equiped
@@ -340,6 +342,12 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+  EV_RAW_BeginUse:
+    m_PersistentCalls:
+      m_Calls: []
+  EV_RAW_EndUse:
+    m_PersistentCalls:
+      m_Calls: []
   EV_Execute:
     m_PersistentCalls:
       m_Calls:
@@ -414,7 +422,6 @@ MonoBehaviour:
   throwRange: 5
   damageRadius: 0
   spinDuration: 3
-  distanceToCatch: 3
   throwTravelTime: 0.3
   returnTime: 0.3
   damageType: 1
@@ -446,23 +453,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   cooldown: 6
---- !u!114 &3580424687409821561
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3481587724905602646}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a16c0c5ed583cbb4aae009dabf1ffb07, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  cast_type: 0
-  AddCharges: 0
-  contextual_charge: {fileID: 1514699271187250310, guid: e093e5c76735dad45992a364b38a4911,
-    type: 3}
-  casting: 1
 --- !u!114 &8535809844166092552
 MonoBehaviour:
   m_ObjectHideFlags: 0
