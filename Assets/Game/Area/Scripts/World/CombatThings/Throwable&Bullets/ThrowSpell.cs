@@ -36,9 +36,7 @@ public class ThrowSpell : Throwable
         noFloorCollision = true;
         timer = 0;
         AudioManager.instance.PlaySound(parrySound.name);
-        move = false;
         timerToDissappear = 0;
-        Dissappear();
     }
 
     protected override void OnFloorCollision()
