@@ -10,6 +10,7 @@ public class GrabSwordShield : TestInteractableHold
     public override void OnExecute(WalkingEntity collector)
     {
         base.OnExecute(collector);
+        ContextualBarSimple.instance.Hide();
         character = collector.gameObject.GetComponent<CharacterHead>();
 
         if (character && isSword)
