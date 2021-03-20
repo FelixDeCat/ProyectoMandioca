@@ -162,6 +162,7 @@ public class GoatEnemy : EnemyWithCombatDirector
         movement.OnUpdate();
         cdModuleNoStopeable.UpdateCD();
     }
+
     Vector3 force;
     protected override void OnPause()
     {
