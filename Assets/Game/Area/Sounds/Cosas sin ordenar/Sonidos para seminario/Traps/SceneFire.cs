@@ -7,8 +7,8 @@ public class SceneFire : PlayObject
 {
     [SerializeField] ParticleSystem mainParticle = null;
     [SerializeField] DamageData dmgData = null;
-    Dictionary<DamageReceiver, float> myTargetsTimers = new Dictionary<DamageReceiver, float>();
-    Dictionary<DamageReceiver, Action> targetUpdates = new Dictionary<DamageReceiver, Action>();
+    Dictionary<EffectReceiver, float> myTargetsTimers = new Dictionary<EffectReceiver, float>();
+    Dictionary<EffectReceiver, Action> targetUpdates = new Dictionary<EffectReceiver, Action>();
     [SerializeField] float timeToTick = 4;
     [SerializeField] int damage = 3;
     [SerializeField] Damagetype dmgType = Damagetype.Fire;
@@ -43,7 +43,7 @@ public class SceneFire : PlayObject
 
     protected override void OnTurnOff()
     {
-        myTargetsTimers = new Dictionary<DamageReceiver, float>();
+        myTargetsTimers = new Dictionary<EffectReceiver, float>();
     }
 
     protected override void OnTurnOn()
@@ -52,7 +52,7 @@ public class SceneFire : PlayObject
 
     private void OnTriggerEnter(Collider other)
     {
-        var dmgReceiver = other.gameObject.GetComponent<DamageReceiver>();
+        var dmgReceiver = other.gameObject.GetComponent<EffectReceiver>();
         if (dmgReceiver != null && !myTargetsTimers.ContainsKey(dmgReceiver))
         {
             myTargetsTimers.Add(dmgReceiver, 0);
@@ -63,19 +63,17 @@ public class SceneFire : PlayObject
                 if (myTargetsTimers[dmgReceiver] >= timeToTick)
                 {
                     myTargetsTimers[dmgReceiver] = 0;
-                    dmgReceiver.TakeDamage(dmgData);
-                    dmgReceiver.GetComponent<EffectReceiver>()?.TakeEffect(effectType);
+                    dmgReceiver.TakeEffect(effectType);
                 }
             });
             UpdateTicks += targetUpdates[dmgReceiver];
-            dmgReceiver.TakeDamage(dmgData);
-            dmgReceiver.GetComponent<EffectReceiver>()?.TakeEffect(effectType);
+            dmgReceiver.TakeEffect(effectType);
         }
     }
 
     private void OnTriggerExit(Collider other)
     {
-        var dmgReceiver = other.gameObject.GetComponent<DamageReceiver>();
+        var dmgReceiver = other.gameObject.GetComponent<EffectReceiver>();
         if (dmgReceiver != null && myTargetsTimers.ContainsKey(dmgReceiver))
         {
             UpdateTicks -= targetUpdates[dmgReceiver];

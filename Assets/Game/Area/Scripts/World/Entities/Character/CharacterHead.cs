@@ -79,6 +79,7 @@ public class CharacterHead : CharacterControllable
     [SerializeField] float big_damage_limit_percent = 0.3f;
 
     [SerializeField] CharLifeSystem lifesystem = null;
+    [SerializeField] EffectReceiver effectReceiver = null;
     public CharLifeSystem Life => lifesystem;
     //Para saber si estoy en lo de caronte
     [SerializeField] bool _imInHell = false;
@@ -101,7 +102,6 @@ public class CharacterHead : CharacterControllable
     public void ToggleAttack(bool val) => canAttack = val;
 
     public Transform MyParent { get; private set; }
-
     public ComboWomboSystem comboParryForAbility = new ComboWomboSystem();
 
     private void Start()
@@ -200,6 +200,7 @@ public class CharacterHead : CharacterControllable
         }
         //feedbacks.sounds.index = 0;
         //AudioManager.instance.getLerp().TransitionBetweenSnapshots(feedbacks.sounds.index, feedbacks.sounds.lerpSpeed);
+        effectReceiver = GetComponent<EffectReceiver>();
     }
 
     public void HeavyAttackTrueToRecoverNormalHeavy(bool b, float heavyAttackMove = -1)
@@ -232,6 +233,7 @@ public class CharacterHead : CharacterControllable
         ChildrensUpdates();
         charAttack.Refresh();
         combo_system.OnUpdate();
+        effectReceiver.UpdateStates();
     }
 
     public void AddCallbackToReadyCombo(Action _callback, bool add = true)
