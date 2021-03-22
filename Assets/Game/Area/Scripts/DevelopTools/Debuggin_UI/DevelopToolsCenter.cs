@@ -21,7 +21,7 @@ public class DevelopToolsCenter : MonoBehaviour
     public void SetGodMode(bool val) 
     { 
         godMode = val;
-        Main.instance.GetChar().gameObject.GetComponent<CharTest>().EnableHyperJump();
+        Main.instance.GetChar().SetGodMode(true);
     }
     #endregion
 

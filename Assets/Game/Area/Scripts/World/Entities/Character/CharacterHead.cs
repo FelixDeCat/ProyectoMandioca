@@ -142,7 +142,7 @@ public class CharacterHead : CharacterControllable
         dmgReceiver
             .SetBlock(charBlock.IsBlock, BlockFeedback)
             .SetParry(charBlock.IsParry, ParryFeedback)
-            .SetIsDamage(() => move.InDash)
+            .SetIsDamage(() => move.InDash || godMode)
             .AddDead(Dead)
             .AddTakeDamage(TakeDamageFeedback)
             .Initialize(rot, null, lifesystem);
@@ -1034,6 +1034,10 @@ public class CharacterHead : CharacterControllable
         feedbacks.particles.hitParticle.Play();
         Main.instance.Vibrate();
     }
+
+    bool godMode = false;
+    public void SetGodMode(bool b) => godMode = b;
+
 
     void Dead(Vector3 dir) { }
 
