@@ -12,7 +12,7 @@ public class PlayObjectParentInitializer : LoadComponent
 
     protected void Start() // por si mi parent no viene con Loader
     {
-        if (!AlreadyProcessed && Application.isPlaying)
+        if (!AlreadyProcessed && Application.isPlaying && myPlayObjects.Length>0)
         {
             AlreadyProcessed = true;
             StartCoroutine(Process());

@@ -14,12 +14,6 @@ public class ExplosiveShroom : EntityBase
     [SerializeField] float delayBetweenParticleAndExplosion = 0.3f;
     [SerializeField] ParticleSystem particles = null;
 
-
-    private void Start()
-    {
-        Initialize();
-    }
-
     public void Explode()
     {
         StartCoroutine(TickExplode(explosionDelay));
