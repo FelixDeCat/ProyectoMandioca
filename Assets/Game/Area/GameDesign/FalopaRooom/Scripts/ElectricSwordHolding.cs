@@ -25,7 +25,14 @@ public class ElectricSwordHolding : MonoBehaviour
     const string spawnBullet = "SpawnBullet";
     const string spawnOrb = "SpawnOrb";
     const string spawnOrbPart = "SpawnOrbPart";
+    [SerializeField] AudioClip _groundHit;
+    [SerializeField] AudioClip _lightningStrike;
+    private void Start()
+    {
+       
+       
 
+    }
     public void OnPress()
     {
         //Aca supongo que van cosas de feedback
@@ -70,7 +77,8 @@ public class ElectricSwordHolding : MonoBehaviour
         myChar.charAnimEvent.Add_Callback(spawnOrb,DetonateOrb );
         myChar.charAnimEvent.Add_Callback(spawnOrbPart, InstantiateOrbPart);
         ParticlesManager.Instance.GetParticlePool(particlesLindasPre.name, particlesLindasPre);
-
+        AudioManager.instance.GetSoundPool(_groundHit.name, AudioGroups.GAME_FX, _groundHit);
+        AudioManager.instance.GetSoundPool(_lightningStrike.name, AudioGroups.GAME_FX, _lightningStrike);
     }
     public void UnEquip()
     {
@@ -102,10 +110,13 @@ public class ElectricSwordHolding : MonoBehaviour
         orb.SetSpeed(orbSpeed).SetLifeTime(orbLifeTime);
         orb.transform.forward = myChar.GetCharMove().GetRotatorDirection();
         orb.transform.position = myChar.transform.position + Vector3.up + orb.transform.forward;
+        
+
     }
 
     void ExecuteShort()
     {
+
         myChar.charanim.ThrowLightningOrb();
     }
 
@@ -130,6 +141,8 @@ public class ElectricSwordHolding : MonoBehaviour
         StartCoroutine(AndaBienPls(orb));
         /*orb.OnInitialize();
         orb.Explode()*/
+        AudioManager.instance.PlaySound(_lightningStrike.name, transform);
+        AudioManager.instance.PlaySound(_groundHit.name, transform);
     }
 
     IEnumerator AndaBienPls(ElectricOrb orb)
@@ -144,6 +157,7 @@ public class ElectricSwordHolding : MonoBehaviour
         wave = wave.SetSpeed(speed).SetLifeTime(lifeTime);
         wave.transform.forward = myChar.GetCharMove().GetRotatorDirection();
         wave.transform.position = myChar.transform.position + Vector3.up + wave.transform.forward;
+
     }
 
     public void OnEnd()

@@ -19,10 +19,12 @@ public class ElectricOrb : Waves
     [SerializeField] ParticleSystem explosionPart = null;
     [SerializeField] Waves prefabBullet = null;
     [SerializeField] Collider myCollider = null;
+    [SerializeField] AudioClip _hitSound;
     protected override void Start()
     {
         base.Start();
         ParticlesManager.Instance.GetParticlePool(explosionPart.name, explosionPart);
+        AudioManager.instance.GetSoundPool(_hitSound.name, AudioGroups.GAME_FX, _hitSound);
     }
 
     protected override void Update()
@@ -45,6 +47,7 @@ public class ElectricOrb : Waves
         {
             if (enemies[i].GetComponent<EntityBase>() != Main.instance.GetChar() && !enemies[i].GetComponent<Totem>())
             {
+                AudioManager.instance.PlaySound(_hitSound.name, enemies[i].transform);
                 dmgDATA.SetDamage(explosionDMG).SetDamageType(Damagetype.Normal).SetKnockback(explosionKnocback).SetPositionAndDirection(transform.position);
                 enemies[i].TakeDamage(dmgDATA);
             }
