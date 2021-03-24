@@ -58,8 +58,7 @@ public class PlayObjectParentInitializer : LoadComponent
         {
             if (myPlayObjects[i] != null && myPlayObjects[i].gameObject.activeSelf)
             {
-                myPlayObjects[i].Initialize();
-                myPlayObjects[i].On();
+                myPlayObjects[i].Off();
             }
             yield return null;
         }
