@@ -18,6 +18,7 @@ public class NewSceneStreamer : MonoBehaviour
     public string firstScene;
 
     Dictionary<string, LocalSceneHandler> localref = new Dictionary<string, LocalSceneHandler>();
+    Dictionary<string, PlayObjectParentInitializer> playObjectInitializer = new Dictionary<string, PlayObjectParentInitializer>();
     //Dictionary<string, SceneData.Detail_Parameter> hotScenesParameters = new Dictionary<string, SceneData.Detail_Parameter>();
     Dictionary<string, Scene> scenes = new Dictionary<string, Scene>();
     public Scene GetSceneByName(string sceneName) { return scenes[sceneName]; }
@@ -78,6 +79,12 @@ public class NewSceneStreamer : MonoBehaviour
         yield return null;
     }
 
+    public void AddToInitializers(string sceneName, PlayObjectParentInitializer initializer)
+    {
+        if(!playObjectInitializer.ContainsKey(sceneName))
+            playObjectInitializer.Add(sceneName, initializer);
+    }
+
     void TryToExecuteParameter(string sceneName, SceneData.Detail_Parameter parameter)
     {
         StartCoroutine(localref[sceneName].ExecuteLoadParameter(parameter));
@@ -114,6 +121,11 @@ public class NewSceneStreamer : MonoBehaviour
         {
             if (localref.ContainsKey(u))
             {
+                if (playObjectInitializer.ContainsKey(u))
+                {
+                    yield return playObjectInitializer[u].UnloadPlayObject();
+                    playObjectInitializer.Remove(u);
+                }
                 yield return localref[u].ExecuteLoadParameter(SceneData.Detail_Parameter.top_to_landmark);
                 LocalToEnemyManager.OnUnLoadScene(u);
             }
