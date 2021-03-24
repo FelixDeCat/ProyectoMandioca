@@ -21,33 +21,6 @@ public class PistonWithSteps : EntityBase
     public UnityEvent OnEnd;
 
     public UnityEvent OnBegin;
-
-    void  FixedUpdate()
-    {
-        if(isMoving)
-        {
-            Move();   
-            
-            if (Vector3.Distance(_root.position, nodes[currentNode].position) <= 0.5f)
-            {
-                var jump = nodes[currentNode].GetComponent<JumpNode>();
-                if (jump != null)
-                {
-                    isMoving = false;
-                    GoToNextNode();
-
-                }
-                else
-                {
-                    _root.position = nodes[currentNode].position;
-                    isMoving = false;
-                    OnStopMove();
-                }
-                
-            }
-        }
-    }
-
     public virtual void OnBeginMove()
     {
         OnBegin.Invoke();
@@ -109,7 +82,31 @@ public class PistonWithSteps : EntityBase
     protected override void OnTurnOn() { }
     protected override void OnTurnOff() { }
     protected override void OnUpdate() { }
-    protected override void OnFixedUpdate() { }
+    protected override void OnFixedUpdate()
+    {
+        if (isMoving)
+        {
+            Move();
+
+            if (Vector3.Distance(_root.position, nodes[currentNode].position) <= 0.5f)
+            {
+                var jump = nodes[currentNode].GetComponent<JumpNode>();
+                if (jump != null)
+                {
+                    isMoving = false;
+                    GoToNextNode();
+
+                }
+                else
+                {
+                    _root.position = nodes[currentNode].position;
+                    isMoving = false;
+                    OnStopMove();
+                }
+
+            }
+        }
+    }
     protected override void OnPause() { }
     protected override void OnResume() { }
 }

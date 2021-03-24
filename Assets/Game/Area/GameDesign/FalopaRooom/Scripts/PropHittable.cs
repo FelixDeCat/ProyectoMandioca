@@ -11,12 +11,6 @@ public class PropHittable : Environment
     protected DamageReceiver damageReceiver = null;
     protected _Base_Life_System _lifeSytstem = null;
 
-
-    private void Start()
-    {
-        OnInitialize();
-    }
-
     protected override void OnInitialize()
     {
         damageReceiver = GetComponent<DamageReceiver>();

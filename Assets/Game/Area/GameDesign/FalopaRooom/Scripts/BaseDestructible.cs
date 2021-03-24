@@ -19,14 +19,6 @@ public abstract class BaseDestructible : Environment
 
     Transform target;
 
-    public bool NoInitialize = false;
-
-    private void Start()
-    {
-        if (NoInitialize) return;
-        Initialize();
-    }
-
     protected override void OnInitialize()
     {
         _lifeSytstem.Initialize( _lifeSytstem.life, ()=> { }, () => { }, () => { });
