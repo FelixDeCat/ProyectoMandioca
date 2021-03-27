@@ -51,6 +51,7 @@ public class BoomerangShield : MonoBehaviour
     [SerializeField] private GameObject auxShield = null;
     [SerializeField] BommerangShiledFeedbacks feedbacks;
 
+    const string throwShort = "ThrowShort";
 
     //Sonidos
     //[SerializeField] private AudioClip _flingShield_Sound = null;
@@ -78,9 +79,9 @@ public class BoomerangShield : MonoBehaviour
         //_hero.GetCharMove().StopForce();
         //_hero.GetCharMove().StopForceBool(true);
         //_hero.BlockRoll = true;
-
         _hero.ShieldAbilityCharge();
         _hero.charanim.StartThrow(true);
+        
     }
 
     public void OnStopUse()
@@ -101,10 +102,13 @@ public class BoomerangShield : MonoBehaviour
         dmgData.Initialize(_hero);
         dmgData.SetDamage(damagePerTick).SetDamageTick(false).SetDamageType(damageType).SetKnockback(0).SetPositionAndDirection(_shield.transform.position);
 
+        _hero.charAnimEvent.Add_Callback(throwShort, ThrowShield);
+
         auxParent = auxShield.transform.parent;
     }
     public void UnEQuip()
     {
+        _hero.charAnimEvent.Remove_Callback(throwShort, ThrowShield);
     }
 
     ///////////////////////////////////////
@@ -118,10 +122,10 @@ public class BoomerangShield : MonoBehaviour
             /*if (charges == 0)*/ shortCast = true;
             //else shortCast = false;
             _hero.ShieldAbilityRelease();
-            ThrowShield();
-            _hero.charanim.StartThrow(false);
-            _hero.charanim.ThrowShield(true);
-            _hero.charanim.ThrowShield(false);
+            //ThrowShield(); Esto se llama desde animator
+            //_hero.charanim.StartThrow(false);
+            //_hero.charanim.ThrowShield(true);
+            //_hero.charanim.ThrowShield(false);
         }
     }
 
@@ -129,6 +133,8 @@ public class BoomerangShield : MonoBehaviour
 
     public void ThrowShield()
     {
+        _hero.charanim.StartThrow(false);
+       
         auxShield.transform.SetParent(null);
         auxShield.transform.rotation = Quaternion.Euler(new Vector3(-90, 0, 0));       
         auxShield.SetActive(true);
@@ -158,7 +164,7 @@ public class BoomerangShield : MonoBehaviour
         timeCount = 0;
 
         //if (shortCast)
-            StartCoroutine(ThrowShort());
+        StartCoroutine(ThrowShort());
         //else StartCoroutine(ThrowLong());
 
         StartCoroutine(StartDamage());
