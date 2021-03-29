@@ -42,7 +42,6 @@ public class CombatDirectorElement : MonoBehaviour, ICombatDirector
         director.AddToList(this, _target);
         SetTarget(_target);
         Combat = true;
-        Debug.Log(_target.name);
     }
 
     public void ExitCombat()
@@ -50,7 +49,6 @@ public class CombatDirectorElement : MonoBehaviour, ICombatDirector
         director.DeadEntity(this, Target);
         Target = null;
         Combat = false;
-        Debug.Log("?");
     }
 
     public void ChangeTarget(Transform newTarget)
