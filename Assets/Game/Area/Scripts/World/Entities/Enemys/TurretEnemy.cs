@@ -27,6 +27,7 @@ public class TurretEnemy : PlayObject
     [SerializeField] Transform finalTargetPos = null;
     [SerializeField] LineOfSight lineOfSight = null;
     [SerializeField] float rotSpeed = 5;
+    [SerializeField] AudioClip _RaySound;
 
     float animSpeed;
     float timer = 0;
@@ -42,9 +43,11 @@ public class TurretEnemy : PlayObject
         target = Main.instance.GetChar().transform;
         dmgData.SetDamage(damage).SetDamageInfo(DamageInfo.NonBlockAndParry).SetDamageType(dmgType).SetKnockback(knockback).Initialize(transform);
         lineOfSight?.Configurate(transform);
+        AudioManager.instance.GetSoundPool(_RaySound.name, AudioGroups.GAME_FX, _RaySound);
     }
     protected override void OnTurnOn()
     {
+
         if (type == TurretType.PlayerFollow)
         {
             TypeUpdate = PlayerFollowUpdate;
@@ -65,6 +68,8 @@ public class TurretEnemy : PlayObject
     protected override void OnUpdate()
     {
         TypeUpdate();
+        
+
         if (damageOn)
         {
             damageTimer += Time.deltaTime;
@@ -105,6 +110,7 @@ public class TurretEnemy : PlayObject
     {
         if (shooting)
         {
+
             RaycastHit hit;
 
             if (Physics.Raycast(rayStartPosition.position, dir, out hit, rayDistance, contactMask, QueryTriggerInteraction.Ignore))
@@ -135,6 +141,7 @@ public class TurretEnemy : PlayObject
                 timer = 0;
                 shooting = true;
                 ray.On();
+
             }
         }
     }
@@ -194,6 +201,7 @@ public class TurretEnemy : PlayObject
                 anim.SetBool("Shoot", false);
                 shooting = false;
                 root.forward = finalDir;
+                AudioManager.instance.StopAllSounds(_RaySound.name);
                 ray.Off();
             }
         }
@@ -208,6 +216,8 @@ public class TurretEnemy : PlayObject
                 root.forward = finalDir;
                 timer = 0;
                 anim.SetBool("Shoot", true);
+                AudioManager.instance.PlaySound(_RaySound.name, transform);
+
                 ray.On();
             }
         }
