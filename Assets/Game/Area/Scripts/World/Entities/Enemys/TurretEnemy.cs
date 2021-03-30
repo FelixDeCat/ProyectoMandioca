@@ -29,6 +29,8 @@ public class TurretEnemy : PlayObject
     [SerializeField] float rotSpeed = 5;
     [SerializeField] AudioClip _RaySound;
 
+    [SerializeField] bool initializedTurret = false;
+
     float animSpeed;
     float timer = 0;
     bool shooting;
@@ -47,7 +49,6 @@ public class TurretEnemy : PlayObject
     }
     protected override void OnTurnOn()
     {
-
         if (type == TurretType.PlayerFollow)
         {
             TypeUpdate = PlayerFollowUpdate;
@@ -65,8 +66,25 @@ public class TurretEnemy : PlayObject
         }
     }
 
+    public void OnTurret()
+    {
+        initializedTurret = true;
+    }
+    public void OffTurret()
+    {
+        initializedTurret = false;
+        ray.Off();
+        anim.SetBool("Shoot", false);
+        shooting = false;
+        damageOn = false;
+        damageTimer = 0;
+        timer = 0;
+        rooting = 0;
+    }
+
     protected override void OnUpdate()
     {
+        if (!initializedTurret) return;
         TypeUpdate();
         
 

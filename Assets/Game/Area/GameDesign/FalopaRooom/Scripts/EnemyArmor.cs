@@ -11,6 +11,8 @@ public class EnemyArmor : MonoBehaviour
 
     private void Start()
     {
+        armor.Initialize();
+        armor.On();
         armoredObject.AddInvulnerability(Damagetype.Normal);
         armoredObject.AddInmuneFeedback(InvulnerabilityFeedback);
         armoredObject.AddInvulnerability(Damagetype.Heavy);
