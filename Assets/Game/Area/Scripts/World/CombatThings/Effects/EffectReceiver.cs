@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 
-public enum EffectName { OnFire, OnPetrify, OnFreeze, OnRoot, OnElectrified }
+public enum EffectName { OnFire, OnPetrify, OnFreeze, OnRoot, OnElectrified, OnPoison }
 
 public class EffectReceiver : MonoBehaviour
 {

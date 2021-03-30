@@ -14,6 +14,13 @@ public class Stats2D_Bar : FrontendStatBase
     float val_destiny;
     public float delay = 0.5f;
 
+    Color normalColor;
+
+    private void Start()
+    {
+        normalColor = img.color;
+    }
+
     public override void OnValueChange(int value, int max = 100, bool anim = false)
     {
         float val = value;
@@ -34,7 +41,9 @@ public class Stats2D_Bar : FrontendStatBase
         this.anim = true;
     }
 
+    public void ChangeBarColor(Color newColor) => img.color = newColor;
 
+    public void ReturnToNormalColor() => img.color = normalColor;
 
     private void Update()
     {
