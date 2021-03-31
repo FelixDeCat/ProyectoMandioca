@@ -35,8 +35,7 @@ public abstract class BossSkills : MonoBehaviour,IPauseable
 
     public virtual void OnUpdate()
     {
-        if (updating)
-        {
+        if (!updating) return;
             if (timer == 0) ItterFunc();
 
             timer += Time.deltaTime;
@@ -47,7 +46,6 @@ public abstract class BossSkills : MonoBehaviour,IPauseable
             }
 
             if (currentItteration >= itterationAmmount)  ItterationOver?.Invoke();
-        }
     }
 
     protected void OverSkill()

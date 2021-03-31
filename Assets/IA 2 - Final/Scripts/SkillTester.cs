@@ -28,5 +28,9 @@ public class SkillTester : MonoBehaviour
                 timer = 0;
             }
         }
+        else if (usingSkill)
+        {
+            skillToTest?.OnUpdate();
+        }
     }
 }
