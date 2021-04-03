@@ -1,23 +1,103 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System;
 
-public class FinalThunderWaveSkill : BossSkills
+public class FinalThunderWaveSkill : BossSkills, ISpawner
 {
+    int currentEnemies;
+    [SerializeField] string currentScene = "bossRoom";
+
+    List<EnemyBase> currentSpawnedEnemies = new List<EnemyBase>();
+
+    [SerializeField] LifePercent_EnemyBaseDictionary enemiesDictionary = new LifePercent_EnemyBaseDictionary();
+    [SerializeField] TotemFeedback spawnModifies = new TotemFeedback();
+    [SerializeField] SpawnerSpot spot = new SpawnerSpot();
+
+    [SerializeField] GenericLifeSystem lifeSystem = null;
+
     public override void Initialize()
     {
         base.Initialize();
+        spawnModifies.Initialize(StartCoroutine);
+
+    }
+    void Callback() => spawnModifies.StartChargeFeedback(SpawnEnemies);
+
+    protected override void OnInterruptSkill()
+    {
+        spawnModifies.InterruptCharge();
+        int enemies = currentSpawnedEnemies.Count;
+        for (int i = 0; i < enemies; i++)
+        {
+            currentSpawnedEnemies[currentEnemies - 1].ReturnToSpawner();
+        }
+    }
+
+    void SpawnEnemies()
+    {
+        //EnemyBase[] enemies = ReturnArrays(lifeSystem.Life / lifeSystem.LifeMax);
+        LifePercent enemies = ReturnArrays(0.9f);
+
+        for (int i = 0; i < enemiesDictionary[enemies].Length; i++)
+        {
+            Vector3 pos = spot.GetSurfacePos();
+            pos.y += 1;
+            var enemy = enemiesDictionary[enemies][i];
+            spawnModifies.StartGoToFeedback(pos, (x) => SpawnPrefab(enemy, x, currentScene));
+        }
+    }
+
+    LifePercent ReturnArrays(float percent)
+    {
+        foreach (var item in enemiesDictionary)
+        {
+            if (percent >= item.Key.minPercent && percent <= item.Key.maxPercent)
+                return item.Key;
+        }
+
+        Debug.Log("hay un error acá");
+        return null;
+    }
+
+    protected override void OnOverSkill()
+    {
     }
 
     protected override void OnUseSkill()
     {
+        Callback();
     }
 
-    protected override void OnInterruptSkill()
+    public void SpawnPrefab(EnemyBase enemy, Vector3 pos, string sceneName = null)
     {
+        currentSpawnedEnemies.Add(spot.SpawnPrefab(pos, enemy, sceneName, this).GetComponent<EnemyBase>());
+        currentEnemies += 1;
     }
 
-    protected override void OnOverSkill()
+    public void ReturnObject(PlayObject newPrefab)
+    {
+        currentEnemies -= 1;
+        newPrefab.Spawner = null;
+        newPrefab.Off();
+        currentSpawnedEnemies.Remove(newPrefab.GetComponent<EnemyBase>());
+        PoolManager.instance.ReturnObject(newPrefab);
+        if (currentEnemies <= 0) OverSkill();
+    }
+
+    public override void Pause()
+    {
+        base.Pause();
+        spawnModifies.pause = true;
+    }
+
+    public override void Resume()
+    {
+        base.Resume();
+        spawnModifies.pause = false;
+    }
+
+    public void SpawnPrefab(Vector3 pos, string sceneName = null)
     {
     }
 }
