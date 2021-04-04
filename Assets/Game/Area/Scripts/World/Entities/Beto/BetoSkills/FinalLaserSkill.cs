@@ -10,11 +10,15 @@ public class FinalLaserSkill : BossSkills
     [SerializeField] Throwable projectile = null;
     Transform target;
 
+    [SerializeField] Animator anim = null;
+    [SerializeField] AnimEvent animEvent = null;
+
     public override void Initialize()
     {
         base.Initialize();
         ThrowablePoolsManager.instance.CreateAPool(projectile.name, projectile);
         SetTarget(Main.instance.GetChar().transform);
+        animEvent.Add_Callback("Shoot", ShootEvent);
     }
 
     public BossSkills SetTarget(Transform _target)
@@ -25,7 +29,7 @@ public class FinalLaserSkill : BossSkills
 
     protected override void OnUseSkill()
     {
-        ShootEvent();
+        anim.Play("Shoot");
     }
 
     protected override void OnInterruptSkill()

@@ -9,14 +9,14 @@ public class FinalExpansiveAreaSkill : BossSkills
     [SerializeField] float timeToMaxScale = 2;
 
     [SerializeField] ParticleSystem expansiveOver = null;
-
     [SerializeField] LayerMask obstacleMask = 1 << 0;
-
     [SerializeField] DamageData dmgData = null;
 
     [SerializeField] int damage = 4;
     [SerializeField] float knockback = 100;
     [SerializeField] Damagetype dmgType = Damagetype.Explosion;
+    [SerializeField] Animator anim = null;
+    [SerializeField] AnimEvent animEvent = null;
     Vector3 finalScale = Vector3.zero;
     float timerScale = 0;
 
@@ -25,20 +25,27 @@ public class FinalExpansiveAreaSkill : BossSkills
         base.Initialize();
         explosionSensor.AddCallback_OnTriggerEnter(GiveDamage);
         ParticlesManager.Instance.GetParticlePool(expansiveOver.name, expansiveOver);
+        animEvent.Add_Callback("Expansive", StartAbility);
     }
 
     protected override void OnUseSkill()
     {
         dmgData.SetDamage(damage).SetKnockback(knockback).SetDamageInfo(DamageInfo.NonBlockAndParry).SetDamageType(dmgType);
+        anim.Play("StartExpansive");
+    }
+
+    void StartAbility()
+    {
         explosionSensor.gameObject.SetActive(true);
         explosionSensor.transform.localScale = Vector3.one;
         finalScale = explosionSensor.transform.localScale * maxScale;
-        Debug.Log("?");
     }
 
     public override void OnUpdate()
     {
         base.OnUpdate();
+        if (!explosionSensor.gameObject.activeSelf) return;
+
         timerScale += Time.deltaTime;
 
         explosionSensor.transform.localScale = Vector3.Lerp(Vector3.one, finalScale, timerScale/timeToMaxScale);

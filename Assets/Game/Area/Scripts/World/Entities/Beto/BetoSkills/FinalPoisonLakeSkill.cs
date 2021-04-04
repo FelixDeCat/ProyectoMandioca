@@ -15,6 +15,9 @@ public class FinalPoisonLakeSkill : BossSkills
 
     [SerializeField] Transform lake = null;
 
+    [SerializeField] Animator anim = null;
+    [SerializeField] AnimEvent animEvent = null;
+
     Vector3 downPos;
     Vector3 upPos;
 
@@ -29,10 +32,18 @@ public class FinalPoisonLakeSkill : BossSkills
         base.Initialize();
         lake.gameObject.SetActive(true);
         lake.GetComponent<PlayObject>()?.Initialize();
+        lake.position = new Vector3(lake.position.x, minLakeYPos, lake.position.z);
         lake.gameObject.SetActive(false);
+        animEvent.Add_Callback("PoisonLake", ActiveLake);
     }
 
     protected override void OnUseSkill()
+    {
+        anim.Play("StartOrb");
+        anim.SetBool("PoisonLake", true);
+    }
+
+    void ActiveLake()
     {
         lake.gameObject.SetActive(true);
         lake.GetComponent<PlayObject>()?.On();
@@ -43,6 +54,8 @@ public class FinalPoisonLakeSkill : BossSkills
     public override void OnUpdate()
     {
         base.OnUpdate();
+
+        if (!lake.gameObject.activeSelf) return;
 
         if (!active)
         {
@@ -56,6 +69,7 @@ public class FinalPoisonLakeSkill : BossSkills
                 movingTimer = 0;
                 active = true;
                 LakeUp?.Invoke();
+                anim.SetBool("PoisonLake", false);
             }  
         }
         else

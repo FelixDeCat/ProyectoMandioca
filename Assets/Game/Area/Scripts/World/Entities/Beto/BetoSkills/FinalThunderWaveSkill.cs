@@ -16,10 +16,14 @@ public class FinalThunderWaveSkill : BossSkills, ISpawner
 
     [SerializeField] GenericLifeSystem lifeSystem = null;
 
+    [SerializeField] Animator anim = null;
+    [SerializeField] AnimEvent animEvent = null;
+
     public override void Initialize()
     {
         base.Initialize();
         spawnModifies.Initialize(StartCoroutine);
+        animEvent.Add_Callback("Spawn", Callback);
 
     }
     void Callback() => spawnModifies.StartChargeFeedback(SpawnEnemies);
@@ -62,11 +66,13 @@ public class FinalThunderWaveSkill : BossSkills, ISpawner
 
     protected override void OnOverSkill()
     {
+        anim.SetBool("Spawn", false);
     }
 
     protected override void OnUseSkill()
     {
-        Callback();
+        anim.Play("StartSpawn");
+        anim.SetBool("Spawn", true);
     }
 
     public void SpawnPrefab(EnemyBase enemy, Vector3 pos, string sceneName = null)
