@@ -6,19 +6,15 @@ using System;
 public class SceneFire : PlayObject
 {
     [SerializeField] ParticleSystem mainParticle = null;
-    [SerializeField] DamageData dmgData = null;
     Dictionary<EffectReceiver, float> myTargetsTimers = new Dictionary<EffectReceiver, float>();
     Dictionary<EffectReceiver, Action> targetUpdates = new Dictionary<EffectReceiver, Action>();
     [SerializeField] float timeToTick = 4;
-    [SerializeField] int damage = 3;
-    [SerializeField] Damagetype dmgType = Damagetype.Fire;
     [SerializeField] EffectName effectType = EffectName.OnFire;
 
     Action UpdateTicks = delegate { };
 
     protected override void OnInitialize()
     {
-        dmgData.SetDamage(damage).SetDamageInfo(DamageInfo.NonBlockAndParry).SetDamageType(dmgType).SetPositionAndDirection(transform.position, Vector3.zero);
     }
 
     protected override void OnFixedUpdate()

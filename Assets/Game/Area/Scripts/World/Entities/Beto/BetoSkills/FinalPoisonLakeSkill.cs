@@ -18,7 +18,7 @@ public class FinalPoisonLakeSkill : BossSkills
     Vector3 downPos;
     Vector3 upPos;
 
-    float timer;
+    float timerToDesactive;
     float movingTimer;
     bool active;
 
@@ -27,11 +27,15 @@ public class FinalPoisonLakeSkill : BossSkills
     public override void Initialize()
     {
         base.Initialize();
+        lake.gameObject.SetActive(true);
+        lake.GetComponent<PlayObject>()?.Initialize();
+        lake.gameObject.SetActive(false);
     }
 
     protected override void OnUseSkill()
     {
         lake.gameObject.SetActive(true);
+        lake.GetComponent<PlayObject>()?.On();
         downPos = new Vector3(lake.position.x, minLakeYPos, lake.position.z);
         upPos = new Vector3(lake.position.x, maxLakeYPos, lake.position.z);
     }
@@ -56,9 +60,9 @@ public class FinalPoisonLakeSkill : BossSkills
         }
         else
         {
-            timer += Time.deltaTime;
+            timerToDesactive += Time.deltaTime;
 
-            if (timer >= timeActive)
+            if (timerToDesactive >= timeActive)
             {
                 movingTimer += Time.deltaTime;
 
@@ -80,9 +84,10 @@ public class FinalPoisonLakeSkill : BossSkills
     protected override void OnOverSkill()
     {
         lake.position = downPos;
+        lake.GetComponent<PlayObject>()?.Off();
         lake.gameObject.SetActive(false);
         movingTimer = 0;
         active = false;
-        timer = 0;
+        timerToDesactive = 0;
     }
 }
