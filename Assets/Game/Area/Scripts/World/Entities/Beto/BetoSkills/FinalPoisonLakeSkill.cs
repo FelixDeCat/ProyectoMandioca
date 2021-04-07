@@ -25,7 +25,7 @@ public class FinalPoisonLakeSkill : BossSkills
     float movingTimer;
     bool active;
 
-    Action LakeUp;
+    public Action LakeUp;
 
     public override void Initialize()
     {

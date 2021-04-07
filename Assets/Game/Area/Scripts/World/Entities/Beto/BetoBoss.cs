@@ -2,17 +2,183 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class BetoBoss : MonoBehaviour
+public class BetoBoss : EnemyBase
 {
-    // Start is called before the first frame update
-    void Start()
+    [SerializeField] BossBrain brain = new BossBrain();
+    [SerializeField] float rotSpeed = 10;
+    Transform target = null;
+    [SerializeField] Transform shootPosition = null;
+    [SerializeField] AnimEvent animEvent = null;
+
+    [SerializeField] float attackCooldownTime = 3;
+    [SerializeField] float abilityCooldownTime = 8;
+
+    [SerializeField] float recallTime = 0.2f;
+    [SerializeField] Color onHitColor = Color.red;
+    [SerializeField] float onHitFlashTime = 20;
+
+    [SerializeField] float yMaxPos = 10.47f;
+    [SerializeField] float ascendSpeed = 2;
+
+    FinalPoisonLakeSkill poisonSkill;
+    bool updatePoison;
+
+    #region Properties
+    public int CurrentLife { get => lifesystem.Life; }
+    public string MyAbilityMostUsed { get; private set; }
+    public bool AttackOnCooldown { get; private set; }
+    public bool AbilityOnCooldown { get; private set; }
+    #endregion
+    CDModule cdModule = new CDModule();
+    bool cooldown;
+    public bool onCombat;
+    Vector3 initPos;
+
+    protected override void OnInitialize()
     {
-        
+        base.OnInitialize();
+        target = Main.instance.GetChar().Root;
+        MyAbilityMostUsed = "";
+        //brain.Initialize(this, StartCoroutine);
     }
 
-    // Update is called once per frame
-    void Update()
+    public void StartCombat()
     {
-        
+        if (onCombat) return;
+        brain.PlanAndExecute();
+        BossBarGeneric.Open();
+        BossBarGeneric.SetLife(lifesystem.Life, lifesystem.LifeMax);
+        Main.instance.eventManager.SubscribeToEvent(GameEvents.ON_PLAYER_RESPAWN, ResetBossOnDead);
+        onCombat = true;
+        initPos = transform.position;
     }
+
+    protected override void OnUpdateEntity()
+    {
+        cdModule.UpdateCD();
+
+        if (updatePoison)
+            poisonSkill.OnUpdate();
+    }
+
+    protected override void OnFixedUpdate()
+    {
+    }
+
+    protected override void OnPause()
+    {
+        base.OnPause();
+        brain.DesactiveFSM();
+    }
+
+    protected override void OnResume()
+    {
+        base.OnResume();
+        brain.ActiveFSM();
+    }
+
+    protected override void OnReset()
+    {
+    }
+
+    protected override void OnTurnOff()
+    {
+    }
+
+    protected override void OnTurnOn()
+    {
+    }
+
+    protected override void TakeDamageFeedback(DamageData data)
+    {
+        cooldown = true;
+        cdModule.AddCD("TakeDamageCD", () => cooldown = false, recallTime);
+        BossBarGeneric.SetLife(lifesystem.Life, lifesystem.LifeMax);
+
+        StartCoroutine(OnHitted(onHitFlashTime, onHitColor));
+    }
+
+    public void StartPoisonLake(FinalPoisonLakeSkill _skill)
+    {
+        poisonSkill = _skill;
+        poisonSkill.UseSkill(EndPoisonLake);
+        updatePoison = true;
+    }
+
+    void EndPoisonLake()
+    {
+        updatePoison = false;
+    }
+
+    public bool Fly()
+    {
+        rb.velocity = transform.position + Vector3.up * ascendSpeed;
+
+        if(transform.position.y >= yMaxPos)
+        {
+            transform.position = new Vector3(transform.position.x, yMaxPos, transform.position.z);
+            return true;
+        }
+        return false;
+    }
+
+    protected override bool IsDamage()
+    {
+        if (cooldown) return true;
+        else return false;
+    }
+
+    protected override void Die(Vector3 dir)
+    {
+        brain.ResetBrain();
+        StopAllCoroutines();
+        BossBarGeneric.Close();
+        gameObject.SetActive(false);
+    }
+
+    void ResetBossOnDead()
+    {
+        brain.ResetBrain();
+        StopAllCoroutines();
+        animator.Play("Idle");
+        animator.SetBool("OnSpawn", false);
+        animator.SetBool("OnFlame", false);
+        lifesystem.ResetLifeSystem();
+        BossBarGeneric.SetLife(lifesystem.Life, lifesystem.LifeMax);
+        onCombat = false;
+        MyAbilityMostUsed = "";
+        cdModule.ResetAll();
+        BossBarGeneric.Close();
+        transform.position = initPos;
+        Main.instance.eventManager.UnsubscribeToEvent(GameEvents.ON_PLAYER_RESPAWN, ResetBossOnDead);
+    }
+
+    #region Functions to States
+    public void ChangeLastAbility(string last)
+    {
+        MyAbilityMostUsed = last;
+    }
+
+    public void RotateToChar()
+    {
+        Vector3 newForward = (target.position - transform.position).normalized;
+        newForward.y = 0;
+        rootTransform.forward = Vector3.Slerp(rootTransform.forward, newForward, rotSpeed * Time.deltaTime);
+    }
+
+    public bool DistanceToCharacter() => Vector3.Distance(transform.position, target.position) <= brain.distanceToMele;
+
+    public void AttackCooldown()
+    {
+        AttackOnCooldown = true;
+        cdModule.AddCD("AttackCD", () => AttackOnCooldown = false, attackCooldownTime);
+    }
+
+    public void AbilityCooldown(int restStamina = 0)
+    {
+        AbilityOnCooldown = true;
+        cdModule.AddCD("AbilityCD", () => AbilityOnCooldown = false, abilityCooldownTime);
+    }
+
+    #endregion
 }

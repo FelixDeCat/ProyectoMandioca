@@ -8,9 +8,11 @@ namespace IA2Final.FSM
     public class FinalBossIdle : MonoBaseState
     {
         public override event Action OnNeedsReplan;
+        BetoBoss boss;
 
-        public FinalBossIdle()
+        public FinalBossIdle(BetoBoss _boss)
         {
+            boss = _boss;
         }
 
         public override void UpdateLoop()

@@ -9,16 +9,32 @@ namespace IA2Final.FSM
     {
         public override event Action OnNeedsReplan;
 
-        public FinalBossLaser()
+        BossSkills skill;
+        BetoBoss boss;
+        bool timerComplete;
+
+        public FinalBossLaser(BetoBoss _boss, BossSkills _skill)
         {
+            boss = _boss;
+            skill = _skill;
         }
 
         public override void UpdateLoop()
         {
+            skill.OnUpdate();
+            boss.RotateToChar();
+        }
+
+        void EndSkill()
+        {
+            timerComplete = true;
+            boss.AttackCooldown();
         }
 
         public override void Enter(IState from, Dictionary<string, object> transitionParameters = null)
         {
+            timerComplete = false;
+            skill.UseSkill(EndSkill);
         }
 
         public override Dictionary<string, object> Exit(IState to)

@@ -9,6 +9,9 @@ namespace IA2Final.FSM
     {
         public override event Action OnNeedsReplan;
 
+        Rigidbody rb;
+
+
         public FinalBossStun()
         {
         }
