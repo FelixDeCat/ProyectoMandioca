@@ -26,3 +26,14 @@ public class GOAPStatesName
     public const string OnTPAbility = "OnBossTPState";
     public const string OnSpawnAbility = "OnBossSpawnState";
 }
+
+public class BetoStatesName
+{
+    public const string OnIdle = "OnBossIdleState";
+    public const string OnMove = "OnBossMove";
+    public const string OnFly = "OnBossFly";
+    public const string OnShoot = "OnBossShoot";
+    public const string OnSpawn = "OnBossSpawn";
+    public const string OnStun = "OnBossStun";
+    public const string OnPoisonLake = "OnBossPoison";
+}

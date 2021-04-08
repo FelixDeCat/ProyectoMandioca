@@ -11,7 +11,8 @@ public class BetoBoss : EnemyBase
     [SerializeField] AnimEvent animEvent = null;
 
     [SerializeField] float attackCooldownTime = 3;
-    [SerializeField] float abilityCooldownTime = 8;
+    [SerializeField] float spawnCooldown = 8;
+    [SerializeField] float lakeCooldown = 20;
 
     [SerializeField] float recallTime = 0.2f;
     [SerializeField] Color onHitColor = Color.red;
@@ -27,7 +28,8 @@ public class BetoBoss : EnemyBase
     public int CurrentLife { get => lifesystem.Life; }
     public string MyAbilityMostUsed { get; private set; }
     public bool AttackOnCooldown { get; private set; }
-    public bool AbilityOnCooldown { get; private set; }
+    public bool SpawnCooldown { get; private set; }
+    public bool LakeCooldown { get; private set; }
     #endregion
     CDModule cdModule = new CDModule();
     bool cooldown;
@@ -108,6 +110,7 @@ public class BetoBoss : EnemyBase
     void EndPoisonLake()
     {
         updatePoison = false;
+        LakeActive(false);
     }
 
     public bool Fly()
@@ -174,11 +177,20 @@ public class BetoBoss : EnemyBase
         cdModule.AddCD("AttackCD", () => AttackOnCooldown = false, attackCooldownTime);
     }
 
-    public void AbilityCooldown(int restStamina = 0)
+    public void SpawnActive(bool b)
     {
-        AbilityOnCooldown = true;
-        cdModule.AddCD("AbilityCD", () => AbilityOnCooldown = false, abilityCooldownTime);
+        if(b)
+            SpawnCooldown = true;
+        else
+            cdModule.AddCD("SpawnCD", () => SpawnCooldown = false, spawnCooldown);
     }
 
+    public void LakeActive(bool b)
+    {
+        if (b)
+            LakeCooldown = true;
+        else
+            cdModule.AddCD("LakeCD", () => LakeCooldown = false, lakeCooldown);
+    }
     #endregion
 }

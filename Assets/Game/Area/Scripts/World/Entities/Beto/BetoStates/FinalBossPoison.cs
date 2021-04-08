@@ -33,7 +33,7 @@ namespace IA2Final.FSM
         public override void Enter(IState from, Dictionary<string, object> transitionParameters = null)
         {
             boss.StartPoisonLake(skill);
-            boss.AbilityCooldown();
+            boss.LakeActive(true);
             timerComplete = false;
         }
 
