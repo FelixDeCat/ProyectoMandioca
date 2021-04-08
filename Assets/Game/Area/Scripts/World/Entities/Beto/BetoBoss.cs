@@ -108,7 +108,7 @@ public class BetoBoss : EnemyBase
     }
 
     void EndPoisonLake()
-    {
+    { 
         updatePoison = false;
         LakeActive(false);
     }
