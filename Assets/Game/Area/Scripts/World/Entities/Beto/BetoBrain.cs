@@ -31,9 +31,14 @@ public class BetoBrain
     [SerializeField] BossSkills expansiveSkill = null;
     [SerializeField] FinalPoisonLakeSkill poisonSkill = null;
 
+    [SerializeField] AStarHelper aStar = null;
+    [SerializeField] float moveSpeed = 7;
+    [SerializeField] float rotMoveSpeed = 7;
+    public float minCharDistance = 10;
+
     Func<IEnumerator, Coroutine> Coroutine;
 
-    public void Initialize(BetoBoss boss, Func<IEnumerator, Coroutine> _Coroutine, Rigidbody _rb)
+    public void Initialize(BetoBoss boss, Func<IEnumerator, Coroutine> _Coroutine, Rigidbody _rb, Transform root)
     {
         laserSkill.Initialize();
         spawnSkill.Initialize();
@@ -44,7 +49,7 @@ public class BetoBrain
         Coroutine = _Coroutine;
 
         idleState = new FinalBossIdle(model);
-        moveState = new FinalBossMove();
+        moveState = new FinalBossMove(model, anim, aStar, Main.instance.GetChar().transform, root, moveSpeed, rotMoveSpeed, minCharDistance, _rb);
         flyState = new FinalBossFly(model, anim, _rb);
         shootState = new FinalBossLaser(model, laserSkill);
         spawnState = new FinalBossSpawn();

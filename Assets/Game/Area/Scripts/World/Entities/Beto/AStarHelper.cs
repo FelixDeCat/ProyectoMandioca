@@ -34,9 +34,9 @@ public class AStarHelper : MonoBehaviour
         if (exceptWaypoint != null)
             allNodes.Remove(exceptWaypoint);
 
-        var filtredList = allNodes.Where(x => !x.blocked).ToList();
+        var filtredList = allNodes.Where(x => !x.blocked).ToArray();
 
-        var resultNode = filtredList[Random.Range(0, filtredList.Count)];
+        var resultNode = filtredList[Random.Range(0, filtredList.Length)];
 
 
         if (exceptWaypoint != null)
@@ -44,13 +44,22 @@ public class AStarHelper : MonoBehaviour
         return resultNode;
     }
 
+    public AStarNode GetRandomNode(List<AStarNode> exceptWaypoint)
+    {
+        var filtredList = allNodes.Where(x => !x.blocked).Where(x=>!exceptWaypoint.Contains(x)).ToArray();
+
+        var resultNode = filtredList[Random.Range(0, filtredList.Length)];
+
+        return resultNode;
+    }
+
     public AStarNode GetNearNode(Vector3 pos)
     {
-        var filtredList = allNodes.Where(x => !x.blocked).ToList();
+        var filtredList = allNodes.Where(x => !x.blocked).ToArray();
         var result = filtredList[0];
         float currentDistance = Vector3.Distance(result.transform.position, pos);
 
-        for (int i = 1; i < filtredList.Count; i++)
+        for (int i = 1; i < filtredList.Length; i++)
         {
             float newDistance = Vector3.Distance(filtredList[i].transform.position, pos);
 
@@ -60,6 +69,13 @@ public class AStarHelper : MonoBehaviour
                 result = filtredList[i];
             }
         }
+
+        return result;
+    }
+
+    public List<AStarNode> GetNearNodes(Vector3 pos, float radious)
+    {
+        var result = allNodes.Where(x => !x.blocked).Where(x => Vector3.Distance(pos, x.transform.position) < radious).ToList();
 
         return result;
     }

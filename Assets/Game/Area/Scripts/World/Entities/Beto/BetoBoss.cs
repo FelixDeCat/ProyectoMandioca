@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class BetoBoss : EnemyBase
 {
-    [SerializeField] BossBrain brain = new BossBrain();
+    [SerializeField] BetoBrain brain = new BetoBrain();
     [SerializeField] float rotSpeed = 10;
     Transform target = null;
     [SerializeField] Transform shootPosition = null;
@@ -169,7 +169,7 @@ public class BetoBoss : EnemyBase
         rootTransform.forward = Vector3.Slerp(rootTransform.forward, newForward, rotSpeed * Time.deltaTime);
     }
 
-    public bool DistanceToCharacter() => Vector3.Distance(transform.position, target.position) <= brain.distanceToMele;
+    public bool DistanceToCharacter() => Vector3.Distance(transform.position, target.position) <= brain.minCharDistance;
 
     public void AttackCooldown()
     {
