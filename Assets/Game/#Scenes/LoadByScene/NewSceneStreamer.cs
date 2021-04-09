@@ -11,6 +11,8 @@ public class NewSceneStreamer : MonoBehaviour
     public static NewSceneStreamer instance;
     private void Awake() => instance = this;
 
+    [SerializeField] SceneData original_z1;
+
     public HashSet<string> loaded = new HashSet<string>();
     public HashSet<string> loading = new HashSet<string>();
     public string currentScene;
@@ -26,7 +28,7 @@ public class NewSceneStreamer : MonoBehaviour
     [SerializeField] float maxLoadWaitTime = 5;
 
     bool IsLoaded(string sceneName) => loaded.Contains(sceneName) || loaded.Contains(sceneName.ToLower()) || loaded.Contains(sceneName.ToUpper());
-    bool IsLoading(string sceneName) => loading.Contains(sceneName) || loading.Contains(sceneName.ToLower()) || loading.Contains(sceneName.ToUpper()); 
+    bool IsLoading(string sceneName) => loading.Contains(sceneName) || loading.Contains(sceneName.ToLower()) || loading.Contains(sceneName.ToUpper());
 
     private void Start()
     {
@@ -34,8 +36,14 @@ public class NewSceneStreamer : MonoBehaviour
         LoadScene(firstScene, OnEndLoad);
     }
 
-    public void RemoveToSceneLoaded()=> SceneManager.sceneLoaded -= OnSceneLoaded;
+    public void RemoveToSceneLoaded() => SceneManager.sceneLoaded -= OnSceneLoaded;
 
+
+    // { 4 destinatarios }
+    // >> El Start de Esta Clase >> es la primera carga que va a recibir
+    // >> El Gameloop >> cuando me muero y hago todo el reload
+    // >> El Teleport >> cuando un teleport viene parametrizado con la escena que quiere cargar
+    // >> Los Triggers de las Escenas >> Al pasar por uno, me manda la escena que quiere cargar
     public void LoadScene(string sceneName, Action OnEnd = null)
     {
         if (!string.IsNullOrEmpty(sceneName))
@@ -47,10 +55,38 @@ public class NewSceneStreamer : MonoBehaviour
 
     void OnEndLoad()
     {
-        Debug.Log("START GAME");
+        Invoke("Adjustment", 1f);
+    }
+    void Adjustment()
+    {
+        ThreadHandler.EnqueueProcess(new ThreadObject(LastConfigurations(), "Iniciando..."), null, Felito_CustomCollections.Priority.high);
+    }
+
+    IEnumerator LastConfigurations()
+    {
+        HashSet<string> alreadyTreated = new HashSet<string>();
+        alreadyTreated.Add("z1");
+
+        for (int i = 0; i < original_z1.sceneparam.Length; i++)
+        {
+            yield return localref[original_z1.sceneparam[i].scene].ExecuteLoadParameter(original_z1.sceneparam[i].detail);
+            alreadyTreated.Add(original_z1.sceneparam[i].scene);
+        }
+        foreach (var s in loaded)
+        {
+            if (!alreadyTreated.Contains(s))
+            {
+                localref[s].ExecuteLoadParameter(SceneData.Detail_Parameter.top_to_landmark);
+
+                TryToExecuteParameter(s, SceneData.Detail_Parameter.top_to_landmark);
+            }
+            yield return null;
+        }
+
         GameLoop.instance.StartGame();
     }
-    
+
+
 
     IEnumerator LoadCurrentScene(string sceneName)
     {
@@ -81,7 +117,7 @@ public class NewSceneStreamer : MonoBehaviour
 
     public void AddToInitializers(string sceneName, PlayObjectParentInitializer initializer)
     {
-        if(!playObjectInitializer.ContainsKey(sceneName))
+        if (!playObjectInitializer.ContainsKey(sceneName))
             playObjectInitializer.Add(sceneName, initializer);
     }
 
@@ -98,7 +134,7 @@ public class NewSceneStreamer : MonoBehaviour
         //HashSet<string> currents_neigbors = new HashSet<string>();
         for (int i = 0; i < parameters.Length; i++)
         {
-            
+
             if (!loaded.Contains(parameters[i].scene))
             {
                 yield return LoadAsyncAdditive(parameters[i].scene);
@@ -107,7 +143,7 @@ public class NewSceneStreamer : MonoBehaviour
 
             TryToExecuteParameter(parameters[i].scene, parameters[i].detail);
         }
-        
+
         HashSet<string> to_unload = new HashSet<string>(loaded);
         HashSet<string> neigbors = new HashSet<string>();
         for (int i = 0; i < parameters.Length; i++)
@@ -116,7 +152,7 @@ public class NewSceneStreamer : MonoBehaviour
         }
         to_unload.ExceptWith(neigbors);
         to_unload.Remove(currentScene);
-        
+
         foreach (var u in to_unload)//cambiarlo por algo mas performante
         {
             if (localref.ContainsKey(u))
@@ -195,7 +231,7 @@ public class NewSceneStreamer : MonoBehaviour
 
     IEnumerator SceneLoaded(Scene scene)
     {
-        loading.Remove(scene.name); 
+        loading.Remove(scene.name);
 
         if (!scenes.ContainsKey(scene.name)) scenes.Add(scene.name, scene);
 

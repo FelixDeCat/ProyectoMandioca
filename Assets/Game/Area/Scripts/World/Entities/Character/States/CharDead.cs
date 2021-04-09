@@ -15,7 +15,6 @@ namespace Tools.StateMachine
         public CharDead(EState<CharacterHead.PlayerInputs> myState, EventStateMachine<CharacterHead.PlayerInputs> _sm, float _timeToScreen) : base(myState, _sm)
         {
             timeToScreen = _timeToScreen;
-            
         }
 
         protected override void Enter(EState<CharacterHead.PlayerInputs> input)
