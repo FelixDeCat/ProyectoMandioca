@@ -24,21 +24,20 @@ public class BetoBrain
     [SerializeField] int lakePoisonDamage = 15;
     [SerializeField] int spawnDamage = 10;
     [SerializeField] float timeStuned = 5;
+    [SerializeField] Transform fontPos = null;
 
     [SerializeField] Animator anim = null;
     [SerializeField] BossSkills laserSkill = null;
-    [SerializeField] BossSkills spawnSkill = null;
+    [SerializeField] FinalThunderWaveSkill spawnSkill = null;
     [SerializeField] BossSkills expansiveSkill = null;
     [SerializeField] FinalPoisonLakeSkill poisonSkill = null;
 
     [SerializeField] AStarHelper aStar = null;
-    [SerializeField] float moveSpeed = 7;
-    [SerializeField] float rotMoveSpeed = 7;
     public float minCharDistance = 10;
 
     Func<IEnumerator, Coroutine> Coroutine;
 
-    public void Initialize(BetoBoss boss, Func<IEnumerator, Coroutine> _Coroutine, Rigidbody _rb, Transform root)
+    public void Initialize(BetoBoss boss, Func<IEnumerator, Coroutine> _Coroutine, Rigidbody _rb)
     {
         laserSkill.Initialize();
         spawnSkill.Initialize();
@@ -49,12 +48,12 @@ public class BetoBrain
         Coroutine = _Coroutine;
 
         idleState = new FinalBossIdle(model);
-        moveState = new FinalBossMove(model, anim, aStar, Main.instance.GetChar().transform, root, moveSpeed, rotMoveSpeed, minCharDistance, _rb);
+        moveState = new FinalBossMove(model, anim, aStar, Main.instance.GetChar().transform, minCharDistance);
         flyState = new FinalBossFly(model, anim, _rb);
         shootState = new FinalBossLaser(model, laserSkill);
-        spawnState = new FinalBossSpawn();
-        stunState = new FinalBossStun();
-        lakePoisonState = new FinalBossPoison(model, poisonSkill);
+        spawnState = new FinalBossSpawn(boss, spawnSkill);
+        stunState = new FinalBossStun(boss, expansiveSkill, timeStuned);
+        lakePoisonState = new FinalBossPoison(model, poisonSkill, anim, aStar, fontPos.transform.position);
 
         idleState.OnNeedsReplan += Replan;
         moveState.OnNeedsReplan += Replan;

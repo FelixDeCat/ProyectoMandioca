@@ -8,6 +8,8 @@ public class FinalThunderWaveSkill : BossSkills, ISpawner
     int currentEnemies;
     [SerializeField] string currentScene = "bossRoom";
 
+    public Action SpawnOver;
+
     List<EnemyBase> currentSpawnedEnemies = new List<EnemyBase>();
 
     [SerializeField] LifePercent_EnemyBaseDictionary enemiesDictionary = new LifePercent_EnemyBaseDictionary();
@@ -50,6 +52,7 @@ public class FinalThunderWaveSkill : BossSkills, ISpawner
             var enemy = enemiesDictionary[enemies][i];
             spawnModifies.StartGoToFeedback(pos, (x) => SpawnPrefab(enemy, x, currentScene));
         }
+        SpawnOver?.Invoke();
     }
 
     LifePercent ReturnArrays(float percent)

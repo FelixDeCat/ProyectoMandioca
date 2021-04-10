@@ -20,6 +20,7 @@ public class BetoBoss : EnemyBase
 
     [SerializeField] float yMaxPos = 10.47f;
     [SerializeField] float ascendSpeed = 2;
+    [SerializeField] float moveSpeed = 7;
 
     FinalPoisonLakeSkill poisonSkill;
     bool updatePoison;
@@ -30,6 +31,7 @@ public class BetoBoss : EnemyBase
     public bool AttackOnCooldown { get; private set; }
     public bool SpawnCooldown { get; private set; }
     public bool LakeCooldown { get; private set; }
+    public bool Stuned { get; set; }
     #endregion
     CDModule cdModule = new CDModule();
     bool cooldown;
@@ -170,6 +172,20 @@ public class BetoBoss : EnemyBase
     }
 
     public bool DistanceToCharacter() => Vector3.Distance(transform.position, target.position) <= brain.minCharDistance;
+
+    public bool WalkToNextNode(AStarNode starNode)
+    {
+        Vector3 dirToNode = (starNode.transform.position - transform.position).normalized;
+
+        rootTransform.forward = Vector3.Lerp(rootTransform.forward, dirToNode, Time.deltaTime * rotSpeed);
+
+        rb.velocity = new Vector3(rootTransform.forward.x * moveSpeed, rb.velocity.y, rootTransform.forward.z * moveSpeed);
+
+        if (Vector3.Distance(transform.position, starNode.transform.position) < 0.1f)
+            return true;
+
+        return false;
+    }
 
     public void AttackCooldown()
     {

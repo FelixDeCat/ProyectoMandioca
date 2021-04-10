@@ -11,53 +11,39 @@ namespace IA2Final.FSM
         public override event Action OnNeedsReplan;
 
         Transform target;
-        Transform root;
         Animator anim;
         BetoBoss boss;
         List<AStarNode> path = new List<AStarNode>();
-        float speed;
-        Rigidbody rb;
         AStarHelper aStar;
         bool canWalk;
         bool dest;
         float charDistance;
         int currentNode;
-        float rotSpeed;
 
-        public FinalBossMove(BetoBoss _boss, Animator _anim, AStarHelper _aStar, Transform _target, Transform _root,
-            float _speed, float _rotSpeed,float _charDistance, Rigidbody _rb)
+        public FinalBossMove(BetoBoss _boss, Animator _anim, AStarHelper _aStar, Transform _target, float _charDistance)
         {
             boss = _boss;
             target = _target;
-            rb = _rb;
-            speed = _speed;
             anim = _anim;
             aStar = _aStar;
             charDistance = _charDistance;
-            rotSpeed = _rotSpeed;
-            root = _root;
         }
 
         public override void UpdateLoop()
         {
             if (!canWalk || dest) return;
 
-            if(Vector3.Distance(boss.transform.position, path[currentNode].transform.position) < 0.1f)
+            if(boss.WalkToNextNode(path[currentNode]))
             {
                 currentNode += 1;
 
                 if(currentNode >= path.Count)
                 {
                     dest = true;
+                    anim.Play("Idle");
                     return;
                 }
             }
-
-            Vector3 dirToNode = (path[currentNode].transform.position - boss.transform.position).normalized;
-
-            root.forward = Vector3.Lerp(root.forward, dirToNode, Time.deltaTime * rotSpeed);
-
-            rb.velocity = new Vector3(root.forward.x * speed, rb.velocity.y, root.forward.z * speed);
         }
 
         public override void Enter(IState from, Dictionary<string, object> transitionParameters = null)
@@ -67,6 +53,7 @@ namespace IA2Final.FSM
             AStarNode endNode = aStar.GetRandomNode(aStar.GetNearNodes(target.position, charDistance));
 
             aStar.ExecuteAStar(startNode, endNode, OnGetPath);
+            anim.Play("Move");
         }
 
         void OnGetPath(IEnumerable<AStarNode> _path)
@@ -77,6 +64,9 @@ namespace IA2Final.FSM
 
         public override Dictionary<string, object> Exit(IState to)
         {
+            currentNode = 0;
+            dest = false;
+            canWalk = false;
             return base.Exit(to);
         }
 
