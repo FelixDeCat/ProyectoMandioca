@@ -7,8 +7,6 @@ public class BetoBoss : EnemyBase
     [SerializeField] BetoBrain brain = new BetoBrain();
     [SerializeField] float rotSpeed = 10;
     Transform target = null;
-    [SerializeField] Transform shootPosition = null;
-    [SerializeField] AnimEvent animEvent = null;
 
     [SerializeField] float attackCooldownTime = 3;
     [SerializeField] float spawnCooldown = 8;

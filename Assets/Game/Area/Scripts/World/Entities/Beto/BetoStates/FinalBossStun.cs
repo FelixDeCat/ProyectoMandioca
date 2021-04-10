@@ -54,6 +54,7 @@ namespace IA2Final.FSM
 
         public override void Enter(IState from, Dictionary<string, object> transitionParameters = null)
         {
+            rb.useGravity = true;
             boss.Stuned = true;
             stuned = true;
         }
