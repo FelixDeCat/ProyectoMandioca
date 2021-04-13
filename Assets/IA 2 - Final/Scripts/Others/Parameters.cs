@@ -14,6 +14,10 @@ public class GOAPParametersName
     public const string LastOwnAbility = "LastOwnAbility";
     public const string AttackOnCooldown = "AttackOnCooldown";
     public const string ShieldActive = "ShieldActive";
+    public const string SpawnCooldown = "SpawnCooldown";
+    public const string Flying = "Flying";
+    public const string FlyCooldown = "FlyCooldown";
+    public const string LakePoisonCooldown = "LakePoisonCooldown";
 }
 public class GOAPStatesName
 {

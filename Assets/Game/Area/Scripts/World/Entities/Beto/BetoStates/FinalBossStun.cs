@@ -55,13 +55,13 @@ namespace IA2Final.FSM
         public override void Enter(IState from, Dictionary<string, object> transitionParameters = null)
         {
             rb.useGravity = true;
-            boss.Stuned = true;
             stuned = true;
         }
 
         public override Dictionary<string, object> Exit(IState to)
         {
             stuned = false;
+            boss.Stuned = false;
             timerComplete = false;
             timer = 0;
             return base.Exit(to);

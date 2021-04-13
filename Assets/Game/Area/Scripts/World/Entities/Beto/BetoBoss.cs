@@ -11,6 +11,7 @@ public class BetoBoss : EnemyBase
     [SerializeField] float attackCooldownTime = 3;
     [SerializeField] float spawnCooldown = 8;
     [SerializeField] float lakeCooldown = 20;
+    [SerializeField] float flyCooldown = 30;
 
     [SerializeField] float recallTime = 0.2f;
     [SerializeField] Color onHitColor = Color.red;
@@ -30,6 +31,8 @@ public class BetoBoss : EnemyBase
     public bool SpawnCooldown { get; private set; }
     public bool LakeCooldown { get; private set; }
     public bool Stuned { get; set; }
+    public bool FlyCooldown { get; set; }
+    public bool Flying { get; set; }
     #endregion
     CDModule cdModule = new CDModule();
     bool cooldown;
@@ -41,7 +44,7 @@ public class BetoBoss : EnemyBase
         base.OnInitialize();
         target = Main.instance.GetChar().Root;
         MyAbilityMostUsed = "";
-        //brain.Initialize(this, StartCoroutine);
+        brain.Initialize(this, StartCoroutine, rb);
     }
 
     public void StartCombat()
@@ -98,6 +101,14 @@ public class BetoBoss : EnemyBase
         BossBarGeneric.SetLife(lifesystem.Life, lifesystem.LifeMax);
 
         StartCoroutine(OnHitted(onHitFlashTime, onHitColor));
+
+        if (data.owner == transform && !Stuned && Flying)
+        {
+            Flying = true;
+            FlyCooldown = true;
+            cdModule.AddCD("FlyCooldown", () => FlyCooldown = false, flyCooldown);
+            Stuned = true;
+        }
     }
 
     public void StartPoisonLake(FinalPoisonLakeSkill _skill)
@@ -111,18 +122,6 @@ public class BetoBoss : EnemyBase
     { 
         updatePoison = false;
         LakeActive(false);
-    }
-
-    public bool Fly()
-    {
-        rb.velocity = transform.position + Vector3.up * ascendSpeed;
-
-        if(transform.position.y >= yMaxPos)
-        {
-            transform.position = new Vector3(transform.position.x, yMaxPos, transform.position.z);
-            return true;
-        }
-        return false;
     }
 
     protected override bool IsDamage()
@@ -143,13 +142,14 @@ public class BetoBoss : EnemyBase
     {
         brain.ResetBrain();
         StopAllCoroutines();
+        Flying = false;
+        rb.useGravity = true;
         animator.Play("Idle");
         animator.SetBool("OnSpawn", false);
         animator.SetBool("OnFlame", false);
         lifesystem.ResetLifeSystem();
         BossBarGeneric.SetLife(lifesystem.Life, lifesystem.LifeMax);
         onCombat = false;
-        MyAbilityMostUsed = "";
         cdModule.ResetAll();
         BossBarGeneric.Close();
         transform.position = initPos;
