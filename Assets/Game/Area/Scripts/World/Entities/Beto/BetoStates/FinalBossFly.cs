@@ -23,7 +23,8 @@ namespace IA2Final.FSM
 
         public override void UpdateLoop()
         {
-
+            if (flyOver) return;
+            flyOver = boss.Fly();
         }
 
         public override void Enter(IState from, Dictionary<string, object> transitionParameters = null)
@@ -44,6 +45,45 @@ namespace IA2Final.FSM
 
         public override IState ProcessInput()
         {
+            if (boss.Stuned)
+                return Transitions[BetoStatesName.OnStun];
+
+            if (!flyOver) return this;
+
+            if (Transitions.Count != 0)
+            {
+                if (boss.DistanceToCharacter())
+                {
+                    if (Transitions.ContainsKey(BetoStatesName.OnMove)) return Transitions[BetoStatesName.OnMove];
+                    OnNeedsReplan?.Invoke();
+                    return this;
+                }
+
+                if (Transitions.ContainsKey(BetoStatesName.OnIdle)) return Transitions[BetoStatesName.OnIdle];
+
+                if (!boss.SpawnCooldown || !boss.LakeCooldown)
+                {
+                    if (!boss.SpawnCooldown && Transitions.ContainsKey(BetoStatesName.OnSpawn)) return Transitions[BetoStatesName.OnSpawn];
+                    if (!boss.LakeCooldown && Transitions.ContainsKey(BetoStatesName.OnPoisonLake)) return Transitions[BetoStatesName.OnPoisonLake];
+
+                    foreach (var item in Transitions)
+                    {
+                        Debug.Log(item.Key);
+                    }
+                    OnNeedsReplan?.Invoke();
+                    return this;
+                }
+
+                if (!boss.AttackOnCooldown)
+                {
+                    if (Transitions.ContainsKey(BetoStatesName.OnShoot)) return Transitions[BetoStatesName.OnShoot];
+                    OnNeedsReplan?.Invoke();
+                    return this;
+                }
+
+                OnNeedsReplan?.Invoke();
+            }
+
             return this;
         }
     }

@@ -9,7 +9,7 @@ public abstract class PlayObject : MonoBehaviour, IPauseable
     protected bool canupdate;
 
     public string poolname;
-    public bool isOn;
+    [HideInInspector] public bool isOn;
     public ISpawner Spawner { private get; set; }
     public ObjectPool_PlayObject Pool { get; set; }
 

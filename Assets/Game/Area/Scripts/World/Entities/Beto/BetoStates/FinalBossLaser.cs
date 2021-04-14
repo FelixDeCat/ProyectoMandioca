@@ -44,6 +44,40 @@ namespace IA2Final.FSM
 
         public override IState ProcessInput()
         {
+            if (boss.Stuned)
+                return Transitions[BetoStatesName.OnStun];
+
+            if (!timerComplete) return this;
+
+            if (Transitions.Count != 0)
+            {
+                if (!boss.Flying && !boss.FlyCooldown)
+                {
+                    if (Transitions.ContainsKey(BetoStatesName.OnFly)) return Transitions[BetoStatesName.OnFly];
+                    OnNeedsReplan?.Invoke();
+                    return this;
+                }
+
+                if (boss.DistanceToCharacter())
+                {
+                    if (Transitions.ContainsKey(BetoStatesName.OnMove)) return Transitions[BetoStatesName.OnMove];
+                    OnNeedsReplan?.Invoke();
+                    return this;
+                }
+
+                if (Transitions.ContainsKey(BetoStatesName.OnIdle)) return Transitions[BetoStatesName.OnIdle];
+
+                if (!boss.SpawnCooldown || (!boss.LakeCooldown && boss.Flying))
+                {
+                    if (!boss.SpawnCooldown && Transitions.ContainsKey(BetoStatesName.OnSpawn)) return Transitions[BetoStatesName.OnSpawn];
+                    if (!boss.LakeCooldown && boss.Flying && Transitions.ContainsKey(BetoStatesName.OnPoisonLake)) return Transitions[BetoStatesName.OnPoisonLake];
+                    OnNeedsReplan?.Invoke();
+                    return this;
+                }
+
+                OnNeedsReplan?.Invoke();
+            }
+
             return this;
         }
     }

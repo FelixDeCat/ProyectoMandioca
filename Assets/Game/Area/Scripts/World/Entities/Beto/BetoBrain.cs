@@ -69,6 +69,8 @@ public class BetoBrain
 
     void Replan()
     {
+        Debug.Log("a ver de donde vengo");
+
         if (Time.time >= timeToPlan + timeFrame)
             timeFrame = Time.time;
         else
@@ -83,6 +85,7 @@ public class BetoBrain
     public void PlanAndExecute()
     {
         int minLifeValue = Mathf.Clamp(Main.instance.GetChar().Life.Life - 12, 0, Main.instance.GetChar().Life.Life);
+        float distanceMinChar = minCharDistance + 1;
 
         var actions = new List<GOAPAction>{
                                               new GOAPAction(BetoStatesName.OnIdle)
@@ -91,9 +94,9 @@ public class BetoBrain
                                                  .LinkedState(idleState),
 
                                               new GOAPAction(BetoStatesName.OnMove)
-                                                 .Pre(x=> x.floatValues[GOAPParametersName.CharDistance] <= minCharDistance)
+                                                 .Pre(x=> x.floatValues[GOAPParametersName.CharDistance] < distanceMinChar)
                                                  .Pre(x => x.boolValues[GOAPParametersName.Flying])
-                                                 .Effect(x => x.floatValues[GOAPParametersName.CharDistance] = minCharDistance + 1)
+                                                 .Effect(x => x.floatValues[GOAPParametersName.CharDistance] = distanceMinChar)
                                                  .LinkedState(moveState),
 
                                               new GOAPAction(BetoStatesName.OnFly)
@@ -107,7 +110,8 @@ public class BetoBrain
                                                  .Pre(x => !x.boolValues[GOAPParametersName.AttackOnCooldown])
                                                  .Effect(x=> x.boolValues[GOAPParametersName.AttackOnCooldown] = true)
                                                  .Effect(x => {
-                                                     x.intValues[GOAPParametersName.CharLife] -= shootDamage;
+                                                     x.intValues[GOAPParametersName.CharLife] -= x.boolValues[GOAPParametersName.SpawnCooldown] &&
+                                                     x.boolValues[GOAPParametersName.LakePoisonCooldown]? 3000 : shootDamage;
                                                      if(x.intValues[GOAPParametersName.CharLife]<minLifeValue) x.intValues[GOAPParametersName.CharLife] = minLifeValue;
                                                      } )
                                                  .LinkedState(shootState),
@@ -127,6 +131,11 @@ public class BetoBrain
                                                  .Pre(x => !x.boolValues[GOAPParametersName.LakePoisonCooldown])
                                                  .Effect(x=> x.boolValues[GOAPParametersName.LakePoisonCooldown] = true)
                                                  .Effect(x => {
+                                                     x.floatValues[GOAPParametersName.CharDistance] = Vector3.Distance(Main.instance.GetChar().transform.position, fontPos.position);
+                                                     if(x.floatValues[GOAPParametersName.CharDistance]>distanceMinChar)
+                                                         x.floatValues[GOAPParametersName.CharDistance] = distanceMinChar;
+                                                     } )
+                                                 .Effect(x => {
                                                      x.intValues[GOAPParametersName.CharLife] -= lakePoisonDamage;
                                                      if(x.intValues[GOAPParametersName.CharLife]<minLifeValue) x.intValues[GOAPParametersName.CharLife] = minLifeValue;
                                                      } )
@@ -136,7 +145,7 @@ public class BetoBrain
 
         var from = new GOAPState();
 
-        from.values.floatValues[GOAPParametersName.CharDistance] = Vector3.Distance(model.transform.position, Main.instance.GetChar().transform.position);
+        from.values.floatValues[GOAPParametersName.CharDistance] = Mathf.Clamp(Vector3.Distance(model.transform.position, Main.instance.GetChar().transform.position), 0, distanceMinChar);
         from.values.intValues[GOAPParametersName.CharLife] = Main.instance.GetChar().Life.Life;
         from.values.intValues[GOAPParametersName.OwnLife] = model.CurrentLife;
         from.values.boolValues[GOAPParametersName.Flying] = model.Flying;
@@ -146,6 +155,7 @@ public class BetoBrain
         from.values.boolValues[GOAPParametersName.LakePoisonCooldown] = model.LakeCooldown;
 
         var to = new GOAPState();
+        to.values.floatValues[GOAPParametersName.CharDistance] = distanceMinChar;
         to.values.intValues[GOAPParametersName.CharLife] = minLifeValue;
 
         var planner = new GoapPlanner();

@@ -63,7 +63,10 @@ public class BetoBoss : EnemyBase
         cdModule.UpdateCD();
 
         if (updatePoison)
+        {
             poisonSkill.OnUpdate();
+        }
+
     }
 
     protected override void OnFixedUpdate()
@@ -121,6 +124,7 @@ public class BetoBoss : EnemyBase
     void EndPoisonLake()
     { 
         updatePoison = false;
+        Debug.Log("termina");
         LakeActive(false);
     }
 
@@ -143,10 +147,14 @@ public class BetoBoss : EnemyBase
         brain.ResetBrain();
         StopAllCoroutines();
         Flying = false;
+        Stuned = false;
+        StopMove();
         rb.useGravity = true;
         animator.Play("Idle");
-        animator.SetBool("OnSpawn", false);
-        animator.SetBool("OnFlame", false);
+        animator.SetFloat("Flying", 0);
+        animator.SetBool("PoisonLake", false);
+        animator.SetBool("Spawn", false);
+        animator.SetBool("StartFly", false);
         lifesystem.ResetLifeSystem();
         BossBarGeneric.SetLife(lifesystem.Life, lifesystem.LifeMax);
         onCombat = false;
@@ -157,6 +165,19 @@ public class BetoBoss : EnemyBase
     }
 
     #region Functions to States
+
+    public bool Fly()
+    {
+        rb.velocity = Vector3.up * ascendSpeed;
+
+        if (transform.localPosition.y >= yMaxPos)
+        {
+            transform.localPosition = new Vector3(transform.localPosition.x, yMaxPos, transform.localPosition.z);
+            rb.velocity = Vector3.zero;
+            return true;
+        }
+        return false;
+    }
     public void ChangeLastAbility(string last)
     {
         MyAbilityMostUsed = last;
@@ -173,17 +194,21 @@ public class BetoBoss : EnemyBase
 
     public bool WalkToNextNode(AStarNode starNode)
     {
-        Vector3 dirToNode = (starNode.transform.position - transform.position).normalized;
+        Vector3 nodePos = new Vector3(starNode.transform.position.x, 0, starNode.transform.position.z);
+        Vector3 myPos = new Vector3(transform.position.x, 0, transform.position.z);
+
+        Vector3 dirToNode = (nodePos - myPos).normalized;
 
         rootTransform.forward = Vector3.Lerp(rootTransform.forward, dirToNode, Time.deltaTime * rotSpeed);
 
         rb.velocity = new Vector3(rootTransform.forward.x * moveSpeed, rb.velocity.y, rootTransform.forward.z * moveSpeed);
 
-        if (Vector3.Distance(transform.position, starNode.transform.position) < 0.1f)
-            return true;
+        if (Vector3.Distance(myPos, nodePos) < 0.2f) return true;
 
         return false;
     }
+
+    public void StopMove() => rb.velocity = Vector3.zero;
 
     public void AttackCooldown()
     {

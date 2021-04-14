@@ -69,6 +69,9 @@ namespace IA2Final.FSM
 
         public override IState ProcessInput()
         {
+            if (!timerComplete) return this;
+
+            OnNeedsReplan?.Invoke();
             return this;
         }
     }

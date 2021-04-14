@@ -33,11 +33,11 @@ public class GOAPStatesName
 
 public class BetoStatesName
 {
-    public const string OnIdle = "OnBossIdleState";
-    public const string OnMove = "OnBossMove";
-    public const string OnFly = "OnBossFly";
-    public const string OnShoot = "OnBossShoot";
-    public const string OnSpawn = "OnBossSpawn";
-    public const string OnStun = "OnBossStun";
-    public const string OnPoisonLake = "OnBossPoison";
+    public const string OnIdle = "OnFinalBossIdle";
+    public const string OnMove = "OnFinalBossMove";
+    public const string OnFly = "OnFinalBossFly";
+    public const string OnShoot = "OnFinalBossShoot";
+    public const string OnSpawn = "OnFinalBossSpawn";
+    public const string OnStun = "OnFinalBossStun";
+    public const string OnPoisonLake = "OnFinalBossPoison";
 }
