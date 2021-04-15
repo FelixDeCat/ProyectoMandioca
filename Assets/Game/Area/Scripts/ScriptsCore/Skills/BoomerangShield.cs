@@ -26,6 +26,7 @@ public class BoomerangShield : MonoBehaviour
     [SerializeField] float spinSpeed = 4;
     [SerializeField] float shortSpinDuration = 1.5f;
     [SerializeField] float shortThrowRange = 2;
+    [SerializeField] float knockBack;
     [Header("El tiempo es el triple de lo que pongas")]
     [SerializeField] float shortThrowTravelTime = 1f;
     [SerializeField] float shortReturnTime = 1f;
@@ -81,7 +82,7 @@ public class BoomerangShield : MonoBehaviour
         //_hero.BlockRoll = true;
         _hero.ShieldAbilityCharge();
         _hero.charanim.StartThrow(true);
-        
+
     }
 
     public void OnStopUse()
@@ -100,7 +101,7 @@ public class BoomerangShield : MonoBehaviour
         _shield = _hero.escudo;
         dmgData = auxShield.GetComponent<DamageData>();
         dmgData.Initialize(_hero);
-        dmgData.SetDamage(damagePerTick).SetDamageTick(false).SetDamageType(damageType).SetKnockback(0).SetPositionAndDirection(_shield.transform.position);
+        dmgData.SetDamage(damagePerTick).SetDamageTick(false).SetDamageType(damageType).SetKnockback(knockBack).SetPositionAndDirection(_shield.transform.position);
 
         _hero.charAnimEvent.Add_Callback(throwShort, ThrowShield);
 
@@ -119,7 +120,8 @@ public class BoomerangShield : MonoBehaviour
     {
         if (!isFlying)
         {
-            /*if (charges == 0)*/ shortCast = true;
+            /*if (charges == 0)*/
+            shortCast = true;
             //else shortCast = false;
             _hero.ShieldAbilityRelease();
             //ThrowShield(); Esto se llama desde animator
@@ -134,12 +136,12 @@ public class BoomerangShield : MonoBehaviour
     public void ThrowShield()
     {
         _hero.charanim.StartThrow(false);
-       
+
         auxShield.transform.SetParent(null);
-        auxShield.transform.rotation = Quaternion.Euler(new Vector3(-90, 0, 0));       
+        auxShield.transform.rotation = Quaternion.Euler(new Vector3(-90, 0, 0));
         auxShield.SetActive(true);
         _shield.SetActive(false);
-        
+
         flying.Play();
 
         RaycastHit hit;
@@ -167,12 +169,14 @@ public class BoomerangShield : MonoBehaviour
         StartCoroutine(ThrowShort());
         //else StartCoroutine(ThrowLong());
 
+        _hero.SetGodMode(true);
         StartCoroutine(StartDamage());
     }
 
     public void OnEnd()
     {
         _hero.ToggleBlock(true);
+        _hero.SetGodMode(false);
         _shield.SetActive(true);
         auxShield.transform.SetParent(auxParent);
         auxShield.SetActive(false);
@@ -193,7 +197,7 @@ public class BoomerangShield : MonoBehaviour
 
         flying.transform.forward = -dir;
 
-        float cant = 100f * shortThrowTravelTime;      
+        float cant = 100f * shortThrowTravelTime;
         for (int i = 0; i < cant; i++)
         {
             flying.transform.position = auxShield.transform.position;
@@ -208,7 +212,7 @@ public class BoomerangShield : MonoBehaviour
         //    auxShield.transform.position += Time.deltaTime * throwSpeed * dir;
         //    yield return new WaitForEndOfFrame();
         //}
-        
+
         while (timeCount < shortSpinDuration)
         {
             timeCount += Time.deltaTime;
@@ -251,7 +255,7 @@ public class BoomerangShield : MonoBehaviour
         //    auxShield.transform.position += Time.deltaTime * throwSpeed * dir;
         //    yield return new WaitForEndOfFrame();
         //}        
-        
+
         float cant = 100 * throwTravelTime;
         for (float i = 0; i < cant; i++)
         {
@@ -301,7 +305,7 @@ public class BoomerangShield : MonoBehaviour
 
     IEnumerator StartDamage()
     {
-        while(isFlying)
+        while (isFlying)
         {
             DealDamageNearbyEnemies();
             yield return new WaitForSeconds(timeBetweenTicks);
@@ -316,6 +320,7 @@ public class BoomerangShield : MonoBehaviour
         {
             if (enemy.GetComponent<EntityBase>() != _hero)
                 enemy.TakeDamage(dmgData);
+
         }
     }
 
