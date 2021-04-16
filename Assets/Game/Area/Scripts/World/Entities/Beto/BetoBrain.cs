@@ -39,6 +39,8 @@ public class BetoBrain
 
     public void Initialize(BetoBoss boss, Func<IEnumerator, Coroutine> _Coroutine, Rigidbody _rb)
     {
+        aStar.Initialize();
+
         laserSkill.Initialize();
         spawnSkill.Initialize();
         expansiveSkill.Initialize();

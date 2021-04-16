@@ -14,21 +14,6 @@ public class AStarHelper : MonoBehaviour
 
     [SerializeField] bool activeAStar = false;
 
-    private void Start()
-    {
-        Initialize();
-    }
-
-    private void Update()
-    {
-        if (activeAStar)
-        {
-            AStarNode firstNode = GetRandomNode();
-            ExecuteAStar(firstNode, GetRandomNode(firstNode), OnPathCompleted);
-            activeAStar = false;
-        }
-    }
-
     public AStarNode GetRandomNode(AStarNode exceptWaypoint = null)
     {
         if (exceptWaypoint != null)
@@ -109,7 +94,7 @@ public class AStarHelper : MonoBehaviour
         watchdog = maxWatchdog;
 
         var astar = new AStar<AStarNode>();
-        astar.OnPathCompleted += PlanComplete;
+        astar.OnPathCompleted += (x)=>OnPathCompleted(x, PlanComplete);
         astar.OnCantCalculate += OnCantCalculate;
 
         var astarEnumerator = astar.Run(from,
@@ -120,15 +105,33 @@ public class AStarHelper : MonoBehaviour
         StartCoroutine(astarEnumerator);
     }
 
-    private void OnPathCompleted(IEnumerable<AStarNode> sequence)
+    private void OnPathCompleted(IEnumerable<AStarNode> sequence, System.Action<IEnumerable<AStarNode>> PlanComplete)
     {
-        pathList = new List<AStarNode>();
-        foreach (var act in sequence)
+        var thetaStar = ThetaStar(sequence, PlanComplete);
+
+        StartCoroutine(thetaStar);
+    }
+
+    IEnumerator ThetaStar(IEnumerable<AStarNode> sequence, System.Action<IEnumerable<AStarNode>> PlanComplete)
+    {
+        var listVer = sequence.ToList();
+
+        for (int i = 0; i < listVer.Count; i++)
         {
-            pathList.Add(act);
+            var neighbour = i + 1;
+            if (neighbour >= listVer.Count - 1) break;
+            Vector3 dir = listVer[neighbour].transform.position - listVer[i].transform.position;
+
+            if (!Physics.Raycast(listVer[i].transform.position, dir.normalized, dir.magnitude, 2 << 0 & 16, QueryTriggerInteraction.Ignore))
+            {
+                listVer.Remove(listVer[neighbour]);
+                i -= 1;
+            }
+
+            yield return null;
         }
 
-        Debug.Log("WATCHDOG " + watchdog);
+        PlanComplete?.Invoke(listVer);
     }
 
     private void OnCantCalculate()
