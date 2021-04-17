@@ -6,16 +6,30 @@ using UnityEngine.UI;
 
 public class Tutorial_UIController : MonoBehaviour
 {
+    public static Tutorial_UIController instance { get; private set; }
+
+    [SerializeField] UI_Anim_Code mainHud = null;
 
     [SerializeField] TextMeshProUGUI titleText = null;
     [SerializeField] TextMeshProUGUI mainDialogText = null;
     [SerializeField] Image[] uiImages = new Image[0];
+    [SerializeField] GameObject continueJoystick = null;
+    [SerializeField] GameObject continueKeyboard = null;
 
     TMP_SpriteAsset spriteAssetKey;
     TMP_SpriteAsset spriteAssetJoystick;
 
     bool isJoystick;
     bool tutoShowing;
+    bool canUpdate;
+
+
+    private void Start()
+    {
+        instance = this;
+        mainHud.AddCallbacks(() => canUpdate = true, EndTutorial);
+        Main.instance.eventManager.SubscribeToEvent(GameEvents.CHANGE_INPUT, ChangeSpriteAsset);
+    }
 
     void ChangeSpriteAsset(params object[] param)
     {
@@ -26,6 +40,8 @@ public class Tutorial_UIController : MonoBehaviour
         if (tutoShowing)
         {
             mainDialogText.spriteAsset = isJoystick ? spriteAssetJoystick : spriteAssetKey;
+            continueJoystick.SetActive(isJoystick);
+            continueKeyboard.SetActive(!isJoystick);
         }
     }
 
@@ -33,10 +49,14 @@ public class Tutorial_UIController : MonoBehaviour
     {
         tutoShowing = true;
 
+        PauseManager.Instance.Pause();
         titleText.text = settings.title;
         mainDialogText.text = settings.mainDialog;
         spriteAssetJoystick = settings.joystickSpriteAsset;
         spriteAssetKey = settings.keyBoardSpriteAsset;
+
+        continueJoystick.SetActive(isJoystick);
+        continueKeyboard.SetActive(!isJoystick);
 
         mainDialogText.spriteAsset = isJoystick ? spriteAssetJoystick : spriteAssetKey;
 
@@ -46,10 +66,22 @@ public class Tutorial_UIController : MonoBehaviour
 
             uiImages[i].sprite = settings.images[i];
         }
+
+        mainHud.Open();
     }
 
     void EndTutorial()
     {
         tutoShowing = false;
+        PauseManager.Instance.Resume();
+    }
+
+    private void Update()
+    {
+        if (canUpdate && Input.GetButtonDown("Submit"))
+        {
+            mainHud.Close();
+            canUpdate = false;
+        }
     }
 }

@@ -27,7 +27,7 @@ public class PauseManager : MonoBehaviour
     {
         Instance = this;
 
-        pauseHud.AddCallbacks(() => { }, () => mainButtons.SetActive(false));
+        pauseHud.AddCallbacks(() => { }, () => { mainButtons.SetActive(false); Resume(); });
     }
 
     private void Start()
@@ -62,7 +62,6 @@ public class PauseManager : MonoBehaviour
 
     public void ResumeHud()
     {
-        Resume();
         backgroundPause.gameObject.SetActive(false);
         pauseHud.Close();
         MyEventSystem.instance.SelectGameObject(null);
