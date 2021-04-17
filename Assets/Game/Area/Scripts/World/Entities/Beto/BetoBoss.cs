@@ -23,6 +23,7 @@ public class BetoBoss : EnemyBase
 
     FinalPoisonLakeSkill poisonSkill;
     bool updatePoison;
+    [SerializeField] GenericEnemyMove obsAvoid = null;
 
     #region Properties
     public int CurrentLife { get => lifesystem.Life; }
@@ -45,6 +46,8 @@ public class BetoBoss : EnemyBase
         target = Main.instance.GetChar().Root;
         MyAbilityMostUsed = "";
         brain.Initialize(this, StartCoroutine, rb);
+        obsAvoid.Configure(rootTransform);
+        dmgReceiver.ChangeKnockback((x) => { }, () => true);
     }
 
     public void StartCombat()
@@ -105,8 +108,10 @@ public class BetoBoss : EnemyBase
 
         StartCoroutine(OnHitted(onHitFlashTime, onHitColor));
 
-        if (data.owner == transform && !Stuned && Flying)
+        if (data.ownerRoot == transform && !Stuned && Flying)
         {
+            Debug.Log("entra");
+            animator.SetFloat("Flying", 0);
             Flying = true;
             FlyCooldown = true;
             cdModule.AddCD("FlyCooldown", () => FlyCooldown = false, flyCooldown);
@@ -197,7 +202,7 @@ public class BetoBoss : EnemyBase
         Vector3 nodePos = new Vector3(starNode.transform.position.x, 0, starNode.transform.position.z);
         Vector3 myPos = new Vector3(transform.position.x, 0, transform.position.z);
 
-        Vector3 dirToNode = (nodePos - myPos).normalized;
+        Vector3 dirToNode = obsAvoid.ObstacleAvoidance((nodePos - myPos).normalized);
 
         rootTransform.forward = Vector3.Lerp(rootTransform.forward, dirToNode, Time.deltaTime * rotSpeed);
 

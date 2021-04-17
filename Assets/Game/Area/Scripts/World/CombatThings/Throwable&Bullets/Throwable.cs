@@ -49,6 +49,8 @@ public abstract class Throwable : MonoBehaviour,IPauseable
               .SetDamage(savethrowdata.Damage)
               .SetDamageInfo(DamageInfo.Normal)
               .SetKnockback(knockback);
+
+        damageData.ownerRoot = data.Owner;
         
         sensor.SetLayers(layermask_player);
 

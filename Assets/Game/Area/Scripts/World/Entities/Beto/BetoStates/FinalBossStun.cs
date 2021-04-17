@@ -19,11 +19,12 @@ namespace IA2Final.FSM
         BetoBoss boss;
 
 
-        public FinalBossStun(BetoBoss _boss, BossSkills _expansiveSkill, float _timeStuned)
+        public FinalBossStun(BetoBoss _boss, BossSkills _expansiveSkill, float _timeStuned, Rigidbody _rb)
         {
             boss = _boss;
             expansiveSkill = _expansiveSkill;
             timeStuned = _timeStuned;
+            rb = _rb;
         }
 
         public override void UpdateLoop()

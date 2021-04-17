@@ -81,6 +81,7 @@ namespace IA2Final.FSM
         {
             path = _path.ToList();
             canWalk = true;
+            Debug.Log(path.Count);
         }
 
         public override Dictionary<string, object> Exit(IState to)

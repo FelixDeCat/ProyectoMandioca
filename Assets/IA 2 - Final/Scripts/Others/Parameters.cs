@@ -13,6 +13,7 @@ public class GOAPParametersName
     public const string Stamina = "Stamina";
     public const string LastOwnAbility = "LastOwnAbility";
     public const string AttackOnCooldown = "AttackOnCooldown";
+    public const string NearToFont = "NearToFont";
     public const string ShieldActive = "ShieldActive";
     public const string SpawnCooldown = "SpawnCooldown";
     public const string Flying = "Flying";

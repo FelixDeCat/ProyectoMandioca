@@ -54,7 +54,7 @@ public class BetoBrain
         flyState = new FinalBossFly(model, anim, _rb);
         shootState = new FinalBossLaser(model, laserSkill);
         spawnState = new FinalBossSpawn(boss, spawnSkill);
-        stunState = new FinalBossStun(boss, expansiveSkill, timeStuned);
+        stunState = new FinalBossStun(boss, expansiveSkill, timeStuned, _rb);
         lakePoisonState = new FinalBossPoison(model, poisonSkill, anim, aStar, fontPos.transform.position);
 
         idleState.OnNeedsReplan += Replan;
@@ -96,9 +96,10 @@ public class BetoBrain
                                                  .LinkedState(idleState),
 
                                               new GOAPAction(BetoStatesName.OnMove)
-                                                 .Pre(x=> x.floatValues[GOAPParametersName.CharDistance] < distanceMinChar)
+                                                 .Pre(x=> x.floatValues[GOAPParametersName.CharDistance] < distanceMinChar || x.boolValues[GOAPParametersName.NearToFont])
                                                  .Pre(x => x.boolValues[GOAPParametersName.Flying])
                                                  .Effect(x => x.floatValues[GOAPParametersName.CharDistance] = distanceMinChar)
+                                                 .Effect(x => x.boolValues[GOAPParametersName.NearToFont] = false)
                                                  .LinkedState(moveState),
 
                                               new GOAPAction(BetoStatesName.OnFly)
@@ -110,6 +111,7 @@ public class BetoBrain
                                               new GOAPAction(BetoStatesName.OnShoot)
                                                  .Pre(x => x.boolValues[GOAPParametersName.Flying] || x.boolValues[GOAPParametersName.FlyCooldown])
                                                  .Pre(x => !x.boolValues[GOAPParametersName.AttackOnCooldown])
+                                                 .Pre(x => !x.boolValues[GOAPParametersName.NearToFont])
                                                  .Effect(x=> x.boolValues[GOAPParametersName.AttackOnCooldown] = true)
                                                  .Effect(x => {
                                                      x.intValues[GOAPParametersName.CharLife] -= x.boolValues[GOAPParametersName.SpawnCooldown] &&
@@ -141,6 +143,7 @@ public class BetoBrain
                                                      x.intValues[GOAPParametersName.CharLife] -= lakePoisonDamage;
                                                      if(x.intValues[GOAPParametersName.CharLife]<minLifeValue) x.intValues[GOAPParametersName.CharLife] = minLifeValue;
                                                      } )
+                                                 .Effect(x => x.boolValues[GOAPParametersName.NearToFont] = true)
                                                  .LinkedState(lakePoisonState)
                                                  .Cost(Mathf.Clamp(Vector3.Distance(model.transform.position, fontPos.position) * 0.5f, 1, 5)),
                                           };
@@ -154,6 +157,7 @@ public class BetoBrain
         from.values.boolValues[GOAPParametersName.FlyCooldown] = model.FlyCooldown;
         from.values.boolValues[GOAPParametersName.AttackOnCooldown] = model.AttackOnCooldown;
         from.values.boolValues[GOAPParametersName.SpawnCooldown] = model.SpawnCooldown;
+        from.values.boolValues[GOAPParametersName.NearToFont] = Vector3.Distance(model.transform.position, fontPos.position) < 5;
         from.values.boolValues[GOAPParametersName.LakePoisonCooldown] = model.LakeCooldown;
 
         var to = new GOAPState();
