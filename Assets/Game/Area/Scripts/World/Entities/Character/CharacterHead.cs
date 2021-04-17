@@ -376,8 +376,6 @@ public class CharacterHead : CharacterControllable
             .SetTransition(PlayerInputs.ON_MENU_ENTER, onMenues)
             .SetTransition(PlayerInputs.MOVE, move)
             .SetTransition(PlayerInputs.CHARGE_ATTACK, attackCharge)
-            .SetTransition(PlayerInputs.CHARGE_SHIELD_ABILITY, shieldAbilityCharge)
-            .SetTransition(PlayerInputs.START_ACTIVE, swordAbilityCharge)
             .SetTransition(PlayerInputs.BEGIN_BLOCK, beginBlock)
             .SetTransition(PlayerInputs.DEAD, dead)
             .SetTransition(PlayerInputs.ROLL, roll)
@@ -729,10 +727,12 @@ public class CharacterHead : CharacterControllable
         shieldAbilityOnRelease = abilityOnRelease;
         stateMachine.SendInput(PlayerInputs.RELEASE_SHIELD_ABILITY);
     }
+
+    public bool CheckStateMachinInput(PlayerInputs input) => stateMachine.CanTransition(input);
    
     #endregion
 
-    #region Sword Ability;
+    #region Sword Ability
     float ChangeSpeed()
     {
         return speedChange;

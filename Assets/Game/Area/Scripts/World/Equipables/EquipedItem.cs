@@ -19,6 +19,8 @@ public class EquipedItem : Usable
     public UnityEvent EV_Unequip;
     public UnityEvent EV_Equip_Update;
 
+    public Func<bool> CanUseCallback = () => true;
+
     ///////////////////////////////////////////////////////////
     /// E Q U I P A B L E
     ///////////////////////////////////////////////////////////
@@ -55,7 +57,7 @@ public class EquipedItem : Usable
         EV_Execute.Invoke(charges);
     }
     protected override void OnUpdateUse() { EV_UpdateUse.Invoke(); }
-    protected override bool OnCanUse() { return true; }
+    protected override bool OnCanUse() { return CanUseCallback(); }
 
     protected override void OnRAWPressDown()
     {

@@ -97,6 +97,7 @@ public class BoomerangShield : MonoBehaviour
     ///////////////////////////////////////
     public void Equip()
     {
+        GetComponent<EquipedItem>().CanUseCallback = CanUse;
         _hero = Main.instance.GetChar();
         _shield = _hero.escudo;
         dmgData = auxShield.GetComponent<DamageData>();
@@ -329,4 +330,6 @@ public class BoomerangShield : MonoBehaviour
         if (!isFlying)
             auxShield.transform.Rotate(v3 * rotSpeed);
     }
+
+    bool CanUse() => _hero.CheckStateMachinInput(CharacterHead.PlayerInputs.CHARGE_SHIELD_ABILITY);
 }

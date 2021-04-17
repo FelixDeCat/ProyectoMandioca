@@ -56,5 +56,7 @@ namespace Tools.StateMachine
             next = this;
             return false;
         }
+
+        public bool CheckInput(T input) => transitions.ContainsKey(input);
     }
 }

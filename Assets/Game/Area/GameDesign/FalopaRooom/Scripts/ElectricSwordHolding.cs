@@ -66,12 +66,13 @@ public class ElectricSwordHolding : MonoBehaviour
         myChar = Main.instance.GetChar();
         myChar.charAnimEvent.Add_Callback(spawnBullet, DetonateOrb);
         myChar.charAnimEvent.Add_Callback(spawnOrb, InstantiateOrb);
-
+        GetComponent<EquipedItem>().CanUseCallback = CanUse;
     }
 
     public void OnEquipAux()
     {
         //Sonidos?
+        GetComponent<EquipedItem>().CanUseCallback = CanUse;
         myChar = Main.instance.GetChar();
         myChar.charAnimEvent.Add_Callback(spawnBullet, InstantiateOrb);
         myChar.charAnimEvent.Add_Callback(spawnOrb,DetonateOrb );
@@ -163,4 +164,6 @@ public class ElectricSwordHolding : MonoBehaviour
     public void OnEnd()
     {
     }
+
+    bool CanUse() => myChar.CheckStateMachinInput(CharacterHead.PlayerInputs.START_ACTIVE);
 }

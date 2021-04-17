@@ -36,6 +36,8 @@ namespace Tools.StateMachine
 			}
 		}
 
+		public bool CanTransition(T input) => current.CheckInput(input);
+
 		public EState<T> Current { get { return current; } }
 		public void Update() { if (!Active) return; current.Update(); }
 		public void LateUpdate() { if (!Active) return; current.LateUpdate(); }
