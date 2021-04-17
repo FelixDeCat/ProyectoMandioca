@@ -11,7 +11,7 @@ public class BasicEnemyAtack : CombatComponent
     {
         DamageReceiver entity = null;
 
-        var enemies = Physics.OverlapSphere(rot.position, distance, _lm);
+        var enemies = Physics.OverlapSphere(rot.position, distance, _lm, QueryTriggerInteraction.Collide);
         for (int i = 0; i < enemies.Length; i++)
         {
             Vector3 dir = enemies[i].transform.position - rot.position;
