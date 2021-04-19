@@ -17,11 +17,12 @@ public class TestInteractableHold : Interactable
     public string actionName = "hold to grab";
 
     bool oneshot;
-
+    [SerializeField] AudioClip _feedBack;
     private void Start()
     {
         _executeAction += OnEndDelayExecute;
-
+        if(_feedBack)
+            AudioManager.instance.GetSoundPool(_feedBack.name, AudioGroups.GAME_FX, _feedBack);
         SetPredicate(() => !executing);
     }
     public override void OnEnter(WalkingEntity entity)
@@ -60,6 +61,8 @@ public class TestInteractableHold : Interactable
     }
     void OnEndDelayExecute()
     {
+        if(_feedBack)
+            AudioManager.instance.PlaySound(_feedBack.name, transform);
         UE_EndDelayExecute.Invoke();
         execute?.Invoke();
         if (destroy) Destroy(this.gameObject);
