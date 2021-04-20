@@ -75,7 +75,6 @@ public class CocinaJabali : MonoBehaviour
 
     void Update()
     {
-        Debug.Log("Update");
         if (anim_cook)
         {
             if (timercook < 2)

@@ -194,7 +194,7 @@ public class DamageReceiver : MonoBehaviour
 
     public void InstaKill()
     {
-        if (_LifeSystem != null && _LifeSystem.Life <= 0) return;
+        if (_LifeSystem == null || _LifeSystem.Life <= 0) return;
 
         int dmg = _LifeSystem.Life;
 
