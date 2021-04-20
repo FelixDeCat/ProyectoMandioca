@@ -90,6 +90,7 @@ namespace IA2Final
                           .Aggregate(new List<WeightedNode<GOAPState>>(), (possibleList, action) =>
                           {
                               var newState = new GOAPState(node);
+                              Debug.Log(action.name);
                               for (int i = 0; i < action.effects.Count; i++) action.effects[i](newState.values);
                               newState.generatingAction = action;
                               newState.step = node.step + 1;
