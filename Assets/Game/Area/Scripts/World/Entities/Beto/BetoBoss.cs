@@ -112,7 +112,7 @@ public class BetoBoss : EnemyBase
         {
             Debug.Log("entra");
             animator.SetFloat("Flying", 0);
-            Flying = true;
+            Flying = false;
             FlyCooldown = true;
             cdModule.AddCD("FlyCooldown", () => FlyCooldown = false, flyCooldown);
             Stuned = true;

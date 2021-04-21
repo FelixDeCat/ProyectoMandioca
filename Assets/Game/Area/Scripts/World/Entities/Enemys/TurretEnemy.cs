@@ -53,14 +53,14 @@ public class TurretEnemy : PlayObject
         {
             TypeUpdate = PlayerFollowUpdate;
         }
-        else if(type == TurretType.PredeterminatedPath)
+        else if (type == TurretType.PredeterminatedPath)
         {
             startDir = (initTargetPos.position - transform.position).normalized;
             finalDir = (finalTargetPos.position - transform.position).normalized;
             root.forward = startDir;
             TypeUpdate = PredeterminatedPathUpdate;
         }
-        else if(type == TurretType.Static)
+        else if (type == TurretType.Static)
         {
             TypeUpdate = StaticUpdate;
         }
@@ -86,12 +86,12 @@ public class TurretEnemy : PlayObject
     {
         if (!initializedTurret) return;
         TypeUpdate();
-        
+
 
         if (damageOn)
         {
             damageTimer += Time.deltaTime;
-            if(damageTimer >=timeToDamage) { damageTimer = 0; damageOn = false; }
+            if (damageTimer >= timeToDamage) { damageTimer = 0; damageOn = false; }
         }
     }
 
@@ -117,6 +117,30 @@ public class TurretEnemy : PlayObject
         damageTimer = 0;
         timer = 0;
         rooting = 0;
+    }
+
+    public void Configure(
+        TurretType turrent_type,
+        LayerMask contactMask,
+        Damagetype damageType,
+        int damage,
+        float knockback,
+        float rayDuration,
+        Transform start,
+        Transform end,
+        float rotSpeed, 
+        bool InitializedTurret)
+    {
+        this.type = turrent_type;
+        this.contactMask = contactMask;
+        this.dmgType = damageType;
+        this.damage = damage;
+        this.knockback = knockback;
+        this.rayDuration = rayDuration;
+        this.initTargetPos.transform.position = start.transform.position;
+        this.finalTargetPos.transform.position = end.transform.position;
+        this.rotSpeed = rotSpeed;
+        this.initializedTurret = InitializedTurret;
     }
 
 
@@ -153,7 +177,7 @@ public class TurretEnemy : PlayObject
         }
         else
         {
-            if(timer>= timeToActivateRay)
+            if (timer >= timeToActivateRay)
             {
                 anim.SetBool("Shoot", true);
                 timer = 0;
@@ -169,7 +193,7 @@ public class TurretEnemy : PlayObject
         if (lineOfSight.OnSight(target))
         {
             Vector3 dir = (target.position - transform.position).normalized;
-            Vector3 secondDir = (target.position+ lineOfSight.offset - rayStartPosition.position).normalized;
+            Vector3 secondDir = (target.position + lineOfSight.offset - rayStartPosition.position).normalized;
             root.forward = Vector3.Lerp(root.forward, dir, Time.deltaTime * rotSpeed);
             timer += Time.deltaTime;
             RayController(secondDir);
@@ -226,7 +250,7 @@ public class TurretEnemy : PlayObject
         else
         {
             timer += Time.deltaTime;
-            root.forward = Vector3.Lerp(finalDir, startDir, timer/timeToActivateRay);
+            root.forward = Vector3.Lerp(finalDir, startDir, timer / timeToActivateRay);
 
             if (timer >= timeToActivateRay)
             {

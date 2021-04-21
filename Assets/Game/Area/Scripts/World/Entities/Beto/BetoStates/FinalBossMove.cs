@@ -53,13 +53,13 @@ namespace IA2Final.FSM
             AStarNode endNode = aStar.GetRandomNode(aStar.GetNearNodes(target.position, charDistance));
 
             aStar.ExecuteAStar(startNode, endNode, OnGetPath);
-            anim.Play("Move");
         }
 
         void OnGetPath(IEnumerable<AStarNode> _path)
         {
             path = _path.ToList();
             canWalk = true;
+            anim.Play("Move");
         }
 
         public override Dictionary<string, object> Exit(IState to)
@@ -68,6 +68,7 @@ namespace IA2Final.FSM
             dest = false;
             canWalk = false;
             anim.Play("Idle");
+            boss.StopMove();
             return base.Exit(to);
         }
 

@@ -97,7 +97,7 @@ public class BetoBrain
 
                                               new GOAPAction(BetoStatesName.OnMove)
                                                  .Pre(x=> x.floatValues[GOAPParametersName.CharDistance] < distanceMinChar || x.boolValues[GOAPParametersName.NearToFont])
-                                                 .Pre(x => x.boolValues[GOAPParametersName.Flying])
+                                                 .Pre(x => x.boolValues[GOAPParametersName.Flying]|| x.boolValues[GOAPParametersName.FlyCooldown])
                                                  .Effect(x => x.floatValues[GOAPParametersName.CharDistance] = distanceMinChar)
                                                  .Effect(x => x.boolValues[GOAPParametersName.NearToFont] = false)
                                                  .LinkedState(moveState),
@@ -115,7 +115,8 @@ public class BetoBrain
                                                  .Effect(x=> x.boolValues[GOAPParametersName.AttackOnCooldown] = true)
                                                  .Effect(x => {
                                                      x.intValues[GOAPParametersName.CharLife] -= x.boolValues[GOAPParametersName.SpawnCooldown] &&
-                                                     x.boolValues[GOAPParametersName.LakePoisonCooldown]? 3000 : shootDamage;
+                                                     (x.boolValues[GOAPParametersName.LakePoisonCooldown] ||
+                                                     !x.boolValues[GOAPParametersName.LakePoisonCooldown] && !x.boolValues[GOAPParametersName.Flying])? 3000 : shootDamage;
                                                      if(x.intValues[GOAPParametersName.CharLife]<minLifeValue) x.intValues[GOAPParametersName.CharLife] = minLifeValue;
                                                      } )
                                                  .LinkedState(shootState),
