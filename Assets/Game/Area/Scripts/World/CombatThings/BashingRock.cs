@@ -24,6 +24,7 @@ public class BashingRock : DashBashInteract
     [SerializeField] float lifeTime = 8;
     [SerializeField] DestroyedVersion modelDestroyedVersion = null;
     DestroyedVersion savedDestroyedVersion;
+    [SerializeField] AudioClip _feedBack;
 
     float timer;
     Transform target;
@@ -37,6 +38,7 @@ public class BashingRock : DashBashInteract
         dmgData.SetDamage(damage).SetDamageInfo(DamageInfo.NonBlockAndParry).SetKnockback(knockback).SetDamageType(dmgType).Initialize(transform);
         savedDestroyedVersion = Main.instance.GetSpawner().SpawnItem(modelDestroyedVersion.gameObject, transform).GetComponent<DestroyedVersion>();
         if (savedDestroyedVersion) savedDestroyedVersion.gameObject.SetActive(false);
+        AudioManager.instance.GetSoundPool(_feedBack.name, AudioGroups.GAME_FX, _feedBack);
     }
 
     protected override void OnTurnOn()
@@ -116,6 +118,7 @@ public class BashingRock : DashBashInteract
         pushing = true;
         myDir = dir;
         SearchTarget();
+        AudioManager.instance.PlaySound(_feedBack.name, transform);
     }
 
     protected override void EndPushAbs()
