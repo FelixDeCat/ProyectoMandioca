@@ -24,7 +24,8 @@ public class BashingRock : DashBashInteract
     [SerializeField] float lifeTime = 8;
     [SerializeField] DestroyedVersion modelDestroyedVersion = null;
     DestroyedVersion savedDestroyedVersion;
-    [SerializeField] AudioClip _feedBack;
+    [SerializeField] AudioClip CrushFX;
+    [SerializeField] AudioClip _rollingFX;
 
     float timer;
     Transform target;
@@ -38,7 +39,8 @@ public class BashingRock : DashBashInteract
         dmgData.SetDamage(damage).SetDamageInfo(DamageInfo.NonBlockAndParry).SetKnockback(knockback).SetDamageType(dmgType).Initialize(transform);
         savedDestroyedVersion = Main.instance.GetSpawner().SpawnItem(modelDestroyedVersion.gameObject, transform).GetComponent<DestroyedVersion>();
         if (savedDestroyedVersion) savedDestroyedVersion.gameObject.SetActive(false);
-        AudioManager.instance.GetSoundPool(_feedBack.name, AudioGroups.GAME_FX, _feedBack);
+        AudioManager.instance.GetSoundPool(CrushFX.name, AudioGroups.GAME_FX, CrushFX);
+        AudioManager.instance.GetSoundPool(_rollingFX.name, AudioGroups.GAME_FX, _rollingFX);
     }
 
     protected override void OnTurnOn()
@@ -58,7 +60,7 @@ public class BashingRock : DashBashInteract
 
                 myDir = Vector3.Lerp(myDir, dirToTarget, Time.deltaTime * rotSpeed);
             }
-
+            
             rb.velocity = new Vector3(myDir.x * currentSpeed, rb.velocity.y, myDir.z * currentSpeed);
         }
     }
@@ -79,6 +81,7 @@ public class BashingRock : DashBashInteract
     {
         if (pushing)
         {
+            
             rb.constraints = RigidbodyConstraints.None;
             rb.velocity = lastVel;
             rb.angularVelocity = lastAngularVel;
@@ -95,7 +98,8 @@ public class BashingRock : DashBashInteract
     {
         if(pushing)
         {
-            if(currentSpeed < maxSpeed)
+            
+            if (currentSpeed < maxSpeed)
             {
                 currentSpeed += Time.deltaTime * aceleration;
                 if (currentSpeed > maxSpeed) currentSpeed = maxSpeed;
@@ -112,13 +116,14 @@ public class BashingRock : DashBashInteract
 
     protected override void Push(Vector3 dir)
     {
+        AudioManager.instance.PlaySound(_rollingFX.name, transform);
         Debug.Log("golpea3");
         rb.constraints = RigidbodyConstraints.None;
         currentSpeed = minSpeed;
         pushing = true;
         myDir = dir;
         SearchTarget();
-        AudioManager.instance.PlaySound(_feedBack.name, transform);
+       
     }
 
     protected override void EndPushAbs()
@@ -157,8 +162,9 @@ public class BashingRock : DashBashInteract
         if (!collision.transform.GetComponent<CharacterHead>() && collision.transform.GetComponent<DamageReceiver>())
         {
             collision.transform.GetComponent<DamageReceiver>().TakeDamage(dmgData.SetPositionAndDirection(transform.position, myDir));
-
-            if(collision.transform == target)
+            AudioManager.instance.PlaySound(CrushFX.name, transform);
+            AudioManager.instance.StopAllSounds(_rollingFX.name);
+            if (collision.transform == target)
                 EndPush();
         }
     }
