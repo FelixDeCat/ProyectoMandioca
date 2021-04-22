@@ -32,7 +32,13 @@ namespace IA2Final
                 other != null
                 && other.generatingAction == generatingAction       //Very important to keep! TODO: REVIEW
                 && other.values.boolValues.Count == values.boolValues.Count
-                && other.values.boolValues.All(kv => kv.In(values.boolValues));
+                && other.values.boolValues.All(kv => kv.In(values.boolValues))
+                && other.values.floatValues.Count == values.floatValues.Count
+                && other.values.floatValues.All(kv => kv.In(values.floatValues))
+                && other.values.intValues.Count == values.intValues.Count
+                && other.values.intValues.All(kv => kv.In(values.intValues))
+                && other.values.stringValues.Count == values.stringValues.Count
+                && other.values.stringValues.All(kv => kv.In(values.stringValues));
             //&& other.values.All(kv => values.Contains(kv));
             return result;
         }
