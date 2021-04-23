@@ -82,6 +82,7 @@ public class BoomerangShield : MonoBehaviour
         //_hero.BlockRoll = true;
         _hero.ShieldAbilityCharge();
         _hero.charanim.StartThrow(true);
+        _hero.ToggleBlock(false);
 
     }
 
@@ -125,6 +126,7 @@ public class BoomerangShield : MonoBehaviour
             shortCast = true;
             //else shortCast = false;
             _hero.ShieldAbilityRelease();
+            _hero.ToggleBlock(false);
             //ThrowShield(); Esto se llama desde animator
             //_hero.charanim.StartThrow(false);
             //_hero.charanim.ThrowShield(true);
