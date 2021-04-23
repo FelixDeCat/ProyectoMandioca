@@ -41,8 +41,6 @@ public class CameraRotate : MonoBehaviour
     bool isTilting;
     float tiltLerp;
 
-    //[SerializeField] CameraTiltType camType = CameraTiltType.CamaraReDura;
-
     [SerializeField] Transform camConfig = null;
 
     [SerializeField] Vector3 offsetVec = new Vector3(0, 2f, 0);
@@ -65,9 +63,7 @@ public class CameraRotate : MonoBehaviour
 
     private void Update()
     {
-        //if (Input.GetKeyDown(KeyCode.Space)) MoveCamBehindChar();
-
-        if (!isTilting && Mathf.Abs(tiltLerp) > 0.1f);
+        if (!isTilting && Mathf.Abs(tiltLerp) > 0.1f)
         {
             if (tiltLerp > 0)
                 tiltLerp -= Time.deltaTime * comebackSpeed;
@@ -89,9 +85,10 @@ public class CameraRotate : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.Y)) { Cursor.lockState = CursorLockMode.Locked; Cursor.visible = false; }
         if (Input.GetKeyDown(KeyCode.U)) { Cursor.lockState = CursorLockMode.None; Cursor.visible = true; }
-
+        
         RaycastHit hit;
         Vector3 direction;
+
         if (!UseBezier)
         {
             direction = rotatorX.transform.position - (myChar.transform.position + offsetVec);
@@ -140,7 +137,29 @@ public class CameraRotate : MonoBehaviour
                 camConfig.transform.rotation = bezierPoints[0].transform.rotation;
             }
         }
-        camConfig.transform.position = Vector3.Lerp(bezierPoints[1].transform.position, bezierPoints[0].transform.position, 0.5f + tiltLerp/2f);
+
+        camConfig.transform.rotation = bezierPoints[0].transform.rotation;
+        Vector3 newDir;
+        RaycastHit hitnew;
+        newDir = Extensions.GetPointOnBezierCurve(bezierPoints[0], bezierPoints[1], tiltLerp) - (myChar.transform.position + offsetVec);
+        if (Physics.Raycast(myChar.transform.position + offsetVec, newDir, out hitnew, raycastDist, _mask))
+        {
+            colliding = true;
+            if (hitnew.distance > minDistance)
+            {
+                Vector3 dir = hitnew.point - newDir.normalized;
+                camConfig.position = dir;
+                return;
+            }
+        }
+        //else if (Vector3.Distance(myChar.transform.position, camConfig.position) < raycastDist)
+        //{
+        //    camConfig.transform.position = rotatorX.transform.position;
+        //}
+        colliding = false;
+
+        camConfig.transform.rotation = bezierPoints[0].transform.rotation;
+        camConfig.transform.position = Vector3.Lerp(bezierPoints[1].transform.position, bezierPoints[0].transform.position, 0.5f + tiltLerp / 2f);
 
 
     }
@@ -235,33 +254,19 @@ public class CameraRotate : MonoBehaviour
     public void TiltVertical(float vertical)
     {
         if (vertical == 0) { isTilting = false; return; }
-        //Vector3 newPos;
-        //if (camType == CameraTiltType.CamaraReDura)
-        //{
-        //    newPos = lookAtTrans.transform.position + transform.up * vertical * sensitivityVertical * Time.deltaTime;
-        //}
-        //else if (camType == CameraTiltType.case2)
-        //{
-        //    if (vertical > 0)
-        //        newPos = Vector3.Lerp(myChar.transform.position + offsetVec, myChar.transform.position + offsetVec + new Vector3(0, maxHeight, 0), vertical);
-        //    else
-        //        newPos = Vector3.Lerp(myChar.transform.position + offsetVec, myChar.transform.position + offsetVec - new Vector3(0, minHeight, 0), Mathf.Abs(vertical));
-        //}
-        //else
-        //{
+
         Vector3 newPos;
         isTilting = true;
         tiltLerp = Mathf.Clamp(tiltLerp + vertical * sensitivityVertical * Time.deltaTime * vertAxis, -1, 1f);
-
+        Debug.Log(tiltLerp);
         if (tiltLerp > 0)
         {
             newPos = Vector3.Lerp(myChar.transform.position + offsetVec, myChar.transform.position + offsetVec + new Vector3(0, maxHeight, 0), tiltLerp);
-            camConfig.transform.position = Extensions.GetPointOnBezierCurve(bezierPoints[0], bezierPoints[1], tiltLerp);
+            //camConfig.transform.position = Extensions.GetPointOnBezierCurve(bezierPoints[0], bezierPoints[1], tiltLerp);
         }
         else
         {
             newPos = Vector3.Lerp(myChar.transform.position + offsetVec, myChar.transform.position + offsetVec - new Vector3(0, minHeight, 0), Mathf.Abs(tiltLerp));
-
         }
         if (newPos.y < myChar.transform.position.y + offsetVec.y + maxHeight && newPos.y > myChar.transform.position.y + offsetVec.y - minHeight)
             lookAtTrans.transform.position = newPos;
@@ -277,11 +282,3 @@ public class CameraRotate : MonoBehaviour
         }
     }
 }
-
-//public enum CameraTiltType
-//{
-//    CamaraReDura,
-//    case2,
-//    case3
-
-//}
