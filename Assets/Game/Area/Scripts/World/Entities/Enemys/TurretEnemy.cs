@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using System;
 
-public enum TurretType { PlayerFollow, Static, PredeterminatedPath }
+public enum TurretType { PlayerFollow, Static, PredeterminatedPath, AlwaysOn }
 
 public class TurretEnemy : PlayObject
 {
@@ -30,6 +30,7 @@ public class TurretEnemy : PlayObject
     [SerializeField] AudioClip _RaySound;
 
     [SerializeField] bool initializedTurret = false;
+    [SerializeField] bool drawGizmos = false;
 
     float animSpeed;
     float timer = 0;
@@ -64,11 +65,20 @@ public class TurretEnemy : PlayObject
         {
             TypeUpdate = StaticUpdate;
         }
+        else if (type == TurretType.AlwaysOn)
+        {
+            TypeUpdate = AlwaysOnUpdate;
+            timer = timeToActivateRay;
+        }
     }
 
     public void OnTurret()
     {
         initializedTurret = true;
+        if (type == TurretType.AlwaysOn)
+        {
+            timer = timeToActivateRay;
+        }
     }
     public void OffTurret()
     {
@@ -183,7 +193,6 @@ public class TurretEnemy : PlayObject
                 timer = 0;
                 shooting = true;
                 ray.On();
-
             }
         }
     }
@@ -207,12 +216,19 @@ public class TurretEnemy : PlayObject
         }
     }
 
+    void AlwaysOnUpdate()
+    {
+        RayController(root.forward);
+    }
+
     void StaticUpdate()
     {
         timer += Time.deltaTime;
 
         RayController(root.forward);
     }
+
+
     float rooting;
     Vector3 startDir;
     Vector3 finalDir;
@@ -262,6 +278,21 @@ public class TurretEnemy : PlayObject
 
                 ray.On();
             }
+        }
+    }
+
+    private void OnDrawGizmos()
+    {
+        if (!drawGizmos) return;
+
+        if (type == TurretType.PredeterminatedPath)
+        {
+            Gizmos.DrawLine(ray.transform.position, ray.transform.position + (initTargetPos.position - transform.position).normalized *rayDistance);
+            Gizmos.DrawLine(ray.transform.position, ray.transform.position + (finalTargetPos.position - transform.position).normalized *rayDistance);
+        }
+        else if (type == TurretType.Static || type == TurretType.AlwaysOn)
+        {
+            Gizmos.DrawLine(ray.transform.position, ray.transform.position + root.forward * rayDistance);
         }
     }
 }
