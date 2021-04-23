@@ -2,18 +2,24 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Portal : PlayObject
+public class Portal : MonoBehaviour
 {
-    [SerializeField] Portal conection = null;
+    //[SerializeField] Portal conection = null;
     [SerializeField] RenderTexture portalRender = null;
     [SerializeField] MeshRenderer myMesh = null;
-    [SerializeField] LayerMask transportable = 1 << 8;
-    float cd;
-    bool canTP;
+    //[SerializeField] LayerMask transportable = 1 << 8;
+    // float cd;
+    // bool canTP;
+
+    private void Start()
+    {
+        myMesh.material.SetTexture("_PortalRender", portalRender);
+    }
+    /*
 
     protected override void OnInitialize()
     {
-        myMesh.material.SetTexture("_PortalRender", portalRender);
+        
     }
 
     protected override void OnUpdate()
@@ -68,4 +74,5 @@ public class Portal : PlayObject
     protected override void OnTurnOff()
     {
     }
+    */
 }
