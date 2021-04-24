@@ -17,10 +17,12 @@ public class PauseManager : MonoBehaviour
     [SerializeField] GameObject mainButtons = null;
     [SerializeField] GameObject cheatsHud = null;
     [SerializeField] Settings settingsHud = null;
+    public SavedTutorial tutorialHud = null;
 
     SettingsData data;
     bool inPauseHud;
     bool inSettings;
+    bool inTutorial;
     bool canPress;
 
     private void Awake()
@@ -88,6 +90,13 @@ public class PauseManager : MonoBehaviour
         inSettings = true;
     }
 
+    public void TutorialScreen()
+    {
+        mainButtons.SetActive(false);
+        tutorialHud.Open();
+        inTutorial = true;
+    }
+
     public void Cheats()
     {
         mainButtons.SetActive(false);
@@ -101,6 +110,8 @@ public class PauseManager : MonoBehaviour
         Debug_UI_Tools.instance.Toggle(false);
         cheatsHud.SetActive(false);
         settingsHud.gameObject.SetActive(false);
+        tutorialHud.Close();
+        inTutorial = false;
         inSettings = false;
         MyEventSystem.instance.SelectGameObject(mainFirstButton);
     }
@@ -134,6 +145,14 @@ public class PauseManager : MonoBehaviour
         {
             if (Input.GetKeyDown(KeyCode.Joystick1Button4)) settingsHud.ChangeScreen(-1);
             else if (Input.GetKeyDown(KeyCode.Joystick1Button5)) settingsHud.ChangeScreen(1);
+        }
+
+        if (inTutorial)
+        {
+            var dir = Input.GetAxis("Horizontal");
+
+            if (dir > 0.5f || dir < -0.5f)
+                tutorialHud.ChangeTutorial(dir > 0 ? 1 : -1);
         }
 
         if (Input.GetButtonDown("Pause") && canPress)

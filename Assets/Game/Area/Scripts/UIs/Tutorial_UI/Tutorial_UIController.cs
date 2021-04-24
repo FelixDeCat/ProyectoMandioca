@@ -18,6 +18,7 @@ public class Tutorial_UIController : MonoBehaviour
 
     TMP_SpriteAsset spriteAssetKey;
     TMP_SpriteAsset spriteAssetJoystick;
+    List<Tutorial_UIController> tutorialActives = new List<Tutorial_UIController>();
 
     bool isJoystick;
     bool tutoShowing;
