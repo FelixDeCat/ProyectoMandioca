@@ -25,7 +25,7 @@ namespace IA2Final.FSM
         {
             if (flyOver) return;
             flyOver = boss.Fly();
-            if(flyOver) rb.constraints = RigidbodyConstraints.FreezePositionY;
+            if(flyOver) rb.constraints = RigidbodyConstraints.FreezePositionY | RigidbodyConstraints.FreezeRotation;
         }
 
         public override void Enter(IState from, Dictionary<string, object> transitionParameters = null)

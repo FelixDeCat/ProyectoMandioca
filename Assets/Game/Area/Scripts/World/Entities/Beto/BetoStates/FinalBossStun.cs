@@ -55,7 +55,6 @@ namespace IA2Final.FSM
 
         public override void Enter(IState from, Dictionary<string, object> transitionParameters = null)
         {
-            rb.constraints = RigidbodyConstraints.None;
             rb.constraints = RigidbodyConstraints.FreezeRotation;
             rb.useGravity = true;
             stuned = true;
