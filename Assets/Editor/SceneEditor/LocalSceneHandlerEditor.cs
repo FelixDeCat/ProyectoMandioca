@@ -38,7 +38,7 @@ public class LocalSceneHandlerEditor : Editor
             //checkea nombre de escena y del gameobject
             if (sceneName == _handler.gameObject.name)
             {
-                Debug.Log("checked");
+
             }
             else
             {

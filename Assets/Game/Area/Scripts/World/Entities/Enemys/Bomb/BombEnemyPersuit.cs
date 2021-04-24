@@ -27,7 +27,7 @@ namespace Tools.StateMachine
         {
             anim.SetFloat("move", 0.3f);
 
-            AudioManager.instance.PlaySound(soundName);
+            AudioManager.instance.PlaySound(soundName, anim.transform);
         }
 
         protected override void Exit(BombEnemy.BombInputs input)

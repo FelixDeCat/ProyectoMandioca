@@ -20,7 +20,7 @@ namespace Tools.StateMachine
         protected override void Enter(EState<JabaliEnemy.JabaliInputs> input)
         {
             combatDirector.DeadEntity(enemy, enemy.CurrentTarget());
-            AudioManager.instance.PlaySound(deadSound);
+            AudioManager.instance.PlaySound(deadSound, ragdoll.transform);
             cdModule.AddCD("RagdollDissappear", ragdoll.DesactiveBones, 5);
             cdModule.AddCD("ReturnToPool", OnDissappear, 8);
         }

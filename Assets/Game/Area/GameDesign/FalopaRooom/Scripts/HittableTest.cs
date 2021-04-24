@@ -13,6 +13,6 @@ public class HittableTest : MonoBehaviour
     public void OnHit()
     {
         Debug.Log("Get Hitted");
-        AudioManager.instance.PlaySound(onHitSound.name);
+        AudioManager.instance.PlaySound(onHitSound.name, transform);
     }
 }

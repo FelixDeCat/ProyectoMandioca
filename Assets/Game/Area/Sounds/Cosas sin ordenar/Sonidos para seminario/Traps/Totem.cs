@@ -169,7 +169,7 @@ public abstract class Totem : EnemyBase
     protected void TakeDamage()
     {
         ParticlesManager.Instance.PlayParticle(ps_TakeDamage.name, myCastingBar.transform.position);
-        AudioManager.instance.PlaySound(ac_TakeDamage.name);
+        AudioManager.instance.PlaySound(ac_TakeDamage.name, transform);
     }
 
     protected abstract void InternalTakeDamage();

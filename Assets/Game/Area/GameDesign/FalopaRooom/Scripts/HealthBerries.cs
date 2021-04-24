@@ -26,7 +26,7 @@ public class HealthBerries : MonoBehaviour
 
     public void OnFeedbackCollect()
     {
-        AudioManager.instance.PlaySound(clip_Oncollect.name);
+        AudioManager.instance.PlaySound(clip_Oncollect.name, transform);
         
     }
 

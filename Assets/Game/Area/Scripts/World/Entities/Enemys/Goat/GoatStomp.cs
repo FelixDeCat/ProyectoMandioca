@@ -19,7 +19,7 @@ namespace Tools.StateMachine
         {
             anim.SetTrigger("StompOk");
 
-            AudioManager.instance.PlaySound(attackSound);
+            AudioManager.instance.PlaySound(attackSound, anim.transform);
             cdModule.AddCD("RecallAttack", () => sm.SendInput(JabaliEnemy.JabaliInputs.IDLE), cdToAttack);
         }
 

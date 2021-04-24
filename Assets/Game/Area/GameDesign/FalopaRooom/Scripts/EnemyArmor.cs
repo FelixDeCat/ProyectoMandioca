@@ -48,6 +48,6 @@ public class EnemyArmor : MonoBehaviour
     void InvulnerabilityFeedback()
     {
         ParticlesManager.Instance.PlayParticle(armorHitParticle.name, transform.position);
-        AudioManager.instance.PlaySound(armorHitSound.name);
+        AudioManager.instance.PlaySound(armorHitSound.name,transform);
     }
 }

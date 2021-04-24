@@ -18,7 +18,7 @@ public class EventDestructible : MonoBehaviour
 
     public void BreakYourselfBaby()
     {
-        if (destroyedSound) AudioManager.instance.PlaySound(destroyedSound.name);
+        if (destroyedSound) AudioManager.instance.PlaySound(destroyedSound.name, transform);
         if (savedDestroyedVersion)
         {
             savedDestroyedVersion.gameObject.SetActive(true);

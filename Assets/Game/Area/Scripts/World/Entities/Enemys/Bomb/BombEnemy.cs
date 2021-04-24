@@ -91,7 +91,7 @@ public class BombEnemy : EnemyBase
     public override void SpawnEnemy()
     {
         animator.SetBool("entry", true);
-        AudioManager.instance.PlaySound(sounds.mandragoraSpawn_Clip.name);
+        AudioManager.instance.PlaySound(sounds.mandragoraSpawn_Clip.name, animator.transform);
         base.SpawnEnemy();
     }
 
@@ -150,7 +150,7 @@ public class BombEnemy : EnemyBase
     public void DealDamage()
     {
         explodeComponent.ManualTriggerAttack();
-        AudioManager.instance.PlaySound(sounds.explode_Clip.name);
+        AudioManager.instance.PlaySound(sounds.explode_Clip.name, animator.transform);
         ParticlesManager.Instance.PlayParticle(particles.explodePart.name, transform.position);
         OnDead();
 
@@ -183,7 +183,7 @@ public class BombEnemy : EnemyBase
 
     protected override void TakeDamageFeedback(DamageData data)
     {
-        AudioManager.instance.PlaySound(sounds._takeHit_AC.name);
+        AudioManager.instance.PlaySound(sounds._takeHit_AC.name, rootTransform);
 
         ParticlesManager.Instance.PlayParticle(particles.takeDamagePart.name, transform.position + Vector3.up);
         cooldown = true;

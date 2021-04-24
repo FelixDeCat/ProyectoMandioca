@@ -138,7 +138,7 @@ public class BossModel : EnemyBase
 
     protected override void TakeDamageFeedback(DamageData data)
     {
-        AudioManager.instance.PlaySound(sounds.takeDamage_sound.name);
+        AudioManager.instance.PlaySound(sounds.takeDamage_sound.name, rootTransform);
 
         ParticlesManager.Instance.PlayParticle(particles.takeDamage_particle.name, transform.position + Vector3.up);
         cooldown = true;

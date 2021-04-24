@@ -50,7 +50,7 @@ public class EffectBasicElectrify : EffectBase
         if (smr != null)
         {
             smr.materials = myMat;
-            AudioManager.instance.PlaySound("PetrifyEnd");
+            AudioManager.instance.PlaySound("PetrifyEnd", transform);
         }
         owner?.StunOver();
         dmgReceiver.RestTakeDamage(TakeDamageExtraFeedback);

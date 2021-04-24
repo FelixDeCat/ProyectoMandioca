@@ -35,7 +35,7 @@ public class BossProjectile : Throwable
     {
         noFloorCollision = true;
         timer = 0;
-        AudioManager.instance.PlaySound(parrySound.name);
+        AudioManager.instance.PlaySound(parrySound.name, transform);
         timerToDissappear = 0;
         Dissappear();
     }

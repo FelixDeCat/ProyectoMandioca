@@ -23,7 +23,7 @@ public class ThrowRock : Throwable
 
     protected override void InternalParry()
     {
-        AudioManager.instance.PlaySound("boulder Crush");
+        AudioManager.instance.PlaySound("boulder Crush", transform);
         timerDisapear = 0;
         myrig.AddForce(transform.forward * savethrowdata.Force * 2, ForceMode.VelocityChange);
     }

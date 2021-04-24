@@ -37,7 +37,7 @@ public class EffectBasicPetrify : EffectBase
         {
             myMat = smr.materials;
             petrifyParticles.Play();
-            AudioManager.instance.PlaySound("PetrifyStand");
+            AudioManager.instance.PlaySound("PetrifyStand", transform);
             Material[] mats = smr.materials;
             mats[0] = petrifiedMat;
             smr.materials = mats;
@@ -52,7 +52,7 @@ public class EffectBasicPetrify : EffectBase
         {
             smr.materials = myMat;
             petrifyParticles.Stop();
-            AudioManager.instance.PlaySound("PetrifyEnd");
+            AudioManager.instance.PlaySound("PetrifyEnd", transform);
             endPetrifyParticles.Play();
         }
         owner?.StunOver();
@@ -62,7 +62,7 @@ public class EffectBasicPetrify : EffectBase
     {
         base.ResetEffectFeedback();
 
-        AudioManager.instance.PlaySound("PetrifyEnd");
+        AudioManager.instance.PlaySound("PetrifyEnd", transform);
         endPetrifyParticles.Play();
     }
 

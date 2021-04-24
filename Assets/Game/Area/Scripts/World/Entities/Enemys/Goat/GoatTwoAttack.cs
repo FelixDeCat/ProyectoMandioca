@@ -24,7 +24,7 @@ namespace Tools.StateMachine
         {
             anim.SetTrigger("HeadOk");
 
-            AudioManager.instance.PlaySound(attackSound);
+            AudioManager.instance.PlaySound(attackSound, anim.transform);
             if (attackTimes >= 1)
                 cdModule.AddCD("RecallAttack", () => sm.SendInput(JabaliEnemy.JabaliInputs.IDLE), cdToAttackCurrent);
             else

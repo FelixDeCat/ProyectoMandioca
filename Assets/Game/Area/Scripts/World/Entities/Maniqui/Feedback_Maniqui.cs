@@ -19,8 +19,8 @@ public class Feedback_Maniqui
     }
     public void Play_part_Hit() => part_hit?.Play();
     public void Play_part_Death() => part_death?.Play();
-    public void Play_Sound_Hit() => AudioManager.instance.PlaySound(clip_hitManiqui.name);
-    public void Play_Sound_Death() => AudioManager.instance.PlaySound(clip_death.name);
+    public void Play_Sound_Hit() => AudioManager.instance.PlaySound(clip_hitManiqui.name, myRoot);
+    public void Play_Sound_Death() => AudioManager.instance.PlaySound(clip_death.name, myRoot);
 
     public IEnumerator OnHitted(float onHitFlashTime, Color onHitColor)
     {

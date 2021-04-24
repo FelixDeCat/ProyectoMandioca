@@ -19,7 +19,7 @@ namespace Tools.StateMachine
         {
             anim.SetTrigger("BasicAttackOk");
             cdModule.AddCD("RecallAttack", () => sm.SendInput(JabaliEnemy.JabaliInputs.IDLE), cdToAttack);
-            AudioManager.instance.PlaySound(attackSound);
+            AudioManager.instance.PlaySound(attackSound, anim.transform);
         }
 
         protected override void Exit(JabaliEnemy.JabaliInputs input)

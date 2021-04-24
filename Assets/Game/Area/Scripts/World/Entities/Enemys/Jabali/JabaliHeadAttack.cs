@@ -20,7 +20,7 @@ namespace Tools.StateMachine
             if (input.Name != "Petrified")
                 anim.SetTrigger("HeadOk");
 
-            AudioManager.instance.PlaySound(attackSound);
+            AudioManager.instance.PlaySound(attackSound, anim.transform);
         }
 
         protected override void Update()
