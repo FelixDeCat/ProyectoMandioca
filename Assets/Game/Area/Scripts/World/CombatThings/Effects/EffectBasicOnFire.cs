@@ -15,7 +15,7 @@ public class EffectBasicOnFire : EffectBase
     [SerializeField] Color onHitColor = Color.red;
     [SerializeField] float onHitFlashTime = 20f;
     Material[] mats;
-
+    [SerializeField] AudioClip _feedBack;
 
     protected override void OnInitialize()
     {
@@ -23,17 +23,20 @@ public class EffectBasicOnFire : EffectBase
         lifeSystem = GetComponentInParent<DamageReceiver>();
         if (!mesh) mesh = lifeSystem.GetComponentInChildren<SkinnedMeshRenderer>();
         mats = mesh.materials;
+        AudioManager.instance.GetSoundPool(_feedBack.name, AudioGroups.GAME_FX, _feedBack);
     }
 
     protected override void OffEffect()
     {
         feedbackFireDot.gameObject.SetActive(false);
         timerPerTick = 0;
+        AudioManager.instance.StopAllSounds(_feedBack.name);
     }
 
     protected override void OnEffect()
     {
         feedbackFireDot.gameObject.SetActive(true);
+        AudioManager.instance.PlaySound(_feedBack.name, transform);
     }
 
     protected override void OnTickEffect(float cdPercent)
