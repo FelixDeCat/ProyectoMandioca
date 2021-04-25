@@ -12,6 +12,10 @@ public class SavedTutorial : MonoBehaviour
     [SerializeField] GameObject rightArrow = null;
     [SerializeField] GameObject backInfo = null;
 
+    [SerializeField] Button myButton = null;
+    [SerializeField] Button settingsButton = null;
+    [SerializeField] Button cheatsButton = null;
+
     List<UI_Anim_Code> myTutorials = new List<UI_Anim_Code>();
     Dictionary<UI_Anim_Code, TMP_SpriteAsset> joystickSpriteAsset = new Dictionary<UI_Anim_Code, TMP_SpriteAsset>();
     Dictionary<UI_Anim_Code, TMP_SpriteAsset> keyboardSpriteAsset = new Dictionary<UI_Anim_Code, TMP_SpriteAsset>();
@@ -26,6 +30,31 @@ public class SavedTutorial : MonoBehaviour
     {
         Main.instance.eventManager.SubscribeToEvent(GameEvents.CHANGE_INPUT, ChangeInput);
     }
+
+    public void CanOpen() 
+    {
+        if (myButton.interactable == true || myTutorials.Count == 0) return;
+
+        myButton.interactable = true;
+        var newNav = new Navigation();
+        newNav.mode = Navigation.Mode.Explicit;
+        newNav.selectOnDown = cheatsButton;
+        newNav.selectOnUp = settingsButton;
+        myButton.navigation = newNav;
+
+        var newNav2 = new Navigation();
+        newNav2.mode = Navigation.Mode.Explicit;
+        newNav2.selectOnDown = myButton;
+        newNav2.selectOnUp = settingsButton.navigation.selectOnUp;
+        settingsButton.navigation = newNav2;
+
+        var newNav3 = new Navigation();
+        newNav3.mode = Navigation.Mode.Explicit;
+        newNav3.selectOnDown = cheatsButton.navigation.selectOnDown;
+        newNav3.selectOnUp = myButton;
+        cheatsButton.navigation = newNav3;
+    }
+
 
     void ChangeInput(params object[] parameters)
     {
@@ -48,14 +77,13 @@ public class SavedTutorial : MonoBehaviour
 
     public void SaveTutorial(TutorialSettings settings)
     {
-        var newTuto = Instantiate<UI_Anim_Code>(tutoPrefab);
-        newTuto.transform.SetParent(transform);
-        var text = tutoPrefab.GetComponentsInChildren<TextMeshProUGUI>();
+        var newTuto = Instantiate<UI_Anim_Code>(tutoPrefab, transform);
+        var text = newTuto.GetComponentsInChildren<TextMeshProUGUI>();
 
         text[0].text = settings.mainDialog;
         text[1].text = settings.title;
 
-        tutoPrefab.GetComponentInChildren<Image>().sprite = settings.images[0];
+        newTuto.GetComponentsInChildren<Image>()[1].sprite = settings.images[0];
 
         myTutorials.Add(newTuto);
         joystickSpriteAsset.Add(newTuto, settings.joystickSpriteAsset);
@@ -70,6 +98,7 @@ public class SavedTutorial : MonoBehaviour
         leftArrow.SetActive(false);
         rightArrow.SetActive(false);
         backInfo.SetActive(false);
+        opened = false;
 
         myTutorials[currentIndex].Close();
 
@@ -84,7 +113,7 @@ public class SavedTutorial : MonoBehaviour
         if (opened) return;
         opened = true;
         rightArrow.SetActive(myTutorials.Count > 1);
-        backInfo = null;
+        backInfo.SetActive(true);
         currentIndex = 0;
 
         myTutorials[currentIndex].Open();
@@ -110,8 +139,8 @@ public class SavedTutorial : MonoBehaviour
         myTutorials[currentIndex].Open();
         canChange = false;
 
-        rightArrow.SetActive(currentIndex > myTutorials.Count - 1);
-        leftArrow.SetActive(currentIndex < 0);
+        rightArrow.SetActive(currentIndex < myTutorials.Count - 1);
+        leftArrow.SetActive(currentIndex > 0);
 
         RefreshSpriteAsset();
     }

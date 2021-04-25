@@ -38,16 +38,16 @@ public class UI_Anim_Code : UI_AnimBase
             {
                 case AppearSide.Up: initHidepos = new Vector3(transform.localPosition.x, transform.localPosition.y + 500, transform.localPosition.z); break;
                 case AppearSide.Down: initHidepos = new Vector3(transform.localPosition.x, transform.localPosition.y - 500, transform.localPosition.z); break;
-                case AppearSide.Left: initHidepos = new Vector3(transform.localPosition.x - 500, transform.localPosition.y, transform.localPosition.z); break;
-                case AppearSide.Right: initHidepos = new Vector3(transform.localPosition.x + 500, transform.localPosition.y, transform.localPosition.z); break;
+                case AppearSide.Left: initHidepos = new Vector3(transform.localPosition.x - 800, transform.localPosition.y, transform.localPosition.z); break;
+                case AppearSide.Right: initHidepos = new Vector3(transform.localPosition.x + 800, transform.localPosition.y, transform.localPosition.z); break;
             }
 
             switch (dissapearSide)
             {
                 case AppearSide.Up: finalHidepos = new Vector3(transform.localPosition.x, transform.localPosition.y + 500, transform.localPosition.z); break;
                 case AppearSide.Down: finalHidepos = new Vector3(transform.localPosition.x, transform.localPosition.y - 500, transform.localPosition.z); break;
-                case AppearSide.Left: finalHidepos = new Vector3(transform.localPosition.x - 500, transform.localPosition.y, transform.localPosition.z); break;
-                case AppearSide.Right: finalHidepos = new Vector3(transform.localPosition.x + 500, transform.localPosition.y, transform.localPosition.z); break;
+                case AppearSide.Left: finalHidepos = new Vector3(transform.localPosition.x - 800, transform.localPosition.y, transform.localPosition.z); break;
+                case AppearSide.Right: finalHidepos = new Vector3(transform.localPosition.x + 800, transform.localPosition.y, transform.localPosition.z); break;
             }
             if (!test_stay_in_my_place) transform.localPosition = initHidepos;
             else transform.localPosition = currentpos;
@@ -67,16 +67,16 @@ public class UI_Anim_Code : UI_AnimBase
         {
             case AppearSide.Up: initHidepos = new Vector3(transform.localPosition.x, transform.localPosition.y + 500, transform.localPosition.z); break;
             case AppearSide.Down: initHidepos = new Vector3(transform.localPosition.x, transform.localPosition.y - 500, transform.localPosition.z); break;
-            case AppearSide.Left: initHidepos = new Vector3(transform.localPosition.x - 500, transform.localPosition.y, transform.localPosition.z); break;
-            case AppearSide.Right: initHidepos = new Vector3(transform.localPosition.x + 500, transform.localPosition.y, transform.localPosition.z); break;
+            case AppearSide.Left: initHidepos = new Vector3(transform.localPosition.x - 800, transform.localPosition.y, transform.localPosition.z); break;
+            case AppearSide.Right: initHidepos = new Vector3(transform.localPosition.x + 800, transform.localPosition.y, transform.localPosition.z); break;
         }
 
         switch (dissapearSide)
         {
             case AppearSide.Up: finalHidepos = new Vector3(transform.localPosition.x, transform.localPosition.y + 500, transform.localPosition.z); break;
             case AppearSide.Down: finalHidepos = new Vector3(transform.localPosition.x, transform.localPosition.y - 500, transform.localPosition.z); break;
-            case AppearSide.Left: finalHidepos = new Vector3(transform.localPosition.x - 500, transform.localPosition.y, transform.localPosition.z); break;
-            case AppearSide.Right: finalHidepos = new Vector3(transform.localPosition.x + 500, transform.localPosition.y, transform.localPosition.z); break;
+            case AppearSide.Left: finalHidepos = new Vector3(transform.localPosition.x - 800, transform.localPosition.y, transform.localPosition.z); break;
+            case AppearSide.Right: finalHidepos = new Vector3(transform.localPosition.x + 800, transform.localPosition.y, transform.localPosition.z); break;
         }
     }
 

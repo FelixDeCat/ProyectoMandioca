@@ -24,7 +24,6 @@ public class Tutorial_UIController : MonoBehaviour
     bool tutoShowing;
     bool canUpdate;
 
-
     private void Start()
     {
         instance = this;
@@ -48,8 +47,10 @@ public class Tutorial_UIController : MonoBehaviour
 
     public void SetNewTutorial(TutorialSettings settings)
     {
-        tutoShowing = true;
+        if (settings == null || settings.alreadySave) return;
 
+        tutoShowing = true;
+        PauseManager.Instance.tutorialHud.SaveTutorial(settings);
         PauseManager.Instance.Pause();
         titleText.text = settings.title;
         mainDialogText.text = settings.mainDialog;
@@ -69,6 +70,7 @@ public class Tutorial_UIController : MonoBehaviour
         }
 
         mainHud.Open();
+        settings.alreadySave = true;
     }
 
     void EndTutorial()

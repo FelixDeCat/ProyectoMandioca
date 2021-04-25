@@ -19,7 +19,6 @@ public class PauseManager : MonoBehaviour
     [SerializeField] Settings settingsHud = null;
     public SavedTutorial tutorialHud = null;
 
-    SettingsData data;
     bool inPauseHud;
     bool inSettings;
     bool inTutorial;
@@ -46,6 +45,7 @@ public class PauseManager : MonoBehaviour
         MyEventSystem.instance.SelectGameObject(mainFirstButton);
         canPress = false;
         inPauseHud = true;
+        tutorialHud.CanOpen();
     }
 
     public void Pause()
@@ -95,6 +95,7 @@ public class PauseManager : MonoBehaviour
         mainButtons.SetActive(false);
         tutorialHud.Open();
         inTutorial = true;
+        pauseHud.gameObject.SetActive(false);
     }
 
     public void Cheats()
@@ -106,6 +107,7 @@ public class PauseManager : MonoBehaviour
 
     public void BackToPause()
     {
+        pauseHud.gameObject.SetActive(true);
         mainButtons.SetActive(true);
         Debug_UI_Tools.instance.Toggle(false);
         cheatsHud.SetActive(false);
