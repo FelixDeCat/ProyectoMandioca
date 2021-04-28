@@ -29,6 +29,7 @@ public abstract class Totem : EnemyBase
     protected override void OnInitialize()
     {
         base.OnInitialize();
+        GetComponentInChildren<PropDestructible>().Initialize();
         AudioManager.instance.GetSoundPool(ac_Die.name, AudioGroups.GAME_FX, ac_Die);
         AudioManager.instance.GetSoundPool(ac_Charge.name, AudioGroups.GAME_FX, ac_Charge);
         effectStun.AddStartCallback(GetStunned);
@@ -174,10 +175,11 @@ public abstract class Totem : EnemyBase
 
     protected abstract void InternalTakeDamage();
 
-    protected override void OnTurnOn() { }
+    protected override void OnTurnOn() { GetComponentInChildren<PropDestructible>().On(); }
 
     protected override void OnTurnOff()
     {
+        GetComponentInChildren<PropDestructible>().Off();
         feedback.StopAll();
         castingCD = false;
         stuned = false;

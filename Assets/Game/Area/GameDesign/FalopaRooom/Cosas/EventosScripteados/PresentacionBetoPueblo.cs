@@ -69,6 +69,7 @@ public class PresentacionBetoPueblo : MonoBehaviour, ISpawner, IScriptedEvent, I
 
     public void ActivateBetoEvento()
     {
+        Debug.Log("?");
         ResetSettings();
 
         Main.instance.GetScriptedEventManager().RegisterEvents(this);
@@ -120,7 +121,6 @@ public class PresentacionBetoPueblo : MonoBehaviour, ISpawner, IScriptedEvent, I
 
         var newSpawn = spot.SpawnPrefab(pos, prefab, sceneName, this);
 
-        newSpawn.GetComponent<EnemyBase>().OnDeath.AddListener(OnEnemydead);
         summonedEnemies.Add(newSpawn);
         totem = newSpawn.GetComponent<TotemSpawner>();
         totem.OnTotemEnter();
@@ -136,14 +136,8 @@ public class PresentacionBetoPueblo : MonoBehaviour, ISpawner, IScriptedEvent, I
             //finishKillSummon = true;
             
             remaningEnemies = totem.GetSpawner.GetMySpawns;
-
-            for (int i = 0; i < summonedEnemies.Count; i++)
-            {
-                summonedEnemies[i].GetComponent<EnemyBase>().OnDeath.RemoveListener(OnEnemydead);
-            }
-
             summonedEnemies.Clear();
-            Debug.Log("hay en total " + totem.GetSpawner.GetMySpawns.Count);
+            Debug.Log("hay en total " + remaningEnemies.Count);
             for (int i = 0; i < remaningEnemies.Count; i++)
             {
                 summonedEnemies.Add(remaningEnemies[i]);
@@ -182,8 +176,10 @@ public class PresentacionBetoPueblo : MonoBehaviour, ISpawner, IScriptedEvent, I
 
     public void ReturnObject(PlayObject newPrefab)
     {
+        OnEnemydead();
         newPrefab.Spawner = null;
         newPrefab.Off();
+
 
         PoolManager.instance.ReturnObject(newPrefab);
     }
