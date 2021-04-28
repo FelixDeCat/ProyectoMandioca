@@ -12,9 +12,13 @@ public class CameraCinematic : MonoBehaviour
     [SerializeField] float cinematicTime = 7;
     [SerializeField] float returnTime = 5;
 
+    bool alreadyActivate;
     public void StartCinematic()
     {
+        if (alreadyActivate) return;
+
         Main.instance.GetMyCamera().StartCinematic(goTime, cinematicTime, returnTime, targetPos, lookAt);
+        alreadyActivate = true;
     }
 
     public void StartCinematic(Action OnFinishCinematic_Callback)

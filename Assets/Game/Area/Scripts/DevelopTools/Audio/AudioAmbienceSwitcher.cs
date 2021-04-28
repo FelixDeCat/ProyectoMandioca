@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class AudioAmbienceSwitcher : MonoBehaviour
+public class AudioAmbienceSwitcher : MonoBehaviour, IPauseable
 {
     public static AudioAmbienceSwitcher instance;
     public AudioClip initial_Sound;
@@ -22,6 +22,11 @@ public class AudioAmbienceSwitcher : MonoBehaviour
     {
         instance = this;
         current = initial_Sound;
+    }
+
+    private void Start()
+    {
+        PauseManager.Instance.AddToPause(this);
     }
 
     public void PlayAll()
@@ -150,5 +155,25 @@ public class AudioAmbienceSwitcher : MonoBehaviour
         secondMusicAudio.Stop();
         secondMusicAudio.clip = _clip;
         secondMusicAudio.Play();
+    }
+
+    bool[] isPaused = new bool[4];
+
+    public void Pause()
+    {
+        if (musicAudio.isPlaying) { musicAudio.Pause(); isPaused[0] = true; }
+        if (secondMusicAudio.isPlaying) { secondMusicAudio.Pause(); isPaused[1] = true; }
+        if (ASource_Master.isPlaying) { ASource_Master.Pause(); isPaused[2] = true; }
+        if (ASource_Slave.isPlaying) { ASource_Slave.Pause(); isPaused[3] = true; }
+    }
+
+    public void Resume()
+    {
+        if (isPaused[0]) musicAudio.Play();
+        if (isPaused[1]) secondMusicAudio.Play();
+        if (isPaused[2]) ASource_Master.Play();
+        if (isPaused[3]) ASource_Slave.Play();
+
+        isPaused = new bool[4];
     }
 }

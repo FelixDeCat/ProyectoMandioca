@@ -94,6 +94,9 @@ public class GameLoop : MonoBehaviour
 
         //aca se resetean los eventos Scripteados (Brazalete, presentacion de Beto, Boss de Dungeon)
         if (Main.instance.GetScriptedEventManager()) Main.instance.GetScriptedEventManager().ResetEvents();
+
+        //Prendo la música
+        AudioAmbienceSwitcher.instance.PlayAll();
     }
 
 }

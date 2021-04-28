@@ -24,6 +24,7 @@ public class BetoBoss : EnemyBase
     FinalPoisonLakeSkill poisonSkill;
     bool updatePoison;
     [SerializeField] GenericEnemyMove obsAvoid = null;
+    [SerializeField] TriggerDispatcher trigger = null;
 
     #region Properties
     public int CurrentLife { get => lifesystem.Life; }
@@ -149,6 +150,7 @@ public class BetoBoss : EnemyBase
 
     void ResetBossOnDead()
     {
+        trigger.gameObject.SetActive(true);
         brain.ResetBrain();
         StopAllCoroutines();
         Flying = false;

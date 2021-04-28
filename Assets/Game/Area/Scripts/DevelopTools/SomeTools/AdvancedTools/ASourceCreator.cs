@@ -35,10 +35,10 @@ namespace Tools.Sound
             source.outputAudioMixerGroup = mixerGroup;
             source.clip = ac;
             source.loop = loop;
-            source.spatialBlend = 0.3f;
+            source.spatialBlend = 0.5f;
             source.playOnAwake = playOnAwake;
-            source.maxDistance = 57;
-            source.minDistance = 10;
+            source.maxDistance = 50;
+            source.minDistance = 5;
             
 
             if (playOnAwake) source.Play();
