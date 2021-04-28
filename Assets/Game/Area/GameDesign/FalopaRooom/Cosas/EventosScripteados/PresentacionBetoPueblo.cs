@@ -69,7 +69,6 @@ public class PresentacionBetoPueblo : MonoBehaviour, ISpawner, IScriptedEvent, I
 
     public void ActivateBetoEvento()
     {
-        Debug.Log("?");
         ResetSettings();
 
         Main.instance.GetScriptedEventManager().RegisterEvents(this);

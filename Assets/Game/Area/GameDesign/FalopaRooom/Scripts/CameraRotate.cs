@@ -258,7 +258,7 @@ public class CameraRotate : MonoBehaviour
         Vector3 newPos;
         isTilting = true;
         tiltLerp = Mathf.Clamp(tiltLerp + vertical * sensitivityVertical * Time.deltaTime * vertAxis, -1, 1f);
-        Debug.Log(tiltLerp);
+        //Debug.Log(tiltLerp);
         if (tiltLerp > 0)
         {
             newPos = Vector3.Lerp(myChar.transform.position + offsetVec, myChar.transform.position + offsetVec + new Vector3(0, maxHeight, 0), tiltLerp);
