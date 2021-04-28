@@ -157,7 +157,7 @@ Shader "Effects/Totem/Turret/Laser"
 }
 /*ASEBEGIN
 Version=18900
-0;476;1118;345;467.4946;26.24608;1.139521;True;False
+0;476;1118;345;443.5646;196.0347;1.139521;True;False
 Node;AmplifyShaderEditor.TexturePropertyNode;39;-3173.247,94.89598;Inherit;True;Property;_Texture0;Texture 0;5;0;Create;True;0;0;0;False;0;False;None;f039d4efae7db944d8ed64056cb2363b;False;white;Auto;Texture2D;-1;0;2;SAMPLER2D;0;SAMPLERSTATE;1
 Node;AmplifyShaderEditor.TextureCoordinatesNode;14;-3000.625,-7.673622;Inherit;False;0;-1;2;3;2;SAMPLER2D;;False;0;FLOAT2;1,1;False;1;FLOAT2;0,0;False;5;FLOAT2;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
 Node;AmplifyShaderEditor.SamplerNode;41;-2799.729,204.6158;Inherit;True;Property;_TextureSample0;Texture Sample 0;7;0;Create;True;0;0;0;False;0;False;-1;None;None;True;0;False;white;Auto;False;Object;-1;Auto;Texture2D;8;0;SAMPLER2D;;False;1;FLOAT2;0,0;False;2;FLOAT;0;False;3;FLOAT2;0,0;False;4;FLOAT2;0,0;False;5;FLOAT;1;False;6;FLOAT;0;False;7;SAMPLERSTATE;;False;5;COLOR;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
@@ -208,4 +208,4 @@ WireConnection;29;0;57;0
 WireConnection;29;3;71;0
 WireConnection;72;0;29;0
 ASEEND*/
-//CHKSM=7230D032213B0CF518A1DB4EBD17C98EDE68CC74
+//CHKSM=3D27CD3907AE7128CC605F5F190EACE28FBF04C1
