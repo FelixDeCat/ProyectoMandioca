@@ -11,7 +11,7 @@ public class TotemSpawner : Totem
     protected override void OnInitialize()
     {
         base.OnInitialize();
-        AudioManager.instance.GetSoundPool(ac_Summon.name, AudioGroups.GAME_FX, ac_Summon);
+        AudioManager.instance.GetSoundPool(ac_Summon.name, AudioManager.SoundDimesion.ThreeD, AudioGroups.GAME_FX, ac_Summon);
     }
 
     public CustomSpawner GetSpawner => spawner;

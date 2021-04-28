@@ -19,7 +19,7 @@ public class BossProjectile : Throwable
     protected override void Start()
     {
         base.Start();
-        AudioManager.instance.GetSoundPool(parrySound.name, AudioGroups.GAME_FX, parrySound);
+        AudioManager.instance.GetSoundPool(parrySound.name, AudioManager.SoundDimesion.TwoD, AudioGroups.GAME_FX, parrySound);
         ParticlesManager.Instance.GetParticlePool(explosionParticle.name, explosionParticle);
         target = Main.instance.GetChar().transform;
     }

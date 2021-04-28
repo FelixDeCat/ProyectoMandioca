@@ -10,7 +10,7 @@ public class SingleAudios : MonoBehaviour
 
     void Start()
     {
-        AudioManager.instance.GetSoundPool(_nameOfClip, AudioGroups.GAME_FX, _clip);
+        AudioManager.instance.GetSoundPool(_nameOfClip, AudioManager.SoundDimesion.ThreeD, AudioGroups.GAME_FX, _clip);
         AudioManager.instance.PlaySound(_nameOfClip, myTransform);
     }
 }

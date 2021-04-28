@@ -83,7 +83,7 @@ public class CharacterMovement
         Dash += Roll;
         feedbacks = _feedbacks;
         isGrounded = _isGrounded;
-        AudioManager.instance.GetSoundPool("DashSounds", AudioGroups.GAME_FX);
+        AudioManager.instance.GetSoundPool("DashSounds", AudioManager.SoundDimesion.TwoD, AudioGroups.GAME_FX);
         ActualizeDash(true);
         isGrounded.TurnOn();
 

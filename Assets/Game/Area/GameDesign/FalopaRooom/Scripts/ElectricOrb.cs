@@ -24,7 +24,7 @@ public class ElectricOrb : Waves
     {
         base.Start();
         ParticlesManager.Instance.GetParticlePool(explosionPart.name, explosionPart);
-        AudioManager.instance.GetSoundPool(_hitSound.name, AudioGroups.GAME_FX, _hitSound);
+        AudioManager.instance.GetSoundPool(_hitSound.name, AudioManager.SoundDimesion.ThreeD, AudioGroups.GAME_FX, _hitSound);
     }
 
     protected override void Update()

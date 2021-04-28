@@ -29,9 +29,9 @@ public class SkillActive_Buff : SkillActivas
     protected override void OnBeginSkill()
     {
         if (mychar == null) mychar = Main.instance.GetChar();
-        AudioManager.instance.GetSoundPool(_slowMoEnter, AudioGroups.MISC, slowmoEnter);
-        AudioManager.instance.GetSoundPool(_slowMoExit, AudioGroups.MISC, slowmoExit);
-        AudioManager.instance.GetSoundPool(_pickupSkill, AudioGroups.GAME_FX,pickUp_skill);
+        AudioManager.instance.GetSoundPool(_slowMoEnter, AudioManager.SoundDimesion.TwoD, AudioGroups.MISC, slowmoEnter);
+        AudioManager.instance.GetSoundPool(_slowMoExit, AudioManager.SoundDimesion.TwoD, AudioGroups.MISC, slowmoExit);
+        AudioManager.instance.GetSoundPool(_pickupSkill, AudioManager.SoundDimesion.TwoD, AudioGroups.GAME_FX,pickUp_skill);
         
         AudioManager.instance.PlaySound(_pickupSkill);
     

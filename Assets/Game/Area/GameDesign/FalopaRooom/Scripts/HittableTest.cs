@@ -8,7 +8,7 @@ public class HittableTest : MonoBehaviour
 
     public void Start()
     {
-        AudioManager.instance.GetSoundPool(onHitSound.name, AudioGroups.AMBIENT_FX, onHitSound);
+        AudioManager.instance.GetSoundPool(onHitSound.name, AudioManager.SoundDimesion.ThreeD, AudioGroups.AMBIENT_FX, onHitSound);
     }
     public void OnHit()
     {

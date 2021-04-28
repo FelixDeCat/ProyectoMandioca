@@ -26,7 +26,7 @@ namespace Tools.StateMachine
             DealDamage = _DealDamage;
             feedbackCharge = _feedbackCharge;
             PlayCombat = _PlayCombat;
-            pool = AudioManager.instance.GetSoundPool(_wooshSound);
+            pool = AudioManager.instance.GetSoundPool(_wooshSound, AudioManager.SoundDimesion.ThreeD);
             timePush = _chargeDuration;
             groundSensor = _groundSensor;
             isGoat = _isGoat;

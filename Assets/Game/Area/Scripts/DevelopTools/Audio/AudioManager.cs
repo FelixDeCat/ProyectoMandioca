@@ -153,11 +153,13 @@ public class AudioManager : MonoBehaviour
     /// <param name="soundPoolName"></param>
     /// <param name="audioClip"></param>
     /// <returns></returns>
-    public SoundPool GetSoundPool(string soundPoolName, AudioGroups audioGroups = AudioGroups.MISC , 
+    /// 
+    public enum SoundDimesion { ThreeD, TwoD }
+    public SoundPool GetSoundPool(string soundPoolName, SoundDimesion dimension, AudioGroups audioGroups = AudioGroups.MISC, 
         AudioClip audioClip = null, bool loop = false, int prewarmAmount = 2)
     {
         if (_soundRegistry.ContainsKey(soundPoolName)) return _soundRegistry[soundPoolName];
-        else if (audioClip != null) return CreateNewSoundPool(audioClip, soundPoolName,  audioGroups ,loop, prewarmAmount);
+        else if (audioClip != null) return CreateNewSoundPool(audioClip, soundPoolName, dimension ,audioGroups ,loop, prewarmAmount);
         else return null;
     }
 
@@ -167,12 +169,12 @@ public class AudioManager : MonoBehaviour
     /// <param name="audioClip"></param>
     /// <param name="soundPoolName"></param>
     /// <returns></returns>
-    private SoundPool CreateNewSoundPool(AudioClip audioClip, string soundPoolName, AudioGroups audioGroups = AudioGroups.MISC, 
+    private SoundPool CreateNewSoundPool(AudioClip audioClip, string soundPoolName, SoundDimesion dimension, AudioGroups audioGroups = AudioGroups.MISC, 
         bool loop = false, int prewarmAmount = 2)
     {
         var soundPool = new GameObject($"{soundPoolName} soundPool").AddComponent<SoundPool>();
         soundPool.transform.SetParent(transform);
-        soundPool.Configure(audioClip, _audioMixers[audioGroups],loop);
+        soundPool.Configure(audioClip, _audioMixers[audioGroups], dimension,loop);
         soundPool.Initialize(prewarmAmount);
         _soundRegistry.Add(soundPoolName, soundPool);
         return soundPool;

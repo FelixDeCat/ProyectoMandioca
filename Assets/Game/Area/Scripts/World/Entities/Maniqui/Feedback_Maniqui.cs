@@ -14,8 +14,8 @@ public class Feedback_Maniqui
     public void Initialize(Transform myRoot)
     {
         this.myRoot = myRoot;
-        if (clip_hitManiqui) AudioManager.instance.GetSoundPool(clip_hitManiqui.name, AudioGroups.GAME_FX, clip_hitManiqui);
-        if (clip_hitManiqui) AudioManager.instance.GetSoundPool(clip_death.name, AudioGroups.GAME_FX, clip_death);
+        if (clip_hitManiqui) AudioManager.instance.GetSoundPool(clip_hitManiqui.name, AudioManager.SoundDimesion.ThreeD, AudioGroups.GAME_FX, clip_hitManiqui);
+        if (clip_hitManiqui) AudioManager.instance.GetSoundPool(clip_death.name, AudioManager.SoundDimesion.ThreeD, AudioGroups.GAME_FX, clip_death);
     }
     public void Play_part_Hit() => part_hit?.Play();
     public void Play_part_Death() => part_death?.Play();

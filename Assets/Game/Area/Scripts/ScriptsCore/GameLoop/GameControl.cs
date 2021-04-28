@@ -12,7 +12,7 @@ public class GameControl : MonoBehaviour
         Fades_Screens.instance.Black();
         Fades_Screens.instance.FadeOff(() => { });
         LoadSceneHandler.instance.Off_LoadScreen();
-
+        AudioAmbienceSwitcher.instance.PlayAll();
     }
     public void OnStopGame()
     {

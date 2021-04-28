@@ -16,7 +16,7 @@ public abstract class SkillBase : MonoBehaviour
     public void Start()//LoadMe
     {
         OnStart();
-        AudioManager.instance.GetSoundPool("skillIncooldown", AudioGroups.GAME_FX, skillInCD);
+        AudioManager.instance.GetSoundPool("skillIncooldown", AudioManager.SoundDimesion.TwoD, AudioGroups.GAME_FX, skillInCD);
     }
     public virtual void BeginSkill()
     {

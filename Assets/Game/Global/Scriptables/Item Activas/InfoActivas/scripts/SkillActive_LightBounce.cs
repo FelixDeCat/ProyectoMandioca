@@ -50,9 +50,9 @@ public class SkillActive_LightBounce : SkillActivas
         lightBeam.SetActive(false);
         _hero = Main.instance.GetChar();
         blocker = _hero.GetCharBlock();
-        AudioManager.instance.GetSoundPool(_fireSound, AudioGroups.GAME_FX,fireClip, true);
-        AudioManager.instance.GetSoundPool(_celestialChorus, AudioGroups.GAME_FX,celestialChorus);
-        AudioManager.instance.GetSoundPool(_pickupSkill, AudioGroups.GAME_FX,pickUp_skill);
+        AudioManager.instance.GetSoundPool(_fireSound, AudioManager.SoundDimesion.ThreeD, AudioGroups.GAME_FX,fireClip, true);
+        AudioManager.instance.GetSoundPool(_celestialChorus, AudioManager.SoundDimesion.ThreeD, AudioGroups.GAME_FX,celestialChorus);
+        AudioManager.instance.GetSoundPool(_pickupSkill, AudioManager.SoundDimesion.ThreeD, AudioGroups.GAME_FX,pickUp_skill);
         
         AudioManager.instance.PlaySound(_pickupSkill);
     }
@@ -137,7 +137,7 @@ public class SkillActive_LightBounce : SkillActivas
         {
             lightBeam.SetActive(true);
 
-            if (!AudioManager.instance.GetSoundPool(_fireSound).soundPoolPlaying)
+            if (!AudioManager.instance.GetSoundPool(_fireSound, AudioManager.SoundDimesion.ThreeD).soundPoolPlaying)
             {
                 AudioManager.instance.PlaySound(_fireSound);
             }
@@ -148,7 +148,7 @@ public class SkillActive_LightBounce : SkillActivas
         else
         {
             lightBeam.SetActive(false);
-            if (AudioManager.instance.GetSoundPool(_fireSound).soundPoolPlaying)
+            if (AudioManager.instance.GetSoundPool(_fireSound, AudioManager.SoundDimesion.ThreeD).soundPoolPlaying)
             {
                 AudioManager.instance.StopAllSounds(_fireSound);
             }

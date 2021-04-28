@@ -39,8 +39,8 @@ public class BashingRock : DashBashInteract
         dmgData.SetDamage(damage).SetDamageInfo(DamageInfo.NonBlockAndParry).SetKnockback(knockback).SetDamageType(dmgType).Initialize(transform);
         savedDestroyedVersion = Main.instance.GetSpawner().SpawnItem(modelDestroyedVersion.gameObject, transform).GetComponent<DestroyedVersion>();
         if (savedDestroyedVersion) savedDestroyedVersion.gameObject.SetActive(false);
-        AudioManager.instance.GetSoundPool(CrushFX.name, AudioGroups.GAME_FX, CrushFX);
-        AudioManager.instance.GetSoundPool(_rollingFX.name, AudioGroups.GAME_FX, _rollingFX);
+        AudioManager.instance.GetSoundPool(CrushFX.name, AudioManager.SoundDimesion.ThreeD, AudioGroups.GAME_FX, CrushFX);
+        AudioManager.instance.GetSoundPool(_rollingFX.name, AudioManager.SoundDimesion.ThreeD, AudioGroups.GAME_FX, _rollingFX);
     }
 
     protected override void OnTurnOn()

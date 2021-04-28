@@ -64,8 +64,8 @@ public class CrowEnemy : EnemyWithCombatDirector
         ParticlesManager.Instance.GetParticlePool(particles.attackParticles.name, particles.attackParticles, 2);
         ParticlesManager.Instance.GetParticlePool(particles.takeDmg.name, particles.takeDmg, 3);
 
-        AudioManager.instance.GetSoundPool(sounds.takeDmgSound.name, AudioGroups.GAME_FX, sounds.takeDmgSound);
-        AudioManager.instance.GetSoundPool(sounds.attackSound.name, AudioGroups.GAME_FX, sounds.attackSound);
+        AudioManager.instance.GetSoundPool(sounds.takeDmgSound.name, AudioManager.SoundDimesion.ThreeD, AudioGroups.GAME_FX, sounds.takeDmgSound);
+        AudioManager.instance.GetSoundPool(sounds.attackSound.name, AudioManager.SoundDimesion.ThreeD, AudioGroups.GAME_FX, sounds.attackSound);
 
         rb = GetComponent<Rigidbody>();
         anim.Add_Callback("DealDamage", DealDamage);

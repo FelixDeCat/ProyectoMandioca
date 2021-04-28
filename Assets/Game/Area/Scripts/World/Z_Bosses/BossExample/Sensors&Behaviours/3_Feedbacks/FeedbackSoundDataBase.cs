@@ -15,12 +15,12 @@ public class FeedbackSoundDataBase : MonoBehaviour
 
     void Start()
     {
-        AudioManager.instance.GetSoundPool(_getDamageClip.name, AudioGroups.GAME_FX, _getDamageClip);
-        AudioManager.instance.GetSoundPool(_throwAttackClip.name, AudioGroups.GAME_FX, _throwAttackClip);
-        AudioManager.instance.GetSoundPool(_beginFightClip.name, AudioGroups.GAME_FX, _beginFightClip);
-        AudioManager.instance.GetSoundPool(_deathClip.name, AudioGroups.GAME_FX, _deathClip);
-        AudioManager.instance.GetSoundPool(_hitTheGround.name, AudioGroups.GAME_FX, _hitTheGround);
-        AudioManager.instance.GetSoundPool(_walk.name, AudioGroups.GAME_FX, _walk);
+        AudioManager.instance.GetSoundPool(_getDamageClip.name, AudioManager.SoundDimesion.ThreeD, AudioGroups.GAME_FX, _getDamageClip);
+        AudioManager.instance.GetSoundPool(_throwAttackClip.name, AudioManager.SoundDimesion.ThreeD, AudioGroups.GAME_FX, _throwAttackClip);
+        AudioManager.instance.GetSoundPool(_beginFightClip.name, AudioManager.SoundDimesion.ThreeD, AudioGroups.GAME_FX, _beginFightClip);
+        AudioManager.instance.GetSoundPool(_deathClip.name, AudioManager.SoundDimesion.ThreeD, AudioGroups.GAME_FX, _deathClip);
+        AudioManager.instance.GetSoundPool(_hitTheGround.name, AudioManager.SoundDimesion.ThreeD, AudioGroups.GAME_FX, _hitTheGround);
+        AudioManager.instance.GetSoundPool(_walk.name, AudioManager.SoundDimesion.ThreeD, AudioGroups.GAME_FX, _walk);
     }
     public void SetRoot(Transform root) => this.root = root;
     public void GetDamageClip() => AudioManager.instance.PlaySound(_getDamageClip.name, root);

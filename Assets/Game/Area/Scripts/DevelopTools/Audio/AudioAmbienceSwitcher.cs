@@ -6,7 +6,10 @@ public class AudioAmbienceSwitcher : MonoBehaviour
 {
     public static AudioAmbienceSwitcher instance;
     public AudioClip initial_Sound;
+    AudioClip current;
 
+    [SerializeField] AudioSource musicAudio = null;
+    [SerializeField] AudioSource secondMusicAudio = null;
     public AudioSource ASource_Master;
     public AudioSource ASource_Slave;
 
@@ -18,12 +21,64 @@ public class AudioAmbienceSwitcher : MonoBehaviour
     private void Awake()
     {
         instance = this;
+        current = initial_Sound;
     }
 
-    public void Start()
+    public void PlayAll()
     {
-        ASource_Master.clip = initial_Sound;
-        ASource_Master.Play();
+        PlayMusic();
+        PlayAmbience();
+    }
+
+    public void StopAll()
+    {
+        StopMusic();
+        StopAmbience();
+    }
+    public void PlayMusic()
+    {
+        if(!musicAudio.isPlaying && !secondMusicAudio.isPlaying)
+        {
+            musicAudio.Play();
+            secondMusicAudio.Play();
+        }
+    }
+
+    public void StopMusic()
+    {
+        if (musicAudio.isPlaying && secondMusicAudio.isPlaying)
+        {
+            musicAudio.Stop();
+            secondMusicAudio.Stop();
+        }
+    }
+
+    public void PlayAmbience()
+    {
+        if (!ASource_Master.isPlaying && !change_master)
+        {
+            ASource_Master.clip = current;
+            ASource_Master.Play();
+        }
+        else if (!ASource_Slave.isPlaying && change_master)
+        {
+            ASource_Slave.clip = current;
+            ASource_Slave.Play();
+        }
+    }
+
+    public void StopAmbience()
+    {
+        if (ASource_Master.isPlaying && !change_master)
+        {
+            current = ASource_Master.clip;
+            ASource_Master.Play();
+        }
+        else if (ASource_Slave.isPlaying && change_master)
+        {
+            current = ASource_Slave.clip;
+            ASource_Slave.Stop();
+        }
     }
 
     public void SwitchClip(AudioClip ac)
@@ -81,5 +136,19 @@ public class AudioAmbienceSwitcher : MonoBehaviour
                 anim = false;
             }
         }
+    }
+
+    public void ChangeMusic(AudioClip _clip)
+    {
+        musicAudio.Stop();
+        musicAudio.clip = _clip;
+        musicAudio.Play();
+    }
+
+    public void ChangeFightMusic(AudioClip _clip)
+    {
+        secondMusicAudio.Stop();
+        secondMusicAudio.clip = _clip;
+        secondMusicAudio.Play();
     }
 }

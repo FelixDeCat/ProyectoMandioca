@@ -13,7 +13,7 @@ public class MedusaParry_skill : SkillBase
     protected override void OnStart()
     {
         base.OnStart();
-        AudioManager.instance.GetSoundPool("OnPetrifyBegin", AudioGroups.GAME_FX, clip_OnPetrifyBegin);
+        AudioManager.instance.GetSoundPool("OnPetrifyBegin", AudioManager.SoundDimesion.TwoD, AudioGroups.GAME_FX, clip_OnPetrifyBegin);
 
     }
 

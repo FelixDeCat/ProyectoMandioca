@@ -50,7 +50,7 @@ public class ComboWomboSystem
     public void SetSound(AudioClip sound)
     {
         comboSounds = sound;
-        AudioManager.instance.GetSoundPool(comboSounds.name, AudioGroups.GAME_FX, comboSounds);
+        AudioManager.instance.GetSoundPool(comboSounds.name, AudioManager.SoundDimesion.ThreeD, AudioGroups.GAME_FX, comboSounds);
     }
 
     public void OnUpdate()

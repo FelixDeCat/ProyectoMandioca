@@ -72,11 +72,11 @@ public class MandragoraEnemy : EnemyWithCombatDirector
         ParticlesManager.Instance.GetParticlePool(particles._spawnParticules.name, particles._spawnParticules, 5);
         ParticlesManager.Instance.GetParticlePool(particles.greenblood.name, particles.greenblood, 8);
 
-        AudioManager.instance.GetSoundPool(sounds._takeHit_AC.name, AudioGroups.GAME_FX, sounds._takeHit_AC);
-        AudioManager.instance.GetSoundPool(sounds.mandragoraAttack_Clip.name, AudioGroups.GAME_FX, sounds.mandragoraAttack_Clip);
-        AudioManager.instance.GetSoundPool(sounds.mandragoraScream_Clip.name, AudioGroups.GAME_FX, sounds.mandragoraScream_Clip);
-        AudioManager.instance.GetSoundPool(sounds.mandragoraSpawn_Clip.name, AudioGroups.GAME_FX, sounds.mandragoraSpawn_Clip);
-        AudioManager.instance.GetSoundPool(sounds.mandragoraDeath_Clip.name, AudioGroups.GAME_FX, sounds.mandragoraDeath_Clip);
+        AudioManager.instance.GetSoundPool(sounds._takeHit_AC.name, AudioManager.SoundDimesion.ThreeD, AudioGroups.GAME_FX, sounds._takeHit_AC);
+        AudioManager.instance.GetSoundPool(sounds.mandragoraAttack_Clip.name, AudioManager.SoundDimesion.ThreeD, AudioGroups.GAME_FX, sounds.mandragoraAttack_Clip);
+        AudioManager.instance.GetSoundPool(sounds.mandragoraScream_Clip.name, AudioManager.SoundDimesion.ThreeD, AudioGroups.GAME_FX, sounds.mandragoraScream_Clip);
+        AudioManager.instance.GetSoundPool(sounds.mandragoraSpawn_Clip.name, AudioManager.SoundDimesion.ThreeD, AudioGroups.GAME_FX, sounds.mandragoraSpawn_Clip);
+        AudioManager.instance.GetSoundPool(sounds.mandragoraDeath_Clip.name, AudioManager.SoundDimesion.ThreeD, AudioGroups.GAME_FX, sounds.mandragoraDeath_Clip);
 
         rb = GetComponent<Rigidbody>();
         combatComponent.Configure(AttackEntity);

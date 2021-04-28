@@ -30,13 +30,13 @@ public abstract class Totem : EnemyBase
     {
         base.OnInitialize();
         GetComponentInChildren<PropDestructible>().Initialize();
-        AudioManager.instance.GetSoundPool(ac_Die.name, AudioGroups.GAME_FX, ac_Die);
-        AudioManager.instance.GetSoundPool(ac_Charge.name, AudioGroups.GAME_FX, ac_Charge);
+        AudioManager.instance.GetSoundPool(ac_Die.name, AudioManager.SoundDimesion.ThreeD, AudioGroups.GAME_FX, ac_Die);
+        AudioManager.instance.GetSoundPool(ac_Charge.name, AudioManager.SoundDimesion.ThreeD, AudioGroups.GAME_FX, ac_Charge);
         effectStun.AddStartCallback(GetStunned);
         effectStun.AddEndCallback(StunEnd);
         feedback.Initialize(StartCoroutine);
 
-        AudioManager.instance.GetSoundPool(ac_TakeDamage.name, AudioGroups.GAME_FX, ac_TakeDamage);
+        AudioManager.instance.GetSoundPool(ac_TakeDamage.name, AudioManager.SoundDimesion.ThreeD, AudioGroups.GAME_FX, ac_TakeDamage);
         ParticlesManager.Instance.GetParticlePool(ps_TakeDamage.name, ps_TakeDamage);
         ParticlesManager.Instance.GetParticlePool(reactiveParticles.name, reactiveParticles);
         destructFeedback.Initialize();

@@ -78,8 +78,8 @@ public class ElectricSwordHolding : MonoBehaviour
         myChar.charAnimEvent.Add_Callback(spawnOrb,DetonateOrb );
         myChar.charAnimEvent.Add_Callback(spawnOrbPart, InstantiateOrbPart);
         ParticlesManager.Instance.GetParticlePool(particlesLindasPre.name, particlesLindasPre);
-        AudioManager.instance.GetSoundPool(_groundHit.name, AudioGroups.GAME_FX, _groundHit);
-        AudioManager.instance.GetSoundPool(_lightningStrike.name, AudioGroups.GAME_FX, _lightningStrike);
+        AudioManager.instance.GetSoundPool(_groundHit.name, AudioManager.SoundDimesion.TwoD, AudioGroups.GAME_FX, _groundHit);
+        AudioManager.instance.GetSoundPool(_lightningStrike.name, AudioManager.SoundDimesion.TwoD, AudioGroups.GAME_FX, _lightningStrike);
     }
     public void UnEquip()
     {

@@ -17,7 +17,7 @@ public class PistonOneShot : Piston
     
     public override void Start()
     {
-        AudioManager.instance.GetSoundPool(timerSound.name, AudioGroups.GAME_FX, timerSound);
+        AudioManager.instance.GetSoundPool(timerSound.name, AudioManager.SoundDimesion.ThreeD, AudioGroups.GAME_FX, timerSound);
         palanca = animPalanca.GetComponent<Palanca>();
         palanca.SetPredicate(currStatus);
         if (Anim)

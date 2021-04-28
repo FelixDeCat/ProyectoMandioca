@@ -24,7 +24,7 @@ public class SkillManager_ActivasNueva : LoadComponent
 
     private void Start()
     {
-        AudioManager.instance.GetSoundPool("switchSkill", AudioGroups.GAME_FX, switchSkill);
+        AudioManager.instance.GetSoundPool("switchSkill", AudioManager.SoundDimesion.TwoD, AudioGroups.GAME_FX, switchSkill);
     }
 
     protected override IEnumerator LoadMe()

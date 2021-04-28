@@ -106,8 +106,8 @@ public class PoisonAttack : GOAP_Skills_Base
 
         PoolManager.instance.GetObjectPool(corruptVomito_pf.name, corruptVomito_pf);
 
-        AudioManager.instance.GetSoundPool(_chargeShot.name, AudioGroups.GAME_FX, _chargeShot);
-        AudioManager.instance.GetSoundPool(_shootShot.name, AudioGroups.GAME_FX, _shootShot);
+        AudioManager.instance.GetSoundPool(_chargeShot.name, AudioManager.SoundDimesion.ThreeD,AudioGroups.GAME_FX, _chargeShot);
+        AudioManager.instance.GetSoundPool(_shootShot.name, AudioManager.SoundDimesion.ThreeD, AudioGroups.GAME_FX, _shootShot);
     }
 
     protected override void OnPause()

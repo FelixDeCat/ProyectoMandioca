@@ -70,9 +70,9 @@ public class SkillActive_BoomeranShield : SkillActivas
         dmgData.SetDamage(damage).SetDamageTick(false).SetDamageType(damageType).SetKnockback(0).SetPositionAndDirection(_shield.transform.position);
 
 
-        AudioManager.instance.GetSoundPool(_flingShield_SoundName, AudioGroups.GAME_FX,_flingShield_Sound);
-        AudioManager.instance.GetSoundPool(_rotatingShield_SoundName, AudioGroups.GAME_FX,_rotatingShield_Sound, true);
-        AudioManager.instance.GetSoundPool(_pickupSkill, AudioGroups.GAME_FX,pickUp_skill);
+        AudioManager.instance.GetSoundPool(_flingShield_SoundName, AudioManager.SoundDimesion.TwoD, AudioGroups.GAME_FX,_flingShield_Sound);
+        AudioManager.instance.GetSoundPool(_rotatingShield_SoundName, AudioManager.SoundDimesion.TwoD, AudioGroups.GAME_FX,_rotatingShield_Sound, true);
+        AudioManager.instance.GetSoundPool(_pickupSkill, AudioManager.SoundDimesion.TwoD, AudioGroups.GAME_FX,pickUp_skill);
 
         AudioManager.instance.PlaySound(_pickupSkill);    
 

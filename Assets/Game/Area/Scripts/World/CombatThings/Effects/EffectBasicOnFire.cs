@@ -23,7 +23,7 @@ public class EffectBasicOnFire : EffectBase
         lifeSystem = GetComponentInParent<DamageReceiver>();
         if (!mesh) mesh = lifeSystem.GetComponentInChildren<SkinnedMeshRenderer>();
         mats = mesh.materials;
-        AudioManager.instance.GetSoundPool(_feedBack.name, AudioGroups.GAME_FX, _feedBack);
+        AudioManager.instance.GetSoundPool(_feedBack.name, AudioManager.SoundDimesion.ThreeD, AudioGroups.GAME_FX, _feedBack);
     }
 
     protected override void OffEffect()

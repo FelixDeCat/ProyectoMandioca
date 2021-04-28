@@ -14,7 +14,7 @@ public class HealthBerries : MonoBehaviour
 
     private void Start()
     {
-        AudioManager.instance.GetSoundPool(clip_Oncollect.name, AudioGroups.GAME_FX, clip_Oncollect);
+        AudioManager.instance.GetSoundPool(clip_Oncollect.name, AudioManager.SoundDimesion.ThreeD, AudioGroups.GAME_FX, clip_Oncollect);
         counterPred.Invoke(CanHeal);
     }
 

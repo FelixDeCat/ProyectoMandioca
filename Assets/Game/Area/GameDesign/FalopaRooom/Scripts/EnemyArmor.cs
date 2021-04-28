@@ -18,7 +18,7 @@ public class EnemyArmor : MonoBehaviour
         armoredObject.AddInvulnerability(Damagetype.Heavy);
 
         ParticlesManager.Instance.GetParticlePool(armorHitParticle.name, armorHitParticle);
-        AudioManager.instance.GetSoundPool(armorHitSound.name, AudioGroups.GAME_FX, armorHitSound);
+        AudioManager.instance.GetSoundPool(armorHitSound.name, AudioManager.SoundDimesion.ThreeD, AudioGroups.GAME_FX, armorHitSound);
     }
 
     public void LoseArmor()

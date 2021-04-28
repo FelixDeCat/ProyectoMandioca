@@ -70,7 +70,7 @@ public class BossModel : EnemyBase
         dmgData.SetDamage(meleDamage).SetDamageInfo(DamageInfo.NonBlockAndParry).SetKnockback(meleKnockback);
         brain.Initialize(this, StartCoroutine);
 
-        AudioManager.instance.GetSoundPool(sounds.takeDamage_sound.name, AudioGroups.GAME_FX, sounds.takeDamage_sound);
+        AudioManager.instance.GetSoundPool(sounds.takeDamage_sound.name, AudioManager.SoundDimesion.ThreeD, AudioGroups.GAME_FX, sounds.takeDamage_sound);
 
         ParticlesManager.Instance.GetParticlePool(particles.takeDamage_particle.name, particles.takeDamage_particle);
     }

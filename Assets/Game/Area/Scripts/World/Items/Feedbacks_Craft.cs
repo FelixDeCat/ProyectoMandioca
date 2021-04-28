@@ -10,8 +10,8 @@ public class Feedbacks_Craft : MonoBehaviour
 
     public void Start()
     {
-        AudioManager.instance.GetSoundPool(beginCraft.name, AudioGroups.GAME_FX, beginCraft);
-        AudioManager.instance.GetSoundPool(endCraft.name, AudioGroups.GAME_FX, endCraft);
+        AudioManager.instance.GetSoundPool(beginCraft.name, AudioManager.SoundDimesion.TwoD, AudioGroups.GAME_FX, beginCraft);
+        AudioManager.instance.GetSoundPool(endCraft.name, AudioManager.SoundDimesion.TwoD, AudioGroups.GAME_FX, endCraft);
     }
 
     public void Play_Sound_BeginCraft()

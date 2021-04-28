@@ -51,6 +51,8 @@ public class GameLoop : MonoBehaviour
             Debug.LogWarning("Ojo que el checkpoint no tiene escena, se te va a teletransportar sin carga");
             RestartGame();
         }
+
+        AudioAmbienceSwitcher.instance.StopAll();
     }
 
     //Esto es todo lo del Spawneo de Enemigos, Esto se va a ejecutar despues de que las escenas hayan sido cargadas

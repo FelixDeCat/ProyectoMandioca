@@ -89,12 +89,12 @@ public class GoatEnemy : EnemyWithCombatDirector
         pushAttack.Configure(PushRelease, StunAfterCharge);
         stompAttack.Configure(StompRelease);
         lineOfSight.Configurate(rootTransform);
-        AudioManager.instance.GetSoundPool(sounds.dead.name, AudioGroups.JABALI, sounds.dead);
-        AudioManager.instance.GetSoundPool(sounds.headAttack.name, AudioGroups.JABALI, sounds.headAttack);
-        AudioManager.instance.GetSoundPool(sounds.pushAnticipation.name, AudioGroups.JABALI, sounds.pushAnticipation, true);
-        AudioManager.instance.GetSoundPool(sounds.pushEnter.name, AudioGroups.JABALI, sounds.pushEnter);
-        AudioManager.instance.GetSoundPool(sounds.pushLoop.name, AudioGroups.JABALI, sounds.pushLoop, true);
-        AudioManager.instance.GetSoundPool(sounds.takeDamage.name, AudioGroups.JABALI, sounds.takeDamage);
+        AudioManager.instance.GetSoundPool(sounds.dead.name, AudioManager.SoundDimesion.ThreeD, AudioGroups.JABALI, sounds.dead);
+        AudioManager.instance.GetSoundPool(sounds.headAttack.name, AudioManager.SoundDimesion.ThreeD, AudioGroups.JABALI, sounds.headAttack);
+        AudioManager.instance.GetSoundPool(sounds.pushAnticipation.name, AudioManager.SoundDimesion.ThreeD, AudioGroups.JABALI, sounds.pushAnticipation, true);
+        AudioManager.instance.GetSoundPool(sounds.pushEnter.name, AudioManager.SoundDimesion.ThreeD, AudioGroups.JABALI, sounds.pushEnter);
+        AudioManager.instance.GetSoundPool(sounds.pushLoop.name, AudioManager.SoundDimesion.ThreeD, AudioGroups.JABALI, sounds.pushLoop, true);
+        AudioManager.instance.GetSoundPool(sounds.takeDamage.name, AudioManager.SoundDimesion.ThreeD, AudioGroups.JABALI, sounds.takeDamage);
 
         ParticlesManager.Instance.GetParticlePool(particles.hitParticle.name, particles.hitParticle);
         ParticlesManager.Instance.GetParticlePool(particles.stompParticle.name, particles.stompParticle);

@@ -22,7 +22,7 @@ public class TestInteractableHold : Interactable
     {
         _executeAction += OnEndDelayExecute;
         if(_feedBack)
-            AudioManager.instance.GetSoundPool(_feedBack.name, AudioGroups.GAME_FX, _feedBack);
+            AudioManager.instance.GetSoundPool(_feedBack.name, AudioManager.SoundDimesion.TwoD, AudioGroups.GAME_FX, _feedBack);
         SetPredicate(() => !executing);
     }
     public override void OnEnter(WalkingEntity entity)

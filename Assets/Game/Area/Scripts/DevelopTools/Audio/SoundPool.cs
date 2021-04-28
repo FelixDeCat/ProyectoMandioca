@@ -13,18 +13,21 @@ public class SoundPool : SingleObjectPool<AudioSource>
    [SerializeField] private bool playOnAwake = false;
    public bool soundPoolPlaying = false;
    private AudioMixerGroup _audioMixer;
+    AudioManager.SoundDimesion dimension;
 
-   public void Configure(AudioClip audioClip, AudioMixerGroup audioMixerGroup,  bool loop = false) 
+   public void Configure(AudioClip audioClip, AudioMixerGroup audioMixerGroup, AudioManager.SoundDimesion _dimension, bool loop = false) 
    {
       _audioClip = audioClip;
       _loop = loop;
       _audioMixer = audioMixerGroup;
         extendible = false;
+        dimension = _dimension;
    }
    protected override void AddObject(int prewarm = 3)
    {
       //var newAudio = ASourceCreator.Create2DSource(_audioClip, _audioClip.name, _audioMixer, _loop, playOnAwake);
-      var newAudio = ASourceCreator.Create3DSource(_audioClip, _audioClip.name, _audioMixer, _loop, playOnAwake);
+      var newAudio = dimension == AudioManager.SoundDimesion.ThreeD? ASourceCreator.Create3DSource(_audioClip, _audioClip.name, _audioMixer, _loop, playOnAwake) :
+            ASourceCreator.Create2DSource(_audioClip, _audioClip.name, _audioMixer, _loop, playOnAwake);
         newAudio.gameObject.SetActive(false);
       newAudio.transform.SetParent(transform);
       objects.Enqueue(newAudio);

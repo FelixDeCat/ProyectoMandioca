@@ -33,7 +33,7 @@ public class ProxyLaserTurret : ProxyEnemyBase
             InitializedTurret);
     }
 
-    private void OnDrawGizmos()
+    protected override void OnDrawGizmos()
     {
         Gizmos.color = Color.green;
         Gizmos.DrawLine(this.transform.position, start.transform.position);

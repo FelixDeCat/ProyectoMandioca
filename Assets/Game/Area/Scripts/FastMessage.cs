@@ -18,7 +18,7 @@ public class FastMessage : UI_Base
     float time_to_close;
 
     public AudioClip messagesound;
-    protected override void OnStart() { AudioManager.instance.GetSoundPool("message", AudioGroups.GAME_FX, messagesound); }
+    protected override void OnStart() { AudioManager.instance.GetSoundPool("message", AudioManager.SoundDimesion.TwoD, AudioGroups.GAME_FX, messagesound); }
 
 
     public void Print(string message, float time)

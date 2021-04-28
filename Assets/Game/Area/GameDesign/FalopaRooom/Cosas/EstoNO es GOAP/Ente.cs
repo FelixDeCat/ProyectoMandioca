@@ -115,7 +115,7 @@ namespace GOAP
             BossBarGeneric.Open();
 
             BossBarGeneric.SetLife(Life.Life, Life.LifeMax);
-            AudioManager.instance.GetSoundPool(_evilLaugh.name, AudioGroups.GAME_FX, _evilLaugh);
+            AudioManager.instance.GetSoundPool(_evilLaugh.name, AudioManager.SoundDimesion.ThreeD, AudioGroups.GAME_FX, _evilLaugh);
             AudioManager.instance.PlaySound(_evilLaugh.name, transform);
         }
 

@@ -13,7 +13,7 @@ public class ThrowRock : Throwable
     protected override void Start()
     {
         base.Start();
-        AudioManager.instance.GetSoundPool("boulder Crush", AudioGroups.GAME_FX, _crushBoulder);
+        AudioManager.instance.GetSoundPool("boulder Crush", AudioManager.SoundDimesion.ThreeD, AudioGroups.GAME_FX, _crushBoulder);
     }
 
     protected override void InternalThrow()

@@ -28,7 +28,7 @@ public class SkillActive_RainArrows : SkillActivas
     protected override void OnBeginSkill()
     {
         _hero = Main.instance.GetChar();
-        AudioManager.instance.GetSoundPool(_arrowsSoundName, AudioGroups.GAME_FX,_arrowSound, true);
+        AudioManager.instance.GetSoundPool(_arrowsSoundName, AudioManager.SoundDimesion.ThreeD, AudioGroups.GAME_FX,_arrowSound, true);
     }
 
     void ThrowArrows()

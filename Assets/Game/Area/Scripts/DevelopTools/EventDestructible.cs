@@ -11,7 +11,7 @@ public class EventDestructible : MonoBehaviour
 
     private void Start()
     {
-        if(destroyedSound) AudioManager.instance.GetSoundPool(destroyedSound.name, AudioGroups.AMBIENT_FX, destroyedSound);
+        if(destroyedSound) AudioManager.instance.GetSoundPool(destroyedSound.name, AudioManager.SoundDimesion.ThreeD, AudioGroups.AMBIENT_FX, destroyedSound);
         savedDestroyedVersion = Main.instance.GetSpawner().SpawnItem(destroyed_version.gameObject, transform).GetComponent<DestroyedVersion>();
         if (savedDestroyedVersion) savedDestroyedVersion.gameObject.SetActive(false);
     }

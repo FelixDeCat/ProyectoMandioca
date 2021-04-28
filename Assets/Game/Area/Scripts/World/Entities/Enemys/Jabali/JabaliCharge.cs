@@ -20,7 +20,7 @@ namespace Tools.StateMachine
             chargeTime = _chargeTime;
             firstPushSound = _exitSound;
             move = _move;
-            pool = AudioManager.instance.GetSoundPool(_updateSound);
+            pool = AudioManager.instance.GetSoundPool(_updateSound, AudioManager.SoundDimesion.ThreeD);
         }
 
         protected override void Enter(EState<JabaliEnemy.JabaliInputs> input)

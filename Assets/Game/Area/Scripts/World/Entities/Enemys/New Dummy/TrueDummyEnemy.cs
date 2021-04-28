@@ -93,12 +93,12 @@ public class TrueDummyEnemy : EnemyWithCombatDirector
         ParticlesManager.Instance.GetParticlePool(particles.greenblood.name, particles.greenblood, 8);
         ParticlesManager.Instance.GetParticlePool(particles.warningAttack.name, particles.warningAttack, 2);
 
-        AudioManager.instance.GetSoundPool(sounds._takeHit_AC.name, AudioGroups.GAME_FX, sounds._takeHit_AC);
-        AudioManager.instance.GetSoundPool(sounds.entDeath_Clip.name, AudioGroups.GAME_FX, sounds.entDeath_Clip);
-        AudioManager.instance.GetSoundPool(sounds.entAttack_Clip.name, AudioGroups.GAME_FX, sounds.entAttack_Clip);
-        AudioManager.instance.GetSoundPool(sounds.entSpawn_clip.name, AudioGroups.GAME_FX, sounds.entSpawn_clip);
+        AudioManager.instance.GetSoundPool(sounds._takeHit_AC.name, AudioManager.SoundDimesion.ThreeD, AudioGroups.GAME_FX, sounds._takeHit_AC);
+        AudioManager.instance.GetSoundPool(sounds.entDeath_Clip.name, AudioManager.SoundDimesion.ThreeD, AudioGroups.GAME_FX, sounds.entDeath_Clip);
+        AudioManager.instance.GetSoundPool(sounds.entAttack_Clip.name, AudioManager.SoundDimesion.ThreeD, AudioGroups.GAME_FX, sounds.entAttack_Clip);
+        AudioManager.instance.GetSoundPool(sounds.entSpawn_clip.name, AudioManager.SoundDimesion.ThreeD, AudioGroups.GAME_FX, sounds.entSpawn_clip);
 
-        AudioManager.instance.GetSoundPool(sounds.clip_walkEnt.name, AudioGroups.GAME_FX, sounds.clip_walkEnt, true);
+        AudioManager.instance.GetSoundPool(sounds.clip_walkEnt.name, AudioManager.SoundDimesion.ThreeD, AudioGroups.GAME_FX, sounds.clip_walkEnt, true);
 
         rb = GetComponent<Rigidbody>();
         combatComponent.Configure(AttackEntity);

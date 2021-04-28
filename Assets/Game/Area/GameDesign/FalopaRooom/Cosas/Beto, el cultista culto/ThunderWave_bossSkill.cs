@@ -77,8 +77,8 @@ public class ThunderWave_bossSkill : GOAP_Skills_Base
         _anim = owner.GetComponentInChildren<Animator>();
         dmgData = GetComponent<DamageData>().SetDamage(damage).SetDamageInfo(DamageInfo.NonParry).SetKnockback(knock);
         totemFeedback.Initialize(StartCoroutine);
-        AudioManager.instance.GetSoundPool(_chargeAttack.name, AudioGroups.GAME_FX, _chargeAttack);
-        AudioManager.instance.GetSoundPool(_shootAttack.name, AudioGroups.GAME_FX, _shootAttack);
+        AudioManager.instance.GetSoundPool(_chargeAttack.name, AudioManager.SoundDimesion.ThreeD, AudioGroups.GAME_FX, _chargeAttack);
+        AudioManager.instance.GetSoundPool(_shootAttack.name, AudioManager.SoundDimesion.ThreeD, AudioGroups.GAME_FX, _shootAttack);
     }
 
     protected override void OnPause()

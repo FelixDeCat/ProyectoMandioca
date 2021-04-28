@@ -36,8 +36,8 @@ public class CarivorousPlant : EnemyBase
     protected override void OnInitialize()
     {
         base.OnInitialize();
-        AudioManager.instance.GetSoundPool(_getHit_Clip.name, AudioGroups.GAME_FX, _getHit_Clip);
-        AudioManager.instance.GetSoundPool(_death_Clip.name, AudioGroups.GAME_FX, _death_Clip);
+        AudioManager.instance.GetSoundPool(_getHit_Clip.name, AudioManager.SoundDimesion.ThreeD, AudioGroups.GAME_FX, _getHit_Clip);
+        AudioManager.instance.GetSoundPool(_death_Clip.name, AudioManager.SoundDimesion.ThreeD, AudioGroups.GAME_FX, _death_Clip);
         dmgData.SetDamage(dmg).SetDamageType(dmgType).SetDamageInfo(DamageInfo.NonBlockAndParry).Initialize(this);
 
         ParticlesManager.Instance.GetParticlePool(attFeedback.name, attFeedback);

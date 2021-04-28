@@ -46,7 +46,7 @@ public class TurretEnemy : PlayObject
         target = Main.instance.GetChar().transform;
         dmgData.SetDamage(damage).SetDamageInfo(DamageInfo.NonBlockAndParry).SetDamageType(dmgType).SetKnockback(knockback).Initialize(transform);
         lineOfSight?.Configurate(transform);
-        AudioManager.instance.GetSoundPool(_RaySound.name, AudioGroups.GAME_FX, _RaySound);
+        AudioManager.instance.GetSoundPool(_RaySound.name, AudioManager.SoundDimesion.ThreeD, AudioGroups.GAME_FX, _RaySound);
     }
     protected override void OnTurnOn()
     {

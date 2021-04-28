@@ -9,9 +9,9 @@ public class BommerangShiledFeedbacks : MonoBehaviour
     [SerializeField] AudioClip ac_Impact = null;
     private void Start()
     {
-        AudioManager.instance.GetSoundPool(ac_throw.name, AudioGroups.GAME_FX, ac_throw);
-        AudioManager.instance.GetSoundPool(ac_movement.name, AudioGroups.GAME_FX, ac_movement);
-        AudioManager.instance.GetSoundPool(ac_Impact.name, AudioGroups.GAME_FX, ac_Impact);
+        AudioManager.instance.GetSoundPool(ac_throw.name, AudioManager.SoundDimesion.ThreeD, AudioGroups.GAME_FX, ac_throw);
+        AudioManager.instance.GetSoundPool(ac_movement.name, AudioManager.SoundDimesion.ThreeD, AudioGroups.GAME_FX, ac_movement);
+        AudioManager.instance.GetSoundPool(ac_Impact.name, AudioManager.SoundDimesion.ThreeD, AudioGroups.GAME_FX, ac_Impact);
 
     }
 

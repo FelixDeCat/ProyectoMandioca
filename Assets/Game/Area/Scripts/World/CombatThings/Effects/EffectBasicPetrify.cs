@@ -21,8 +21,8 @@ public class EffectBasicPetrify : EffectBase
     {
         base.OnInitialize();
 
-        AudioManager.instance.GetSoundPool("PetrifyStand", AudioGroups.GAME_FX, clip_PetrifyStand);
-        AudioManager.instance.GetSoundPool("PetrifyEnd", AudioGroups.GAME_FX, clip_petrifyEnd);
+        AudioManager.instance.GetSoundPool("PetrifyStand", AudioManager.SoundDimesion.ThreeD, AudioGroups.GAME_FX, clip_PetrifyStand);
+        AudioManager.instance.GetSoundPool("PetrifyEnd", AudioManager.SoundDimesion.ThreeD, AudioGroups.GAME_FX, clip_petrifyEnd);
 
         smr = anim.GetComponentInChildren<SkinnedMeshRenderer>();
         owner = GetComponentInParent<EnemyBase>();

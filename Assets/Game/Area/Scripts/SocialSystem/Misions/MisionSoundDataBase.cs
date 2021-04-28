@@ -12,12 +12,12 @@ public class MisionSoundDataBase : MonoBehaviour
 
     void Start()
     {
-        AudioManager.instance.GetSoundPool(MissionCompleted.name, AudioGroups.GAME_FX, MissionCompleted);
-        AudioManager.instance.GetSoundPool(MissionFinished.name, AudioGroups.GAME_FX, MissionFinished);
-        AudioManager.instance.GetSoundPool(NewMissionAdded.name, AudioGroups.GAME_FX, NewMissionAdded);
+        AudioManager.instance.GetSoundPool(MissionCompleted.name, AudioManager.SoundDimesion.TwoD, AudioGroups.GAME_FX, MissionCompleted);
+        AudioManager.instance.GetSoundPool(MissionFinished.name, AudioManager.SoundDimesion.TwoD, AudioGroups.GAME_FX, MissionFinished);
+        AudioManager.instance.GetSoundPool(NewMissionAdded.name, AudioManager.SoundDimesion.TwoD, AudioGroups.GAME_FX, NewMissionAdded);
 
-        AudioManager.instance.GetSoundPool(openPanel.name, AudioGroups.GAME_FX, openPanel);
-        AudioManager.instance.GetSoundPool(OneItemMisionCompleted.name, AudioGroups.GAME_FX, OneItemMisionCompleted);
+        AudioManager.instance.GetSoundPool(openPanel.name, AudioManager.SoundDimesion.TwoD, AudioGroups.GAME_FX, openPanel);
+        AudioManager.instance.GetSoundPool(OneItemMisionCompleted.name, AudioManager.SoundDimesion.TwoD, AudioGroups.GAME_FX, OneItemMisionCompleted);
     }
     public void Play_OpenPanel() { AudioManager.instance.PlaySound(openPanel.name); }
     public void Play_NewMissionAdded() { AudioManager.instance.PlaySound(NewMissionAdded.name); }

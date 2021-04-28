@@ -68,10 +68,10 @@ public class BombEnemy : EnemyBase
         ParticlesManager.Instance.GetParticlePool(particles.takeDamagePart.name, particles.takeDamagePart, 8);
         ParticlesManager.Instance.GetParticlePool(particles.explodePart.name, particles.explodePart, 3);
 
-        AudioManager.instance.GetSoundPool(sounds._takeHit_AC.name, AudioGroups.GAME_FX, sounds._takeHit_AC);
-        AudioManager.instance.GetSoundPool(sounds.clip_walkEnt.name, AudioGroups.GAME_FX, sounds.clip_walkEnt, true);
-        AudioManager.instance.GetSoundPool(sounds.explode_Clip.name, AudioGroups.GAME_FX, sounds.explode_Clip);
-        AudioManager.instance.GetSoundPool(sounds.mandragoraSpawn_Clip.name, AudioGroups.GAME_FX, sounds.mandragoraSpawn_Clip);
+        AudioManager.instance.GetSoundPool(sounds._takeHit_AC.name, AudioManager.SoundDimesion.ThreeD, AudioGroups.GAME_FX, sounds._takeHit_AC);
+        AudioManager.instance.GetSoundPool(sounds.clip_walkEnt.name, AudioManager.SoundDimesion.ThreeD, AudioGroups.GAME_FX, sounds.clip_walkEnt, true);
+        AudioManager.instance.GetSoundPool(sounds.explode_Clip.name, AudioManager.SoundDimesion.ThreeD, AudioGroups.GAME_FX, sounds.explode_Clip);
+        AudioManager.instance.GetSoundPool(sounds.mandragoraSpawn_Clip.name, AudioManager.SoundDimesion.ThreeD, AudioGroups.GAME_FX, sounds.mandragoraSpawn_Clip);
 
         rb = GetComponent<Rigidbody>();
         explodeComponent.Configure(AttackEntity);

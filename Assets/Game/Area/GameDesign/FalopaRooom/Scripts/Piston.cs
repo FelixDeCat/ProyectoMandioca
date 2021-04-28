@@ -24,7 +24,7 @@ public class Piston : MonoBehaviour
     protected PingPongLerp pingponglerp;
     public virtual void Start()
     {
-        if(ac_hitFloor) AudioManager.instance.GetSoundPool(ac_hitFloor.name, AudioGroups.GAME_FX, ac_hitFloor);
+        if(ac_hitFloor) AudioManager.instance.GetSoundPool(ac_hitFloor.name, AudioManager.SoundDimesion.ThreeD, AudioGroups.GAME_FX, ac_hitFloor);
         if (Anim)
         {
             pingponglerp = new PingPongLerp();

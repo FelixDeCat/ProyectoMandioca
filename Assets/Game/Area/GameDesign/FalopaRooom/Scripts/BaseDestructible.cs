@@ -28,7 +28,7 @@ public abstract class BaseDestructible : Environment
             .AddTakeDamage(TakeDamage)
             .Initialize(transform,GetComponent<Rigidbody>(),_lifeSytstem);
 
-        AudioManager.instance.GetSoundPool(destroyedSound.name, AudioGroups.AMBIENT_FX, destroyedSound);
+        AudioManager.instance.GetSoundPool(destroyedSound.name, AudioManager.SoundDimesion.ThreeD, AudioGroups.AMBIENT_FX, destroyedSound);
     }
 
     void TakeDamage(DamageData data)
