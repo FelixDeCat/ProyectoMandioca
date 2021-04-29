@@ -30,6 +30,9 @@ public class BoomerangShield : MonoBehaviour
     [SerializeField] GameObject charOnlyParticles;
     [SerializeField] GameObject charAuraParticles;
     [SerializeField] GameObject shieldParticles;
+    GameObject auxCharOnlyParticles;
+    GameObject auxCharAuraParticles;
+    GameObject auxShieldParticles;
     [Header("El tiempo es el triple de lo que pongas")]
     [SerializeField] float shortThrowTravelTime = 1f;
     [SerializeField] float shortReturnTime = 1f;
@@ -72,6 +75,10 @@ public class BoomerangShield : MonoBehaviour
     protected void Start()
     {
         auxShield.SetActive(false);
+
+        auxCharAuraParticles = charAuraParticles;
+        auxCharOnlyParticles = charOnlyParticles;
+        auxShieldParticles = shieldParticles;
     }
 
     ///////////////////////////////////////
@@ -152,8 +159,8 @@ public class BoomerangShield : MonoBehaviour
         auxShield.SetActive(true);
         _shield.SetActive(false);
 
-        Instantiate(charOnlyParticles,this.transform);
-        Instantiate(charAuraParticles, this.transform);
+        Instantiate(auxCharOnlyParticles,_hero.transform);
+        Instantiate(auxCharAuraParticles, _hero.transform);
 
         /*ParticlesManager.Instance.PlayParticle(charOnlyParticles.name, transform.position);
         ParticlesManager.Instance.PlayParticle(charAuraParticles.name, transform.position);*/
@@ -202,9 +209,9 @@ public class BoomerangShield : MonoBehaviour
 
         isFlying = false;
 
-        Destroy(charOnlyParticles.gameObject);
-        Destroy(charAuraParticles.gameObject);
-        Destroy(shieldParticles.gameObject);
+        Destroy(auxCharOnlyParticles.gameObject);
+        Destroy(auxCharAuraParticles.gameObject);
+        Destroy(auxShieldParticles.gameObject);
         //AudioManager.instance.StopAllSounds(_rotatingShield_SoundName);
     }
 
@@ -214,7 +221,7 @@ public class BoomerangShield : MonoBehaviour
         Vector3 dir = spinPosition - startingPos;
         dir = dir.normalized;
 
-        Instantiate(shieldParticles, auxShield.transform);
+        Instantiate(auxShieldParticles, auxParent.transform);
 
         flying.transform.forward = -dir;
 
