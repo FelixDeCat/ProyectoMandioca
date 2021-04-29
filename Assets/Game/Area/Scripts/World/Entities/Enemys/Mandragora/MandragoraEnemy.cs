@@ -149,6 +149,7 @@ public class MandragoraEnemy : EnemyWithCombatDirector
         {
             ragdoll.Ragdoll(false, Vector3.zero);
             death = false;
+            cdModuleStopeable.EndCDWithoutExecute("Dead");
         }
         trigger.gameObject.SetActive(true);
         cdModuleStopeable.ResetAll();

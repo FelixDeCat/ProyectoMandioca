@@ -126,6 +126,7 @@ public class GoatEnemy : EnemyWithCombatDirector
         {
             ragdoll.Ragdoll(false, Vector3.zero);
             death = false;
+            cdModuleStopeable.EndCDWithoutExecute("Dead");
         }
         cdModuleStopeable.ResetAll();
         cdModuleNoStopeable.ResetAll();

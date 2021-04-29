@@ -140,12 +140,13 @@ public class CrowEnemy : EnemyWithCombatDirector
     {
         if (castPartTemp != null)
             ParticlesManager.Instance.StopParticle(particles.castParticles.name, castPartTemp);
-        cdModule.ResetAll();
         if (death)
         {
             ragdoll.Ragdoll(false, Vector3.zero);
             death = false;
+            cdModule.EndCDWithoutExecute("Dead");
         }
+        cdModule.ResetAll();
         sm.SendInput(CrowInputs.DISABLE);
     }
 
