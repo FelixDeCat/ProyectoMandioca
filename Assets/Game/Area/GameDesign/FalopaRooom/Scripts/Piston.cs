@@ -33,8 +33,12 @@ public class Piston : MonoBehaviour
             pingponglerp.ConfigureSpeedsMovements(speed_go_multiplier, speed_back_multiplier);
             pingponglerp.ConfigueTimeStopsSides(staypositiontime_go, staypositiontime_back);
 
-            Invoke("BeginAnimation", delayToBegin);
+            StartDelayAnim();
         }
+    }
+    protected void StartDelayAnim()
+    {
+        Invoke("BeginAnimation", delayToBegin);
     }
 
     void BeginAnimation()

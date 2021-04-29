@@ -14,6 +14,8 @@ public class PistonOneShot : Piston
 
     bool status = true;
     bool oneshot;
+
+    public bool StartOnAwake;
     
     public override void Start()
     {
@@ -27,6 +29,11 @@ public class PistonOneShot : Piston
 
             pingponglerp.ConfigureSpeedsMovements(speed_go_multiplier, speed_back_multiplier);
             pingponglerp.ConfigueTimeStopsSides(staypositiontime_go, staypositiontime_back);
+
+            if (StartOnAwake)
+            {
+                StartDelayAnim();
+            }
         }
     }
 
@@ -59,6 +66,14 @@ public class PistonOneShot : Piston
         if (!oneshot)
         {
             pingponglerp.Play(1);
+            oneshot = true;
+        }
+    }
+    public void StartPistonInfWithDelay()
+    {
+        if (!oneshot)
+        {
+            StartDelayAnim();
             oneshot = true;
         }
     }
