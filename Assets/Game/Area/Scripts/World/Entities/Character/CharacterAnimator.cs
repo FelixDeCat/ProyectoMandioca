@@ -46,14 +46,14 @@ public class CharacterAnimator : BaseAnimator
 
     public void IdleFancy() => myAnim.SetTrigger("IdleTwo");
 
-    public void StartThrow(bool b) => myAnim.SetBool("ChargeShield", b);
+    public void StartThrow(bool b) { myAnim.SetBool("ChargeShield", b); if (b) myAnim.Play("CastThrowShield", 1); }
     public void ThrowShield(bool b) => myAnim.SetBool("ThrowShield", b);
 
     public void MedusaStunStart() => myAnim.SetTrigger("MedusaStart");
     public void MedusaStunShort() => myAnim.SetTrigger("MedusaTap");
     public void MedusaStunLong() => myAnim.SetTrigger("MedusaHold");
 
-    public void SetLightnings(bool b) => myAnim.SetBool("ThrowLightnings", b);
+    public void SetLightnings(bool b) { myAnim.SetBool("ThrowLightnings", b); if (b) myAnim.Play("LightnigStart", 1); } 
     public void ThrowLightningBullets() => myAnim.SetTrigger("ThrowLightningBullets");
     public void ThrowLightningOrb() => myAnim.SetTrigger("ThrowLightningOrb");
 
