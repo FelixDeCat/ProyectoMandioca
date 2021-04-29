@@ -4,6 +4,7 @@ using UnityEngine;
 using GOAP;
 using System;
 using System.Linq;
+using UnityEngine.Events;
 
 public class Brazalete_event : MonoBehaviour, ISpawner, IPauseable, IScriptedEvent
 {
@@ -68,6 +69,10 @@ public class Brazalete_event : MonoBehaviour, ISpawner, IPauseable, IScriptedEve
     Vector3 originalAtenea_Pos;
     Vector3[] originalVillager_Pos;
     bool[] tentaclesOn;
+
+    [Header("Events")]
+    [SerializeField] UnityEvent BeginEvent;
+    [SerializeField] UnityEvent EndEvent;
 
     void Start()
     {
@@ -156,6 +161,8 @@ public class Brazalete_event : MonoBehaviour, ISpawner, IPauseable, IScriptedEve
 
     public void InitEvent()
     {
+        BeginEvent.Invoke();
+
         PauseManager.Instance.AddToPause(this);
         betoAnim = beto.GetComponent<Ente>().Anim();
         beto.GetComponent<Ente>().OnSkillAction += GoToFlyPos;
@@ -384,6 +391,7 @@ public class Brazalete_event : MonoBehaviour, ISpawner, IPauseable, IScriptedEve
         PauseManager.Instance.RemoveToPause(this);
         Main.instance.GetScriptedEventManager().CheckEvent(this);
         eventOn = false;
+        EndEvent.Invoke();
     }
 
     public void Pause()
