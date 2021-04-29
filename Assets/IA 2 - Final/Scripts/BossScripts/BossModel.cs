@@ -163,7 +163,7 @@ public class BossModel : EnemyBase
 
     IEnumerator Fly()
     {
-        while (transform.position.y < yMaxPos)
+        while (transform.localPosition.y < yMaxPos)
         {
             transform.position += Vector3.up * ascendSpeed * Time.deltaTime;
             yield return new WaitForSeconds(0.001f);

@@ -33,6 +33,7 @@ public class GameLoop : MonoBehaviour
 
         //ahora que tengo el UI puedo Fadear y quitar la pantalla negra
         Fades_Screens.instance.FadeOff(() => { });
+        AudioAmbienceSwitcher.instance.StopAll();
 
         //capturo la ultima escena que me guardó el checkpoint
         string scene_to_load = Checkpoint_Manager.instance.GetSceneToLoadFromCheckPoint();
@@ -51,8 +52,6 @@ public class GameLoop : MonoBehaviour
             Debug.LogWarning("Ojo que el checkpoint no tiene escena, se te va a teletransportar sin carga");
             RestartGame();
         }
-
-        AudioAmbienceSwitcher.instance.StopAll();
     }
 
     //Esto es todo lo del Spawneo de Enemigos, Esto se va a ejecutar despues de que las escenas hayan sido cargadas
@@ -95,6 +94,8 @@ public class GameLoop : MonoBehaviour
         //aca se resetean los eventos Scripteados (Brazalete, presentacion de Beto, Boss de Dungeon)
         if (Main.instance.GetScriptedEventManager()) Main.instance.GetScriptedEventManager().ResetEvents();
 
+
+        Debug.Log("Entro al restart");
         //Prendo la música
         AudioAmbienceSwitcher.instance.PlayAll();
     }

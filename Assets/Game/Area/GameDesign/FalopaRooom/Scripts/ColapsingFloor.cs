@@ -10,34 +10,11 @@ public class ColapsingFloor : PlayObject
 
     public bool active;
    
-   private bool goingDown = false;
-   private void Start()
-   {
-      _shaker = GetComponent<ShakeTransformS>();
-
-      _shaker.OnFinishShake += () =>
-      {
-         goingDown = true;
-         Destroy(gameObject, 3);
-      };
-   }
-
-   private void Update()
-   {
-      //if (Input.GetKeyDown(KeyCode.L))
-      //{
-       //  ActivateFloorSequence();
-      //}
-
-      if (goingDown)
-      {
-         transform.position += Vector3.down * fallingSpeed * Time.deltaTime;
-      }
-   }
+   private bool goingDown = false; 
 
    public void ActivateFloorSequence()
    {
-        if (!active) return;
+        if (!active || goingDown) return;
 
 
       _shaker.Begin();
@@ -46,7 +23,13 @@ public class ColapsingFloor : PlayObject
 
     protected override void OnInitialize()
     {
-        
+        _shaker = GetComponent<ShakeTransformS>();
+
+        _shaker.OnFinishShake += () =>
+        {
+            goingDown = true;
+            Destroy(gameObject, 3);
+        };
     }
 
     protected override void OnTurnOn()
@@ -61,7 +44,10 @@ public class ColapsingFloor : PlayObject
 
     protected override void OnUpdate()
     {
-    
+        if (goingDown)
+        {
+            transform.position += Vector3.down * fallingSpeed * Time.deltaTime;
+        }
     }
 
     protected override void OnFixedUpdate()

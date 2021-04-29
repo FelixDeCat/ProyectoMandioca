@@ -36,7 +36,7 @@ namespace IA2Final.FSM
             {
                 model.transform.position -= model.transform.up * speed * Time.deltaTime;
 
-                if(model.transform.position.y <= minY)
+                if(model.transform.localPosition.y <= minY)
                 {
                     model.transform.position = new Vector3(model.transform.position.x, minY, model.transform.position.z);
                     goDown = false;
@@ -47,7 +47,7 @@ namespace IA2Final.FSM
             {
                 model.transform.position += model.transform.up * speed * Time.deltaTime;
 
-                if (model.transform.position.y >= maxY)
+                if (model.transform.localPosition.y >= maxY)
                 {
                     model.transform.position = new Vector3(model.transform.position.x, maxY, model.transform.position.z);
                     goUp = false;
