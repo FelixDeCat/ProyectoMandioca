@@ -36,7 +36,7 @@ public class Piston : MonoBehaviour
             StartDelayAnim();
         }
     }
-    protected void StartDelayAnim()
+    /*protected*/ public void StartDelayAnim()
     {
         Invoke("BeginAnimation", delayToBegin);
     }
