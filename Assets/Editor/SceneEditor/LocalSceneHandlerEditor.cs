@@ -183,6 +183,10 @@ public class LocalSceneHandlerEditor : Editor
                 loads[i] = EditorGUILayout.ObjectField("Load" + i.ToString("##"), loads[i], typeof(GenericAsyncLocalScene), false) as GenericAsyncLocalScene;
             }
         }
+
+
+        EditorGUILayout.LabelField("Events");
+
     }
     public void ResetVariables()
     {

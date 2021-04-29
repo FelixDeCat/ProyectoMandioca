@@ -4,6 +4,8 @@ using UnityEditor;
 using UnityEngine;
 using UnityEngineInternal;
 using UnityEngine.SceneManagement;
+using UnityEngine.Events;
+using System;
 
 /// <summary>
 /// aca no voy a hacer getters ni setters... quiero que sea todo lo mas directo posible
@@ -28,6 +30,14 @@ public class LocalSceneHandler : LoadComponent
     GameObject medium_detail;
     GameObject hight_detail;
 
+
+    Action turn_ON_Low;
+    Action tunr_OFF_Low;
+    public void SubscribeEventsLOWObjects(Action TurnOnLow, Action TurnOffLow)
+    {
+        turn_ON_Low = TurnOnLow;
+        tunr_OFF_Low = TurnOffLow;
+    }
 
     protected override IEnumerator LoadMe()
     {
@@ -122,6 +132,11 @@ public class LocalSceneHandler : LoadComponent
             if (go != null)
             {
                 go.SetActive(true);
+
+                if (preftype == PrefabType.low)
+                {
+                    turn_ON_Low?.Invoke();
+                }
             }
             else
             {
@@ -134,6 +149,11 @@ public class LocalSceneHandler : LoadComponent
                 if (preftype == PrefabType.high) { go = hight_detail; priority = Felito_CustomCollections.Priority.low; }
 
                 ThreadHandler.EnqueueProcess(new ThreadObject(Inst(preftype), "+ " + this.gameObject.name + "::> " + preftype.ToString(), GetKeyByPrefType(preftype)), null , priority);
+
+                if (preftype == PrefabType.low)
+                {
+                    turn_ON_Low?.Invoke();
+                }
 
                 if (go != null)
                 {
@@ -152,6 +172,11 @@ public class LocalSceneHandler : LoadComponent
                 if (go.activeSelf)
                 {
                     ThreadHandler.EnqueueProcess(new ThreadObject(ShutDownProcess(go), "(-)" + this.gameObject.name + preftype.ToString(), GetKeyByPrefType(preftype)), null, Felito_CustomCollections.Priority.low);
+                }
+
+                if (preftype == PrefabType.low)
+                {
+                    tunr_OFF_Low?.Invoke();
                 }
             }
         }
