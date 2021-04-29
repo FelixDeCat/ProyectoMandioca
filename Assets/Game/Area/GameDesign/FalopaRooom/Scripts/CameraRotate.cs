@@ -142,7 +142,7 @@ public class CameraRotate : MonoBehaviour
         Vector3 newDir;
         RaycastHit hitnew;
         newDir = Extensions.GetPointOnBezierCurve(bezierPoints[0], bezierPoints[1], tiltLerp) - (myChar.transform.position + offsetVec);
-        if (Physics.Raycast(myChar.transform.position + offsetVec, newDir, out hitnew, raycastDist, _mask))
+        if (Physics.Raycast(myChar.transform.position + offsetVec, newDir, out hitnew, newDir.magnitude, _mask))
         {
             colliding = true;
             if (hitnew.distance > minDistance)
