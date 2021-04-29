@@ -27,6 +27,9 @@ public class BoomerangShield : MonoBehaviour
     [SerializeField] float shortSpinDuration = 1.5f;
     [SerializeField] float shortThrowRange = 2;
     [SerializeField] float knockBack;
+    [SerializeField] GameObject charOnlyParticles;
+    [SerializeField] GameObject charAuraParticles;
+    [SerializeField] GameObject shieldParticles;
     [Header("El tiempo es el triple de lo que pongas")]
     [SerializeField] float shortThrowTravelTime = 1f;
     [SerializeField] float shortReturnTime = 1f;
@@ -107,6 +110,10 @@ public class BoomerangShield : MonoBehaviour
 
         _hero.charAnimEvent.Add_Callback(throwShort, ThrowShield);
 
+        /*ParticlesManager.Instance.GetParticlePool(charOnlyParticles.name, charOnlyParticles);
+        ParticlesManager.Instance.GetParticlePool(charAuraParticles.name, charAuraParticles);
+        ParticlesManager.Instance.GetParticlePool(shielParticles.name, shielParticles);*/
+
         auxParent = auxShield.transform.parent;
     }
     public void UnEQuip()
@@ -144,6 +151,12 @@ public class BoomerangShield : MonoBehaviour
         auxShield.transform.rotation = Quaternion.Euler(new Vector3(-90, 0, 0));
         auxShield.SetActive(true);
         _shield.SetActive(false);
+
+        Instantiate(charOnlyParticles,this.transform);
+        Instantiate(charAuraParticles, this.transform);
+
+        /*ParticlesManager.Instance.PlayParticle(charOnlyParticles.name, transform.position);
+        ParticlesManager.Instance.PlayParticle(charAuraParticles.name, transform.position);*/
 
         flying.Play();
 
@@ -189,6 +202,9 @@ public class BoomerangShield : MonoBehaviour
 
         isFlying = false;
 
+        Destroy(charOnlyParticles.gameObject);
+        Destroy(charAuraParticles.gameObject);
+        Destroy(shieldParticles.gameObject);
         //AudioManager.instance.StopAllSounds(_rotatingShield_SoundName);
     }
 
@@ -197,6 +213,8 @@ public class BoomerangShield : MonoBehaviour
     {
         Vector3 dir = spinPosition - startingPos;
         dir = dir.normalized;
+
+        Instantiate(shieldParticles, auxShield.transform);
 
         flying.transform.forward = -dir;
 
