@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
+using System.Linq;
 using GOAP;
 
 public class PresentacionBetoPueblo : MonoBehaviour, ISpawner, IScriptedEvent, IPauseable
@@ -71,7 +72,7 @@ public class PresentacionBetoPueblo : MonoBehaviour, ISpawner, IScriptedEvent, I
     {
         ResetSettings();
 
-        Main.instance.GetScriptedEventManager().RegisterEvents(this);
+        //Main.instance.GetScriptedEventManager().RegisterEvents(this);
 
         eventOn = true;
         PauseManager.Instance.AddToPause(this);
@@ -133,8 +134,8 @@ public class PresentacionBetoPueblo : MonoBehaviour, ISpawner, IScriptedEvent, I
         if (amountKilled >= amountSummoned)
         {
             //finishKillSummon = true;
-            
-            remaningEnemies = totem.GetSpawner.GetMySpawns;
+
+            remaningEnemies = totem.GetSpawner.GetMySpawns.Where(x => !x.GetComponent<EnemyBase>().death).ToList();
             summonedEnemies.Clear();
             Debug.Log("hay en total " + remaningEnemies.Count);
             for (int i = 0; i < remaningEnemies.Count; i++)
@@ -142,7 +143,7 @@ public class PresentacionBetoPueblo : MonoBehaviour, ISpawner, IScriptedEvent, I
                 summonedEnemies.Add(remaningEnemies[i]);
                 remaningEnemies[i].GetComponent<EnemyBase>().OnDeath.AddListener(OnKillRemainEnemy);
             }
-            amountSummoned = totem.GetSpawner.GetMySpawns.Count;
+            amountSummoned = remaningEnemies.Count;
             amountKilled = 0;
             remaningEnemies.Clear();
 
