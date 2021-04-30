@@ -32,6 +32,7 @@ Shader "Custom/WindWall/DeformationWind"
 		ColorMask RGBA
 		ZWrite On
 		ZTest LEqual
+		Offset 0 , 0
 		
 		
 		
@@ -140,7 +141,7 @@ Shader "Custom/WindWall/DeformationWind"
 }
 /*ASEBEGIN
 Version=18900
-0;355;1120;466;-665.8;330.4569;1.297867;True;False
+0;405;1208;416;-1194.362;249.6254;1;True;False
 Node;AmplifyShaderEditor.Vector2Node;19;-1425.586,68.37268;Inherit;False;Property;_Vector0;Vector 0;3;0;Create;True;0;0;0;False;0;False;0,0;1,3;0;3;FLOAT2;0;FLOAT;1;FLOAT;2
 Node;AmplifyShaderEditor.TextureCoordinatesNode;45;115.1209,6.369034;Inherit;False;0;-1;2;3;2;SAMPLER2D;;False;0;FLOAT2;1,1;False;1;FLOAT2;0,0;False;5;FLOAT2;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
 Node;AmplifyShaderEditor.TextureCoordinatesNode;7;-1475.071,-52.98298;Inherit;False;0;-1;2;3;2;SAMPLER2D;;False;0;FLOAT2;-7,-7;False;1;FLOAT2;0,0;False;5;FLOAT2;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
@@ -160,9 +161,7 @@ Node;AmplifyShaderEditor.SimpleMultiplyOpNode;49;1123.6,-29.01721;Inherit;False;
 Node;AmplifyShaderEditor.ColorNode;36;742.3013,-256.7834;Inherit;False;Property;_Color0;Color 0;4;0;Create;True;0;0;0;False;0;False;0,0,0,0;1,1,1,0;True;0;5;COLOR;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
 Node;AmplifyShaderEditor.SaturateNode;44;1265.011,-42.53397;Inherit;False;1;0;FLOAT;0;False;1;FLOAT;0
 Node;AmplifyShaderEditor.DynamicAppendNode;38;1421.865,-110.2237;Inherit;True;FLOAT4;4;0;FLOAT3;0,0,0;False;1;FLOAT;0;False;2;FLOAT;0;False;3;FLOAT;0;False;1;FLOAT4;0
-Node;AmplifyShaderEditor.RangedFloatNode;53;1643.094,31.6481;Inherit;False;Property;_Float0;Float 0;8;0;Create;True;0;0;0;False;0;False;0;0.28;0;0;0;1;FLOAT;0
-Node;AmplifyShaderEditor.SimpleMultiplyOpNode;52;1775.476,-20.26659;Inherit;False;2;2;0;FLOAT;0;False;1;FLOAT;0;False;1;FLOAT;0
-Node;AmplifyShaderEditor.TemplateMultiPassMasterNode;0;1832.906,-111.4221;Float;False;True;-1;2;ASEMaterialInspector;100;1;Custom/WindWall/DeformationWind;0770190933193b94aaa3065e307002fa;True;Unlit;0;0;Unlit;2;True;True;2;5;False;-1;10;False;-1;0;1;False;-1;0;False;-1;True;0;False;-1;0;False;-1;False;False;False;False;False;False;False;False;False;True;0;False;-1;True;True;0;False;-1;False;True;True;True;True;True;0;False;-1;False;False;False;False;False;False;False;True;False;255;False;-1;255;False;-1;255;False;-1;7;False;-1;1;False;-1;1;False;-1;1;False;-1;7;False;-1;1;False;-1;1;False;-1;1;False;-1;True;True;0;False;-1;True;0;False;-1;True;False;0;False;-1;0;False;-1;True;1;RenderType=Transparent=RenderType;True;2;0;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;1;LightMode=ForwardBase;False;0;;0;0;Standard;1;Vertex Position,InvertActionOnDeselection;1;0;1;True;False;;False;0
+Node;AmplifyShaderEditor.TemplateMultiPassMasterNode;0;1832.906,-111.4221;Float;False;True;-1;2;ASEMaterialInspector;100;1;Custom/WindWall/DeformationWind;0770190933193b94aaa3065e307002fa;True;Unlit;0;0;Unlit;2;True;True;2;5;False;-1;10;False;-1;0;1;False;-1;0;False;-1;True;0;False;-1;0;False;-1;False;False;False;False;False;False;False;False;False;True;0;False;-1;True;True;0;False;-1;False;True;True;True;True;True;0;False;-1;False;False;False;False;False;False;False;True;False;255;False;-1;255;False;-1;255;False;-1;7;False;-1;1;False;-1;1;False;-1;1;False;-1;7;False;-1;1;False;-1;1;False;-1;1;False;-1;True;True;1;False;-1;True;3;False;-1;True;True;0;False;-1;0;False;-1;True;1;RenderType=Transparent=RenderType;True;2;0;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;1;LightMode=ForwardBase;False;0;;0;0;Standard;1;Vertex Position,InvertActionOnDeselection;1;0;1;True;False;;False;0
 WireConnection;10;0;7;0
 WireConnection;10;2;19;0
 WireConnection;41;0;45;2
@@ -181,7 +180,6 @@ WireConnection;49;1;50;0
 WireConnection;44;0;49;0
 WireConnection;38;0;36;0
 WireConnection;38;3;44;0
-WireConnection;52;1;53;0
 WireConnection;0;0;38;0
 ASEEND*/
-//CHKSM=174333DFDB4D738A6AD412806B1578A8FF90769C
+//CHKSM=73353DF220D314721EEDF79E97EAA6D8B55CDD8D
