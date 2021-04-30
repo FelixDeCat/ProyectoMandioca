@@ -15,6 +15,8 @@ public class TurretEnemy : PlayObject
     [SerializeField] float timeToDamage = 0.5f;
     [SerializeField] RayoLaser_Bounce ray = null;
     [SerializeField] Transform rayStartPosition = null;
+  
+
 
     [SerializeField] DamageData dmgData = null;
     [SerializeField] Damagetype dmgType = Damagetype.Fire;
@@ -28,6 +30,7 @@ public class TurretEnemy : PlayObject
     [SerializeField] LineOfSight lineOfSight = null;
     [SerializeField] float rotSpeed = 5;
     [SerializeField] AudioClip _RaySound;
+    [SerializeField] GameObject feedbackCollision;
 
     [SerializeField] bool initializedTurret = false;
     [SerializeField] bool drawGizmos = false;
@@ -70,6 +73,8 @@ public class TurretEnemy : PlayObject
             TypeUpdate = AlwaysOnUpdate;
             timer = timeToActivateRay;
         }
+
+        
     }
 
     public void OnTurret()
@@ -79,6 +84,7 @@ public class TurretEnemy : PlayObject
         {
             timer = timeToActivateRay;
         }
+
     }
     public void OffTurret()
     {
@@ -90,6 +96,7 @@ public class TurretEnemy : PlayObject
         damageTimer = 0;
         timer = 0;
         rooting = 0;
+       
     }
 
     protected override void OnUpdate()
@@ -127,6 +134,7 @@ public class TurretEnemy : PlayObject
         damageTimer = 0;
         timer = 0;
         rooting = 0;
+        
     }
 
     public void Configure(
@@ -168,6 +176,8 @@ public class TurretEnemy : PlayObject
             if (Physics.Raycast(rayStartPosition.position, dir, out hit, rayDistance, contactMask, QueryTriggerInteraction.Ignore))
             {
                 ray.SetFinalPos(hit.point);
+                feedbackCollision.transform.position = hit.point;
+                
                 if (!damageOn && hit.collider.GetComponent<DamageReceiver>())
                 {
                     hit.collider.GetComponent<DamageReceiver>().TakeDamage(dmgData.SetPositionAndDirection(root.position, root.forward));
@@ -183,6 +193,7 @@ public class TurretEnemy : PlayObject
                 shooting = false;
                 timer = 0;
                 ray.Off();
+                feedbackCollision.SetActive(false);
             }
         }
         else
@@ -193,6 +204,7 @@ public class TurretEnemy : PlayObject
                 timer = 0;
                 shooting = true;
                 ray.On();
+                feedbackCollision.SetActive(true);
             }
         }
     }

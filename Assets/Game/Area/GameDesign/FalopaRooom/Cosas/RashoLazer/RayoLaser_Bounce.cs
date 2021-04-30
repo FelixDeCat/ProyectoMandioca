@@ -8,7 +8,7 @@ public class RayoLaser_Bounce : MonoBehaviour
     [SerializeField] int reflections = 0;
     [SerializeField] float maxLength = 100f;
     [SerializeField] LineRenderer lineRenderer = null;
-    [SerializeField] GameObject feedbackCollision;
+
     RaycastHit hit;
     float time;
 
@@ -16,14 +16,13 @@ public class RayoLaser_Bounce : MonoBehaviour
     {
         lineRenderer.enabled = true;
         lineRenderer.SetPosition(0, transform.position);
-       // feedbackCollision.transform.position=lineRenderer.GetPosition(1);
-      //  feedbackCollision.SetActive(true);
+      
     }
 
     public void Off()
     {
         lineRenderer.enabled = false;
-      //  feedbackCollision.SetActive(false);
+       
 
     }
 
