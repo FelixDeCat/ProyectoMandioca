@@ -348,7 +348,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 490284107524286151}
   m_LocalRotation: {x: -0, y: -0.70710576, z: -0, w: 0.7071079}
-  m_LocalPosition: {x: -0, y: 0, z: -3.75}
+  m_LocalPosition: {x: -0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 2368535661900139384}
@@ -1364,9 +1364,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2651630720220964801}
-  - component: {fileID: 2651630720220964803}
   - component: {fileID: 899716337922401797}
   - component: {fileID: 6771035706381761449}
+  - component: {fileID: 7433691600652018665}
   m_Layer: 0
   m_Name: npc
   m_TagString: Untagged
@@ -1392,74 +1392,6 @@ Transform:
   m_Father: {fileID: 3194181042169923107}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &2651630720220964803
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2651630720220964800}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9e7b89b619e326a4ab65e9480de71a16, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  distancetoInteract: 1
-  autoexecute: 0
-  cd_autoexecute: 0
-  pointToMessage: {fileID: 2651630719563433675}
-  feedback: []
-  _withDelay: 1
-  delayTime: 1
-  drawGizmos: 0
-  UE_OnEnter:
-    m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 278256735905971999}
-        m_MethodName: SetActive
-        m_Mode: 6
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 1
-        m_CallState: 2
-  UE_OnExit:
-    m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 278256735905971999}
-        m_MethodName: SetActive
-        m_Mode: 6
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-  PressDown:
-    m_PersistentCalls:
-      m_Calls: []
-  PressUp:
-    m_PersistentCalls:
-      m_Calls: []
-  executing: 0
-  execute:
-    m_PersistentCalls:
-      m_Calls: []
-  destroy: 0
-  customDestroy:
-    m_PersistentCalls:
-      m_Calls: []
-  UE_EndDelayExecute:
-    m_PersistentCalls:
-      m_Calls: []
-  image_to_interact: {fileID: 0}
-  actionName: curar
-  _feedBack: {fileID: 0}
 --- !u!114 &899716337922401797
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1489,6 +1421,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ID_misionsToCheck: 06000000
+--- !u!114 &7433691600652018665
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2651630720220964800}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a04821f449f46ad49811241327f86081, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  dialogToDispatch: {fileID: 0}
 --- !u!1 &2890376562597855511
 GameObject:
   m_ObjectHideFlags: 0
@@ -3925,12 +3870,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 44729037f3398d648b87d43c182b3a22, type: 3}
---- !u!1 &278256735905971999 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 2815010428472085573, guid: 44729037f3398d648b87d43c182b3a22,
-    type: 3}
-  m_PrefabInstance: {fileID: 2651630719244284762}
-  m_PrefabAsset: {fileID: 0}
 --- !u!224 &278256734264473504 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 2815010426828358906, guid: 44729037f3398d648b87d43c182b3a22,
