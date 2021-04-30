@@ -72,7 +72,7 @@ public class PresentacionBetoPueblo : MonoBehaviour, ISpawner, IScriptedEvent, I
     {
         ResetSettings();
 
-        //Main.instance.GetScriptedEventManager().RegisterEvents(this);
+        Main.instance.GetScriptedEventManager()?.RegisterEvents(this);
 
         eventOn = true;
         PauseManager.Instance.AddToPause(this);
