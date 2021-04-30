@@ -35,7 +35,9 @@ public class PingPongLerp
     float time_stop_go;
     float time_stop_back;
 
-    public void Configure(Action<float> _callback, bool _loop, bool _overload = true, float _time_stop = -1f)
+    string name;
+
+    public void Configure(Action<float> _callback, bool _loop, bool _overload = true, float _time_stop = -1f, string name = "default")
     {
         callback = _callback;
         loop = _loop;
@@ -132,6 +134,7 @@ public class PingPongLerp
             {
                 if (go)
                 {
+                    Debug.Log("goooooo: " + name);
                     if (timer < 1) { timer = timer + cantspeed * goSpeed * Time.deltaTime; callback(timer); }
                     else
                     {

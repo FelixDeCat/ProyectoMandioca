@@ -22,18 +22,16 @@ public class PistonOneShot : Piston
         AudioManager.instance.GetSoundPool(timerSound.name, AudioManager.SoundDimesion.ThreeD, AudioGroups.GAME_FX, timerSound);
         palanca = animPalanca.GetComponent<Palanca>();
         palanca.SetPredicate(currStatus);
-        if (Anim)
+
+        pingponglerp = new PingPongLerp();
+        pingponglerp.Configure(AnimationResult, true, true, stay_position_time);
+
+        pingponglerp.ConfigureSpeedsMovements(speed_go_multiplier, speed_back_multiplier);
+        pingponglerp.ConfigueTimeStopsSides(staypositiontime_go, staypositiontime_back);
+
+        if (StartOnAwake)
         {
-            pingponglerp = new PingPongLerp();
-            pingponglerp.Configure(AnimationResult, true, true, stay_position_time);
-
-            pingponglerp.ConfigureSpeedsMovements(speed_go_multiplier, speed_back_multiplier);
-            pingponglerp.ConfigueTimeStopsSides(staypositiontime_go, staypositiontime_back);
-
-            if (StartOnAwake)
-            {
-                StartDelayAnim();
-            }
+            StartDelayAnim();
         }
     }
 
