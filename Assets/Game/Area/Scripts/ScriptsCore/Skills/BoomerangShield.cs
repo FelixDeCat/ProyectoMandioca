@@ -157,11 +157,8 @@ public class BoomerangShield : MonoBehaviour
         auxShield.SetActive(true);
         _shield.SetActive(false);
 
-        auxCharOnlyParticles = Instantiate(charOnlyParticles,_hero.transform);
-        auxCharAuraParticles =  Instantiate(charAuraParticles, _hero.transform);
-
-        /*ParticlesManager.Instance.PlayParticle(charOnlyParticles.name, transform.position);
-        ParticlesManager.Instance.PlayParticle(charAuraParticles.name, transform.position);*/
+        auxCharOnlyParticles = Instantiate(charOnlyParticles, _hero.transform);
+        auxCharAuraParticles = Instantiate(charAuraParticles, _hero.transform);
 
         flying.Play();
 
@@ -221,7 +218,7 @@ public class BoomerangShield : MonoBehaviour
         Vector3 dir = spinPosition - startingPos;
         dir = dir.normalized;
 
-        ParticlesManager.Instance.PlayParticle(shieldParticles.name, auxParent.transform.position);
+        ParticlesManager.Instance.PlayParticle(shieldParticles.name, auxShield.transform.position);
 
         flying.transform.forward = -dir;
 
