@@ -47,12 +47,13 @@ public class EffectBasicElectrify : EffectBase
 
         //Feedback de cuando empieza el estado
         electrifyMaat.SetFloat("_pannerActivate", 1);
+        ParticlesManager.Instance.PlayParticle(electricParticle.name, transform.position);
     }
+
 
     protected override void OffEffect()
     {
         anim.speed = currentAnimSpeed;
-        electrifyMaat.SetFloat("_pannerActivate", 0);
         if (smr != null)
         {
             smr.materials = myMat;
@@ -64,9 +65,10 @@ public class EffectBasicElectrify : EffectBase
         dmgReceiver.RemoveDebility(Damagetype.Heavy);
 
         //Feedback de cuando termina el estado
-
-        ParticlesManager.Instance.PlayParticle(electricParticle.name,transform.position);
+        electrifyMaat.SetFloat("_pannerActivate", 0);
+        ParticlesManager.Instance.StopParticle(electricParticle.name, electricParticle);
     }
+        
 
     void TakeDamageExtraFeedback(DamageData dmgData)
     {
