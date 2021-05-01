@@ -6,6 +6,9 @@ using Tools.EventClasses;
 public class BrazaleteCondition : MonoBehaviour
 {
     public EventCounterPredicate contrapredicado;
+    public DialogueTree Dialogo_me_falta_Algo;
+
+   
 
     public static BrazaleteCondition instance;
     private void Awake() => instance = this;
@@ -34,11 +37,16 @@ public class BrazaleteCondition : MonoBehaviour
         return iHaveBracelet;
     }
 
+    public void Execute()
+    {
+        
+    }
+
+
     public void ANIM_NegateBrazalet()
     {
-        Debug.Log("NEGATEEE");
+        DialogueManager.instance.StartDialogue(Dialogo_me_falta_Algo);
         MyAnim.Play("BrazaletNegate");
-        
     }
     public void ANIM_AcceptBrazalet()
     {
