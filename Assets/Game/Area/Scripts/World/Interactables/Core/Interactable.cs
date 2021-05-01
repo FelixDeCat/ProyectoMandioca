@@ -23,7 +23,10 @@ public abstract class Interactable : MonoBehaviour
     [SerializeField] bool drawGizmos = false;
     bool can_interact = true;
     public bool CanInteract { get { return can_interact; } }
-    
+
+    public bool IsUninterruptible;
+
+
     public UnityEvent UE_OnEnter;
     public UnityEvent UE_OnExit;
     public UnityEvent PressDown;
@@ -71,6 +74,8 @@ public abstract class Interactable : MonoBehaviour
         PressDown.Invoke();
         currentCollector = entity;
 
+        auxiliars.Feedback_EXECUTE_Sucessfull.Invoke();
+
         if (!_withDelay)
         {
             if (!autoexe_in_CD)
@@ -79,7 +84,6 @@ public abstract class Interactable : MonoBehaviour
                 timer_cd = 0;
                 executing = true;
                 Main.instance.eventManager.TriggerEvent(GameEvents.DELETE_INTERACTABLE, this);
-                auxiliars.Feedback_EXECUTE_Sucessfull.Invoke();
                 OnExecute(entity);
             }
         }
@@ -121,7 +125,9 @@ public abstract class Interactable : MonoBehaviour
    
     public void InterruptExecute()
     {
+        if (IsUninterruptible) return;
         if (!predicate.Invoke()) return;
+        Debug.Log("Se interrumpe");
         PressUp.Invoke();
         OnInterrupt();
         currentTime = 0;
