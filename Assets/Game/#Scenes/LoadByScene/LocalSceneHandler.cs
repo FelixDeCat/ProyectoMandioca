@@ -129,17 +129,16 @@ public class LocalSceneHandler : LoadComponent
     {
         if (exe == ExeParam.show)
         {
+            #region prendido
             if (go != null)
             {
+                #region Si ya lo tenia solo lo prendo
                 go.SetActive(true);
-
-                if (preftype == PrefabType.low)
-                {
-                    turn_ON_Low?.Invoke();
-                }
+                #endregion
             }
             else
             {
+                #region Si no lo tenia, hago el laburito de carga
                 Felito_CustomCollections.Priority priority = Felito_CustomCollections.Priority.high;
 
                 if (preftype == PrefabType.gameplay) { go = gameplay; priority = Felito_CustomCollections.Priority.high; }
@@ -149,10 +148,35 @@ public class LocalSceneHandler : LoadComponent
                 if (preftype == PrefabType.high) { go = hight_detail; priority = Felito_CustomCollections.Priority.low; }
 
                 ThreadHandler.EnqueueProcess(new ThreadObject(Inst(preftype), "+ " + this.gameObject.name + "::> " + preftype.ToString(), GetKeyByPrefType(preftype)), null , priority);
+                #endregion
+            }
 
+            #region Una vez termine de prender los assets, ejecuto las cosas auxiliares que se van a prender
+
+            if (preftype == PrefabType.low)
+            {
+                turn_ON_Low?.Invoke();
+            }
+
+            if (go != null)
+            {
+                var aux = go.GetComponent<AsyncLoaderHandler>();
+                if (aux != null)
+                {
+                    yield return aux.Load();
+                }
+            }
+            #endregion
+            #endregion
+        }
+        else if (exe == ExeParam.shutdown)
+        {
+            #region Apagado
+            if (go != null)
+            {
                 if (preftype == PrefabType.low)
                 {
-                    turn_ON_Low?.Invoke();
+                    tunr_OFF_Low?.Invoke();
                 }
 
                 if (go != null)
@@ -160,25 +184,16 @@ public class LocalSceneHandler : LoadComponent
                     var aux = go.GetComponent<AsyncLoaderHandler>();
                     if (aux != null)
                     {
-                        yield return aux.Load();
+                        yield return aux.Unload();
                     }
                 }
-            }
-        }
-        else if (exe == ExeParam.shutdown)
-        {
-            if (go != null)
-            {
+
                 if (go.activeSelf)
                 {
                     ThreadHandler.EnqueueProcess(new ThreadObject(ShutDownProcess(go), "(-)" + this.gameObject.name + preftype.ToString(), GetKeyByPrefType(preftype)), null, Felito_CustomCollections.Priority.low);
                 }
-
-                if (preftype == PrefabType.low)
-                {
-                    tunr_OFF_Low?.Invoke();
-                }
             }
+            #endregion
         }
         else
         {

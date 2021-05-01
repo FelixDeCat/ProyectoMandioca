@@ -29,6 +29,14 @@ public class AsyncLoaderHandler : GenericAsyncLocalScene
         }
         yield return null;
     }
+    protected override IEnumerator OptionalUnload()
+    {
+        for (int i = 0; i < components.Length; i++)
+        {
+            yield return components[i]?.Unload();
+        }
+        yield return null;
+    }
 
     protected override void AsyncLoadEnded()
     {

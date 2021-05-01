@@ -134,7 +134,6 @@ public class PingPongLerp
             {
                 if (go)
                 {
-                    Debug.Log("goooooo: " + name);
                     if (timer < 1) { timer = timer + cantspeed * goSpeed * Time.deltaTime; callback(timer); }
                     else
                     {

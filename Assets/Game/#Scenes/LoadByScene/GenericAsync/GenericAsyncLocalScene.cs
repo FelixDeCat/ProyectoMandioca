@@ -11,9 +11,14 @@ public abstract class GenericAsyncLocalScene : LoadComponent
     public void SetSceneData(in SceneData data) => myData = data;
 
     protected override IEnumerator LoadMe() { yield return AsyncLoad(); AsyncLoadEnded(); }
+    protected override IEnumerator UnLoadMe()
+    {
+        yield return OptionalUnload();
+    }
     public SceneData.Detail_Parameter param_to_enter;
     public SceneData.Detail_Parameter param_to_exit;
     protected abstract IEnumerator AsyncLoad();
+    protected virtual IEnumerator OptionalUnload() { yield return null; }
     protected abstract void AsyncLoadEnded();
     public void Enter()
     {

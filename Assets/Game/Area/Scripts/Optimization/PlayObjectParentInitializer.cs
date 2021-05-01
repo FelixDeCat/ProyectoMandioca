@@ -58,7 +58,8 @@ public class PlayObjectParentInitializer : LoadComponent
         {
             if (myPlayObjects[i] != null && myPlayObjects[i].gameObject.activeSelf)
             {
-                myPlayObjects[i].Off();
+                //apago esto un toque para probar algo
+                //myPlayObjects[i].Off();
             }
             yield return null;
         }
