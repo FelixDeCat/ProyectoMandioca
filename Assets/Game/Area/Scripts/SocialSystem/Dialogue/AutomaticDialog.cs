@@ -8,6 +8,6 @@ public class AutomaticDialog : MonoBehaviour
 
     public void Execute()
     {
-        DialogueManager.instance.StartDialogue(dialogToDispatch);
+        DialogueManager.instance.StartDialogue(dialogToDispatch,false);
     }
 }

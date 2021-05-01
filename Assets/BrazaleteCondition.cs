@@ -2,12 +2,13 @@
 using System.Collections.Generic;
 using UnityEngine;
 using Tools.EventClasses;
+using UnityEngine.Events;
 
 public class BrazaleteCondition : MonoBehaviour
 {
     public EventCounterPredicate contrapredicado;
-    public DialogueTree Dialogo_me_falta_Algo;
 
+    public UnityEvent YaTengoBrazalete;
    
 
     public static BrazaleteCondition instance;
@@ -17,7 +18,7 @@ public class BrazaleteCondition : MonoBehaviour
 
     bool iHaveBracelet = false;
 
-    public static void TakeBracelet() => instance.iHaveBracelet = true;
+    public static void TakeBracelet() { instance.iHaveBracelet = true; instance.YaTengoBrazalete.Invoke(); }
 
     private void Start()
     {
@@ -45,7 +46,6 @@ public class BrazaleteCondition : MonoBehaviour
 
     public void ANIM_NegateBrazalet()
     {
-        DialogueManager.instance.StartDialogue(Dialogo_me_falta_Algo);
         MyAnim.Play("BrazaletNegate");
     }
     public void ANIM_AcceptBrazalet()
