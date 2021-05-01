@@ -7,6 +7,8 @@ public class ColapsingFloor : PlayObject
 {
    private ShakeTransformS _shaker;
    [SerializeField] private float fallingSpeed = 3;
+    [SerializeField] private Animator animFloor;
+
 
     public bool active;
    
@@ -16,15 +18,15 @@ public class ColapsingFloor : PlayObject
    {
         if (!active || goingDown) return;
 
-
-      _shaker.Begin();
+        animFloor.SetTrigger("Falling");
+        _shaker.Begin();
    }
 
 
     protected override void OnInitialize()
     {
         _shaker = GetComponent<ShakeTransformS>();
-
+        
         _shaker.OnFinishShake += () =>
         {
             goingDown = true;
@@ -47,6 +49,7 @@ public class ColapsingFloor : PlayObject
         if (goingDown)
         {
             transform.position += Vector3.down * fallingSpeed * Time.deltaTime;
+
         }
     }
 
