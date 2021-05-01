@@ -1,8 +1,9 @@
 ﻿using UnityEngine;
+using System;
+using UnityEngine.Events;
 
 public class InteractableTeleport : Interactable
 {
-
     public enum TeleportType { change_posicional, change_scene }
     public TeleportType teleportType;
     [Header("Teleport Settings")]
@@ -15,11 +16,13 @@ public class InteractableTeleport : Interactable
     public Transform transform_destino;
     public string sceneToChange;
     public bool UseLocalSceneStreamer;
-    public override void OnExecute(WalkingEntity entity) 
+
+    
+    public override void OnExecute(WalkingEntity entity)
     {
-        if (teleportType == TeleportType.change_posicional) 
+        if (teleportType == TeleportType.change_posicional)
         {
-            
+
             if (!UseLocalSceneStreamer)
             {
                 Main.instance.GetChar().GetCharMove().StopDamageFall();

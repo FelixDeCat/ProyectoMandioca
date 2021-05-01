@@ -34,11 +34,18 @@ public abstract class Interactable : MonoBehaviour
 
     public bool executing;
 
+    [Header("Auxiliar Interaction for Best Feedback")]
+    [SerializeField] AuxiliarInteractEvents auxiliars;
+
     public void Enter(WalkingEntity entity)
     {
-        if (!can_interact) return;
-        if (!predicate.Invoke()) { return; }
+        if (!can_interact || !predicate.Invoke())
+        {
+            auxiliars.Feedback_HOVER_I_Can_NOT_Interact.Invoke();
+            return;
+        }
         if (!autoexecute) if (feedback.Length > 0) foreach (var fdbck in feedback) fdbck.Show();
+        auxiliars.Feedback_HOVER_I_Can_Interact.Invoke();
         OnEnter(entity);
         UE_OnEnter.Invoke();
     }
@@ -55,8 +62,11 @@ public abstract class Interactable : MonoBehaviour
     }
     public void Execute(WalkingEntity entity)
     {
-        if (!can_interact) return;
-        if (!predicate.Invoke()) return;
+        if (!can_interact || !predicate.Invoke())
+        {
+            auxiliars.Feedback_EXECUTE_Fail.Invoke();
+            return;
+        }
 
         PressDown.Invoke();
         currentCollector = entity;
@@ -69,6 +79,7 @@ public abstract class Interactable : MonoBehaviour
                 timer_cd = 0;
                 executing = true;
                 Main.instance.eventManager.TriggerEvent(GameEvents.DELETE_INTERACTABLE, this);
+                auxiliars.Feedback_EXECUTE_Sucessfull.Invoke();
                 OnExecute(entity);
             }
         }
@@ -168,4 +179,13 @@ public abstract class Interactable : MonoBehaviour
         if (drawGizmos) Gizmos.DrawWireSphere(transform.position, distancetoInteract);
     }
 
+
+    [System.Serializable]
+    public class AuxiliarInteractEvents
+    {
+        public UnityEvent Feedback_HOVER_I_Can_Interact;
+        public UnityEvent Feedback_HOVER_I_Can_NOT_Interact;
+        public UnityEvent Feedback_EXECUTE_Sucessfull;
+        public UnityEvent Feedback_EXECUTE_Fail;
+    }
 }
