@@ -29,10 +29,9 @@ public class BoomerangShield : MonoBehaviour
     [SerializeField] float knockBack;
     [SerializeField] GameObject charOnlyParticles;
     [SerializeField] GameObject charAuraParticles;
-    [SerializeField] GameObject shieldParticles;
+    [SerializeField] ParticleSystem shieldParticles;
     GameObject auxCharOnlyParticles;
     GameObject auxCharAuraParticles;
-    GameObject auxShieldParticles;
     [Header("El tiempo es el triple de lo que pongas")]
     [SerializeField] float shortThrowTravelTime = 1f;
     [SerializeField] float shortReturnTime = 1f;
@@ -78,7 +77,6 @@ public class BoomerangShield : MonoBehaviour
 
         auxCharAuraParticles = charAuraParticles;
         auxCharOnlyParticles = charOnlyParticles;
-        auxShieldParticles = shieldParticles;
     }
 
     ///////////////////////////////////////
@@ -118,8 +116,8 @@ public class BoomerangShield : MonoBehaviour
         _hero.charAnimEvent.Add_Callback(throwShort, ThrowShield);
 
         /*ParticlesManager.Instance.GetParticlePool(charOnlyParticles.name, charOnlyParticles);
-        ParticlesManager.Instance.GetParticlePool(charAuraParticles.name, charAuraParticles);
-        ParticlesManager.Instance.GetParticlePool(shielParticles.name, shielParticles);*/
+        ParticlesManager.Instance.GetParticlePool(charAuraParticles.name, charAuraParticles);*/
+        ParticlesManager.Instance.GetParticlePool(shieldParticles.name, shieldParticles);
 
         auxParent = auxShield.transform.parent;
     }
@@ -159,11 +157,8 @@ public class BoomerangShield : MonoBehaviour
         auxShield.SetActive(true);
         _shield.SetActive(false);
 
-        Instantiate(auxCharOnlyParticles,_hero.transform);
-        Instantiate(auxCharAuraParticles, _hero.transform);
-
-        /*ParticlesManager.Instance.PlayParticle(charOnlyParticles.name, transform.position);
-        ParticlesManager.Instance.PlayParticle(charAuraParticles.name, transform.position);*/
+        auxCharOnlyParticles = Instantiate(charOnlyParticles, _hero.transform);
+        auxCharAuraParticles = Instantiate(charAuraParticles, _hero.transform);
 
         flying.Play();
 
@@ -209,9 +204,11 @@ public class BoomerangShield : MonoBehaviour
 
         isFlying = false;
 
-        Destroy(auxCharOnlyParticles.gameObject);
         Destroy(auxCharAuraParticles.gameObject);
-        Destroy(auxShieldParticles.gameObject);
+        Destroy(auxCharOnlyParticles.gameObject);
+        /*auxCharOnlyParticles.gameObject.SetActive(false);
+        auxCharAuraParticles.gameObject.SetActive(false);*/
+        ParticlesManager.Instance.StopParticle(shieldParticles.name, shieldParticles);
         //AudioManager.instance.StopAllSounds(_rotatingShield_SoundName);
     }
 
@@ -221,7 +218,7 @@ public class BoomerangShield : MonoBehaviour
         Vector3 dir = spinPosition - startingPos;
         dir = dir.normalized;
 
-        Instantiate(auxShieldParticles, auxParent.transform);
+        ParticlesManager.Instance.PlayParticle(shieldParticles.name, auxShield.transform.position);
 
         flying.transform.forward = -dir;
 

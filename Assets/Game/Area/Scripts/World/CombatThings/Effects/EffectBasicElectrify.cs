@@ -10,6 +10,7 @@ public class EffectBasicElectrify : EffectBase
     [SerializeField] DamageReceiver dmgReceiver = null;
 
     [SerializeField] float dmgPercentMultiplier = 2f;
+    [SerializeField] ParticleSystem electricParticle;
     
     Material[] myMat;
     SkinnedMeshRenderer smr;
@@ -22,6 +23,8 @@ public class EffectBasicElectrify : EffectBase
 
         smr = anim.GetComponentInChildren<SkinnedMeshRenderer>();
         owner = GetComponentInParent<EnemyBase>();
+
+        ParticlesManager.Instance.GetParticlePool(electricParticle.name, electricParticle);
     }
 
     protected override void OnEffect()
@@ -41,8 +44,12 @@ public class EffectBasicElectrify : EffectBase
         dmgReceiver.AddDebility(Damagetype.Normal, dmgPercentMultiplier);
         dmgReceiver.AddDebility(Damagetype.Heavy, dmgPercentMultiplier);
 
+
         //Feedback de cuando empieza el estado
+        electrifyMaat.SetFloat("_pannerActivate", 1);
+        ParticlesManager.Instance.PlayParticle(electricParticle.name, transform.position);
     }
+
 
     protected override void OffEffect()
     {
@@ -58,7 +65,10 @@ public class EffectBasicElectrify : EffectBase
         dmgReceiver.RemoveDebility(Damagetype.Heavy);
 
         //Feedback de cuando termina el estado
+        electrifyMaat.SetFloat("_pannerActivate", 0);
+        ParticlesManager.Instance.StopParticle(electricParticle.name, electricParticle);
     }
+        
 
     void TakeDamageExtraFeedback(DamageData dmgData)
     {
