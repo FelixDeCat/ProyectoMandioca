@@ -69,14 +69,6 @@ public class CameraRotate : MonoBehaviour
                 tiltLerp -= Time.deltaTime * comebackSpeed;
             else if (tiltLerp < 0)
                 tiltLerp += Time.deltaTime * comebackSpeed;
-
-            Vector3 newPos;
-            if (tiltLerp > 0)
-                newPos = Vector3.Lerp(myChar.transform.position + offsetVec, myChar.transform.position + offsetVec + new Vector3(0, maxHeight, 0), tiltLerp);
-            else
-                newPos = Vector3.Lerp(myChar.transform.position + offsetVec, myChar.transform.position + offsetVec - new Vector3(0, minHeight, 0), Mathf.Abs(tiltLerp));
-            if (newPos.y < myChar.transform.position.y + offsetVec.y + maxHeight && newPos.y > myChar.transform.position.y + offsetVec.y - minHeight)
-                lookAtTrans.transform.position = newPos;
         }
     }
 
@@ -85,7 +77,7 @@ public class CameraRotate : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.Y)) { Cursor.lockState = CursorLockMode.Locked; Cursor.visible = false; }
         if (Input.GetKeyDown(KeyCode.U)) { Cursor.lockState = CursorLockMode.None; Cursor.visible = true; }
-        
+
         RaycastHit hit;
         Vector3 direction;
 
@@ -138,24 +130,43 @@ public class CameraRotate : MonoBehaviour
             }
         }
 
-        camConfig.transform.rotation = bezierPoints[0].transform.rotation;
+        Vector3 newPos;
+
+        if (tiltLerp > 0)
+        {
+            newPos = Vector3.Lerp(myChar.transform.position + offsetVec, myChar.transform.position + offsetVec + new Vector3(0, maxHeight, 0), tiltLerp);
+            lookAtTrans.transform.position = new Vector3(lookAtTrans.transform.position.x, newPos.y, lookAtTrans.transform.position.z);
+        }
+        else
+        {
+            newPos = Vector3.Lerp(myChar.transform.position + offsetVec, myChar.transform.position + offsetVec - new Vector3(0, maxHeight, 0), Mathf.Abs(tiltLerp));
+            lookAtTrans.transform.position = new Vector3(lookAtTrans.transform.position.x, newPos.y, lookAtTrans.transform.position.z);
+        }
+
         Vector3 newDir;
         RaycastHit hitnew;
-        newDir = Extensions.GetPointOnBezierCurve(bezierPoints[0], bezierPoints[1], tiltLerp) - (myChar.transform.position + offsetVec);
-        if (Physics.Raycast(myChar.transform.position + offsetVec, newDir, out hitnew, newDir.magnitude, _mask))
+        newDir = Vector3.Lerp(bezierPoints[1].transform.position, bezierPoints[0].transform.position, 0.5f + tiltLerp / 2f) - lookAtTrans.position;
+
+        if (Physics.Raycast(lookAtTrans.position , newDir, out hitnew, newDir.magnitude, _mask))
         {
             colliding = true;
-            if (hitnew.distance > minDistance)
+
+            Vector3 distToChar = lookAtTrans.position - myChar.transform.position;
+            distToChar.y = 0;
+            Vector3 distToPoint = lookAtTrans.position - hitnew.point;
+            distToPoint.y = 0;
+
+            if (distToChar.magnitude > distToPoint.magnitude) return;
+
+            if (hitnew.distance > minDistance )
             {
                 Vector3 dir = hitnew.point - newDir.normalized;
                 camConfig.position = dir;
+                camConfig.transform.rotation = bezierPoints[0].transform.rotation;
                 return;
             }
         }
-        //else if (Vector3.Distance(myChar.transform.position, camConfig.position) < raycastDist)
-        //{
-        //    camConfig.transform.position = rotatorX.transform.position;
-        //}
+
         colliding = false;
 
         camConfig.transform.rotation = bezierPoints[0].transform.rotation;
@@ -214,7 +225,12 @@ public class CameraRotate : MonoBehaviour
     {
         if (UseBezier || forceStop) return;
         rotatorX.transform.RotateAround(myChar.transform.position, Vector3.up, axis * sensitivityHorizontal * Time.deltaTime * horAxis);
-        lookAtTrans.transform.RotateAround(myChar.transform.position, Vector3.up, axis * sensitivityHorizontal * Time.deltaTime * horAxis);
+        //lookAtTrans.transform.RotateAround(myChar.transform.position, Vector3.up, axis * sensitivityHorizontal * Time.deltaTime * horAxis);
+
+        Vector3 dir = myChar.transform.position - rotatorX.transform.position;
+        dir.y = 0;
+
+        lookAtTrans.transform.position = myChar.transform.position + dir.normalized;
     }
 
     public void RotateVertical(float vertical)
@@ -242,7 +258,9 @@ public class CameraRotate : MonoBehaviour
         {
             item.transform.RotateAround(myChar.transform.position, Vector3.up, axis * sensitivityHorizontal * Time.deltaTime * horAxis);
         }
-        lookAtTrans.transform.RotateAround(myChar.transform.position, Vector3.up, axis * sensitivityHorizontal * Time.deltaTime * horAxis);
+        Vector3 pos = myChar.transform.position - (bezierPoints[0].transform.position - myChar.transform.position).normalized;
+
+        lookAtTrans.transform.position = new Vector3(pos.x, lookAtTrans.transform.position.y, pos.z);
     }
 
     public void RotateVerticalByBezier(float vertical)
@@ -255,21 +273,8 @@ public class CameraRotate : MonoBehaviour
     {
         if (vertical == 0) { isTilting = false; return; }
 
-        Vector3 newPos;
         isTilting = true;
         tiltLerp = Mathf.Clamp(tiltLerp + vertical * sensitivityVertical * Time.deltaTime * vertAxis, -1, 1f);
-        //Debug.Log(tiltLerp);
-        if (tiltLerp > 0)
-        {
-            newPos = Vector3.Lerp(myChar.transform.position + offsetVec, myChar.transform.position + offsetVec + new Vector3(0, maxHeight, 0), tiltLerp);
-            //camConfig.transform.position = Extensions.GetPointOnBezierCurve(bezierPoints[0], bezierPoints[1], tiltLerp);
-        }
-        else
-        {
-            newPos = Vector3.Lerp(myChar.transform.position + offsetVec, myChar.transform.position + offsetVec - new Vector3(0, minHeight, 0), Mathf.Abs(tiltLerp));
-        }
-        if (newPos.y < myChar.transform.position.y + offsetVec.y + maxHeight && newPos.y > myChar.transform.position.y + offsetVec.y - minHeight)
-            lookAtTrans.transform.position = newPos;
     }
 
     public void CameraStartPosition()
