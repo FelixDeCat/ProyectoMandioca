@@ -8,7 +8,9 @@ public class SpawnerSpot
     public float radious = 4;
     [SerializeField] float heightSpawn = 20;
     [SerializeField] LayerMask mask = 1 << 21;
+    [SerializeField] LayerMask otherMask = 3 << 0 | 15 | 23;
     public Transform spawnSpot;
+    [SerializeField] bool clampPos = false;
 
     public void Initialize(Transform _spawnSpot = null, float _radious = -1)
     {
@@ -39,20 +41,41 @@ public class SpawnerSpot
     public Vector3 GetSurfacePos()
     {
         var pos = GetPosRandom(radious, spawnSpot);
+
+        if (clampPos) pos = ClampPos(pos, spawnSpot);
         pos.y = spawnSpot.position.y + radious;
 
         RaycastHit hit;
 
         if (Physics.Raycast(pos, Vector3.down, out hit, Mathf.Infinity, mask, QueryTriggerInteraction.Ignore))
+        {
             pos = hit.point;
+        }
         else return GetSurfacePos();
 
         return pos;
     }
 
+    Vector3 ClampPos(Vector3 pos, Transform reference)
+    {
+        RaycastHit hit;
+        Vector3 result = pos;
+        Vector3 checkDir = pos - reference.position;
+
+
+        if(Physics.Raycast(reference.position, checkDir.normalized, out hit, checkDir.magnitude, otherMask, QueryTriggerInteraction.Ignore))
+        {
+            result = hit.point - checkDir.normalized;
+        }
+
+        return result;
+    }
+
     public Vector3 GetSurfacePos(Transform t)
     {
         var pos = GetPosRandom(radious, t);
+
+        if (clampPos) pos = ClampPos(pos, t);
         pos.y += heightSpawn;
 
         RaycastHit hit;
@@ -65,8 +88,8 @@ public class SpawnerSpot
 
     Vector3 GetPosRandom(float radio, Transform t)
     {
-        Vector3 min = new Vector3(t.position.x - radio, 0, t.position.z - radio);
-        Vector3 max = new Vector3(t.position.x + radio, 0, t.position.z + radio);
+        Vector3 min = new Vector3(t.position.x - radio, t.position.y, t.position.z - radio);
+        Vector3 max = new Vector3(t.position.x + radio, t.position.y, t.position.z + radio);
         return new Vector3(Random.Range(min.x, max.x), t.position.y, Random.Range(min.z, max.z));
     }
 }
