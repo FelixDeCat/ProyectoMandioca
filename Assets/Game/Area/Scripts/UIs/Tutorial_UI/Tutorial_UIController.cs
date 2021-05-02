@@ -47,7 +47,7 @@ public class Tutorial_UIController : MonoBehaviour
 
     public void SetNewTutorial(TutorialSettings settings)
     {
-        if (settings == null || settings.alreadySave) return;
+        if (settings == null) return;
 
         tutoShowing = true;
         PauseManager.Instance.tutorialHud.SaveTutorial(settings);
@@ -70,7 +70,6 @@ public class Tutorial_UIController : MonoBehaviour
         }
 
         mainHud.Open();
-        settings.alreadySave = true;
     }
 
     void EndTutorial()

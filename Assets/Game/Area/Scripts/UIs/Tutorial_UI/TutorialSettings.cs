@@ -14,6 +14,4 @@ public class TutorialSettings : ScriptableObject
 
     public TMP_SpriteAsset keyBoardSpriteAsset = null;
     public TMP_SpriteAsset joystickSpriteAsset = null;
-
-    public bool alreadySave;
 }
