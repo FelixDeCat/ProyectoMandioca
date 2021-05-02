@@ -8,7 +8,9 @@ public class Tutorial_Dispatcher : MonoBehaviour
 
     public void DispatchTutorial()
     {
+        if (settings == null) return;
         Tutorial_UIController.instance.SetNewTutorial(settings);
         enabled = false;
+        settings = null;
     }
 }
