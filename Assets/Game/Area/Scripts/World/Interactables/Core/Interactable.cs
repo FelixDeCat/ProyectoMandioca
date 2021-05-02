@@ -85,6 +85,7 @@ public abstract class Interactable : MonoBehaviour
                 executing = true;
                 Main.instance.eventManager.TriggerEvent(GameEvents.DELETE_INTERACTABLE, this);
                 OnExecute(entity);
+                if (feedback.Length > 0) foreach (var fdbck in feedback) fdbck.Hide();
             }
         }
         else
@@ -168,6 +169,7 @@ public abstract class Interactable : MonoBehaviour
             {
                 executing = true;
                 Main.instance.eventManager.TriggerEvent(GameEvents.DELETE_INTERACTABLE, this);
+                if (feedback.Length > 0) foreach (var fdbck in feedback) fdbck.Hide();
                 OnExecute(currentCollector);
                 currentTime = 0;
                 updateDelay = false;

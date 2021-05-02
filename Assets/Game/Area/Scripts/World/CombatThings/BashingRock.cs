@@ -148,9 +148,12 @@ public class BashingRock : DashBashInteract
                                  Vector3 directionToTarget = (x.transform.position - transform.position).normalized;
                                  float angleToTarget = Vector3.Angle(myDir, directionToTarget);
                                  if (angleToTarget <= angleToObtainTarget)
-                                     return true;
-                                 else
-                                     return false;
+                                 {
+                                     if (!Physics.Raycast(transform.position, directionToTarget, rangeToObtainTarget, 3 << 0 & 15 & 23, QueryTriggerInteraction.Ignore))
+                                         return true;
+                                 }
+
+                                 return false;
                              })
                              .Select(x => x.transform)
                              .FirstOrDefault();

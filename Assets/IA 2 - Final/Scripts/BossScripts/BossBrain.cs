@@ -50,7 +50,6 @@ public class BossBrain
 
     public void Initialize(BossModel boss, Func<IEnumerator, Coroutine> _Coroutine)
     {
-        Debug.Log("se inicializa el cerebelo");
         flameSkill.Initialize();
         phantomSkill.Initialize();
         tpSkill.Initialize();
