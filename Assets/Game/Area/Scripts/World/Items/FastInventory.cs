@@ -16,6 +16,8 @@ public class FastInventory : UI_Base, IPauseable
     Dictionary<int, int> itemsInInventory = new Dictionary<int, int>();
     List<UI_fastItem> itemUI = new List<UI_fastItem>();
 
+    [SerializeField] ItemDescController controller = null;
+
     private void Awake()
     {
         instance = this;
@@ -51,16 +53,11 @@ public class FastInventory : UI_Base, IPauseable
 
     public void Add(Item item, int cant = 1)
     {
-        if (allItems.Contains(item))
-        {
-            itemUI[itemsInInventory[item.id]].SetActive();
-            allItems.Remove(item);
-        }
-
         if (!inventory.ContainsKey(item.id))
         {
             ItemInInventory newSlot = new ItemInInventory(item, cant);
             inventory.Add(item.id, newSlot);
+            itemUI[itemsInInventory[item.id]].SetActive();
         }
         else
         {
@@ -116,7 +113,7 @@ public class FastInventory : UI_Base, IPauseable
         Open();
         IsOpen = true;
         currentSelection = 0;
-        itemUI[currentSelection].SelectItem();
+        ChangeItemSelect(0);
     }
 
     public void CloseScreen()
@@ -136,6 +133,15 @@ public class FastInventory : UI_Base, IPauseable
         itemUI[currentSelection].DeselectItem();
         currentSelection = newItemSelect;
         itemUI[currentSelection].SelectItem();
+
+        if (inventory.ContainsKey(allItems[currentSelection].id))
+        {
+            controller.SetItem(inventory[allItems[currentSelection].id]);
+        }
+        else
+        {
+            controller.SetUnknownItem(allItems[currentSelection].img);
+        }
     }
 
     protected override void OnAwake() { }
