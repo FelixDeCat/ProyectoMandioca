@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using System.Linq;
 
-public class FastInventory : UI_Base
+public class FastInventory : UI_Base, IPauseable
 {
     public static FastInventory instance;
     public Dictionary<int, ItemInInventory> inventory = new Dictionary<int, ItemInInventory>();
@@ -126,21 +126,68 @@ public class FastInventory : UI_Base
         IsOpen = false;
         itemUI[currentSelection].DeselectItem();
         currentSelection = 0;
+        begintimer = false;
+        timer = 0;
+    }
+
+    void ChangeItemSelect(int newItemSelect)
+    {
+        begintimer = true;
+        itemUI[currentSelection].DeselectItem();
+        currentSelection = newItemSelect;
+        itemUI[currentSelection].SelectItem();
     }
 
     protected override void OnAwake() { }
-    protected override void OnStart() { }
+    protected override void OnStart()
+    {
+        PauseManager.Instance.AddToPause(this);
+    }
     protected override void OnEndOpenAnimation() { }
     protected override void OnEndCloseAnimation() { }
     protected override void OnUpdate() 
     {
         if (pause) return;
 
+        if (begintimer)
+        {
+            timer += Time.deltaTime;
+            if (timer > 0.3f)
+            {
+                begintimer = false;
+                timer = 0;
+            }
+            return;
+        }
+
         if (IsOpen)
         {
+            float vertical = Input.GetAxis("Vertical");
+            float horizontal = Input.GetAxis("Horizontal");
+            int dir = 0;
+            if (horizontal > 0.5f || horizontal< -0.5f)
+            {
+                dir = horizontal > 0 ? 1 : -1;
+            }
+            else if (vertical > 0.5f || vertical < -0.5f)
+            {
+                dir = vertical > 0 ? 4 : -4;
+            }
 
+            if (dir != 0 && dir + currentSelection >= 0 && dir + currentSelection < itemUI.Count)
+                ChangeItemSelect(currentSelection + dir);
         }
 
     }
     public override void Refresh() { }
+
+    public void Pause()
+    {
+        pause = true;
+    }
+
+    public void Resume()
+    {
+        pause = false;
+    }
 }

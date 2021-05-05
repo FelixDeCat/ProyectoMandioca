@@ -1061,7 +1061,6 @@ public class CharacterHead : CharacterControllable
 
     public void UNITY_EVENT_OpenInventory()
     {
-        Debug.Log("no me shecuerdo");
         var b = !FastInventory.instance.IsOpen;
 
         InputGoToMenues(b);
