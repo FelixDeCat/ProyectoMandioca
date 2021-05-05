@@ -4140,7 +4140,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: -0.000015258789}
+  m_AnchoredPosition: {x: 0, y: 0.000015258789}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 1}
 --- !u!114 &3025223627967341187
@@ -7522,7 +7522,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0.000076293945}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 1}
 --- !u!114 &7333556540963339266
@@ -13112,6 +13112,15 @@ MonoBehaviour:
   parent: {fileID: 7137165196389717348}
   parent_inventoryObjects: {fileID: 2136269435337566991}
   model: {fileID: 1077647798128250373, guid: f31f7b26158ec504cb17ee164d6598f9, type: 3}
+  allItems:
+  - {fileID: 11400000, guid: f1df2d399ac352949bd082f517873d91, type: 2}
+  - {fileID: 11400000, guid: c3ff1acc92f0717449942d732855378c, type: 2}
+  - {fileID: 11400000, guid: 7cbd1c30849ce494db8d328d78afe23a, type: 2}
+  - {fileID: 11400000, guid: 4f7baf1df250bb34eb6679a766efa4af, type: 2}
+  - {fileID: 11400000, guid: 819f80579f02fdf419a6c13896dea534, type: 2}
+  - {fileID: 11400000, guid: 564f8e7ca03aac14293bd9dd41011398, type: 2}
+  - {fileID: 11400000, guid: c554ac77a4de6bc47a9d82e009bf14dc, type: 2}
+  - {fileID: 11400000, guid: 8f5650f0e20952448882145579981b50, type: 2}
 --- !u!114 &1333246570216681785
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -14671,7 +14680,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1901483177763156644}
   m_HandleRect: {fileID: 2147855837298417434}
   m_Direction: 2
-  m_Value: 1
+  m_Value: 0
   m_Size: 1
   m_NumberOfSteps: 0
   m_OnValueChanged:
@@ -20262,7 +20271,7 @@ PrefabInstance:
     - target: {fileID: 4679907588329607195, guid: 83b8ceb7cd826e74ba11e5b10280f65a,
         type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -0.000030517578
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4679907588329607195, guid: 83b8ceb7cd826e74ba11e5b10280f65a,
         type: 3}
@@ -21343,6 +21352,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3403020175800544563, guid: 029dc3dd56303c843a8e78d8defd325a,
         type: 3}
+      propertyPath: Back.m_PersistentCalls.m_Calls.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3403020175800544563, guid: 029dc3dd56303c843a8e78d8defd325a,
+        type: 3}
       propertyPath: OnPress_Dpad_Up.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
       objectReference: {fileID: 8120395209992443000}
@@ -21406,6 +21420,31 @@ PrefabInstance:
       propertyPath: joystickMessage
       value: 
       objectReference: {fileID: 720243397939454887}
+    - target: {fileID: 3403020175800544563, guid: 029dc3dd56303c843a8e78d8defd325a,
+        type: 3}
+      propertyPath: Back.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3403020175800544563, guid: 029dc3dd56303c843a8e78d8defd325a,
+        type: 3}
+      propertyPath: Back.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 3403020175800544563, guid: 029dc3dd56303c843a8e78d8defd325a,
+        type: 3}
+      propertyPath: Back.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 348076647425418385}
+    - target: {fileID: 3403020175800544563, guid: 029dc3dd56303c843a8e78d8defd325a,
+        type: 3}
+      propertyPath: Back.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: UNITY_EVENT_OpenInventory
+      objectReference: {fileID: 0}
+    - target: {fileID: 3403020175800544563, guid: 029dc3dd56303c843a8e78d8defd325a,
+        type: 3}
+      propertyPath: Back.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
     - target: {fileID: 5645459160619797659, guid: 029dc3dd56303c843a8e78d8defd325a,
         type: 3}
       propertyPath: lookatPosition

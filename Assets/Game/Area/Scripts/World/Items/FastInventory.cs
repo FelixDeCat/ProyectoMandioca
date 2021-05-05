@@ -12,9 +12,21 @@ public class FastInventory : UI_Base
     public RectTransform parent_inventoryObjects;
     public GameObject model;
 
+    [SerializeField] List<Item> allItems = new List<Item>();
+    Dictionary<int, int> itemsInInventory = new Dictionary<int, int>();
+    List<UI_fastItem> itemUI = new List<UI_fastItem>();
+
     private void Awake()
     {
         instance = this;
+        for (int i = 0; i < allItems.Count; i++)
+        {
+            var gameobject = Instantiate(model, parent_inventoryObjects).GetComponentInChildren<UI_fastItem>();
+            gameobject.photo.sprite = allItems[i].img;
+            gameobject.SetInactive();
+            itemsInInventory.Add(allItems[i].id, i);
+            itemUI.Add(gameobject);
+        }
     }
 
     bool begintimer;
@@ -25,7 +37,7 @@ public class FastInventory : UI_Base
         for (int i = 0; i < col.Length; i++)
         {
             int id = col[i].item.id;
-            if (!inventory.ContainsKey(id)) return false;
+            if (!inventory.ContainsKey(id) || inventory[id].cant <= 0) return false;
             var my_cant = inventory[id].cant;
             var requested_cant = col[i].cant;
 
@@ -37,30 +49,14 @@ public class FastInventory : UI_Base
         return true;
     }
 
-    public void Add(Item item)
+    public void Add(Item item, int cant = 1)
     {
-        
-        if (!inventory.ContainsKey(item.id))
+        if (allItems.Contains(item))
         {
-            ItemInInventory newSlot = new ItemInInventory(item, 1);
-            inventory.Add(item.id, newSlot);
-        }
-        else
-        {
-            inventory[item.id].cant++;
+            itemUI[itemsInInventory[item.id]].SetActive();
+            allItems.Remove(item);
         }
 
-        if (item.equipable)
-        {
-            EquipedManager.instance.EquipItem(item);
-        }
-
-        GameMessage.Log(new MsgLogData(item.name, item.img, new Color(0, 0, 0, 0), Color.white, 1f));
-
-        RefreshScreen();
-    }
-    public void Add(Item item, int cant)
-    {
         if (!inventory.ContainsKey(item.id))
         {
             ItemInInventory newSlot = new ItemInInventory(item, cant);
@@ -76,21 +72,17 @@ public class FastInventory : UI_Base
             EquipedManager.instance.EquipItem(item);
         }
 
-        GameMessage.Log(new MsgLogData(item.name, item.img, new Color(0,0,0,0), Color.white, 1f));
+        itemUI[itemsInInventory[item.id]].SetCant(inventory[item.id].cant);
 
-        RefreshScreen();
+        GameMessage.Log(new MsgLogData(item.name, item.img, new Color(0,0,0,0), Color.white, 1f));
     }
     public void Remove(Item item, int cant = 1)
     {
         if (inventory.ContainsKey(item.id))
         {
             inventory[item.id].cant -= cant;
-            if (inventory[item.id].cant <= 0)
-            {
-                inventory.Remove(item.id);
-            }
+            itemUI[itemsInInventory[item.id]].SetCant(inventory[item.id].cant);
         }
-        RefreshScreen();
     }
 
     public bool Remove(ItemInInventory[] col)
@@ -115,27 +107,26 @@ public class FastInventory : UI_Base
         return true;
     }
 
-    void RefreshScreen()
+    int currentSelection;
+    bool pause;
+    public bool IsOpen { get; private set; }
+
+    public void RefreshScreen()
     {
         Open();
-        begintimer = true;
-        timer = 0;
-
-        var childs = parent_inventoryObjects.GetComponentsInChildren<Transform>().Where( x => x != parent_inventoryObjects).ToArray();
-
-        for (int i = 0; i < childs.Length; i++)
-        {
-            Destroy(childs[i].gameObject);
-        }
-
-        foreach (var i in inventory)
-        {
-            var gameobject = Instantiate(model, parent_inventoryObjects);
-            gameobject.GetComponentInChildren<UI_fastItem>().photo.sprite = i.Value.item.img;
-            gameobject.GetComponentInChildren<UI_fastItem>().txt.text = i.Value.cant.ToString();
-        }
+        IsOpen = true;
+        currentSelection = 0;
+        itemUI[currentSelection].SelectItem();
     }
 
+    public void CloseScreen()
+    {
+        anim.Close();
+        isActive = false;
+        IsOpen = false;
+        itemUI[currentSelection].DeselectItem();
+        currentSelection = 0;
+    }
 
     protected override void OnAwake() { }
     protected override void OnStart() { }
@@ -143,19 +134,13 @@ public class FastInventory : UI_Base
     protected override void OnEndCloseAnimation() { }
     protected override void OnUpdate() 
     {
-        if (begintimer)
+        if (pause) return;
+
+        if (IsOpen)
         {
-            if (timer < 5f)
-            {
-                timer = timer + 1 * Time.deltaTime;
-            }
-            else
-            {
-                timer = 0;
-                begintimer = false;
-                Close();
-            }
+
         }
+
     }
     public override void Refresh() { }
 }

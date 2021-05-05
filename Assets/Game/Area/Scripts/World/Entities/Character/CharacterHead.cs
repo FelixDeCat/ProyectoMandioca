@@ -1057,14 +1057,19 @@ public class CharacterHead : CharacterControllable
         }
 
         combo_system.TryExecuteCombo();
-
-        //if (IsComboWomboActive)
-        //{
-        //    charAttack.ForceHeavy();
-        //    charanim.HeavyAttack();
-        //    IsComboWomboActive = false;
-        //}
     }
+
+    public void UNITY_EVENT_OpenInventory()
+    {
+        Debug.Log("no me shecuerdo");
+        var b = !FastInventory.instance.IsOpen;
+
+        InputGoToMenues(b);
+
+        if (b) FastInventory.instance.RefreshScreen();
+        else FastInventory.instance.CloseScreen();
+    }
+
     public void UNITY_EVENT_OnInteractUp()
     {
         sensor.OnInteractUp();

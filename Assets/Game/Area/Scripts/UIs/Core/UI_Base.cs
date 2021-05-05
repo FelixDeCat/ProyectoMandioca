@@ -8,10 +8,10 @@ public abstract class UI_Base : MonoBehaviour
     [Header("UI_Base")]
     public GameObject firstToOpenMenu;
     [System.NonSerialized] public int idfinder;
-    [System.NonSerialized] bool isActive;
+    [System.NonSerialized] protected bool isActive;
     public bool IsActive { get { return isActive; } }
 
-    UI_Anim_Code anim;
+    protected UI_Anim_Code anim;
     [SerializeField] protected GameObject parent;
     void Awake()
     {
