@@ -17,6 +17,7 @@ public class FastInventory : UI_Base, IPauseable
     List<UI_fastItem> itemUI = new List<UI_fastItem>();
 
     [SerializeField] ItemDescController controller = null;
+    [SerializeField] ItemMesseage messeage = null;
 
     private void Awake()
     {
@@ -53,11 +54,13 @@ public class FastInventory : UI_Base, IPauseable
 
     public void Add(Item item, int cant = 1)
     {
+        string mess = "";
         if (!inventory.ContainsKey(item.id))
         {
             ItemInInventory newSlot = new ItemInInventory(item, cant);
             inventory.Add(item.id, newSlot);
             itemUI[itemsInInventory[item.id]].SetActive();
+            mess = "¡Nuevo! ";
         }
         else
         {
@@ -70,8 +73,9 @@ public class FastInventory : UI_Base, IPauseable
         }
 
         itemUI[itemsInInventory[item.id]].SetCant(inventory[item.id].cant);
+        mess = mess + "Agarraste " + cant + item.name;
 
-        GameMessage.Log(new MsgLogData(item.name, item.img, new Color(0,0,0,0), Color.white, 1f));
+        messeage.OpenMesseage(item.img, mess);
     }
     public void Remove(Item item, int cant = 1)
     {

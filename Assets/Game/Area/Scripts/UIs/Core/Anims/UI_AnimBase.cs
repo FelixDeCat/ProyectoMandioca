@@ -5,8 +5,8 @@ using System;
 
 public abstract class UI_AnimBase : MonoBehaviour
 {
-    Action EndOpenAnimation;
-    Action EndCloseAnimation;
+    Action EndOpenAnimation = delegate { };
+    Action EndCloseAnimation = delegate { };
 
     public void AddCallbacks(Action EV_End_OpenAnimation, Action EV_End_CloseAnimation)
     {
