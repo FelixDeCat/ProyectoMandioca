@@ -29,7 +29,7 @@ Transform:
   m_GameObject: {fileID: 4598128138623098415}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 9.11, y: 5.28, z: 2.87}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 0.8, y: 0.8, z: 0.8}
   m_Children:
   - {fileID: 2190207582913268427}
   m_Father: {fileID: 0}
@@ -64,11 +64,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   canMove: 0
-  rb: {fileID: 4598128138623098404}
   movement_speed: 5
   radius_to_find_nodes: 5
   distance_to_close: 0.1
   forwardspeed: 20
+  rb: {fileID: 4598128138623098404}
 --- !u!136 &4598128138623098410
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -96,6 +96,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   poolname: 
+  isOn: 0
   rig_path_finder: {fileID: 4598128138623098411}
   anim: {fileID: 230141826002538509}
   rb: {fileID: 4598128138623098404}
@@ -106,6 +107,9 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   pos_exit_endless: {fileID: 0}
+  pos_exit_endless2: {fileID: 0}
+  pos_exit_endless3: {fileID: 0}
+  pos_exit_endless4: {fileID: 0}
 --- !u!114 &230141826002538509
 MonoBehaviour:
   m_ObjectHideFlags: 0
