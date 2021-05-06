@@ -73,7 +73,7 @@ public class FastInventory : UI_Base, IPauseable
         }
 
         itemUI[itemsInInventory[item.id]].SetCant(inventory[item.id].cant);
-        mess = mess + "Agarraste " + cant + item.name;
+        mess = mess + "Agarraste " + cant + " " + item.name;
 
         messeage.OpenMesseage(item.img, mess);
     }
