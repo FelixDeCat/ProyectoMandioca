@@ -77,11 +77,17 @@ public class InteractSensor : MonoBehaviour
 
         RemoveToInteractables(_interact);
         most_close = interactables.ReturnMostClose(transform.position, x => x.CanInteract);
+        Debug.Log("si entro");
         if (most_close != null && I_Have_Good_Distace_To_Interact())
         {
+            Debug.Log(most_close.name);
             ContextualBarSimple.instance.Show();
             ContextualBarSimple.instance.Set_Sprite_Button_Custom(InputImageDatabase.InputImageType.interact);
             most_close.Enter(collector);
+        }
+        else
+        {
+            ContextualBarSimple.instance.Hide();
         }
     }
 

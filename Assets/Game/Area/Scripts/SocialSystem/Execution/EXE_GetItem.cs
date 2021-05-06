@@ -45,7 +45,7 @@ public class EXE_GetItem : ExecutableBase
         {
             for (int i = 0; i < cant; i++)
             {
-                EquipedManager.instance.EquipItem(item);
+                FastInventory.instance.Add(item);
             }
         }
     }
