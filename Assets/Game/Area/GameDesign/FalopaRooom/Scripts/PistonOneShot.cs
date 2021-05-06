@@ -24,7 +24,7 @@ public class PistonOneShot : Piston
         palanca.SetPredicate(currStatus);
 
         pingponglerp = new PingPongLerp();
-        pingponglerp.Configure(AnimationResult, true, true, stay_position_time);
+        pingponglerp.Configure(AnimationResult, true, true, stay_position_time, "default", TimingPercent);
 
         pingponglerp.ConfigureSpeedsMovements(speed_go_multiplier, speed_back_multiplier);
         pingponglerp.ConfigueTimeStopsSides(staypositiontime_go, staypositiontime_back);

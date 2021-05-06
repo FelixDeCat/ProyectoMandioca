@@ -21,6 +21,7 @@ public class PingPongLerp
     bool loop;
 
     public Action<float> callback;
+    Action<float> timingPercent;
 
     bool hastimestop;
 
@@ -37,12 +38,13 @@ public class PingPongLerp
 
     string name;
 
-    public void Configure(Action<float> _callback, bool _loop, bool _overload = true, float _time_stop = -1f, string name = "default")
+    public void Configure(Action<float> _callback, bool _loop, bool _overload = true, float _time_stop = -1f, string name = "default", Action<float> _timingPercent = null)
     {
         callback = _callback;
         loop = _loop;
         overload = _overload;
         hastimestop = _time_stop > 0;
+        timingPercent = _timingPercent;
         if (hastimestop) time_to_stop = _time_stop;
     }
     public void ConfigureSpeedsMovements(float _goSpeedMultiplier = 1, float _backSpeedMultiplier = 1)
@@ -202,6 +204,7 @@ public class PingPongLerp
                     if (timer_stop < time_stop_back)
                     {
                         timer_stop = timer_stop + 1 * Time.deltaTime;
+                        timingPercent?.Invoke(timer_stop / time_stop_back);
                     }
                     else
                     {

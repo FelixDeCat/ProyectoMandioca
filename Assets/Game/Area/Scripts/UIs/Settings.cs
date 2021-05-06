@@ -25,7 +25,6 @@ public class Settings : MonoBehaviour
     [SerializeField] Toggle fullScreenUI = null;
     [SerializeField] TMP_Dropdown shadowsDrop = null;
     [SerializeField] TMP_Dropdown antiAliassingDrop = null;
-    [SerializeField] Toggle lightsToggle = null;
 
     [Header("Gameplay")]
     [SerializeField] CameraRotate cameraRot = null;
@@ -80,7 +79,6 @@ public class Settings : MonoBehaviour
         shadowsDrop.RefreshShownValue();
         antiAliassingDrop.value = data.antiAliassing;
         antiAliassingDrop.RefreshShownValue();
-        lightsToggle.isOn = data.lights;
 
         horSensSlider.value = data.sensHorizontal;
         verSensSlider.value = data.sensVertical;

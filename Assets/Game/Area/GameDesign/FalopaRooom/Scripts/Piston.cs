@@ -11,6 +11,8 @@ public class Piston : MonoBehaviour
     [Header("General configs")]
     [SerializeField] float speed = 1f;
     [SerializeField] protected float stay_position_time = 1f;
+    [SerializeField, Range(0, 1)] protected float percentTimeToShake = 0.7f;
+    [SerializeField] protected float shakeAmmount = 0.2f;
     [Header("Go configs")]
     [SerializeField] protected float staypositiontime_go = 1f;
     [SerializeField] protected float speed_go_multiplier = 1f;
@@ -37,6 +39,31 @@ public class Piston : MonoBehaviour
     public void StartDelayAnim()
     {
         Invoke("BeginAnimation", delayToBegin);
+    }
+
+    protected void TimingPercent(float percent)
+    {
+        if(percent >= percentTimeToShake)
+        {
+            Shake();
+        }
+        
+        if(percent >= 1)
+        {
+            StopShake();
+        }
+    }
+
+    void Shake()
+    {
+        var _randomPos = _EndPos.position + (Random.insideUnitSphere * shakeAmmount);
+
+        transform.position = _randomPos;
+    }
+
+    void StopShake()
+    {
+        ToMove.position = _EndPos.position;
     }
 
     void BeginAnimation()
