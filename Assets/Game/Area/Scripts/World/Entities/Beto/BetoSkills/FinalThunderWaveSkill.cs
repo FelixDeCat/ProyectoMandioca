@@ -20,13 +20,14 @@ public class FinalThunderWaveSkill : BossSkills, ISpawner
 
     [SerializeField] Animator anim = null;
     [SerializeField] AnimEvent animEvent = null;
+    Transform target;
 
     public override void Initialize()
     {
         base.Initialize();
         spawnModifies.Initialize(StartCoroutine);
         animEvent.Add_Callback("Spawn", Callback);
-
+        target = Main.instance.GetChar().Root;
     }
     void Callback() => spawnModifies.StartChargeFeedback(SpawnEnemies);
 
@@ -42,8 +43,8 @@ public class FinalThunderWaveSkill : BossSkills, ISpawner
 
     void SpawnEnemies()
     {
-        //EnemyBase[] enemies = ReturnArrays(lifeSystem.Life / lifeSystem.LifeMax);
-        LifePercent enemies = ReturnArrays(0.9f);
+        spot.spawnSpot.position = target.position;
+        LifePercent enemies = ReturnArrays(lifeSystem.Life / lifeSystem.LifeMax);
 
         for (int i = 0; i < enemiesDictionary[enemies].Length; i++)
         {

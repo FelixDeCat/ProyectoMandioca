@@ -13,6 +13,7 @@ public class AStarHelper : MonoBehaviour
     int maxWatchdog = 200;
 
     [SerializeField] bool activeAStar = false;
+    [SerializeField] LayerMask thetaStarMask = 2 << 0 & 16;
 
     public AStarNode GetRandomNode(AStarNode exceptWaypoint = null)
     {
@@ -122,7 +123,7 @@ public class AStarHelper : MonoBehaviour
             if (neighbour >= listVer.Count - 1) break;
             Vector3 dir = listVer[neighbour].transform.position - listVer[i].transform.position;
 
-            if (!Physics.Raycast(listVer[i].transform.position, dir.normalized, dir.magnitude, 2 << 0 & 16, QueryTriggerInteraction.Ignore))
+            if (!Physics.Raycast(listVer[i].transform.position, dir.normalized, dir.magnitude, thetaStarMask, QueryTriggerInteraction.Ignore))
             {
                 listVer.Remove(listVer[neighbour]);
                 i -= 1;
