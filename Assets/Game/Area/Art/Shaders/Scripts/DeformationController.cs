@@ -13,13 +13,9 @@ public class DeformationController : MonoBehaviour
 
     public GameObject pos;
 
+ 
 
-
-    private void Awake()
-    {
-        pos = FindObjectOfType<PosDeformation>().gameObject;
-    }
-
+  
     private void Update()
     {
         Shader.SetGlobalVector("PosPepito", pos.transform.position);
