@@ -19,6 +19,8 @@ public class FastInventory : UI_Base, IPauseable
     [SerializeField] ItemDescController controller = null;
     [SerializeField] ItemMesseage messeage = null;
 
+    [SerializeField] Tutorial_Dispatcher inventoryTuto = null;
+
     private void Awake()
     {
         instance = this;
@@ -55,6 +57,7 @@ public class FastInventory : UI_Base, IPauseable
     public void Add(Item item, int cant = 1)
     {
         string mess = "";
+        if (inventory.Count <= 0) inventoryTuto.DispatchTutorialWithDelay(1);
         if (!inventory.ContainsKey(item.id))
         {
             ItemInInventory newSlot = new ItemInInventory(item, cant);

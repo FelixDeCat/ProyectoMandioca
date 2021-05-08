@@ -34,22 +34,22 @@ namespace IA2Final.FSM
         {
             if (goDown)
             {
-                model.transform.position -= model.transform.up * speed * Time.deltaTime;
+                model.transform.localPosition -= model.transform.up * speed * Time.deltaTime;
 
                 if(model.transform.localPosition.y <= minY)
                 {
-                    model.transform.position = new Vector3(model.transform.position.x, minY, model.transform.position.z);
+                    model.transform.localPosition = new Vector3(model.transform.localPosition.x, minY, model.transform.localPosition.z);
                     goDown = false;
                     inDown = true;
                 }
             }
             else if (goUp)
             {
-                model.transform.position += model.transform.up * speed * Time.deltaTime;
+                model.transform.localPosition += model.transform.up * speed * Time.deltaTime;
 
                 if (model.transform.localPosition.y >= maxY)
                 {
-                    model.transform.position = new Vector3(model.transform.position.x, maxY, model.transform.position.z);
+                    model.transform.localPosition = new Vector3(model.transform.localPosition.x, maxY, model.transform.localPosition.z);
                     goUp = false;
                     inUp = true;
                 }
