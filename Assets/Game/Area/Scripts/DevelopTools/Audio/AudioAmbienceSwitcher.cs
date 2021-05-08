@@ -12,6 +12,9 @@ public class AudioAmbienceSwitcher : MonoBehaviour, IPauseable
     [SerializeField] AudioSource secondMusicAudio = null;
     public AudioSource ASource_Master;
     public AudioSource ASource_Slave;
+    public AudioSource BossBattleMusic;
+    [SerializeField] Sound_Lerp lerpBetweenStates = null;
+    bool inBossBattle;
 
 
     float timer;
@@ -76,10 +79,15 @@ public class AudioAmbienceSwitcher : MonoBehaviour, IPauseable
 
     public void StopAmbience()
     {
+        if (inBossBattle)
+        {
+            ASource_Master.Stop();
+            inBossBattle = false;
+        }
         if (ASource_Master.isPlaying && !change_master)
         {
             current = ASource_Master.clip;
-            ASource_Master.Play();
+            ASource_Master.Stop();
         }
         else if (ASource_Slave.isPlaying && change_master)
         {
@@ -90,6 +98,8 @@ public class AudioAmbienceSwitcher : MonoBehaviour, IPauseable
 
     public void SwitchClip(AudioClip ac)
     {
+        if (inBossBattle) return;
+
         anim = true;
         timer = 0;
 
@@ -145,6 +155,45 @@ public class AudioAmbienceSwitcher : MonoBehaviour, IPauseable
         }
     }
 
+    public void EnterOnBossBattle(bool enter, AudioClip bossMusic = null)
+    {
+        if(enter)
+        {
+            inBossBattle = true;
+            BossBattleMusic.Stop();
+            BossBattleMusic.clip = bossMusic;
+            BossBattleMusic.Play();
+            lerpBetweenStates.TransitionBetweenSnapshots(2, 2);
+            if (anim)
+            {
+                if (change_master)
+                {
+                    ASource_Master.Stop();
+                    ASource_Slave.volume = 1;
+
+                }
+                else
+                {
+                    ASource_Slave.Stop();
+                    ASource_Master.volume = 1;
+                }
+
+                timer = 0;
+                anim = false;
+            }
+        }
+        else
+        {
+            inBossBattle = false;
+            lerpBetweenStates.TransitionBetweenSnapshots(1, 2);
+        }
+    }
+
+    public void LerpMusic(int index, float speed)
+    {
+        if (inBossBattle) return;
+        lerpBetweenStates.TransitionBetweenSnapshots(index, speed);
+    }
     public void ChangeMusic(AudioClip _clip)
     {
         musicAudio.Stop();
@@ -159,7 +208,7 @@ public class AudioAmbienceSwitcher : MonoBehaviour, IPauseable
         secondMusicAudio.Play();
     }
 
-    bool[] isPaused = new bool[4];
+    bool[] isPaused = new bool[5];
 
     public void Pause()
     {
@@ -167,6 +216,7 @@ public class AudioAmbienceSwitcher : MonoBehaviour, IPauseable
         if (secondMusicAudio.isPlaying) { secondMusicAudio.Pause(); isPaused[1] = true; }
         if (ASource_Master.isPlaying) { ASource_Master.Pause(); isPaused[2] = true; }
         if (ASource_Slave.isPlaying) { ASource_Slave.Pause(); isPaused[3] = true; }
+        if (BossBattleMusic.isPlaying) { BossBattleMusic.Pause(); isPaused[4] = true; }
     }
 
     public void Resume()
@@ -175,7 +225,8 @@ public class AudioAmbienceSwitcher : MonoBehaviour, IPauseable
         if (isPaused[1]) secondMusicAudio.Play();
         if (isPaused[2]) ASource_Master.Play();
         if (isPaused[3]) ASource_Slave.Play();
+        if (isPaused[4]) BossBattleMusic.Play();
 
-        isPaused = new bool[4];
+        isPaused = new bool[5];
     }
 }

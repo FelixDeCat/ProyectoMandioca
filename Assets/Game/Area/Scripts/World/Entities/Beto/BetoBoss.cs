@@ -26,6 +26,8 @@ public class BetoBoss : EnemyBase
     [SerializeField] GenericEnemyMove obsAvoid = null;
     [SerializeField] TriggerDispatcher trigger = null;
 
+    [SerializeField] AudioClip bossBattleMusic = null;
+
     #region Properties
     public int CurrentLife { get => lifesystem.Life; }
     public string MyAbilityMostUsed { get; private set; }
@@ -60,6 +62,7 @@ public class BetoBoss : EnemyBase
         Main.instance.eventManager.SubscribeToEvent(GameEvents.ON_PLAYER_RESPAWN, ResetBossOnDead);
         onCombat = true;
         initPos = transform.position;
+        AudioAmbienceSwitcher.instance.EnterOnBossBattle(true, bossBattleMusic);
     }
 
     protected override void OnUpdateEntity()
@@ -145,11 +148,13 @@ public class BetoBoss : EnemyBase
         brain.ResetBrain();
         StopAllCoroutines();
         BossBarGeneric.Close();
+        AudioAmbienceSwitcher.instance.EnterOnBossBattle(false, bossBattleMusic);
         gameObject.SetActive(false);
     }
 
     void ResetBossOnDead()
     {
+        AudioAmbienceSwitcher.instance.EnterOnBossBattle(false, bossBattleMusic);
         trigger.gameObject.SetActive(true);
         brain.ResetBrain();
         StopAllCoroutines();

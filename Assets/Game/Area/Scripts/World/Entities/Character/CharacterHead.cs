@@ -637,7 +637,7 @@ public class CharacterHead : CharacterControllable
     {
         Main.instance.eventManager.TriggerEvent(GameEvents.COMBAT_ENTER);
         feedbacks.sounds.index = 0;
-        AudioManager.instance.getLerp().TransitionBetweenSnapshots(feedbacks.sounds.index, feedbacks.sounds.lerpSpeed);
+        AudioAmbienceSwitcher.instance.LerpMusic(feedbacks.sounds.index, feedbacks.sounds.lerpSpeed);
         Combat = true;
     }
 
@@ -645,7 +645,7 @@ public class CharacterHead : CharacterControllable
     {
         Main.instance.eventManager.TriggerEvent(GameEvents.COMBAT_EXIT);
         feedbacks.sounds.index = 1;
-        AudioManager.instance.getLerp().TransitionBetweenSnapshots(feedbacks.sounds.index, feedbacks.sounds.lerpSpeed);
+        AudioAmbienceSwitcher.instance.LerpMusic(feedbacks.sounds.index, feedbacks.sounds.lerpSpeed);
         Combat = false;
     }
 

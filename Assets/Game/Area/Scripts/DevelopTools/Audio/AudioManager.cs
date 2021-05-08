@@ -16,7 +16,6 @@ public class AudioManager : MonoBehaviour
     [SerializeField] private AudioMixerGroup _ambient_FX = null;
     [SerializeField] private AudioMixerGroup _onFightMusic = null;
     [SerializeField] private AudioMixerGroup _offFightMusic = null;
-    [SerializeField] public Sound_Lerp _soundLerp;
 
     private Dictionary<string, SoundPool> _soundRegistry = new Dictionary<string, SoundPool>();
     private Dictionary<AudioGroups, AudioMixerGroup> _audioMixers = new Dictionary<AudioGroups, AudioMixerGroup>();
@@ -28,7 +27,6 @@ public class AudioManager : MonoBehaviour
         if (instance == null) instance = this;
 
         RegisterAudioMixer();
-        _soundLerp = GetComponent<Sound_Lerp>();
     }
 
     private void RegisterAudioMixer()
@@ -118,10 +116,6 @@ public class AudioManager : MonoBehaviour
         {
             Debug.LogWarning("No tenes ese sonido en en pool");
         }
-    }
-    public Sound_Lerp getLerp()
-    {
-        return _soundLerp;
     }
     public void StopAllSounds(string soundPoolName)
     {

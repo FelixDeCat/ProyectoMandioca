@@ -27,6 +27,8 @@ public class BossModel : EnemyBase
     [SerializeField] CaronteSounds sounds = new CaronteSounds();
     [SerializeField] CaronteParticles particles = new CaronteParticles();
 
+    [SerializeField] AudioClip bossBattleMusic = null;
+
     public float yMaxPos = 10.47f;
     public float yMinPos = 5.47f;
     public float ascendSpeed = 2;
@@ -84,6 +86,7 @@ public class BossModel : EnemyBase
         Main.instance.eventManager.SubscribeToEvent(GameEvents.ON_PLAYER_RESPAWN, ResetBossOnDead);
         onCombat = true;
         initPos = transform.position;
+        AudioAmbienceSwitcher.instance.EnterOnBossBattle(true, bossBattleMusic);
     }
 
     void ShootEvent()
@@ -183,11 +186,13 @@ public class BossModel : EnemyBase
         brain.ResetBrain();
         StopAllCoroutines();
         BossBarGeneric.Close();
+        AudioAmbienceSwitcher.instance.EnterOnBossBattle(false, bossBattleMusic);
         gameObject.SetActive(false);
     }
 
     void ResetBossOnDead()
     {
+        AudioAmbienceSwitcher.instance.EnterOnBossBattle(false, bossBattleMusic);
         brain.ResetBrain();
         StopAllCoroutines();
         animator.Play("Idle");
