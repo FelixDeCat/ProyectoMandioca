@@ -53,11 +53,12 @@ public class ElectricSwordHolding : MonoBehaviour
     {
         if (!canUpdate) return;
         timer += Time.deltaTime;
-       /* if (timer >= cooldown)
+        if (timer >= cooldown)
         {
-            ExecuteLong();
+            //ExecuteLong();
+            ExecuteShort();
             canUpdate = false;
-        }*/
+        }
     }
 
     public void OnEquip()
@@ -100,8 +101,10 @@ public class ElectricSwordHolding : MonoBehaviour
 
     public void OnExecute(int charges)
     {
+        //Aca deje lo de la habilidad porque sino crashea todo si no, a ver como solucionarlo
         //if (charges == 0)
             ExecuteShort();
+        
     }
 
     void InstantiateOrb()
