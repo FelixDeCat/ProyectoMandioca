@@ -6,22 +6,26 @@ using UnityEngine.Rendering.PostProcessing;
 public class DungeonTransition : MonoBehaviour
 {
 
-    public PostProcessVolume firstZonePP;
-    public PostProcessVolume jacintaPP;
 
-   
+    public Material[] mats;
+
+    public float colorSaturation;
 
     public void Enter()
     {
-        firstZonePP.weight = 0;
-        jacintaPP.weight = 0;
+        for (int i = 0; i < mats.Length; i++)
+        {
+            mats[i].SetFloat("_ColorSaturation", colorSaturation);
+        }
 
     }
 
     public void Exit()
     {
-        firstZonePP.weight = 1;
-        jacintaPP.weight = 1;
 
+        for (int i = 0; i < mats.Length; i++)
+        {
+            mats[i].SetFloat("_ColorSaturation", 3);
+        }
     }
 }
