@@ -21,6 +21,7 @@ namespace Tools.StateMachine
         {
             charAnim.Dead(true);
             execute_timer = true;
+            Debug.Log("Entro a morir");
         }
 
         protected override void Update()

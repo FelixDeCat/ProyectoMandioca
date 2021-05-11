@@ -73,9 +73,6 @@ public class GameLoop : MonoBehaviour
         //reposiciono al character
         Checkpoint_Manager.instance.SpawnChar();
 
-        //vuelvo a targetear el char al Combat Director
-        Main.instance.GetCombatDirector().AddNewTarget(Main.instance.GetChar().transform);
-
         //esto es para que la camara se posicione directamente y no haya una transicion brusca cuando estoy prendiendo la pantalla
         Main.instance.GetMyCamera().InstantPosition();
 
@@ -87,6 +84,9 @@ public class GameLoop : MonoBehaviour
 
         //Ahora que tengo la pantalla de Juego puedo fadear la pantalla negra
         Fades_Screens.instance.FadeOff(() => { });
+
+        //vuelvo a targetear el char al Combat Director
+        Main.instance.GetCombatDirector().AddNewTarget(Main.instance.GetChar().transform);
         
         //le aviso al event manager que el player Spawneo... esto se esta usando para reiniciar a los bosses
         Main.instance.eventManager.TriggerEvent(GameEvents.ON_PLAYER_RESPAWN);
