@@ -45,7 +45,7 @@ public class EnemyArmor : MonoBehaviour
         armoredObject.RestInmuneFeedback(InvulnerabilityFeedback);
     }
 
-    void InvulnerabilityFeedback()
+    void InvulnerabilityFeedback(DamageData data)
     {
         ParticlesManager.Instance.PlayParticle(armorHitParticle.name, transform.position);
         AudioManager.instance.PlaySound(armorHitSound.name,transform);

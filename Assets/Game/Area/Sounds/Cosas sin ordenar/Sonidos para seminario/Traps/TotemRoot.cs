@@ -119,9 +119,9 @@ public class TotemRoot : Totem
         Teleport();
     }
 
-    protected override void InmuneFeedback()
+    protected override void InmuneFeedback(DamageData data)
     {
-        base.InmuneFeedback();
+        base.InmuneFeedback(data);
         InterruptCast();
         Teleport();
     }

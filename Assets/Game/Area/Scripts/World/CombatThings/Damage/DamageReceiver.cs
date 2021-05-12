@@ -18,7 +18,7 @@ public class DamageReceiver : MonoBehaviour
 
     Action<DamageData> takeDmg;
     Action<Vector3> OnDead;
-    Action InmuneFeedback;
+    Action<DamageData> InmuneFeedback;
     Action<Vector3> OwnKnockback;
     Func<bool> IsDmg;
     Transform ownerRoot;
@@ -72,13 +72,13 @@ public class DamageReceiver : MonoBehaviour
         return this;
     }
 
-    public DamageReceiver AddInmuneFeedback(Action _InmuneFeedback)
+    public DamageReceiver AddInmuneFeedback(Action<DamageData> _InmuneFeedback)
     {
         InmuneFeedback += _InmuneFeedback;
         return this;
     }
 
-    public DamageReceiver RestInmuneFeedback(Action _InmuneFeedback)
+    public DamageReceiver RestInmuneFeedback(Action<DamageData> _InmuneFeedback)
     {
         InmuneFeedback -= _InmuneFeedback;
         return this;
@@ -109,13 +109,13 @@ public class DamageReceiver : MonoBehaviour
 
         if (onlyVulnerablyTo.Count != 0 && !onlyVulnerablyTo.Contains(data.damageType))
         {
-            InmuneFeedback?.Invoke();
+            InmuneFeedback?.Invoke(data);
             return Attack_Result.inmune;
         }
 
         if (invulnerability.Contains(Damagetype.All) || invulnerability.Contains(data.damageType))
         {
-            InmuneFeedback?.Invoke();
+            InmuneFeedback?.Invoke(data);
             return Attack_Result.inmune;
         }
 

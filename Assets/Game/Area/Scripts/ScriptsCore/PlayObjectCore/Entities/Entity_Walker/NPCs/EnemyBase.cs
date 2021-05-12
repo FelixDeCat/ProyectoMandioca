@@ -53,7 +53,7 @@ public abstract class EnemyBase : NPCBase
     protected void Death(Vector3 dir) { OnDeath?.Invoke(); Die(dir);  EnemyManager.Instance.DeleteEnemy(this); }
     protected abstract void Die(Vector3 dir);
     protected abstract bool IsDamage();
-    protected virtual void InmuneFeedback() { }
+    protected virtual void InmuneFeedback(DamageData data) { }
 
     public IEnumerator OnHitted(float onHitFlashTime, Color onHitColor)
     {

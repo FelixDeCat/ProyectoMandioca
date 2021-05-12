@@ -14,6 +14,8 @@ GameObject:
   - component: {fileID: 1460758539404959312}
   - component: {fileID: 1460758539404959313}
   - component: {fileID: 1460758539404959314}
+  - component: {fileID: 8558664087478102397}
+  - component: {fileID: 8238557425041404889}
   m_Layer: 0
   m_Name: ExplosiveShroom
   m_TagString: Untagged
@@ -51,12 +53,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   poolname: 
+  isOn: 0
+  receiver: {fileID: 8238557425041404889}
+  life: {fileID: 8558664087478102397}
   damage: 5
   knockback: 500
   explosionRange: 2
   explosionDelay: 1
   delayBetweenParticleAndExplosion: 0.3
   particles: {fileID: 2355298601447959044}
+  root: {fileID: 5002034883694877047}
+  timeRotate: 2
+  rootAngle: 45
 --- !u!114 &1460758539404959316
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -81,6 +89,7 @@ MonoBehaviour:
   damageTime: 0
   attackDir: {x: 0, y: 0, z: 0}
   owner: {fileID: 0}
+  ownerRoot: {fileID: 0}
 --- !u!135 &1460758539404959312
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -141,6 +150,40 @@ MonoBehaviour:
       m_Calls: []
   receivers: []
   entitiesThatCanTrigger: 1
+--- !u!114 &8558664087478102397
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1460758539404959317}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c723e3c00a7a4d7449fa334ace120619, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  life: 100
+--- !u!114 &8238557425041404889
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1460758539404959317}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 34a4aff0c0e65c4488cc465c038877b2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  invulnerability: 05000000
+  onlyVulnerablyTo: 
+  resistances:
+    m_keys: 
+    m_values: []
+  debilities:
+    m_keys: 
+    m_values: []
+  knockbackMultiplier: 1
 --- !u!1001 &582908722837435874
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -369,6 +412,12 @@ PrefabInstance:
 --- !u!4 &9056264601108879172 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 77416923704757083, guid: 4924980d9c2449647a1772105b1e0961,
+    type: 3}
+  m_PrefabInstance: {fileID: 8988440366601247775}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &5002034883694877047 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 4167965858447115624, guid: 4924980d9c2449647a1772105b1e0961,
     type: 3}
   m_PrefabInstance: {fileID: 8988440366601247775}
   m_PrefabAsset: {fileID: 0}
