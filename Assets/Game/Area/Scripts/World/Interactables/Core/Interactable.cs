@@ -128,7 +128,6 @@ public abstract class Interactable : MonoBehaviour
     {
         if (IsUninterruptible) return;
         if (!predicate.Invoke()) return;
-        Debug.Log("Se interrumpe");
         PressUp.Invoke();
         OnInterrupt();
         currentTime = 0;

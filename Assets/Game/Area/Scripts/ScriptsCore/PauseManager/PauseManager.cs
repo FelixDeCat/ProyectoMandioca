@@ -46,6 +46,7 @@ public class PauseManager : MonoBehaviour
         canPress = false;
         inPauseHud = true;
         tutorialHud.CanOpen();
+        AudioAmbienceSwitcher.instance.Pause();
     }
 
     public void Pause()
@@ -68,6 +69,7 @@ public class PauseManager : MonoBehaviour
         pauseHud.Close();
         MyEventSystem.instance.SelectGameObject(null);
         inPauseHud = false;
+        AudioAmbienceSwitcher.instance.Resume();
     }
 
     public void Resume()

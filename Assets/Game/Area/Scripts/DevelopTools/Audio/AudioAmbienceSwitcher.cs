@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class AudioAmbienceSwitcher : MonoBehaviour, IPauseable
+public class AudioAmbienceSwitcher : MonoBehaviour
 {
     public static AudioAmbienceSwitcher instance;
     public AudioClip initial_Sound;
@@ -29,7 +29,6 @@ public class AudioAmbienceSwitcher : MonoBehaviour, IPauseable
 
     private void Start()
     {
-        PauseManager.Instance.AddToPause(this);
     }
 
     public void PlayAll()

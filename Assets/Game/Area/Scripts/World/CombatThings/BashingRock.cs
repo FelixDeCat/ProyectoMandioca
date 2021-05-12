@@ -117,7 +117,6 @@ public class BashingRock : DashBashInteract
     protected override void Push(Vector3 dir)
     {
         AudioManager.instance.PlaySound(_rollingFX.name, transform);
-        Debug.Log("golpea3");
         rb.constraints = RigidbodyConstraints.None;
         currentSpeed = minSpeed;
         pushing = true;

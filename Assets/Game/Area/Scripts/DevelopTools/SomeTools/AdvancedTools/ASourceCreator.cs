@@ -37,7 +37,7 @@ namespace Tools.Sound
             source.loop = loop;
             source.spatialBlend = 0.5f;
             source.playOnAwake = playOnAwake;
-            source.maxDistance = 50;
+            source.maxDistance = 35;
             source.minDistance = 5;
             
 
