@@ -19,13 +19,13 @@ public class PistonOneShot : Piston
     
     public override void Start()
     {
-        AudioManager.instance.GetSoundPool(timerSound.name, AudioManager.SoundDimesion.ThreeD, AudioGroups.GAME_FX, timerSound);
+        //AudioManager.instance.GetSoundPool(timerSound.name, AudioManager.SoundDimesion.ThreeD, AudioGroups.GAME_FX, timerSound);
         palanca = animPalanca.GetComponent<Palanca>();
         palanca.SetPredicate(currStatus);
 
         pingponglerp = new PingPongLerp();
         pingponglerp.Configure(AnimationResult, true, true, stay_position_time, "default", TimingPercent);
-
+        pingponglerp.SetFeedback(timerSound, 2f);
         pingponglerp.ConfigureSpeedsMovements(speed_go_multiplier, speed_back_multiplier);
         pingponglerp.ConfigueTimeStopsSides(staypositiontime_go, staypositiontime_back);
 
@@ -45,7 +45,7 @@ public class PistonOneShot : Piston
     public void StopPiston()
     {        
         StartCoroutine(pingponglerp.stopAfter(1, delayToBegin,animPalanca.AnimOff, changeInteractableStatus, onEndReach, notCanComeBack));
-        if(!notCanComeBack) AudioManager.instance.PlaySound(timerSound.name, transform);
+        if (!notCanComeBack) StartCoroutine(pingponglerp.delayForFeedback(1));
     }
 
     bool changeInteractableStatus(bool stat)

@@ -35,8 +35,10 @@ public class PingPongLerp
     bool isConstant;
     float time_stop_go;
     float time_stop_back;
-
+    AudioClip _feedback;
+    float _timerFeedBack=0;
     string name;
+    float delayToFeedback;
 
     public void Configure(Action<float> _callback, bool _loop, bool _overload = true, float _time_stop = -1f, string name = "default", Action<float> _timingPercent = null)
     {
@@ -46,6 +48,12 @@ public class PingPongLerp
         hastimestop = _time_stop > 0;
         timingPercent = _timingPercent;
         if (hastimestop) time_to_stop = _time_stop;
+    }
+    public void SetFeedback(AudioClip feedback,float _timer)
+    {
+        _feedback = feedback;
+        _timerFeedBack = _timer;
+        AudioManager.instance.GetSoundPool(_feedback.name, AudioManager.SoundDimesion.ThreeD, AudioGroups.GAME_FX, _feedback);
     }
     public void ConfigureSpeedsMovements(float _goSpeedMultiplier = 1, float _backSpeedMultiplier = 1)
     {
@@ -92,6 +100,9 @@ public class PingPongLerp
     public IEnumerator stopAfter(float num, float delay,Action act, Func<bool, bool> changeBool, UnityEvent onReachEnd, bool notCanBack = false)
     {
         yield return new WaitForSeconds(delay);
+       
+            
+       
         changeBool.Invoke(false);
         Play(num);
         float aux = 0;
@@ -215,5 +226,19 @@ public class PingPongLerp
 
             }
         }
+    }
+    public IEnumerator delayForFeedback(int delay)
+    {
+        yield return new WaitForSeconds(time_stop_back - _timerFeedBack);
+        if (_feedback)
+        {
+            AudioManager.instance.PlaySound(_feedback.name);
+            Debug.Log("llego");
+            Debug.Log(_timerFeedBack);
+        }
+        yield return new WaitForSeconds(_timerFeedBack+delay);
+        if(_feedback)
+            AudioManager.instance.StopAllSounds(_feedback.name);
+
     }
 }
