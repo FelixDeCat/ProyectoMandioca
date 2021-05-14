@@ -11,6 +11,15 @@ public class DungeonTransition : MonoBehaviour
 
     public float colorSaturation;
 
+    private void Awake()
+    {
+        for (int i = 0; i < mats.Length; i++)
+        {
+            mats[i].SetFloat("_ColorSaturation", 3);
+        }
+    }
+
+
     public void Enter()
     {
         for (int i = 0; i < mats.Length; i++)
