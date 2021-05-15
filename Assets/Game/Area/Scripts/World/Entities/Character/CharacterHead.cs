@@ -214,11 +214,11 @@ public class CharacterHead : CharacterControllable
         {
             charAttack.Remove_callback_Heavy_attack(ReleaseInHeavy);
 
-            charAttack.Add_callback_Heavy_attack(()=> charanim.HeavyAttack());
+            charAttack.Add_callback_Heavy_attack(() => charanim.HeavyAttack());
             charAttack.Add_callback_Heavy_attack(() => ResetCombo());
             combo_system.RemoveCallback_OnExecuteCombo(charAttack.ForceHeavyFeedback);
         }
-        charAttack.ChangeHeavyAttackMove(heavyAttackMove);       
+        charAttack.ChangeHeavyAttackMove(heavyAttackMove);
     }
 
     public void StopMovement() { move.MovementHorizontal(0); move.MovementVertical(0); }
@@ -720,7 +720,7 @@ public class CharacterHead : CharacterControllable
         shieldAbilityOnCharge = onCharge;
         stateMachine.SendInput(PlayerInputs.CHARGE_SHIELD_ABILITY);
     }
-  
+
     Action shieldAbilityOnRelease;
     public void ShieldAbilityRelease(Action abilityOnRelease = null)
     {
@@ -729,7 +729,7 @@ public class CharacterHead : CharacterControllable
     }
 
     public bool CheckStateMachinInput(PlayerInputs input) => stateMachine.CanTransition(input);
-   
+
     #endregion
 
     #region Sword Ability
@@ -747,13 +747,13 @@ public class CharacterHead : CharacterControllable
         speedChange = speed;
         stateMachine.SendInput(PlayerInputs.START_ACTIVE);
     }
-   
+
     Action swordAbilityOnRelease;
     public void SwordAbilityRelease(Action swordAbilityRelease = null)
     {
         swordAbilityOnRelease = swordAbilityRelease;
         stateMachine.SendInput(PlayerInputs.RELEASE_ACTIVE);
-    }  
+    }
     #endregion
 
     #region Pause & Resume
@@ -816,7 +816,7 @@ public class CharacterHead : CharacterControllable
         Main.instance.Vibrate(0.7f, 0.1f);
         Main.instance.CameraShake();
         //Debug.Log("DEAL SUCCESSFUL NORMAL");
-        combo_system.TryAddHit();        
+        combo_system.TryAddHit();
     }
     void DealSucessfullHeavy()
     {
@@ -912,7 +912,8 @@ public class CharacterHead : CharacterControllable
     public EntityBlock GetCharBlock() => charBlock;
     public void AddParry(Action listener) => charBlock.callback_OnParry += listener;
     public void RemoveParry(Action listener) => charBlock.callback_OnParry -= listener;
-    public void PerfectParry() {
+    public void PerfectParry()
+    {
         feedbacks.particles.parryParticle.Play();
         stateMachine.SendInput(PlayerInputs.PARRY);
         comboParryForAbility.TryAddHit();
@@ -1058,7 +1059,14 @@ public class CharacterHead : CharacterControllable
 
         combo_system.TryExecuteCombo();
     }
+    public void UNITY_EVENT_OnInteractUp()
+    {
+        sensor.OnInteractUp();
+        charanim.SetInteract(false, 0);
+    }
+    #endregion
 
+    #region Inventory
     public void UNITY_EVENT_OpenInventory()
     {
         var b = !FastInventory.instance.IsOpen;
@@ -1067,12 +1075,6 @@ public class CharacterHead : CharacterControllable
 
         if (b) FastInventory.instance.RefreshScreen();
         else FastInventory.instance.CloseScreen();
-    }
-
-    public void UNITY_EVENT_OnInteractUp()
-    {
-        sensor.OnInteractUp();
-        charanim.SetInteract(false, 0);
     }
     #endregion
 

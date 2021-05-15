@@ -5,8 +5,8 @@ using UnityEngine.Events;
 public class InteractableTeleport : Interactable
 {
     public enum TeleportType { change_posicional, change_scene }
+    [Header("--- Teleport Settings ---")]
     public TeleportType teleportType;
-    [Header("Teleport Settings")]
     public string titulo = "Teleport";
     public string interactInfo = "Entrar";
     [Multiline(10)]
@@ -17,29 +17,33 @@ public class InteractableTeleport : Interactable
     public string sceneToChange;
     public bool UseLocalSceneStreamer;
 
+    bool Oneshot;
     
     public override void OnExecute(WalkingEntity entity)
     {
-        if (teleportType == TeleportType.change_posicional)
+        if (!Oneshot)
         {
+            Oneshot = true;
+            if (teleportType == TeleportType.change_posicional)
+            {
+                if (!UseLocalSceneStreamer)
+                {
+                    Main.instance.GetChar().GetCharMove().StopDamageFall();
+                    Main.instance.GetChar().transform.position = transform_destino.position;
+                }
+                else
+                {
+                    Fades_Screens.instance.Black();
+                    Fades_Screens.instance.FadeOff(() => { });
+                    LoadSceneHandler.instance.On_LoadScreen();
+                    GameLoop.instance.StopGame();
+                    NewSceneStreamer.instance.LoadScene(sceneToChange, EndLoad);
+                }
+            }
+            if (teleportType == TeleportType.change_scene) Fades_Screens.instance.FadeOn(On_FadeOn_Ended);
 
-            if (!UseLocalSceneStreamer)
-            {
-                Main.instance.GetChar().GetCharMove().StopDamageFall();
-                Main.instance.GetChar().transform.position = transform_destino.position;
-            }
-            else
-            {
-                Fades_Screens.instance.Black();
-                Fades_Screens.instance.FadeOff(() => { });
-                LoadSceneHandler.instance.On_LoadScreen();
-                GameLoop.instance.StopGame();
-                NewSceneStreamer.instance.LoadScene(sceneToChange, EndLoad);
-            }
+            ReturnToCanExecute();
         }
-        if (teleportType == TeleportType.change_scene) Fades_Screens.instance.FadeOn(On_FadeOn_Ended);
-
-        ReturnToCanExecute();
     }
     void EndLoad()
     {
@@ -60,7 +64,7 @@ public class InteractableTeleport : Interactable
     {
     }
 
-    public override void OnExit(WalkingEntity collector) => WorldItemInfo.instance.Hide();
+    public override void OnExit(WalkingEntity collector) { WorldItemInfo.instance.Hide(); Oneshot = false; } 
     public override void OnEnter(WalkingEntity entity)
     {
         if (mostrar_cartelito)

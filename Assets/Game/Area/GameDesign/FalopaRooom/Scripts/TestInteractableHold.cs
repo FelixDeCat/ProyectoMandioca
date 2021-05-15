@@ -39,7 +39,6 @@ public class TestInteractableHold : Interactable
         {
             oneshot = true;
             _executeAction();
-            
         }
     }
 

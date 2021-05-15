@@ -7,7 +7,7 @@ using UnityEngine.Events;
 [SerializeField]
 public abstract class Interactable : MonoBehaviour
 {
-    [Header("Interactable Settings")]
+    [Header("--- Interactable Settings ---")]
     public float distancetoInteract = 1f;
     public bool autoexecute;
     bool autoexe_in_CD = false;
@@ -25,7 +25,6 @@ public abstract class Interactable : MonoBehaviour
     public bool CanInteract { get { return can_interact; } }
 
     public bool IsUninterruptible;
-
 
     public UnityEvent UE_OnEnter;
     public UnityEvent UE_OnExit;
@@ -83,7 +82,7 @@ public abstract class Interactable : MonoBehaviour
                 autoexe_in_CD = true;
                 timer_cd = 0;
                 executing = true;
-                Main.instance.eventManager.TriggerEvent(GameEvents.DELETE_INTERACTABLE, this);
+                InteractSensor.Remove_Interactable(this);
                 OnExecute(entity);
                 if (feedback.Length > 0) foreach (var fdbck in feedback) fdbck.Hide();
             }
@@ -97,7 +96,7 @@ public abstract class Interactable : MonoBehaviour
     public void ReturnToCanExecute()
     {
         executing = false;
-        Main.instance.eventManager.TriggerEvent(GameEvents.ADD_INTERACTABLE, this);
+        InteractSensor.Add_Interactable(this);
     }
 
     public void SetCanInteract(bool _caninteract, bool back_with_timer = false)
@@ -167,7 +166,7 @@ public abstract class Interactable : MonoBehaviour
             else
             {
                 executing = true;
-                Main.instance.eventManager.TriggerEvent(GameEvents.DELETE_INTERACTABLE, this);
+                InteractSensor.Remove_Interactable(this);
                 if (feedback.Length > 0) foreach (var fdbck in feedback) fdbck.Hide();
                 OnExecute(currentCollector);
                 currentTime = 0;
@@ -185,6 +184,8 @@ public abstract class Interactable : MonoBehaviour
     {
         if (drawGizmos) Gizmos.DrawWireSphere(transform.position, distancetoInteract);
     }
+
+    public Vector3 Position => transform.position;
 
 
     [System.Serializable]

@@ -13,23 +13,23 @@ public class Debug_Interactables : SingleObjectPool<GenericLabel>
 
     private void Update()
     {
-        var interacts = sensor.Interacts;
-        if (interacts == null) return;
-        text.text = "";
+        //var interacts = sensor.interactables;
+        //if (interacts == null) return;
+        //text.text = "";
 
-        for (int i = 0; i < interacts.Count; i++)
-        {
-            if (interacts[i] == null) return;
+        //for (int i = 0; i < interacts.Count; i++)
+        //{
+        //    if (interacts[i] == null) return;
 
-            if (interacts[i].Equals(sensor.Most_Close))
-            {
-                text.text += "<color=\"red\">" + interacts[i].gameObject.name + "</color> \n";
-            }
-            else
-            {
-                text.text += "<color=\"white\">" + interacts[i].gameObject.name + "</color> \n";
-            }
-        }
+        //    if (interacts[i].Equals(sensor.Most_Close))
+        //    {
+        //        text.text += "<color=\"red\">" + interacts[i].gameObject.name + "</color> \n";
+        //    }
+        //    else
+        //    {
+        //        text.text += "<color=\"white\">" + interacts[i].gameObject.name + "</color> \n";
+        //    }
+        //}
     }
 
     //public ScreamItemWorld GetScream()

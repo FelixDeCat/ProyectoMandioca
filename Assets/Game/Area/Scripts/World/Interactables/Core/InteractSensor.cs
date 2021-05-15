@@ -7,10 +7,12 @@ using System.Linq;
 
 public class InteractSensor : MonoBehaviour
 {
-    public bool isclose;
+    #region static Instance
+    public static InteractSensor instance;
+    private void Awake() => instance = this;
+    #endregion
 
-    public List<Interactable> interactables = new List<Interactable>();
-    public List<Interactable> Interacts { get { return interactables; } }
+    public HashSet<Interactable> interactables = new HashSet<Interactable>();
     Interactable current;
 
     Interactable most_close;
@@ -19,31 +21,30 @@ public class InteractSensor : MonoBehaviour
     [SerializeField] WalkingEntity collector = null;
 
     bool buttonPressing;
+    bool isclose;
 
     private void Start()
     {
         Main.instance.eventManager.SubscribeToEvent(GameEvents.INTERACTABLES_INITIALIZE, AddInteractStart);
-        Main.instance.eventManager.SubscribeToEvent(GameEvents.DELETE_INTERACTABLE, RemoveToInteractables);
-        Main.instance.eventManager.SubscribeToEvent(GameEvents.ADD_INTERACTABLE, AddOneInteract);
     }
 
     void AddInteractStart()
     {
-        interactables = FindObjectsOfType<Interactable>().ToList();
+        interactables = FindObjectsOfType<Interactable>().ToHashSet();
     }
 
-    void AddOneInteract(params object[] interact)
-    {
-        Interactable _interact = (Interactable)interact[0];
-        if (!interactables.Contains(_interact)) interactables.Add(_interact);
-    }
+    #region [EXPOSED] public Statics
+    public static void Add_Interactable     (Interactable interactable)     => instance.AddInter(interactable);
+    public static void Remove_Interactable  (Interactable interactable)     => instance.RemoveInter(interactable);
+    public static Vector3 TargetPosition                                    => instance.transform.position;
+    #endregion
 
-    public void RemoveToInteractables(params object[] interact)
-    {
-        Interactable _interact = (Interactable)interact[0];
-        if (interactables.Contains(_interact)) interactables.Remove(_interact);
-    }
+    #region [LOGIC] Add & Remove
+    void AddInter(Interactable interactable) => interactables.Add(interactable);
+    void RemoveInter(Interactable interactable) => interactables.Remove(interactable);
+    #endregion
 
+    #region INPUT > DOWN & UP
     public Interactable OnInteractDown()
     {
         if (!can_interact) return null;
@@ -69,21 +70,25 @@ public class InteractSensor : MonoBehaviour
         calculate_fast_recollection = false;
         timerfastrec = 0;
     }
+    #endregion
 
-    public void Dissappear(Interactable _interact)
+    public void Dissappear(Interactable interact)
     {
         //most_close.Exit();
         most_close = null;
 
-        RemoveToInteractables(_interact);
+        RemoveInter(interact);
+
         most_close = interactables.ReturnMostClose(transform.position, x => x.CanInteract);
-        Debug.Log("si entro");
-        if (most_close != null && I_Have_Good_Distace_To_Interact())
+
+        if (most_close != null)
         {
-            Debug.Log(most_close.name);
-            ContextualBarSimple.instance.Show();
-            ContextualBarSimple.instance.Set_Sprite_Button_Custom(InputImageDatabase.InputImageType.interact);
-            most_close.Enter(collector);
+            if (most_close.InDistance())
+            {
+                ContextualBarSimple.instance.Show();
+                ContextualBarSimple.instance.Set_Sprite_Button_Custom(InputImageDatabase.InputImageType.interact);
+                most_close.Enter(collector);
+            }
         }
         else
         {
@@ -99,7 +104,7 @@ public class InteractSensor : MonoBehaviour
 
     private void Update()
     {
-        if (!can_interact) return;
+        if (!can_interact) return; //esto venia de los menues
         isclose = false;
         Update_CheckFastRecollection();
         Update_CooldownNextRecollection();
@@ -107,20 +112,19 @@ public class InteractSensor : MonoBehaviour
         //buscamos los interactuables
         //interactables = FindObjectsOfType<Interactable>().ToList();//hay que optimizar esto, es muy pesado un findobject en un Update
         List<Interactable> filtered = new List<Interactable>();
-
-        for (int i = 0; i < interactables.Count; i++)
+        List<Interactable> interactables_list = new List<Interactable>(interactables);
+        for (int i = 0; i < interactables_list.Count; i++)
         {
-            if (interactables[i].autoexecute && Vector3.Distance(interactables[i].transform.position, transform.position) < interactables[i].distancetoInteract)
+            if (interactables_list[i].autoexecute && interactables_list[i].InDistance())
             {
-                interactables[i].Execute(collector);
+                interactables_list[i].Execute(collector);
                 can_show_info = true;
             }
             else
             {
-                filtered.Add(interactables[i]);
+                filtered.Add(interactables_list[i]);
             }
         }
-
         if (filtered.Count == 0) { return; }
         if (filtered.Count == 1) current = filtered[0];
         else current = filtered.ReturnMostClose(transform.position, x => x.CanInteract);//esto tambien se puede optimizar mas a delante con un return most close que busque por grupos
@@ -144,7 +148,7 @@ public class InteractSensor : MonoBehaviour
         //ahora...
 
 
-        if (I_Have_Good_Distace_To_Interact())
+        if (most_close.InDistance())
         {
 
             if(isExit && buttonPressing) most_close.Execute(collector);
@@ -231,7 +235,9 @@ public class InteractSensor : MonoBehaviour
         }
     }
 
-    bool I_Have_Good_Distace_To_Interact() { return Vector3.Distance(most_close.transform.position, transform.position) < most_close.distancetoInteract; }
+}
 
-
+internal static class InteractExtensions
+{
+    internal static bool InDistance(this Interactable i) { return Vector3.Distance(i.Position, InteractSensor.TargetPosition) < i.distancetoInteract; }
 }
