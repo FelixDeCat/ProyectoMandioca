@@ -31,6 +31,7 @@ public class GameEvents
     public const string INTERACTABLES_INITIALIZE = "InteractablesInitialize";
     public const string DELETE_INTERACTABLE = "DeleteInteractable";
     public const string ADD_INTERACTABLE = "AddInteractable";
+    public const string CARONTE_DEFEAT_IN_JOJO_DUNGEON = "CaronteDefeat";
 
     public const string CHANGE_INPUT = "ChangeInput";
 }

@@ -12,7 +12,7 @@ public class Brazalete_event : MonoBehaviour, ISpawner, IPauseable, IScriptedEve
     [Header("Characters")]
     [SerializeField] GameObject beto = null;
     [SerializeField] GameObject atenea = null;
-    [SerializeField] GameObject brazalete = null;
+    //[SerializeField] GameObject brazalete = null;
 
     Animator betoAnim;
     Animator ateneaAnim;
@@ -24,10 +24,10 @@ public class Brazalete_event : MonoBehaviour, ISpawner, IPauseable, IScriptedEve
     [Header("Movement Settings")]
     [SerializeField] Transform flyingPos = null;
     [SerializeField] Transform getAway_pos = null;
-    [SerializeField] Transform brazaletDrop_pos = null;
+   // [SerializeField] Transform brazaletDrop_pos = null;
     [SerializeField] Transform ateneaFinal_pos = null;
     Transform currentPlaceToGo_beto;
-    Transform currentPlaceToGo_brazalete;
+    //Transform currentPlaceToGo_brazalete;
     Transform currentPlaceToGo_atenea;
     [SerializeField] float betoSpeed;
 
@@ -61,7 +61,7 @@ public class Brazalete_event : MonoBehaviour, ISpawner, IPauseable, IScriptedEve
 
     [Header("Particles")]
     [SerializeField] ParticleSystem ateneaAtaque = null;
-    [SerializeField] ParticleSystem brazaletPart = null;
+    //[SerializeField] ParticleSystem brazaletPart = null;
 
 
     //Reset things
@@ -76,7 +76,11 @@ public class Brazalete_event : MonoBehaviour, ISpawner, IPauseable, IScriptedEve
 
     void Start()
     {
-        
+
+
+        ateneaDialogue_ground.gameObject.SetActive(false);
+
+
         wave_handler.Init();
         totemFeedback.Initialize(StartCoroutine);
 
@@ -95,7 +99,7 @@ public class Brazalete_event : MonoBehaviour, ISpawner, IPauseable, IScriptedEve
         var _animAtenea = atenea.GetComponentInChildren<AnimEvent>();
         _animAtenea.Add_Callback("ateneaAttack", OnExecuteAteneaAttack);
 
-        brazalete.SetActive(false);     
+       // brazalete.SetActive(false);     
     }
 
     void SetResetThings()
@@ -139,11 +143,11 @@ public class Brazalete_event : MonoBehaviour, ISpawner, IPauseable, IScriptedEve
 
         void BrazaleteDrop()
         {
-            brazalete.transform.position = beto.transform.position;
-            brazalete.gameObject.SetActive(true);
-            brazalete.GetComponent<Interactable>().CanInteractAgain();
-            brazaletPart.Play();
-            currentPlaceToGo_brazalete = brazaletDrop_pos;          
+            //brazalete.transform.position = beto.transform.position;
+           // brazalete.gameObject.SetActive(true);
+            //brazalete.GetComponent<Interactable>().CanInteractAgain();
+            //brazaletPart.Play();
+           // currentPlaceToGo_brazalete = brazaletDrop_pos;          
         }
 
         timer.AddCD("betoEsGolpeado", () => { BetoGetDamaged(); BrazaleteDrop(); }, 2);
@@ -326,7 +330,7 @@ public class Brazalete_event : MonoBehaviour, ISpawner, IPauseable, IScriptedEve
 
         BetoMove();
 
-        BrazaleteMove();
+       // BrazaleteMove();
         AteneaMove();
     }
 
@@ -350,19 +354,19 @@ public class Brazalete_event : MonoBehaviour, ISpawner, IPauseable, IScriptedEve
 
     void BrazaleteMove()
     {
-        if (currentPlaceToGo_brazalete == null) return;
+        //if (currentPlaceToGo_brazalete == null) return;
 
-        var dir = (currentPlaceToGo_brazalete.position - brazalete.transform.position).normalized;
+        //var dir = (currentPlaceToGo_brazalete.position - brazalete.transform.position).normalized;
 
-        if (Vector3.Distance(brazalete.transform.position, currentPlaceToGo_brazalete.position) >= .5f)
-        {
-            brazalete.transform.position += dir * 3 * Time.deltaTime;
-        }
-        else
-        {
-            brazalete.transform.position = currentPlaceToGo_brazalete.position;
-            currentPlaceToGo_brazalete = null;
-        }
+        //if (Vector3.Distance(brazalete.transform.position, currentPlaceToGo_brazalete.position) >= .5f)
+        //{
+        //    brazalete.transform.position += dir * 3 * Time.deltaTime;
+        //}
+        //else
+        //{
+        //    brazalete.transform.position = currentPlaceToGo_brazalete.position;
+        //    currentPlaceToGo_brazalete = null;
+        //}
     }
 
     void AteneaMove()
@@ -413,7 +417,7 @@ public class Brazalete_event : MonoBehaviour, ISpawner, IPauseable, IScriptedEve
         Debug.Log("Reseteo el evento del brazalete");
         PauseManager.Instance.RemoveToPause(this);
         initTrigger.SetActive(true);
-        brazalete.SetActive(false);
+        //brazalete.SetActive(false);
         atenea.SetActive(false);
         eventOn = false;
         atenea.transform.position = originalAtenea_Pos;
