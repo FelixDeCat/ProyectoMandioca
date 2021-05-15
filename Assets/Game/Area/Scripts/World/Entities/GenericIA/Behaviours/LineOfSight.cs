@@ -17,6 +17,7 @@ public class LineOfSight : MonoBehaviour
 
     public LayerMask layermask;
     public Vector3 offset;
+    public Vector3 targetOffset;
 
     public void Configurate(Transform _mytransform)
     {
@@ -28,22 +29,25 @@ public class LineOfSight : MonoBehaviour
         target = null;
     }
 
-    public bool OnSight(Transform _target)
+    public bool OnSight(Transform _target, float viewDis = 0, float angle = 0)
     {
+        viewDis = viewDis == 0 ? viewDistance : viewDis;
+        angle = angle == 0 ? viewAngle : angle;
+
         target = _target;
         _distanceToTarget = Vector3.Distance(myTransform.position, target.position);
-        if (_distanceToTarget > viewDistance) return false;
+        if (_distanceToTarget > viewDis) return false;
 
-        _directionToTarget = target.position - myTransform.position;
+        _directionToTarget = target.position + targetOffset - myTransform.position;
         _directionToTarget.Normalize();
 
         _angleToTarget = Vector3.Angle(myTransform.forward, _directionToTarget);
-        if (_angleToTarget <= viewAngle)
+        if (_angleToTarget <= angle)
         {
             RaycastHit raycastInfo;
             bool obstaclesBetween = true;
 
-            if (Physics.Raycast(myTransform.position + offset , _directionToTarget , out raycastInfo, viewDistance, layermask, QueryTriggerInteraction.Ignore))
+            if (Physics.Raycast(myTransform.position + offset , _directionToTarget , out raycastInfo, viewDis, layermask, QueryTriggerInteraction.Ignore))
             {
                 if (raycastInfo.transform == _target)
                     obstaclesBetween = false;

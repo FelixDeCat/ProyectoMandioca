@@ -56,6 +56,7 @@ public class JabaliEnemy : EnemyWithCombatDirector
     [SerializeField] EffectBase petrifyEffect = null;
     [SerializeField] GoatParticles particles = new GoatParticles();
     [SerializeField] GoatSounds sounds = new GoatSounds();
+    float lineOfSightTimer;
 
     [Serializable] public class GoatParticles
     {
@@ -130,7 +131,11 @@ public class JabaliEnemy : EnemyWithCombatDirector
         {
             if (combatElement.Target != null && combatElement.Combat)
             {
-                if (Vector3.Distance(combatElement.Target.position, transform.position) > combatDistance + 2)
+                if (!lineOfSight.OnSight(combatElement.Target, combatDistance, 360))
+                    lineOfSightTimer += Time.deltaTime;
+                else
+                    lineOfSightTimer = 0;
+                if (lineOfSightTimer >= 3)
                 {
                     combatElement.ExitCombat();
                 }
@@ -138,7 +143,8 @@ public class JabaliEnemy : EnemyWithCombatDirector
 
             if (!combatElement.Combat && combatElement.Target == null && !friendly)
             {
-                if (Vector3.Distance(Main.instance.GetChar().transform.position, transform.position) <= combatDistance)
+                var possibleTarget = Main.instance.GetChar().transform;
+                if (lineOfSight.OnSight(possibleTarget, combatDistance, 360))
                 {
                     combatElement.EnterCombat(Main.instance.GetChar().transform);
                 }
@@ -401,7 +407,7 @@ public class JabaliEnemy : EnemyWithCombatDirector
         new JabaliIdle(idle, sm, movement, distanceToCharge, distancePos, normalDistance, IsChargeOk).SetThis(combatElement).SetDirector(director)
             .SetRoot(rootTransform);
 
-        new JabaliPersuit(persuit, sm, movement, lineOfSight.OnSight, IsChargeOk, normalDistance, distancePos, distanceToCharge).SetAnimator(animator)
+        new JabaliPersuit(persuit, sm, movement, (x) => lineOfSight.OnSight(x), IsChargeOk, normalDistance, distancePos, distanceToCharge).SetAnimator(animator)
             .SetThis(combatElement).SetRoot(rootTransform);
 
         new JabaliChasing(chasing, sm, ()=>combatElement.Attacking, IsChargeOk, distanceToCharge, distancePos, movement).SetDirector(director).SetThis(combatElement).SetRoot(rootTransform);

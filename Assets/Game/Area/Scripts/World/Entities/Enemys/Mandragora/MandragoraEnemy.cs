@@ -14,6 +14,7 @@ public class MandragoraEnemy : EnemyWithCombatDirector
 
     [Header("Combat Options")]
     [SerializeField] CombatComponent combatComponent = null;
+    [SerializeField] LineOfSight lineOfSight = null;
     [SerializeField] int damage = 2;
     [SerializeField] float normalDistance = 8;
     [SerializeField] float cdToAttack = 1;
@@ -42,7 +43,8 @@ public class MandragoraEnemy : EnemyWithCombatDirector
     [SerializeField] Color onHitColor = Color.white;
     [SerializeField] float onHitFlashTime = 0.1f;
     [SerializeField] RagdollComponent ragdoll = null;
-    
+
+    float lineOfSightTimer;
     EventStateMachine<MandragoraInputs> sm;
 
     public MandragoraParticles particles;
@@ -83,6 +85,8 @@ public class MandragoraEnemy : EnemyWithCombatDirector
         anim.Add_Callback("DealDamage", DealDamage);
         anim.Add_Callback("SpawnEnemy", SpawnBrothers);
         movement.Configure(rootTransform, rb, groundSensor);
+        lineOfSight.Configurate(rootTransform);
+        lineOfSight.viewDistance = combatDistance;
 
         StartDebug();
 
@@ -173,7 +177,11 @@ public class MandragoraEnemy : EnemyWithCombatDirector
             {
                 if (combatElement.Target != null && combatElement.Combat)
                 {
-                    if (Vector3.Distance(combatElement.Target.position, transform.position) > combatDistance + 2)
+                    if (!lineOfSight.OnSight(combatElement.Target))
+                        lineOfSightTimer += Time.deltaTime;
+                    else
+                        lineOfSightTimer = 0;
+                    if (lineOfSightTimer >= 3)
                     {
                         combatElement.ExitCombat();
                     }
@@ -181,7 +189,8 @@ public class MandragoraEnemy : EnemyWithCombatDirector
 
                 if (!combatElement.Combat && combatElement.Target == null)
                 {
-                    if (Vector3.Distance(Main.instance.GetChar().transform.position, transform.position) <= combatDistance)
+                    var possibleTarget = Main.instance.GetChar().transform;
+                    if (lineOfSight.OnSight(possibleTarget))
                     {
                         combatElement.EnterCombat(Main.instance.GetChar().transform);
                     }

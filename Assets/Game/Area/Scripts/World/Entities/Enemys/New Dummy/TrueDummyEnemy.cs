@@ -13,6 +13,7 @@ public class TrueDummyEnemy : EnemyWithCombatDirector
 
     [Header("Combat Options")]
     [SerializeField] CombatComponent combatComponent = null;
+    [SerializeField] LineOfSight lineOfSight = null;
     [SerializeField] int damage = 2;
     [SerializeField] float normalDistance = 8;
     [SerializeField] float cdToAttack = 1;
@@ -39,6 +40,7 @@ public class TrueDummyEnemy : EnemyWithCombatDirector
 
     public DataBaseDummyParticles particles;
     public DummyAudioClipsDataBase sounds;
+    float lineOfSightTimer;
 
     [System.Serializable]
     public class DataBaseDummyParticles
@@ -103,8 +105,10 @@ public class TrueDummyEnemy : EnemyWithCombatDirector
         rb = GetComponent<Rigidbody>();
         combatComponent.Configure(AttackEntity);
         anim.Add_Callback("DealDamage", DealDamage);
+        lineOfSight.Configurate(rootTransform);
         anim.Add_Callback("WarningAttack", WarningAttackParticle);
         movement.Configure(rootTransform, rb, groundSensor);
+        lineOfSight.viewDistance = combatDistance;
 
         StartDebug();
 
@@ -151,7 +155,11 @@ public class TrueDummyEnemy : EnemyWithCombatDirector
         {
             if (combatElement.Target != null && combatElement.Combat)
             {
-                if (Vector3.Distance(combatElement.Target.position, transform.position) > combatDistance + 2)
+                if (!lineOfSight.OnSight(combatElement.Target))
+                    lineOfSightTimer += Time.deltaTime;
+                else
+                    lineOfSightTimer = 0;
+                if (lineOfSightTimer >= 3)
                 {
                     combatElement.ExitCombat();
                 }
@@ -159,7 +167,8 @@ public class TrueDummyEnemy : EnemyWithCombatDirector
 
             if (!combatElement.Combat && combatElement.Target == null)
             {
-                if (Vector3.Distance(Main.instance.GetChar().transform.position, transform.position) <= combatDistance)
+                var possibleTarget = Main.instance.GetChar().transform;
+                if (lineOfSight.OnSight(possibleTarget))
                 {
                     combatElement.EnterCombat(Main.instance.GetChar().transform);
                 }

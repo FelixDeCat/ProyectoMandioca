@@ -292,9 +292,9 @@ public class CrowEnemy : EnemyWithCombatDirector
 
         var head = Main.instance.GetChar();
 
-        new CrowIdle(idle, sm, distancePos, rotationSpeed, combatElement, lineOfSight.OnSight, () => stopCD).SetRoot(rootTransform).SetDirector(director);
+        new CrowIdle(idle, sm, distancePos, rotationSpeed, combatElement, (x) => lineOfSight.OnSight(x), () => stopCD).SetRoot(rootTransform).SetDirector(director);
 
-        new CrowChasing(chasing, sm, () => combatElement.Attacking, distancePos, rotationSpeed, combatElement, lineOfSight.OnSight).SetDirector(director).SetRoot(rootTransform).SetAnimator(animator);
+        new CrowChasing(chasing, sm, () => combatElement.Attacking, distancePos, rotationSpeed, combatElement, (x) => lineOfSight.OnSight(x)).SetDirector(director).SetRoot(rootTransform).SetAnimator(animator);
 
         new CrowAttack(attack, sm, () => castPartTemp = ParticlesManager.Instance.PlayParticle(particles.castParticles.name, shootPivot.position, CastOver, shootPivot),
             () => castingOver, (x) => { castingOver = x; cdModule.AddCD("canAttack", () => stopCD = true, cdToCast);  stopCD = x; }, combatElement, rotationSpeed)
