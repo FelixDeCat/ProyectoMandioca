@@ -58,6 +58,7 @@ public class ElectricSwordHolding : MonoBehaviour
             //ExecuteLong();
             ExecuteShort();
             canUpdate = false;
+            timer = 0;
         }
     }
 
