@@ -6,13 +6,19 @@ public class Tutorial_Dispatcher : MonoBehaviour
 {
     [SerializeField] TutorialSettings settings = null;
     bool alreadyDelay;
+    [SerializeField] AudioClip _feedBack;
 
+    private void Start()
+    {
+        AudioManager.instance.GetSoundPool(_feedBack.name, AudioManager.SoundDimesion.ThreeD, AudioGroups.GAME_FX, _feedBack);
+    }
     public void DispatchTutorial()
     {
         if (settings == null || alreadyDelay) return;
         Tutorial_UIController.instance.SetNewTutorial(settings);
         enabled = false;
         settings = null;
+        AudioManager.instance.PlaySound(_feedBack.name);
     }
 
     public void DispatchTutorialWithDelay(float delay)
@@ -29,5 +35,6 @@ public class Tutorial_Dispatcher : MonoBehaviour
         Tutorial_UIController.instance.SetNewTutorial(settings);
         enabled = false;
         settings = null;
+        AudioManager.instance.PlaySound(_feedBack.name);
     }
 }

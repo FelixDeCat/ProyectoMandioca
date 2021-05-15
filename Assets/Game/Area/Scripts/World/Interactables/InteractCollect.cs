@@ -17,13 +17,15 @@ public class InteractCollect : Interactable
 
     public UnityEvent to_collect;
     public UnityEvent OnCreate;
-
+    [SerializeField] AudioClip _feedBack;
     protected bool destroy_on_collect = true;
 
     private void Awake()
     {
         recolector_anim = GetComponent<Item_animRecolect>();
         if (recolector_anim != null) canrecolectoranim = true;
+        if (_feedBack)
+            AudioManager.instance.GetSoundPool(_feedBack.name, AudioManager.SoundDimesion.TwoD, AudioGroups.GAME_FX, _feedBack);
     }
     public void OnAppearInScene()
     {
@@ -53,6 +55,8 @@ public class InteractCollect : Interactable
 
     void Collect(WalkingEntity collector)
     {
+        if (_feedBack)
+            AudioManager.instance.PlaySound(_feedBack.name, transform);
         collector.OnReceiveItem(this);
         to_collect.Invoke();
         if (destroy_on_collect) Destroy(this.gameObject);

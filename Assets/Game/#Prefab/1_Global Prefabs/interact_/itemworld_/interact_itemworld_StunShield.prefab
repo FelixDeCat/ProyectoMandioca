@@ -392,6 +392,12 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+  EV_RAW_BeginUse:
+    m_PersistentCalls:
+      m_Calls: []
+  EV_RAW_EndUse:
+    m_PersistentCalls:
+      m_Calls: []
   EV_Execute:
     m_PersistentCalls:
       m_Calls:
@@ -597,6 +603,8 @@ MonoBehaviour:
   - {fileID: 7521915409266124001}
   _withDelay: 0
   delayTime: 0
+  drawGizmos: 0
+  IsUninterruptible: 0
   UE_OnEnter:
     m_PersistentCalls:
       m_Calls: []
@@ -609,6 +617,20 @@ MonoBehaviour:
   PressUp:
     m_PersistentCalls:
       m_Calls: []
+  executing: 0
+  auxiliars:
+    Feedback_HOVER_I_Can_Interact:
+      m_PersistentCalls:
+        m_Calls: []
+    Feedback_HOVER_I_Can_NOT_Interact:
+      m_PersistentCalls:
+        m_Calls: []
+    Feedback_EXECUTE_Sucessfull:
+      m_PersistentCalls:
+        m_Calls: []
+    Feedback_EXECUTE_Fail:
+      m_PersistentCalls:
+        m_Calls: []
   item: {fileID: 11400000, guid: 1e9c931898f205d42873dbdce6dbb3d6, type: 2}
   canrecolectoranim: 0
   to_collect:
@@ -628,6 +650,7 @@ MonoBehaviour:
   OnCreate:
     m_PersistentCalls:
       m_Calls: []
+  _feedBack: {fileID: 8300000, guid: 77434a30393b6d84eabe14ece701024c, type: 3}
 --- !u!114 &1275951035336400595
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -654,7 +677,7 @@ Rigidbody:
   m_Drag: 0
   m_AngularDrag: 0.05
   m_UseGravity: 1
-  m_IsKinematic: 0
+  m_IsKinematic: 1
   m_Interpolate: 0
   m_Constraints: 112
   m_CollisionDetection: 0
@@ -695,6 +718,7 @@ MonoBehaviour:
   damageTime: 0
   attackDir: {x: 0, y: 0, z: 0}
   owner: {fileID: 0}
+  ownerRoot: {fileID: 0}
 --- !u!1 &8332106681985533502
 GameObject:
   m_ObjectHideFlags: 0
