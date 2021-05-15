@@ -57,11 +57,14 @@ public class ExplosiveShroom : EntityBase
 
     void InmuneFeedback(DamageData data)
     {
+        if (roting) return;
+
         roting = true;
         timer = 0;
         reverse = false;
 
-        var rotateDir = new Vector3(data.attackDir.z, data.attackDir.x, 0) * rootAngle;
+        Vector3 dir = (transform.position - data.ownerRoot.position).normalized;
+        var rotateDir = new Vector3(dir.z, 0, -dir.x) * rootAngle;
         rotateFinal = initRotation + rotateDir;
     }
 
