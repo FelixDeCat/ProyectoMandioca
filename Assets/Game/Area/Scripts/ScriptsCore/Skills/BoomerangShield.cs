@@ -74,6 +74,7 @@ public class BoomerangShield : MonoBehaviour
     protected void Start()
     {
         auxShield.SetActive(false);
+        shieldParticles.gameObject.SetActive(false);
 
         auxCharAuraParticles = charAuraParticles;
         auxCharOnlyParticles = charOnlyParticles;
@@ -115,8 +116,6 @@ public class BoomerangShield : MonoBehaviour
 
         _hero.charAnimEvent.Add_Callback(throwShort, ThrowShield);
 
-        /*ParticlesManager.Instance.GetParticlePool(charOnlyParticles.name, charOnlyParticles);
-        ParticlesManager.Instance.GetParticlePool(charAuraParticles.name, charAuraParticles);*/
         ParticlesManager.Instance.GetParticlePool(shieldParticles.name, shieldParticles);
 
         auxParent = auxShield.transform.parent;
@@ -160,7 +159,7 @@ public class BoomerangShield : MonoBehaviour
         auxCharOnlyParticles = Instantiate(charOnlyParticles, _hero.transform);
         auxCharAuraParticles = Instantiate(charAuraParticles, _hero.transform);
 
-        flying.Play();
+        //flying.Play();
 
         RaycastHit hit;
         if (!shortCast && Physics.Raycast(transform.position, _hero.GetCharMove().GetRotatorDirection(), out hit, throwRange, raycastMask))
@@ -182,6 +181,8 @@ public class BoomerangShield : MonoBehaviour
         isFlying = true;
 
         timeCount = 0;
+
+        shieldParticles.gameObject.SetActive(true);
 
         //if (shortCast)
         StartCoroutine(ThrowShort());
@@ -208,7 +209,9 @@ public class BoomerangShield : MonoBehaviour
         Destroy(auxCharOnlyParticles.gameObject);
         /*auxCharOnlyParticles.gameObject.SetActive(false);
         auxCharAuraParticles.gameObject.SetActive(false);*/
-        ParticlesManager.Instance.StopParticle(shieldParticles.name, shieldParticles);
+        //ParticlesManager.Instance.StopParticle(shieldParticles.name, shieldParticles);
+        shieldParticles.Stop();
+        shieldParticles.gameObject.SetActive(false);
         //AudioManager.instance.StopAllSounds(_rotatingShield_SoundName);
     }
 
@@ -218,14 +221,15 @@ public class BoomerangShield : MonoBehaviour
         Vector3 dir = spinPosition - startingPos;
         dir = dir.normalized;
 
-        ParticlesManager.Instance.PlayParticle(shieldParticles.name, auxShield.transform.position);
+        //ParticlesManager.Instance.PlayParticle(shieldParticles.name, auxShield.transform.position);
+        shieldParticles.Play();
 
-        flying.transform.forward = -dir;
+        //flying.transform.forward = -dir;
 
         float cant = 100f * shortThrowTravelTime;
         for (int i = 0; i < cant; i++)
         {
-            flying.transform.position = auxShield.transform.position;
+            //flying.transform.position = auxShield.transform.position;
             float aux = i / cant;
             auxShield.transform.position = Vector3.Lerp(_shield.transform.position, _shield.transform.position + startingRot * shortThrowRange, aux);
             yield return new WaitForSeconds(0.01f);
@@ -249,7 +253,7 @@ public class BoomerangShield : MonoBehaviour
         dir = _shield.transform.position - auxShield.transform.position;
         dir = dir.normalized;
 
-        flying.transform.forward = -dir;
+        //flying.transform.forward = -dir;
 
         //while (Vector3.Distance(auxShield.transform.position, _shield.transform.position) >= distanceToCatch)
         //{
@@ -262,7 +266,7 @@ public class BoomerangShield : MonoBehaviour
         for (int i = 0; i < cant; i++)
         {
             float aux = i / cant;
-            flying.transform.position = auxShield.transform.position;
+            //flying.transform.position = auxShield.transform.position;
             auxShield.transform.position = Vector3.Lerp(_shield.transform.position + startingRot * shortThrowRange, _shield.transform.position, aux);
             yield return new WaitForSeconds(0.01f);
         }
@@ -273,7 +277,7 @@ public class BoomerangShield : MonoBehaviour
     {
         var dir = spinPosition - startingPos;
         //dir = dir.normalized;
-        flying.transform.forward = -dir;
+        //flying.transform.forward = -dir;
         //while (Vector3.Distance(auxShield.transform.position, spinPosition) > 1.5f)
         //{
         //    flying.transform.position = auxShield.transform.position;
@@ -286,11 +290,11 @@ public class BoomerangShield : MonoBehaviour
         {
             float aux = i / cant;
             auxShield.transform.position = Vector3.Lerp(startingPos, spinPosition, aux);
-            flying.transform.position = auxShield.transform.position;
+            //flying.transform.position = auxShield.transform.position;
             yield return new WaitForSeconds(0.01f);
         }
         //StartSpin
-        flying.Stop();
+        //flying.Stop();
         var totems = Extensions.FindInRadius<Totem>(auxShield.transform.position, damageRadius);
         foreach (var totem in totems)
         {
@@ -305,7 +309,7 @@ public class BoomerangShield : MonoBehaviour
         yield return new WaitForSeconds(spinDuration);
 
         //StartReturn
-        flying.Play();
+        //flying.Play();
 
         //while (Vector3.Distance(auxShield.transform.position, _shield.transform.position) >= distanceToCatch)
         //{
@@ -321,10 +325,13 @@ public class BoomerangShield : MonoBehaviour
         {
             float aux = i / cant;
             dir = _shield.transform.position - auxShield.transform.position;
-            flying.transform.forward = -dir;
-            flying.transform.position = auxShield.transform.position = Vector3.Lerp(spinPosition, _shield.transform.position, aux);
+            //flying.transform.forward = -dir;
+            //flying.transform.position = auxShield.transform.position = Vector3.Lerp(spinPosition, _shield.transform.position, aux);
             yield return new WaitForSeconds(0.01f);
         }
+
+        ParticlesManager.Instance.StopParticle(shieldParticles.name, shieldParticles);
+
         OnEnd();
     }
 

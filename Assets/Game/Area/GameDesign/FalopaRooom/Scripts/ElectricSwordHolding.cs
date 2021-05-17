@@ -52,14 +52,14 @@ public class ElectricSwordHolding : MonoBehaviour
     public void OnUpdate()
     {
         if (!canUpdate) return;
-        timer += Time.deltaTime;
+        /*timer += Time.deltaTime;
         if (timer >= cooldown)
         {
             //ExecuteLong();
             ExecuteShort();
             canUpdate = false;
             timer = 0;
-        }
+        }*/
     }
 
     public void OnEquip()
