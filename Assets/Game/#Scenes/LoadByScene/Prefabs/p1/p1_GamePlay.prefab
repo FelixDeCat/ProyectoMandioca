@@ -103,40 +103,6 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 4.73, y: 3.83, z: 3.03}
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &8360472947760000852
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6353456888956890400}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1c836478a6a127b45a3d3087ea82d2f4, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _startPos: {fileID: 6353456889337138251}
-  _EndPos: {fileID: 6353456888413864142}
-  ToMove: {fileID: 6353456888208281720}
-  playOnStart: 0
-  delayToBegin: 1
-  speed: 2
-  stay_position_time: 1
-  percentTimeToShake: 0.7
-  shakeAmmount: 0.2
-  staypositiontime_go: 1
-  speed_go_multiplier: 1
-  staypositiontime_back: 9
-  speed_back_multiplier: 1
-  ac_hitFloor: {fileID: 0}
-  animPalanca: {fileID: 5865045628159240897}
-  notCanComeBack: 0
-  timerSound: {fileID: 8300000, guid: 635816867dc479a4e995915ddf93bcca, type: 3}
-  onEndReach:
-    m_PersistentCalls:
-      m_Calls: []
-  StartOnAwake: 0
-  isStop: 0
 --- !u!1 &1927960850357623645
 GameObject:
   m_ObjectHideFlags: 0
@@ -487,6 +453,40 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   boxCollider: {fileID: 4508520805880477470}
+--- !u!114 &8360472947760000852
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6353456888956890400}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1c836478a6a127b45a3d3087ea82d2f4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _startPos: {fileID: 6353456889337138251}
+  _EndPos: {fileID: 6353456888413864142}
+  ToMove: {fileID: 6353456888208281720}
+  playOnStart: 0
+  delayToBegin: 1
+  speed: 2
+  stay_position_time: 1
+  percentTimeToShake: 0.7
+  shakeAmmount: 0.2
+  staypositiontime_go: 1
+  speed_go_multiplier: 1
+  staypositiontime_back: 9
+  speed_back_multiplier: 1
+  ac_hitFloor: {fileID: 0}
+  animPalanca: {fileID: 5865045628159240897}
+  notCanComeBack: 0
+  timerSound: {fileID: 8300000, guid: 635816867dc479a4e995915ddf93bcca, type: 3}
+  onEndReach:
+    m_PersistentCalls:
+      m_Calls: []
+  StartOnAwake: 0
+  isStop: 0
 --- !u!1 &6682945940894720221
 GameObject:
   m_ObjectHideFlags: 0
@@ -3702,7 +3702,7 @@ PrefabInstance:
     - target: {fileID: 5591262925221623279, guid: 27c0c95522aa7194a985d3a73e580a74,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: -21.26
+      value: -20.1
       objectReference: {fileID: 0}
     - target: {fileID: 5591262925221623279, guid: 27c0c95522aa7194a985d3a73e580a74,
         type: 3}
