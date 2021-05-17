@@ -35,9 +35,10 @@ namespace Tools.Sound
             source.outputAudioMixerGroup = mixerGroup;
             source.clip = ac;
             source.loop = loop;
-            source.spatialBlend = 0.5f;
+            source.rolloffMode = AudioRolloffMode.Linear;
+            source.spatialBlend = 1f;
             source.playOnAwake = playOnAwake;
-            source.maxDistance = 35;
+            source.maxDistance = 40;
             source.minDistance = 5;
             
 

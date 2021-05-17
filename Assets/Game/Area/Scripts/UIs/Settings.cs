@@ -64,10 +64,18 @@ public class Settings : MonoBehaviour
         if (!cameraRot) cameraRot = FindObjectOfType<CameraRotate>();
 
         muteToggle.isOn = data.muteSound;
-        volumeMasterSlider.value = data.volumeMaster;
-        volumeFxSlider.value = data.volumeFx;
-        volumeMusicSlider.value = data.volumeMusic;
-
+        if (data.muteSound)
+        {
+            volumeMasterSlider.value = 0;
+            volumeFxSlider.value = 0;
+            volumeMusicSlider.value = 0;
+        }
+        else
+        {
+            volumeMasterSlider.value = data.volumeMaster;
+            volumeFxSlider.value = data.volumeFx;
+            volumeMusicSlider.value = data.volumeMusic;
+        }
         resolutionDrop.ClearOptions();
         resolutionDrop.AddOptions(resolutionsString);
         resolutionDrop.value = current;
@@ -92,7 +100,8 @@ public class Settings : MonoBehaviour
 
     public void SetVolume(float value)
     {
-        data.volumeMaster = value;
+        if(!data.muteSound)
+            data.volumeMaster = value;
 
         if (volumeFxSlider.value > volumeMasterSlider.value) volumeFxSlider.value = volumeMasterSlider.value;
 
@@ -100,29 +109,33 @@ public class Settings : MonoBehaviour
 
         if (muteToggle.isOn && value > 0.1f) muteToggle.isOn = false;
 
-        JSONSerialization.Serialize(SettingsDataName, data);
+            JSONSerialization.Serialize(SettingsDataName, data);
     }
 
     public void SetVolumeFx(float value)
     {
         var volume = Mathf.Log10(value) * 20;
         fxMixer.SetFloat("Volume", volume);
-        data.volumeFx = value;
+        if (!data.muteSound)
+            data.volumeFx = value;
 
         if (volumeMasterSlider.value < value) volumeMasterSlider.value = value;
 
-        JSONSerialization.Serialize(SettingsDataName, data);
+            JSONSerialization.Serialize(SettingsDataName, data);
     }
 
     public void SetVolumeMusic(float value)
     {
         var volume = Mathf.Log10(value) * 20;
         musicMixer.SetFloat("Volume", volume);
-        data.volumeMusic = value;
+
+        if (!data.muteSound)
+            data.volumeMusic = value;
 
         if (volumeMasterSlider.value < value) volumeMasterSlider.value = value;
 
-        JSONSerialization.Serialize(SettingsDataName, data);
+
+            JSONSerialization.Serialize(SettingsDataName, data);
     }
 
     public void MuteAudio(bool mute)
@@ -130,6 +143,12 @@ public class Settings : MonoBehaviour
         data.muteSound = mute;
 
         if (mute) volumeMasterSlider.value = volumeMasterSlider.minValue;
+        else
+        {
+            volumeMasterSlider.value = data.volumeMaster;
+            volumeFxSlider.value = data.volumeFx;
+            volumeMusicSlider.value = data.volumeMusic;
+        }
 
         JSONSerialization.Serialize(SettingsDataName, data);
     }

@@ -17,9 +17,11 @@ public class TentacleWall : EnemyBase
     [SerializeField] int damage = 10;
 
     Transform characterT;
+    Vector3 initDir;
 
     private void Start()
     {
+        initDir = transform.forward;
         characterT = Main.instance.GetChar().Root;
 
         animEvent.Add_Callback("attack", () => damageTrigger.SetActive(true));
@@ -89,7 +91,11 @@ public class TentacleWall : EnemyBase
     void LookAtPlayer()
     {
         if (attacking) return;
-        if (!inRange) return;
+        if (!inRange)
+        {
+            if(transform.forward!= initDir)transform.forward += Vector3.Lerp(transform.forward, initDir, Time.fixedDeltaTime * rotSpeed);
+            return;
+        }
 
         var auxDir = (characterT.position - transform.position).normalized;
        

@@ -7,7 +7,7 @@ namespace Tools.StateMachine
     public class CharIdle : CharacterStates
     {
         float timer;
-        float timeToAnim = 4;
+        float timeToAnim = 10;
         CharacterAnimator anim;
 
         public CharIdle(EState<CharacterHead.PlayerInputs> myState, EventStateMachine<CharacterHead.PlayerInputs> _sm, CharacterAnimator _anim) : base(myState, _sm)
