@@ -17,8 +17,18 @@ public class InteractableTeleport : Interactable
     public string sceneToChange;
     public bool UseLocalSceneStreamer;
 
+    public bool show_permanentSign;
+
     bool Oneshot;
-    
+
+    private void Start()
+    {
+        if (show_permanentSign)
+        {
+            WorldItemInfo.instance.Show(this.transform.position, titulo, informacion_del_teleport, interactInfo, false, mostrar_Descripcion);
+        }
+    }
+
     public override void OnExecute(WalkingEntity entity)
     {
         if (!Oneshot)

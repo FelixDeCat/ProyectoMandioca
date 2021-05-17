@@ -13,7 +13,7 @@ public class GodRoom : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKey(KeyCode.LeftControl) && Input.GetKeyDown(KeyCode.G))
+        if (Input.GetKey(KeyCode.G) && Input.GetKeyDown(KeyCode.R))
         {
             teleport.Execute(Main.instance.GetChar());
         }

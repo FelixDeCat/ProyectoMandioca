@@ -24,6 +24,9 @@ public class InteractCollect : Interactable
     {
         recolector_anim = GetComponent<Item_animRecolect>();
         if (recolector_anim != null) canrecolectoranim = true;
+    }
+    private void Start()
+    {
         if (_feedBack)
             AudioManager.instance.GetSoundPool(_feedBack.name, AudioManager.SoundDimesion.TwoD, AudioGroups.GAME_FX, _feedBack);
     }

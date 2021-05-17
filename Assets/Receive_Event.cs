@@ -9,7 +9,7 @@ public class Receive_Event : MonoBehaviour
 
     public UnityEvent OnTriggerEvent;
 
-    private void Awake()
+    private void Start()
     {
         Main.instance.eventManager.SubscribeToEvent(Event_Name, TriggerEvent);
     }

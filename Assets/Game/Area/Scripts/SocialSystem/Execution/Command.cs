@@ -41,15 +41,15 @@ public class Command : MonoBehaviour
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.B)) Command.Execute("Item_Add_Potadesalud");
-        if (Input.GetKeyDown(KeyCode.N)) Command.Execute("Item_Remove_Potadesalud");
-        if (Input.GetKeyDown(KeyCode.M)) Command.Execute("Item_Equip_Potadesalud");
-        if (Input.GetKeyDown(KeyCode.G)) Command.Execute("Item_Print_Negro_Potadesalud");
-        if (Input.GetKeyDown(KeyCode.H)) Command.Execute("Item_Print_Blanco_Potadesalud");
+        //if (Input.GetKeyDown(KeyCode.B)) Command.Execute("Item_Add_Potadesalud");
+        //if (Input.GetKeyDown(KeyCode.N)) Command.Execute("Item_Remove_Potadesalud");
+        //if (Input.GetKeyDown(KeyCode.M)) Command.Execute("Item_Equip_Potadesalud");
+        //if (Input.GetKeyDown(KeyCode.G)) Command.Execute("Item_Print_Negro_Potadesalud");
+        //if (Input.GetKeyDown(KeyCode.H)) Command.Execute("Item_Print_Blanco_Potadesalud");
     }
     void Add(string item) => Debug.Log("Add: Recibí: " + item);
     void Remove(string item) => Debug.Log("Remove: Recibí: " + item);
-    void Equip(string item) => Debug.Log("Equip: Recibí: " + item);
+    void Equip(string item) => Debug.Log("Equip: Recibí: " + item); 
     void PrintNegro(string item) => Debug.Log("Print negro: " + item);
     void PrintBlanco(string item) => Debug.Log("Print blanco: " + item);
 
