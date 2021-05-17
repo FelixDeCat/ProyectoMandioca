@@ -14,8 +14,9 @@ public class TurretEnemy : PlayObject
     [SerializeField] Animator anim = null;
     [SerializeField] float timeToDamage = 0.5f;
     [SerializeField] RayoLaser_Bounce ray = null;
+    [SerializeField] RayoLaser_Bounce preRay = null;
     [SerializeField] Transform rayStartPosition = null;
-  
+    [SerializeField] Animator rayAnim = null;
 
 
     [SerializeField] DamageData dmgData = null;
@@ -40,6 +41,7 @@ public class TurretEnemy : PlayObject
     bool shooting;
     bool damageOn;
     float damageTimer;
+    bool startDamage;
 
     Action TypeUpdate = delegate { };
     Transform target;
@@ -50,6 +52,7 @@ public class TurretEnemy : PlayObject
         dmgData.SetDamage(damage).SetDamageInfo(DamageInfo.NonBlockAndParry).SetDamageType(dmgType).SetKnockback(knockback).Initialize(transform);
         lineOfSight?.Configurate(transform);
         AudioManager.instance.GetSoundPool(_RaySound.name, AudioManager.SoundDimesion.ThreeD, AudioGroups.GAME_FX, _RaySound);
+
     }
     protected override void OnTurnOn()
     {
@@ -77,6 +80,17 @@ public class TurretEnemy : PlayObject
         
     }
 
+    public void StartDamage()
+    {
+        timer = 0;
+        startDamage = false;
+        AudioManager.instance.PlaySound(_RaySound.name, transform);
+        ray.On();
+        rayAnim.Play("Laser");
+        feedbackCollision.SetActive(true);
+        preRay.Off();
+    }
+
     public void OnTurret()
     {
         initializedTurret = true;
@@ -90,13 +104,15 @@ public class TurretEnemy : PlayObject
     {
         initializedTurret = false;
         ray.Off();
+        preRay.Off();
         anim.SetBool("Shoot", false);
         shooting = false;
         damageOn = false;
         damageTimer = 0;
         timer = 0;
         rooting = 0;
-       
+        startDamage = false;
+
     }
 
     protected override void OnUpdate()
@@ -168,6 +184,16 @@ public class TurretEnemy : PlayObject
 
     void RayController(Vector3 dir)
     {
+        if (startDamage)
+        {
+            RaycastHit hit;
+            if (Physics.Raycast(rayStartPosition.position, root.forward, out hit, rayDistance, contactMask, QueryTriggerInteraction.Ignore))
+                preRay.SetFinalPos(hit.point);
+            else
+                preRay.SetFinalPos(ray.transform.position + root.forward * rayDistance);
+            return;
+        }
+
         if (shooting)
         {
 
@@ -201,10 +227,11 @@ public class TurretEnemy : PlayObject
             if (timer >= timeToActivateRay)
             {
                 anim.SetBool("Shoot", true);
+                rayAnim.Play("LaserStart");
                 timer = 0;
                 shooting = true;
-                ray.On();
-                feedbackCollision.SetActive(true);
+                preRay.On();
+                startDamage = true;
             }
         }
     }
@@ -246,6 +273,16 @@ public class TurretEnemy : PlayObject
     Vector3 finalDir;
     void PredeterminatedPathUpdate()
     {
+        if (startDamage)
+        {
+            RaycastHit hit;
+            if (Physics.Raycast(rayStartPosition.position, root.forward, out hit, rayDistance, contactMask, QueryTriggerInteraction.Ignore))
+                preRay.SetFinalPos(hit.point);
+            else
+                preRay.SetFinalPos(ray.transform.position + root.forward * rayDistance);
+            return;
+        }
+
         if (shooting)
         {
             rooting += Time.deltaTime * rotSpeed;
@@ -286,9 +323,10 @@ public class TurretEnemy : PlayObject
                 root.forward = finalDir;
                 timer = 0;
                 anim.SetBool("Shoot", true);
-                AudioManager.instance.PlaySound(_RaySound.name, transform);
 
-                ray.On();
+                startDamage = true;
+                rayAnim.Play("LaserStart");
+                preRay.On();
             }
         }
     }
