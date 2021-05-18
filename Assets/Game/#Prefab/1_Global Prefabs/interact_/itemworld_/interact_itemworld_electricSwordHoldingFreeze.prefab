@@ -248,6 +248,7 @@ MonoBehaviour:
   _withDelay: 0
   delayTime: 0
   drawGizmos: 0
+  IsUninterruptible: 0
   UE_OnEnter:
     m_PersistentCalls:
       m_Calls: []
@@ -261,6 +262,19 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   executing: 0
+  auxiliars:
+    Feedback_HOVER_I_Can_Interact:
+      m_PersistentCalls:
+        m_Calls: []
+    Feedback_HOVER_I_Can_NOT_Interact:
+      m_PersistentCalls:
+        m_Calls: []
+    Feedback_EXECUTE_Sucessfull:
+      m_PersistentCalls:
+        m_Calls: []
+    Feedback_EXECUTE_Fail:
+      m_PersistentCalls:
+        m_Calls: []
   item: {fileID: 11400000, guid: 39f481b992b8ac344be9b386fdedc211, type: 2}
   canrecolectoranim: 0
   to_collect:
@@ -280,6 +294,7 @@ MonoBehaviour:
   OnCreate:
     m_PersistentCalls:
       m_Calls: []
+  _feedBack: {fileID: 8300000, guid: 4ab60c3eab514924a88bca826c7ae268, type: 3}
 --- !u!114 &1074179138172864922
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -487,6 +502,8 @@ MonoBehaviour:
   particlesLindasPre: {fileID: 4421194815771058572, guid: c176f68cd8186d14eb5ac7a3e6574a37,
     type: 3}
   charSpeed: 0
+  _groundHit: {fileID: 0}
+  _lightningStrike: {fileID: 0}
 --- !u!114 &137521589715409176
 MonoBehaviour:
   m_ObjectHideFlags: 0

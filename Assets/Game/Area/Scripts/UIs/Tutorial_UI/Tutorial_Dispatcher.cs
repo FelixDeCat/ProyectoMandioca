@@ -10,7 +10,7 @@ public class Tutorial_Dispatcher : MonoBehaviour
 
     private void Start()
     {
-        AudioManager.instance.GetSoundPool(_feedBack.name, AudioManager.SoundDimesion.ThreeD, AudioGroups.GAME_FX, _feedBack);
+        AudioManager.instance.GetSoundPool(_feedBack.name, AudioManager.SoundDimesion.TwoD, AudioGroups.GAME_FX, _feedBack);
     }
     public void DispatchTutorial()
     {
@@ -25,8 +25,9 @@ public class Tutorial_Dispatcher : MonoBehaviour
     {
         if (settings == null || alreadyDelay) return;
 
-        alreadyDelay = true;
+        alreadyDelay = true;        
         StartCoroutine(DelayTutorial(delay));
+        
     }
 
     IEnumerator DelayTutorial(float delay)
