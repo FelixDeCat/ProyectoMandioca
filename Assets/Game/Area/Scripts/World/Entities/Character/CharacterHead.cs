@@ -367,6 +367,7 @@ public class CharacterHead : CharacterControllable
 
         ConfigureState.Create(attackCharge)
             .SetTransition(PlayerInputs.RELEASE_ATTACK, attackRelease)
+            .SetTransition(PlayerInputs.ROLL, roll, charanim.CancelAttackAnimations)
             .SetTransition(PlayerInputs.ON_MENU_ENTER, onMenues)
             .SetTransition(PlayerInputs.DEAD, dead)
             .Done();
