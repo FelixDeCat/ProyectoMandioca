@@ -32,6 +32,8 @@ public class WendigoEnemy : EnemyWithCombatDirector
     CDModule cdModule = new CDModule();
 
     EffectReceiver myEffectReceiver;
+
+    float lineOfSightTimer;
     protected override void OnInitialize()     //Inicia las cosas
     {
         //cosas
@@ -258,8 +260,13 @@ public class WendigoEnemy : EnemyWithCombatDirector
                     sm.SendInput(WendigoInputs.GRABTHING);
                 }
 
+                if (!lineOfSight.OnSight(combatElement.Target, combatDistance, 360))
+                    lineOfSightTimer += Time.deltaTime;
+                else
+                    lineOfSightTimer = 0;
+
                 //Si no esta en la combatDistance
-                if (dist >= combatDistance && sm.Current.Name != "Idle")
+                if (lineOfSightTimer >= 3 && sm.Current.Name != "Idle")
                 {
                     sm.SendInput(WendigoInputs.IDLE);
                     combatElement.ExitCombat();
@@ -269,10 +276,10 @@ public class WendigoEnemy : EnemyWithCombatDirector
             //No esta en combate
             if (!combatElement.Combat && combatElement.Target == null)
             {
-                //Si esta en la combatdistance
-                if (dist <= combatDistance && sm.Current.Name != "Observation")
+                var possibleTarget = Main.instance.GetChar().transform;
+                if (lineOfSight.OnSight(possibleTarget, combatDistance, 360) && sm.Current.Name != "Observation")
                 {
-                    combatElement.EnterCombat(Main.instance.GetChar().transform);
+                    combatElement.EnterCombat(possibleTarget);
                     sm.SendInput(WendigoInputs.OBSERVATION);
                 }
             }

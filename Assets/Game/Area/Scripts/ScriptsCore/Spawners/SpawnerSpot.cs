@@ -65,7 +65,7 @@ public class SpawnerSpot
 
         if(Physics.Raycast(reference.position, checkDir.normalized, out hit, checkDir.magnitude, otherMask, QueryTriggerInteraction.Ignore))
         {
-            result = hit.point - checkDir.normalized;
+            result = hit.point - checkDir.normalized * 2;
         }
 
         return result;

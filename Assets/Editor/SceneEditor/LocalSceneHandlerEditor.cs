@@ -25,6 +25,12 @@ public class LocalSceneHandlerEditor : Editor
         _handler.gameObject.name = _handler.gameObject.scene.name;
 
     }
+
+    void FindGameObjects()
+    {
+
+    }
+
     public override void OnInspectorGUI()
     {
 

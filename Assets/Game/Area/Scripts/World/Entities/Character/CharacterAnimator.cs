@@ -23,6 +23,25 @@ public class CharacterAnimator : BaseAnimator
     public void SetForceHeavy() => myAnim.SetBool("ForceHeavy", true);
     public void Dead(bool b) { myAnim.SetBool("Dead", b); if (b) myAnim.SetTrigger("DeathTrigger"); }
 
+    public void CancelAttackAnimations()
+    {
+        myAnim.Play("Base", 1);
+        Block(false);
+        myAnim.ResetTrigger("BlockSomething");
+        myAnim.ResetTrigger("IsParry");
+        OnAttackBegin(false);
+        myAnim.ResetTrigger("NormalAttack");
+        myAnim.ResetTrigger("HeavyAttack");
+        myAnim.SetBool("ForceHeavy", false);
+        ForceAttack(false);
+        myAnim.ResetTrigger("ForceCombo");
+        Combo(false);
+        StartThrow(false);
+        SetLightnings(false);
+        myAnim.ResetTrigger("ThrowLightningBullets");
+        myAnim.SetInteger("attackIndex", 0);
+    }
+
     public void BashDashAnim() => myAnim.SetTrigger("BashDash");
     public void ForceAttack(bool b) { myAnim.SetBool("ForceAttack", b); if(b) myAnim.SetTrigger("ForceCombo"); }
 
