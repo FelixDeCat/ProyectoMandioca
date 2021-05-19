@@ -19,7 +19,7 @@ public class PauseManager : MonoBehaviour
     [SerializeField] Settings settingsHud = null;
     public SavedTutorial tutorialHud = null;
 
-    bool inPauseHud;
+    public bool inPauseHud;
     bool inSettings;
     bool inTutorial;
     bool canPress;
