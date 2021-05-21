@@ -26,6 +26,7 @@ public class AssassinRay : MonoBehaviour
 
         foreach (var item in overlap)
         {
+            if (item.GetComponent<EntBehaviour>()) item.GetComponent<EntBehaviour>().StopMove();
             item.ActivateRagdoll((item.transform.position - transform.position), () => Destroy(item.gameObject));
         }
     }
