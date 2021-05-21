@@ -119,7 +119,6 @@ public class CarivorousPlant : EnemyBase
         effectReceiver.EndAllEffects();
         AudioManager.instance.PlaySound(_death_Clip.name, transform);
         animator.SetTrigger("Dead");
-        OnDeath.Invoke();
         OnOffTrap(false);
     }
 
