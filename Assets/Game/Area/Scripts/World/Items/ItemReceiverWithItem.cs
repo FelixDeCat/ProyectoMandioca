@@ -6,6 +6,8 @@ using System;
 public class ItemReceiverWithItem : MonoBehaviour
 {
     [SerializeField] Item item = null;
+
+    [SerializeField] bool isOneShot = false;
     public Item Item { get { return item; } }
     public Func<bool> custom_pred = delegate { return true; };
     public Action OnConsume = delegate { };
@@ -18,12 +20,14 @@ public class ItemReceiverWithItem : MonoBehaviour
 
     public void OnCollectItem()
     {
-        if (custom_pred.Invoke())
+        if (custom_pred.Invoke() && cant > 0)
         {
             if (item)
             {
                 FastInventory.instance.Add(item, cant);
                 OnConsume();
+
+                if (isOneShot) cant = 0;
             }
         }
     }

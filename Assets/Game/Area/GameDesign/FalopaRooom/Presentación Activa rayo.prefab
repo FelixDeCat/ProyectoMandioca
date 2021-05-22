@@ -25617,6 +25617,17 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 8456302751500076175}
+        m_MethodName: OnCollectItem
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   UE_OnExit:
     m_PersistentCalls:
       m_Calls:
@@ -25687,17 +25698,6 @@ MonoBehaviour:
   OnEndDialogueByIndex:
   - m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 8456302751500076175}
-        m_MethodName: OnCollectItem
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
       - m_Target: {fileID: 0}
         m_MethodName: DispatchTutorialWithDelay
         m_Mode: 4
@@ -25745,6 +25745,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   item: {fileID: 11400000, guid: 427bdc3aaeecabc48aab5f79fb0f9706, type: 2}
+  isOneShot: 1
   cant: 1
 --- !u!1 &8456302751504407888
 GameObject:
@@ -26056,138 +26057,6 @@ Transform:
   m_Father: {fileID: 8456302751834217321}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: -0.47007802, y: -46.26754, z: -1.9415102}
---- !u!1 &8456302751705655749
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 8456302751705655748}
-  - component: {fileID: 8456302751705655750}
-  - component: {fileID: 8456302751705655751}
-  m_Layer: 0
-  m_Name: "npc_interact_dialog_Despu\xE9s"
-  m_TagString: Untagged
-  m_Icon: {fileID: 419385456094870383, guid: 0000000000000000d000000000000000, type: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 0
---- !u!4 &8456302751705655748
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8456302751705655749}
-  m_LocalRotation: {x: -0, y: 0.7071068, z: -0, w: 0.7071068}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 8456302752400837359}
-  m_RootOrder: 4
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &8456302751705655750
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8456302751705655749}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: cfb6f4d620fc22949b66b08170c43333, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  distancetoInteract: 3
-  autoexecute: 0
-  cd_autoexecute: 0
-  pointToMessage: {fileID: 0}
-  feedback: []
-  _withDelay: 0
-  delayTime: 0
-  drawGizmos: 0
-  IsUninterruptible: 0
-  UE_OnEnter:
-    m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 8456302751705655751}
-        m_MethodName: Talk
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-  UE_OnExit:
-    m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 8456302751705655751}
-        m_MethodName: StopDialogue
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-  PressDown:
-    m_PersistentCalls:
-      m_Calls: []
-  PressUp:
-    m_PersistentCalls:
-      m_Calls: []
-  executing: 0
-  auxiliars:
-    Feedback_HOVER_I_Can_Interact:
-      m_PersistentCalls:
-        m_Calls: []
-    Feedback_HOVER_I_Can_NOT_Interact:
-      m_PersistentCalls:
-        m_Calls: []
-    Feedback_EXECUTE_Sucessfull:
-      m_PersistentCalls:
-        m_Calls: []
-    Feedback_EXECUTE_Fail:
-      m_PersistentCalls:
-        m_Calls: []
-  UE_OnExecute:
-    m_PersistentCalls:
-      m_Calls: []
-  nombre_NPC: Entusiasta
-  mostrarFeedback: 1
-  custom_cartelito: 1
---- !u!114 &8456302751705655751
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8456302751705655749}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e6ebbc43fbf19b44e9bd02fe5b6d104d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  dialogues:
-  - {fileID: 11400000, guid: 0a7d083ce7436bf4c8d75c147b7e5fdc, type: 2}
-  currentDialoge: {fileID: 11400000, guid: 0a7d083ce7436bf4c8d75c147b7e5fdc, type: 2}
-  OnEndDialogueByIndex: []
-  useOneShot: 0
-  stopAllOnDialogue: 0
-  showButtons: 0
-  OnNewDialogue:
-    m_PersistentCalls:
-      m_Calls: []
-  DefaultEndDialogue:
-    m_PersistentCalls:
-      m_Calls: []
 --- !u!1 &8456302751750330665
 GameObject:
   m_ObjectHideFlags: 0
@@ -27861,7 +27730,6 @@ Transform:
   - {fileID: 8456302751604152999}
   - {fileID: 8456302751967555029}
   - {fileID: 8456302751500076172}
-  - {fileID: 8456302751705655748}
   m_Father: {fileID: 8456302751883470830}
   m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: -90, z: 0}
