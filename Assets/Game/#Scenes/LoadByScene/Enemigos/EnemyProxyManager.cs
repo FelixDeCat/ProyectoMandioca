@@ -6,12 +6,9 @@ using UnityEngine;
 public class EnemyProxyManager : LoadComponent
 {
     public string sceneName = "";
-    [SerializeField] ProxyEnemyBase[] proxys = new ProxyEnemyBase[0];
+    ProxyEnemyBase[] proxys = new ProxyEnemyBase[0];
 
     bool AlreadyProcessed = false;
-
-    [Header("ExecuteInEditMode")]
-    public bool ButtonRefresh = true;
 
     protected void Start() // por si mi parent no viene con Loader
     {
@@ -21,23 +18,6 @@ public class EnemyProxyManager : LoadComponent
             StartCoroutine(Process());
         }
     }
-
-    //public void Test()
-    //{
-    //    AlreadyProcessed = true;
-    //    StartCoroutine(Process());
-    //}
-
-#if UNITY_EDITOR
-    private void Update()
-    {
-        if (ButtonRefresh)
-        {
-            ButtonRefresh = false;
-            proxys = GetComponentsInChildren<ProxyEnemyBase>();
-        }
-    }
-#endif
 
     protected override IEnumerator LoadMe()//por si mi parent me llamó a cargar
     {
@@ -50,6 +30,8 @@ public class EnemyProxyManager : LoadComponent
 
     IEnumerator Process()
     {
+        proxys = GetComponentsInChildren<ProxyEnemyBase>();
+
         EnemyManager.Instance.OnLoadEnemies(sceneName, proxys);
 
         for (int i = 0; i < proxys.Length; i++)

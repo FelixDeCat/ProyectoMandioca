@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-[ExecuteInEditMode]
 public class PlayObjectParentInitializer : MonoBehaviour
 {
     PlayObject[] myPlayObjects = new PlayObject[0];

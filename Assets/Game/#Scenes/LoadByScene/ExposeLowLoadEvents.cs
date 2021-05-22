@@ -13,7 +13,7 @@ public class ExposeLowLoadEvents : MonoBehaviour
 
     public Transform contentParent;
 
-    private void Awake()
+    private void Start()
     {
         components = contentParent.GetComponentsInChildren<LoadComponent>();
         handler = GetComponent<LocalSceneHandler>();
