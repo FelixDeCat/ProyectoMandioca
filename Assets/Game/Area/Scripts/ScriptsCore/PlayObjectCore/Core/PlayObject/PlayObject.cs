@@ -15,6 +15,7 @@ public abstract class PlayObject : MonoBehaviour, IPauseable
 
     bool alreadyInitialized = false;
     public void Initialize() { if (!alreadyInitialized) { StackedInitialize(); OnInitialize(); alreadyInitialized = true; } }
+    public void Deinitialize() { if (alreadyInitialized) { OnDeinitialize(); } }
     public void On() { if (!isOn) { isOn = true; canupdate = true; OnTurnOn(); PauseManager.Instance.AddToPause(this); } }
     public void Off() { if (isOn) { isOn = false; canupdate = false; OnTurnOff(); PauseManager.Instance.RemoveToPause(this); } }
     public void Pause() { if (this == null) { Debug.LogWarning("Ojo que si es interface, esta existe en memoria independientemente del objeto por alguna extraña razon no sabe si el objeto existe... ARREGLAR ESTO"); return; } canupdate = false; OnPause(); }
@@ -26,6 +27,7 @@ public abstract class PlayObject : MonoBehaviour, IPauseable
     /// ABSTRACTS QUE SE IMPLEMENTAN EN LOS CHILDS
     /////////////////////////////////////////////////////////////
     protected abstract void OnInitialize();
+    protected virtual void OnDeinitialize() { }
     protected abstract void OnTurnOn();
     protected abstract void OnTurnOff();
     protected abstract void OnUpdate();

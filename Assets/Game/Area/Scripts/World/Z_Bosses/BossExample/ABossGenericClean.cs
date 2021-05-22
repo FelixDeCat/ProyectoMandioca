@@ -40,6 +40,7 @@ public class ABossGenericClean : EnemyWithCombatDirector
 
         fastSubscriber.animevent.Add_Callback("Wendigo_Walk", feedbackManager.Play_Sound_WendigoWalk);
     }
+    protected override void OnDeinitialize() { }
 
     protected override void OnTurnOff() 
     {
@@ -125,5 +126,7 @@ public class ABossGenericClean : EnemyWithCombatDirector
     protected override void TakeDamageFeedback(DamageData data) { }
     protected override void Die(Vector3 dir) { }
     protected override bool IsDamage() => true;
+
+
     #endregion
 }

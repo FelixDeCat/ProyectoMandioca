@@ -79,6 +79,7 @@ public class PistonWithSteps : EntityBase
     }
 
     protected override void OnInitialize() { }
+    protected override void OnDeinitialize() { }
     protected override void OnTurnOn() { }
     protected override void OnTurnOff() { }
     protected override void OnUpdate() { }
@@ -109,4 +110,6 @@ public class PistonWithSteps : EntityBase
     }
     protected override void OnPause() { }
     protected override void OnResume() { }
+
+    
 }

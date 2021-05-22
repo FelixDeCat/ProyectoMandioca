@@ -52,6 +52,10 @@ public class BetoBoss : EnemyBase
         obsAvoid.Configure(rootTransform);
         dmgReceiver.ChangeKnockback((x) => { }, () => true);
     }
+    protected override void OnDeinitialize()
+    {
+        
+    }
 
     public void StartCombat()
     {
@@ -243,5 +247,7 @@ public class BetoBoss : EnemyBase
         else
             cdModule.AddCD("LakeCD", () => LakeCooldown = false, lakeCooldown);
     }
+
+    
     #endregion
 }

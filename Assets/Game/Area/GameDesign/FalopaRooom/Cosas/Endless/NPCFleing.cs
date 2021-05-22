@@ -10,6 +10,7 @@ public class NPCFleing : Villager
     public PointToGo pos_exit_endless4;
 
     protected override void OnInitialize() { }
+    protected override void OnDeinitialize() { }
 
     public void GoToPos_ExitEndless() => GoTo(pos_exit_endless.transform.position); 
     public void GoToPos_RunningDesesperated() {GoToNoAnim(pos_exit_endless.transform.position, () => anim.StopRunDesesperate("")); anim.StartRunDesesperate(""); }
@@ -38,5 +39,7 @@ public class NPCFleing : Villager
     protected override void OnTurnOff() { }
     protected override void OnTurnOn() { }
     protected override void OnUpdateEntity() { }
+
+    
     #endregion
 }

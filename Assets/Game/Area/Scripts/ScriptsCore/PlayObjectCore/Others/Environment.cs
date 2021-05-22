@@ -11,5 +11,5 @@ public class Environment : PlayObject
     protected override void OnResume() { }
     protected override void OnFixedUpdate() { }
     protected override void OnUpdate() { }
-    
+    protected override void OnDeinitialize() { }
 }

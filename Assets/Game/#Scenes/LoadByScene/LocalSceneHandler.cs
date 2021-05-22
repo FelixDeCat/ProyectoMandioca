@@ -73,6 +73,15 @@ public class LocalSceneHandler : LoadComponent
         }
     }
 
+    public void OnSceneEnter()
+    {
+
+    }
+    public void OnSceneExit()
+    {
+
+    }
+
     public IEnumerator ExecuteLoadParameter(SceneData.Detail_Parameter detail_parameter)
     {
         switch (detail_parameter)
