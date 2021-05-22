@@ -23,6 +23,11 @@ public class UI_CurrentItem : UI_Base
 
     public void SetItem(string _cant, Sprite _img, bool showNumber = true)
     {
+        if (spot_to_represent == SpotType.FirstHandSkill || spot_to_represent == SpotType.SecondHandSkill)
+            UI_SlotManager.instance.TryOnActiveSlot();
+        else
+            UI_SlotManager.instance.TryOnItemSlot();
+
         if (txt_cant)
         {
             txt_cant.text = _cant;

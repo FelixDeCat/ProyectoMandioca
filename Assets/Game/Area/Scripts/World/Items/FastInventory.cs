@@ -184,7 +184,7 @@ public class FastInventory : UI_Base, IPauseable
             }
             else if (vertical > 0.5f || vertical < -0.5f)
             {
-                dir = vertical > 0 ? 4 : -4;
+                dir = vertical > 0 ? -4 : 4;
             }
 
             if (dir != 0 && dir + currentSelection >= 0 && dir + currentSelection < itemUI.Count)
