@@ -37,19 +37,7 @@ public class AsyncLoaderHandler : GenericAsyncLocalScene
         }
         yield return null;
     }
-
-    protected override void AsyncLoadEnded()
-    {
-       
-    }
-
-    protected override void OnEnter()
-    {
-        
-    }
-
-    protected override void OnExit()
-    {
-       
-    }
+    protected override void AsyncLoadEnded() { }
+    protected override void OnEnter() { }
+    protected override void OnExit() { }
 }

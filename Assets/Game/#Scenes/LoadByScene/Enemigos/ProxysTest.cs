@@ -11,24 +11,24 @@ public class ProxysTest : MonoBehaviour
 
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.P)) EnemyManager.Instance.OnSaveStateEnemies(sceneCurrent);
+        //if (Input.GetKeyDown(KeyCode.P)) EnemyManager.Instance.OnSaveStateEnemies(sceneCurrent);
 
-        if (Input.GetKeyDown(KeyCode.O))
-        {
-            for (int i = 0; i < proxyManager.Length; i++)
-            {
-                proxyManager[i].Test();
-            }
-        }
+        ////if (Input.GetKeyDown(KeyCode.O))
+        ////{
+        ////    for (int i = 0; i < proxyManager.Length; i++)
+        ////    {
+        ////        proxyManager[i].Test();
+        ////    }
+        ////}
 
-        if (Input.GetKeyDown(KeyCode.I)) EnemyManager.Instance.RespawnsEnemies(sceneCurrent);
+        //if (Input.GetKeyDown(KeyCode.I)) EnemyManager.Instance.RespawnsEnemies(sceneCurrent);
 
-        if (Input.GetKeyDown(KeyCode.U))
-        {
-            for (int i = 0; i < AllScenes.Length; i++)
-            {
-                EnemyManager.Instance.SceneReset(AllScenes[i]);
-            }
-        }
+        //if (Input.GetKeyDown(KeyCode.U))
+        //{
+        //    for (int i = 0; i < AllScenes.Length; i++)
+        //    {
+        //        EnemyManager.Instance.SceneReset(AllScenes[i]);
+        //    }
+        //}
     }
 }

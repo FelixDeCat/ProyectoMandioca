@@ -22,11 +22,11 @@ public class EnemyProxyManager : LoadComponent
         }
     }
 
-    public void Test()
-    {
-        AlreadyProcessed = true;
-        StartCoroutine(Process());
-    }
+    //public void Test()
+    //{
+    //    AlreadyProcessed = true;
+    //    StartCoroutine(Process());
+    //}
 
 #if UNITY_EDITOR
     private void Update()
@@ -59,5 +59,12 @@ public class EnemyProxyManager : LoadComponent
         }
 
         proxys = new ProxyEnemyBase[0];
+    }
+
+    protected override IEnumerator UnLoadMe()
+    {
+        AlreadyProcessed = false;
+        EnemyManager.Instance.OnSaveStateEnemies(sceneName);
+        return base.UnLoadMe();
     }
 }
