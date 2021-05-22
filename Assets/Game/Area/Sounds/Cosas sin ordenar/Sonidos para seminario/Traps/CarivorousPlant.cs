@@ -28,6 +28,9 @@ public class CarivorousPlant : EnemyBase
     [SerializeField] ParticleSystem hitParticle = null;
     [SerializeField] AudioClip _getHit_Clip = null;
     [SerializeField] AudioClip _death_Clip = null;
+
+    [SerializeField] float onHitFlashTime = 20;
+    [SerializeField] Color onHitColor = Color.red;
     bool on;
     bool isZero;
     bool inDmg;
@@ -225,6 +228,8 @@ public class CarivorousPlant : EnemyBase
 
         animator.SetBool("Hit", true);
         ParticlesManager.Instance.PlayParticle(hitParticle.name, centerPoint.position + Vector3.up);
+
+        StartCoroutine(OnHitted(onHitFlashTime, onHitColor));
     }
 
     protected override bool IsDamage() => false;

@@ -8,6 +8,7 @@ using System.Collections.Generic;
 
 public class PauseManager : MonoBehaviour
 {
+    int pauseCount = 0;
     public static PauseManager Instance { get; private set; }
 
     List<IPauseable> pausingPlayObjects = new List<IPauseable>();
@@ -23,6 +24,7 @@ public class PauseManager : MonoBehaviour
     bool inSettings;
     bool inTutorial;
     bool canPress;
+    bool pause;
 
     private void Awake()
     {
@@ -51,6 +53,11 @@ public class PauseManager : MonoBehaviour
 
     public void Pause()
     {
+        if (pause)
+        {
+            pauseCount += 1;
+            return;
+        }
         for (int i = 0; i < pausingPlayObjects.Count; i++)
         {
             pausingPlayObjects[i].Pause();
@@ -61,6 +68,8 @@ public class PauseManager : MonoBehaviour
         Cursor.lockState = CursorLockMode.None;
         Cursor.visible = true;
         Main.instance.GetChar().getInput.inMenu = true;
+        pause = true;
+        pauseCount = 1;
     }
 
     public void ResumeHud()
@@ -74,6 +83,14 @@ public class PauseManager : MonoBehaviour
 
     public void Resume()
     {
+        if (!pause)
+            return;
+        else
+        {
+            pauseCount -= 1;
+            if (pauseCount > 0) return;
+        }
+
         for (int i = 0; i < pausingPlayObjects.Count; i++)
             pausingPlayObjects[i].Resume();
 
@@ -82,6 +99,7 @@ public class PauseManager : MonoBehaviour
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
         Main.instance.GetChar().getInput.inMenu = false;
+        pause = false;
     }
 
     public void SettingsScreen()

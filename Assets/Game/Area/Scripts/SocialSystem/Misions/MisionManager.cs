@@ -263,6 +263,8 @@ public class MisionManager : MonoBehaviour
 
         if (!m.data.Delivered)
         {
+
+            Debug.Log("Terminé: " + m.rewarding.items_rewarding.Length);
             m.data.SetDeliveredMision();
             m.End();
 
@@ -274,14 +276,7 @@ public class MisionManager : MonoBehaviour
                 {
                     var itm = m.rewarding.items_rewarding[j].item;
 
-                    if (itm.equipable)
-                    {
-                        EquipedManager.instance.EquipItem(itm);
-                    }
-                    else
-                    {
-                        FastInventory.instance.Add(m.rewarding.items_rewarding[j].item, m.rewarding.items_rewarding[j].cant);
-                    }
+                    FastInventory.instance.Add(m.rewarding.items_rewarding[j].item, m.rewarding.items_rewarding[j].cant);
                 }
             }
             active_misions.Remove(m);
