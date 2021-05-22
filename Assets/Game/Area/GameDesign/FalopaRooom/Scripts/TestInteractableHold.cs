@@ -12,6 +12,8 @@ public class TestInteractableHold : Interactable
     public UnityEvent UE_EndDelayExecute;
     public Sprite image_to_interact;
 
+    [SerializeField] FeedbackInteractBase[] feedbackHold = new FeedbackInteractBase[0]; 
+
     public void ExecuteBool(bool b) => executing = b;
 
     public string actionName = "hold to grab";
@@ -46,6 +48,7 @@ public class TestInteractableHold : Interactable
     {
         oneshot = false;
         ContextualBarSimple.instance.Set_Values_Load_Bar(delayTime, 0);
+        for (int i = 0; i < feedbackHold.Length; i++) feedbackHold[i].Hide();
     }
 
     public override void OnExit(WalkingEntity collector)
@@ -56,6 +59,7 @@ public class TestInteractableHold : Interactable
     public override void DelayExecute()
     {
         base.DelayExecute();
+        for (int i = 0; i < feedbackHold.Length; i++) feedbackHold[i].Show();
         ContextualBarSimple.instance.Set_Values_Load_Bar(delayTime, currentTime);
     }
     void OnEndDelayExecute()
@@ -64,6 +68,7 @@ public class TestInteractableHold : Interactable
             AudioManager.instance.PlaySound(_feedBack.name, transform);
         UE_EndDelayExecute.Invoke();
         execute?.Invoke();
+        for (int i = 0; i < feedbackHold.Length; i++) feedbackHold[i].Hide();
         if (destroy) Destroy(this.gameObject);
         else
         {
