@@ -9,9 +9,32 @@ public class ExposeLowLoadEvents : MonoBehaviour
     public UnityEvent Turn_OFF_LOW;
     LocalSceneHandler handler;
 
+    IEnumerable<LoadComponent> components;
+
+    public Transform contentParent;
+
     private void Awake()
     {
+        components = contentParent.GetComponentsInChildren<LoadComponent>();
         handler = GetComponent<LocalSceneHandler>();
-        handler.SubscribeEventsLOWObjects(Turn_ON_LOW.Invoke, Turn_OFF_LOW.Invoke);
+        handler.SubscribeEventsLOWObjects(On, Off);
+    }
+
+    public void On()
+    {
+        Turn_ON_LOW.Invoke();
+        foreach (var c in components)
+        {
+            StartCoroutine(c.Load());
+        }
+    }
+
+    public void Off()
+    {
+        Turn_OFF_LOW.Invoke();
+        foreach (var c in components)
+        {
+            StartCoroutine(c.Unload());
+        }
     }
 }
