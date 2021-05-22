@@ -41,8 +41,6 @@ public class LocalSceneHandler : LoadComponent
 
     protected override IEnumerator LoadMe()
     {
-        var trigger = GetComponentInChildren<TriggerDispatcher>();
-        trigger?.SubscribeToEnter(OnEnterToThisScene);
 
         myName = this.gameObject.name;
         KEY_LANDMARK = myName + "_Key_Landmark";
@@ -274,14 +272,6 @@ public class LocalSceneHandler : LoadComponent
                 yield return null;
                 break;
         }
-    }
-
-    public void OnEnterToThisScene()
-    {
-        NewSceneStreamer.instance.LoadScene(SceneData.name);
-        LocalToEnemyManager.ResetScenes(SceneData.scenes_to_reset);
-        EnemyManager.Instance.SceneReset(SceneData.name);
-        //aca iria lo del enemyManager?
     }
 
 }

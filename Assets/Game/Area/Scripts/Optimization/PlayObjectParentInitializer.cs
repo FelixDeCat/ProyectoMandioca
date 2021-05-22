@@ -7,24 +7,63 @@ public class PlayObjectParentInitializer : MonoBehaviour
 {
     PlayObject[] myPlayObjects = new PlayObject[0];
 
+    bool isInitialized;
+
+    private void Start()
+    {
+        if (!isInitialized)
+        {
+            isInitialized = true;
+            myPlayObjects = GetComponentsInChildren<PlayObject>();
+
+            for (int i = 0; i < myPlayObjects.Length; i++)
+            {
+                myPlayObjects[i].Initialize();
+                myPlayObjects[i].On();
+            }
+        }
+    }
+
     void OnEnable()
     {
-        myPlayObjects = GetComponentsInChildren<PlayObject>();
-
-        for (int i = 0; i < myPlayObjects.Length; i++)
+        if (!isInitialized)
         {
-            myPlayObjects[i].Initialize();
-            myPlayObjects[i].On();
+            isInitialized = true;
+            myPlayObjects = GetComponentsInChildren<PlayObject>();
+
+            for (int i = 0; i < myPlayObjects.Length; i++)
+            {
+                myPlayObjects[i].Initialize();
+                myPlayObjects[i].On();
+            }
         }
     }
     void OnDisable()
     {
-        myPlayObjects = GetComponentsInChildren<PlayObject>();
-
-        for (int i = 0; i < myPlayObjects.Length; i++)
+        if (isInitialized)
         {
-            myPlayObjects[i].Deinitialize();
-            myPlayObjects[i].Off();
+            isInitialized = false;
+            myPlayObjects = GetComponentsInChildren<PlayObject>();
+
+            for (int i = 0; i < myPlayObjects.Length; i++)
+            {
+                myPlayObjects[i].Deinitialize();
+                myPlayObjects[i].Off();
+            }
+        }
+    }
+    private void OnDestroy()
+    {
+        if (isInitialized)
+        {
+            isInitialized = false;
+            myPlayObjects = GetComponentsInChildren<PlayObject>();
+
+            for (int i = 0; i < myPlayObjects.Length; i++)
+            {
+                myPlayObjects[i].Deinitialize();
+                myPlayObjects[i].Off();
+            }
         }
     }
 }
