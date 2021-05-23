@@ -65,7 +65,7 @@ public class MisionManager : MonoBehaviour
     }
 
     #region FrontEnd
-    public void CheckMision()
+    public void Refresh_UI_CheckMision()
     {
         ui.RefreshUIMisions(active_misions);
         ui_panel.RefreshCurrentMissions(active_misions);
@@ -79,7 +79,7 @@ public class MisionManager : MonoBehaviour
     /////////////////////////////////////////////////////
     //// AGREGADO DE MISIONS
     /////////////////////////////////////////////////////
-    public bool AddMision(Mision _m, Action<int> callbackToEnd)
+    public bool AddMision(Mision _m, Action<int> callbackToEnd, Action<bool> mision_already_Completed = null)
     {
         if (!registry.ContainsKey(_m.id_mision))
         {
@@ -88,6 +88,7 @@ public class MisionManager : MonoBehaviour
             for (int i = 0; i < m.data.MisionItems.Length; i++)
             {
                 MisionItemKey key = new MisionItemKey(m.id_mision, i);
+
                 if (stores.ContainsKey(key))
                 {
                     m.data.MisionItems[i].SetCurrentValue(stores[key]);
@@ -96,41 +97,45 @@ public class MisionManager : MonoBehaviour
                 m.data.MisionItems[i].InitCheck(ItemMisionFeedbackCompleted);
             }
 
+            registry.Add(m.id_mision, m);
+            active_misions.Add(m);
+
             if (CheckIfMissionIsCompleted(m.id_mision))
             {
                 UI_StackMision.instancia.LogearMision(m, true, 2f);
-                CompleteMision(m.id_mision);
+
+                m.Begin(Refresh_UI_CheckMision);
+                m.AddCallbackToEnd(CompleteMision);
+                m.AddCallbackToEnd(callbackToEnd);
+
                 if (!m.AutoEnd)
                 {
                     EndMision(m.id_mision);
                 }
+                mision_already_Completed(true);
+
+                UI_StackMision.instancia.LogearMision(m, true, 2f);
             }
             else
             {
-                registry.Add(m.id_mision, m);
                 if (!m.IsHided)
                 {
                     UI_StackMision.instancia.LogearMision(m, false, 2f);
                     feedbackSound.Play_NewMissionAdded();
                 }
                 if (LocalMisionManager.instance) LocalMisionManager.instance.OnMissionsChange();
-                m.Begin(CheckMision);
+                m.Begin(Refresh_UI_CheckMision);
                 m.AddCallbackToEnd(CompleteMision);
                 m.AddCallbackToEnd(callbackToEnd);
-                active_misions.Add(m);
-                
             }
 
-            CheckMision();
-            m.OnRefresh();
+            Refresh_UI_CheckMision();
 
             return true;
         }
         else
         {
-            var m = registry[_m.id_mision];
-            CheckMision();
-            m.OnRefresh();
+            Refresh_UI_CheckMision();
             return false;
         }
     }
@@ -172,7 +177,7 @@ public class MisionManager : MonoBehaviour
                 feedbackSound.Play_MissionCompleted();
             }
         }
-        CheckMision();
+        Refresh_UI_CheckMision();
     }
     //Manual
     public void DeliveMision(int id)
@@ -183,8 +188,6 @@ public class MisionManager : MonoBehaviour
         {
             Debug.Log("Terminando la mision: " + m.mision_name);
 
-
-
             if (m.CanFinishMision())
             {
                 m.data.SetCompletedMision();
@@ -192,7 +195,7 @@ public class MisionManager : MonoBehaviour
             }
         }
 
-        CheckMision();
+        Refresh_UI_CheckMision();
     }
 
     public bool CheckIfMissionIsCompleted(int id)
@@ -205,7 +208,9 @@ public class MisionManager : MonoBehaviour
             {
                 if (!m.data.MisionItems[i].IsCompleted)
                 {
+                    
                     ended = false;
+                    break;
                 }
             }
             return ended;
@@ -231,7 +236,7 @@ public class MisionManager : MonoBehaviour
                 aux.Execute(ItemMisionFeedbackCompleted);
             }
             else Debug.LogError("El Index que me pasaron es Mayor al la cantidad que tengo");
-            CheckMision();
+            Refresh_UI_CheckMision();
         }
         else
         {

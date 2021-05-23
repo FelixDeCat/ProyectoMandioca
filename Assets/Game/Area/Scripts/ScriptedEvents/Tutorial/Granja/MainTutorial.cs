@@ -16,8 +16,9 @@ public class MainTutorial : MonoBehaviour
     public ObjetiveSubscriber farm_armored_ent_Objetive;
     public ObjetiveSubscriber doctorway_ents_Objetive;
     public int Plants_Recollection_ID;
-    bool objetive_armored_ent = false;
     bool objetive_plants = false;
+
+    [SerializeField] CameraCinematic animacion_camara_tranquera;
 
     public void TRIGGER_StartTutorial()
     {
@@ -29,22 +30,40 @@ public class MainTutorial : MonoBehaviour
     }
 
     //externo por UnityEvent
-    public void BeginPlantsMision() => MisionManager.instancia.AddMision(MisionsDataBase.instance.GetMision(Plants_Recollection_ID), FinishObjetive_Curative_Plants_Recollected);
+    public void BeginPlantsMision()
+    {
+        MisionManager.instancia.AddMision(MisionsDataBase.instance.GetMision(Plants_Recollection_ID), FinishObjetive_Curative_Plants_Recollected,TryToLogMisionAlreadyCompleted );
+    }
     //externo por UnityEvent
     public void ComboWomboLearned() => ChangeFase(FASE_ATENEA_DEJA_PASAR);
 
+    void TryToLogMisionAlreadyCompleted(bool val)
+    {
+        if (!val)
+        {
+            animacion_camara_tranquera.StartCinematic();
+        }
+    }
 
     void FinishObjetive_All_Jacinta_Ents_Killed() => ChangeFase(FASE_ACTIVO_DOCTOR);
     void FinishObjetive_Way_To_Doctor_Cleared() => ChangeFase(FASE_CAMINO_A_DOCTOR_DESPEJADO);
-    void FinishObjetive_Curative_Plants_Recollected(int ID) {
+    void FinishObjetive_Curative_Plants_Recollected(int ID)
+    {
         Debug.Log("Objetivo de plantas");
-            objetive_plants = true; DoctorRequirements(); }
-    void FinishObjetive_Armored_Ent_Killed() { Debug.Log("Objetivo de Ent Acorazado"); 
-        ChangeFase(FASE_ARMORED_ENT_ASESINATADO); objetive_armored_ent = true; DoctorRequirements(); }
+        objetive_plants = true;
+        DoctorRequirements();
+    }
+    void FinishObjetive_Armored_Ent_Killed()
+    {
+        Debug.Log("Objetivo de Ent Acorazado");
+        ChangeFase(FASE_ARMORED_ENT_ASESINATADO);
+        DoctorRequirements();
+    }
     void DoctorRequirements()
     {
         if (objetive_plants)
         {
+            Debug.LogWarning("TERMINO LA MISION");
             ChangeFase(FASE_PLANTAS_ENTREGADAS);
         }
     }

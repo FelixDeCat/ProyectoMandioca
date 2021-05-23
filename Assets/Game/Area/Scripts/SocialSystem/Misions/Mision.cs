@@ -31,9 +31,8 @@ public class Mision: ScriptableObject
 
     public void Begin(Action Refresh)
     {
-        foreach (var mi in data.MisionItems) mi.SubscribeTo_ItemSelfUpdate(OnRefresh);
+        foreach (var mi in data.MisionItems) mi.SubscribeTo_ItemSelfUpdate(Refresh);
         data.ActivateMision();
-        Callback_Refresh = Refresh;
     }
     public void AddCallbackToEnd(Action<int> callbackToEnd)
     {
@@ -55,12 +54,6 @@ public class Mision: ScriptableObject
         
     }
 
-    public void OnRefresh()
-    {
-        if (AllItemsFinished()) Finish();
-        Callback_Refresh.Invoke();
-    }
-
     public bool CanFinishMision()
     {
         return AllItemsFinished();
@@ -76,17 +69,6 @@ public class Mision: ScriptableObject
             else continue;
         }
         return true;
-    }
-
-    protected void Finish()
-    { 
-        //mision_end_callback.Invoke(id_mision);
-        try
-        {
-           // mision_end_callback_simple.Invoke();
-        }
-        catch { Debug.LogWarning("No tiene linkeado un Fase Handler"); }
-        
     }
 }
 
