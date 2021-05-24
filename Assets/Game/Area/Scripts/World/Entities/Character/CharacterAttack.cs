@@ -98,9 +98,11 @@ public class CharacterAttack
         data.SetDamageType(Damagetype.Heavy).SetKnockback(2500);
         move.AttackMovement(currentHeavyAttackMove);
         oneshot = false;
+        feedbackOn = false;
         buttonPressedTime = 0f;
         anim.OnAttackBegin(false);       
         feedbacks.particles.feedbackHeavy.Stop();
+        feedbacks.particles.feedbackCharHeavy.Stop();
     }
     public void ForceHeavyFeedback()
     {
@@ -128,11 +130,19 @@ public class CharacterAttack
         currentDamage += currentWeapon.baseDamage;
     }
 
+    bool feedbackOn;
     public void Refresh()
     {
         if (inCheck)
         {
             buttonPressedTime += Time.deltaTime;
+
+            if (buttonPressedTime > 0.2f && !feedbackOn)
+            {
+                feedbackOn = true;
+                feedbacks.particles.feedbackHeavy.Play();
+                feedbacks.particles.feedbackCharHeavy.Play();
+            }
 
             if (buttonPressedTime >= currentHeavyAttackTime)
             {
@@ -215,7 +225,6 @@ public class CharacterAttack
 
     public void AttackBegin()
     {
-        feedbacks.particles.feedbackHeavy.Play();
         inCheck = true;
         buttonPressedTime = 0f;
         anim.OnAttackBegin(true);
@@ -236,6 +245,8 @@ public class CharacterAttack
         buttonPressedTime = 0f;
         anim.OnAttackBegin(false);
         feedbacks.particles.feedbackHeavy.Stop();
+        feedbacks.particles.feedbackCharHeavy.Stop();
+        feedbackOn = false;
         oneshot = false;
     }
 
@@ -247,7 +258,6 @@ public class CharacterAttack
     void Check()
     {
         inCheck = false;
-
 
         if (buttonPressedTime < currentHeavyAttackTime)
         {
@@ -265,6 +275,8 @@ public class CharacterAttack
             feedbacks.sounds.Play_heavySwing();
         }
         feedbacks.particles.feedbackHeavy.Stop();
+        feedbacks.particles.feedbackCharHeavy.Stop();
+        feedbackOn = false;
         oneshot = false;
         buttonPressedTime = 0f;
         anim.OnAttackBegin(false);

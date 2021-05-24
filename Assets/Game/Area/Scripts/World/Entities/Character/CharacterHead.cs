@@ -846,11 +846,14 @@ public class CharacterHead : CharacterControllable
     void ActiveCombo()
     {
         feedbacks.particles.HeavyLoaded.Play();
+        feedbacks.particles.comboTrail.Play();
+        anim_base.GetBehaviour<ANIM_SCRIPT_Base>().ConfigureCallback(() => feedbacks.particles.comboTrail.Stop());
         callback_IsComboTime_Enable?.Invoke();
     }
     void EndTime_DeactiveCombo()
     {
         Invoke("DelayDisableCallback", 0.1f);
+        feedbacks.particles.comboTrail.Stop();
     }
 
     void ResetCombo()

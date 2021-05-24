@@ -8,7 +8,9 @@ public class CharParticles
     public ParticleSystem evadeParticle = null;
     public ParticleSystem HeavyLoaded = null;
     public ParticleSystem feedbackHeavy = null;
+    public ParticleSystem feedbackCharHeavy = null;
     public ParticleSystem feedbackDashHeavy = null;
+    public ParticleSystem comboTrail = null;
     public ParticleSystem slash_right = null;
     public ParticleSystem slash_left = null;
     public ParticleSystem parryParticle = null;
