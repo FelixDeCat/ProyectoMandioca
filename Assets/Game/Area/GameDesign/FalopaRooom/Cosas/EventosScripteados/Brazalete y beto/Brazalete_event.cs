@@ -73,13 +73,12 @@ public class Brazalete_event : MonoBehaviour, ISpawner, IPauseable, IScriptedEve
     [Header("Events")]
     [SerializeField] UnityEvent BeginEvent;
     [SerializeField] UnityEvent EndEvent;
+    [SerializeField] UnityEvent OnResetIfPlayerDead;
 
     void Start()
     {
-
-
+       
         ateneaDialogue_ground.gameObject.SetActive(false);
-
 
         wave_handler.Init();
         totemFeedback.Initialize(StartCoroutine);
@@ -99,7 +98,18 @@ public class Brazalete_event : MonoBehaviour, ISpawner, IPauseable, IScriptedEve
         var _animAtenea = atenea.GetComponentInChildren<AnimEvent>();
         _animAtenea.Add_Callback("ateneaAttack", OnExecuteAteneaAttack);
 
-       // brazalete.SetActive(false);     
+        Main.instance.eventManager.SubscribeToEvent(GameEvents.ON_PLAYER_DEATH, OnReset_PlayerIsDead);
+
+        // brazalete.SetActive(false);     
+    }
+
+    void OnReset_PlayerIsDead()
+    {
+        //lo dejo redundante por si quieren resetarle algo por código
+        OnResetIfPlayerDead.Invoke();
+
+        Invoke("KillAllEnemies", 2f);
+        //si hago esto funciona?
     }
 
     void SetResetThings()
