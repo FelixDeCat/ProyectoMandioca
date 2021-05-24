@@ -1,9 +1,12 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class BossModel : EnemyBase
 {
+    [SerializeField] UnityEvent OnResetCaronteIfPlayerIsDead;
+
     [SerializeField] BossBrain brain = new BossBrain();
     public int maxStamina = 9;
     [SerializeField] float rotSpeed = 10;
@@ -28,6 +31,8 @@ public class BossModel : EnemyBase
     [SerializeField] CaronteParticles particles = new CaronteParticles();
 
     [SerializeField] AudioClip bossBattleMusic = null;
+
+    
 
     public float yMaxPos = 10.47f;
     public float yMinPos = 5.47f;
@@ -207,6 +212,7 @@ public class BossModel : EnemyBase
         BossBarGeneric.Close();
         transform.position = initPos;
         inSecondPhase = false;
+        OnResetCaronteIfPlayerIsDead.Invoke();
         Main.instance.eventManager.UnsubscribeToEvent(GameEvents.ON_PLAYER_RESPAWN, ResetBossOnDead);
     }
 
