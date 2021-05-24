@@ -500,7 +500,7 @@ public class CharacterHead : CharacterControllable
             .SetMovement(this.move)
             .SetLeftAxis(GetLeftHorizontal, GetLeftVertical);
 
-        new CharSwordAbilityCharge(swordAbilityCharge, swordAbilityOnCharge, ChangeSpeed, stateMachine)
+        new CharSwordAbilityCharge(swordAbilityCharge, swordAbilityOnCharge, stateMachine)
             .SetMovement(this.move)
             .SetLeftAxis(GetLeftHorizontal, GetLeftVertical);
 
@@ -734,19 +734,18 @@ public class CharacterHead : CharacterControllable
     #endregion
 
     #region Sword Ability
-    float ChangeSpeed()
-    {
-        return speedChange;
-    }
-    float speedChange = 0;
 
 
     Action swordAbilityOnCharge;
     public void SwordAbiltyCharge(float speed, Action swordActiveCharge = null)
     {
         swordAbilityOnCharge = swordActiveCharge;
-        speedChange = speed;
         stateMachine.SendInput(PlayerInputs.START_ACTIVE);
+    }
+
+    public void CancelSwordAbility()
+    {
+        stateMachine.SendInput(PlayerInputs.IDLE);
     }
 
     Action swordAbilityOnRelease;

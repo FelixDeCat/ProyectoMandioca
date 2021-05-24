@@ -32,7 +32,6 @@ public class CharacterAnimator : BaseAnimator
         OnAttackBegin(false);
         myAnim.ResetTrigger("NormalAttack");
         myAnim.ResetTrigger("HeavyAttack");
-        myAnim.SetBool("ForceHeavy", false);
         ForceAttack(false);
         myAnim.ResetTrigger("ForceCombo");
         Combo(false);
@@ -40,6 +39,7 @@ public class CharacterAnimator : BaseAnimator
         SetLightnings(false);
         myAnim.ResetTrigger("ThrowLightningBullets");
         myAnim.SetInteger("attackIndex", 0);
+        myAnim.SetInteger("TapLightnigIndex", 0);
     }
 
     public void BashDashAnim() => myAnim.SetTrigger("BashDash");

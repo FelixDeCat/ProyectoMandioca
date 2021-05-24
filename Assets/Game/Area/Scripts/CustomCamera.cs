@@ -97,7 +97,7 @@ public class CustomCamera : MonoBehaviour
             return;
 
         MakeCinematic();
-        SmoothToTarget();
+        if(!inCinematic)SmoothToTarget();
     }
     private void LateUpdate()
     {
@@ -278,6 +278,7 @@ public class CustomCamera : MonoBehaviour
     Transform lookAtTarget;
     Vector3 lookPos;
     public event Action OnFinishCinematicEvent;
+    bool inCinematic;
 
     public void StartCinematic(float _goTime, float _cinematicTime, float _returnTime, Transform _finalPos, Transform _lookAt, Action callback = null)
     {
@@ -302,15 +303,18 @@ public class CustomCamera : MonoBehaviour
             ChangeCamera();
             cameraState = CameraCinematicState.cameraGoing;
             cameraRotate.forceStop = true;
+            inCinematic = true;
         }
         else if(cameraState == CameraCinematicState.cameraGoing)
         {
             timer += Time.deltaTime;
             myCameras[1].transform.position = Vector3.Lerp(startPos, finalPos.position, timer / goTime);
+            transform.position = myCameras[1].transform.position;
 
             //Esto es para el smooth
             lookAtTarget.position = Vector3.Lerp(charTransform.position, lookPos, timer / goTime);
             //El calculo esta bien pero el SmoothToPos del lookAtPos hace que la camara gire rarito
+            transform.LookAt(lookAtTarget);
 
             if (timer > goTime)
             {
@@ -334,9 +338,10 @@ public class CustomCamera : MonoBehaviour
         {
             timer += Time.deltaTime;
             myCameras[1].transform.position = Vector3.Lerp(finalPos.position, myCameras[0].transform.position, timer / returnTime);
-
+            transform.position = myCameras[1].transform.position;
             //Esto es para el smooth
             lookAtTarget.position = Vector3.Lerp(lookPos, charTransform.position, timer / returnTime);
+            transform.LookAt(lookAtTarget);
             //Aca también
 
             if (timer > returnTime)
@@ -346,6 +351,7 @@ public class CustomCamera : MonoBehaviour
                 myCameras[1].transform.parent = cinematicCamParent;
                 ChangeCamera();
                 cameraState = CameraCinematicState.off;
+                inCinematic = false;
 
                 OnFinishCinematicEvent?.Invoke();
                 Main.instance.GetChar().Resume();

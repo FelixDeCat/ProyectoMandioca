@@ -103,6 +103,7 @@ public class CharacterAttack
         anim.OnAttackBegin(false);       
         feedbacks.particles.feedbackHeavy.Stop();
         feedbacks.particles.feedbackCharHeavy.Stop();
+        feedbacks.particles.feedbackCharHeavy.Clear();
     }
     public void ForceHeavyFeedback()
     {
@@ -246,6 +247,7 @@ public class CharacterAttack
         anim.OnAttackBegin(false);
         feedbacks.particles.feedbackHeavy.Stop();
         feedbacks.particles.feedbackCharHeavy.Stop();
+        feedbacks.particles.feedbackCharHeavy.Clear();
         feedbackOn = false;
         oneshot = false;
     }
@@ -276,6 +278,7 @@ public class CharacterAttack
         }
         feedbacks.particles.feedbackHeavy.Stop();
         feedbacks.particles.feedbackCharHeavy.Stop();
+        feedbacks.particles.feedbackCharHeavy.Clear();
         feedbackOn = false;
         oneshot = false;
         buttonPressedTime = 0f;

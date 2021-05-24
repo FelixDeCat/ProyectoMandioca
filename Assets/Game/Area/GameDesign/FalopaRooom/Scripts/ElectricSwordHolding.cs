@@ -8,7 +8,8 @@ public class ElectricSwordHolding : MonoBehaviour
     [SerializeField] Waves _wave = null;
     [SerializeField] int speed = 5;
     [SerializeField] float lifeTime = 2;
-    [SerializeField] float cooldown = 0.2f;
+    [SerializeField] float timeToCharge = 1.5f;
+    [SerializeField] ChargeModule chargeModule = null;
 
     [Header("Orb")]
     [SerializeField] ElectricOrb electricOrb = null;
@@ -29,7 +30,7 @@ public class ElectricSwordHolding : MonoBehaviour
     [SerializeField] AudioClip _lightningStrike;
     private void Start()
     {
-       
+        //chargeModule.Subscribe_Feedback_OnRelease((x) => { if (x == 0) CancelExecute(); else ExecuteShort(); });
        
 
     }
@@ -52,14 +53,7 @@ public class ElectricSwordHolding : MonoBehaviour
     public void OnUpdate()
     {
         if (!canUpdate) return;
-        /*timer += Time.deltaTime;
-        if (timer >= cooldown)
-        {
-            //ExecuteLong();
-            ExecuteShort();
-            canUpdate = false;
-            timer = 0;
-        }*/
+        timer += Time.deltaTime;
     }
 
     public void OnEquip()
@@ -104,10 +98,21 @@ public class ElectricSwordHolding : MonoBehaviour
     {
         //Aca deje lo de la habilidad porque sino crashea todo si no, a ver como solucionarlo
         //if (charges == 0)
+
+        if (timer >= timeToCharge)
             ExecuteShort();
-        
+        else
+            CancelExecute();
+
+        timer = 0;
+
     }
 
+    void CancelExecute()
+    {
+        myChar.charanim.CancelAttackAnimations();
+        Main.instance.GetChar().SwordAbilityRelease();
+    }
     void InstantiateOrb()
     {
         Main.instance.GetChar().SwordAbilityRelease();
