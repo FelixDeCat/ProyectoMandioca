@@ -20,11 +20,11 @@ RenderSettings:
   m_FogDensity: 0.01
   m_LinearFogStart: 0
   m_LinearFogEnd: 300
-  m_AmbientSkyColor: {r: 0.212, g: 0.227, b: 0.259, a: 1}
+  m_AmbientSkyColor: {r: 1, g: 1, b: 1, a: 1}
   m_AmbientEquatorColor: {r: 0.114, g: 0.125, b: 0.133, a: 1}
   m_AmbientGroundColor: {r: 0.047, g: 0.043, b: 0.035, a: 1}
   m_AmbientIntensity: 1.4
-  m_AmbientMode: 0
+  m_AmbientMode: 3
   m_SubtractiveShadowColor: {r: 0.42, g: 0.478, b: 0.627, a: 1}
   m_SkyboxMaterial: {fileID: 2100000, guid: 9db30f47abede204a8ec02bc0c6a9daf, type: 2}
   m_HaloStrength: 0.5
@@ -35,10 +35,10 @@ RenderSettings:
   m_DefaultReflectionMode: 0
   m_DefaultReflectionResolution: 128
   m_ReflectionBounces: 1
-  m_ReflectionIntensity: 1
+  m_ReflectionIntensity: 0.553
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 732619032}
-  m_IndirectSpecularColor: {r: 0, g: 0, b: 0, a: 1}
+  m_IndirectSpecularColor: {r: 0, g: 0, b: 0, a: 0.553}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -1031,10 +1031,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   vecinos:
-  - {fileID: 357642366}
-  - {fileID: 698842517}
   - {fileID: 2633627119832460656}
+  - {fileID: 357642366}
   - {fileID: 1856562604333623408}
+  - {fileID: 698842517}
   - {fileID: 1407838958609775024}
   toEliminate: []
   parent: {fileID: 0}
@@ -10593,11 +10593,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   vecinos:
-  - {fileID: 318304403}
   - {fileID: 1258015406}
-  - {fileID: 5045795449194527498}
-  - {fileID: 8256433419202405851}
   - {fileID: 8758454070307149445}
+  - {fileID: 5045795449194527498}
+  - {fileID: 318304403}
+  - {fileID: 8256433419202405851}
   toEliminate: []
   parent: {fileID: 0}
   costs:
@@ -11127,10 +11127,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   vecinos:
+  - {fileID: 8758454070307149445}
   - {fileID: 293361898}
   - {fileID: 2086760067}
   - {fileID: 8072277933396747821}
-  - {fileID: 8758454070307149445}
   toEliminate: []
   parent: {fileID: 0}
   costs:
@@ -20373,8 +20373,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   vecinos:
-  - {fileID: 3006889828823050214}
   - {fileID: 6822161564278036090}
+  - {fileID: 3006889828823050214}
   toEliminate: []
   parent: {fileID: 0}
   costs:
@@ -25383,10 +25383,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   vecinos:
-  - {fileID: 30335698}
   - {fileID: 1258015406}
-  - {fileID: 2633627119832460656}
+  - {fileID: 30335698}
   - {fileID: 5045795449194527498}
+  - {fileID: 2633627119832460656}
   toEliminate: []
   parent: {fileID: 0}
   costs:
@@ -26476,22 +26476,22 @@ PrefabInstance:
     - target: {fileID: 4476636411587309409, guid: d190124e180583b4d96a81b5c05133b7,
         type: 3}
       propertyPath: m_LocalRotation.x
-      value: 0.47304973
+      value: 0.7071068
       objectReference: {fileID: 0}
     - target: {fileID: 4476636411587309409, guid: d190124e180583b4d96a81b5c05133b7,
         type: 3}
       propertyPath: m_LocalRotation.y
-      value: -0.466941
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4476636411587309409, guid: d190124e180583b4d96a81b5c05133b7,
         type: 3}
       propertyPath: m_LocalRotation.z
-      value: 0.32939067
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4476636411587309409, guid: d190124e180583b4d96a81b5c05133b7,
         type: 3}
       propertyPath: m_LocalRotation.w
-      value: 0.6705907
+      value: 0.7071068
       objectReference: {fileID: 0}
     - target: {fileID: 4476636411587309409, guid: d190124e180583b4d96a81b5c05133b7,
         type: 3}
@@ -26501,12 +26501,12 @@ PrefabInstance:
     - target: {fileID: 4476636411587309409, guid: d190124e180583b4d96a81b5c05133b7,
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
-      value: 70.4
+      value: 90
       objectReference: {fileID: 0}
     - target: {fileID: 4476636411587309409, guid: d190124e180583b4d96a81b5c05133b7,
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.y
-      value: -69.7
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4476636411587309409, guid: d190124e180583b4d96a81b5c05133b7,
         type: 3}
@@ -26517,6 +26517,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_ShadowAngle
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4476636411587309422, guid: d190124e180583b4d96a81b5c05133b7,
+        type: 3}
+      propertyPath: m_BounceIntensity
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 4476636411587309423, guid: d190124e180583b4d96a81b5c05133b7,
         type: 3}
@@ -28153,7 +28158,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!108 &792517347
 Light:
   m_ObjectHideFlags: 0
@@ -42925,8 +42930,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   vecinos:
   - {fileID: 293361898}
-  - {fileID: 698842517}
   - {fileID: 5045795449194527498}
+  - {fileID: 698842517}
   - {fileID: 8256433419202405851}
   toEliminate: []
   parent: {fileID: 0}
@@ -78070,8 +78075,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   vecinos:
-  - {fileID: 6053973077994836652}
   - {fileID: 6771908930780119838}
+  - {fileID: 6053973077994836652}
   toEliminate: []
   parent: {fileID: 0}
   costs:
@@ -78246,8 +78251,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   vecinos:
-  - {fileID: 87302501680168542}
   - {fileID: 5922955450053306565}
+  - {fileID: 87302501680168542}
   toEliminate: []
   parent: {fileID: 0}
   costs:
@@ -78341,8 +78346,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   vecinos:
   - {fileID: 1309136276515993690}
-  - {fileID: 1521409244953138516}
   - {fileID: 4726029266849549462}
+  - {fileID: 1521409244953138516}
   - {fileID: 7740034488396759910}
   toEliminate: []
   parent: {fileID: 0}
@@ -78532,8 +78537,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   vecinos:
-  - {fileID: 4945505373115735531}
   - {fileID: 5251298444747906464}
+  - {fileID: 4945505373115735531}
   toEliminate: []
   parent: {fileID: 0}
   costs:
@@ -78843,9 +78848,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   vecinos:
-  - {fileID: 8569770646728989089}
-  - {fileID: 368213100156837239}
   - {fileID: 368213101776042016}
+  - {fileID: 368213100156837239}
+  - {fileID: 8569770646728989089}
   toEliminate: []
   parent: {fileID: 0}
   costs:
@@ -79838,8 +79843,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   vecinos:
-  - {fileID: 368213100086561878}
   - {fileID: 368213101323588724}
+  - {fileID: 368213100086561878}
   toEliminate: []
   parent: {fileID: 0}
   costs:
@@ -83837,8 +83842,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   vecinos:
-  - {fileID: 2307826315976979595}
   - {fileID: 7341460703200673595}
+  - {fileID: 2307826315976979595}
   toEliminate: []
   parent: {fileID: 0}
   costs:
@@ -84029,8 +84034,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   vecinos:
-  - {fileID: 1705716240750836221}
   - {fileID: 8663232180040688788}
+  - {fileID: 1705716240750836221}
   toEliminate: []
   parent: {fileID: 0}
   costs:
@@ -84539,8 +84544,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   vecinos:
-  - {fileID: 1430644855509733604}
   - {fileID: 4313522816891145299}
+  - {fileID: 1430644855509733604}
   toEliminate: []
   parent: {fileID: 0}
   costs:
@@ -84627,10 +84632,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   vecinos:
-  - {fileID: 357642366}
   - {fileID: 30335698}
   - {fileID: 2000611355}
   - {fileID: 2633627119832460656}
+  - {fileID: 357642366}
   - {fileID: 1407838958609775024}
   toEliminate: []
   parent: {fileID: 0}
@@ -84745,8 +84750,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   vecinos:
-  - {fileID: 4860576591247044867}
   - {fileID: 4296554947793563551}
+  - {fileID: 4860576591247044867}
   toEliminate: []
   parent: {fileID: 0}
   costs:
@@ -85565,9 +85570,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   vecinos:
-  - {fileID: 3584303780831174236}
-  - {fileID: 3584303780537696127}
   - {fileID: 7750778513868076440}
+  - {fileID: 3584303780537696127}
+  - {fileID: 3584303780831174236}
   - {fileID: 217749274791206049}
   toEliminate:
   - {fileID: 3584303780831174236}
@@ -85780,11 +85785,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   vecinos:
-  - {fileID: 357642366}
-  - {fileID: 698842517}
   - {fileID: 30335698}
-  - {fileID: 1856562604333623408}
   - {fileID: 5045795449194527498}
+  - {fileID: 357642366}
+  - {fileID: 1856562604333623408}
+  - {fileID: 698842517}
   toEliminate: []
   parent: {fileID: 0}
   costs:
@@ -85820,8 +85825,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   vecinos:
-  - {fileID: 4927883702608408678}
   - {fileID: 2795181306897406607}
+  - {fileID: 4927883702608408678}
   toEliminate: []
   parent: {fileID: 0}
   costs:
@@ -86460,8 +86465,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   vecinos:
-  - {fileID: 553488678}
   - {fileID: 8663232180040688788}
+  - {fileID: 553488678}
   toEliminate: []
   parent: {fileID: 0}
   costs:
@@ -86497,9 +86502,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   vecinos:
-  - {fileID: 4259645841789054609}
   - {fileID: 5604524429532313257}
   - {fileID: 4143783513048350294}
+  - {fileID: 4259645841789054609}
   toEliminate:
   - {fileID: 4143783513048350294}
   parent: {fileID: 0}
@@ -86662,8 +86667,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   vecinos:
-  - {fileID: 8209822177515977199}
   - {fileID: 5922955450053306565}
+  - {fileID: 8209822177515977199}
   toEliminate: []
   parent: {fileID: 0}
   costs:
@@ -87044,8 +87049,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   vecinos:
-  - {fileID: 9211362588659279875}
   - {fileID: 5093591603742957632}
+  - {fileID: 9211362588659279875}
   toEliminate: []
   parent: {fileID: 0}
   costs:
@@ -88342,8 +88347,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   vecinos:
-  - {fileID: 3584303780706722002}
   - {fileID: 3584303780791636429}
+  - {fileID: 3584303780706722002}
   toEliminate: []
   parent: {fileID: 0}
   costs:
@@ -90034,8 +90039,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   vecinos:
-  - {fileID: 3584303780563393509}
   - {fileID: 3584303780706722002}
+  - {fileID: 3584303780563393509}
   toEliminate: []
   parent: {fileID: 0}
   costs:
@@ -90137,8 +90142,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   vecinos:
-  - {fileID: 3584303780688181690}
   - {fileID: 3584303779623387351}
+  - {fileID: 3584303780688181690}
   toEliminate: []
   parent: {fileID: 0}
   costs:
@@ -90554,8 +90559,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   vecinos:
-  - {fileID: 3584303779889122814}
   - {fileID: 3584303780862220868}
+  - {fileID: 3584303779889122814}
   toEliminate: []
   parent: {fileID: 0}
   costs:
@@ -90683,8 +90688,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   vecinos:
-  - {fileID: 3584303780151457074}
   - {fileID: 3584303779623387351}
+  - {fileID: 3584303780151457074}
   toEliminate: []
   parent: {fileID: 0}
   costs:
@@ -91074,8 +91079,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   vecinos:
-  - {fileID: 3584303780769269015}
   - {fileID: 3584303779418131230}
+  - {fileID: 3584303780769269015}
   toEliminate: []
   parent: {fileID: 0}
   costs:
@@ -91724,9 +91729,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   vecinos:
+  - {fileID: 7750778513868076440}
   - {fileID: 3584303781127812268}
   - {fileID: 3584303780831174236}
-  - {fileID: 7750778513868076440}
   toEliminate: []
   parent: {fileID: 0}
   costs:
@@ -92115,8 +92120,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   vecinos:
-  - {fileID: 3584303780719541776}
   - {fileID: 3584303779529954933}
+  - {fileID: 3584303780719541776}
   toEliminate: []
   parent: {fileID: 0}
   costs:
@@ -93284,8 +93289,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   vecinos:
-  - {fileID: 3584303780651095260}
   - {fileID: 3584303779652382332}
+  - {fileID: 3584303780651095260}
   toEliminate: []
   parent: {fileID: 0}
   costs:
@@ -93432,8 +93437,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   vecinos:
-  - {fileID: 3143094884817625557}
   - {fileID: 9093760871235429985}
+  - {fileID: 3143094884817625557}
   toEliminate: []
   parent: {fileID: 0}
   costs:
@@ -94068,8 +94073,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   vecinos:
-  - {fileID: 4259645841789054609}
   - {fileID: 5910842661527465308}
+  - {fileID: 4259645841789054609}
   toEliminate: []
   parent: {fileID: 0}
   costs:
@@ -94555,9 +94560,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   vecinos:
-  - {fileID: 8569770646728989089}
   - {fileID: 368213100038312827}
   - {fileID: 368213100156837239}
+  - {fileID: 8569770646728989089}
   - {fileID: 5604524429532313257}
   toEliminate:
   - {fileID: 368213100156837239}
@@ -95538,8 +95543,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   vecinos:
   - {fileID: 2086760067}
-  - {fileID: 8072277933396747821}
   - {fileID: 311989040056559354}
+  - {fileID: 8072277933396747821}
   toEliminate: []
   parent: {fileID: 0}
   costs:
@@ -95682,10 +95687,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   vecinos:
-  - {fileID: 293361898}
-  - {fileID: 698842517}
   - {fileID: 1258015406}
+  - {fileID: 293361898}
   - {fileID: 2633627119832460656}
+  - {fileID: 698842517}
   - {fileID: 8256433419202405851}
   toEliminate: []
   parent: {fileID: 0}
@@ -96478,8 +96483,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   vecinos:
-  - {fileID: 4399388181714051006}
   - {fileID: 3028296088153432399}
+  - {fileID: 4399388181714051006}
   toEliminate: []
   parent: {fileID: 0}
   costs:
@@ -97722,8 +97727,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   vecinos:
-  - {fileID: 5352333373239335692}
   - {fileID: 1142641490735820112}
+  - {fileID: 5352333373239335692}
   toEliminate: []
   parent: {fileID: 0}
   costs:
@@ -98278,8 +98283,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   vecinos:
-  - {fileID: 8176045253239742081}
   - {fileID: 8535926017848821925}
+  - {fileID: 8176045253239742081}
   toEliminate: []
   parent: {fileID: 0}
   costs:
@@ -99058,8 +99063,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   vecinos:
-  - {fileID: 1521409244953138516}
   - {fileID: 4726029266849549462}
+  - {fileID: 1521409244953138516}
   - {fileID: 224646571209488253}
   - {fileID: 2327713565950141185}
   toEliminate: []
@@ -99099,8 +99104,8 @@ MonoBehaviour:
   vecinos:
   - {fileID: 3584303781089406252}
   - {fileID: 3584303781127812268}
-  - {fileID: 3584303780831174236}
   - {fileID: 3584303780537696127}
+  - {fileID: 3584303780831174236}
   - {fileID: 2444345137454769899}
   toEliminate:
   - {fileID: 3584303781127812268}
@@ -99576,9 +99581,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   vecinos:
+  - {fileID: 863210737055051003}
   - {fileID: 1456621834374886707}
   - {fileID: 4982133933721645057}
-  - {fileID: 863210737055051003}
   toEliminate:
   - {fileID: 4982133933721645057}
   parent: {fileID: 0}
@@ -100436,10 +100441,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   vecinos:
+  - {fileID: 8758454070307149445}
   - {fileID: 318304403}
   - {fileID: 2086760067}
   - {fileID: 4945505373115735531}
-  - {fileID: 8758454070307149445}
   toEliminate: []
   parent: {fileID: 0}
   costs:
@@ -100834,10 +100839,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   vecinos:
-  - {fileID: 293361898}
   - {fileID: 1258015406}
-  - {fileID: 5045795449194527498}
   - {fileID: 8758454070307149445}
+  - {fileID: 293361898}
+  - {fileID: 5045795449194527498}
   toEliminate: []
   parent: {fileID: 0}
   costs:
@@ -101488,9 +101493,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   vecinos:
   - {fileID: 8698585774704833585}
+  - {fileID: 368213101776042016}
   - {fileID: 368213100038312827}
   - {fileID: 368213100156837239}
-  - {fileID: 368213101776042016}
   - {fileID: 4399388181714051006}
   toEliminate:
   - {fileID: 368213100156837239}
@@ -101661,10 +101666,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   vecinos:
-  - {fileID: 8569770646728989089}
   - {fileID: 2868036302936886600}
-  - {fileID: 368213100038312827}
   - {fileID: 368213101776042016}
+  - {fileID: 368213100038312827}
+  - {fileID: 8569770646728989089}
   toEliminate:
   - {fileID: 368213100038312827}
   parent: {fileID: 0}
@@ -101741,8 +101746,8 @@ MonoBehaviour:
   vecinos:
   - {fileID: 293361898}
   - {fileID: 318304403}
-  - {fileID: 8072277933396747821}
   - {fileID: 8256433419202405851}
+  - {fileID: 8072277933396747821}
   toEliminate: []
   parent: {fileID: 0}
   costs:
@@ -102085,8 +102090,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   vecinos:
-  - {fileID: 5932597515443822326}
   - {fileID: 1142641490735820112}
+  - {fileID: 5932597515443822326}
   toEliminate: []
   parent: {fileID: 0}
   costs:
