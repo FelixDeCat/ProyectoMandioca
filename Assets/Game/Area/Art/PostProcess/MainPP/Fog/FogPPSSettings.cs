@@ -6,7 +6,7 @@ using UnityEngine;
 using UnityEngine.Rendering.PostProcessing;
 
 [Serializable]
-[PostProcess( typeof( FogPPSRenderer ), PostProcessEvent.BeforeStack, "Fog", true )]
+[PostProcess( typeof( FogPPSRenderer ), PostProcessEvent.AfterStack, "Fog", true )]
 public sealed class FogPPSSettings : PostProcessEffectSettings
 {
 	[Tooltip( "Radius" )]
