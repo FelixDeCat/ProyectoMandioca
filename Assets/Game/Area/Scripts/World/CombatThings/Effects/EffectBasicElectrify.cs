@@ -47,9 +47,9 @@ public class EffectBasicElectrify : EffectBase
 
         //Feedback de cuando empieza el estado
         electrifyMaat.SetFloat("_pannerActivate", 1);
-        ParticlesManager.Instance.PlayParticle(electricParticle.name, transform.position);
+        particle = ParticlesManager.Instance.PlayParticle(electricParticle.name, transform.position, transform);
     }
-
+    ParticleSystem particle; 
 
     protected override void OffEffect()
     {
@@ -66,7 +66,11 @@ public class EffectBasicElectrify : EffectBase
 
         //Feedback de cuando termina el estado
         electrifyMaat.SetFloat("_pannerActivate", 0);
-        ParticlesManager.Instance.StopParticle(electricParticle.name, electricParticle);
+        if (particle != null)
+        {
+            ParticlesManager.Instance.StopParticle(electricParticle.name, particle);
+            particle = null;
+        }
     }
         
 
