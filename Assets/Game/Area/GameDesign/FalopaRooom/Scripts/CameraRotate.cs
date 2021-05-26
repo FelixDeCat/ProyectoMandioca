@@ -36,7 +36,9 @@ public class CameraRotate : MonoBehaviour
 
     [Header("Vertical Tilt")]
     [SerializeField] float maxHeight;
+    float currMaxHeight;
     [SerializeField] float minHeight;
+    float currMinHeight;
     [SerializeField] float comebackSpeed;
     bool isTilting;
     float tiltLerp;
@@ -48,6 +50,9 @@ public class CameraRotate : MonoBehaviour
 
     [HideInInspector] public bool forceStop = false;
 
+
+    float lerpAux = 0.5f;
+
     private void Start()
     {
         myChar = Main.instance.GetChar();
@@ -57,6 +62,9 @@ public class CameraRotate : MonoBehaviour
 
         initialVector = transform.position - (myChar.transform.position + offsetVec);
         initialVector.x = 0;
+
+        currMaxHeight = maxHeight;
+        currMinHeight = minHeight;
     }
 
     float prevDist = 0f;
@@ -78,9 +86,8 @@ public class CameraRotate : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Y)) { Cursor.lockState = CursorLockMode.Locked; Cursor.visible = false; }
         if (Input.GetKeyDown(KeyCode.U)) { Cursor.lockState = CursorLockMode.None; Cursor.visible = true; }
 
-        RaycastHit hit;
         Vector3 direction;
-
+        /*
         if (!UseBezier)
         {
             direction = rotatorX.transform.position - (myChar.transform.position + offsetVec);
@@ -97,7 +104,7 @@ public class CameraRotate : MonoBehaviour
             else if (Vector3.Distance(myChar.transform.position, camConfig.position) < raycastDist)
             {
                 colliding = false;
-                camConfig.transform.position = rotatorX.transform.position;
+                camConfig.transform.position = Vector3.Lerp(camConfig.transform.position,  rotatorX.transform.position, Time.deltaTime);
             }
         }
         else
@@ -129,50 +136,58 @@ public class CameraRotate : MonoBehaviour
                 camConfig.transform.rotation = bezierPoints[0].transform.rotation;
             }
         }
-
+        */
         Vector3 newPos;
 
         if (tiltLerp > 0)
         {
-            newPos = Vector3.Lerp(myChar.transform.position + offsetVec, myChar.transform.position + offsetVec + new Vector3(0, maxHeight, 0), tiltLerp);
+            newPos = Vector3.Lerp(myChar.transform.position + offsetVec, myChar.transform.position + offsetVec + new Vector3(0, currMaxHeight, 0), tiltLerp);
             lookAtTrans.transform.position = new Vector3(lookAtTrans.transform.position.x, newPos.y, lookAtTrans.transform.position.z);
         }
         else
         {
-            newPos = Vector3.Lerp(myChar.transform.position + offsetVec, myChar.transform.position + offsetVec - new Vector3(0, maxHeight, 0), Mathf.Abs(tiltLerp));
+            newPos = Vector3.Lerp(myChar.transform.position + offsetVec, myChar.transform.position + offsetVec - new Vector3(0, currMinHeight, 0), Mathf.Abs(tiltLerp));
             lookAtTrans.transform.position = new Vector3(lookAtTrans.transform.position.x, newPos.y, lookAtTrans.transform.position.z);
         }
 
-        Vector3 newDir;
-        RaycastHit hitnew;
-        newDir = Vector3.Lerp(bezierPoints[1].transform.position, bezierPoints[0].transform.position, 0.5f + tiltLerp / 2f) - lookAtTrans.position;
+        float lerpVal = 0.5f + tiltLerp / 2f;
 
-        if (Physics.Raycast(lookAtTrans.position , newDir, out hitnew, newDir.magnitude, _mask))
+        Vector3 newDir;
+        RaycastHit hit;
+        //newDir = Vector3.Lerp(bezierPoints[1].transform.position, bezierPoints[0].transform.position, 0.5f + tiltLerp / 2f) - lookAtTrans.position;
+        newDir = Extensions.GetPointOnBezierCurve(bezierPoints[1], bezierPoints[0], 0.5f + tiltLerp / 2f) - lookAtTrans.position;       
+
+        if (Physics.Raycast(myChar.transform.position + offsetVec, newDir, out hit, newDir.magnitude, _mask))
         {
             colliding = true;
 
             Vector3 distToChar = lookAtTrans.position - myChar.transform.position;
             distToChar.y = 0;
-            Vector3 distToPoint = lookAtTrans.position - hitnew.point;
+            Vector3 distToPoint = lookAtTrans.position - hit.point;
             distToPoint.y = 0;
 
             if (distToChar.magnitude > distToPoint.magnitude) return;
 
-            if (hitnew.distance > minDistance )
+            if (hit.distance > minDistance )
             {
-                Vector3 dir = hitnew.point - newDir.normalized;
-                camConfig.position = dir;
+                float dist = hit.distance / newDir.magnitude;
+                Vector3 dir = hit.point - newDir.normalized;
+                Vector3 dirAux = new Vector3(dir.x, Mathf.Lerp((myChar.transform.position + offsetVec).y, hit.point.y, dist), dir.z);
+                currMaxHeight = Mathf.Lerp(maxHeight / 10f, maxHeight, dist);
+                currMinHeight = Mathf.Lerp(minHeight / 10f, minHeight, dist);
+                camConfig.position = dirAux;
+                
                 camConfig.transform.rotation = bezierPoints[0].transform.rotation;
+                lerpAux = 1f;
                 return;
             }
         }
-
+       
         colliding = false;
-
+        lerpAux = Mathf.Lerp(lerpAux, lerpVal, Time.deltaTime);
+        
+        camConfig.transform.position = Extensions.GetPointOnBezierCurve(bezierPoints[1], bezierPoints[0], lerpAux);
         camConfig.transform.rotation = bezierPoints[0].transform.rotation;
-        camConfig.transform.position = Vector3.Lerp(bezierPoints[1].transform.position, bezierPoints[0].transform.position, 0.5f + tiltLerp / 2f);
-
-
     }
     float timer;
     public string ChangeSensitivityHor(float val)
