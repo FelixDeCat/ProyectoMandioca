@@ -53,17 +53,6 @@ public class ElectricOrb : Waves
             }
         }
 
-        float rot = 360f / divAmmount;
-        for (int i = 0; i < divAmmount; i++)
-        {
-            float internalAngle = rot * i;
-            Vector3 aux = transform.position + transform.forward * Mathf.Cos(internalAngle * Mathf.Deg2Rad) + transform.right * Mathf.Sin(internalAngle * Mathf.Deg2Rad);
-
-            Waves auxGO = Instantiate(prefabBullet, transform.position, Quaternion.identity);
-            auxGO.SetSpeed(speed).SetLifeTime(lifeTime);
-            auxGO.transform.forward = aux - transform.position;
-        }
-
         Destroy(gameObject);
     }
 

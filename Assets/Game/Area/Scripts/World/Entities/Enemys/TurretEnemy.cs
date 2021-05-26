@@ -211,7 +211,10 @@ public class TurretEnemy : PlayObject
                 }
             }
             else
+            {
                 ray.SetFinalPos(ray.transform.position + dir * rayDistance);
+                feedbackCollision.transform.position = ray.transform.position + dir * rayDistance;
+            }
 
             if (timer >= rayDuration)
             {
@@ -293,6 +296,7 @@ public class TurretEnemy : PlayObject
             if (Physics.Raycast(rayStartPosition.position, root.forward, out hit, rayDistance, contactMask, QueryTriggerInteraction.Ignore))
             {
                 ray.SetFinalPos(hit.point);
+                feedbackCollision.transform.position = hit.point;
                 if (!damageOn && hit.collider.GetComponent<DamageReceiver>())
                 {
                     hit.collider.GetComponent<DamageReceiver>().TakeDamage(dmgData.SetPositionAndDirection(root.position, root.forward));
@@ -300,12 +304,16 @@ public class TurretEnemy : PlayObject
                 }
             }
             else
+            {
                 ray.SetFinalPos(ray.transform.position + root.forward * rayDistance);
+                feedbackCollision.transform.position = ray.transform.position + root.forward * rayDistance;
+            }
 
             if (rooting >= 1)
             {
                 rooting = 0;
                 anim.SetBool("Shoot", false);
+                feedbackCollision.SetActive(false);
                 shooting = false;
                 root.forward = finalDir;
                 AudioManager.instance.StopAllSounds(_RaySound.name);
@@ -320,7 +328,7 @@ public class TurretEnemy : PlayObject
             if (timer >= timeToActivateRay)
             {
                 shooting = true;
-                root.forward = finalDir;
+                root.forward = startDir;
                 timer = 0;
                 anim.SetBool("Shoot", true);
 

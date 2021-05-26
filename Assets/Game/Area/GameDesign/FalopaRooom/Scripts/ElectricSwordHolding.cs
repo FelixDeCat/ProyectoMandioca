@@ -5,7 +5,6 @@ using UnityEngine;
 public class ElectricSwordHolding : MonoBehaviour
 {
     [Header("Fast")]
-    [SerializeField] Waves _wave = null;
     [SerializeField] int speed = 5;
     [SerializeField] float lifeTime = 2;
     [SerializeField] float timeToCharge = 1.5f;
@@ -159,15 +158,6 @@ public class ElectricSwordHolding : MonoBehaviour
     {
         yield return new WaitForEndOfFrame();
         orb.Explode();
-    }
-
-    void Spawn()
-    {
-        var wave = Instantiate(_wave);
-        wave = wave.SetSpeed(speed).SetLifeTime(lifeTime);
-        wave.transform.forward = myChar.GetCharMove().GetRotatorDirection();
-        wave.transform.position = myChar.transform.position + Vector3.up + wave.transform.forward;
-
     }
 
     public void OnEnd()
