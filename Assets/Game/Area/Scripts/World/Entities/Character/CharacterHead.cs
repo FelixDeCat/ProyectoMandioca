@@ -857,6 +857,7 @@ public class CharacterHead : CharacterControllable
 
     void ResetCombo()
     {
+        feedbacks.particles.comboTrail.Stop();
         charAttack.ResetHeavyAttackTime();
     }
     void DelayDisableCallback()
