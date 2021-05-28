@@ -16,7 +16,6 @@ public class FeedbackInteract_ShakeRot : FeedbackInteractBase
     }
     protected override void OnShow()
     {
-        Debug.Log("que onda?");
         if (timer < shakeTime)
         {
             timer += Time.deltaTime;
