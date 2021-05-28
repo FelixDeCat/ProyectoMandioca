@@ -154,14 +154,14 @@ public class CharacterInput : MonoBehaviour
         ChangeWeapon.Invoke(Input.GetAxis("XBOX360_DPadHorizontal"));
 
         if (Input.GetKeyDown(KeyCode.Alpha1)) EV_PRESS_DPAD_UP();
-        if (Input.GetKeyDown(KeyCode.Alpha2)) EV_PRESS_DPAD_LEFT();
+        if (Input.GetKeyDown(KeyCode.Alpha4)) EV_PRESS_DPAD_LEFT();
         if (Input.GetKeyDown(KeyCode.Alpha3)) EV_PRESS_DPAD_DOWN();
-        if (Input.GetKeyDown(KeyCode.Alpha4)) EV_PRESS_DPAD_RIGHT();
+        if (Input.GetKeyDown(KeyCode.Alpha2)) EV_PRESS_DPAD_RIGHT();
 
         if (Input.GetKeyUp(KeyCode.Alpha1)) EV_RELEASE_DPAD_UP();
-        if (Input.GetKeyUp(KeyCode.Alpha2)) EV_RELEASE_DPAD_LEFT();
+        if (Input.GetKeyUp(KeyCode.Alpha4)) EV_RELEASE_DPAD_LEFT();
         if (Input.GetKeyUp(KeyCode.Alpha3)) EV_RELEASE_DPAD_DOWN();
-        if (Input.GetKeyUp(KeyCode.Alpha4)) EV_RELEASE_DPAD_RIGHT();
+        if (Input.GetKeyUp(KeyCode.Alpha2)) EV_RELEASE_DPAD_RIGHT();
 
         if (Input.GetKeyDown(KeyCode.K)) OverTheSholder.Invoke();
 
