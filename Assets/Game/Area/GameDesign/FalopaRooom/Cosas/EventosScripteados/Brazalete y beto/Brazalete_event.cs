@@ -93,7 +93,11 @@ public class Brazalete_event : MonoBehaviour, ISpawner, IPauseable, IScriptedEve
 
         
         ateneaAnim = atenea.GetComponentInChildren<Animator>();
-       
+
+        betoAnim = beto.GetComponentInChildren<Animator>();
+        var _animEvent = betoAnim.GetComponent<AnimEvent>();
+        _animEvent.Add_Callback("skillAction", GoToFlyPos);
+
 
         var _animAtenea = atenea.GetComponentInChildren<AnimEvent>();
         _animAtenea.Add_Callback("ateneaAttack", OnExecuteAteneaAttack);
@@ -178,8 +182,6 @@ public class Brazalete_event : MonoBehaviour, ISpawner, IPauseable, IScriptedEve
         BeginEvent.Invoke();
 
         PauseManager.Instance.AddToPause(this);
-        betoAnim = beto.GetComponent<Ente>().Anim();
-        beto.GetComponent<Ente>().OnSkillAction += GoToFlyPos;
         ateneaDialogue_ground.gameObject.SetActive(false);
         SetResetThings();
 
@@ -254,7 +256,7 @@ public class Brazalete_event : MonoBehaviour, ISpawner, IPauseable, IScriptedEve
     void StartSummonWaves()
     {
         OnReachedDestination_beto -= StartSummonWaves;
-        beto.GetComponent<Ente>().heightLevel = 1;//solo es para que pase al idle de volar
+        betoAnim.SetInteger("heighLevel", 1);//solo es para que pase al idle de volar
         betoAnim.Play("Awake");
 
         wave_handler.OnStartWaveTimer += SummonWave;
@@ -328,7 +330,7 @@ public class Brazalete_event : MonoBehaviour, ISpawner, IPauseable, IScriptedEve
 
     #region CharacterMovement
 
-    void GoToFlyPos() { currentPlaceToGo_beto = flyingPos; beto.GetComponent<Ente>().OnSkillAction -= GoToFlyPos; }
+    void GoToFlyPos() { currentPlaceToGo_beto = flyingPos; }
 
     void Update()
     {
@@ -433,7 +435,7 @@ public class Brazalete_event : MonoBehaviour, ISpawner, IPauseable, IScriptedEve
         atenea.transform.position = originalAtenea_Pos;
         beto.transform.position = originalBeto_Pos;
         betoAnim.Play("IdleGround");
-        beto.GetComponent<Ente>().heightLevel = 0;
+        betoAnim.SetInteger("heighLevel", 0);
         tentaculos.StopRandomTentacles();
         activeSpawn = false;
         totemFeedback.StopAll();
@@ -447,7 +449,6 @@ public class Brazalete_event : MonoBehaviour, ISpawner, IPauseable, IScriptedEve
         wave_handler.Reset();
         wave_handler.OnStartWaveTimer -= SummonWave;
         OnReachedDestination_beto -= StartSummonWaves;
-        beto.GetComponent<Ente>().OnSkillAction -= GoToFlyPos;
 
         amountSummoned = 0;
         amountKilled = 0;
