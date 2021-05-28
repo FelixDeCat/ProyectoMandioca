@@ -1,5 +1,33 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!114 &-8357800949792047694
+MonoBehaviour:
+  m_ObjectHideFlags: 3
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 556797029e73b2347956b6579e77e05b, type: 3}
+  m_Name: DepthOfField
+  m_EditorClassIdentifier: 
+  active: 1
+  enabled:
+    overrideState: 1
+    value: 1
+  focusDistance:
+    overrideState: 1
+    value: 0.7
+  aperture:
+    overrideState: 1
+    value: 0.1
+  focalLength:
+    overrideState: 1
+    value: 3
+  kernelSize:
+    overrideState: 1
+    value: 3
 --- !u!114 &-2561986656294881030
 MonoBehaviour:
   m_ObjectHideFlags: 3
@@ -1370,19 +1398,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: abc0b71c0a6142d49bce109f569ab7b2, type: 3}
   m_Name: FogPPSSettings
   m_EditorClassIdentifier: 
-  active: 0
+  active: 1
   enabled:
     overrideState: 1
     value: 1
-  _Radius:
-    overrideState: 1
-    value: 10.41
-  _FallOff:
-    overrideState: 1
-    value: 1.4
   _FogColor:
     overrideState: 1
-    value: {r: 0.7783019, g: 0.8125481, b: 1, a: 0}
+    value: {r: 0.376157, g: 0.43500325, b: 0.745283, a: 0}
+  _RadiusFogPP:
+    overrideState: 1
+    value: 15
+  _FallOfFogPP:
+    overrideState: 1
+    value: 1.5
 --- !u!114 &11400000
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1400,6 +1428,7 @@ MonoBehaviour:
   - {fileID: -2561986656294881030}
   - {fileID: 8958292161395342729}
   - {fileID: -796489243246998058}
+  - {fileID: -8357800949792047694}
 --- !u!114 &8958292161395342729
 MonoBehaviour:
   m_ObjectHideFlags: 3

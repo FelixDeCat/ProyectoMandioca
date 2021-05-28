@@ -6,15 +6,15 @@ using UnityEngine;
 using UnityEngine.Rendering.PostProcessing;
 
 [Serializable]
-[PostProcess( typeof( FogPPSRenderer ), PostProcessEvent.AfterStack, "Fog", true )]
+[PostProcess( typeof( FogPPSRenderer ), PostProcessEvent.BeforeTransparent, "Fog", true )]
 public sealed class FogPPSSettings : PostProcessEffectSettings
 {
-	[Tooltip( "Radius" )]
-	public FloatParameter _Radius = new FloatParameter { value = 34.4f };
-	[Tooltip( "Fall Off" )]
-	public FloatParameter _FallOff = new FloatParameter { value = 1.15f };
 	[Tooltip( "Fog Color" )]
-	public ColorParameter _FogColor = new ColorParameter { value = new Color(0f,0f,0f,0f) };
+	public ColorParameter _FogColor = new ColorParameter { value = new Color(0.5843138f,0.3725489f,0.5372549f,0f) };
+	[Tooltip( "RadiusFogPP" )]
+	public FloatParameter _RadiusFogPP = new FloatParameter { value = 15f };
+	[Tooltip( "FallOfFogPP" )]
+	public FloatParameter _FallOfFogPP = new FloatParameter { value = 5f };
 }
 
 public sealed class FogPPSRenderer : PostProcessEffectRenderer<FogPPSSettings>
@@ -22,9 +22,9 @@ public sealed class FogPPSRenderer : PostProcessEffectRenderer<FogPPSSettings>
 	public override void Render( PostProcessRenderContext context )
 	{
 		var sheet = context.propertySheets.Get( Shader.Find( "Hidden/Fog" ) );
-		sheet.properties.SetFloat( "_Radius", settings._Radius );
-		sheet.properties.SetFloat( "_FallOff", settings._FallOff );
 		sheet.properties.SetColor( "_FogColor", settings._FogColor );
+		sheet.properties.SetFloat( "_RadiusFogPP", settings._RadiusFogPP );
+		sheet.properties.SetFloat( "_FallOfFogPP", settings._FallOfFogPP );
 		context.command.BlitFullscreenTriangle( context.source, context.destination, sheet, 0 );
 	}
 }

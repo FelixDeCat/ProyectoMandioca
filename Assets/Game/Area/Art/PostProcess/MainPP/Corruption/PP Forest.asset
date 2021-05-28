@@ -1332,19 +1332,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: abc0b71c0a6142d49bce109f569ab7b2, type: 3}
   m_Name: FogPPSSettings
   m_EditorClassIdentifier: 
-  active: 0
+  active: 1
   enabled:
     overrideState: 1
     value: 1
-  _Radius:
-    overrideState: 1
-    value: 17.31
-  _FallOff:
-    overrideState: 1
-    value: 1.95
   _FogColor:
     overrideState: 1
     value: {r: 0.8977159, g: 0.514151, b: 1, a: 0}
+  _RadiusFogPP:
+    overrideState: 1
+    value: 15
+  _FallOfFogPP:
+    overrideState: 1
+    value: 1.5
 --- !u!114 &-1269388789912056764
 MonoBehaviour:
   m_ObjectHideFlags: 3
@@ -1409,6 +1409,35 @@ MonoBehaviour:
   - {fileID: -8575736412110635701}
   - {fileID: -2554693201271297502}
   - {fileID: 6393318351755499849}
+  - {fileID: 6118400134701021757}
+--- !u!114 &6118400134701021757
+MonoBehaviour:
+  m_ObjectHideFlags: 3
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 556797029e73b2347956b6579e77e05b, type: 3}
+  m_Name: DepthOfField
+  m_EditorClassIdentifier: 
+  active: 1
+  enabled:
+    overrideState: 1
+    value: 1
+  focusDistance:
+    overrideState: 1
+    value: 0.7
+  aperture:
+    overrideState: 1
+    value: 0.1
+  focalLength:
+    overrideState: 1
+    value: 3
+  kernelSize:
+    overrideState: 1
+    value: 3
 --- !u!114 &6393318351755499849
 MonoBehaviour:
   m_ObjectHideFlags: 3
