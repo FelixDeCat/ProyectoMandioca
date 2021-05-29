@@ -7,13 +7,13 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: InteractPlants
+  m_Name: EntMatTuto
   m_Shader: {fileID: 4800000, guid: eb49e753579d55747a0f54f2ebb76a25, type: 3}
-  m_ShaderKeywords: _USEEMISSION_ON
+  m_ShaderKeywords: _USEALBEDO_ON _USEEMISSION_ON
   m_LightmapFlags: 0
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
-  m_CustomRenderQueue: 2000
+  m_CustomRenderQueue: -1
   stringTagMap: {}
   disabledShaderPasses: []
   m_SavedProperties:
@@ -23,16 +23,8 @@ Material:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
-    - _AO1:
-        m_Texture: {fileID: 0}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
     - _Albedo:
-        m_Texture: {fileID: 0}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    - _Albedo1:
-        m_Texture: {fileID: 2800000, guid: f48d5b61f6c5cb54095a1c60ec8bd327, type: 3}
+        m_Texture: {fileID: 2800000, guid: fc959021479036c4496667475cccd508, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _BumpMap:
@@ -55,16 +47,12 @@ Material:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
-    - _Emission1:
-        m_Texture: {fileID: 0}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
     - _EmissionMap:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MainTex:
-        m_Texture: {fileID: 0}
+        m_Texture: {fileID: 2800000, guid: 365290d13e18dc94b9fa828c5fa9f64c, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MetallicGlossMap:
@@ -72,10 +60,6 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _Normal:
-        m_Texture: {fileID: 0}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    - _Normal1:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
@@ -95,7 +79,11 @@ Material:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
-    - _Smoothness1:
+    - _TextureSample0:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _WindMask:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
@@ -105,44 +93,76 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Floats:
     - _AOIntensity: 0
+    - _AmbientLight: 0
+    - _AmbientLightIntensity: 1.61
+    - _Ammount: 0
     - _BumpScale: 1
     - _ColorSaturation: 1
-    - _ColorSaturation1: 1
-    - _Cutoff: 0.5
+    - _Cutoff: 1
     - _DetailNormalMapScale: 1
+    - _Dir: 0
+    - _Distance: 6.35
+    - _DistanceCamera: 0
     - _DstBlend: 0
-    - _EmissionIntensity: 0.3
-    - _EmissionIntensity1: 0
+    - _EdgeLength: 15
+    - _EmissionIntensity: 1
+    - _FallOff: 3.05
+    - _FallOffCamera: 0
+    - _Float0: 0
+    - _Float2: 0
+    - _Freq: 0
+    - _FreqWind: 1.21
     - _FresnelFrec1: 1
-    - _FresnelPowa1: 5
+    - _FresnelPowa1: 4
     - _GlossMapScale: 1
-    - _Glossiness: 0.5
+    - _Glossiness: 0.185
     - _GlossyReflections: 1
+    - _Intensity: 1
+    - _IntensityWind: 0
+    - _MaskIntensity: 1
+    - _MaskMove: 2.27
+    - _MaskWind: 0
     - _MetalicIntensity: 0
-    - _MetalicIntensity1: 0
     - _Metallic: 0
     - _Mode: 0
+    - _NormalValue: 1
     - _OcclusionStrength: 1
+    - _OffsetShadow: 0.87
     - _OpacityOutline: 0
-    - _OutlineWitdh: 0.223
+    - _OutlineWitdh: 0
+    - _PannerActivate: 1
     - _Parallax: 0.02
+    - _ScaleShadow: 0.74
+    - _ShadowValue: 1
     - _SmoothnessTextureChannel: 0
     - _SmoothnessValue: 0
-    - _SmoothnessValue1: 0
     - _SpecularHighlights: 1
+    - _SpeedWind: 2.2
     - _SrcBlend: 1
+    - _StepValue: -0.35
+    - _TessValue: 32
     - _UVSec: 0
+    - _UseAlbedo: 1
     - _UseEmission: 1
-    - _UseEmission1: 0
+    - _UsePannerEmission: 0
     - _UseSmoothness: 0
-    - _UseSmoothness1: 0
+    - _UseWind: 0
+    - _ValueShadow: 1.52
     - _ZWrite: 1
     - __dirty: 0
     m_Colors:
+    - _AmbientLightColor: {r: 0.74816793, g: 1, b: 0.5518868, a: 0}
+    - _AutoTextureTiling: {r: 3, g: 3, b: 0, a: 0}
     - _Color: {r: 1, g: 1, b: 1, a: 1}
-    - _EmissionColor: {r: 0.047058824, g: 1.4980392, b: 0, a: 0}
-    - _EmissionColor1: {r: 0, g: 0, b: 0, a: 0}
-    - _FresnelColor1: {r: 0, g: 0.05490196, b: 1.8431373, a: 0}
-    - _OutlineColor: {r: 0.70980394, g: 1, b: 0.68235296, a: 0}
-    - _TintColor: {r: 0, g: 0.75471693, b: 0.124306224, a: 0}
-    - _TintColor1: {r: 1, g: 1, b: 1, a: 0}
+    - _Color0: {r: 0.66025096, g: 1, b: 0.495283, a: 0}
+    - _Color1: {r: 0, g: 0, b: 0, a: 0}
+    - _Color2: {r: 1, g: 0, b: 0, a: 0}
+    - _ColorAforAutoTexture: {r: 0, g: 0, b: 0, a: 0}
+    - _ColorBforAutoTexture: {r: 0, g: 0, b: 0, a: 0}
+    - _ColorShadow: {r: 1, g: 0.84261006, b: 0.8160377, a: 0}
+    - _EmissionColor: {r: 0, g: 0, b: 0, a: 0}
+    - _FresnelColor1: {r: 0.03137255, g: 0, b: 2, a: 0}
+    - _OutlineColor: {r: 0, g: 0.22047567, b: 1, a: 0}
+    - _ShadoColor: {r: 0.72323394, g: 1, b: 0.58962256, a: 0}
+    - _SpeedPannerEmission: {r: 0, g: 1, b: 0, a: 0}
+    - _TintColor: {r: 1, g: 1, b: 1, a: 1}
