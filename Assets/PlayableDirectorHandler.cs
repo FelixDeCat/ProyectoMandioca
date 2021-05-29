@@ -12,9 +12,17 @@ public class PlayableDirectorHandler : MonoBehaviour
 
     private void Start()
     {
-        LoadSceneHandler.instance.Off_LoadScreen();
-        Fades_Screens.instance.Black();
-        Fades_Screens.instance.FadeOff(OnFinishSceneLoad);
+        if (LoadSceneHandler.instance)
+        {
+            LoadSceneHandler.instance.Off_LoadScreen();
+            Fades_Screens.instance.Black();
+            Fades_Screens.instance.FadeOff(OnFinishSceneLoad);
+        }
+        else
+        {
+            director.Play();
+            director.stopped += OnFinishCinematic;
+        }
     }
 
     public void OnFinishSceneLoad()
@@ -25,7 +33,15 @@ public class PlayableDirectorHandler : MonoBehaviour
 
     void OnFinishCinematic(PlayableDirector d)
     {
-        Fades_Screens.instance.FadeOff(EndFade);
+        if (Fades_Screens.instance)
+        {
+            Fades_Screens.instance.FadeOff(EndFade);
+        }
+        else
+        {
+            UnityEngine.SceneManagement.SceneManager.LoadScene(this.gameObject.scene.name);
+        }
+        
     }
     void EndFade()
     {
