@@ -18,6 +18,7 @@ namespace IA2Final.FSM
         AStarHelper aStar;
         bool canWalk;
         bool dest;
+        bool executingAbility;
         int currentNode;
         AStarNode endNode;
         Vector3 fontPos;
@@ -34,7 +35,20 @@ namespace IA2Final.FSM
 
         public override void UpdateLoop()
         {
-            if (!canWalk || dest) return;
+            if (!canWalk || executingAbility) return;
+
+            if (dest)
+            {
+                if (boss.WalkToNextNode(fontPos))
+                {
+                    executingAbility = true;
+                    boss.StartPoisonLake(skill);
+                    boss.StopMove();
+                    boss.LakeActive(true);
+                }
+
+                return;
+            }
 
             if (boss.WalkToNextNode(path[currentNode]))
             {
@@ -43,12 +57,10 @@ namespace IA2Final.FSM
                 if (currentNode >= path.Count)
                 {
                     dest = true;
-                    boss.StartPoisonLake(skill);
-                    boss.StopMove();
-                    boss.LakeActive(true);
                     return;
                 }
             }
+            
         }
 
         void EndSkill()
@@ -60,6 +72,9 @@ namespace IA2Final.FSM
         {
             if(endNode == null)
                 endNode = aStar.GetNearNode(fontPos);
+            dest = false;
+            canWalk = false;
+            executingAbility = false;
 
             AStarNode startNode = aStar.GetNearNode(boss.transform.position);
 
@@ -67,6 +82,7 @@ namespace IA2Final.FSM
             {
                 boss.StartPoisonLake(skill);
                 boss.LakeActive(true);
+                dest = true;
             }
             else
             {
@@ -89,6 +105,7 @@ namespace IA2Final.FSM
             currentNode = 0;
             dest = false;
             canWalk = false;
+            executingAbility = false;
             return base.Exit(to);
         }
 

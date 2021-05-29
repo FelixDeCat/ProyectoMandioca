@@ -69,7 +69,7 @@ public class FinalExpansiveAreaSkill : BossSkills
     void GiveDamage(GameObject collision)
     {
         var dmgReceiver = collision.GetComponent<DamageReceiver>();
-        if (!dmgReceiver) return;
+        if (dmgReceiver == null) return;
 
         var vectorBetween = dmgReceiver.transform.position - explosionSensor.transform.position;
 

@@ -24,6 +24,7 @@ public class BetoBrain
     [SerializeField] int lakePoisonDamage = 15;
     [SerializeField] int spawnDamage = 10;
     [SerializeField] float timeStuned = 5;
+    [SerializeField, Range(0, 1)] float percentToUsePoison = 0.5f;
     [SerializeField] Transform fontPos = null;
 
     [SerializeField] Animator anim = null;
@@ -132,6 +133,7 @@ public class BetoBrain
                                                  .LinkedState(spawnState),
 
                                               new GOAPAction(BetoStatesName.OnPoisonLake)
+                                                 .Pre(x => x.intValues[GOAPParametersName.OwnLife] <= model.lifesystem.LifeMax * percentToUsePoison)
                                                  .Pre(x => x.boolValues[GOAPParametersName.Flying])
                                                  .Pre(x => !x.boolValues[GOAPParametersName.LakePoisonCooldown])
                                                  .Effect(x=> x.boolValues[GOAPParametersName.LakePoisonCooldown] = true)
@@ -178,7 +180,10 @@ public class BetoBrain
         if (Main.instance.GetChar().Life.Life <= 0) return;
         fsm = GoapPlanner.ConfigureFSM(plan, Coroutine);
         foreach (var item in plan)
-            item.linkedState.Transitions.Add(BetoStatesName.OnStun, stunState);
+        {
+            if(!item.linkedState.Transitions.ContainsKey(BetoStatesName.OnStun))item.linkedState.Transitions.Add(BetoStatesName.OnStun, stunState);
+
+        }
         if (fsm != null) fsm.Active = true;
 
     }

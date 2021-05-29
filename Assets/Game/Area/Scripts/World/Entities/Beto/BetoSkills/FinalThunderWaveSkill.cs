@@ -44,7 +44,7 @@ public class FinalThunderWaveSkill : BossSkills, ISpawner
     void SpawnEnemies()
     {
         spot.spawnSpot.position = target.position;
-        LifePercent enemies = ReturnArrays(lifeSystem.Life / lifeSystem.LifeMax);
+        LifePercent enemies = ReturnArrays((float)lifeSystem.Life / (float)lifeSystem.LifeMax);
 
         for (int i = 0; i < enemiesDictionary[enemies].Length; i++)
         {

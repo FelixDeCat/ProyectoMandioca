@@ -219,7 +219,23 @@ public class BetoBoss : EnemyBase
 
         rb.velocity = new Vector3(rootTransform.forward.x * moveSpeed, rb.velocity.y, rootTransform.forward.z * moveSpeed);
 
-        if (Vector3.Distance(myPos, nodePos) < 0.2f) return true;
+        if (Vector3.Distance(myPos, nodePos) < 0.5f) return true;
+
+        return false;
+    }
+
+    public bool WalkToNextNode(Vector3 customNode)
+    {
+        Vector3 nodePos = new Vector3(customNode.x, 0, customNode.z);
+        Vector3 myPos = new Vector3(transform.position.x, 0, transform.position.z);
+
+        Vector3 dirToNode = obsAvoid.ObstacleAvoidance((nodePos - myPos).normalized);
+
+        rootTransform.forward = Vector3.Lerp(rootTransform.forward, dirToNode, Time.deltaTime * rotSpeed);
+
+        rb.velocity = new Vector3(rootTransform.forward.x * moveSpeed, rb.velocity.y, rootTransform.forward.z * moveSpeed);
+
+        if (Vector3.Distance(myPos, nodePos) < 0.5f) return true;
 
         return false;
     }

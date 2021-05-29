@@ -33,6 +33,7 @@ namespace IA2Final.FSM
 
         public override void Enter(IState from, Dictionary<string, object> transitionParameters = null)
         {
+            timerComplete = false;
             spawnSkill.UseSkill(() => boss.SpawnActive(false));
             boss.SpawnActive(true);
         }
