@@ -5,7 +5,7 @@ using UnityEditor;
 using UnityEditor.UIElements;
 using UnityEngine.SceneManagement;
 
-[CustomEditor(typeof(LocalSceneHandler))]
+//[CustomEditor(typeof(LocalSceneHandler))]
 public class LocalSceneHandlerEditor : Editor
 {
     LocalSceneHandler _handler;
@@ -16,10 +16,11 @@ public class LocalSceneHandlerEditor : Editor
     GameObject _lowdetail { get => _handler.SceneData.low_detailInScene; set => _handler.SceneData.low_detailInScene = value; }
     GameObject _mediumDetail { get => _handler.SceneData.medium_detailInScene; set => _handler.SceneData.medium_detailInScene = value; }
     GameObject _highDetail { get => _handler.SceneData.hightDetailInScene; set => _handler.SceneData.hightDetailInScene = value; }
-    List<GenericAsyncLocalScene> loads { get => _handler.loads; set => _handler.loads = value; }
+    //List<GenericAsyncLocalScene> loads { get => _handler.loads; set => _handler.loads = value; }
 
     void OnEnable()
     {
+        return;
         _handler = (LocalSceneHandler)target;
         sceneName = _handler.gameObject.scene.name;
         _handler.gameObject.name = _handler.gameObject.scene.name;
@@ -33,6 +34,7 @@ public class LocalSceneHandlerEditor : Editor
 
     public override void OnInspectorGUI()
     {
+        return;
 
         //Checkea si hay un scriptableobject en el espacio
         if (!_handler.SceneData)
@@ -163,32 +165,32 @@ public class LocalSceneHandlerEditor : Editor
         EditorGUILayout.Space();
         EditorGUILayout.LabelField("Custom loads");
 
-        if (loads.Count <= 0)
-        {
-            if (GUILayout.Button("Add New Custom Load"))
-            {
-                GameObject go = new GameObject();
-                go.AddComponent<AsyncLoaderHandler>();
-                go.name = _data.name + "_CustomLoad";
-                loads.Add(go.GetComponent<AsyncLoaderHandler>());
-            }
-        }
-        else
-        {
-            if (GUILayout.Button("Clear"))
-            {
-                for (int i = 0; i < loads.Count; i++)
-                {
-                    DestroyImmediate(loads[i]);
-                }
-                _handler.loads.Clear();
-                serializedObject.ApplyModifiedProperties();
-            }
-            for (int i = 0; i < loads.Count; i++)
-            {
-                loads[i] = EditorGUILayout.ObjectField("Load" + i.ToString("##"), loads[i], typeof(GenericAsyncLocalScene), false) as GenericAsyncLocalScene;
-            }
-        }
+        //if (loads.Count <= 0)
+        //{
+        //    if (GUILayout.Button("Add New Custom Load"))
+        //    {
+        //        GameObject go = new GameObject();
+        //        go.AddComponent<AsyncLoaderHandler>();
+        //        go.name = _data.name + "_CustomLoad";
+        //        loads.Add(go.GetComponent<AsyncLoaderHandler>());
+        //    }
+        //}
+        //else
+        //{
+        //    if (GUILayout.Button("Clear"))
+        //    {
+        //        for (int i = 0; i < loads.Count; i++)
+        //        {
+        //            DestroyImmediate(loads[i]);
+        //        }
+        //        _handler.loads.Clear();
+        //        serializedObject.ApplyModifiedProperties();
+        //    }
+        //    for (int i = 0; i < loads.Count; i++)
+        //    {
+        //        loads[i] = EditorGUILayout.ObjectField("Load" + i.ToString("##"), loads[i], typeof(GenericAsyncLocalScene), false) as GenericAsyncLocalScene;
+        //    }
+        //}
 
 
         EditorGUILayout.LabelField("Events");

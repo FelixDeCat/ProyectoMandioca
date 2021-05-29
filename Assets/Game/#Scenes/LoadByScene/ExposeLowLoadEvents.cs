@@ -9,13 +9,16 @@ public class ExposeLowLoadEvents : MonoBehaviour
     public UnityEvent Turn_OFF_LOW;
     LocalSceneHandler handler;
 
-    IEnumerable<LoadComponent> components;
+    HashSet<LoadComponent> components;
 
     public Transform contentParent;
+    SceneSwitcher switcher;
 
     private void Start()
     {
-        components = contentParent.GetComponentsInChildren<LoadComponent>();
+        switcher = FindObjectOfType<SceneSwitcher>();
+        components = contentParent.GetComponentsInChildren<LoadComponent>().ToHashSet();
+        components.Add(switcher);
         handler = GetComponent<LocalSceneHandler>();
         handler.SubscribeEventsLOWObjects(On, Off);
     }
