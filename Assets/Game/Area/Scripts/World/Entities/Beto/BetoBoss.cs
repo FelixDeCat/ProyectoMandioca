@@ -46,6 +46,7 @@ public class BetoBoss : EnemyBase
     protected override void OnInitialize()
     {
         base.OnInitialize();
+        Debug.Log("me inicializo");
         target = Main.instance.GetChar().Root;
         MyAbilityMostUsed = "";
         brain.Initialize(this, StartCoroutine, rb);
