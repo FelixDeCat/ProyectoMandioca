@@ -5,7 +5,7 @@ using UnityEngine;
 using System.Linq;
 using UnityEngine.Events;
 
-public class PistonWithSteps : EntityBase
+public class PistonWithStepsNoEntity : MonoBehaviour
 {
     [SerializeField] protected Transform _root = null;
     [SerializeField] protected List<Transform> nodes = new List<Transform>();
@@ -17,10 +17,21 @@ public class PistonWithSteps : EntityBase
     protected int currentNode = 0;
     bool isMoving = false;
 
+    public bool playOnAwake;
+
 
     public UnityEvent OnEnd;
 
     public UnityEvent OnBegin;
+
+    private void Start()
+    {
+        if (playOnAwake)
+        {
+            GoToNextNode();
+        }
+    }
+
     public virtual void OnBeginMove()
     {
         OnBegin.Invoke();
@@ -42,7 +53,7 @@ public class PistonWithSteps : EntityBase
 
     public void RemovePlayerFromPlatform()
     {
-        if(Main.instance.GetChar().transform.parent == parent.transform)
+        if (Main.instance.GetChar().transform.parent == parent.transform)
             Main.instance.GetChar().transform.parent = Main.instance.GetChar().MyParent;
     }
 
@@ -54,7 +65,7 @@ public class PistonWithSteps : EntityBase
 
         OnBeginMove();
 
-        if (nodes.Count -1 == currentNode)
+        if (nodes.Count - 1 == currentNode)
         {
             nodes.Reverse();
             currentNode = 0;
@@ -76,12 +87,7 @@ public class PistonWithSteps : EntityBase
         }
     }
 
-    protected override void OnInitialize() { }
-    protected override void OnDeinitialize() { }
-    protected override void OnTurnOn() { }
-    protected override void OnTurnOff() { }
-    protected override void OnUpdate() { }
-    protected override void OnFixedUpdate()
+    void FixedUpdate()
     {
         if (isMoving)
         {
@@ -106,8 +112,5 @@ public class PistonWithSteps : EntityBase
             }
         }
     }
-    protected override void OnPause() { }
-    protected override void OnResume() { }
 
-    
 }
