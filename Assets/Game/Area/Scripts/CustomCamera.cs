@@ -53,6 +53,7 @@ public class CustomCamera : MonoBehaviour
 
     [SerializeField] EventInt invertAxis = null;
 
+
     private void Start()
     {
         //_joystick = new JoystickBasicInput();
@@ -62,9 +63,10 @@ public class CustomCamera : MonoBehaviour
         pingpongZoom.Configure(Zoom, false);
         changeCameraconf(0);
         original_shake_amount = shakeAmmount;
-        lookAtTarget = charTransform = Main.instance.GetChar().GetLookatPosition();
+        charTransform = Main.instance.GetChar().GetLookatPosition();
+        lookAtTarget = Main.instance.GetChar().GetLookatPosition().GetComponent<SmoothToPos>();
         cinematicCamParent = myCameras[1].transform.parent;
-        
+
         //skillCloseUp_Camera.SubscribeOnTurnOnCamera(CloseToCharacter);
         //skillCloseUp_Camera.SubscribeOnTurnOnCamera(ExitToCharacte);
     }
@@ -88,16 +90,16 @@ public class CustomCamera : MonoBehaviour
 
         pingpongZoom.Updatear();
         if (!lookAt)
-        transform.forward = Vector3.Slerp(transform.forward, myCameras[index].transform.forward, speedRot * Time.deltaTime);
+            transform.forward = Vector3.Slerp(transform.forward, myCameras[index].transform.forward, speedRot * Time.deltaTime);
     }
 
     private void FixedUpdate()
     {
         if (!active || activateOverTheSholder)
             return;
-
+        //BezierCinematic();
         MakeCinematic();
-        if(!inCinematic)SmoothToTarget();
+        if (!inCinematic) SmoothToTarget();
     }
     private void LateUpdate()
     {
@@ -128,7 +130,7 @@ public class CustomCamera : MonoBehaviour
         //}
         Vector3 smoothedposition = Vector3.Slerp(transform.position, moveOffset, smooth * Time.deltaTime);
         transform.position = smoothedposition;
-        if (lookAt) transform.LookAt(lookAtTarget);
+        if (lookAt) transform.LookAt(lookAtTarget.transform);
     }
     public void InstantPosition()
     {
@@ -210,8 +212,8 @@ public class CustomCamera : MonoBehaviour
         index = 0;
         changeCameraconf(index);
         invertAxis.Invoke(index);
-        if(!lookAt)
-        transform.forward = Vector3.Lerp(transform.forward, myCameras[index].transform.forward, speedRot * Time.deltaTime);
+        if (!lookAt)
+            transform.forward = Vector3.Lerp(transform.forward, myCameras[index].transform.forward, speedRot * Time.deltaTime);
     }
     void OverTheSholder()
     {
@@ -238,7 +240,7 @@ public class CustomCamera : MonoBehaviour
         horizontal += horizontalSpeed * Input.GetAxis("Horizontal");
         horizontal = Mathf.Clamp(horizontal, (startHorizontal - 45), (startHorizontal + 45));
         vertical += verticalSpeed * Input.GetAxis("Vertical");
-        vertical = Mathf.Clamp(vertical, (StartVertical-45), (StartVertical+45));
+        vertical = Mathf.Clamp(vertical, (StartVertical - 45), (StartVertical + 45));
 
         transform.rotation = Quaternion.Euler(-vertical, horizontal, 0);
 
@@ -275,22 +277,29 @@ public class CustomCamera : MonoBehaviour
     float cinematicTime;
     float returnTime;
     Transform finalPos;
-    Transform lookAtTarget;
+    SmoothToPos lookAtTarget;
     Vector3 lookPos;
     public event Action OnFinishCinematicEvent;
     bool inCinematic;
-
-    public void StartCinematic(float _goTime, float _cinematicTime, float _returnTime, Transform _finalPos, Transform _lookAt, Action callback = null)
+    BezierPoint[] beziers;
+    AnimationCurve moveCurveSmooth;
+    AnimationCurve lookAtCurveSmooth;
+    public void StartCinematic(float _goTime, float _cinematicTime, float _returnTime, AnimationCurve _moveCurve, AnimationCurve _lookAtCurve, Transform _finalPos, Transform _lookAt, Action callback = null)
     {
         goTime = _goTime;
         cinematicTime = _cinematicTime;
         returnTime = _returnTime;
+        moveCurveSmooth = _moveCurve;
+        lookAtCurveSmooth = _lookAtCurve;
         finalPos = _finalPos;
         lookPos = _lookAt.position;
         OnFinishCinematicEvent = callback;
-        cameraState = CameraCinematicState.cameraGo;        
+        cameraState = CameraCinematicState.cameraGo;
     }
 
+    Vector3 startLookAtPos;
+    Vector3 lookAtVelocity = Vector3.zero;
+   
     void MakeCinematic()
     {
         if (cameraState == CameraCinematicState.off)
@@ -304,19 +313,21 @@ public class CustomCamera : MonoBehaviour
             cameraState = CameraCinematicState.cameraGoing;
             cameraRotate.forceStop = true;
             inCinematic = true;
+            startLookAtPos = lookAtTarget.transform.position;
         }
-        else if(cameraState == CameraCinematicState.cameraGoing)
+        else if (cameraState == CameraCinematicState.cameraGoing)
         {
             timer += Time.deltaTime;
-            myCameras[1].transform.position = Vector3.Lerp(startPos, finalPos.position, timer / goTime);
-            transform.position = myCameras[1].transform.position;
-
+            //myCameras[1].transform.position = Vector3.Lerp(startPos, finalPos.position, timer / goTime);
+            transform.position = Vector3.Lerp(startPos, finalPos.position, moveCurveSmooth.Evaluate(timer / goTime));
+            
             //Esto es para el smooth
-            lookAtTarget.position = Vector3.Lerp(charTransform.position, lookPos, timer / goTime);
+            lookAtTarget.transform.position = Vector3.Lerp(startLookAtPos, lookPos, lookAtCurveSmooth.Evaluate(timer / goTime));
+          
             //El calculo esta bien pero el SmoothToPos del lookAtPos hace que la camara gire rarito
-            transform.LookAt(lookAtTarget);
+            transform.LookAt(lookAtTarget.transform);
 
-            if (timer > goTime)
+            if (timer> goTime)
             {
                 timer = 0;
                 cameraState = CameraCinematicState.inCinematic;
@@ -326,7 +337,7 @@ public class CustomCamera : MonoBehaviour
         {
             timer += Time.deltaTime;
 
-            lookAtTarget.position = lookPos;
+            lookAtTarget.transform.position = lookPos;
 
             if (timer > cinematicTime)
             {
@@ -337,14 +348,16 @@ public class CustomCamera : MonoBehaviour
         else if (cameraState == CameraCinematicState.cameraReturn)
         {
             timer += Time.deltaTime;
-            myCameras[1].transform.position = Vector3.Lerp(finalPos.position, myCameras[0].transform.position, timer / returnTime);
-            transform.position = myCameras[1].transform.position;
+            //myCameras[1].transform.position = Vector3.Lerp(finalPos.position, myCameras[0].transform.position, timer / returnTime);
+            transform.position = Vector3.Slerp(finalPos.position, myCameras[0].transform.position, moveCurveSmooth.Evaluate(timer/returnTime));
+
             //Esto es para el smooth
-            lookAtTarget.position = Vector3.Lerp(lookPos, charTransform.position, timer / returnTime);
-            transform.LookAt(lookAtTarget);
+            //Vector3 aux = Vector3.Lerp(lookPos, startLookAtPos, timer / returnTime);            
+            lookAtTarget.transform.position = Vector3.Lerp(lookPos, startLookAtPos, lookAtCurveSmooth.Evaluate(timer/returnTime));
+            transform.LookAt(lookAtTarget.transform);
             //Aca también
 
-            if (timer > returnTime)
+            if (timer>returnTime)
             {
                 timer = 0;
                 cameraRotate.forceStop = false;
