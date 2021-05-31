@@ -98,6 +98,7 @@ public abstract class Interactable : MonoBehaviour
         executing = false;
         InteractSensor.Add_Interactable(this);
     }
+    public void SetCanInteract(bool _caninteract) => can_interact = _caninteract;
 
     public void SetCanInteract(bool _caninteract, bool back_with_timer = false)
     {

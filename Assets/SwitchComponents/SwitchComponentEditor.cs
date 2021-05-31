@@ -1,10 +1,6 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿#if UNITY_EDITOR
 using UnityEngine;
 using UnityEditor;
-using UnityEditor.UIElements;
-using System.Linq;
-using UnityEditor.SceneManagement;
 
 [CustomEditor(typeof(SwitchComponent))]
 public class SwitchComponentEditor : Editor
@@ -160,3 +156,4 @@ public class SwitchComponentEditor : Editor
         serializedObject.ApplyModifiedProperties();
     }
 }
+#endif

@@ -18,13 +18,13 @@ public class Brazalete_event : MonoBehaviour, ISpawner, IPauseable, IScriptedEve
     Animator ateneaAnim;
     [SerializeField] bool eventOn = false;
     CDModule timer = new CDModule();
-    Action OnReachedDestination_beto; 
+    Action OnReachedDestination_beto;
     Action OnReachedDestination_Atena;
 
     [Header("Movement Settings")]
     [SerializeField] Transform flyingPos = null;
     [SerializeField] Transform getAway_pos = null;
-   // [SerializeField] Transform brazaletDrop_pos = null;
+    // [SerializeField] Transform brazaletDrop_pos = null;
     [SerializeField] Transform ateneaFinal_pos = null;
     Transform currentPlaceToGo_beto;
     //Transform currentPlaceToGo_brazalete;
@@ -77,7 +77,7 @@ public class Brazalete_event : MonoBehaviour, ISpawner, IPauseable, IScriptedEve
 
     void Start()
     {
-       
+
         ateneaDialogue_ground.gameObject.SetActive(false);
 
         wave_handler.Init();
@@ -91,7 +91,7 @@ public class Brazalete_event : MonoBehaviour, ISpawner, IPauseable, IScriptedEve
             originalVillager_Pos[i] = aldeanosAsustados[i].transform.position;
         }
 
-        
+
         ateneaAnim = atenea.GetComponentInChildren<Animator>();
 
         betoAnim = beto.GetComponentInChildren<Animator>();
@@ -114,6 +114,14 @@ public class Brazalete_event : MonoBehaviour, ISpawner, IPauseable, IScriptedEve
 
         Invoke("KillAllEnemies", 2f);
         //si hago esto funciona?
+    }
+
+    //solo para interactable debug
+    public void DEV_INTERACTABLE_AceleraAparicionDeAtenea()
+    {
+        timer.EndCDWithoutExecute("ateneaSaveTheDay");
+        timer.EndCDWithoutExecute("timeToPlayFly");
+        AteneaCleanEnemies_StartEvent();
     }
 
     void SetResetThings()
