@@ -121,6 +121,7 @@ public class Brazalete_event : MonoBehaviour, ISpawner, IPauseable, IScriptedEve
     {
         timer.EndCDWithoutExecute("ateneaSaveTheDay");
         timer.EndCDWithoutExecute("timeToPlayFly");
+        OnReachedDestination_beto -= StartSummonWaves;
         AteneaCleanEnemies_StartEvent();
     }
 
