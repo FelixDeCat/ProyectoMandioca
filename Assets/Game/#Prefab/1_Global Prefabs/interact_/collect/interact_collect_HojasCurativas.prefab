@@ -103,7 +103,6 @@ GameObject:
   m_Component:
   - component: {fileID: 3458814436821353530}
   - component: {fileID: 3458814436821353526}
-  - component: {fileID: 1933154255302635671}
   - component: {fileID: 8449518503374469748}
   - component: {fileID: 2577320187140131354}
   m_Layer: 0
@@ -183,17 +182,6 @@ MonoBehaviour:
   execute:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1933154255302635671}
-        m_MethodName: Onuse
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
       - m_Target: {fileID: 8449518503374469748}
         m_MethodName: OnCollectItem
         m_Mode: 1
@@ -227,21 +215,10 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 1
         m_CallState: 2
-  destroy: 0
+  destroy: 1
   customDestroy:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 1933154255302635671}
-        m_MethodName: Onuse
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
   UE_EndDelayExecute:
     m_PersistentCalls:
       m_Calls: []
@@ -251,102 +228,6 @@ MonoBehaviour:
   - {fileID: 3031689321140415967}
   actionName: hold to grab
   _feedBack: {fileID: 8300000, guid: 4ab60c3eab514924a88bca826c7ae268, type: 3}
---- !u!114 &1933154255302635671
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3458814436821353525}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 84ed276f90c737048957f932fda84e85, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  UE_OnDesactivate:
-    m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 3458814436821353526}
-        m_MethodName: set_enabled
-        m_Mode: 6
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-      - m_Target: {fileID: 7067811334270223865}
-        m_MethodName: SetActive
-        m_Mode: 6
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-      - m_Target: {fileID: 3458814436821353526}
-        m_MethodName: ExecuteBool
-        m_Mode: 6
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 1
-        m_CallState: 2
-  UE_OnReactivate:
-    m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 3458814436821353526}
-        m_MethodName: set_enabled
-        m_Mode: 6
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 1
-        m_CallState: 2
-      - m_Target: {fileID: 7067811334270223865}
-        m_MethodName: SetActive
-        m_Mode: 6
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 1
-        m_CallState: 2
-      - m_Target: {fileID: 3458814436821353526}
-        m_MethodName: ExecuteBool
-        m_Mode: 6
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-      - m_Target: {fileID: 3458814436821353526}
-        m_MethodName: ReturnToCanExecute
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-  time_to_reuse: 120
 --- !u!114 &8449518503374469748
 MonoBehaviour:
   m_ObjectHideFlags: 0
