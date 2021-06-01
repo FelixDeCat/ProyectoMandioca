@@ -32,7 +32,7 @@ public class FinalPoisonLakeSkill : BossSkills
         base.Initialize();
         lake.gameObject.SetActive(true);
         lake.GetComponent<PlayObject>()?.Initialize();
-        lake.position = new Vector3(lake.position.x, minLakeYPos, lake.position.z);
+        lake.localPosition = new Vector3(lake.localPosition.x, minLakeYPos, lake.localPosition.z);
         lake.gameObject.SetActive(false);
         animEvent.Add_Callback("PoisonLake", ActiveLake);
     }
@@ -47,8 +47,8 @@ public class FinalPoisonLakeSkill : BossSkills
     {
         lake.gameObject.SetActive(true);
         lake.GetComponent<PlayObject>()?.On();
-        downPos = new Vector3(lake.position.x, minLakeYPos, lake.position.z);
-        upPos = new Vector3(lake.position.x, maxLakeYPos, lake.position.z);
+        downPos = new Vector3(lake.localPosition.x, minLakeYPos, lake.localPosition.z);
+        upPos = new Vector3(lake.localPosition.x, maxLakeYPos, lake.localPosition.z);
     }
 
     public override void OnUpdate()
@@ -61,11 +61,11 @@ public class FinalPoisonLakeSkill : BossSkills
         {
             movingTimer += Time.deltaTime;
 
-            lake.position = Vector3.Lerp(downPos, upPos, movingTimer / timeToUp);
+            lake.localPosition = Vector3.Lerp(downPos, upPos, movingTimer / timeToUp);
 
             if(movingTimer >= timeToUp)
             {
-                lake.position = upPos;
+                lake.localPosition = upPos;
                 movingTimer = 0;
                 active = true;
                 LakeUp?.Invoke();
@@ -80,7 +80,7 @@ public class FinalPoisonLakeSkill : BossSkills
             {
                 movingTimer += Time.deltaTime;
 
-                lake.position = Vector3.Lerp(upPos, downPos, movingTimer / timeToUp);
+                lake.localPosition = Vector3.Lerp(upPos, downPos, movingTimer / timeToUp);
 
                 if (movingTimer >= timeToUp)
                 {
@@ -92,12 +92,12 @@ public class FinalPoisonLakeSkill : BossSkills
 
     protected override void OnInterruptSkill()
     {
-        lake.position = downPos;
+        lake.localPosition = downPos;
     }
 
     protected override void OnOverSkill()
     {
-        lake.position = downPos;
+        lake.localPosition = downPos;
         lake.GetComponent<PlayObject>()?.Off();
         lake.gameObject.SetActive(false);
         movingTimer = 0;

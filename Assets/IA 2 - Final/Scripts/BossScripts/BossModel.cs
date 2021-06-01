@@ -31,7 +31,7 @@ public class BossModel : EnemyBase
     [SerializeField] CaronteParticles particles = new CaronteParticles();
 
     [SerializeField] AudioClip bossBattleMusic = null;
-
+    [SerializeField] TriggerDispatcher trigger;
     
 
     public float yMaxPos = 10.47f;
@@ -192,6 +192,7 @@ public class BossModel : EnemyBase
         StopAllCoroutines();
         BossBarGeneric.Close();
         AudioAmbienceSwitcher.instance.EnterOnBossBattle(false, bossBattleMusic);
+        Main.instance.eventManager.UnsubscribeToEvent(GameEvents.ON_PLAYER_RESPAWN, ResetBossOnDead);
         gameObject.SetActive(false);
     }
 
@@ -210,6 +211,7 @@ public class BossModel : EnemyBase
         MyAbilityMostUsed = "";
         cdModule.ResetAll();
         BossBarGeneric.Close();
+        trigger.gameObject.SetActive(true);
         transform.position = initPos;
         inSecondPhase = false;
         OnResetCaronteIfPlayerIsDead.Invoke();
