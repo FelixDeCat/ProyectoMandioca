@@ -14,8 +14,8 @@ public class CharSounds
     [SerializeField] AudioClip dashGemido=null;
     [SerializeField] AudioClip dashBashHit = null;
     [SerializeField] AudioClip heavySwing = null;
-    [SerializeField] AudioClip offFightMusic = null;
-    [SerializeField] AudioClip onFightMusic = null;
+    //[SerializeField] AudioClip offFightMusic = null;
+    //[SerializeField] AudioClip onFightMusic = null;
     [SerializeField] public int lerpSpeed;
     [SerializeField] public int index;
     public void Initialize()

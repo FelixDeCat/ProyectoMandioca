@@ -6,7 +6,7 @@ using UnityEngine.Playables;
 
 public class PlayableDirectorHandler : MonoBehaviour
 {
-    [SerializeField] PlayableDirector director;
+    [SerializeField] PlayableDirector director = null;
 
     public string Scene_To_Load_OnFinish = "MainScene";
 

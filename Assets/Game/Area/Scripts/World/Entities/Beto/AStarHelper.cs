@@ -12,7 +12,6 @@ public class AStarHelper : MonoBehaviour
     int watchdog;
     int maxWatchdog = 200;
 
-    [SerializeField] bool activeAStar = false;
     [SerializeField] LayerMask thetaStarMask = 2 << 0 & 16;
 
     public AStarNode GetRandomNode(AStarNode exceptWaypoint = null)
@@ -138,18 +137,6 @@ public class AStarHelper : MonoBehaviour
     private void OnCantCalculate()
     {
         Debug.Log("No encontró camino");
-    }
-
-    List<AStarNode> pathList;
-
-    private void OnDrawGizmos()
-    {
-        if (pathList == null || pathList.Count == 0) return;
-
-        for (int i = 0; i < pathList.Count; i++)
-        {
-            Gizmos.DrawCube(pathList[i].transform.position, Vector3.one * 3);
-        }
     }
 
     private static float GetHeuristic(AStarNode from, AStarNode goal) => from.heuristic + Vector3.Distance(from.transform.position, goal.transform.position);

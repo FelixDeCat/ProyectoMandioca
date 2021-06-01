@@ -5,10 +5,9 @@ using UnityEngine;
 public class ElectricSwordHolding : MonoBehaviour
 {
     [Header("Fast")]
-    [SerializeField] int speed = 5;
-    [SerializeField] float lifeTime = 2;
+    //[SerializeField] int speed = 5;
+    //[SerializeField] float lifeTime = 2;
     [SerializeField] float timeToCharge = 1.5f;
-    [SerializeField] ChargeModule chargeModule = null;
 
     [Header("Orb")]
     [SerializeField] ElectricOrb electricOrb = null;
@@ -25,8 +24,8 @@ public class ElectricSwordHolding : MonoBehaviour
     const string spawnBullet = "SpawnBullet";
     const string spawnOrb = "SpawnOrb";
     const string spawnOrbPart = "SpawnOrbPart";
-    [SerializeField] AudioClip _groundHit;
-    [SerializeField] AudioClip _lightningStrike;
+    [SerializeField] AudioClip _groundHit = null;
+    [SerializeField] AudioClip _lightningStrike = null;
     private void Start()
     {
         //chargeModule.Subscribe_Feedback_OnRelease((x) => { if (x == 0) CancelExecute(); else ExecuteShort(); });

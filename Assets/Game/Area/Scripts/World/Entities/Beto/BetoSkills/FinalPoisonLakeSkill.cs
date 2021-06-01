@@ -80,9 +80,9 @@ public class FinalPoisonLakeSkill : BossSkills
             {
                 movingTimer += Time.deltaTime;
 
-                lake.localPosition = Vector3.Lerp(upPos, downPos, movingTimer / timeToUp);
+                lake.localPosition = Vector3.Lerp(upPos, downPos, movingTimer / timeToDown);
 
-                if (movingTimer >= timeToUp)
+                if (movingTimer >= timeToDown)
                 {
                     OverSkill();
                 }

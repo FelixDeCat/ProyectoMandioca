@@ -26,10 +26,10 @@ public class BoomerangShield : MonoBehaviour
     [SerializeField] float spinSpeed = 4;
     [SerializeField] float shortSpinDuration = 1.5f;
     [SerializeField] float shortThrowRange = 2;
-    [SerializeField] float knockBack;
-    [SerializeField] GameObject charOnlyParticles;
-    [SerializeField] GameObject charAuraParticles;
-    [SerializeField] ParticleSystem shieldParticles;
+    [SerializeField] float knockBack = 100;
+    [SerializeField] GameObject charOnlyParticles = null;
+    [SerializeField] GameObject charAuraParticles = null;
+    [SerializeField] ParticleSystem shieldParticles = null;
     GameObject auxCharOnlyParticles;
     GameObject auxCharAuraParticles;
     [Header("El tiempo es el triple de lo que pongas")]
@@ -53,7 +53,7 @@ public class BoomerangShield : MonoBehaviour
     //[SerializeField] private ParticleSystem sparks = null;
     ////[SerializeField] private ParticleSystem auraZone = null;
     [Header("Particles")]
-    [SerializeField] private ParticleSystem flying = null;
+    //[SerializeField] private ParticleSystem flying = null;
     [SerializeField] private GameObject auxShield = null;
     [SerializeField] BommerangShiledFeedbacks feedbacks;
 

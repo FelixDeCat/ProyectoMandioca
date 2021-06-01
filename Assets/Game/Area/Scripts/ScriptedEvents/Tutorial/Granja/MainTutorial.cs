@@ -18,7 +18,7 @@ public class MainTutorial : MonoBehaviour
     public int Plants_Recollection_ID;
     bool objetive_plants = false;
 
-    [SerializeField] CameraCinematic animacion_camara_tranquera;
+    [SerializeField] CameraCinematic animacion_camara_tranquera = null;
 
     public void TRIGGER_StartTutorial()
     {

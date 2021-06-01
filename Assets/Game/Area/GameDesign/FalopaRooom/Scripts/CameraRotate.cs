@@ -8,7 +8,7 @@ public class CameraRotate : MonoBehaviour
 {
     [Header("General Settings")]
     [SerializeField] bool UseBezier = false;
-    [SerializeField] bool IgnoreCollisionsBezier = true;
+    //[SerializeField] bool IgnoreCollisionsBezier = true;
 
     [SerializeField] public List<BezierPoint> bezierPoints = new List<BezierPoint>();
     [SerializeField] float sliderTime = 1;
@@ -35,11 +35,11 @@ public class CameraRotate : MonoBehaviour
     Vector3 initialVector;
 
     [Header("Vertical Tilt")]
-    [SerializeField] float maxHeight;
+    [SerializeField] float maxHeight = 20;
     float currMaxHeight;
-    [SerializeField] float minHeight;
+    [SerializeField] float minHeight = 5;
     float currMinHeight;
-    [SerializeField] float comebackSpeed;
+    [SerializeField] float comebackSpeed = 10;
     bool isTilting;
     float tiltLerp;
 
@@ -67,7 +67,6 @@ public class CameraRotate : MonoBehaviour
         currMinHeight = minHeight;
     }
 
-    float prevDist = 0f;
 
     private void Update()
     {
@@ -86,8 +85,8 @@ public class CameraRotate : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Y)) { Cursor.lockState = CursorLockMode.Locked; Cursor.visible = false; }
         if (Input.GetKeyDown(KeyCode.U)) { Cursor.lockState = CursorLockMode.None; Cursor.visible = true; }
 
-        Vector3 direction;
         /*
+        Vector3 direction;
         if (!UseBezier)
         {
             direction = rotatorX.transform.position - (myChar.transform.position + offsetVec);

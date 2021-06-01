@@ -7,7 +7,7 @@ public class LineRenderer_AnimatorController : MonoBehaviour
 {
     LineRenderer lineRenderer;
 
-    [SerializeField] Texture[] textures;
+    [SerializeField] Texture[] textures = new Texture[0];
     int animationStep;
     [SerializeField] float fps = 30f;
     float fpsCount = 0f;

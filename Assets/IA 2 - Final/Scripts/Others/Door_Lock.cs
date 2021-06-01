@@ -5,8 +5,8 @@ using DevelopTools.UI;
 
 public class Door_Lock : MonoBehaviour
 {
-    [SerializeField] GameObject doorClosed;
-    [SerializeField] GameObject doorOpen;
+    [SerializeField] GameObject doorClosed = null;
+    [SerializeField] GameObject doorOpen = null;
     AudioSource As;
     bool opened;
     private void Start()

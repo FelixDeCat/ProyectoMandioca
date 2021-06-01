@@ -10,8 +10,8 @@ public class ProxyLaserTurret : ProxyEnemyBase
     [SerializeField] int            damage = 3;
     [SerializeField] float          knockback = 10f;
     [SerializeField] float          rayDuration = 6f;
-    [SerializeField] Transform      start;
-    [SerializeField] Transform      end;
+    [SerializeField] Transform      start = null;
+    [SerializeField] Transform      end = null;
     [SerializeField] float          rotSpeed = 0.7f;
     [SerializeField] bool           InitializedTurret = false;
 

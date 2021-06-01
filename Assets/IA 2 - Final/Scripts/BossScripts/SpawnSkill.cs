@@ -8,7 +8,7 @@ public class SpawnSkill : BossSkills, ISpawner
     [SerializeField] int minSpawn = 2;
     [SerializeField] int maxSpawn = 5;
     [SerializeField] TotemFeedback totemFeedback = new TotemFeedback();
-    [SerializeField] EnemyBase entAcorazed;
+    [SerializeField] EnemyBase entAcorazed = null;
     int currentEnemies;
     [SerializeField] string currentScene = "bossRoom";
     [SerializeField] GameObject shieldObject = null;

@@ -7,7 +7,7 @@ public class ColapsingFloor : PlayObject
 {
    private ShakeTransformS _shaker;
    [SerializeField] private float fallingSpeed = 3;
-    [SerializeField] private Animator animFloor;
+    [SerializeField] private Animator animFloor = null;
 
 
     public bool active;

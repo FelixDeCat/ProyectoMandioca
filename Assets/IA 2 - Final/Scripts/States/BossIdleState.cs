@@ -8,7 +8,6 @@ namespace IA2Final.FSM
     {
         public override event Action OnNeedsReplan;
         BossModel model;
-        bool planing = false;
 
         public BossIdleState(BossModel _model)
         {
@@ -27,7 +26,6 @@ namespace IA2Final.FSM
 
         public override Dictionary<string, object> Exit(IState to)
         {
-            planing = false;
             return base.Exit(to);
         }
 

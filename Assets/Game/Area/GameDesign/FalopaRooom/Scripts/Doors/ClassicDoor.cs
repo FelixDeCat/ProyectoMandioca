@@ -13,10 +13,10 @@ public class ClassicDoor : DoorCore
     ////////////////////////////////////////////////////////////////////////
 
     [Header("Classic Door Options")]
-    [SerializeField] Transform pivot;
+    [SerializeField] Transform pivot = null;
 
-    [SerializeField] Transform look_at_to_open;
-    [SerializeField] Transform look_at_to_close;
+    [SerializeField] Transform look_at_to_open = null;
+    [SerializeField] Transform look_at_to_close = null;
 
     Vector3 Forward_Open
     {
@@ -60,7 +60,7 @@ public class ClassicDoor : DoorCore
 
     #region FEEDBACKS
     [Header("UNITY EVENTS FEEDBACKS")]
-    [SerializeField] ClassicDoorFeedbacks feedback;
+    [SerializeField] ClassicDoorFeedbacks feedback = null;
     protected override void Feedback_On_Begin_Open() { feedback.Feedback_On_Begin_Open.Invoke(); }
     protected override void Feedback_On_End_Open() { feedback.Feedback_On_End_Open.Invoke(); }
     protected override void Feedback_On_Begin_Close() { feedback.Feedback_On_Begin_Close.Invoke(); }
@@ -107,15 +107,15 @@ public class ClassicDoor : DoorCore
         }
     }
 
-    [System.Serializable]
+    [Serializable]
     internal class ClassicDoorFeedbacks
     {
         [SerializeField] internal UnityEvent
-        Feedback_On_Begin_Open,
-        Feedback_On_End_Open,
-        Feedback_On_Begin_Close,
-        Feedback_On_End_Close,
-        Feedback_On_Execution_Failed;
+        Feedback_On_Begin_Open = new UnityEvent(),
+        Feedback_On_End_Open = new UnityEvent(),
+        Feedback_On_Begin_Close = new UnityEvent(),
+        Feedback_On_End_Close = new UnityEvent(),
+        Feedback_On_Execution_Failed = new UnityEvent();
     }
 }
 

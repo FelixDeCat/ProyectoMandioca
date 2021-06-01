@@ -11,8 +11,8 @@ public class SummonMinions_bossSkill : GOAP_Skills_Base, ISpawner
     [SerializeField] PlayObject prefab = null;
     [SerializeField] int amountSummoned = 5;
     [SerializeField] float spellDuration = 5;
-    [SerializeField] AudioClip _chargeSpawn;
-    [SerializeField] AudioClip _shootSpawn;
+    [SerializeField] AudioClip _chargeSpawn = null;
+    [SerializeField] AudioClip _shootSpawn = null;
     List<PlayObject> summonedEnemies = new List<PlayObject>();
 
     Animator _anim;

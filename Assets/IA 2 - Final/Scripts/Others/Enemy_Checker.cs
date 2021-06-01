@@ -4,11 +4,11 @@ using UnityEngine;
 
 public class Enemy_Checker : MonoBehaviour
 {
-    [SerializeField] float _radius;
-    [SerializeField] LayerMask _enemyLayer;
-    [SerializeField] GameObject _key;
-    [SerializeField] Transform _pivot;
-    [SerializeField] float _updatetime;
+    [SerializeField] float _radius = 5;
+    [SerializeField] LayerMask _enemyLayer = 1<<9;
+    [SerializeField] GameObject _key = null;
+    [SerializeField] Transform _pivot = null;
+    [SerializeField] float _updatetime = 1;
     bool _clear;
     // Start is called before the first frame update
    

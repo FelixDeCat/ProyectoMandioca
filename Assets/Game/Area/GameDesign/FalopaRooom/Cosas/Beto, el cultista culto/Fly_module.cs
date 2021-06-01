@@ -15,9 +15,6 @@ public class Fly_module : MonoBehaviour
 
     bool canUpdate = false;
 
-    RigidbodyConstraints defaultConstrains;
-    RigidbodyConstraints flyingConstrains;
-
     public event Action OnFinishMovement; 
 
     float speedScaler;
@@ -29,9 +26,6 @@ public class Fly_module : MonoBehaviour
 
         _rb = GetComponent<Rigidbody>();
         _ent = GetComponent<Ente>();
-
-        defaultConstrains = _rb.constraints;
-        flyingConstrains = RigidbodyConstraints.FreezePositionY | RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationZ | RigidbodyConstraints.FreezeRotationY;
     }
 
     public void GainMagicFly()

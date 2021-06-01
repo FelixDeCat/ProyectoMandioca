@@ -10,16 +10,16 @@ public class ElectricOrb : Waves
     float damageTimer = 0;
 
     [Header("Explosion Cosas")]
-    [SerializeField] int speed = 5;
-    [SerializeField] float lifeTime = 2;
-    [SerializeField] int divAmmount = 8;
+    //[SerializeField] int speed = 5;
+    //[SerializeField] float lifeTime = 2;
+    //[SerializeField] int divAmmount = 8;
     [SerializeField] float orbRadiusExplosion = 6;
     [SerializeField] float explosionKnocback = 200;
     [SerializeField] int explosionDMG = 5;
     [SerializeField] ParticleSystem explosionPart = null;
-    [SerializeField] Waves prefabBullet = null;
+    //[SerializeField] Waves prefabBullet = null;
     [SerializeField] Collider myCollider = null;
-    [SerializeField] AudioClip _hitSound;
+    [SerializeField] AudioClip _hitSound = null;
     protected override void Start()
     {
         base.Start();

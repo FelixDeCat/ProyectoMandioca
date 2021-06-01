@@ -17,7 +17,7 @@ public class InteractCollect : Interactable
 
     public UnityEvent to_collect;
     public UnityEvent OnCreate;
-    [SerializeField] AudioClip _feedBack;
+    [SerializeField] AudioClip _feedBack = null;
     protected bool destroy_on_collect = true;
 
     private void Awake()

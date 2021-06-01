@@ -13,7 +13,7 @@ public class EffectCharOnPoison : EffectBase
 
     [SerializeField] Color onHitColor = Color.magenta;
     [SerializeField] float onHitFlashTime = 20f;
-    [SerializeField] Renderer[] mats;
+    [SerializeField] Renderer[] mats = new Renderer[0];
 
     [SerializeField] Color barLifeColor = Color.magenta;
     [SerializeField] Stats2D_Bar barLife = null;

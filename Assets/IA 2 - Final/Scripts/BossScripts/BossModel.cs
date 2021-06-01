@@ -5,7 +5,7 @@ using UnityEngine.Events;
 
 public class BossModel : EnemyBase
 {
-    [SerializeField] UnityEvent OnResetCaronteIfPlayerIsDead;
+    [SerializeField] UnityEvent OnResetCaronteIfPlayerIsDead = new UnityEvent();
 
     [SerializeField] BossBrain brain = new BossBrain();
     public int maxStamina = 9;
@@ -17,7 +17,7 @@ public class BossModel : EnemyBase
     [SerializeField] Throwable projectile = null;
     [SerializeField] int meleDamage = 4;
     [SerializeField] float meleKnockback = 10;
-    [SerializeField] CombatComponent meleAttack;
+    [SerializeField] CombatComponent meleAttack = null;
 
     [SerializeField] float attackCooldownTime = 3;
     [SerializeField] float tpCooldownTime = 10;
@@ -31,7 +31,7 @@ public class BossModel : EnemyBase
     [SerializeField] CaronteParticles particles = new CaronteParticles();
 
     [SerializeField] AudioClip bossBattleMusic = null;
-    [SerializeField] TriggerDispatcher trigger;
+    [SerializeField] TriggerDispatcher trigger = null;
     
 
     public float yMaxPos = 10.47f;

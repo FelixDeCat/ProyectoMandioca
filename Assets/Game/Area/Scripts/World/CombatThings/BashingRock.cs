@@ -24,8 +24,8 @@ public class BashingRock : DashBashInteract
     [SerializeField] float lifeTime = 8;
     [SerializeField] DestroyedVersion modelDestroyedVersion = null;
     DestroyedVersion savedDestroyedVersion;
-    [SerializeField] AudioClip CrushFX;
-    [SerializeField] AudioClip _rollingFX;
+    [SerializeField] AudioClip CrushFX = null;
+    [SerializeField] AudioClip _rollingFX = null;
 
     float timer;
     Transform target;

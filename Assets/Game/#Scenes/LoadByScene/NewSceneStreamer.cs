@@ -11,7 +11,7 @@ public class NewSceneStreamer : MonoBehaviour
     public static NewSceneStreamer instance;
     private void Awake() => instance = this;
 
-    [SerializeField] SceneData original_z1;
+    [SerializeField] SceneData original_z1 = null;
 
     public HashSet<string> loaded = new HashSet<string>();
     public HashSet<string> loading = new HashSet<string>();

@@ -30,8 +30,8 @@ public class TurretEnemy : PlayObject
     [SerializeField] Transform finalTargetPos = null;
     [SerializeField] LineOfSight lineOfSight = null;
     [SerializeField] float rotSpeed = 5;
-    [SerializeField] AudioClip _RaySound;
-    [SerializeField] GameObject feedbackCollision;
+    [SerializeField] AudioClip _RaySound = null;
+    [SerializeField] GameObject feedbackCollision = null;
 
     [SerializeField] bool initializedTurret = false;
     [SerializeField] bool drawGizmos = false;

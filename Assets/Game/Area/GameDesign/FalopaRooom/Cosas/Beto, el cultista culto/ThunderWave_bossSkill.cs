@@ -14,13 +14,13 @@ public class ThunderWave_bossSkill : GOAP_Skills_Base
     [SerializeField] int damage = 15;
     [SerializeField] int knock = 200;
     [SerializeField] float radious = 5f;
-    [SerializeField] float chargeTime = 5f;
+    //[SerializeField] float chargeTime = 5f;
     [SerializeField] float timeBtwEndPartAndExplode = 0f;
     [SerializeField] LayerMask hitMask = 1<<21;
     [SerializeField] ParticleSystem FeedbackStart = null;
     [SerializeField] ParticleSystem FeedbackEnd = null;
-    [SerializeField] AudioClip _chargeAttack;
-    [SerializeField] AudioClip _shootAttack;
+    [SerializeField] AudioClip _chargeAttack = null;
+    [SerializeField] AudioClip _shootAttack = null;
 
     protected override void OnEndSkill()
     {

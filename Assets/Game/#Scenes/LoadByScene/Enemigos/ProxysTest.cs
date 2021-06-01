@@ -4,10 +4,10 @@ using UnityEngine;
 
 public class ProxysTest : MonoBehaviour
 {
-    [SerializeField] EnemyProxyManager[] proxyManager = new EnemyProxyManager[0];
-    [SerializeField] string[] AllScenes = new string[0];
+    //[SerializeField] EnemyProxyManager[] proxyManager = new EnemyProxyManager[0];
+    //[SerializeField] string[] AllScenes = new string[0];
 
-    [SerializeField] string sceneCurrent = "x80";
+    //[SerializeField] string sceneCurrent = "x80";
 
     void Update()
     {

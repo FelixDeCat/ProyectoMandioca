@@ -6,11 +6,11 @@ using UnityEngine.Events;
 public class SimpleWalker_NoPhysics : MonoBehaviour
 {
     [Header("To Handle")]
-    [SerializeField] Transform root;
-    [SerializeField] SimplePath path;
+    [SerializeField] Transform root = null;
+    [SerializeField] SimplePath path = null;
 
     [Header("Events")]
-    [SerializeField] UnityEvent OnFinish;
+    [SerializeField] UnityEvent OnFinish = new UnityEvent();
 
     [Header("Movement config")]
     [SerializeField] float close_distance = 0.5f;

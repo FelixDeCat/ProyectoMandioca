@@ -13,7 +13,7 @@ public class SimpleLerpWalker_NoPhysics : MonoBehaviour
     float timer;
     public float time_to_arrive_next_node;
     Vector3 current_initial_position;
-    float close_distance = 1f;
+    //float close_distance = 1f;
     bool OneShot;
 
     public void Go()

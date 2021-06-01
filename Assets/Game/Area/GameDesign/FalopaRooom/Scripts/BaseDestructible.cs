@@ -45,5 +45,4 @@ public abstract class BaseDestructible : Environment
     }
     protected abstract void OnDestroyDestructible(Vector3 destroyPoint = default);
     protected abstract void FeedbackDamage();
-
 }

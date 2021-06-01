@@ -6,7 +6,7 @@ public class Tutorial_Dispatcher : MonoBehaviour
 {
     [SerializeField] TutorialSettings settings = null;
     bool alreadyDelay;
-    [SerializeField] AudioClip _feedBack;
+    [SerializeField] AudioClip _feedBack = null;
 
     private void Start()
     {

@@ -34,8 +34,8 @@ public class Brazalete_event : MonoBehaviour, ISpawner, IPauseable, IScriptedEve
     [Header("Summoning Settings")]
     [SerializeField] TotemFeedback totemFeedback = new TotemFeedback();
     [SerializeField] SpawnerSpot spot = null;
-    [SerializeField] Transform posibleSpawnSpots = null;
-    [SerializeField] PlayObject spawnPrefab = null;
+    //[SerializeField] Transform posibleSpawnSpots = null;
+    //[SerializeField] PlayObject spawnPrefab = null;
     [SerializeField] List<PlayObject> summonedEnemies = new List<PlayObject>();
     int amountKilled;
     int amountSummoned;
@@ -71,9 +71,9 @@ public class Brazalete_event : MonoBehaviour, ISpawner, IPauseable, IScriptedEve
     bool[] tentaclesOn;
 
     [Header("Events")]
-    [SerializeField] UnityEvent BeginEvent;
-    [SerializeField] UnityEvent EndEvent;
-    [SerializeField] UnityEvent OnResetIfPlayerDead;
+    [SerializeField] UnityEvent BeginEvent = new UnityEvent();
+    [SerializeField] UnityEvent EndEvent = new UnityEvent();
+    [SerializeField] UnityEvent OnResetIfPlayerDead = new UnityEvent();
 
     void Start()
     {

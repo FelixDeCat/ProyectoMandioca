@@ -36,7 +36,7 @@ public class CustomCamera : MonoBehaviour
     PingPongLerp pingpongZoom = new PingPongLerp();
 
     public LayerMask _layermask_raycast_mask;
-    [SerializeField, Range(0, 1)] float fade = 0.05f;
+    //[SerializeField, Range(0, 1)] float fade = 0.05f;
     public float speedRot;
     Camera mycam;
     public Camera MyCam { get { return mycam; } }

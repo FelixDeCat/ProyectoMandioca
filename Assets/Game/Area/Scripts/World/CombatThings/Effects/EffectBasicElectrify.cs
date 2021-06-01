@@ -10,7 +10,7 @@ public class EffectBasicElectrify : EffectBase
     [SerializeField] DamageReceiver dmgReceiver = null;
 
     [SerializeField] float dmgPercentMultiplier = 2f;
-    [SerializeField] ParticleSystem electricParticle;
+    [SerializeField] ParticleSystem electricParticle = null;
     
     Material[] myMat;
     SkinnedMeshRenderer smr;

@@ -7,8 +7,8 @@ public class BossBarGeneric : MonoBehaviour
 {
     public static BossBarGeneric instance;
     private void Awake() => instance = this;
-    [SerializeField] GenericBar_Sprites bar;
-    [SerializeField] CanvasGroup cgroup;
+    [SerializeField] GenericBar_Sprites bar = null;
+    [SerializeField] CanvasGroup cgroup = null;
     [SerializeField] TextMeshProUGUI percentTxt = null;
     float timer;
     bool anim;

@@ -19,7 +19,7 @@ public class TestInteractableHold : Interactable
     public string actionName = "hold to grab";
 
     bool oneshot;
-    [SerializeField] AudioClip _feedBack;
+    [SerializeField] AudioClip _feedBack = null;
     private void Start()
     {
         _executeAction += OnEndDelayExecute;

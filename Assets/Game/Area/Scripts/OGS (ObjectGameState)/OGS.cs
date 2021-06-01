@@ -7,7 +7,7 @@ public abstract class OGS : MonoBehaviour
     string UniqueIdentifier = "null";
     public string ID { get => UniqueIdentifier; }
 
-    [SerializeField] string CustomID = "";
+    //[SerializeField] string CustomID = "";
 
     public void ChangeState(string s)
     {

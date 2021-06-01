@@ -15,7 +15,7 @@ public class EffectBasicOnFire : EffectBase
     [SerializeField] Color onHitColor = Color.red;
     [SerializeField] float onHitFlashTime = 20f;
     Material[] mats;
-    [SerializeField] AudioClip _feedBack;
+    [SerializeField] AudioClip _feedBack = null;
 
     protected override void OnInitialize()
     {

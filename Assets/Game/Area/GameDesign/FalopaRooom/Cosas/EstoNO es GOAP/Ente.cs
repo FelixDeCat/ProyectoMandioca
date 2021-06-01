@@ -61,7 +61,7 @@ namespace GOAP
         [SerializeField] bool damageFeedback = false;
         public bool canBeInterrupted = true;
         [SerializeField] SkinnedMeshRenderer skinnedMeshrenderer = null;
-        [SerializeField] AudioClip _evilLaugh;
+        [SerializeField] AudioClip _evilLaugh = null;
         void FixedUpdate()
         {
             if (!isOn) return;

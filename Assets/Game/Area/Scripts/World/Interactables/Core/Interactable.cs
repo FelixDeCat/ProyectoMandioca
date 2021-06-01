@@ -37,7 +37,7 @@ public abstract class Interactable : MonoBehaviour
     public bool executing;
 
     [Header("Auxiliar Interaction for Best Feedback")]
-    [SerializeField] AuxiliarInteractEvents auxiliars;
+    [SerializeField] AuxiliarInteractEvents auxiliars = null;
 
     public void Enter(WalkingEntity entity)
     {

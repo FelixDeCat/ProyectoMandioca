@@ -17,8 +17,8 @@ public class PoisonAttack : GOAP_Skills_Base
 
     [SerializeField] float timeBwtShoots = 0.5f;
     [SerializeField] float _countTime = 5;
-    [SerializeField] AudioClip _chargeShot;
-    [SerializeField] AudioClip _shootShot;
+    [SerializeField] AudioClip _chargeShot = null;
+    [SerializeField] AudioClip _shootShot = null;
     Coroutine ametralladora;
     Coroutine waitToShoot;
 

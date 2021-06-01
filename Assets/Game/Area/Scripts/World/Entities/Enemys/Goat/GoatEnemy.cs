@@ -57,7 +57,6 @@ public class GoatEnemy : EnemyWithCombatDirector
     [SerializeField] RagdollComponent ragdoll = null;
     [SerializeField] Color onHitColor = Color.white;
     [SerializeField] float onHitFlashTime = 0.1f;
-    [SerializeField] EffectBase petrifyEffect = null;
     [SerializeField] GoatParticles particles = new GoatParticles();
     [SerializeField] GoatSounds sounds = new GoatSounds();
     float lineOfSightTimer;
