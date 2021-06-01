@@ -296,17 +296,21 @@ public class CharacterMovement
 
     bool candamagefall = true;
     float timer_racall_damage_fall;
-    public void StopDamageFall() { candamagefall = false; timer_racall_damage_fall = 0; } 
+    public void StopDamageFall() { candamagefall = false; timer_racall_damage_fall = 0; }
+    public bool ignoreFallDamage;
     void CalculateFallDamage(float y)
     {
+
+
         float totalFall = lastYPos - y;
         if (totalFall > fallMaxDistance)
         {
             float dmg = (totalFall - fallMaxDistance) * _DMGMultiplier;
-            if (candamagefall) Main.instance.GetChar().Life.Hit((int)dmg);
+            if (candamagefall && !ignoreFallDamage && !Main.instance.GetChar().godMode) Main.instance.GetChar().Life.Hit((int)dmg);
         }
 
         lastYPos = y;
+        ignoreFallDamage = false;
     }
 
     public void OnUpdate()

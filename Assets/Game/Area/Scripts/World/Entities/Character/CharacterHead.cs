@@ -530,24 +530,6 @@ public class CharacterHead : CharacterControllable
 
     #endregion
 
-    #region Caronte
-
-    void HellMode(bool val)
-    {
-        if (val)
-        {
-            _imInHell = true;
-            _advMode.UnregisterEvents();
-        }
-        else
-        {
-            _imInHell = false;
-            _advMode.RegisterEvents();
-        }
-    }
-
-    #endregion
-
     #region Combat Check
     public bool Combat { get; set; }
     public Action UpWeaponsAction = delegate { };
@@ -1042,7 +1024,7 @@ public class CharacterHead : CharacterControllable
         Main.instance.Vibrate();
     }
 
-    bool godMode = false;
+    public bool godMode { get; private set; }
     public void SetGodMode(bool b) => godMode = b;
 
 

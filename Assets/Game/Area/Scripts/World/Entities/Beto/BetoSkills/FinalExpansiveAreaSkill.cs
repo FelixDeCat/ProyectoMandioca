@@ -13,6 +13,7 @@ public class FinalExpansiveAreaSkill : BossSkills
     [SerializeField] DamageData dmgData = null;
 
     [SerializeField] int damage = 4;
+    bool isDmg;
     [SerializeField] float knockback = 100;
     [SerializeField] Damagetype dmgType = Damagetype.Explosion;
     [SerializeField] Animator anim = null;
@@ -60,7 +61,8 @@ public class FinalExpansiveAreaSkill : BossSkills
 
     protected override void OnOverSkill()
     {
-        timerScale = 0;
+        isDmg = false;
+           timerScale = 0;
         explosionSensor.transform.localScale = Vector3.one;
         explosionSensor.gameObject.SetActive(false);
         ParticlesManager.Instance.PlayParticle(expansiveOver.name, explosionSensor.transform.position);
@@ -68,14 +70,15 @@ public class FinalExpansiveAreaSkill : BossSkills
 
     void GiveDamage(GameObject collision)
     {
+        if (isDmg) return;
         var dmgReceiver = collision.GetComponent<DamageReceiver>();
         if (dmgReceiver == null) return;
-
         var vectorBetween = dmgReceiver.transform.position - explosionSensor.transform.position;
 
         if (Physics.Raycast(explosionSensor.transform.position, vectorBetween.normalized, vectorBetween.magnitude, obstacleMask, QueryTriggerInteraction.Ignore))
             return;
 
         dmgReceiver.TakeDamage(dmgData.SetPositionAndDirection(explosionSensor.transform.position, vectorBetween.normalized));
+        isDmg = true;
     }
 }
