@@ -43,7 +43,6 @@ public class BrazaleteCondition : MonoBehaviour
         
     }
 
-
     public void ANIM_NegateBrazalet()
     {
         MyAnim.Play("BrazaletNegate");

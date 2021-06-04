@@ -32,7 +32,10 @@ public class BossModel : EnemyBase
 
     [SerializeField] AudioClip bossBattleMusic = null;
     [SerializeField] TriggerDispatcher trigger = null;
-    
+
+    [SerializeField] UnityEvent EndFinalScene = new UnityEvent();
+    [SerializeField] BrazaleteObject brazalete = null;
+    [SerializeField] float brazaleteExpulseForce = 10;
 
     public float yMaxPos = 10.47f;
     public float yMinPos = 5.47f;
@@ -73,6 +76,8 @@ public class BossModel : EnemyBase
         ThrowablePoolsManager.instance.CreateAPool(projectile.name, projectile);
         animEvent.Add_Callback("NormalShoot", ShootEvent);
         animEvent.Add_Callback("MeleAttack", MeleEvent);
+        animEvent.Add_Callback("Brazalete", SpawnBrazalete);
+        animator.GetBehaviour<ANIM_SCRIPT_Base>().ConfigureCallback(EndBoss);
         meleAttack.Configure(MeleAttack);
         dmgData.SetDamage(meleDamage).SetDamageInfo(DamageInfo.NonBlockAndParry).SetKnockback(meleKnockback);
         brain.Initialize(this, StartCoroutine);
@@ -193,6 +198,23 @@ public class BossModel : EnemyBase
         BossBarGeneric.Close();
         AudioAmbienceSwitcher.instance.EnterOnBossBattle(false, bossBattleMusic);
         Main.instance.eventManager.UnsubscribeToEvent(GameEvents.ON_PLAYER_RESPAWN, ResetBossOnDead);
+        rb.useGravity = true;
+        rb.AddForce(dir * 20, ForceMode.Force);
+        animator.Play("Dead");
+    }
+
+    void SpawnBrazalete()
+    {
+        brazalete.gameObject.SetActive(true);
+        Main.instance.eventManager.TriggerEvent(GameEvents.INTERACTABLES_INITIALIZE);
+        brazalete.transform.localEulerAngles = new Vector3(brazalete.transform.localEulerAngles.x, Random.Range(0, 360), brazalete.transform.localEulerAngles.z);
+        brazalete.transform.SetParent(null);
+        brazalete.GetComponent<Rigidbody>().AddForce(brazalete.transform.forward * brazaleteExpulseForce / 2 + brazalete.transform.up * brazaleteExpulseForce, ForceMode.Impulse);
+    }
+
+    void EndBoss()
+    {
+        EndFinalScene.Invoke();
         gameObject.SetActive(false);
     }
 
