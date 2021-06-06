@@ -5,6 +5,7 @@ using UnityEngine;
 public class Tutorial_Dispatcher : MonoBehaviour
 {
     [SerializeField] TutorialSettings settings = null;
+    bool alreadyActived;
     bool alreadyDelay;
     [SerializeField] AudioClip _feedBack = null;
 
@@ -14,7 +15,7 @@ public class Tutorial_Dispatcher : MonoBehaviour
     }
     public void DispatchTutorial()
     {
-        if (settings == null || alreadyDelay) return;
+        if (settings == null || alreadyDelay || alreadyActived) return;
 
         if (PauseManager.Instance.inPauseHud) { PauseManager.Instance.ResumeHud();
             DispatchTutorialWithDelay(1);
@@ -22,13 +23,13 @@ public class Tutorial_Dispatcher : MonoBehaviour
         }
         Tutorial_UIController.instance.SetNewTutorial(settings);
         enabled = false;
-        settings = null;
-        AudioManager.instance.PlaySound(_feedBack.name);
+        alreadyActived = true;
+        //AudioManager.instance.PlaySound(_feedBack.name);
     }
 
     public void DispatchTutorialWithDelay(float delay)
     {
-        if (settings == null || alreadyDelay) return;
+        if (settings == null || alreadyDelay ||alreadyActived) return;
 
         if (PauseManager.Instance.inPauseHud)
             PauseManager.Instance.ResumeHud();
@@ -43,7 +44,14 @@ public class Tutorial_Dispatcher : MonoBehaviour
         yield return new WaitForSeconds(delay);
         Tutorial_UIController.instance.SetNewTutorial(settings);
         enabled = false;
+        alreadyActived = true;
+        //AudioManager.instance.PlaySound(_feedBack.name);
+    }
+
+    public void CompleteTutorial()
+    {
+        if (settings == null) return;
+        Tutorial_UIController.instance.CompleteTutorial(settings);
         settings = null;
-        AudioManager.instance.PlaySound(_feedBack.name);
     }
 }

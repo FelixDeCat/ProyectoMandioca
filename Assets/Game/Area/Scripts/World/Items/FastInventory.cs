@@ -7,6 +7,8 @@ using System.Linq;
 public class FastInventory : UI_Base, IPauseable
 {
     public static FastInventory instance;
+
+    public System.Action OnOpenInventory = delegate { };
     public Dictionary<int, ItemInInventory> inventory = new Dictionary<int, ItemInInventory>();
 
     public RectTransform parent_inventoryObjects;
@@ -117,6 +119,7 @@ public class FastInventory : UI_Base, IPauseable
 
     public void RefreshScreen()
     {
+        OnOpenInventory();
         Open();
         IsOpen = true;
         currentSelection = 0;

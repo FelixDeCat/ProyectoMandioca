@@ -9,6 +9,7 @@ public class EquipedManager : MonoBehaviour
     public static EquipedManager instance;
     Spot[] spots;
     Dictionary<SpotType, EquipData> equip = new Dictionary<SpotType, EquipData>();
+    public Action OnUseItem = delegate { };
 
     private void Awake()
     {
@@ -64,6 +65,7 @@ public class EquipedManager : MonoBehaviour
         if (!data.IHaveItem) return;
         if (data.CanUse)
         {
+            OnUseItem();
             if (data.IsConsumible)
             {
                 // ARREGLAR ACA...!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -120,6 +122,7 @@ public class EquipedManager : MonoBehaviour
         }
 
         RefreshUI();
+
     }
 
     public void RemoveAItem(SpotType spot)

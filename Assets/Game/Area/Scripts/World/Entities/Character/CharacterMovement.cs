@@ -45,6 +45,7 @@ public class CharacterMovement
     public Action<float> MovementVertical;
     public Action<float> RotateHorizontal;
     public Action<float> RotateVertical;
+    public Action Moving = delegate { };
     CharFeedbacks feedbacks;
     [SerializeField] Transform myCamera = null;
 
@@ -186,6 +187,7 @@ public class CharacterMovement
                 currentVelY = absVal;
                 anim.Move(0, currentVelY);
             }
+            Moving();
         }
         else
             anim.Move(0, 0);

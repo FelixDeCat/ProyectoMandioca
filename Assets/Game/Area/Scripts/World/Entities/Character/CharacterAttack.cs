@@ -55,6 +55,8 @@ public class CharacterAttack
     Action KillSuccesfullHeavy;
     Action BreakObject;
 
+    public Action OnBashDash = delegate { };
+
     HitStore hitstore;
     CharFeedbacks feedbacks;
     CharacterMovement move;
@@ -164,6 +166,7 @@ public class CharacterAttack
 
     public bool ExecuteBashDash()
     {
+        OnBashDash();
         RaycastHit hit;
         bool inHit = false;
 

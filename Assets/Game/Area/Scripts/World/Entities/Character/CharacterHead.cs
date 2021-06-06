@@ -55,7 +55,7 @@ public class CharacterHead : CharacterControllable
     [SerializeField] float timeToDownWeapons = 5;
     public bool IsComboWomboActive;
     Action callback_IsComboTime_Enable, callback_IsComboTime_Disable = delegate { };
-    [SerializeField] ComboWomboSystem combo_system = new ComboWomboSystem();
+    [SerializeField]public ComboWomboSystem combo_system = new ComboWomboSystem();
 
     [SerializeField] AudioClip chargeSound = null;
 
@@ -704,10 +704,10 @@ public class CharacterHead : CharacterControllable
         stateMachine.SendInput(PlayerInputs.CHARGE_SHIELD_ABILITY);
     }
 
-    Action shieldAbilityOnRelease;
+    public Action shieldAbilityOnRelease = delegate { };
     public void ShieldAbilityRelease(Action abilityOnRelease = null)
     {
-        shieldAbilityOnRelease = abilityOnRelease;
+        shieldAbilityOnRelease();
         stateMachine.SendInput(PlayerInputs.RELEASE_SHIELD_ABILITY);
     }
 
@@ -730,10 +730,10 @@ public class CharacterHead : CharacterControllable
         stateMachine.SendInput(PlayerInputs.IDLE);
     }
 
-    Action swordAbilityOnRelease;
+    public Action swordAbilityOnRelease = delegate { };
     public void SwordAbilityRelease(Action swordAbilityRelease = null)
     {
-        swordAbilityOnRelease = swordAbilityRelease;
+        swordAbilityOnRelease();
         stateMachine.SendInput(PlayerInputs.RELEASE_ACTIVE);
     }
     #endregion
@@ -895,7 +895,7 @@ public class CharacterHead : CharacterControllable
     }
     public void ToggleBlock(bool val) => canBlock = val;
     public void UNITYEVENT_PressUp_UpBlocking() => stateMachine.SendInput(PlayerInputs.END_BLOCK);
-    public EntityBlock GetCharBlock() => charBlock;
+    public CharacterBlock GetCharBlock() => charBlock;
     public void AddParry(Action listener) => charBlock.callback_OnParry += listener;
     public void RemoveParry(Action listener) => charBlock.callback_OnParry -= listener;
     public void PerfectParry()

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using DevelopTools.UI;
 using Tools.Extensions;
+using System;
 
 public class CameraRotate : MonoBehaviour
 {
@@ -286,7 +287,6 @@ public class CameraRotate : MonoBehaviour
     public void TiltVertical(float vertical)
     {
         if (vertical == 0) { isTilting = false; return; }
-
         isTilting = true;
         tiltLerp = Mathf.Clamp(tiltLerp + vertical * sensitivityVertical * Time.deltaTime * vertAxis, -1, 1f);
     }
