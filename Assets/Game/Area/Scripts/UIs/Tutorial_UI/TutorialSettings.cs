@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 
+[System.Serializable] public enum ActionRepresentate { Move, MoveCamera, Roll, Block, Parry, Attack, Heavy, BashDash, UseItem, Inventory, ActiveOne, ActiveTwo, Combo }
+
 [CreateAssetMenu(fileName = "TutorialSetting", menuName = "Tutorial Setting", order = 1)]
 public class TutorialSettings : ScriptableObject
 {
@@ -14,4 +16,8 @@ public class TutorialSettings : ScriptableObject
 
     public TMP_SpriteAsset keyBoardSpriteAsset = null;
     public TMP_SpriteAsset joystickSpriteAsset = null;
+
+    public string fastMessage = "";
+
+    public ActionRepresentate actionToComplete;
 }
