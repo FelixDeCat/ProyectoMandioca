@@ -39,7 +39,7 @@ public class PrefabLightmapData : MonoBehaviour
     {
        // ThreadHandler.EnqueueProcess(new ThreadObject(InitAsync(),"LightData: " + gameObject.name));
         //StartCoroutine(InitAsync());
-        Init();
+        //Init();
     }
 
     void Init()

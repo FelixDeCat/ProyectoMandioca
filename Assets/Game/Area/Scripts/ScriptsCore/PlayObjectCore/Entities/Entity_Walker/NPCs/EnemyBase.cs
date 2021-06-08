@@ -47,6 +47,8 @@ public abstract class EnemyBase : NPCBase
         OnReset();
     }
 
+    public void DEBUG_InstaKill() => dmgReceiver.InstaKill();
+
     protected abstract void OnReset();
 
     protected abstract void TakeDamageFeedback(DamageData data);

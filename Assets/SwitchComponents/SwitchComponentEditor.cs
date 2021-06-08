@@ -51,7 +51,7 @@ public class SwitchComponentEditor : Editor
 
         #endregion
         EditorGUILayout.BeginHorizontal();
-        if (GUILayout.Button("Usar Objeto con \"ISwitcheable\""))
+        if (GUILayout.Button("Usar Objeto \"Switcheable\""))
         {
             obj.UseASwitcheableAuxiliars = true;
         }
@@ -65,7 +65,7 @@ public class SwitchComponentEditor : Editor
 
         if (obj.UseASwitcheableAuxiliars)
         {
-            EditorGUILayout.LabelField("----- ISwitcheables -----", title_Style, GUILayout.Height(40));
+            EditorGUILayout.LabelField("----- Switcheable -----", title_Style, GUILayout.Height(40));
             EditorGUILayout.Space();
             if (GUILayout.Button("Buscar y agregar"))
             {
