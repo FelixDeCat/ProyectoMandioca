@@ -7,10 +7,12 @@ using System;
 public class CharSwordAbilityRelease : CharacterStates
 {
     Action toExecute;
-    float timer = 0;  
-    public CharSwordAbilityRelease(EState<CharacterHead.PlayerInputs> myState, Action _toExecute, EventStateMachine<CharacterHead.PlayerInputs> _sm) : base(myState, _sm)
+    float timer = 0;
+    Action<bool> ChangeAttacking;
+    public CharSwordAbilityRelease(EState<CharacterHead.PlayerInputs> myState, Action _toExecute, EventStateMachine<CharacterHead.PlayerInputs> _sm, Action<bool> _ChangeAttacking) : base(myState, _sm)
     {
         toExecute = _toExecute;
+        ChangeAttacking = _ChangeAttacking;
     }
 
     protected override void Enter(EState<CharacterHead.PlayerInputs> input)
@@ -43,5 +45,6 @@ public class CharSwordAbilityRelease : CharacterStates
 
     protected override void Exit(CharacterHead.PlayerInputs input)
     {
+        ChangeAttacking?.Invoke(false);
     }
 }

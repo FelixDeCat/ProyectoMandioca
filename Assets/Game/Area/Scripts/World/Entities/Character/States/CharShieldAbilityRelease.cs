@@ -8,10 +8,11 @@ namespace Tools.StateMachine
     public class CharShieldAbilityRelease : CharacterStates
     {
         float timer = 0;
+        Action<bool> ChangeAttacking;
 
-        public CharShieldAbilityRelease(EState<CharacterHead.PlayerInputs> myState, EventStateMachine<CharacterHead.PlayerInputs> _sm): base(myState, _sm)
+        public CharShieldAbilityRelease(EState<CharacterHead.PlayerInputs> myState, EventStateMachine<CharacterHead.PlayerInputs> _sm, Action<bool> _ChangeAttacking): base(myState, _sm)
         {
-
+            ChangeAttacking = _ChangeAttacking;
         }
 
         protected override void Enter(EState<CharacterHead.PlayerInputs> input)
@@ -47,6 +48,7 @@ namespace Tools.StateMachine
         }
         protected override void Exit(CharacterHead.PlayerInputs input)
         {
+            ChangeAttacking?.Invoke(false);
         }
     }
 }

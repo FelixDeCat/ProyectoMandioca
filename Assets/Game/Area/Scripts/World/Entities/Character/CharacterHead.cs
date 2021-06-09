@@ -492,19 +492,19 @@ public class CharacterHead : CharacterControllable
             .SetAttack(charAttack)
             .SetLeftAxis(GetLeftHorizontal, GetLeftVertical).SetFeedbacks(feedbacks);
 
-        new CharShieldAbilityCharge(shieldAbilityCharge, shieldAbilityOnCharge, stateMachine)
+        new CharShieldAbilityCharge(shieldAbilityCharge, shieldAbilityOnCharge, stateMachine, ChangeAttack)
             .SetLeftAxis(GetLeftHorizontal, GetLeftVertical)
             .SetMovement(this.move);
 
-        new CharShieldAbilityRelease(shieldAbilityRelease, stateMachine)
+        new CharShieldAbilityRelease(shieldAbilityRelease, stateMachine, ChangeAttack)
             .SetMovement(this.move)
             .SetLeftAxis(GetLeftHorizontal, GetLeftVertical);
 
-        new CharSwordAbilityCharge(swordAbilityCharge, swordAbilityOnCharge, stateMachine)
+        new CharSwordAbilityCharge(swordAbilityCharge, swordAbilityOnCharge, stateMachine, ChangeAttack)
             .SetMovement(this.move)
             .SetLeftAxis(GetLeftHorizontal, GetLeftVertical);
 
-        new CharSwordAbilityRelease(swordAbilityRelease, swordAbilityOnRelease, stateMachine)
+        new CharSwordAbilityRelease(swordAbilityRelease, swordAbilityOnRelease, stateMachine, ChangeAttack)
             .SetMovement(this.move)
             .SetLeftAxis(GetLeftHorizontal, GetLeftVertical);
 
