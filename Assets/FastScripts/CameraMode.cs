@@ -15,7 +15,6 @@ public class CameraMode : MonoBehaviour
 
     void DissappearUI()
     {
-        Debug.Log("Hola?");
         for (int i = 0; i < UICameras.Length; i++)
         {
             UICameras[i].enabled = dissapeared;

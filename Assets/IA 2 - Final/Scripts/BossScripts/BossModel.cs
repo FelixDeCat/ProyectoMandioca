@@ -199,12 +199,14 @@ public class BossModel : EnemyBase
         AudioAmbienceSwitcher.instance.EnterOnBossBattle(false, bossBattleMusic);
         Main.instance.eventManager.UnsubscribeToEvent(GameEvents.ON_PLAYER_RESPAWN, ResetBossOnDead);
         rb.useGravity = true;
+        rb.constraints = RigidbodyConstraints.FreezePositionX | RigidbodyConstraints.FreezePositionZ | RigidbodyConstraints.FreezeRotation;
         rb.AddForce(dir * 20, ForceMode.Force);
         animator.Play("Dead");
     }
 
     void SpawnBrazalete()
     {
+        rb.constraints = RigidbodyConstraints.FreezeAll;
         brazalete.gameObject.SetActive(true);
         Main.instance.eventManager.TriggerEvent(GameEvents.INTERACTABLES_INITIALIZE);
         brazalete.transform.localEulerAngles = new Vector3(brazalete.transform.localEulerAngles.x, Random.Range(0, 360), brazalete.transform.localEulerAngles.z);

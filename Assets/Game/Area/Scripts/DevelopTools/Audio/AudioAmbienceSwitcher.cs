@@ -46,7 +46,6 @@ public class AudioAmbienceSwitcher : MonoBehaviour
     {
         if(!musicAudio.isPlaying && !secondMusicAudio.isPlaying)
         {
-            Debug.Log("le pongo play");
             musicAudio.Play();
             secondMusicAudio.Play();
         }
@@ -56,7 +55,6 @@ public class AudioAmbienceSwitcher : MonoBehaviour
     {
         if (musicAudio.isPlaying && secondMusicAudio.isPlaying)
         {
-            Debug.Log("le saco play");
             musicAudio.Stop();
             secondMusicAudio.Stop();
         }
