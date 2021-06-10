@@ -13,4 +13,8 @@ public class Sound_Lerp : MonoBehaviour
         snapShotsList[index].TransitionTo(speed);
     }
    
+    public void TransitionToOriginal()
+    {
+        snapShotsList[0].TransitionTo(0.5f);
+    }
 }
