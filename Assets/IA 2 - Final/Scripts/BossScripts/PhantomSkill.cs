@@ -6,6 +6,7 @@ public class PhantomSkill : BossSkills
 {
     ThrowData data = new ThrowData();
     [SerializeField] ParticleSystem appearParticle = null;
+    [SerializeField] ParticleSystem shootParticle = null;
     [SerializeField] BossProjectile projectile = null;
     [SerializeField] Transform model = null;
     [SerializeField] float projectileSpeed = 2;
@@ -31,6 +32,7 @@ public class PhantomSkill : BossSkills
         data.Damage = projectileDamage;
         ThrowablePoolsManager.instance.CreateAPool(projectile.name, projectile);
         ParticlesManager.Instance.GetParticlePool(appearParticle.name, appearParticle);
+        ParticlesManager.Instance.GetParticlePool(shootParticle.name, shootParticle);
         target = Main.instance.GetChar().transform;
         probPosition = new List<string>() { "Right", "Left", "Backward", "Forward" };
     }
@@ -46,6 +48,7 @@ public class PhantomSkill : BossSkills
     {
         data.Position = shootPoint.position;
         data.Direction = model.forward;
+        ParticlesManager.Instance.PlayParticle(shootParticle.name, shootPoint.position);
         ThrowablePoolsManager.instance.Throw(projectile.name, data);
     }
 

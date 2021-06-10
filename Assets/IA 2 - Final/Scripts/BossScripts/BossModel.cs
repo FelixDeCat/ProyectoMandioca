@@ -50,6 +50,7 @@ public class BossModel : EnemyBase
     public class CaronteParticles
     {
         public ParticleSystem takeDamage_particle = null;
+        public ParticleSystem shootParticle = null;
     }
 
     #region Properties
@@ -85,6 +86,7 @@ public class BossModel : EnemyBase
         AudioManager.instance.GetSoundPool(sounds.takeDamage_sound.name, AudioManager.SoundDimesion.ThreeD, AudioGroups.GAME_FX, sounds.takeDamage_sound);
 
         ParticlesManager.Instance.GetParticlePool(particles.takeDamage_particle.name, particles.takeDamage_particle);
+        ParticlesManager.Instance.GetParticlePool(particles.shootParticle.name, particles.shootParticle);
     }
 
     public void StartCombat() 
@@ -103,6 +105,7 @@ public class BossModel : EnemyBase
     {
         throwData.Position = shootPosition.position;
         throwData.Direction = rootTransform.forward;
+        ParticlesManager.Instance.PlayParticle(particles.shootParticle.name, shootPosition.position);
         ThrowablePoolsManager.instance.Throw(projectile.name, throwData);
     }
 
