@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System.Linq;
 
 public class ElectricSwordHolding : MonoBehaviour
 {
@@ -21,16 +22,16 @@ public class ElectricSwordHolding : MonoBehaviour
 
     bool canUpdate = false;
     float timer = 0;
-    const string spawnBullet = "SpawnBullet";
+    [SerializeField] float explodeRadious = 10;
+    [SerializeField] DamageData dmgData = null;
+    [SerializeField] int damage = 30;
     const string spawnOrb = "SpawnOrb";
     const string spawnOrbPart = "SpawnOrbPart";
     [SerializeField] AudioClip _groundHit = null;
     [SerializeField] AudioClip _lightningStrike = null;
     private void Start()
     {
-        //chargeModule.Subscribe_Feedback_OnRelease((x) => { if (x == 0) CancelExecute(); else ExecuteShort(); });
-       
-
+        dmgData.SetDamage(damage).SetDamageInfo(DamageInfo.NonBlockAndParry).SetDamageType(Damagetype.Explosion).SetKnockback(4500).Initialize(Main.instance.GetChar());
     }
     public void OnPress()
     {
@@ -58,7 +59,6 @@ public class ElectricSwordHolding : MonoBehaviour
     {
         //Sonidos?
         myChar = Main.instance.GetChar();
-        myChar.charAnimEvent.Add_Callback(spawnBullet, DetonateOrb);
         myChar.charAnimEvent.Add_Callback(spawnOrb, InstantiateOrb);
         GetComponent<EquipedItem>().CanUseCallback = CanUse;
     }
@@ -68,7 +68,6 @@ public class ElectricSwordHolding : MonoBehaviour
         //Sonidos?
         GetComponent<EquipedItem>().CanUseCallback = CanUse;
         myChar = Main.instance.GetChar();
-        myChar.charAnimEvent.Add_Callback(spawnBullet, InstantiateOrb);
         myChar.charAnimEvent.Add_Callback(spawnOrb,DetonateOrb );
         myChar.charAnimEvent.Add_Callback(spawnOrbPart, InstantiateOrbPart);
         ParticlesManager.Instance.GetParticlePool(particlesLindasPre.name, particlesLindasPre);
@@ -77,7 +76,6 @@ public class ElectricSwordHolding : MonoBehaviour
     }
     public void UnEquip()
     {
-        myChar.charAnimEvent.Remove_Callback(spawnBullet, DetonateOrb);
         myChar.charAnimEvent.Remove_Callback(spawnOrb, InstantiateOrb);
 
         //Sonidos? quiza
@@ -85,7 +83,6 @@ public class ElectricSwordHolding : MonoBehaviour
 
     public void UnEquipAux()
     {
-        myChar.charAnimEvent.Remove_Callback(spawnBullet, InstantiateOrb);
         myChar.charAnimEvent.Remove_Callback(spawnOrb, DetonateOrb);
         myChar.charAnimEvent.Remove_Callback(spawnOrbPart, InstantiateOrbPart);
 
@@ -118,20 +115,11 @@ public class ElectricSwordHolding : MonoBehaviour
         orb.SetSpeed(orbSpeed).SetLifeTime(orbLifeTime);
         orb.transform.forward = myChar.GetCharMove().GetRotatorDirection();
         orb.transform.position = myChar.transform.position + Vector3.up + orb.transform.forward;
-        
-
     }
 
     void ExecuteShort()
     {
-
         myChar.charanim.ThrowLightningOrb();
-    }
-
-    void ExecuteLong()
-    {
-        myChar.charanim.ThrowLightningBullets();
-        //Aca llamo al animator para que empiece a disparar
     }
 
     void InstantiateOrbPart()
@@ -142,25 +130,13 @@ public class ElectricSwordHolding : MonoBehaviour
     void DetonateOrb()
     {
         Main.instance.GetChar().SwordAbilityRelease();
-        var orb = Instantiate(electricOrb);
-        orb.SetSpeed(orbSpeed).SetLifeTime(orbLifeTime);
-        orb.transform.forward = myChar.GetCharMove().GetRotatorDirection();
-        orb.transform.position = myChar.transform.position + Vector3.up + orb.transform.forward;
-        StartCoroutine(AndaBienPls(orb));
-        /*orb.OnInitialize();
-        orb.Explode()*/
+        var overlap = Physics.OverlapSphere(Main.instance.GetChar().transform.position, explodeRadious).Where(x => !x.GetComponent<CharacterHead>())
+            .Where(x => x.GetComponent<DamageReceiver>()).Select(x => x.GetComponent<DamageReceiver>()).ToList();
+        dmgData.SetPositionAndDirection(Main.instance.GetChar().transform.position);
+        for (int i = 0; i < overlap.Count; i++)
+            overlap[i].TakeDamage(dmgData);
         AudioManager.instance.PlaySound(_lightningStrike.name, transform);
         AudioManager.instance.PlaySound(_groundHit.name, transform);
-    }
-
-    IEnumerator AndaBienPls(ElectricOrb orb)
-    {
-        yield return new WaitForEndOfFrame();
-        orb.Explode();
-    }
-
-    public void OnEnd()
-    {
     }
 
     bool CanUse() => myChar.CheckStateMachinInput(CharacterHead.PlayerInputs.START_ACTIVE);

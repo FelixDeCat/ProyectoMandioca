@@ -413,6 +413,7 @@ GameObject:
   - component: {fileID: 8183936281229808298}
   - component: {fileID: 2543956436091573376}
   - component: {fileID: 6827775377154669846}
+  - component: {fileID: 1542404206704259366}
   m_Layer: 0
   m_Name: equiped
   m_TagString: Untagged
@@ -563,10 +564,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fe0c88701cec2264eb94f5cf7d9521d9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _wave: {fileID: 6052379016270624243, guid: f6d4c0a6c2f00a045a200ec5358177d3, type: 3}
-  speed: 25
-  lifeTime: 2
-  chargeModule: {fileID: 2543956436091573376}
+  timeToCharge: 1.5
   electricOrb: {fileID: 6818310375270316040, guid: ee24ce74c1c09e243a88141f1c35460a,
     type: 3}
   orbSpeed: 8
@@ -574,6 +572,9 @@ MonoBehaviour:
   particlesLindasPre: {fileID: 4421194815771058572, guid: c176f68cd8186d14eb5ac7a3e6574a37,
     type: 3}
   charSpeed: 0
+  explodeRadious: 10
+  dmgData: {fileID: 1542404206704259366}
+  damage: 100
   _groundHit: {fileID: 8300000, guid: 127a202dfaf9d4d4b823d7a16344e580, type: 3}
   _lightningStrike: {fileID: 8300000, guid: 20ea5cbad4a54af41b31fdcbba05be9f, type: 3}
 --- !u!114 &2543956436091573376
@@ -605,6 +606,31 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   cooldown: 9
+--- !u!114 &1542404206704259366
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8183936281229808299}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 76ec5563f4c97ae4dabf294f011c2d67, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  damage: 0
+  initDamage: 0
+  tickDamage: 0
+  finalDamage: 0
+  damageType: 1
+  damageInfo: 3
+  owner_position: {x: 0, y: 0, z: 0}
+  knockbackForce: 0
+  hasDamageTick: 0
+  damageTime: 0
+  attackDir: {x: 0, y: 0, z: 0}
+  owner: {fileID: 0}
+  ownerRoot: {fileID: 0}
 --- !u!1 &8752117971065794028
 GameObject:
   m_ObjectHideFlags: 0
