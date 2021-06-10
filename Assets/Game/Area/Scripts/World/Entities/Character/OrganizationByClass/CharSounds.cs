@@ -43,4 +43,5 @@ public class CharSounds
     public void Play_Block() =>             AudioManager.instance.PlaySound(block.name);
     public void Play_DashBashHit() =>       AudioManager.instance.PlaySound(dashBashHit.name);
     public void Play_heavySwing() =>        AudioManager.instance.PlaySound(heavySwing.name);
+    
 }
