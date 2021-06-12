@@ -10,7 +10,7 @@ Material:
   m_Name: CaronteShieldParticleMaterial
   m_Shader: {fileID: 4800000, guid: 05aa665fb4ecc08488ef37dd797b6354, type: 3}
   m_ShaderKeywords: 
-  m_LightmapFlags: 4
+  m_LightmapFlags: 0
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
   m_CustomRenderQueue: -1
@@ -19,6 +19,10 @@ Material:
   m_SavedProperties:
     serializedVersion: 3
     m_TexEnvs:
+    - _Noise:
+        m_Texture: {fileID: 2800000, guid: ca76fae7bbd7b7f46aa9d9b3463c6b37, type: 3}
+        m_Scale: {x: 3, y: 3}
+        m_Offset: {x: 0, y: 0}
     - _TextureSample0:
         m_Texture: {fileID: 2800000, guid: 85b0fe455db181d4ebd25c8a834985e1, type: 3}
         m_Scale: {x: 1, y: 1}
@@ -30,12 +34,15 @@ Material:
     m_Floats:
     - _AlphaCutoff: 0.5
     - _Cutoff: 0.5
-    - _FresnelScale: 1.17
-    - _Fresnelpower: 2.13
-    - _Noiseintensity: 2
-    - _Opacity: 0.3
-    - _PanSpeed: 0.5
+    - _EdgeSize: 0.2
+    - _FresnelScale: 1
+    - _Fresnelpower: 2.3
+    - _Noiseintensity: 2.55
+    - _Opacity: 0.99
+    - _PanSpeed: 0.3
     - _Power: 1
+    - _Speed: 1
+    - _Timescale: 0.35
     - _TransAmbient: 0.2
     - _TransDirect: 1
     - _TransNormalDistortion: 0.1
@@ -44,4 +51,8 @@ Material:
     - _Translucency: 1
     - __dirty: 0
     m_Colors:
+    - _Basecolor: {r: 0.39215687, g: 0.53333336, b: 1.4117647, a: 0}
+    - _EdgeColor: {r: 0.05831024, g: 0.14431784, b: 0.2784314, a: 1}
     - _EmissionColor: {r: 1, g: 1, b: 1, a: 1}
+    - _FresnelColor: {r: 0.16078421, g: 0.5058824, b: 0.6509804, a: 0}
+    - _PanDirection: {r: 1, g: 0.3, b: 0, a: 0}
