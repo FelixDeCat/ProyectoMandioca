@@ -11,9 +11,10 @@ public class AnimEvent : MonoBehaviour
     //private void Awake() => myeventManager = new EventManager();
     private void Start()
     {
-        AudioManager.instance.GetSoundPool(startBlock.name, AudioManager.SoundDimesion.TwoD, AudioGroups.GAME_FX, startBlock);
-        AudioManager.instance.GetSoundPool(dashBash.name, AudioManager.SoundDimesion.TwoD, AudioGroups.GAME_FX, dashBash);
-        AudioManager.instance.GetSoundPool(finishBlock.name, AudioManager.SoundDimesion.TwoD, AudioGroups.GAME_FX, finishBlock);
+        //No me quiero meter con los sonidos pero esto estaba tirando null reference por todos lados
+        if(startBlock!= null) AudioManager.instance.GetSoundPool(startBlock.name, AudioManager.SoundDimesion.TwoD, AudioGroups.GAME_FX, startBlock);
+        if (dashBash != null) AudioManager.instance.GetSoundPool(dashBash.name, AudioManager.SoundDimesion.TwoD, AudioGroups.GAME_FX, dashBash);
+        if (finishBlock != null) AudioManager.instance.GetSoundPool(finishBlock.name, AudioManager.SoundDimesion.TwoD, AudioGroups.GAME_FX, finishBlock);
     }
     public void Add_Callback(string s, Action receiver) { if (myeventManager != null) myeventManager.SubscribeToEvent(s, receiver); else { Debug.Log("ME ESTAN QUERIENDO AGREGAR UN CALLBACK ANTES DE MI AWAKE"); } }
     public void Remove_Callback(string s, Action receiver) { if (myeventManager != null) myeventManager.UnsubscribeToEvent(s, receiver); }
