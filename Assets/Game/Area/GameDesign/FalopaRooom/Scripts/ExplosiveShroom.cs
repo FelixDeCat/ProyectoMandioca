@@ -18,10 +18,13 @@ public class ExplosiveShroom : EntityBase
     [SerializeField] float timeRotate = 2;
     [SerializeField] float rootAngle = 45;
     Vector3 initRotation;
+    [SerializeField] AudioClip _feedback;
 
     public void Explode()
     {
         StartCoroutine(TickExplode(explosionDelay));
+        AudioManager.instance.PlaySound(_feedback.name, transform);
+
     }
 
     IEnumerator TickExplode(float delay)
@@ -53,6 +56,7 @@ public class ExplosiveShroom : EntityBase
               .SetDamageType(Damagetype.Explosion)
               .SetKnockback(knockback);
         initRotation = root.localEulerAngles;
+        AudioManager.instance.GetSoundPool(_feedback.name, AudioManager.SoundDimesion.ThreeD, AudioGroups.GAME_FX, _feedback);
     }
 
     void InmuneFeedback(DamageData data)

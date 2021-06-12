@@ -54,6 +54,7 @@ public class CrowEnemy : EnemyWithCombatDirector
     {
         public AudioClip takeDmgSound;
         public AudioClip attackSound;
+        public AudioClip chargeSound;
     }
 
     protected override void OnInitialize()
@@ -66,6 +67,7 @@ public class CrowEnemy : EnemyWithCombatDirector
 
         AudioManager.instance.GetSoundPool(sounds.takeDmgSound.name, AudioManager.SoundDimesion.ThreeD, AudioGroups.GAME_FX, sounds.takeDmgSound);
         AudioManager.instance.GetSoundPool(sounds.attackSound.name, AudioManager.SoundDimesion.ThreeD, AudioGroups.GAME_FX, sounds.attackSound);
+        AudioManager.instance.GetSoundPool(sounds.chargeSound.name, AudioManager.SoundDimesion.ThreeD, AudioGroups.GAME_FX, sounds.chargeSound);
 
         rb = GetComponent<Rigidbody>();
         anim.Add_Callback("DealDamage", DealDamage);
@@ -159,6 +161,7 @@ public class CrowEnemy : EnemyWithCombatDirector
         cdModule.AddCD("AttackRecall", () => sm.SendInput(CrowInputs.IDLE), attackRecall);
         dir = combatElement.CurrentTarget() ? (combatElement.CurrentTarget().transform.position + new Vector3(0, 1, 0) - shootPivot.position).normalized : Vector3.down;
         ParticlesManager.Instance.PlayParticle(particles.attackParticles.name, shootPivot.position);
+        
     }
 
     Vector3 dir;
@@ -297,7 +300,7 @@ public class CrowEnemy : EnemyWithCombatDirector
         new CrowChasing(chasing, sm, () => combatElement.Attacking, distancePos, rotationSpeed, combatElement, (x) => lineOfSight.OnSight(x)).SetDirector(director).SetRoot(rootTransform).SetAnimator(animator);
 
         new CrowAttack(attack, sm, () => castPartTemp = ParticlesManager.Instance.PlayParticle(particles.castParticles.name, shootPivot.position, CastOver, shootPivot),
-            () => castingOver, (x) => { castingOver = x; cdModule.AddCD("canAttack", () => stopCD = true, cdToCast);  stopCD = x; }, combatElement, rotationSpeed)
+            () => castingOver, (x) => { castingOver = x; cdModule.AddCD("canAttack", () => stopCD = true, cdToCast);  stopCD = x; }, combatElement, rotationSpeed, sounds.chargeSound,transform)
             .SetAnimator(animator).SetDirector(director).SetRoot(rootTransform).SetCD(cdModule);
 
         new CrowTakeDmg(takeDamage, sm, recallTime).SetAnimator(animator);
