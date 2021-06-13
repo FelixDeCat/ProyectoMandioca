@@ -156,10 +156,12 @@ public class BossModel : EnemyBase
     {
         AudioManager.instance.PlaySound(sounds.takeDamage_sound.name, rootTransform);
 
-        ParticlesManager.Instance.PlayParticle(particles.takeDamage_particle.name, transform.position + Vector3.up);
+        var part = ParticlesManager.Instance.PlayParticle(particles.takeDamage_particle.name, transform.position + Vector3.up);
+        part.transform.forward = (data.owner_position - transform.position).normalized;
         cooldown = true;
         cdModule.AddCD("TakeDamageCD", () => cooldown = false, recallTime);
         BossBarGeneric.SetLife(lifesystem.Life, lifesystem.LifeMax);
+
 
         StartCoroutine(OnHitted(onHitFlashTime, onHitColor));
 

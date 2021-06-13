@@ -27,6 +27,7 @@ public class BetoBoss : EnemyBase
     [SerializeField] TriggerDispatcher trigger = null;
 
     [SerializeField] AudioClip bossBattleMusic = null;
+    [SerializeField] ParticleSystem takeDamagePS = null;
 
     #region Properties
     public int CurrentLife { get => lifesystem.Life; }
@@ -52,6 +53,7 @@ public class BetoBoss : EnemyBase
         brain.Initialize(this, StartCoroutine, rb);
         obsAvoid.Configure(rootTransform);
         dmgReceiver.ChangeKnockback((x) => { }, () => true);
+        //ParticlesManager.Instance.GetParticlePool(takeDamagePS.name, takeDamagePS);
     }
     protected override void OnDeinitialize()
     {
@@ -114,7 +116,8 @@ public class BetoBoss : EnemyBase
         cooldown = true;
         cdModule.AddCD("TakeDamageCD", () => cooldown = false, recallTime);
         BossBarGeneric.SetLife(lifesystem.Life, lifesystem.LifeMax);
-
+        //var part = ParticlesManager.Instance.PlayParticle(takeDamagePS.name, transform.position + Vector3.up);
+        //part.transform.forward = (transform.position - data.owner_position).normalized;
         StartCoroutine(OnHitted(onHitFlashTime, onHitColor));
 
         if (data.ownerRoot == transform && !Stuned && Flying)
