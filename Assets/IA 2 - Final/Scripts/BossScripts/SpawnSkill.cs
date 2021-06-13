@@ -11,7 +11,7 @@ public class SpawnSkill : BossSkills, ISpawner
     [SerializeField] EnemyBase entAcorazed = null;
     int currentEnemies;
     [SerializeField] string currentScene = "bossRoom";
-    [SerializeField] GameObject shieldObject = null;
+    [SerializeField] Animator shieldObject = null;
     [SerializeField] Animator anim = null;
     [SerializeField] AnimEvent animEvent = null;
     [SerializeField] DamageReceiver dmgReceiver = null;
@@ -46,7 +46,8 @@ public class SpawnSkill : BossSkills, ISpawner
             pos.y += 1;
             totemFeedback.StartGoToFeedback(pos, (x) => SpawnPrefab(x, currentScene));
         }
-        shieldObject.SetActive(true);
+        shieldObject.gameObject.SetActive(true);
+        shieldObject.Play("Shield Up");
         anim.SetBool("OnSpawn", false);
         OnSpawn?.Invoke();
         dmgReceiver.AddInvulnerability(Damagetype.All);
@@ -54,7 +55,8 @@ public class SpawnSkill : BossSkills, ISpawner
 
     protected override void OnOverSkill()
     {
-        shieldObject.SetActive(false);
+        shieldObject.Play("Shield Down");
+        shieldObject.GetBehaviour<ANIM_SCRIPT_Base>().ConfigureCallback(() => shieldObject.gameObject.SetActive(false));
         dmgReceiver.RemoveInvulnerability(Damagetype.All);
         animEvent.Remove_Callback("SpawnSkill", Callback);
     }
