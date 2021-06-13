@@ -20,6 +20,9 @@ public class BetoEvent : MonoBehaviour
         damagereciever.SetIsDamage(IsDamaged).AddTakeDamage(TakeDamageFeedback).Initialize(root, rb, life);
     }
 
+
+
+    #region Damage Things
     void TakeDamageFeedback(DamageData dData)
     {
         StartCoroutine(OnHitted(onHitFlashTime, onHitColor));
@@ -49,4 +52,5 @@ public class BetoEvent : MonoBehaviour
     }
 
     public bool IsDamaged() { return _isDamaged; }
+    #endregion
 }
