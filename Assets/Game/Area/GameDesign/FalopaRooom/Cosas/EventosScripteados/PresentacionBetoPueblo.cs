@@ -25,6 +25,8 @@ public class PresentacionBetoPueblo : MonoBehaviour, ISpawner, IScriptedEvent, I
 
     public UnityEvent OnKillAllEnemies;
 
+    public bool EventIsEnded;
+
     [Header("Segunda parte: Romper puente")]
     [SerializeField] Transform bridgePos = null;
     [SerializeField] Transform exitPos = null;
@@ -205,9 +207,6 @@ public class PresentacionBetoPueblo : MonoBehaviour, ISpawner, IScriptedEvent, I
 
         cdModule.AddCD("betoExit", () => { currentPlaceToGo = exitPos; betoSpeed *= 2f; }, 5f);
         cdModule.AddCD("betoDelete", () => { OnFinishBetoEvento?.Invoke(); eventOn = false; }, 8f);//termina el evento aca por ahora
-
-
-
     }
 
     void Update()
@@ -251,7 +250,7 @@ public class PresentacionBetoPueblo : MonoBehaviour, ISpawner, IScriptedEvent, I
     {
         amountKilled = 0;
         summonedEnemies.Clear();
-        puente.gameObject.SetActive(true);
+        if(eventOn) puente.gameObject.SetActive(true);
         betoRoot.transform.position = originalBeto_pos;
         betoSpeed = originalBeto_speed;
         _betoAnim.Play("IdleGround");
