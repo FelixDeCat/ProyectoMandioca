@@ -34,6 +34,7 @@ public class NewSceneStreamer : MonoBehaviour
     {
         SceneManager.sceneLoaded += OnSceneLoaded;
         LoadScene(firstScene, OnEndLoad);
+        
     }
 
     public void RemoveToSceneLoaded() => SceneManager.sceneLoaded -= OnSceneLoaded;

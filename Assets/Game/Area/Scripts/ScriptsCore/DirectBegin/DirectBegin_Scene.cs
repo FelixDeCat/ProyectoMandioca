@@ -36,7 +36,7 @@ namespace Tools.Testing
             {
                 Main.instance.GetChar().transform.position = new Vector3(5000,0,5000);
                 Fades_Screens.instance.Black();
-                Fades_Screens.instance.FadeOff(() => {});
+                Fades_Screens.instance.FadeOff(() => { });
                 LoadSceneHandler.instance.On_LoadScreen();
                 Main.instance.eventManager.TriggerEvent(GameEvents.INTERACTABLES_INITIALIZE);
                 //Debug.Log("entro mas veces aca");
