@@ -88,6 +88,11 @@ public class Brazalete_event : MonoBehaviour, ISpawner, IPauseable, IScriptedEve
     [SerializeField] UnityEvent EndEvent = new UnityEvent();
     [SerializeField] UnityEvent OnResetIfPlayerDead = new UnityEvent();
 
+
+    [SerializeField] AudioClip rock_explode;
+
+    const string ROCK_EXPLODE = "RockExplosion";
+
     void Start()
     {
 
@@ -122,6 +127,8 @@ public class Brazalete_event : MonoBehaviour, ISpawner, IPauseable, IScriptedEve
         // brazalete.SetActive(false);     
 
         atenea.SetActive(false);
+
+        AudioManager.instance.GetSoundPool(ROCK_EXPLODE, AudioManager.SoundDimesion.TwoD, AudioGroups.GAME_FX, rock_explode);
     }
 
     void OnReset_PlayerIsDead()
@@ -386,6 +393,9 @@ public class Brazalete_event : MonoBehaviour, ISpawner, IPauseable, IScriptedEve
         statue_rockDestroyed.ExplosionForce(v3, 5, 8);
         statue_to_hide.gameObject.SetActive(false);
         betoMoveToStatuePosition = true;
+
+        statue_explotion.Play();
+        AudioManager.instance.PlaySound(ROCK_EXPLODE);
     }
 
     void EndDestroyStatueCinematic()
