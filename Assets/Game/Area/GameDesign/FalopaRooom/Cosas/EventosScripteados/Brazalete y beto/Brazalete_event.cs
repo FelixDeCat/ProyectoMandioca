@@ -55,8 +55,8 @@ public class Brazalete_event : MonoBehaviour, ISpawner, IPauseable, IScriptedEve
     [Header("Destroy Statue Cinematic")]
     [SerializeField] Transform statue_to_hide;
     [SerializeField] CameraCinematic cinematic_Beto_detroy_Statue;
-    [SerializeField] GameObject destroyedGO_ToTurnON;
-    [SerializeField] DestroyedVersion statue_rockDestroyed;
+    [SerializeField] DestroyedVersion model_Statue_destroyed_Version;
+    [SerializeField] Transform parentpos_forDestroyedVersion;
     [SerializeField] Transform pos_statua_to_destroy;
     bool betoMoveToStatuePosition = false;
     [SerializeField] ParticleSystem statue_explotion;
@@ -120,6 +120,8 @@ public class Brazalete_event : MonoBehaviour, ISpawner, IPauseable, IScriptedEve
         fountain_tentacles.CloseTentacles();
 
         // brazalete.SetActive(false);     
+
+        atenea.SetActive(false);
     }
 
     void OnReset_PlayerIsDead()
@@ -237,19 +239,22 @@ public class Brazalete_event : MonoBehaviour, ISpawner, IPauseable, IScriptedEve
 
         
 
-        KillAllEnemies();
-        timer.AddCD("killAll", KillAllEnemies, 1);
-        timer.AddCD("killAllAgain", () => { KillAllEnemies(); ateneaAnim.Play("Atenea_SmiteBegin"); }, 4);
-        timer.AddCD("apareceAtenea", () => { KillAllEnemies(); ateneaAparece_camEvent.StartCinematic(ateneaDialogue_fly.StopDialogue); ateneaDialogue_fly.Talk();  }, 4);
+        AteneaAnimAndKillAllEnemies();
+        timer.AddCD("killAll", AteneaAnimAndKillAllEnemies, 1);
+        timer.AddCD("killAllAgain", () => { AteneaAnimAndKillAllEnemies(); ateneaAnim.Play("Atenea_SmiteBegin"); }, 4);
+        timer.AddCD("apareceAtenea", () => { AteneaAnimAndKillAllEnemies(); ateneaAparece_camEvent.StartCinematic(ateneaDialogue_fly.StopDialogue); ateneaDialogue_fly.Talk();  }, 4);
      
     }
 
-    void KillAllEnemies()
+    void AteneaAnimAndKillAllEnemies()
     {
-
         animator_fountain.Play(Atenea_Clear_Fountain_Animation);
         fountain_tentacles.CloseTentacles();
 
+        KillAllEnemies();
+    }
+    void KillAllEnemies()
+    {
         ateneaDmg = GetComponent<DamageData>().SetDamage(5000).SetDamageInfo(DamageInfo.Normal).SetDamageType(Damagetype.Explosion).SetKnockback(500);
         ateneaDmg.Initialize(transform);
 
@@ -259,7 +264,6 @@ public class Brazalete_event : MonoBehaviour, ISpawner, IPauseable, IScriptedEve
         {
             item.TakeDamage(ateneaDmg);
         }
-
     }
 
     #region SummoningFase
@@ -375,7 +379,9 @@ public class Brazalete_event : MonoBehaviour, ISpawner, IPauseable, IScriptedEve
 
     void OnBetoSpellCollideWithStatue(Vector3 v3)
     {
-        destroyedGO_ToTurnON.SetActive(true);
+        var statue_rockDestroyed = Instantiate(model_Statue_destroyed_Version,parentpos_forDestroyedVersion);//si hay tiempo, hacerlo por pool, tampoco es urgente, se usa una sola vez, a no ser que mueras miles de veces en este evento
+        statue_rockDestroyed.transform.position = parentpos_forDestroyedVersion.position;
+       // model_Statue_destroyed_Version.SetActive(true);
         statue_rockDestroyed.BeginDestroy();
         statue_rockDestroyed.ExplosionForce(v3, 5, 8);
         statue_to_hide.gameObject.SetActive(false);
@@ -505,6 +511,7 @@ public class Brazalete_event : MonoBehaviour, ISpawner, IPauseable, IScriptedEve
         OnReachedDestination_Atena = null;
         fountain_tentacles.CloseTentacles();
         tentaculos_fijos.CloseTentacles();
+        statue_to_hide.gameObject.SetActive(false);
 
         timer.ResetAllWithoutExecute();
         wave_handler.Reset();
@@ -527,10 +534,9 @@ public class Brazalete_event : MonoBehaviour, ISpawner, IPauseable, IScriptedEve
             aldeanosAsustados[i].PlayAnim("Cry");
         }
 
+        
+        KillAllEnemies();
         summonedEnemies.Clear();
-
-
     }
-
  
 }
