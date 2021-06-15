@@ -5354,6 +5354,7 @@ MonoBehaviour:
     obstacleMask:
       serializedVersion: 2
       m_Bits: 10518529
+    ignoreFallDamage: 0
   groundSensor: {fileID: 3919591774726339618}
   lookatPosition: {fileID: 0}
   escudo: {fileID: 1558482206639925313}
@@ -5419,8 +5420,6 @@ MonoBehaviour:
       dashGemido: {fileID: 8300000, guid: e3ef8aab08c78a5479cedb1701994939, type: 3}
       dashBashHit: {fileID: 8300000, guid: 0e27c037f2626704ebfe8bb97e50204a, type: 3}
       heavySwing: {fileID: 8300000, guid: 03abed999f032ee48af9a4121db8cad6, type: 3}
-      offFightMusic: {fileID: 8300000, guid: 60baf313722e5624ba9e6ce24759d8a4, type: 3}
-      onFightMusic: {fileID: 8300000, guid: 9c959f256df3e874399b011506009ecb, type: 3}
       lerpSpeed: 2
       index: 0
     particles:
@@ -15910,6 +15909,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2cd0e1cf35d48c34a93c6a494b926756, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  startBlock: {fileID: 0}
+  finishBlock: {fileID: 0}
+  dashBash: {fileID: 0}
 --- !u!1 &2538563157568146428
 GameObject:
   m_ObjectHideFlags: 0
@@ -17038,7 +17040,7 @@ MonoBehaviour:
   fieldOfView: 60
   CullingMask:
     serializedVersion: 2
-    m_Bits: 12058391
+    m_Bits: 12582679
   smoothTime: 2
   shakeDuration: 0.3
   shakeAmmount: 0.05
@@ -81157,7 +81159,7 @@ PrefabInstance:
     - target: {fileID: 3886686165091339370, guid: b8de820bfa203a849a8e93e75c6c3051,
         type: 3}
       propertyPath: m_RootOrder
-      value: 4
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 3991383159058248256, guid: b8de820bfa203a849a8e93e75c6c3051,
         type: 3}
@@ -81332,7 +81334,7 @@ PrefabInstance:
     - target: {fileID: 8302791638284490856, guid: b8de820bfa203a849a8e93e75c6c3051,
         type: 3}
       propertyPath: m_RootOrder
-      value: 3
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 8447395575427433186, guid: b8de820bfa203a849a8e93e75c6c3051,
         type: 3}
