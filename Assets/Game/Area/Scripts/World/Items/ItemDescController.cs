@@ -17,8 +17,13 @@ public class ItemDescController : MonoBehaviour
         sprite.color = Color.white;
         title.text = item.item.name;
         description.text = item.item.description;
-        ammount.gameObject.SetActive(true);
-        ammount.text = item.cant.ToString();
+        if (item.item.consumible)
+        {
+            ammount.gameObject.SetActive(true);
+            ammount.text = item.cant.ToString();
+        }
+        else
+            ammount.gameObject.SetActive(false);
     }
 
     public void SetUnknownItem(Sprite _sprite)

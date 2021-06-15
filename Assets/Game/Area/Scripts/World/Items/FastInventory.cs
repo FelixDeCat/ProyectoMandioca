@@ -64,7 +64,7 @@ public class FastInventory : UI_Base, IPauseable
         {
             ItemInInventory newSlot = new ItemInInventory(item, cant);
             inventory.Add(item.id, newSlot);
-            itemUI[itemsInInventory[item.id]].SetActive();
+            itemUI[itemsInInventory[item.id]].SetActive(item.consumible);
             mess = "¡Nuevo! ";
         }
         else
@@ -78,7 +78,8 @@ public class FastInventory : UI_Base, IPauseable
         }
 
         itemUI[itemsInInventory[item.id]].SetCant(inventory[item.id].cant);
-        mess = mess + "Agarraste " + cant + " " + item.name;
+        if(item.consumible) mess = mess + "Agarraste " + cant + " " + item.name;
+        else mess = mess + "Agarraste " + item.name;
 
         messeage.OpenMesseage(item.img, mess);
     }
@@ -98,7 +99,6 @@ public class FastInventory : UI_Base, IPauseable
             inventory[item.id].cant = cant;
             itemUI[itemsInInventory[item.id]].SetCant(inventory[item.id].cant);
         }
-        Debug.Log("na nani");
     }
 
     public bool Remove(ItemInInventory[] col)

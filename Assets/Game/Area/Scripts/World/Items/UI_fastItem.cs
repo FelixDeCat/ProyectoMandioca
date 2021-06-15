@@ -17,10 +17,10 @@ public class UI_fastItem : MonoBehaviour
         txt.gameObject.SetActive(false);
     }
 
-    public void SetActive()
+    public void SetActive(bool isConsumible = true)
     {
         photo.color = Color.white;
-        txt.gameObject.SetActive(true);
+        txt.gameObject.SetActive(isConsumible);
     }
 
     public void SetCant(int cant)
