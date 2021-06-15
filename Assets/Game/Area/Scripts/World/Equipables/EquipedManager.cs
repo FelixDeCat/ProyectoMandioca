@@ -136,7 +136,7 @@ public class EquipedManager : MonoBehaviour
         RefreshUI();
     }
 
-    public bool EquipItem(Item item)
+    public bool EquipItem(Item item, int cant)
     {
         SpotType spot = item.spot;
 
@@ -145,12 +145,12 @@ public class EquipedManager : MonoBehaviour
         if (data.INeedANewPlace(item))
         {
             if (data.IHaveItem) data.Unequip();
-            data.AddItem(item);
+            data.AddItem(item,cant);
             data.Equip();
         }
         else
         {
-            data.AddItem(item);
+            data.AddItem(item,cant);
         }
 
         RefreshUI();
@@ -279,12 +279,14 @@ public class EquipedManager : MonoBehaviour
                     item.cant = 0;
                     item = null;
                 }
+                FastInventory.instance.SetUI(item.item, item.cant);
                 return true;
             }
             else
             {
                 item.cant = 0;
                 item = null;
+                FastInventory.instance.SetUI(item.item, item.cant);
                 return false;
             }
         }

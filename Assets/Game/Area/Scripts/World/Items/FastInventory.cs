@@ -74,7 +74,7 @@ public class FastInventory : UI_Base, IPauseable
 
         if (item.equipable)
         {
-            EquipedManager.instance.EquipItem(item);
+            EquipedManager.instance.EquipItem(item, cant);
         }
 
         itemUI[itemsInInventory[item.id]].SetCant(inventory[item.id].cant);
@@ -89,6 +89,16 @@ public class FastInventory : UI_Base, IPauseable
             inventory[item.id].cant -= cant;
             itemUI[itemsInInventory[item.id]].SetCant(inventory[item.id].cant);
         }
+    }
+
+    public void SetUI(Item item, int cant)
+    {
+        if (inventory.ContainsKey(item.id))
+        {
+            inventory[item.id].cant = cant;
+            itemUI[itemsInInventory[item.id]].SetCant(inventory[item.id].cant);
+        }
+        Debug.Log("na nani");
     }
 
     public bool Remove(ItemInInventory[] col)
