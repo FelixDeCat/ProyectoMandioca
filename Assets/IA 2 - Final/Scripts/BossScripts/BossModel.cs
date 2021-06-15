@@ -244,13 +244,23 @@ public class BossModel : EnemyBase
         transform.position = initPos;
         inSecondPhase = false;
         OnResetCaronteIfPlayerIsDead.Invoke();
+        flameCount = 0;
+        shootCount = 0;
+        spawnCount = 0;
         Main.instance.eventManager.UnsubscribeToEvent(GameEvents.ON_PLAYER_RESPAWN, ResetBossOnDead);
     }
 
     #region Functions to States
+    public int flameCount;
+    public int shootCount;
+    public int spawnCount;
+
     public void ChangeLastAbility(string last)
     {
         MyAbilityMostUsed = last;
+        if (last == "Flame") flameCount += 1;
+        else if (last == "Phantom") flameCount += 1;
+        else spawnCount += 1;
     }
 
     public void RotateToChar()
