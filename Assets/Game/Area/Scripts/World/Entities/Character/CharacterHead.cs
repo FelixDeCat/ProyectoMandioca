@@ -826,11 +826,13 @@ public class CharacterHead : CharacterControllable
     public void ComboWombo_Subscribe(Action enter, Action exit) { callback_IsComboTime_Enable = enter; callback_IsComboTime_Disable = exit; }
     void ActiveCombo()
     {
-        feedbacks.particles.HeavyLoaded.Play();
+        if(!isCombo)feedbacks.particles.HeavyLoaded.Play();
         feedbacks.particles.comboTrail.Play();
         anim_base.GetBehaviour<ANIM_SCRIPT_Base>().ConfigureCallback(() => feedbacks.particles.comboTrail.Stop());
         callback_IsComboTime_Enable?.Invoke();
+        isCombo = true;
     }
+    bool isCombo;
     void EndTime_DeactiveCombo()
     {
         Invoke("DelayDisableCallback", 0.1f);
@@ -841,10 +843,12 @@ public class CharacterHead : CharacterControllable
     {
         feedbacks.particles.comboTrail.Stop();
         charAttack.ResetHeavyAttackTime();
+        isCombo = false;
     }
     void DelayDisableCallback()
     {
         callback_IsComboTime_Disable?.Invoke();
+        isCombo = false;
     }
 
     IEnumerator ComboDurationAvaliableProc()
@@ -864,10 +868,12 @@ public class CharacterHead : CharacterControllable
     bool isHeavyRelease;
     void HealOnCombo()
     {
+        isCombo = false;
         Life.Heal(Mathf.RoundToInt(Life.GetMax() * .13f));
     }
     void ReleaseInHeavy()
     {
+        isCombo = false;
         ChangeHeavy(true);
         ChangeDamageAttack((int)charAttack.Dmg_Heavy);
         ChangeAngleAttack(charAttack.AttackAngle * 2);

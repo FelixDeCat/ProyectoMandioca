@@ -28,6 +28,7 @@ public class BetoBoss : EnemyBase
 
     [SerializeField] AudioClip bossBattleMusic = null;
     [SerializeField] ParticleSystem takeDamagePS = null;
+    [SerializeField] SkinnedMeshRenderer[] myMeshes = new SkinnedMeshRenderer[0];
 
     #region Properties
     public int CurrentLife { get => lifesystem.Life; }
@@ -118,7 +119,7 @@ public class BetoBoss : EnemyBase
         BossBarGeneric.SetLife(lifesystem.Life, lifesystem.LifeMax);
         //var part = ParticlesManager.Instance.PlayParticle(takeDamagePS.name, transform.position + Vector3.up);
         //part.transform.forward = (transform.position - data.owner_position).normalized;
-        StartCoroutine(OnHitted(onHitFlashTime, onHitColor));
+        StartCoroutine(OnHitted(onHitFlashTime, onHitColor, myMeshes));
 
         if (data.ownerRoot == transform && !Stuned && Flying)
         {

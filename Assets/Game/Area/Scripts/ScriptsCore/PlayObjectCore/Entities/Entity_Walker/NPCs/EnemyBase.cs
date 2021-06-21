@@ -79,6 +79,33 @@ public abstract class EnemyBase : NPCBase
         }
     }
 
+    public IEnumerator OnHitted(float onHitFlashTime, Color onHitColor, SkinnedMeshRenderer[] meshes)
+    {
+        for (int i = 0; i < onHitFlashTime; i++)
+        {
+            if (i < (onHitFlashTime / 2f))
+            {
+                for (int x = 0; x < meshes.Length; x++)
+                {
+                    meshes[x].materials[0].SetColor("_EmissionColor", Color.Lerp(Color.black, onHitColor, i / (onHitFlashTime / 2f)));
+                }
+            }
+            else
+            {
+                for (int x = 0; x < meshes.Length; x++)
+                {
+                    meshes[x].materials[0].SetColor("_EmissionColor", Color.Lerp(onHitColor, Color.black, (i - (onHitFlashTime / 2f)) / (onHitFlashTime / 2f)));
+                }
+                yield return new WaitForSeconds(0.01f);
+            }
+        }
+
+        for (int x = 0; x < meshes.Length; x++)
+        {
+            meshes[x].materials[0].SetColor("_EmissionColor", Color.black);
+        }
+    }
+
     protected override void OnPause()
     {
         if (animator == null) return;
