@@ -13,6 +13,12 @@ public class SceneFire : PlayObject
 
     Action UpdateTicks = delegate { };
 
+    private void Start()
+    {
+        OnInitialize();
+        On();
+    }
+
     protected override void OnInitialize()
     {
     }

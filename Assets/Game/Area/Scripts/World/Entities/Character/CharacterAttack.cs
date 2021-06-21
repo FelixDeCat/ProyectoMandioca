@@ -151,7 +151,7 @@ public class CharacterAttack
             {
                 if (!oneshot)
                 {
-                    feedbacks.particles.HeavyLoaded.Play();
+                    //feedbacks.particles.HeavyLoaded.Play();
 
                     oneshot = true;
                 }
