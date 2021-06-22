@@ -68,6 +68,7 @@ public class BetoBoss : EnemyBase
         BossBarGeneric.Open();
         BossBarGeneric.SetLife(lifesystem.Life, lifesystem.LifeMax);
         Main.instance.eventManager.SubscribeToEvent(GameEvents.ON_PLAYER_RESPAWN, ResetBossOnDead);
+        Main.instance.eventManager.TriggerEvent(GameEvents.BETO_START);
         onCombat = true;
         initPos = transform.position;
         AudioAmbienceSwitcher.instance.EnterOnBossBattle(true, bossBattleMusic);
@@ -158,6 +159,7 @@ public class BetoBoss : EnemyBase
         StopAllCoroutines();
         BossBarGeneric.Close();
         AudioAmbienceSwitcher.instance.EnterOnBossBattle(false, bossBattleMusic);
+        Main.instance.eventManager.TriggerEvent(GameEvents.BETO_RESET);
         Main.instance.eventManager.UnsubscribeToEvent(GameEvents.ON_PLAYER_RESPAWN, ResetBossOnDead);
         gameObject.SetActive(false);
     }
@@ -183,6 +185,7 @@ public class BetoBoss : EnemyBase
         cdModule.ResetAll();
         BossBarGeneric.Close();
         transform.position = initPos;
+        Main.instance.eventManager.TriggerEvent(GameEvents.BETO_RESET);
         Main.instance.eventManager.UnsubscribeToEvent(GameEvents.ON_PLAYER_RESPAWN, ResetBossOnDead);
     }
 

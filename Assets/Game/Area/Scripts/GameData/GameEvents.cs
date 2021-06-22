@@ -33,5 +33,10 @@ public class GameEvents
     public const string ADD_INTERACTABLE = "AddInteractable";
     public const string CARONTE_DEFEAT_IN_JOJO_DUNGEON = "CaronteDefeat";
 
+    public const string CARONTE_START = "CaronteStart";
+    public const string CARONTE_RESET = "CaronteReset";
+    public const string BETO_START = "BetoStart";
+    public const string BETO_RESET = "BetoReset";
+
     public const string CHANGE_INPUT = "ChangeInput";
 }

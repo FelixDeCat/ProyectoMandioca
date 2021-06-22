@@ -96,6 +96,7 @@ public class BossModel : EnemyBase
         BossBarGeneric.Open();
         BossBarGeneric.SetLife(lifesystem.Life, lifesystem.LifeMax);
         Main.instance.eventManager.SubscribeToEvent(GameEvents.ON_PLAYER_RESPAWN, ResetBossOnDead);
+        Main.instance.eventManager.TriggerEvent(GameEvents.CARONTE_START);
         onCombat = true;
         initPos = transform.position;
         AudioAmbienceSwitcher.instance.EnterOnBossBattle(true, bossBattleMusic);
@@ -203,6 +204,7 @@ public class BossModel : EnemyBase
         BossBarGeneric.Close();
         AudioAmbienceSwitcher.instance.EnterOnBossBattle(false, bossBattleMusic);
         Main.instance.eventManager.UnsubscribeToEvent(GameEvents.ON_PLAYER_RESPAWN, ResetBossOnDead);
+        Main.instance.eventManager.TriggerEvent(GameEvents.CARONTE_RESET);
         rb.useGravity = true;
         rb.constraints = RigidbodyConstraints.FreezePositionX | RigidbodyConstraints.FreezePositionZ | RigidbodyConstraints.FreezeRotation;
         rb.AddForce(dir * 20, ForceMode.Force);
@@ -247,6 +249,7 @@ public class BossModel : EnemyBase
         flameCount = 0;
         shootCount = 0;
         spawnCount = 0;
+        Main.instance.eventManager.TriggerEvent(GameEvents.CARONTE_RESET);
         Main.instance.eventManager.UnsubscribeToEvent(GameEvents.ON_PLAYER_RESPAWN, ResetBossOnDead);
     }
 
