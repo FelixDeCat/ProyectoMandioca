@@ -43,6 +43,8 @@ public class EffectCharOnPoison : EffectBase
         {
             lifeSystem.DamageTick(damagePerTick, Damagetype.Poison);
             timerPerTick = 0;
+            Main.instance.Vibrate();
+            Main.instance.GetMyCamera().BeginShakeCamera();
             StartCoroutine(OnHitted());
             ParticlesManager.Instance.PlayParticle(poisonBubbles.name, transform.position, transform);
         }
