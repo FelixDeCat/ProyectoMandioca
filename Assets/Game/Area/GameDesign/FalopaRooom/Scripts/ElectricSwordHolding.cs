@@ -45,14 +45,7 @@ public class ElectricSwordHolding : MonoBehaviour
     {
         //Aca tambien
         myChar.charanim.SetLightnings(false);
-        canUpdate = false;
         //Llamar animevent que salga de disparar
-    }
-
-    public void OnUpdate()
-    {
-        if (!canUpdate) return;
-        timer += Time.deltaTime;
     }
 
     public void OnEquip()
@@ -94,10 +87,7 @@ public class ElectricSwordHolding : MonoBehaviour
         //Aca deje lo de la habilidad porque sino crashea todo si no, a ver como solucionarlo
         //if (charges == 0)
 
-        if (timer >= timeToCharge)
-            ExecuteShort();
-        else
-            CancelExecute();
+        ExecuteShort();
 
         timer = 0;
 

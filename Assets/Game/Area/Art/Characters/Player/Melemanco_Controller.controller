@@ -1506,13 +1506,14 @@ AnimatorState:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: LightnigStart
-  m_Speed: 1.2
+  m_Speed: 0.7
   m_CycleOffset: 0
   m_Transitions:
   - {fileID: 1230512870247334401}
   - {fileID: 3092351858125536793}
   m_StateMachineBehaviours:
   - {fileID: -3148906764935494343}
+  - {fileID: -4182046282634417220}
   m_Position: {x: 50, y: 50, z: 0}
   m_IKOnFeet: 0
   m_WriteDefaultValues: 1
@@ -2432,6 +2433,27 @@ AnimatorState:
   m_MirrorParameter: 
   m_CycleOffsetParameter: 
   m_TimeParameter: 
+--- !u!114 &-4182046282634417220
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4fe40091ed87fc1468adf76188e0c225, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  parameterName: ThrowLightnings
+  isFloat: 0
+  isInt: 0
+  isTrigger: 0
+  isBoolean: 1
+  useRestTrigger: 0
+  boolean_value: 0
+  float_value: 0
+  int_value: 0
 --- !u!1102 &-4156470964673061672
 AnimatorState:
   serializedVersion: 5
@@ -4836,21 +4858,21 @@ AnimatorStateMachine:
   - {fileID: -1755369981341053008}
   m_EntryTransitions: []
   m_StateMachineTransitions:
-  - first: {fileID: 4948811171142865286}
+  - first: {fileID: -1589078351498845645}
     second:
-    - {fileID: 7790793162100290014}
-  - first: {fileID: -6637013659003745413}
-    second:
-    - {fileID: 6802722822455519891}
+    - {fileID: -2608143138563848391}
   - first: {fileID: -2303179139431559235}
     second:
     - {fileID: 2105441498801867819}
     - {fileID: -5168213219444355389}
     - {fileID: -2369308981457184105}
     - {fileID: -717476089222413787}
-  - first: {fileID: -1589078351498845645}
+  - first: {fileID: 4948811171142865286}
     second:
-    - {fileID: -2608143138563848391}
+    - {fileID: 7790793162100290014}
+  - first: {fileID: -6637013659003745413}
+    second:
+    - {fileID: 6802722822455519891}
   - first: {fileID: 3989493786882718691}
     second:
     - {fileID: -6213739405658115176}
@@ -6821,7 +6843,7 @@ AnimatorStateMachine:
   m_ChildStates:
   - serializedVersion: 1
     m_State: {fileID: -5907002252751803092}
-    m_Position: {x: 270, y: 140, z: 0}
+    m_Position: {x: 150, y: 110, z: 0}
   - serializedVersion: 1
     m_State: {fileID: 1156962404230591574}
     m_Position: {x: 420, y: 0, z: 0}
@@ -6833,7 +6855,7 @@ AnimatorStateMachine:
     m_Position: {x: 420, y: 210, z: 0}
   - serializedVersion: 1
     m_State: {fileID: 3045035670798065958}
-    m_Position: {x: 660, y: 80, z: 0}
+    m_Position: {x: 710, y: 90, z: 0}
   m_ChildStateMachines: []
   m_AnyStateTransitions: []
   m_EntryTransitions: []
