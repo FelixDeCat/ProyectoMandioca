@@ -213,6 +213,7 @@ public class BossModel : EnemyBase
 
     void SpawnBrazalete()
     {
+        Main.instance.eventManager.TriggerEvent(GameEvents.CARONTE_DEFEAT_IN_JOJO_DUNGEON);
         rb.constraints = RigidbodyConstraints.FreezeAll;
         brazalete.gameObject.SetActive(true);
         Main.instance.eventManager.TriggerEvent(GameEvents.INTERACTABLES_INITIALIZE);

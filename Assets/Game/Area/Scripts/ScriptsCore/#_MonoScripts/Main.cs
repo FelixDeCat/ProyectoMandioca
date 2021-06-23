@@ -21,6 +21,8 @@ public class Main : MonoBehaviour
 
     public bool useMouse;
 
+    public bool CaronteDefeated { get; private set; }
+
 
     [Header("Inspector References")]
     public EventManager eventManager;
@@ -53,6 +55,13 @@ public class Main : MonoBehaviour
         Invoke("EndLoad", 0.1f);
 
         Cursor.lockState = CursorLockMode.Confined;
+        eventManager.SubscribeToEvent(GameEvents.CARONTE_DEFEAT_IN_JOJO_DUNGEON, () =>
+        {
+            CaronteDefeated = true;
+            var walls = FindObjectsOfType<CaronteWall>();
+            for (int i = 0; i < walls.Length; i++)
+                walls[0].Desactivate();
+        });
     }
 
     void EndLoad()
