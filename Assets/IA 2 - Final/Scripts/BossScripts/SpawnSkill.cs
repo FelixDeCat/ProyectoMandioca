@@ -47,7 +47,7 @@ public class SpawnSkill : BossSkills, ISpawner
             totemFeedback.StartGoToFeedback(pos, (x) => SpawnPrefab(x, currentScene));
         }
         shieldObject.gameObject.SetActive(true);
-        shieldObject.Play("Shield Up");
+        shieldObject.Play("ShieldUp");
         anim.SetBool("OnSpawn", false);
         OnSpawn?.Invoke();
         dmgReceiver.AddInvulnerability(Damagetype.All);

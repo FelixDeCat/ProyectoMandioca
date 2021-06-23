@@ -60,6 +60,7 @@ public class EquipedManager : MonoBehaviour
     #endregion
     public void UseItem(SpotType spot, bool pressDown)
     {
+        if (Main.instance.GetChar().Life.Life == 0) return;
         if (!equip.ContainsKey(spot)) return;
         var data = equip[spot];
         if (!data.IHaveItem) return;
@@ -274,7 +275,7 @@ public class EquipedManager : MonoBehaviour
             if (item.cant > 0)
             {
                 item.cant = item.cant - cant;
-                if (item.cant <= 0)
+                if (item.cant < 0)
                 {
                     item.cant = 0;
                     item = null;

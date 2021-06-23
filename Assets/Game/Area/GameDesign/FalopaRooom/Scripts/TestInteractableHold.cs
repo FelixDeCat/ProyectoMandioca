@@ -6,11 +6,16 @@ using UnityEngine.UI;
 
 public class TestInteractableHold : Interactable
 {
+    private const string varName = "_FresnelPowa1";
+
+    float originalValue = 5;
     [SerializeField] UnityEvent execute = null;
+    [SerializeField] MeshRenderer[] myrenders = new MeshRenderer[0];
     public bool destroy = true;
     public UnityEvent customDestroy;
     public UnityEvent UE_EndDelayExecute;
     public Sprite image_to_interact;
+    public bool automaticSelectRenders = false;
 
     [SerializeField] FeedbackInteractBase[] feedbackHold = new FeedbackInteractBase[0]; 
 
@@ -22,6 +27,7 @@ public class TestInteractableHold : Interactable
     [SerializeField] AudioClip _feedBack = null;
     private void Start()
     {
+        if(automaticSelectRenders) myrenders = GetComponentsInChildren<MeshRenderer>();
         _executeAction += OnEndDelayExecute;
         if(_feedBack)
             AudioManager.instance.GetSoundPool(_feedBack.name, AudioManager.SoundDimesion.TwoD, AudioGroups.GAME_FX, _feedBack);
@@ -69,6 +75,7 @@ public class TestInteractableHold : Interactable
         UE_EndDelayExecute.Invoke();
         execute?.Invoke();
         for (int i = 0; i < feedbackHold.Length; i++) feedbackHold[i].Hide();
+        for (int i = 0; i < myrenders.Length; i++) myrenders[i].material.SetFloat(varName, 0);
         if (destroy) Destroy(this.gameObject);
         else
         {
@@ -76,4 +83,8 @@ public class TestInteractableHold : Interactable
         }
     }
 
+    public void FresnelOn()
+    {
+        for (int i = 0; i < myrenders.Length; i++) myrenders[i].material.SetFloat(varName, originalValue);
+    }
 }
