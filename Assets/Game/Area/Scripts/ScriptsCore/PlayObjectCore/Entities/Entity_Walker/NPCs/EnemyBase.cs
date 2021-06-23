@@ -14,7 +14,7 @@ public abstract class EnemyBase : NPCBase
     public virtual void StunStart() => petrified = true;
     public virtual void StunOver() => petrified = false;
 
-    #endregion
+    #endregion 
 
     public virtual float ChangeSpeed(float newSpeed) => 0;
 
@@ -63,19 +63,20 @@ public abstract class EnemyBase : NPCBase
         if (smr != null)
         {
             Material[] mats = smr.materials;
+            Color originalColor = mats[0].GetColor("_EmissionColor");
             for (int i = 0; i < onHitFlashTime; i++)
             {
                 if (i < (onHitFlashTime / 2f))
                 {
-                    mats[0].SetColor("_EmissionColor", Color.Lerp(Color.black, onHitColor, i / (onHitFlashTime / 2f)));
+                    mats[0].SetColor("_EmissionColor", Color.Lerp(originalColor, onHitColor, i / (onHitFlashTime / 2f)));
                 }
                 else
                 {
-                    mats[0].SetColor("_EmissionColor", Color.Lerp(onHitColor, Color.black, (i - (onHitFlashTime / 2f)) / (onHitFlashTime / 2f)));
+                    mats[0].SetColor("_EmissionColor", Color.Lerp(onHitColor, originalColor, (i - (onHitFlashTime / 2f)) / (onHitFlashTime / 2f)));
                 }
                 yield return new WaitForSeconds(0.01f);
             }
-            mats[0].SetColor("_EmissionColor", Color.black);
+            mats[0].SetColor("_EmissionColor", originalColor);
         }
     }
 
