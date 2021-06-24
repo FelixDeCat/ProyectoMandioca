@@ -610,10 +610,12 @@ public class CharacterHead : CharacterControllable
         imUsingItemOnWeapon = false;
         Main.instance.gameUiController.ChangeCombat(0);
     }
+    public Action onWeaponTogle = delegate { };
 
     public void EVENT_WeaponsToggle()
     {
         stateMachine.SendInput(PlayerInputs.ENVAINAR);
+        onWeaponTogle();
     }
 
     public void CombatEnter()

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 
-[System.Serializable] public enum ActionRepresentate { Move, MoveCamera, Roll, Block, Parry, Attack, Heavy, BashDash, UseItem, Inventory, ActiveOne, ActiveTwo, Combo }
+[System.Serializable] public enum ActionRepresentate { Move, MoveCamera, Roll, Block, Parry, Attack, Heavy, BashDash, UseItem, Inventory, ActiveOne, ActiveTwo, Combo, SaveWeapons }
 
 [CreateAssetMenu(fileName = "TutorialSetting", menuName = "Tutorial Setting", order = 1)]
 public class TutorialSettings : ScriptableObject

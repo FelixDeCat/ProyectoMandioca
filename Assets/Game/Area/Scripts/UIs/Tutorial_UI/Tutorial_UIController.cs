@@ -207,6 +207,11 @@ public class Tutorial_UIController : MonoBehaviour
                 blindAction = () => { CompleteTutorial(tutorial); Main.instance.GetChar().combo_system.RemoveCallback_OnExecuteCombo(blindAction); };
                 Main.instance.GetChar().combo_system.AddCallback_OnExecuteCombo(blindAction);
                 break;
+
+            case ActionRepresentate.SaveWeapons:
+                blindAction = () => { CompleteTutorial(tutorial); Main.instance.GetChar().onWeaponTogle -= blindAction; };
+                Main.instance.GetChar().onWeaponTogle += blindAction;
+                break;
             default:
                 break;
         }
