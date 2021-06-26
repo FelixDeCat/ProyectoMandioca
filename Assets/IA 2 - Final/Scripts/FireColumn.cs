@@ -36,6 +36,7 @@ public class FireColumn : PlayObject
         {
             active = true;
             fireParticle.Play();
+            GetComponentInChildren<BoxCollider>().enabled = true;
         }
         else if (active)
         {
@@ -57,6 +58,7 @@ public class FireColumn : PlayObject
 
     protected override void OnTurnOff()
     {
+        GetComponentInChildren<BoxCollider>().enabled = false;
         timer = 0;
         active = false;
         fireParticle.Stop();

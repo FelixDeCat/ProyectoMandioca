@@ -46,7 +46,6 @@ public class SpawnSkill : BossSkills, ISpawner
             pos.y += 1;
             totemFeedback.StartGoToFeedback(pos, (x) => SpawnPrefab(x, currentScene));
         }
-        shieldObject.gameObject.SetActive(true);
         shieldObject.Play("ShieldUp");
         anim.SetBool("OnSpawn", false);
         OnSpawn?.Invoke();
@@ -56,7 +55,6 @@ public class SpawnSkill : BossSkills, ISpawner
     protected override void OnOverSkill()
     {
         shieldObject.Play("Shield Down");
-        shieldObject.GetBehaviour<ANIM_SCRIPT_Base>()?.ConfigureCallback(() => shieldObject.gameObject.SetActive(false));
         dmgReceiver.RemoveInvulnerability(Damagetype.All);
         animEvent.Remove_Callback("SpawnSkill", Callback);
     }
