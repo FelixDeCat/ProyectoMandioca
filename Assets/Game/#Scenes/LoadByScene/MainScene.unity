@@ -1062,10 +1062,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   vecinos:
-  - {fileID: 1856562604333623408}
-  - {fileID: 2633627119832460656}
-  - {fileID: 1407838958609775024}
   - {fileID: 698842517}
+  - {fileID: 1856562604333623408}
+  - {fileID: 1407838958609775024}
+  - {fileID: 2633627119832460656}
   - {fileID: 357642366}
   toEliminate: []
   parent: {fileID: 0}
@@ -4179,7 +4179,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 59
+  m_RootOrder: 60
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &117967644
 PrefabInstance:
@@ -6826,6 +6826,112 @@ PrefabInstance:
       objectReference: {fileID: 2100000, guid: 89614212be0aaf74aa9883689031b6df, type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: db97a9628e434d6408689f2f73939b4f, type: 3}
+--- !u!1 &170023751
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 170023752}
+  - component: {fileID: 170023755}
+  - component: {fileID: 170023754}
+  - component: {fileID: 170023753}
+  - component: {fileID: 170023756}
+  m_Layer: 0
+  m_Name: Puerta Caronte Desactivar Cuando Muere
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &170023752
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 170023751}
+  m_LocalRotation: {x: 0.50000006, y: 0.49999854, z: -0.4999999, w: 0.5000016}
+  m_LocalPosition: {x: 340.13, y: 57.44244, z: -194.25577}
+  m_LocalScale: {x: 0.6485475, y: 1, z: 0.76503694}
+  m_Children: []
+  m_Father: {fileID: 1332934398}
+  m_RootOrder: 3
+  m_LocalEulerAnglesHint: {x: 90.00001, y: 0, z: -90.00001}
+--- !u!64 &170023753
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 170023751}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Convex: 0
+  m_CookingOptions: 14
+  m_Mesh: {fileID: 10209, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!23 &170023754
+MeshRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 170023751}
+  m_Enabled: 1
+  m_CastShadows: 1
+  m_ReceiveShadows: 1
+  m_DynamicOccludee: 1
+  m_MotionVectors: 1
+  m_LightProbeUsage: 1
+  m_ReflectionProbeUsage: 1
+  m_RenderingLayerMask: 1
+  m_RendererPriority: 0
+  m_Materials:
+  - {fileID: 2100000, guid: 92cd87ae3da732345b1a688b80f8fa69, type: 2}
+  m_StaticBatchInfo:
+    firstSubMesh: 0
+    subMeshCount: 0
+  m_StaticBatchRoot: {fileID: 0}
+  m_ProbeAnchor: {fileID: 0}
+  m_LightProbeVolumeOverride: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
+  m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
+  m_ImportantGI: 0
+  m_StitchLightmapSeams: 1
+  m_SelectedEditorRenderState: 3
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 0
+--- !u!33 &170023755
+MeshFilter:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 170023751}
+  m_Mesh: {fileID: 10209, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!114 &170023756
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 170023751}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 93976b4fdddfae045b666036fe65c3de, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &173747911
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -11308,8 +11414,8 @@ MonoBehaviour:
   - {fileID: 5045795449194527498}
   - {fileID: 1258015406}
   - {fileID: 8256433419202405851}
-  - {fileID: 318304403}
   - {fileID: 8758454070307149445}
+  - {fileID: 318304403}
   toEliminate: []
   parent: {fileID: 0}
   costs:
@@ -17015,7 +17121,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &450574349
 Transform:
   m_ObjectHideFlags: 0
@@ -17028,7 +17134,7 @@ Transform:
   m_LocalScale: {x: 1, y: 11.020918, z: 6.4194818}
   m_Children: []
   m_Father: {fileID: 1332934398}
-  m_RootOrder: 5
+  m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!65 &450574350
 BoxCollider:
@@ -27623,7 +27729,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &698450077
 RectTransform:
   m_ObjectHideFlags: 0
@@ -27636,7 +27742,7 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1332934398}
-  m_RootOrder: 6
+  m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: -90, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -39232,7 +39338,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1031020973
 RectTransform:
   m_ObjectHideFlags: 0
@@ -39248,7 +39354,7 @@ RectTransform:
   - {fileID: 632570794}
   - {fileID: 945428186}
   m_Father: {fileID: 1332934398}
-  m_RootOrder: 4
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: -90, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
@@ -48269,10 +48375,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   vecinos:
+  - {fileID: 698842517}
   - {fileID: 5045795449194527498}
   - {fileID: 8256433419202405851}
   - {fileID: 293361898}
-  - {fileID: 698842517}
   toEliminate: []
   parent: {fileID: 0}
   costs:
@@ -50778,6 +50884,7 @@ Transform:
   - {fileID: 475881453}
   - {fileID: 1541994052}
   - {fileID: 477215616}
+  - {fileID: 170023752}
   - {fileID: 1413078269}
   - {fileID: 1031020973}
   - {fileID: 450574349}
@@ -53367,7 +53474,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1413078269
 RectTransform:
   m_ObjectHideFlags: 0
@@ -53380,7 +53487,7 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1332934398}
-  m_RootOrder: 3
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: -90, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -88842,8 +88949,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   vecinos:
-  - {fileID: 2552882729800104057}
   - {fileID: 426033376727700671}
+  - {fileID: 2552882729800104057}
   toEliminate: []
   parent: {fileID: 0}
   costs:
@@ -89076,9 +89183,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   vecinos:
   - {fileID: 1309136276515993690}
-  - {fileID: 1521409244953138516}
-  - {fileID: 4726029266849549462}
   - {fileID: 7740034488396759910}
+  - {fileID: 4726029266849549462}
+  - {fileID: 1521409244953138516}
   toEliminate: []
   parent: {fileID: 0}
   costs:
@@ -89578,8 +89685,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   vecinos:
-  - {fileID: 8569770646728989089}
   - {fileID: 368213101776042016}
+  - {fileID: 8569770646728989089}
   - {fileID: 368213100156837239}
   toEliminate: []
   parent: {fileID: 0}
@@ -89827,8 +89934,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   vecinos:
-  - {fileID: 368213100856395809}
   - {fileID: 368213101403054729}
+  - {fileID: 368213100856395809}
   toEliminate: []
   parent: {fileID: 0}
   costs:
@@ -90216,8 +90323,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   vecinos:
-  - {fileID: 368213101323588724}
   - {fileID: 368213100874559959}
+  - {fileID: 368213101323588724}
   toEliminate: []
   parent: {fileID: 0}
   costs:
@@ -90969,8 +91076,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   vecinos:
-  - {fileID: 368213100136866777}
   - {fileID: 368213100450089018}
+  - {fileID: 368213100136866777}
   toEliminate: []
   parent: {fileID: 0}
   costs:
@@ -93253,8 +93360,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   vecinos:
-  - {fileID: 7789826495120479358}
   - {fileID: 426033376727700671}
+  - {fileID: 7789826495120479358}
   toEliminate: []
   parent: {fileID: 0}
   costs:
@@ -94488,8 +94595,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   vecinos:
   - {fileID: 8917105598049979055}
-  - {fileID: 1521409244953138516}
   - {fileID: 224646571209488253}
+  - {fileID: 1521409244953138516}
   toEliminate: []
   parent: {fileID: 0}
   costs:
@@ -95092,9 +95199,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   vecinos:
   - {fileID: 1309136276515993690}
-  - {fileID: 4726029266849549462}
-  - {fileID: 224646571209488253}
   - {fileID: 7740034488396759910}
+  - {fileID: 224646571209488253}
+  - {fileID: 4726029266849549462}
   toEliminate: []
   parent: {fileID: 0}
   costs:
@@ -95483,9 +95590,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   vecinos:
   - {fileID: 2000611355}
+  - {fileID: 1407838958609775024}
   - {fileID: 2633627119832460656}
   - {fileID: 30335698}
-  - {fileID: 1407838958609775024}
   - {fileID: 357642366}
   toEliminate: []
   parent: {fileID: 0}
@@ -96421,8 +96528,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   vecinos:
   - {fileID: 7750778513868076440}
-  - {fileID: 3584303780537696127}
   - {fileID: 3584303780831174236}
+  - {fileID: 3584303780537696127}
   - {fileID: 217749274791206049}
   toEliminate:
   - {fileID: 3584303780831174236}
@@ -96707,10 +96814,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   vecinos:
+  - {fileID: 698842517}
   - {fileID: 5045795449194527498}
   - {fileID: 1856562604333623408}
   - {fileID: 30335698}
-  - {fileID: 698842517}
   - {fileID: 357642366}
   toEliminate: []
   parent: {fileID: 0}
@@ -96753,8 +96860,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   vecinos:
-  - {fileID: 2795181306897406607}
   - {fileID: 4927883702608408678}
+  - {fileID: 2795181306897406607}
   toEliminate: []
   parent: {fileID: 0}
   costs:
@@ -97425,8 +97532,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   vecinos:
-  - {fileID: 553488678}
   - {fileID: 8663232180040688788}
+  - {fileID: 553488678}
   toEliminate: []
   parent: {fileID: 0}
   costs:
@@ -97462,8 +97569,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   vecinos:
-  - {fileID: 5604524429532313257}
   - {fileID: 4259645841789054609}
+  - {fileID: 5604524429532313257}
   - {fileID: 4143783513048350294}
   toEliminate:
   - {fileID: 4143783513048350294}
@@ -99247,8 +99354,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   vecinos:
-  - {fileID: 3584303780651095260}
   - {fileID: 3584303781128537044}
+  - {fileID: 3584303780651095260}
   toEliminate: []
   parent: {fileID: 0}
   costs:
@@ -103150,8 +103257,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   vecinos:
-  - {fileID: 3584303779529954933}
   - {fileID: 3584303780719541776}
+  - {fileID: 3584303779529954933}
   toEliminate: []
   parent: {fileID: 0}
   costs:
@@ -103526,8 +103633,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   vecinos:
-  - {fileID: 3584303781098204957}
   - {fileID: 3584303781000633121}
+  - {fileID: 3584303781098204957}
   toEliminate: []
   parent: {fileID: 0}
   costs:
@@ -105302,8 +105409,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   vecinos:
   - {fileID: 3028296088153432399}
-  - {fileID: 4143783513048350294}
   - {fileID: 5910842661527465308}
+  - {fileID: 4143783513048350294}
   toEliminate:
   - {fileID: 5910842661527465308}
   parent: {fileID: 0}
@@ -105537,7 +105644,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 4
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!23 &4382508598722186273
 MeshRenderer:
@@ -105591,8 +105698,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   vecinos:
   - {fileID: 8569770646728989089}
-  - {fileID: 368213100156837239}
   - {fileID: 368213100038312827}
+  - {fileID: 368213100156837239}
   - {fileID: 5604524429532313257}
   toEliminate:
   - {fileID: 368213100156837239}
@@ -106055,9 +106162,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   vecinos:
-  - {fileID: 1521409244953138516}
-  - {fileID: 224646571209488253}
   - {fileID: 7740034488396759910}
+  - {fileID: 224646571209488253}
+  - {fileID: 1521409244953138516}
   toEliminate: []
   parent: {fileID: 0}
   costs:
@@ -106865,11 +106972,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   vecinos:
+  - {fileID: 698842517}
   - {fileID: 1258015406}
   - {fileID: 2633627119832460656}
   - {fileID: 8256433419202405851}
   - {fileID: 293361898}
-  - {fileID: 698842517}
   toEliminate: []
   parent: {fileID: 0}
   costs:
@@ -106953,8 +107060,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   vecinos:
-  - {fileID: 4982133933721645057}
   - {fileID: 3389134205448928783}
+  - {fileID: 4982133933721645057}
   toEliminate: []
   parent: {fileID: 0}
   costs:
@@ -107871,8 +107978,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   vecinos:
-  - {fileID: 8399904733027667091}
   - {fileID: 1309105981988178795}
+  - {fileID: 8399904733027667091}
   toEliminate: []
   parent: {fileID: 0}
   costs:
@@ -107966,8 +108073,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   vecinos:
-  - {fileID: 7650206103671130190}
   - {fileID: 8551197434106522218}
+  - {fileID: 7650206103671130190}
   - {fileID: 8917105598049979055}
   toEliminate: []
   parent: {fileID: 0}
@@ -110454,9 +110561,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   vecinos:
-  - {fileID: 1521409244953138516}
-  - {fileID: 4726029266849549462}
   - {fileID: 224646571209488253}
+  - {fileID: 4726029266849549462}
+  - {fileID: 1521409244953138516}
   - {fileID: 2327713565950141185}
   toEliminate: []
   parent: {fileID: 0}
@@ -110495,8 +110602,8 @@ MonoBehaviour:
   vecinos:
   - {fileID: 3584303781089406252}
   - {fileID: 3584303781127812268}
-  - {fileID: 3584303780537696127}
   - {fileID: 3584303780831174236}
+  - {fileID: 3584303780537696127}
   - {fileID: 2444345137454769899}
   toEliminate:
   - {fileID: 3584303781127812268}
@@ -111834,8 +111941,8 @@ MonoBehaviour:
   vecinos:
   - {fileID: 2086760067}
   - {fileID: 4945505373115735531}
-  - {fileID: 318304403}
   - {fileID: 8758454070307149445}
+  - {fileID: 318304403}
   toEliminate: []
   parent: {fileID: 0}
   costs:
@@ -112965,8 +113072,8 @@ MonoBehaviour:
   vecinos:
   - {fileID: 8698585774704833585}
   - {fileID: 368213101776042016}
-  - {fileID: 368213100156837239}
   - {fileID: 368213100038312827}
+  - {fileID: 368213100156837239}
   - {fileID: 4399388181714051006}
   toEliminate:
   - {fileID: 368213100156837239}
@@ -113138,8 +113245,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   vecinos:
   - {fileID: 2868036302936886600}
-  - {fileID: 8569770646728989089}
   - {fileID: 368213101776042016}
+  - {fileID: 8569770646728989089}
   - {fileID: 368213100038312827}
   toEliminate:
   - {fileID: 368213100038312827}
@@ -113217,8 +113324,8 @@ MonoBehaviour:
   vecinos:
   - {fileID: 8256433419202405851}
   - {fileID: 8072277933396747821}
-  - {fileID: 318304403}
   - {fileID: 293361898}
+  - {fileID: 318304403}
   toEliminate: []
   parent: {fileID: 0}
   costs:
