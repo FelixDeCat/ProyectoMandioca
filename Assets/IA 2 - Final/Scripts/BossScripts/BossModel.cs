@@ -34,7 +34,6 @@ public class BossModel : EnemyBase
     [SerializeField] TriggerDispatcher trigger = null;
 
     [SerializeField] UnityEvent EndFinalScene = new UnityEvent();
-    [SerializeField] BrazaleteObject brazalete = null;
     [SerializeField] CaronteDeadCinematic caronteCinematic = null;
     [SerializeField] float brazaleteExpulseForce = 10;
 
