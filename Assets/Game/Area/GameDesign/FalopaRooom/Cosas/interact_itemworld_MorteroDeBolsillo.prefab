@@ -212,6 +212,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   item: {fileID: 11400000, guid: 819f80579f02fdf419a6c13896dea534, type: 2}
+  isOneShot: 0
   cant: 1
 --- !u!1 &246693403484533125
 GameObject:
@@ -527,7 +528,18 @@ MonoBehaviour:
         m_CallState: 2
   EV_EndUse:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 5204657867217171557}
+        m_MethodName: Stop
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   EV_RAW_BeginUse:
     m_PersistentCalls:
       m_Calls: []
@@ -619,6 +631,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   item: {fileID: 11400000, guid: c3ff1acc92f0717449942d732855378c, type: 2}
+  isOneShot: 0
   cant: 1
 --- !u!114 &9006611933736020782
 MonoBehaviour:

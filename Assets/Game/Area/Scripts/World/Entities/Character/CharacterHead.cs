@@ -947,7 +947,7 @@ public class CharacterHead : CharacterControllable
     }
     void OnEndRoll()
     {
-        stateMachine.SendInput(PlayerInputs.IDLE);
+        if(lifesystem.Life > 0)stateMachine.SendInput(PlayerInputs.IDLE);
     }
     public void RollDash()
     {

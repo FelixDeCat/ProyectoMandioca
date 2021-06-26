@@ -50,6 +50,7 @@ namespace Tools.StateMachine
         protected override void Exit(CharacterHead.PlayerInputs input)
         {
             base.Exit(input);
+            UnityEngine.Debug.Log("a ver por donde salgo la ptm");
             charAnim.Dead(false);
             timer = 0;
         }

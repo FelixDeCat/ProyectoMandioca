@@ -56,7 +56,7 @@ public class SpawnSkill : BossSkills, ISpawner
     protected override void OnOverSkill()
     {
         shieldObject.Play("Shield Down");
-        shieldObject.GetBehaviour<ANIM_SCRIPT_Base>().ConfigureCallback(() => shieldObject.gameObject.SetActive(false));
+        shieldObject.GetBehaviour<ANIM_SCRIPT_Base>()?.ConfigureCallback(() => shieldObject.gameObject.SetActive(false));
         dmgReceiver.RemoveInvulnerability(Damagetype.All);
         animEvent.Remove_Callback("SpawnSkill", Callback);
     }

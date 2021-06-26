@@ -103,6 +103,7 @@ public class DamageReceiver : MonoBehaviour
 
     public Attack_Result TakeDamage(DamageData data)
     {
+        if(_LifeSystem == null) { Debug.Log("WASD " + name); return Attack_Result.inmune; }
         if (IsDmg != null && IsDmg()) return Attack_Result.inmune;
 
         if (_LifeSystem != null && _LifeSystem.Life <= 0) return Attack_Result.inmune;
