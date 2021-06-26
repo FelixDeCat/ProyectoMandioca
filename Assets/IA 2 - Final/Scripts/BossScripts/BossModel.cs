@@ -35,6 +35,7 @@ public class BossModel : EnemyBase
 
     [SerializeField] UnityEvent EndFinalScene = new UnityEvent();
     [SerializeField] BrazaleteObject brazalete = null;
+    [SerializeField] CaronteDeadCinematic caronteCinematic = null;
     [SerializeField] float brazaleteExpulseForce = 10;
 
     public float yMaxPos = 10.47f;
@@ -77,8 +78,7 @@ public class BossModel : EnemyBase
         ThrowablePoolsManager.instance.CreateAPool(projectile.name, projectile);
         animEvent.Add_Callback("NormalShoot", ShootEvent);
         animEvent.Add_Callback("MeleAttack", MeleEvent);
-        animEvent.Add_Callback("Brazalete", SpawnBrazalete);
-        animator.GetBehaviour<ANIM_SCRIPT_Base>().ConfigureCallback(EndBoss);
+        animEvent.Add_Callback("End", EndBoss);
         meleAttack.Configure(MeleAttack);
         dmgData.SetDamage(meleDamage).SetDamageInfo(DamageInfo.NonBlockAndParry).SetKnockback(meleKnockback);
         brain.Initialize(this, StartCoroutine);
@@ -211,19 +211,10 @@ public class BossModel : EnemyBase
         animator.Play("Dead");
     }
 
-    void SpawnBrazalete()
-    {
-        Main.instance.eventManager.TriggerEvent(GameEvents.CARONTE_DEFEAT_IN_JOJO_DUNGEON);
-        rb.constraints = RigidbodyConstraints.FreezeAll;
-        brazalete.gameObject.SetActive(true);
-        Main.instance.eventManager.TriggerEvent(GameEvents.INTERACTABLES_INITIALIZE);
-        brazalete.transform.localEulerAngles = new Vector3(brazalete.transform.localEulerAngles.x, Random.Range(0, 360), brazalete.transform.localEulerAngles.z);
-        brazalete.transform.SetParent(null);
-        brazalete.GetComponent<Rigidbody>().AddForce(brazalete.transform.forward * brazaleteExpulseForce / 2 + brazalete.transform.up * brazaleteExpulseForce, ForceMode.Impulse);
-    }
-
     void EndBoss()
     {
+        Main.instance.eventManager.TriggerEvent(GameEvents.CARONTE_DEFEAT_IN_JOJO_DUNGEON);
+        caronteCinematic.StartCinematic();
         EndFinalScene.Invoke();
         gameObject.SetActive(false);
     }
