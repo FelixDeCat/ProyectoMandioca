@@ -152,6 +152,7 @@ public class EquipedManager : MonoBehaviour
         else
         {
             data.AddItem(item,cant);
+            if (!data.IHaveItem) data.Equip();
         }
 
         RefreshUI();
@@ -239,6 +240,7 @@ public class EquipedManager : MonoBehaviour
         }
         public void AddItem(Item _itm, int quant = 1)
         {
+            Debug.Log("sep");
             if (item == null)
             {
                 item = new ItemInInventory(_itm, quant);
@@ -255,6 +257,8 @@ public class EquipedManager : MonoBehaviour
                     item.cant = item.cant + quant;
                 }
             }
+
+            Debug.Log(itemBehaviour != null);
         }
 
         public bool IHaveSpecificItem(Item itm)
