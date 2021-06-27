@@ -180,10 +180,10 @@ public class MisionManager : MonoBehaviour
         Refresh_UI_CheckMision();
     }
     //Manual
-    public void DeliveMision(int id)
+    public bool DeliveMision(int id)
     {
         var m = GetMisionInRegistryByID(id);
-
+        bool ended = false;
         if (m != null)
         {
             Debug.Log("Terminando la mision: " + m.mision_name);
@@ -192,10 +192,11 @@ public class MisionManager : MonoBehaviour
             {
                 m.data.SetCompletedMision();
                 EndMision(id);
+                ended = true;
             }
         }
 
-        Refresh_UI_CheckMision();
+        return ended;
     }
 
     public bool CheckIfMissionIsCompleted(int id)
