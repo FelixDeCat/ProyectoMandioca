@@ -44,7 +44,7 @@ public class InteractableTeleport : Interactable
                 else
                 {
                     Fades_Screens.instance.Black();
-                    Fades_Screens.instance.FadeOff(() => { });
+                   // Fades_Screens.instance.FadeOff(() => { });
                     LoadSceneHandler.instance.On_LoadScreen();
                     GameLoop.instance.StopGame();
                     NewSceneStreamer.instance.LoadScene(sceneToChange, EndLoad);
@@ -53,6 +53,24 @@ public class InteractableTeleport : Interactable
             if (teleportType == TeleportType.change_scene) Fades_Screens.instance.FadeOn(On_FadeOn_Ended);
 
             ReturnToCanExecute();
+        }
+    }
+    float timer;
+    protected override void Update()
+    {
+        base.Update();
+
+        if (Oneshot)
+        {
+            if (timer < 1)
+            {
+                timer = timer + 1 * Time.deltaTime;
+            }
+            else
+            {
+                timer = 0;
+                Oneshot = false;
+            }
         }
     }
     void EndLoad()
