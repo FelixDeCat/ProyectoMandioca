@@ -164,7 +164,7 @@ public class CharacterHead : CharacterControllable
             combo_system.AddCallback_OnExecuteCombo(charAttack.ForceHeavy);
             combo_system.AddCallback_OnExecuteCombo(charAttack.ForceHeavyFeedback);
             combo_system.AddCallback_OnExecuteCombo(charanim.HeavyAttack);
-            combo_system.AddCallback_OnExecuteCombo(HealOnCombo);
+            //combo_system.AddCallback_OnExecuteCombo(HealOnCombo);
         }
 
         charAttack.Add_callback_Normal_attack(ReleaseInNormal);
