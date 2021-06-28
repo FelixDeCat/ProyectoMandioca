@@ -10,6 +10,7 @@ public abstract class EnemyBase : NPCBase
     [HideInInspector] public bool death;
     public string CurrentScene;
     protected bool petrified = false;
+    Color originalColor;
 
     public virtual void StunStart() => petrified = true;
     public virtual void StunOver() => petrified = false;
@@ -34,6 +35,12 @@ public abstract class EnemyBase : NPCBase
     protected override void OnInitialize()
     {
         rb = GetComponent<Rigidbody>();
+        var smr = GetComponentInChildren<SkinnedMeshRenderer>();
+        if (smr != null)
+        {
+            Material[] mats = smr.materials;
+            originalColor = mats[0].GetColor("_EmissionColor");
+        }
         InitializePathFinder(rb);
         dmgData?.Initialize(this);
         dmgReceiver?.SetIsDamage(IsDamage).AddDead(Death).AddTakeDamage(TakeDamageFeedback).AddInmuneFeedback(InmuneFeedback).Initialize(rootTransform, rb, lifesystem);
@@ -63,7 +70,6 @@ public abstract class EnemyBase : NPCBase
         if (smr != null)
         {
             Material[] mats = smr.materials;
-            Color originalColor = mats[0].GetColor("_EmissionColor");
             for (int i = 0; i < onHitFlashTime; i++)
             {
                 if (i < (onHitFlashTime / 2f))
