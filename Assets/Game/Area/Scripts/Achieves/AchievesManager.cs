@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using DevelopTools.UI;
 
 public class AchievesManager : MonoBehaviour
 {
@@ -18,6 +19,7 @@ public class AchievesManager : MonoBehaviour
     [SerializeField] TextMeshProUGUI title = null;
     [SerializeField] TextMeshProUGUI desc = null;
     [SerializeField] Image img = null;
+    private const string AchievesSave = "AchievesSaveData";
 
     private void Awake()
     {
@@ -25,6 +27,24 @@ public class AchievesManager : MonoBehaviour
         achieves = new AchievesSaveData();
         achieves.achievesComplete = new bool[allAchieves.Count];
         baseAnim.AddCallbacks(() => updating = true, CheckQueue);
+
+        if (BinarySerialization.IsFileExist(AchievesSave))
+        {
+            var save = BinarySerialization.Deserialize<AchievesSaveData>(AchievesSave);
+            for (int i = 0; i < achieves.achievesComplete.Length; i++)
+            {
+                if (i >= save.achievesComplete.Length) break;
+
+                achieves.achievesComplete[i] = save.achievesComplete[i];
+            }
+        }
+
+        BinarySerialization.Serialize(AchievesSave, achieves);
+    }
+
+    private void Start()
+    {
+        Debug_UI_Tools.instance.CreateToogle("Borar Achieves", false, ClearAllAchieves);
     }
 
     public void CompleteAchieve(string ID)
@@ -41,12 +61,12 @@ public class AchievesManager : MonoBehaviour
             }
         }
 
-        Debug.Log("averga");
         if (achieveToComplete == null) return;
 
         if (achieves.achievesComplete[index] != true)
         {
             achieves.achievesComplete[index] = true;
+            BinarySerialization.Serialize(AchievesSave, achieves);
             ShowAchieve(achieveToComplete);
         }
     }
@@ -59,6 +79,7 @@ public class AchievesManager : MonoBehaviour
             if (achieves.achievesComplete[index] != true)
             {
                 achieves.achievesComplete[index] = true;
+                BinarySerialization.Serialize(AchievesSave, achieves);
                 ShowAchieve(achieveToComplete);
             }
         }
@@ -83,7 +104,6 @@ public class AchievesManager : MonoBehaviour
 
     void OpenUI(Achieves achieve)
     {
-        Debug.Log("?");
         title.text = achieve.title;
         desc.text = achieve.description;
         img.sprite = achieve.achiveImg;
@@ -107,5 +127,16 @@ public class AchievesManager : MonoBehaviour
             updating = false;
             baseAnim.Close();
         }
+    }
+
+    string ClearAllAchieves(bool b)
+    {
+        for (int i = 0; i < achieves.achievesComplete.Length; i++)
+        {
+            achieves.achievesComplete[i] = false;
+        }
+        BinarySerialization.Serialize(AchievesSave, achieves);
+
+        return "";
     }
 }
