@@ -17,6 +17,8 @@ public sealed class PortalTransitionPPSSettings : PostProcessEffectSettings
 	public FloatParameter _ScaleFlow = new FloatParameter { value = 1f };
 	[Tooltip( "OffsetFlow" )]
 	public FloatParameter _OffsetFlow = new FloatParameter { value = 0f };
+	[Tooltip( "TransitionColor" )]
+	public ColorParameter _TransitionColor = new ColorParameter { value = new Color(0f,0f,0f,0f) };
 }
 
 public sealed class PortalTransitionPPSRenderer : PostProcessEffectRenderer<PortalTransitionPPSSettings>
@@ -28,6 +30,7 @@ public sealed class PortalTransitionPPSRenderer : PostProcessEffectRenderer<Port
 		sheet.properties.SetFloat( "_FlowMapMask", settings._FlowMapMask );
 		sheet.properties.SetFloat( "_ScaleFlow", settings._ScaleFlow );
 		sheet.properties.SetFloat( "_OffsetFlow", settings._OffsetFlow );
+		sheet.properties.SetColor( "_TransitionColor", settings._TransitionColor );
 		context.command.BlitFullscreenTriangle( context.source, context.destination, sheet, 0 );
 	}
 }
