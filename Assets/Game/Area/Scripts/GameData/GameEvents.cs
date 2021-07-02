@@ -41,6 +41,8 @@ public class GameEvents
     public const string ADD_PLANT = "AddPlant";
     public const string ADD_ENT_DEAD_WITH_ROCK = "AddEntDeadWithRock";
     public const string END_GAME = "EndGame";
+    public const string PLAYER_HEAL = "PlayerHeal";
+    public const string JABALI_DEAD = "JabaliDead";
 
     public const string CHANGE_INPUT = "ChangeInput";
 }

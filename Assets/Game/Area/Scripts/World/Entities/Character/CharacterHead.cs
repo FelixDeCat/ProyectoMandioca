@@ -766,7 +766,6 @@ public class CharacterHead : CharacterControllable
     void OnDeath()
     {
         Main.instance.RemoveEntity(this);
-        Main.instance.eventManager.TriggerEvent(GameEvents.ON_PLAYER_DEATH);
         Main.instance.GetCombatDirector().RemoveTarget(transform);
         stateMachine.SendInput(PlayerInputs.DEAD);
     }

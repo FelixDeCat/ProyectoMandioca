@@ -61,7 +61,11 @@ public class CharLifeSystem: _Base_Life_System
     //////////////////////////////////////////////////////////////////////////////////
     /// PUBLIC METHODS
     //////////////////////////////////////////////////////////////////////////////////
-    public void Heal(int _val) => lifesystem.AddHealth(_val);
+    public void Heal(int _val)
+    {
+        lifesystem.AddHealth(_val);
+        Main.instance.eventManager.TriggerEvent(GameEvents.PLAYER_HEAL);
+    }
 
     public bool CanHeal() { return lifesystem.CanHealth(); }
 

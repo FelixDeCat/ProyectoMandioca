@@ -16,6 +16,7 @@ public class GameLoop : MonoBehaviour
     [SerializeField] float wait_time_to_start = 0.5f;
     public void OnPlayerDeath()
     {
+        Main.instance.eventManager.TriggerEvent(GameEvents.ON_PLAYER_DEATH);
         //pum! pantalla negra
         Fades_Screens.instance.Black();
 

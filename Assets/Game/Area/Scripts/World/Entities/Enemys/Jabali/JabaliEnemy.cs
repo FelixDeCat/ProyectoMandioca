@@ -268,6 +268,7 @@ public class JabaliEnemy : EnemyWithCombatDirector
         Main.instance.RemoveEntity(this);
 
         myEffectReceiver?.EndAllEffects();
+        Main.instance.eventManager.TriggerEvent(GameEvents.JABALI_DEAD);
     }
 
     protected override bool IsDamage()
