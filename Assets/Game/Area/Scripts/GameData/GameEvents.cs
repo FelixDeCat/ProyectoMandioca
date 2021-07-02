@@ -39,6 +39,7 @@ public class GameEvents
     public const string BETO_RESET = "BetoReset";
     public const string BETO_DEFEATED = "BetoDefeat";
     public const string ADD_PLANT = "AddPlant";
+    public const string ADD_ENT_DEAD_WITH_ROCK = "AddEntDeadWithRock";
 
     public const string CHANGE_INPUT = "ChangeInput";
 }
