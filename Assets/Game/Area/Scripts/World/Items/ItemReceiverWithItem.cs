@@ -25,6 +25,8 @@ public class ItemReceiverWithItem : MonoBehaviour
             if (item)
             {
                 FastInventory.instance.Add(item, cant);
+                if (item.name == "planta curativa")
+                    Main.instance.eventManager.TriggerEvent(GameEvents.ADD_PLANT, cant);
                 OnConsume();
 
                 if (isOneShot) cant = 0;

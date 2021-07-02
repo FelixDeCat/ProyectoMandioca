@@ -122,10 +122,10 @@ public class UI_Anim_Code : UI_AnimBase
             }
             else
             {
-                if (go) { ExecuteEndOpenAnimation(); }
-                else { ExecuteEndCloseAnimation(); }
                 timer = 0;
                 anim = false;
+                if (go) { ExecuteEndOpenAnimation(); }
+                else { ExecuteEndCloseAnimation(); }
             }
         }
     }

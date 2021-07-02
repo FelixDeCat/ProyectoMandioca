@@ -37,6 +37,8 @@ public class GameEvents
     public const string CARONTE_RESET = "CaronteReset";
     public const string BETO_START = "BetoStart";
     public const string BETO_RESET = "BetoReset";
+    public const string BETO_DEFEATED = "BetoDefeat";
+    public const string ADD_PLANT = "AddPlant";
 
     public const string CHANGE_INPUT = "ChangeInput";
 }

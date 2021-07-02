@@ -61,12 +61,14 @@ public class AchievesManager : MonoBehaviour
             }
         }
 
+
         if (achieveToComplete == null) return;
 
         if (achieves.achievesComplete[index] != true)
         {
             achieves.achievesComplete[index] = true;
             BinarySerialization.Serialize(AchievesSave, achieves);
+
             ShowAchieve(achieveToComplete);
         }
     }

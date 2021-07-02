@@ -160,6 +160,7 @@ public class BetoBoss : EnemyBase
         BossBarGeneric.Close();
         AudioAmbienceSwitcher.instance.EnterOnBossBattle(false, bossBattleMusic);
         Main.instance.eventManager.TriggerEvent(GameEvents.BETO_RESET);
+        Main.instance.eventManager.TriggerEvent(GameEvents.BETO_DEFEATED);
         Main.instance.eventManager.UnsubscribeToEvent(GameEvents.ON_PLAYER_RESPAWN, ResetBossOnDead);
         gameObject.SetActive(false);
     }
