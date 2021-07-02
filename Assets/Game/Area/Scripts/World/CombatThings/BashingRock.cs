@@ -164,7 +164,7 @@ public class BashingRock : DashBashInteract
         if (!collision.transform.GetComponent<CharacterHead>() && collision.transform.GetComponent<DamageReceiver>())
         {
             collision.transform.GetComponent<DamageReceiver>().TakeDamage(dmgData.SetPositionAndDirection(transform.position, myDir));
-            if (collision.transform.GetComponent<TrueDummyEnemy>())
+            if (collision.transform.GetComponent<TrueDummyEnemy>()) Main.instance.eventManager.TriggerEvent(GameEvents.ADD_ENT_DEAD_WITH_ROCK);
             AudioManager.instance.PlaySound(CrushFX.name, transform);
             AudioManager.instance.StopAllSounds(_rollingFX.name);
             if (collision.transform == target)

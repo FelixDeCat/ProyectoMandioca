@@ -10,6 +10,8 @@ public class AchieveDispatcher : MonoBehaviour
     [SerializeField] string entsID = "BashDashAchieve";
     [SerializeField] int entsRequired = 4;
 
+    [SerializeField] string endGameID = "EndGame";
+
     int plantsAmmount = 0;
     int entsAmmount = 0;
 
@@ -18,6 +20,7 @@ public class AchieveDispatcher : MonoBehaviour
     {
         Main.instance.eventManager.SubscribeToEvent(GameEvents.ADD_PLANT, AddPlant);
         Main.instance.eventManager.SubscribeToEvent(GameEvents.ADD_ENT_DEAD_WITH_ROCK, AddEnt);
+        Main.instance.eventManager.SubscribeToEvent(GameEvents.END_GAME, EndGame);
     }
 
     void AddPlant(params object[] param)
@@ -41,5 +44,10 @@ public class AchieveDispatcher : MonoBehaviour
             AchievesManager.instance.CompleteAchieve(entsID);
             Main.instance.eventManager.UnsubscribeToEvent(GameEvents.ADD_ENT_DEAD_WITH_ROCK, AddEnt);
         }
+    }
+
+    void EndGame()
+    {
+        AchievesManager.instance.CompleteAchieve(endGameID);
     }
 }

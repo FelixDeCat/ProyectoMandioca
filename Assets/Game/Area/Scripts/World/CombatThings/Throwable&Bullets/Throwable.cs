@@ -115,7 +115,7 @@ public abstract class Throwable : MonoBehaviour,IPauseable
 
             damageData.SetPositionAndDirection(transform.position, dir);
             var aux = ent.TakeDamage(damageData);
-
+            if (aux == Attack_Result.death && go.GetComponent<WendigoEnemy>()) AchievesManager.instance.CompleteAchieve("WendigoRock");
             if (aux == Attack_Result.parried)
             {
                 parried = true;
