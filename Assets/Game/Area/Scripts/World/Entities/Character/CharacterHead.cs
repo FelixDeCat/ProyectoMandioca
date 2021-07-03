@@ -164,6 +164,7 @@ public class CharacterHead : CharacterControllable
             combo_system.AddCallback_OnExecuteCombo(charAttack.ForceHeavy);
             combo_system.AddCallback_OnExecuteCombo(charAttack.ForceHeavyFeedback);
             combo_system.AddCallback_OnExecuteCombo(charanim.HeavyAttack);
+            combo_system.AddCallback_OnExecuteCombo(feedbacks.particles.comboTrail.Play);
             //combo_system.AddCallback_OnExecuteCombo(HealOnCombo);
         }
 
@@ -828,7 +829,6 @@ public class CharacterHead : CharacterControllable
     void ActiveCombo()
     {
         if(!isCombo)feedbacks.particles.HeavyLoaded.Play();
-        feedbacks.particles.comboTrail.Play();
         anim_base.GetBehaviour<ANIM_SCRIPT_Base>().ConfigureCallback(() => feedbacks.particles.comboTrail.Stop());
         callback_IsComboTime_Enable?.Invoke();
         isCombo = true;

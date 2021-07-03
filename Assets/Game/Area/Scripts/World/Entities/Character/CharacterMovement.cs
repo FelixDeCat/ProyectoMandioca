@@ -394,6 +394,7 @@ public class CharacterMovement
         else
         {
             currentDashSpeed = rollSpeed;
+            isGrounded.AddForce(jumpForce);
             currentCD = rollCD;
             currentTimerDash = maxTimerDash;
         }
