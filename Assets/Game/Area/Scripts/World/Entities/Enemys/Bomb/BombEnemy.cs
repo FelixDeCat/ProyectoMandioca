@@ -152,6 +152,7 @@ public class BombEnemy : EnemyBase
         explodeComponent.ManualTriggerAttack();
         AudioManager.instance.PlaySound(sounds.explode_Clip.name, animator.transform);
         ParticlesManager.Instance.PlayParticle(particles.explodePart.name, transform.position);
+        AchievesManager.instance.CompleteAchieve("ExplosiveMandragora");
         OnDead();
 
         Desactive();

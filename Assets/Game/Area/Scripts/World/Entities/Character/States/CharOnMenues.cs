@@ -19,7 +19,7 @@ namespace Tools.StateMachine
             var entities = Main.instance.AllEntities;
             foreach (var e in entities)
             {
-                e.Off();
+                if (e.gameObject.activeSelf) e.Off();
             }
         }
         protected override void Update()
@@ -39,7 +39,7 @@ namespace Tools.StateMachine
             var entities = Main.instance.AllEntities;
             foreach (var e in entities)
             {
-                e.On();
+                if(e.gameObject.activeSelf) e.On();
             }
         }
     }
