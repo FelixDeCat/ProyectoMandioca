@@ -20,7 +20,8 @@ public class CaronteDeadCinematic : MonoBehaviour
     void CinematicOn()
     {
         StartCoroutine(WaitToCamera());
-        cameraCine.StartCinematic(() => Fades_Screens.instance.FadeOff(() => { }));
+        cameraCine.CinematicInstantOver();
+        cameraCine.CinematicInstant(() => Fades_Screens.instance.FadeOff(() => { }));
     }
 
     void FadeOver()

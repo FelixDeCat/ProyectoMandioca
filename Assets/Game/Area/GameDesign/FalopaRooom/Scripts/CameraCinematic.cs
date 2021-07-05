@@ -17,6 +17,13 @@ public class CameraCinematic : MonoBehaviour
 
 
     bool alreadyActivate;
+
+    public void SetLookAtPos(Vector3 pos, Vector3 forward) 
+    {
+        lookAt.transform.position = pos;
+        lookAt.transform.forward = forward;
+    }
+
     public void StartCinematic()
     {
         if (alreadyActivate) return;
@@ -27,7 +34,24 @@ public class CameraCinematic : MonoBehaviour
 
     public void StartCinematic(Action OnFinishCinematic_Callback)
     {
+        if (alreadyActivate) return;
         Main.instance.GetMyCamera().StartCinematic(goTime, cinematicTime, returnTime, moveSmooth, lookAtSmooth, targetPos, lookAt, OnFinishCinematic_Callback);
+        alreadyActivate = true;
     }
 
+    public void CinematicOver()
+    {
+        Main.instance.GetMyCamera().CinematicOver();
+    }
+    public void CinematicInstantOver()
+    {
+        Main.instance.GetMyCamera().CinematicInstantOver();
+    }
+
+    public void CinematicInstant(Action OnFinishCinematic_Callback)
+    {
+        if (alreadyActivate) return;
+        Main.instance.GetMyCamera().InstantCinematic(goTime, cinematicTime, returnTime, moveSmooth, lookAtSmooth, targetPos, lookAt, OnFinishCinematic_Callback);
+        alreadyActivate = true;
+    }
 }

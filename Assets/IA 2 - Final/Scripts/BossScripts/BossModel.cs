@@ -35,6 +35,7 @@ public class BossModel : EnemyBase
 
     [SerializeField] UnityEvent EndFinalScene = new UnityEvent();
     [SerializeField] CaronteDeadCinematic caronteCinematic = null;
+    [SerializeField] CameraCinematic deadCinematic = null;
     [SerializeField] float brazaleteExpulseForce = 10;
 
     public float yMaxPos = 10.47f;
@@ -207,6 +208,8 @@ public class BossModel : EnemyBase
         rb.useGravity = true;
         rb.constraints = RigidbodyConstraints.FreezePositionX | RigidbodyConstraints.FreezePositionZ | RigidbodyConstraints.FreezeRotation;
         rb.AddForce(dir * 20, ForceMode.Force);
+        deadCinematic.SetLookAtPos(new Vector3(transform.position.x, deadCinematic.transform.position.y, transform.position.z), rootTransform.forward);
+        deadCinematic.StartCinematic();
         animator.Play("Dead");
     }
 

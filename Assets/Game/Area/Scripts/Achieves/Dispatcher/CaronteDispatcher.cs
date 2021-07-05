@@ -18,7 +18,6 @@ public class CaronteDispatcher : MonoBehaviour
 
     void StartCombat()
     {
-        Debug.Log("ajajaja");
         useAbility = false;
         Main.instance.GetChar().swordAbilityOnRelease += UseAbility;
         Main.instance.GetChar().shieldAbilityOnRelease += UseAbility;
@@ -26,7 +25,6 @@ public class CaronteDispatcher : MonoBehaviour
 
     void EndCombat()
     {
-        Debug.Log("ijijiji");
         Main.instance.GetChar().swordAbilityOnRelease -= UseAbility;
         Main.instance.GetChar().shieldAbilityOnRelease -= UseAbility;
     }

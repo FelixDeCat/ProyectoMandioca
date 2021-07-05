@@ -294,7 +294,62 @@ public class CustomCamera : MonoBehaviour
         finalPos = _finalPos;
         lookPos = _lookAt.position;
         OnFinishCinematicEvent = callback;
-        cameraState = CameraCinematicState.cameraGo;
+        cameraState = CameraCinematicState.cameraGoing;
+        Main.instance.GetChar().Pause();
+        myCameras[1].transform.parent = null;
+        startPos = transform.position;
+        ChangeCamera();
+        cameraRotate.forceStop = true;
+        inCinematic = true;
+        startLookAtPos = lookAtTarget.transform.position;
+    }
+
+    public void InstantCinematic(float _goTime, float _cinematicTime, float _returnTime, AnimationCurve _moveCurve, AnimationCurve _lookAtCurve, Transform _finalPos, Transform _lookAt, Action callback = null)
+    {
+        goTime = _goTime;
+        cinematicTime = _cinematicTime;
+        returnTime = _returnTime;
+        moveCurveSmooth = _moveCurve;
+        lookAtCurveSmooth = _lookAtCurve;
+        finalPos = _finalPos;
+        lookPos = _lookAt.position;
+        OnFinishCinematicEvent = callback;
+        cameraState = CameraCinematicState.inCinematic;
+        Main.instance.GetChar().Pause();
+        myCameras[1].transform.parent = null;
+        startPos = transform.position;
+        ChangeCamera();
+        cameraRotate.forceStop = true;
+        inCinematic = true;
+        startLookAtPos = lookAtTarget.transform.position;
+        transform.position = finalPos.position;
+        lookAtTarget.transform.position = lookPos;
+        transform.LookAt(lookAtTarget.transform);
+    }
+
+    public void CinematicOver()
+    {
+        if (cameraState == CameraCinematicState.off) return;
+
+        timer = 0;
+        cameraState = CameraCinematicState.cameraReturn;
+    }
+
+    public void CinematicInstantOver()
+    {
+        if (cameraState == CameraCinematicState.off) return;
+        Debug.Log(myCameras[0].transform.position);
+        lookAtTarget.transform.position = startLookAtPos;
+        transform.position = myCameras[0].transform.position;
+        timer = 0;
+        cameraRotate.forceStop = false;
+        myCameras[1].transform.parent = cinematicCamParent;
+        ChangeCamera();
+        cameraState = CameraCinematicState.off;
+        inCinematic = false;
+
+        OnFinishCinematicEvent?.Invoke();
+        Main.instance.GetChar().Resume();
     }
 
     Vector3 startLookAtPos;
@@ -304,17 +359,6 @@ public class CustomCamera : MonoBehaviour
     {
         if (cameraState == CameraCinematicState.off)
             return;
-        else if (cameraState == CameraCinematicState.cameraGo)
-        {
-            Main.instance.GetChar().Pause();
-            myCameras[1].transform.parent = null;
-            startPos = transform.position;
-            ChangeCamera();
-            cameraState = CameraCinematicState.cameraGoing;
-            cameraRotate.forceStop = true;
-            inCinematic = true;
-            startLookAtPos = lookAtTarget.transform.position;
-        }
         else if (cameraState == CameraCinematicState.cameraGoing)
         {
             timer += Time.deltaTime;
