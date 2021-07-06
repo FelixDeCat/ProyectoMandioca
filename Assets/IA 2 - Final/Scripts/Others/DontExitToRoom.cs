@@ -9,13 +9,13 @@ public class DontExitToRoom : MonoBehaviour
     public void CloseRoom()
     {
         boxCollider.isTrigger = false;
-        Main.instance.eventManager.SubscribeToEvent(GameEvents.ON_PLAYER_DEATH, OpenRoom);
+        Main.instance.eventManager.SubscribeToEvent(GameEvents.CARONTE_RESET, OpenRoom);
     }
 
     public void OpenRoom()
     {
         boxCollider.isTrigger = true;
-        Main.instance.eventManager.UnsubscribeToEvent(GameEvents.ON_PLAYER_DEATH, OpenRoom);
+        Main.instance.eventManager.UnsubscribeToEvent(GameEvents.CARONTE_RESET, OpenRoom);
     }
 
 
