@@ -8,6 +8,7 @@ public class Portal : MonoBehaviour
     [SerializeField] RenderTexture portalRender = null;
     [SerializeField] MeshRenderer myMesh = null;
     [SerializeField] LayerMask transportable = 1 << 8;
+    [SerializeField] ParticleSystem particle = null;
     float cd;
     bool canTP;
 
@@ -48,7 +49,7 @@ public class Portal : MonoBehaviour
         {
             if(conection == null)
             {
-                if (other.GetComponent<BashingRock>()) other.transform.position = Vector3.zero;
+                if (other.GetComponent<BashingRock>()) { particle.Play(); other.transform.position = Vector3.zero; }
                 return;
             }
             conection.TPToPortal(other.transform, other.transform.position - myMesh.transform.position);
