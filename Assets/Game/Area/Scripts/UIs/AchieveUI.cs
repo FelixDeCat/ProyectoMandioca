@@ -8,6 +8,7 @@ public class AchieveUI : MonoBehaviour
 {
     [SerializeField] Image achieveImg = null;
     [SerializeField] Image background = null;
+    [SerializeField] Sprite imgLock = null;
     [SerializeField] TextMeshProUGUI achieveTitle = null;
     [SerializeField] TextMeshProUGUI achieveDesc = null;
     [SerializeField] Color blockColor;
@@ -23,7 +24,8 @@ public class AchieveUI : MonoBehaviour
             background.color = completeColor;
         }
         else
-        {      
+        {
+            achieveImg.sprite = imgLock;
             achieveTitle.text = "???";
             achieveDesc.text = achieve.blockDescription;
             background.color = blockColor;

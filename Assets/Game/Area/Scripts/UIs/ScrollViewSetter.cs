@@ -1,11 +1,13 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class ScrollViewSetter : MonoBehaviour
 {
     [SerializeField] AchieveUI achievePrefab = null;
     [SerializeField] Transform parent = null;
+    [SerializeField] Scrollbar bar = null;
 
     AchieveUI[] achieves = new AchieveUI[0];
 
@@ -17,6 +19,11 @@ public class ScrollViewSetter : MonoBehaviour
             achieves[i] = Instantiate(achievePrefab, parent);
             achieves[i].SetAchieve(AchievesManager.instance.allAchieves[i], AchievesManager.instance.achieves.achievesComplete[i]);
         }
+        for (int i = achieves.Length - 1; i >= 0; i--)
+        {
+            if (AchievesManager.instance.achieves.achievesComplete[i]) achieves[i].GetComponent<RectTransform>().SetAsFirstSibling();
+        }
+        bar.value = 1;
     }
 
     public void RefreshAchieves()
@@ -25,5 +32,17 @@ public class ScrollViewSetter : MonoBehaviour
         {
             achieves[i].SetAchieve(AchievesManager.instance.allAchieves[i], AchievesManager.instance.achieves.achievesComplete[i]);
         }
+        for (int i = achieves.Length - 1; i >= 0; i--)
+        {
+            if (AchievesManager.instance.achieves.achievesComplete[i]) achieves[i].GetComponent<RectTransform>().SetAsFirstSibling();
+        }
+
+        bar.value = 1;
+    }
+
+    public void ResetAchieves()
+    {
+        AchievesManager.instance.ClearAllAchieves(true);
+        RefreshAchieves();
     }
 }

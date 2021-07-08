@@ -49,6 +49,7 @@ public class AchievesManager : MonoBehaviour
         Debug_UI_Tools.instance.CreateToogle("Borar Achieves", false, ClearAllAchieves);
     }
 
+
     public void CompleteAchieve(string ID)
     {
         Achieves achieveToComplete = null;
@@ -133,7 +134,7 @@ public class AchievesManager : MonoBehaviour
         }
     }
 
-    string ClearAllAchieves(bool b)
+    public string ClearAllAchieves(bool b)
     {
         for (int i = 0; i < achieves.achievesComplete.Length; i++)
         {
