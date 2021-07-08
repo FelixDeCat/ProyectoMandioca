@@ -9,9 +9,9 @@ public class AchievesManager : MonoBehaviour
 {
     public static AchievesManager instance { get; private set; }
 
-    [SerializeField] List<Achieves> allAchieves = new List<Achieves>();
+    public List<Achieves> allAchieves = new List<Achieves>();
     [SerializeField] float timeToReturn = 2;
-    AchievesSaveData achieves;
+    public AchievesSaveData achieves { get; private set; }
     Queue<Achieves> achievesToShow = new Queue<Achieves>();
 
     [Header("UI things")]
@@ -20,6 +20,8 @@ public class AchievesManager : MonoBehaviour
     [SerializeField] TextMeshProUGUI desc = null;
     [SerializeField] Image img = null;
     private const string AchievesSave = "AchievesSaveData";
+
+
 
     private void Awake()
     {
