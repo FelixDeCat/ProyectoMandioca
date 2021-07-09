@@ -8,6 +8,7 @@ public class MenuButtons : MonoBehaviour
 {
     [SerializeField] Settings settingsScreen = null;
     [SerializeField] Button backButton = null;
+    [SerializeField] ScrollViewSetter achieves = null;
 
     public Animator animLoadM;
     public Animator animSttngsM;
@@ -75,6 +76,21 @@ public class MenuButtons : MonoBehaviour
         inSettings = true;
 
         backButton.gameObject.SetActive(true);
+    }
+
+    public void OpenAchieves()
+    {
+        foreach (var item in mainButtons) item.interactable = false;
+        achieves.gameObject.SetActive(true);
+        achieves.Open();
+    }
+
+    public void CloseAchieves()
+    {
+        foreach (var item in mainButtons) item.interactable = true;
+        achieves.Close();
+        achieves.gameObject.SetActive(false);
+        MyEventSystem.instance.SelectGameObject(mainButtons[0].gameObject);
     }
 
     public void Quit()

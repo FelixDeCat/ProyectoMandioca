@@ -31,4 +31,14 @@ public class AchieveUI : MonoBehaviour
             background.color = blockColor;
         }
     }
+
+    public void SelectAchieve()
+    {
+
+    }
+
+    public void UnselectAchieve()
+    {
+
+    }
 }
