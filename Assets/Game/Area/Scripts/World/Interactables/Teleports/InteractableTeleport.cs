@@ -102,4 +102,12 @@ public class InteractableTeleport : Interactable
             else WorldItemInfo.instance.Show(this.transform.position, titulo, informacion_del_teleport, interactInfo, false, mostrar_Descripcion);
         }
     }
+
+    private void OnDrawGizmos()
+    {
+        if (transform_destino != null)
+        {
+            Gizmos.DrawLine(transform.position + (Vector3.up * 0.5f), transform_destino.position);
+        }
+    }
 }
