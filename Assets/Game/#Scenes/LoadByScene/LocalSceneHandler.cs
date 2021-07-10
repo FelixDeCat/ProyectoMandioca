@@ -172,7 +172,6 @@ public class LocalSceneHandler : LoadComponent
                     var aux = go.GetComponent<AsyncLoaderHandler>();
                     if (aux != null)
                     {
-                        Debug.Log("Entra a la descarga");
                         yield return aux.Unload();
                     }
                 }
