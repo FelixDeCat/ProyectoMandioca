@@ -25,4 +25,12 @@ public class FastHardcodedFunctions : MonoBehaviour
     {
 
     }
+    public void F_KillBeto()
+    {
+        BetoDebugThings.Instant_Kill_Beto();
+    }
+    public void F_KillCaronte()
+    {
+        BossModel_DebugThings.InstaKill_Caronte();
+    }
 }
