@@ -9,6 +9,8 @@ public class ScrollViewSetter : MonoBehaviour
     [SerializeField] Transform parent = null;
     [SerializeField] Scrollbar bar = null;
     [SerializeField] RectTransform posToSelected = null;
+    [SerializeField] Button backButton = null;
+    [SerializeField] Button resetButton = null;
     public AchieveUI selectedAchieve;
     int currentSelection;
 
@@ -91,6 +93,9 @@ public class ScrollViewSetter : MonoBehaviour
             }
             return;
         }
+
+        if (Input.GetButton("Back")) backButton.onClick.Invoke();
+        else if (Input.GetButton("Interact")) resetButton.onClick.Invoke();
 
         float vertical = Input.GetAxis("Vertical");
         int dir = 0;

@@ -148,7 +148,7 @@ public class CharacterInput : MonoBehaviour
 
         if (Input.GetButtonDown("Interact")) OnInteractBegin.Invoke();
         if (Input.GetButtonUp("Interact")) OnInteractEnd.Invoke();
-        if (Input.GetButtonDown("Back")) Back.Invoke();
+        if (Input.GetButtonDown("OpenInventory")) Back.Invoke();
 
         //porque le manda un flotante??
         ChangeWeapon.Invoke(Input.GetAxis("XBOX360_DPadHorizontal"));
