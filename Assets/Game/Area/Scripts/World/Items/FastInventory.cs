@@ -205,11 +205,18 @@ public class FastInventory : UI_Base, IPauseable
             if (dir != 0 && dir + currentSelection >= 0 && dir + currentSelection < itemUI.Count)
                 ChangeItemSelect(currentSelection + dir);
 
-            if (Input.GetButtonDown("OpenInventory") && canPress) Main.instance.GetChar().getInput.Back.Invoke();
-            if (Input.GetButtonDown("Back") && canPress) Main.instance.GetChar().getInput.Back.Invoke();
+            if (Input.GetButtonDown("OpenInventory") && canPress) StartCoroutine(WaitCoroutine());
+            else if (Input.GetButtonDown("Back") && canPress) StartCoroutine(WaitCoroutine());
 
             if (!canPress) canPress = true;
         }
+
+    }
+
+    IEnumerator WaitCoroutine()
+    {
+        yield return new WaitForEndOfFrame();
+        Main.instance.GetChar().getInput.Back.Invoke();
 
     }
 

@@ -12,17 +12,17 @@ public class Tutorial_UIController : MonoBehaviour
 
     [SerializeField] UI_Anim_Code mainHud = null;
 
-    [SerializeField] TextMeshProUGUI message = null;
+    [SerializeField] Animator message = null;
 
     [SerializeField] Transform messageStackParent = null;
-    [SerializeField] TextMeshProUGUI messagePrefab = null;
+    [SerializeField] Animator messagePrefab = null;
     [SerializeField] AudioClip tutoCompleteFeedback = null;
 
     [SerializeField] float waitToDestroy = 2;
 
     TutorialSettings current;
     List<TutorialSettings> tutorialStack = new List<TutorialSettings>();
-    List<TextMeshProUGUI> textStack = new List<TextMeshProUGUI>();
+    List<Animator> textStack = new List<Animator>();
 
     TMP_SpriteAsset spriteAssetKey;
     TMP_SpriteAsset spriteAssetJoystick;
@@ -44,12 +44,20 @@ public class Tutorial_UIController : MonoBehaviour
 
         if (current != null)
         {
-            message.spriteAsset = isJoystick ? spriteAssetJoystick : spriteAssetKey;
+            var array = message.GetComponentsInChildren<TextMeshProUGUI>();
+            for (int i = 0; i < array.Length; i++)
+            {
+                array[i].spriteAsset = isJoystick ? spriteAssetJoystick : spriteAssetKey;
+            }
         }
 
         for (int i = 0; i < textStack.Count; i++)
         {
-            textStack[i].spriteAsset = isJoystick ? tutorialStack[i].joystickSpriteAsset : tutorialStack[i].keyBoardSpriteAsset;
+            var array = textStack[i].GetComponentsInChildren<TextMeshProUGUI>();
+            for (int x = 0; x < array.Length; x++)
+            {
+                array[x].spriteAsset = isJoystick ? tutorialStack[i].joystickSpriteAsset : tutorialStack[i].keyBoardSpriteAsset;
+            }
         }
     }
 
@@ -58,18 +66,25 @@ public class Tutorial_UIController : MonoBehaviour
         if (settings == null) return;
 
         PauseManager.Instance.tutorialHud.SaveTutorial(settings);
-        message.text = settings.fastMessage;
+        var array = message.GetComponentsInChildren<TextMeshProUGUI>();
         spriteAssetJoystick = settings.joystickSpriteAsset;
         spriteAssetKey = settings.keyBoardSpriteAsset;
-        message.color = Color.white;
-        message.spriteAsset = isJoystick ? spriteAssetJoystick : spriteAssetKey;
+        for (int i = 0; i < array.Length; i++)
+        {
+            array[i].text = settings.fastMessage;
+            array[i].spriteAsset = isJoystick ? spriteAssetJoystick : spriteAssetKey;
+        }
 
         if (current != null)
         {
             tutorialStack.Add(current);
             var newText = Instantiate(messagePrefab, messageStackParent);
-            newText.text = current.fastMessage;
-            newText.spriteAsset = isJoystick ? current.joystickSpriteAsset : current.keyBoardSpriteAsset;
+            var arrayTwo = newText.GetComponentsInChildren<TextMeshProUGUI>();
+            for (int i = 1; i < arrayTwo.Length; i++)
+            {
+                arrayTwo[i].spriteAsset = isJoystick ? current.joystickSpriteAsset : current.keyBoardSpriteAsset;
+                arrayTwo[i].text = current.fastMessage;
+            }
             textStack.Add(newText);
         }
 
@@ -78,13 +93,14 @@ public class Tutorial_UIController : MonoBehaviour
         BlindTutorial(settings, settings.actionToComplete);
 
         mainHud.Open();
+        message.Play("New State");
     }
 
     public void CompleteTutorial(TutorialSettings tuto)
     {
         if(tuto == current)
         {
-            message.color = Color.green;
+            message.Play("CompleteAnim");
             AudioManager.instance.PlaySound(tutoCompleteFeedback.name);
 
             current = null;
@@ -94,9 +110,9 @@ public class Tutorial_UIController : MonoBehaviour
         {
             int index = tutorialStack.IndexOf(tuto);
 
-            TextMeshProUGUI temp = textStack[index];
+            Animator temp = textStack[index];
+            temp.Play("CompleteAnim");
 
-            temp.color = Color.green;
             textStack.RemoveAt(index);
             tutorialStack.RemoveAt(index);
             AudioManager.instance.PlaySound(tutoCompleteFeedback.name);
@@ -106,7 +122,7 @@ public class Tutorial_UIController : MonoBehaviour
     }
 
 
-    IEnumerator DestroyATutorial(TextMeshProUGUI textToDestroy)
+    IEnumerator DestroyATutorial(Animator textToDestroy)
     {
         yield return new WaitForSeconds(waitToDestroy);
         if(textToDestroy == message)
@@ -114,12 +130,16 @@ public class Tutorial_UIController : MonoBehaviour
             if(tutorialStack.Count > 0)
             {
                 mainHud.Open();
-                textToDestroy.color = Color.white;
-                textToDestroy.text = tutorialStack[0].fastMessage;
+                message.Play("New State");
+                var array = textToDestroy.GetComponentsInChildren<TextMeshProUGUI>();
                 spriteAssetJoystick = tutorialStack[0].joystickSpriteAsset;
                 spriteAssetKey = tutorialStack[0].keyBoardSpriteAsset;
+                for (int i = 0; i < array.Length; i++)
+                {
+                    array[i].text = tutorialStack[0].fastMessage;
+                    array[i].spriteAsset = isJoystick ? spriteAssetJoystick : spriteAssetKey;
+                }
                 current = tutorialStack[0];
-                textToDestroy.spriteAsset = isJoystick ? spriteAssetJoystick : spriteAssetKey;
                 tutorialStack.Remove(tutorialStack[0]);
                 Destroy(textStack[0].gameObject);
                 textStack.RemoveAt(0);
