@@ -15,12 +15,17 @@ public class SpawnSkill : BossSkills, ISpawner
     [SerializeField] Animator anim = null;
     [SerializeField] AnimEvent animEvent = null;
     [SerializeField] DamageReceiver dmgReceiver = null;
+
+    [SerializeField] AudioClip shieldUpSound = null;
+    [SerializeField] AudioClip shieldDownSound = null;
     public Action OnSpawn;
     List<PlayObject> currentSpawnedEnemies = new List<PlayObject>();
 
     public override void Initialize()
     {
         base.Initialize();
+        AudioManager.instance.GetSoundPool(shieldUpSound.name, AudioManager.SoundDimesion.ThreeD, AudioGroups.GAME_FX, shieldUpSound);
+        AudioManager.instance.GetSoundPool(shieldDownSound.name, AudioManager.SoundDimesion.ThreeD, AudioGroups.GAME_FX, shieldDownSound);
         totemFeedback.Initialize(StartCoroutine);
     }
 
@@ -47,6 +52,7 @@ public class SpawnSkill : BossSkills, ISpawner
             totemFeedback.StartGoToFeedback(pos, (x) => SpawnPrefab(x, currentScene));
         }
         shieldObject.Play("ShieldUp");
+        AudioManager.instance.PlaySound(shieldUpSound.name, shieldObject.transform);
         anim.SetBool("OnSpawn", false);
         OnSpawn?.Invoke();
         dmgReceiver.AddInvulnerability(Damagetype.All);
@@ -54,7 +60,7 @@ public class SpawnSkill : BossSkills, ISpawner
 
     protected override void OnOverSkill()
     {
-        shieldObject.Play("Shield Down");
+        if (shieldObject.GetCurrentAnimatorStateInfo(0).IsName("ShieldUp")) { shieldObject.Play("Shield Down"); AudioManager.instance.PlaySound(shieldDownSound.name, shieldObject.transform); }
         dmgReceiver.RemoveInvulnerability(Damagetype.All);
         animEvent.Remove_Callback("SpawnSkill", Callback);
     }

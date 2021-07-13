@@ -46,6 +46,7 @@ public class BossModel : EnemyBase
     public class CaronteSounds
     {
         public AudioClip takeDamage_sound = null;
+        public AudioClip shootSound = null;
     }
     [System.Serializable]
     public class CaronteParticles
@@ -84,6 +85,7 @@ public class BossModel : EnemyBase
         brain.Initialize(this, StartCoroutine);
 
         AudioManager.instance.GetSoundPool(sounds.takeDamage_sound.name, AudioManager.SoundDimesion.ThreeD, AudioGroups.GAME_FX, sounds.takeDamage_sound);
+        AudioManager.instance.GetSoundPool(sounds.shootSound.name, AudioManager.SoundDimesion.ThreeD, AudioGroups.GAME_FX, sounds.shootSound);
 
         ParticlesManager.Instance.GetParticlePool(particles.takeDamage_particle.name, particles.takeDamage_particle);
         ParticlesManager.Instance.GetParticlePool(particles.shootParticle.name, particles.shootParticle);
@@ -104,6 +106,7 @@ public class BossModel : EnemyBase
 
     void ShootEvent()
     {
+        AudioManager.instance.PlaySound(sounds.shootSound.name, rootTransform);
         throwData.Position = shootPosition.position;
         throwData.Direction = rootTransform.forward;
         ParticlesManager.Instance.PlayParticle(particles.shootParticle.name, shootPosition.position);

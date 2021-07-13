@@ -18,6 +18,8 @@ public class PhantomSkill : BossSkills
     [SerializeField] AnimEvent animEvent = null;
     [SerializeField] Transform shootPoint = null;
     [SerializeField] LayerMask wallMask = 1 << 0;
+
+    [SerializeField] AudioClip shootSound = null;
     Transform target;
     Vector3 firstPos;
 
@@ -27,6 +29,7 @@ public class PhantomSkill : BossSkills
     public override void Initialize()
     {
         base.Initialize();
+        AudioManager.instance.GetSoundPool(shootSound.name, AudioManager.SoundDimesion.ThreeD, AudioGroups.GAME_FX, shootSound);
         data.Owner = model;
         data.Force = projectileSpeed;
         data.Damage = projectileDamage;
@@ -46,6 +49,7 @@ public class PhantomSkill : BossSkills
 
     void Shoot()
     {
+        AudioManager.instance.PlaySound(shootSound.name, shootPoint);
         data.Position = shootPoint.position;
         data.Direction = model.forward;
         ParticlesManager.Instance.PlayParticle(shootParticle.name, shootPoint.position);
