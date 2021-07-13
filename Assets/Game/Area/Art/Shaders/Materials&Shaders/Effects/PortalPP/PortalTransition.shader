@@ -5,8 +5,8 @@ Shader "PortalTransition"
 	Properties
 	{
 		[NoScaleOffset]_FlowMapTexture("FlowMapTexture", 2D) = "white" {}
-		_FlowMapMask("FlowMapMask", Range( 0 , 1)) = 0
 		_ScaleFlow("ScaleFlow", Float) = 1
+		_FlowMapMaskPortal("FlowMapMaskPortal", Range( 0 , 1)) = 0
 		_OffsetFlow("OffsetFlow", Float) = 0
 		_TransitionColor("TransitionColor", Color) = (0,0,0,0)
 
@@ -59,7 +59,7 @@ Shader "PortalTransition"
 			uniform sampler2D _FlowMapTexture;
 			uniform float _ScaleFlow;
 			uniform float _OffsetFlow;
-			uniform float _FlowMapMask;
+			uniform float _FlowMapMaskPortal;
 
 
 			
@@ -92,8 +92,8 @@ Shader "PortalTransition"
 				float4 ase_ppsScreenPosFragNorm = float4(i.texcoordStereo,0,1);
 
 				float2 texCoord4 = i.texcoord.xy * float2( 1,1 ) + float2( 0,0 );
-				float2 lerpResult3 = lerp( ((pow( tex2D( _FlowMapTexture, texCoord4 ) , 0.51 )*_ScaleFlow + _OffsetFlow)).rg , texCoord4 , _FlowMapMask);
-				float4 lerpResult20 = lerp( _TransitionColor , tex2D( _MainTex, lerpResult3 ) , saturate( _FlowMapMask ));
+				float2 lerpResult3 = lerp( ((pow( tex2D( _FlowMapTexture, texCoord4 ) , 0.51 )*_ScaleFlow + _OffsetFlow)).rg , texCoord4 , _FlowMapMaskPortal);
+				float4 lerpResult20 = lerp( _TransitionColor , tex2D( _MainTex, lerpResult3 ) , saturate( _FlowMapMaskPortal ));
 				
 
 				float4 color = lerpResult20;
@@ -109,20 +109,20 @@ Shader "PortalTransition"
 }
 /*ASEBEGIN
 Version=18900
-0;456;1155;365;928.133;369.7902;1;True;False
+0;456;1155;365;1588.141;-19.5623;1;True;False
 Node;AmplifyShaderEditor.TextureCoordinatesNode;4;-1819.434,50.3769;Inherit;False;0;-1;2;3;2;SAMPLER2D;;False;0;FLOAT2;1,1;False;1;FLOAT2;0,0;False;5;FLOAT2;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
 Node;AmplifyShaderEditor.SamplerNode;5;-1694.122,-274.262;Inherit;True;Property;_FlowMapTexture;FlowMapTexture;0;1;[NoScaleOffset];Create;True;0;0;0;False;0;False;-1;b11753004edf0704a8a127e002b8248b;b11753004edf0704a8a127e002b8248b;True;0;False;white;Auto;False;Object;-1;Auto;Texture2D;8;0;SAMPLER2D;;False;1;FLOAT2;0,0;False;2;FLOAT;0;False;3;FLOAT2;0,0;False;4;FLOAT2;0,0;False;5;FLOAT;1;False;6;FLOAT;0;False;7;SAMPLERSTATE;;False;5;COLOR;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
 Node;AmplifyShaderEditor.RangedFloatNode;12;-1205.357,119.3434;Inherit;False;Property;_OffsetFlow;OffsetFlow;3;0;Create;True;0;0;0;False;0;False;0;0;0;0;0;1;FLOAT;0
-Node;AmplifyShaderEditor.RangedFloatNode;11;-1204.357,51.34336;Inherit;False;Property;_ScaleFlow;ScaleFlow;2;0;Create;True;0;0;0;False;0;False;1;0;0;0;0;1;FLOAT;0
+Node;AmplifyShaderEditor.RangedFloatNode;11;-1204.357,51.34336;Inherit;False;Property;_ScaleFlow;ScaleFlow;1;0;Create;True;0;0;0;False;0;False;1;0;0;0;0;1;FLOAT;0
 Node;AmplifyShaderEditor.PowerNode;19;-1282.049,-182.9925;Inherit;True;False;2;0;COLOR;0,0,0,0;False;1;FLOAT;0.51;False;1;COLOR;0
 Node;AmplifyShaderEditor.ScaleAndOffsetNode;10;-988.4829,-133.9496;Inherit;True;3;0;COLOR;0,0,0,0;False;1;FLOAT;2.31;False;2;FLOAT;-0.02;False;1;COLOR;0
-Node;AmplifyShaderEditor.RangedFloatNode;7;-1103.933,218.9854;Inherit;False;Property;_FlowMapMask;FlowMapMask;1;0;Create;True;0;0;0;False;0;False;0;0;0;1;0;1;FLOAT;0
 Node;AmplifyShaderEditor.ComponentMaskNode;6;-760.9333,-56.01459;Inherit;False;True;True;False;False;1;0;COLOR;0,0,0,0;False;1;FLOAT2;0
+Node;AmplifyShaderEditor.RangedFloatNode;7;-1093.933,218.9854;Inherit;False;Property;_FlowMapMaskPortal;FlowMapMaskPortal;2;0;Create;True;0;0;0;False;0;False;0;0;0;1;0;1;FLOAT;0
 Node;AmplifyShaderEditor.TemplateShaderPropertyNode;2;-555.9333,-72.01459;Inherit;False;0;0;_MainTex;Shader;False;0;5;SAMPLER2D;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
 Node;AmplifyShaderEditor.LerpOp;3;-623.9333,71.98541;Inherit;False;3;0;FLOAT2;0,0;False;1;FLOAT2;0,0;False;2;FLOAT;0;False;1;FLOAT2;0
 Node;AmplifyShaderEditor.SamplerNode;1;-424.1766,-72.15192;Inherit;True;Property;_TextureSample0;Texture Sample 0;0;0;Create;True;0;0;0;False;0;False;-1;None;None;True;0;False;white;Auto;False;Object;-1;Auto;Texture2D;8;0;SAMPLER2D;;False;1;FLOAT2;0,0;False;2;FLOAT;0;False;3;FLOAT2;0,0;False;4;FLOAT2;0,0;False;5;FLOAT;1;False;6;FLOAT;0;False;7;SAMPLERSTATE;;False;5;COLOR;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
-Node;AmplifyShaderEditor.SaturateNode;21;-383.2997,122.4449;Inherit;False;1;0;FLOAT;0;False;1;FLOAT;0
 Node;AmplifyShaderEditor.ColorNode;22;-316.0225,-279.0168;Inherit;False;Property;_TransitionColor;TransitionColor;4;0;Create;True;0;0;0;False;0;False;0,0,0,0;0,0,0,0;True;0;5;COLOR;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
+Node;AmplifyShaderEditor.SaturateNode;21;-270.2997,212.4449;Inherit;False;1;0;FLOAT;0;False;1;FLOAT;0
 Node;AmplifyShaderEditor.LerpOp;20;-89.66846,-94.71898;Inherit;False;3;0;COLOR;0,0,0,0;False;1;COLOR;0,0,0,0;False;2;FLOAT;0;False;1;COLOR;0
 Node;AmplifyShaderEditor.TemplateMultiPassMasterNode;0;88.00001,-24;Float;False;True;-1;2;ASEMaterialInspector;0;2;PortalTransition;32139be9c1eb75640a847f011acf3bcf;True;SubShader 0 Pass 0;0;0;SubShader 0 Pass 0;1;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;2;False;-1;False;False;False;False;False;False;False;False;False;False;False;True;2;False;-1;True;7;False;-1;False;False;False;0;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;2;0;;0;0;Standard;0;0;1;True;False;;False;0
 WireConnection;5;1;4;0
@@ -142,4 +142,4 @@ WireConnection;20;1;1;0
 WireConnection;20;2;21;0
 WireConnection;0;0;20;0
 ASEEND*/
-//CHKSM=E9539CC19169B98BB9F8ED70B2BBF5E82DBDC382
+//CHKSM=D4A299215046494363386FFC47390677759CA33F
