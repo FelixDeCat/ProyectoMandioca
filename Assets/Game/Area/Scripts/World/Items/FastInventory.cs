@@ -134,6 +134,7 @@ public class FastInventory : UI_Base, IPauseable
         IsOpen = true;
         currentSelection = 0;
         ChangeItemSelect(0);
+        Main.instance.GetChar().getInput.inMenu = true;
     }
 
     public void CloseScreen()
@@ -145,6 +146,7 @@ public class FastInventory : UI_Base, IPauseable
         currentSelection = 0;
         begintimer = false;
         timer = 0;
+        Main.instance.GetChar().getInput.inMenu = false;
     }
 
     void ChangeItemSelect(int newItemSelect)
@@ -202,9 +204,16 @@ public class FastInventory : UI_Base, IPauseable
 
             if (dir != 0 && dir + currentSelection >= 0 && dir + currentSelection < itemUI.Count)
                 ChangeItemSelect(currentSelection + dir);
+
+            if (Input.GetButtonDown("OpenInventory") && canPress) Main.instance.GetChar().getInput.Back.Invoke();
+            if (Input.GetButtonDown("Back") && canPress) Main.instance.GetChar().getInput.Back.Invoke();
+
+            if (!canPress) canPress = true;
         }
 
     }
+
+    bool canPress;
     public override void Refresh() { }
 
     public void Pause()

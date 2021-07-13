@@ -155,7 +155,7 @@ public class PauseManager : MonoBehaviour
     {
         if (!inPauseHud) return;
 
-        if (Input.GetButtonDown("Back"))
+        if (Input.GetButtonDown("Back") && canPress)
         {
             if (mainButtons.activeSelf)
                 ResumeHud();
