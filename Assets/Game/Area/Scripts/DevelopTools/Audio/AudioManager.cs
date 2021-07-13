@@ -65,6 +65,7 @@ public class AudioManager : MonoBehaviour
     /// <param name="soundPoolName"></param>
     public void PlaySound(string soundPoolName, Transform trackingTransform = null)
     {
+        if (mute) return;
         if (_soundRegistry.ContainsKey(soundPoolName))
         {
             var soundPool = _soundRegistry[soundPoolName];
@@ -91,8 +92,27 @@ public class AudioManager : MonoBehaviour
         }
     }
     
+    void StopAllSounds()
+    {
+        foreach (var item in _soundRegistry)
+            item.Value.StopAllSounds();
+    }
+
+    public void Mute()
+    {
+        mute = true;
+        StopAllSounds();
+    }
+
+    public void Unmute()
+    {
+        mute = false;
+    }
+    bool mute;
+
     public void PlaySound(string soundPoolName, Action callbackEnd, Transform trackingTransform = null)
     {
+        if (mute) return;
         if (_soundRegistry.ContainsKey(soundPoolName))
         {
             var soundPool = _soundRegistry[soundPoolName];

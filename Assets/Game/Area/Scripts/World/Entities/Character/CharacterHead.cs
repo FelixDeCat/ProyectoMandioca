@@ -828,7 +828,10 @@ public class CharacterHead : CharacterControllable
     public void ComboWombo_Subscribe(Action enter, Action exit) { callback_IsComboTime_Enable = enter; callback_IsComboTime_Disable = exit; }
     void ActiveCombo()
     {
-        if(!isCombo)feedbacks.particles.HeavyLoaded.Play();
+        if (!isCombo) { 
+            //feedbacks.particles.HeavyLoaded.transform.position = new Vector3(feedbacks.particles.comboTrail.transform.position.x,
+            //    feedbacks.particles.HeavyLoaded.transform.position.y, feedbacks.particles.comboTrail.transform.position.z);
+            feedbacks.particles.HeavyLoaded.Play(); }
         anim_base.GetBehaviour<ANIM_SCRIPT_Base>().ConfigureCallback(() => feedbacks.particles.comboTrail.Stop());
         callback_IsComboTime_Enable?.Invoke();
         isCombo = true;

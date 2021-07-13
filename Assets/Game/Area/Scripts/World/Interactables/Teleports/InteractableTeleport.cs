@@ -48,6 +48,7 @@ public class InteractableTeleport : Interactable
                     LoadSceneHandler.instance.On_LoadScreen();
                     GameLoop.instance.StopGame();
                     NewSceneStreamer.instance.LoadScene(sceneToChange, EndLoad);
+                    AudioManager.instance.Mute();
                 }
             }
             if (teleportType == TeleportType.change_scene) Fades_Screens.instance.FadeOn(On_FadeOn_Ended);
@@ -80,6 +81,7 @@ public class InteractableTeleport : Interactable
         LoadSceneHandler.instance.Off_LoadScreen();
         GameLoop.instance.StartGame();
         Main.instance.GetChar().GetCharMove().StopDamageFall();
+        AudioManager.instance.Unmute();
         Main.instance.GetChar().transform.position = transform_destino.position;
     }
 
