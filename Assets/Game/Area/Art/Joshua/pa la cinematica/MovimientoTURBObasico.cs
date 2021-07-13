@@ -8,10 +8,12 @@ public class MovimientoTURBObasico : MonoBehaviour
     public GameObject targetTwo;
     float counter;
 
+    public float ok;
+
     void Update()
     { 
         if(counter <= 0)
-            transform.position = Vector3.MoveTowards(transform.position, target.transform.position, Time.deltaTime * 1.1f);
+            transform.position = Vector3.MoveTowards(transform.position, target.transform.position, Time.deltaTime * 1);
 
         if (transform.position == target.transform.position)
         {
@@ -19,6 +21,6 @@ public class MovimientoTURBObasico : MonoBehaviour
         }
 
         if(counter >= 10)
-            transform.position = Vector3.MoveTowards(transform.position, target.transform.position, Time.deltaTime * 1.1f);
+            transform.position = Vector3.MoveTowards(transform.position, target.transform.position, Time.deltaTime * 1);
     }
 }
