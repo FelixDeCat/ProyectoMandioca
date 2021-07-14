@@ -16,7 +16,7 @@ public class EffectBasicOnFire : EffectBase
     [SerializeField] float onHitFlashTime = 20f;
     Material[] mats;
     [SerializeField] AudioClip _feedBack = null;
-
+    Color originalColor;
     protected override void OnInitialize()
     {
         base.OnInitialize();
@@ -24,6 +24,7 @@ public class EffectBasicOnFire : EffectBase
         if (!mesh) mesh = lifeSystem.GetComponentInChildren<SkinnedMeshRenderer>();
         mats = mesh.materials;
         AudioManager.instance.GetSoundPool(_feedBack.name, AudioManager.SoundDimesion.ThreeD, AudioGroups.GAME_FX, _feedBack);
+        originalColor = mats[0].GetColor("_EmissionColor");
     }
 
     protected override void OffEffect()
@@ -50,20 +51,20 @@ public class EffectBasicOnFire : EffectBase
         }
     }
 
-    protected IEnumerator OnHitted()
+    public IEnumerator OnHitted()
     {
         for (int i = 0; i < onHitFlashTime; i++)
         {
             if (i < (onHitFlashTime / 2f))
             {
-                mats[0].SetColor("_EmissionColor", Color.Lerp(Color.black, onHitColor, i / (onHitFlashTime / 2f)));
+                mats[0].SetColor("_EmissionColor", Color.Lerp(originalColor, onHitColor, i / (onHitFlashTime / 2f)));
             }
             else
             {
-                mats[0].SetColor("_EmissionColor", Color.Lerp(onHitColor, Color.black, (i - (onHitFlashTime / 2f)) / (onHitFlashTime / 2f)));
+                mats[0].SetColor("_EmissionColor", Color.Lerp(onHitColor, originalColor, (i - (onHitFlashTime / 2f)) / (onHitFlashTime / 2f)));
             }
             yield return new WaitForSeconds(0.01f);
         }
-        mats[0].SetColor("_EmissionColor", Color.black);
+        mats[0].SetColor("_EmissionColor", originalColor);
     }
 }

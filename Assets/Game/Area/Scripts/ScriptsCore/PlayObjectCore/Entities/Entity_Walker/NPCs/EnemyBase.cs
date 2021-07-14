@@ -31,6 +31,7 @@ public abstract class EnemyBase : NPCBase
     [SerializeField] protected Animator animator = null;
     float currentAnimSpeed;
     [SerializeField] UnityEvent OnResetEnemy = null;
+    float emisionLevel = 0;
 
     protected override void OnInitialize()
     {
@@ -40,6 +41,7 @@ public abstract class EnemyBase : NPCBase
         {
             Material[] mats = smr.materials;
             originalColor = mats[0].GetColor("_EmissionColor");
+            emisionLevel = mats[0].GetFloat("_EmissionIntensity");
         }
         InitializePathFinder(rb);
         dmgData?.Initialize(this);
@@ -75,10 +77,12 @@ public abstract class EnemyBase : NPCBase
                 if (i < (onHitFlashTime / 2f))
                 {
                     mats[0].SetColor("_EmissionColor", Color.Lerp(originalColor, onHitColor, i / (onHitFlashTime / 2f)));
+                    mats[0].SetFloat("_EmissionIntensity", Mathf.Lerp(emisionLevel, 5, i / (onHitFlashTime / 2f)));
                 }
                 else
                 {
                     mats[0].SetColor("_EmissionColor", Color.Lerp(onHitColor, originalColor, (i - (onHitFlashTime / 2f)) / (onHitFlashTime / 2f)));
+                    mats[0].SetFloat("_EmissionIntensity", Mathf.Lerp(5, emisionLevel, i / (onHitFlashTime / 2f)));
                 }
                 yield return new WaitForSeconds(0.01f);
             }
@@ -95,6 +99,7 @@ public abstract class EnemyBase : NPCBase
                 for (int x = 0; x < meshes.Length; x++)
                 {
                     meshes[x].materials[0].SetColor("_EmissionColor", Color.Lerp(Color.black, onHitColor, i / (onHitFlashTime / 2f)));
+                    meshes[x].materials[0].SetFloat("_EmissionIntensity", Mathf.Lerp(emisionLevel, 5, i / (onHitFlashTime / 2f)));
                 }
             }
             else
@@ -102,6 +107,7 @@ public abstract class EnemyBase : NPCBase
                 for (int x = 0; x < meshes.Length; x++)
                 {
                     meshes[x].materials[0].SetColor("_EmissionColor", Color.Lerp(onHitColor, Color.black, (i - (onHitFlashTime / 2f)) / (onHitFlashTime / 2f)));
+                    meshes[x].materials[0].SetFloat("_EmissionIntensity", Mathf.Lerp(5, emisionLevel, i / (onHitFlashTime / 2f)));
                 }
                 yield return new WaitForSeconds(0.01f);
             }
