@@ -159,6 +159,11 @@ public class EquipedManager : MonoBehaviour
         return true;
     }
 
+    public void RefreshBlocks()
+    {
+        foreach (var s in equip)
+            UI_SlotManager.instance.SetSpotBlock(s.Key, s.Value.IsUsable());
+    }
     void RefreshUI()
     {
         foreach (var s in equip)
@@ -180,6 +185,7 @@ public class EquipedManager : MonoBehaviour
                         ui.Close();
                     }
                     ui.SetItem(data.Item.cant.ToString(), data.Item.item.img, data.Item.item.consumible);
+                    UI_SlotManager.instance.SetSpotBlock(s.Key, data.IsUsable());
                 }
                 else
                 {
@@ -201,6 +207,16 @@ public class EquipedManager : MonoBehaviour
         ItemInInventory item;
         bool pendingToRelease;
 
+
+        public bool IsUsable()
+        {
+            if (itemBehaviour != null &&itemBehaviour.GetComponent<ItemRequirements>())
+            {
+                return !itemBehaviour.GetComponent<ItemRequirements>().Requirements();
+            }
+
+            return false;
+        }
         public bool PendingToRelease { get => pendingToRelease; }
         #region Getters
         public Transform Parent { get => parent; }
@@ -240,7 +256,6 @@ public class EquipedManager : MonoBehaviour
         }
         public void AddItem(Item _itm, int quant = 1)
         {
-            Debug.Log("sep");
             if (item == null)
             {
                 item = new ItemInInventory(_itm, quant);
@@ -257,8 +272,6 @@ public class EquipedManager : MonoBehaviour
                     item.cant = item.cant + quant;
                 }
             }
-
-            Debug.Log(itemBehaviour != null);
         }
 
         public bool IHaveSpecificItem(Item itm)

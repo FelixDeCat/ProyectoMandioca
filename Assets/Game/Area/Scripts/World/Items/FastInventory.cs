@@ -81,6 +81,8 @@ public class FastInventory : UI_Base, IPauseable
         if(item.consumible) mess = mess + "Agarraste " + cant + " " + item.name;
         else mess = mess + "Agarraste " + item.name;
 
+        EquipedManager.instance.RefreshBlocks();
+
         messeage.OpenMesseage(item.img, mess);
     }
     public void Remove(Item item, int cant = 1)

@@ -21,7 +21,6 @@ public class ItemRequirements : MonoBehaviour
     public bool Requirements() 
     { 
         bool aux = FastInventory.instance.Have(items_requirements);
-        Debug.Log(aux);
         return aux;
     }
     public void Consume() => FastInventory.instance.Remove(items_requirements);

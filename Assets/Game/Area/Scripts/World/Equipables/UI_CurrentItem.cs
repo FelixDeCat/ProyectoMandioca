@@ -17,9 +17,13 @@ public class UI_CurrentItem : UI_Base
     [SerializeField] GameObject HoldThePower = null;
 
     [SerializeField] Image img_aux = null;
+    [SerializeField] Color blockColor = Color.white;
     public float anim_scale_on_use = 0.2f;
     Vector3 originalScale;
     Vector3 scaledScale;
+
+    Color currentTransparentColor = new Color(1, 1, 1, 0);
+    public Color currentSolidColor = new Color(1, 1, 1, 1);
 
     public void SetItem(string _cant, Sprite _img, bool showNumber = true)
     {
@@ -37,7 +41,24 @@ public class UI_CurrentItem : UI_Base
         img_aux.sprite = _img;
         // img_aux.enabled = false;
     }
-    
+
+    public void SetBlock(bool b)
+    {
+        if (spot_to_represent == SpotType.Waist2) Debug.Log(b);
+        if (b)
+        {
+            currentSolidColor = blockColor;
+            currentTransparentColor = new Color(blockColor.r, blockColor.g, blockColor.b, 0);
+        }
+        else
+        {
+            currentSolidColor = Color.white;
+            currentTransparentColor = new Color(blockColor.r, blockColor.g, blockColor.b, 0);
+        }
+
+        img_aux.color = currentSolidColor;
+    }
+
     public void SetCastingBar(float current, float max)
     {
         castingbar?.Configure(max, 1);
@@ -49,7 +70,7 @@ public class UI_CurrentItem : UI_Base
         var v = img_aux.gameObject.transform.localScale;
         scaledScale = new Vector3(v.x + anim_scale_on_use, v.y + anim_scale_on_use, v.z + anim_scale_on_use);
         img_aux.gameObject.transform.localScale = originalScale;
-        img_aux.color = new Color(1, 1, 1, 0);
+        img_aux.color = currentTransparentColor;
     }
 
     private void Update()
@@ -79,12 +100,12 @@ public class UI_CurrentItem : UI_Base
             {
                 timer_use = timer_use + 2 * Time.deltaTime;
                 img_aux.gameObject.transform.localScale = Vector3.Lerp(scaledScale, originalScale, timer_use);
-                img_aux.color = Color.Lerp(new Color(1, 1, 1, 1), new Color(1,1,1,0), timer_use);
+                img_aux.color = Color.Lerp(currentSolidColor, currentTransparentColor, timer_use);
             }
             else
             {
                 img_aux.gameObject.transform.localScale = originalScale;
-                img_aux.color = new Color(1, 1, 1, 0);
+                img_aux.color = currentSolidColor;
                 timer_use = 0;
                 anim_use = false;
                 img_aux.enabled = false;
@@ -108,6 +129,9 @@ public class UI_CurrentItem : UI_Base
     public void Cooldown_End() 
     {
         img.color = Color.white;
+        img_aux.enabled = true;
+        img_aux.color = currentSolidColor;
+        Debug.Log("Termina");
         //cooldownBar.SetImageColor(new Color(0, 0, 0, 0));
         if (part_endLoad) part_endLoad.Play();
     }

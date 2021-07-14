@@ -37,6 +37,14 @@ public class UI_SlotManager : MonoBehaviour
 
     public UI_CurrentItem GetSlotBySpot(SpotType spot) => reg.ContainsKey(spot) ? reg[spot] : null;
 
+    public void SetSpotBlock(SpotType spot, bool b)
+    {
+        if (reg.ContainsKey(spot))
+        {
+            reg[spot].SetBlock(b);
+        }
+    }
+
     public void TryOnActiveSlot()
     {
         if (activesOn) return;
