@@ -47,6 +47,7 @@ public class InteractableTeleport : Interactable
                    // Fades_Screens.instance.FadeOff(() => { });
                     LoadSceneHandler.instance.On_LoadScreen();
                     GameLoop.instance.StopGame();
+                    NewSceneStreamer.GotToAntiBugPosition();
                     NewSceneStreamer.instance.LoadScene(sceneToChange, EndLoad);
                     AudioManager.instance.Mute();
                 }

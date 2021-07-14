@@ -11,6 +11,8 @@ public class NewSceneStreamer : MonoBehaviour
     public static NewSceneStreamer instance;
     private void Awake() => instance = this;
 
+    [SerializeField] Transform pos_anti_bug;
+
     [SerializeField] SceneData original_z1 = null;
 
     public HashSet<string> loaded = new HashSet<string>();
@@ -27,6 +29,8 @@ public class NewSceneStreamer : MonoBehaviour
 
     [SerializeField] float maxLoadWaitTime = 5;
 
+    public static void GotToAntiBugPosition() => Main.instance.GetChar().transform.position = instance.pos_anti_bug.transform.position;
+
     bool IsLoaded(string sceneName) => loaded.Contains(sceneName) || loaded.Contains(sceneName.ToLower()) || loaded.Contains(sceneName.ToUpper());
     bool IsLoading(string sceneName) => loading.Contains(sceneName) || loading.Contains(sceneName.ToLower()) || loading.Contains(sceneName.ToUpper());
 
@@ -34,7 +38,6 @@ public class NewSceneStreamer : MonoBehaviour
     {
         SceneManager.sceneLoaded += OnSceneLoaded;
         LoadScene(firstScene, OnEndLoad);
-        
     }
 
     public void RemoveToSceneLoaded() => SceneManager.sceneLoaded -= OnSceneLoaded;
