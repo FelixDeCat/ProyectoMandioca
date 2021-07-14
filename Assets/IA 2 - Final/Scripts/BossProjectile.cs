@@ -36,6 +36,7 @@ public class BossProjectile : Throwable
         noFloorCollision = true;
         timer = 0;
         AudioManager.instance.PlaySound(parrySound.name, transform);
+        ParticlesManager.Instance.PlayParticle(explosionParticle.name, transform.position);
         timerToDissappear = 0;
         Dissappear();
     }
@@ -88,6 +89,7 @@ public class BossProjectile : Throwable
         base.NonParry();
         myrig.velocity = Vector3.zero;
         move = false;
+        AudioManager.instance.PlaySound(parrySound.name, transform);
         ParticlesManager.Instance.PlayParticle(explosionParticle.name, transform.position);
         Dissappear();
         noFloorCollision = false;

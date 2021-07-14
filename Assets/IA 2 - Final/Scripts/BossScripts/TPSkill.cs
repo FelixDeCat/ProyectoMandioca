@@ -11,6 +11,8 @@ public class TPSkill : BossSkills
     [SerializeField] float maxDistance = 13;
     [SerializeField] Transform model = null;
     [SerializeField] LayerMask wallLayer = 1 << 0;
+
+    [SerializeField] AudioClip handSound = null;
     bool moving = false;
     Vector3 initPos;
 
@@ -21,6 +23,7 @@ public class TPSkill : BossSkills
         hand.WallCollision += () => { moving = false; OverSkill(); };
         hand.gameObject.SetActive(false);
         target = Main.instance.GetChar().Root;
+        AudioManager.instance.GetSoundPool(handSound.name, AudioManager.SoundDimesion.ThreeD, AudioGroups.GAME_FX, handSound);
     }
 
     protected override void OnUseSkill()
@@ -30,6 +33,7 @@ public class TPSkill : BossSkills
         hand.transform.forward = CalculeBestDirection();
         initPos = hand.transform.position;
         moving = true;
+        AudioManager.instance.PlaySound(handSound.name, hand.transform);
     }
 
     public override void OnUpdate()

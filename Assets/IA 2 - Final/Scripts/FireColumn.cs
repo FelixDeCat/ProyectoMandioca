@@ -10,6 +10,9 @@ public class FireColumn : PlayObject
     [SerializeField] float timeToExplode = 2;
     [SerializeField] float timeActive = 3;
     [SerializeField] LayerMask characterLayer = 1 << 9;
+
+    [SerializeField] AudioClip spawnSound = null;
+    [SerializeField] AudioClip fireSound = null;
     bool active = false;
     float timer;
     [SerializeField] ParticleSystem fireParticle = null;
@@ -18,6 +21,8 @@ public class FireColumn : PlayObject
     protected override void OnInitialize()
     {
         dmgData.SetDamage(damage).SetKnockback(0).SetDamageType(dmgType).SetDamageInfo(DamageInfo.NonBlockAndParry);
+        AudioManager.instance.GetSoundPool(spawnSound.name, AudioManager.SoundDimesion.ThreeD, AudioGroups.GAME_FX, spawnSound);
+        AudioManager.instance.GetSoundPool(fireSound.name, AudioManager.SoundDimesion.ThreeD, AudioGroups.GAME_FX, fireSound);
     }
 
     protected override void OnPause()
@@ -36,6 +41,7 @@ public class FireColumn : PlayObject
         {
             active = true;
             fireParticle.Play();
+            AudioManager.instance.PlaySound(fireSound.name, transform);
             GetComponentInChildren<BoxCollider>().enabled = true;
         }
         else if (active)
@@ -67,6 +73,7 @@ public class FireColumn : PlayObject
 
     protected override void OnTurnOn()
     {
+        AudioManager.instance.PlaySound(spawnSound.name, transform);
     }
 
     protected override void OnFixedUpdate()

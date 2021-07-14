@@ -19,6 +19,8 @@ public class FlameSkill : BossSkills
     [SerializeField] FireColumn flamePrefab = null;
     [SerializeField] Animator anim = null;
     [SerializeField] AnimEvent animEvent = null;
+
+    [SerializeField] AudioClip flameStartSound = null;
     ObjectPool_PlayObject myPool;
     Transform target;
     List<Action> modeSelector;
@@ -31,6 +33,7 @@ public class FlameSkill : BossSkills
         target = Main.instance.GetChar().Root;
         modeSelector = new List<Action>() { () => Itteration(directionalData.flamesAmmount,directionalData.timeToTick, DirectionalMode, OverSkill),
             () => Itteration(circularData.flamesAmmount,circularData.timeToTick, CircularMode, OverSkill) };
+        AudioManager.instance.GetSoundPool(flameStartSound.name, AudioManager.SoundDimesion.ThreeD, AudioGroups.GAME_FX, flameStartSound);
     }
 
     void Callback()
@@ -41,6 +44,7 @@ public class FlameSkill : BossSkills
 
     protected override void OnUseSkill()
     {
+        AudioManager.instance.PlaySound(flameStartSound.name, transform);
         animEvent.Add_Callback("FlameSkill", Callback);
         anim.SetBool("OnFlame", true);
         anim.Play("FlameSkill");
