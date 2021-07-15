@@ -43,11 +43,13 @@ public class GameUI_controller : MonoBehaviour
     public void CloseGameMenu(){}
 
 
-    public void OpenCustomImage(Sprite img)
+    public bool OpenCustomImage(Sprite img)
     {
         Debug.Log("Llego aca?");
+        if (customImage.gameObject.activeSelf) return false;
         customImage.sprite = img;
         customImage.gameObject.SetActive(true);
+        return true;
     }
 
     public void CloseCustomImage()

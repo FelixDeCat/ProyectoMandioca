@@ -11,6 +11,7 @@ public abstract class Interactable : MonoBehaviour
     public float distancetoInteract = 1f;
     public bool autoexecute;
     bool autoexe_in_CD = false;
+    public bool isOneShot = true;
     float timer_cd;
     public float cd_autoexecute;
     public Transform pointToMessage;
@@ -81,10 +82,13 @@ public abstract class Interactable : MonoBehaviour
             {
                 autoexe_in_CD = true;
                 timer_cd = 0;
-                executing = true;
-                InteractSensor.Remove_Interactable(this);
+                if (isOneShot)
+                {
+                    executing = true;
+                    InteractSensor.Remove_Interactable(this);
+                    if (feedback.Length > 0) foreach (var fdbck in feedback) fdbck.Hide();
+                }
                 OnExecute(entity);
-                if (feedback.Length > 0) foreach (var fdbck in feedback) fdbck.Hide();
             }
         }
         else

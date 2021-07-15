@@ -32,8 +32,8 @@ public class CultistMap : MonoBehaviour
         }
         else
         {
-            Main.instance.gameUiController.OpenCustomImage(mapImage);
-            isOpen = true;
+            if(Main.instance.gameUiController.OpenCustomImage(mapImage))
+                isOpen = true;
         }
     }
 
