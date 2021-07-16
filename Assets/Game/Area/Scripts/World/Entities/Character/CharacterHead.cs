@@ -164,7 +164,7 @@ public class CharacterHead : CharacterControllable
             combo_system.AddCallback_OnExecuteCombo(charAttack.ForceHeavy);
             combo_system.AddCallback_OnExecuteCombo(charAttack.ForceHeavyFeedback);
             combo_system.AddCallback_OnExecuteCombo(charanim.HeavyAttack);
-            combo_system.AddCallback_OnExecuteCombo(feedbacks.particles.comboTrail.Play);
+            combo_system.AddCallback_OnExecuteCombo(()=> { feedbacks.particles.comboTrail.Play(); StartCoroutine(ComboTrailDesactive()); });
             //combo_system.AddCallback_OnExecuteCombo(HealOnCombo);
         }
 
@@ -837,6 +837,12 @@ public class CharacterHead : CharacterControllable
         isCombo = true;
     }
     bool isCombo;
+    IEnumerator ComboTrailDesactive()
+    {
+        yield return new WaitForSeconds(1.5f);
+        if (feedbacks.particles.comboTrail.isPlaying) feedbacks.particles.comboTrail.Stop();
+    }
+
     void EndTime_DeactiveCombo()
     {
         Invoke("DelayDisableCallback", 0.1f);
