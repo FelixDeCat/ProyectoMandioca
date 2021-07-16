@@ -116,11 +116,13 @@ public class BetoBoss : EnemyBase
     protected override void TakeDamageFeedback(DamageData data)
     {
         cooldown = true;
-        cdModule.AddCD("TakeDamageCD", () => cooldown = false, recallTime);
+        cdModule.AddCD("TakeDamageCD", () => { cooldown = false; animator.SetBool("takeDamage", false); }, recallTime);
         BossBarGeneric.SetLife(lifesystem.Life, lifesystem.LifeMax);
         //var part = ParticlesManager.Instance.PlayParticle(takeDamagePS.name, transform.position + Vector3.up);
         //part.transform.forward = (transform.position - data.owner_position).normalized;
         StartCoroutine(OnHitted(onHitFlashTime, onHitColor, myMeshes));
+        animator.SetBool("takeDamage", true);
+
 
         if (data.ownerRoot == transform && !Stuned && Flying)
         {

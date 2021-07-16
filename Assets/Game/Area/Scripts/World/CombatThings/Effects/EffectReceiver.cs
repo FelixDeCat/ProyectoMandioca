@@ -43,7 +43,6 @@ public class EffectReceiver : MonoBehaviour
     //Función que se debe llamar para activar un efecto
     public void TakeEffect(EffectName effect, float cd = -1)
     {
-        Debug.Log("?");
         //Si mi EffectReceiver contiene el efecto que me pasaron, compruebo si ese efecto no está en marcha y si es compatible con los efectos actualmente activos. 
         //De ser así, ejecuto en efecto. Si el efecto no se encuentra, activo mi feedback de invulnerabilidad.
         if (myPossibleEffects.ContainsKey(effect))

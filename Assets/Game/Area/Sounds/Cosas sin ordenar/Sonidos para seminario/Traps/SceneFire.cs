@@ -55,6 +55,7 @@ public class SceneFire : PlayObject
     private void OnTriggerEnter(Collider other)
     {
         var dmgReceiver = other.gameObject.GetComponent<EffectReceiver>();
+        if(dmgReceiver == null) dmgReceiver = other.gameObject.GetComponentInParent<EffectReceiver>();
         if (dmgReceiver != null && !myTargetsTimers.ContainsKey(dmgReceiver))
         {
             myTargetsTimers.Add(dmgReceiver, 0);
