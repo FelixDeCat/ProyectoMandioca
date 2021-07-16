@@ -18,6 +18,9 @@ public class SpawnSkill : BossSkills, ISpawner
 
     [SerializeField] AudioClip shieldUpSound = null;
     [SerializeField] AudioClip shieldDownSound = null;
+    [SerializeField] AudioClip spawnLoop = null;
+    [SerializeField] AudioClip spawnOver = null;
+    SoundPool pool;
     public Action OnSpawn;
     List<PlayObject> currentSpawnedEnemies = new List<PlayObject>();
 
@@ -26,6 +29,8 @@ public class SpawnSkill : BossSkills, ISpawner
         base.Initialize();
         AudioManager.instance.GetSoundPool(shieldUpSound.name, AudioManager.SoundDimesion.ThreeD, AudioGroups.GAME_FX, shieldUpSound);
         AudioManager.instance.GetSoundPool(shieldDownSound.name, AudioManager.SoundDimesion.ThreeD, AudioGroups.GAME_FX, shieldDownSound);
+        pool = AudioManager.instance.GetSoundPool(spawnLoop.name, AudioManager.SoundDimesion.ThreeD, AudioGroups.GAME_FX, spawnLoop, true);
+        AudioManager.instance.GetSoundPool(spawnOver.name, AudioManager.SoundDimesion.ThreeD, AudioGroups.GAME_FX, spawnOver);
         totemFeedback.Initialize(StartCoroutine);
     }
 
@@ -53,13 +58,27 @@ public class SpawnSkill : BossSkills, ISpawner
         }
         shieldObject.Play("ShieldUp");
         AudioManager.instance.PlaySound(shieldUpSound.name, shieldObject.transform);
+        if (source != null)
+        {
+            source.Stop();
+            pool.ReturnToPool(source);
+            source = null;
+        }
+        AudioManager.instance.PlaySound(spawnOver.name, shieldObject.transform);
         anim.SetBool("OnSpawn", false);
         OnSpawn?.Invoke();
         dmgReceiver.AddInvulnerability(Damagetype.All);
     }
+    AudioSource source;
 
     protected override void OnOverSkill()
     {
+        if (source != null)
+        {
+            source.Stop();
+            pool.ReturnToPool(source);
+            source = null;
+        }
         if (shieldObject.GetCurrentAnimatorStateInfo(0).IsName("ShieldUp")) { shieldObject.Play("Shield Down"); AudioManager.instance.PlaySound(shieldDownSound.name, shieldObject.transform); }
         dmgReceiver.RemoveInvulnerability(Damagetype.All);
         animEvent.Remove_Callback("SpawnSkill", Callback);
@@ -67,6 +86,12 @@ public class SpawnSkill : BossSkills, ISpawner
 
     protected override void OnUseSkill()
     {
+        source = pool.Get();
+        if (source != null)
+        {
+            source.transform.position = transform.position;
+            source.Play();
+        }
         anim.SetBool("OnSpawn", true);
         anim.Play("SpawnSkill");
         animEvent.Add_Callback("SpawnSkill",Callback);
