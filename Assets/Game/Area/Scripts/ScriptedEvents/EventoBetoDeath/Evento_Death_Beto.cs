@@ -29,6 +29,12 @@ public class Evento_Death_Beto : MonoBehaviour
 
     public void UNITY_EVENT_BetoDeath()
     {
+        StartCoroutine(AnimDelay());
+    }
+
+    IEnumerator AnimDelay()
+    {
+        yield return new WaitForSeconds(2.5f);
         Animator.Play(animName);
         cameraCinematic.StartCinematic(EndCinematic);
         OnBeginCinematic.Invoke();

@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class BetoBoss : EnemyBase
 {
@@ -31,6 +32,9 @@ public class BetoBoss : EnemyBase
     [SerializeField] AudioClip takeDamageSound = null;
     [SerializeField] SkinnedMeshRenderer[] myMeshes = new SkinnedMeshRenderer[0];
 
+    [SerializeField] UnityEvent EndFinalScene = new UnityEvent();
+    [SerializeField] CameraCinematic deadCinematic = null;
+
     #region Properties
     public int CurrentLife { get => lifesystem.Life; }
     public string MyAbilityMostUsed { get; private set; }
@@ -49,13 +53,13 @@ public class BetoBoss : EnemyBase
     protected override void OnInitialize()
     {
         base.OnInitialize();
-        Debug.Log("me inicializo");
         target = Main.instance.GetChar().Root;
         MyAbilityMostUsed = "";
         brain.Initialize(this, StartCoroutine, rb);
         obsAvoid.Configure(rootTransform);
         dmgReceiver.ChangeKnockback((x) => { }, () => true);
         AudioManager.instance.GetSoundPool(takeDamageSound.name, AudioManager.SoundDimesion.ThreeD, AudioGroups.GAME_FX, takeDamageSound);
+        animator.GetComponent<AnimEvent>().Add_Callback("EndDead", EndDeadAnimation);
         //ParticlesManager.Instance.GetParticlePool(takeDamagePS.name, takeDamagePS);
     }
     protected override void OnDeinitialize()
@@ -166,6 +170,16 @@ public class BetoBoss : EnemyBase
         Main.instance.eventManager.TriggerEvent(GameEvents.BETO_RESET);
         Main.instance.eventManager.TriggerEvent(GameEvents.BETO_DEFEATED);
         Main.instance.eventManager.UnsubscribeToEvent(GameEvents.ON_PLAYER_RESPAWN, ResetBossOnDead);
+        transform.position = initPos;
+        deadCinematic.SetLookAtPos(new Vector3(transform.position.x, deadCinematic.transform.position.y, transform.position.z), rootTransform.forward);
+        deadCinematic.StartCinematic();
+        animator.Play("Dead");
+    }
+
+    void EndDeadAnimation()
+    {
+        EndFinalScene.Invoke();
+        deadCinematic.CinematicOver();
         gameObject.SetActive(false);
     }
 
