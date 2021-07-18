@@ -15,6 +15,8 @@ public class BookInteractable : Interactable
     public bool isOpen;
 
     [SerializeField] AudioClip _feedBack = null;
+    [SerializeField] string achieveID = "BookRead";
+    bool achieveActive;
     private void Start()
     {
         if (automaticSelectRenders) myrenders = GetComponentsInChildren<MeshRenderer>();
@@ -33,7 +35,15 @@ public class BookInteractable : Interactable
     {
         if (!isOpen)
         {
-            if(Main.instance.gameUiController.OpenCustomImage(bookImage)) isOpen = true;
+            if (Main.instance.gameUiController.OpenCustomImage(bookImage))
+            {
+                isOpen = true;
+                if(!achieveActive)
+                {
+                    achieveActive = true;
+                    AchievesManager.instance.CompleteAchieve(achieveID);
+                }
+            }
         }
     }
 
