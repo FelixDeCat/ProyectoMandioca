@@ -22,7 +22,6 @@ public class RuneAchieve : MonoBehaviour
             {
                 AchievesManager.instance.CompleteAchieve(achieveID);
                 isActive = true;
-                Camera cac = Camera.main;
             }
         }
     }
