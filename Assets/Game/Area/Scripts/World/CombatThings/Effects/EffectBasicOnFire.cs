@@ -16,6 +16,7 @@ public class EffectBasicOnFire : EffectBase
     [SerializeField] float onHitFlashTime = 20f;
     Material[] mats;
     [SerializeField] AudioClip _feedBack = null;
+    [SerializeField] bool isJabali = false;
     Color originalColor;
     protected override void OnInitialize()
     {
@@ -45,7 +46,8 @@ public class EffectBasicOnFire : EffectBase
         timerPerTick += Time.deltaTime;
         if (timerPerTick >= timeTick)
         {
-            lifeSystem.DamageTick(damagePerTick, Damagetype.Fire);
+            var b = lifeSystem.DamageTick(damagePerTick, Damagetype.Fire);
+            if (b && isJabali) AchievesManager.instance.CompleteAchieve("JabaliCook");
             timerPerTick = 0;
             StartCoroutine(OnHitted());
         }
