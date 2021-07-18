@@ -18,6 +18,8 @@ public class FinalExpansiveAreaSkill : BossSkills
     [SerializeField] Damagetype dmgType = Damagetype.Explosion;
     [SerializeField] Animator anim = null;
     [SerializeField] AnimEvent animEvent = null;
+    [SerializeField] AudioClip chargeSound = null;
+    [SerializeField] AudioClip endCharge = null;
     Vector3 finalScale = Vector3.zero;
     float timerScale = 0;
 
@@ -26,6 +28,8 @@ public class FinalExpansiveAreaSkill : BossSkills
         base.Initialize();
         explosionSensor.AddCallback_OnTriggerEnter(GiveDamage);
         ParticlesManager.Instance.GetParticlePool(expansiveOver.name, expansiveOver);
+        AudioManager.instance.GetSoundPool(chargeSound.name, AudioManager.SoundDimesion.ThreeD, AudioGroups.GAME_FX, chargeSound);
+        AudioManager.instance.GetSoundPool(endCharge.name, AudioManager.SoundDimesion.ThreeD, AudioGroups.GAME_FX, endCharge);
         animEvent.Add_Callback("Expansive", StartAbility);
     }
 
@@ -33,10 +37,12 @@ public class FinalExpansiveAreaSkill : BossSkills
     {
         dmgData.SetDamage(damage).SetKnockback(knockback).SetDamageInfo(DamageInfo.NonBlockAndParry).SetDamageType(dmgType);
         anim.Play("StartExpansive");
+        AudioManager.instance.PlaySound(chargeSound.name, transform);
     }
 
     void StartAbility()
     {
+        AudioManager.instance.PlaySound(endCharge.name, transform);
         explosionSensor.gameObject.SetActive(true);
         explosionSensor.transform.localScale = Vector3.one;
         finalScale = explosionSensor.transform.localScale * maxScale;

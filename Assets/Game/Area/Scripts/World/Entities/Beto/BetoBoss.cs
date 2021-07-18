@@ -28,6 +28,7 @@ public class BetoBoss : EnemyBase
 
     [SerializeField] AudioClip bossBattleMusic = null;
     [SerializeField] ParticleSystem takeDamagePS = null;
+    [SerializeField] AudioClip takeDamageSound = null;
     [SerializeField] SkinnedMeshRenderer[] myMeshes = new SkinnedMeshRenderer[0];
 
     #region Properties
@@ -54,6 +55,7 @@ public class BetoBoss : EnemyBase
         brain.Initialize(this, StartCoroutine, rb);
         obsAvoid.Configure(rootTransform);
         dmgReceiver.ChangeKnockback((x) => { }, () => true);
+        AudioManager.instance.GetSoundPool(takeDamageSound.name, AudioManager.SoundDimesion.ThreeD, AudioGroups.GAME_FX, takeDamageSound);
         //ParticlesManager.Instance.GetParticlePool(takeDamagePS.name, takeDamagePS);
     }
     protected override void OnDeinitialize()
@@ -122,7 +124,7 @@ public class BetoBoss : EnemyBase
         //part.transform.forward = (transform.position - data.owner_position).normalized;
         StartCoroutine(OnHitted(onHitFlashTime, onHitColor, myMeshes));
         animator.SetBool("takeDamage", true);
-
+        AudioManager.instance.PlaySound(takeDamageSound.name, rootTransform);
 
         if (data.ownerRoot == transform && !Stuned && Flying)
         {
