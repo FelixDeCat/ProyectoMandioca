@@ -20,11 +20,18 @@ public class FinalThunderWaveSkill : BossSkills, ISpawner
 
     [SerializeField] Animator anim = null;
     [SerializeField] AnimEvent animEvent = null;
+
+    [SerializeField] AudioClip spawnLoop = null;
+    [SerializeField] AudioClip spawnOver = null;
+    SoundPool pool;
+    AudioSource source;
     Transform target;
 
     public override void Initialize()
     {
         base.Initialize();
+        pool = AudioManager.instance.GetSoundPool(spawnLoop.name, AudioManager.SoundDimesion.ThreeD, AudioGroups.GAME_FX, spawnLoop, true);
+        AudioManager.instance.GetSoundPool(spawnOver.name, AudioManager.SoundDimesion.ThreeD, AudioGroups.GAME_FX, spawnOver);
         spawnModifies.Initialize(StartCoroutine);
         animEvent.Add_Callback("Spawn", Callback);
         target = Main.instance.GetChar().Root;
@@ -38,6 +45,12 @@ public class FinalThunderWaveSkill : BossSkills, ISpawner
         for (int i = 0; i < enemies; i++)
         {
             currentSpawnedEnemies[currentEnemies - 1].ReturnToSpawner();
+        }
+        if (source != null)
+        {
+            source.Stop();
+            pool.ReturnToPool(source);
+            source = null;
         }
     }
 
@@ -53,6 +66,14 @@ public class FinalThunderWaveSkill : BossSkills, ISpawner
             var enemy = enemiesDictionary[enemies][i];
             spawnModifies.StartGoToFeedback(pos, (x) => SpawnPrefab(enemy, x, currentScene));
         }
+
+        if (source != null)
+        {
+            source.Stop();
+            pool.ReturnToPool(source);
+            source = null;
+        }
+        AudioManager.instance.PlaySound(spawnOver.name, transform);
         SpawnOver?.Invoke();
     }
 
@@ -77,6 +98,12 @@ public class FinalThunderWaveSkill : BossSkills, ISpawner
     {
         anim.Play("StartSpawn");
         anim.SetBool("Spawn", true);
+        source = pool.Get();
+        if (source != null)
+        {
+            source.transform.position = transform.position;
+            source.Play();
+        }
     }
 
     public void SpawnPrefab(EnemyBase enemy, Vector3 pos, string sceneName = null)

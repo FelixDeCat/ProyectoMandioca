@@ -17,6 +17,8 @@ public class FinalPoisonLakeSkill : BossSkills
 
     [SerializeField] Animator anim = null;
     [SerializeField] AnimEvent animEvent = null;
+    [SerializeField] AudioClip upLakeSound = null;
+    [SerializeField] AudioClip downLakeSound = null;
 
     Vector3 downPos;
     Vector3 upPos;
@@ -33,6 +35,8 @@ public class FinalPoisonLakeSkill : BossSkills
         lake.gameObject.SetActive(true);
         lake.GetComponent<PlayObject>()?.Initialize();
         lake.localPosition = new Vector3(lake.localPosition.x, minLakeYPos, lake.localPosition.z);
+        AudioManager.instance.GetSoundPool(upLakeSound.name, AudioManager.SoundDimesion.ThreeD, AudioGroups.GAME_FX, upLakeSound);
+        AudioManager.instance.GetSoundPool(downLakeSound.name, AudioManager.SoundDimesion.ThreeD, AudioGroups.GAME_FX, downLakeSound);
         lake.gameObject.SetActive(false);
         animEvent.Add_Callback("PoisonLake", ActiveLake);
     }
@@ -49,6 +53,7 @@ public class FinalPoisonLakeSkill : BossSkills
         lake.GetComponent<PlayObject>()?.On();
         downPos = new Vector3(lake.localPosition.x, minLakeYPos, lake.localPosition.z);
         upPos = new Vector3(lake.localPosition.x, maxLakeYPos, lake.localPosition.z);
+        AudioManager.instance.PlaySound(upLakeSound.name, transform);
     }
 
     public override void OnUpdate()
@@ -74,7 +79,13 @@ public class FinalPoisonLakeSkill : BossSkills
         }
         else
         {
-            timerToDesactive += Time.deltaTime;
+            if(timerToDesactive < timeActive)
+            {
+                timerToDesactive += Time.deltaTime;
+
+                if (timerToDesactive >= timeActive)
+                    AudioManager.instance.PlaySound(downLakeSound.name, transform);
+            }
 
             if (timerToDesactive >= timeActive)
             {
