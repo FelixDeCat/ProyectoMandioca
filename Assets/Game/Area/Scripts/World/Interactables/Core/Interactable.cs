@@ -59,9 +59,21 @@ public abstract class Interactable : MonoBehaviour
         if (feedback.Length > 0) foreach (var fdbck in feedback) fdbck.Hide();
         OnExit(currentCollector);
         UE_OnExit.Invoke();
+        
         PressUp.Invoke();
         currentTime = 0;
         updateDelay = false;
+    }
+
+    public void BUTTON_PressUp()
+    {
+        PressUp.Invoke();
+        Debug.Log("PRESS UP");
+    }
+    public void BUTTON_PressDown()
+    {
+        PressDown.Invoke();
+        Debug.Log("PRESS DOWN");
     }
     public void Execute(WalkingEntity entity)
     {
@@ -70,8 +82,6 @@ public abstract class Interactable : MonoBehaviour
             auxiliars.Feedback_EXECUTE_Fail.Invoke();
             return;
         }
-
-        PressDown.Invoke();
         currentCollector = entity;
 
         auxiliars.Feedback_EXECUTE_Sucessfull.Invoke();

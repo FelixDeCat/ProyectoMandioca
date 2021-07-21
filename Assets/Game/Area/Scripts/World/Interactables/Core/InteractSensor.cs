@@ -55,6 +55,7 @@ public class InteractSensor : MonoBehaviour
         if (isclose && most_close != null)
         {
             most_close.Execute(collector);
+            most_close.BUTTON_PressDown();
             return most_close;
         }
 
@@ -65,6 +66,7 @@ public class InteractSensor : MonoBehaviour
         if (most_close != null)
         {
             most_close.InterruptExecute();
+            most_close.BUTTON_PressUp();
         }
         buttonPressing = false;
         calculate_fast_recollection = false;
