@@ -12,5 +12,5 @@ public class WaypointCamera : MonoBehaviour
 
     public void EnterWaypoint() => OnEnterWaypoint.Invoke();
 
-    public void ExitWaypoint() => OnExitWaypoint.Invoke();
+    public void ExitWaypoint() { OnExitWaypoint.Invoke(); Debug.Log(name); }
 }

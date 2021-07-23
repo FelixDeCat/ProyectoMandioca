@@ -9,7 +9,7 @@ public class RuneAchieve : MonoBehaviour
     [SerializeField] LayerMask obstacleMask;
     [SerializeField] LineOfSight sight = null;
 
-    private void Awake()
+    private void Start()
     {
         sight.Configurate(Main.instance.GetChar().Root);
     }

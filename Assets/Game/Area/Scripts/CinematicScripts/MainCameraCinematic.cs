@@ -17,43 +17,56 @@ public class MainCameraCinematic : MonoBehaviour
     Quaternion currentRotation;
     int nextIndex = 0;
     WaypointCamera current;
-    float currentSpeed;
+    float currentTimeToMove;
     float posLerp;
     float timer;
+    bool updating = false;
 
     public void StartCinematic()
     {
-        transform.position = Main.instance.GetMyCamera().transform.position;
-        transform.rotation = Main.instance.GetMyCamera().transform.rotation;
+        transform.parent.position = Main.instance.GetMyCamera().transform.position;
+        transform.parent.rotation = Main.instance.GetMyCamera().transform.rotation;
         Main.instance.GetMyCamera().GetComponent<Camera>().enabled = false;
         GetComponent<Camera>().enabled = true;
         moving = true;
-        currentRotation = transform.rotation;
-        currentCamPos = transform.position;
-        currentSpeed = startSpeed;
+        currentRotation = transform.parent.rotation;
+        currentCamPos = transform.parent.position;
+        currentTimeToMove = startSpeed;
+        updating = true;
+        Main.instance.GetChar().Pause();
     }
 
     void EndCinematic()
     {
+        updating = false;
+        Fades_Screens.instance.FadeOn(() => { 
+            Fades_Screens.instance.FadeOff(()=> { });
+            Main.instance.GetChar().Resume(); 
+            OnEndCinematic.Invoke();
+            Main.instance.GetMyCamera().GetComponent<Camera>().enabled = true;
+            GetComponent<Camera>().enabled = false;
+        });
         Debug.Log("Se terminó lo que se daba");
     }
 
 
     private void Update()
     {
+        if (!updating) return;
+
         if (moving)
         {
-            posLerp += Time.deltaTime * currentSpeed;
-            transform.position = Vector3.Lerp(currentCamPos, waypoints[nextIndex].transform.position, posLerp);
-            transform.rotation = Quaternion.Lerp(currentRotation, waypoints[nextIndex].transform.rotation, posLerp);
+            posLerp += Time.deltaTime;
+            transform.parent.position = Vector3.Lerp(currentCamPos, waypoints[nextIndex].transform.position, posLerp / currentTimeToMove);
+            transform.parent.rotation = Quaternion.Lerp(currentRotation, waypoints[nextIndex].transform.rotation, posLerp / currentTimeToMove);
 
-            if(posLerp >= 1)
+            if(posLerp / currentTimeToMove >= 1)
             {
                 current = waypoints[nextIndex];
                 nextIndex += 1;
                 currentCamPos = current.transform.position;
                 currentRotation = current.transform.rotation;
-                currentSpeed = current.changeSpeed;
+                currentTimeToMove = current.changeSpeed;
                 current.EnterWaypoint();
                 posLerp = 0;
                 moving = false;
@@ -80,7 +93,19 @@ public class MainCameraCinematic : MonoBehaviour
     {
         if (shaking)
         {
-            transform.position += UnityEngine.Random.insideUnitSphere * shakeAmmount;
+            transform.position = transform.parent.position + UnityEngine.Random.insideUnitSphere * shakeAmmount;
         }
+    }
+
+    public void BeginShake(float _shakeAmmount)
+    {
+        shaking = true;
+        shakeAmmount = _shakeAmmount;
+    }
+
+    public void EndShake()
+    {
+        transform.position = transform.parent.position;
+        shaking = false;
     }
 }
