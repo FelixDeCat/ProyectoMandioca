@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Tools.Extensions;
 using UnityEngine.UI;
+using TMPro;
 
 public class GameUI_controller : MonoBehaviour
 {
@@ -23,6 +24,10 @@ public class GameUI_controller : MonoBehaviour
     [SerializeField] Sprite[] combatStatesSprites = new Sprite[0];
     [SerializeField] GameObject comboTutoScreen = null;
 
+    [SerializeField] Animator bossNameAnim = null;
+    [SerializeField] TextMeshProUGUI bossName = null;
+    [SerializeField] TextMeshProUGUI bossDescription = null;
+
 
     [SerializeField] Image customImage = null;
     
@@ -41,6 +46,13 @@ public class GameUI_controller : MonoBehaviour
     public void UI_RefreshMenu(){} 
     public void OpenGameMenu(){}
     public void CloseGameMenu(){}
+
+    public void OpenBossName(string _bossName, string _bossDesc)
+    {
+        bossName.text = _bossName;
+        bossDescription.text = _bossDesc;
+        bossNameAnim.Play("Appear");
+    }
 
 
     public bool OpenCustomImage(Sprite img)

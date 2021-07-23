@@ -13,6 +13,9 @@ public class CaronteCinematicSounds : MonoBehaviour
     [SerializeField] AudioClip slashSound = null;
     [SerializeField] AudioClip screamSound = null;
     [SerializeField] AudioClip earthquakeSound = null;
+    [SerializeField] string bossName = "Caronte";
+    [SerializeField] string bossDesc = "Guardián del templo";
+
 
     [Header("Dead")]
     [SerializeField] AudioClip openPortal = null;
@@ -79,4 +82,6 @@ public class CaronteCinematicSounds : MonoBehaviour
     {
         AudioManager.instance.StopAllSounds(earthquakeSound.name);
     }
+
+    void ApppearBossName() => Main.instance.gameUiController.OpenBossName(bossName, bossDesc);
 }
