@@ -214,10 +214,12 @@ public class BossModel : EnemyBase
         deadCinematic.SetLookAtPos(new Vector3(transform.position.x, deadCinematic.transform.position.y, transform.position.z), rootTransform.forward);
         deadCinematic.StartCinematic();
         animator.Play("Dead");
+        Main.instance.GetChar().Invisible();
     }
 
     void EndBoss()
     {
+        Main.instance.GetChar().Visible();
         Main.instance.eventManager.TriggerEvent(GameEvents.CARONTE_DEFEAT_IN_JOJO_DUNGEON);
         caronteCinematic.StartCinematic();
         EndFinalScene.Invoke();

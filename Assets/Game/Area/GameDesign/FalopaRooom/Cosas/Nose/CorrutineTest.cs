@@ -12,6 +12,8 @@ public class CorrutineTest : MonoBehaviour
     public bool play = false;
     public Animator animator = null;
     public string playAnim = "";
+    public bool visible;
+    bool xd;
 
     public void EndGame()
     {
@@ -24,6 +26,14 @@ public class CorrutineTest : MonoBehaviour
         {
             animator.Play(playAnim);
             play = false;
+        }
+
+        if (visible)
+        {
+            if (xd) Main.instance.GetChar().Visible();
+            else Main.instance.GetChar().Invisible();
+            xd = !xd;
+            visible = false;
         }
     }
 }

@@ -2,6 +2,7 @@ using System.Collections;
 using UnityEngine;
 using System;
 using Tools.StateMachine;
+using System.Linq;
 
 public class CharacterHead : CharacterControllable
 {
@@ -744,6 +745,24 @@ public class CharacterHead : CharacterControllable
     #region Pause & Resume
     Vector3 force;
     float animSpeed;
+    Renderer[] renders;
+    public void Invisible()
+    {
+        renders = GetComponentsInChildren<Renderer>().Where(x => x.enabled).Where(x => !x.GetComponent<ShutDownRenderOnPlay>()).ToArray();
+        for (int i = 0; i < renders.Length; i++)
+        {
+            renders[i].enabled = false;
+        }
+    }
+
+    public void Visible()
+    {
+        for (int i = 0; i < renders.Length; i++)
+        {
+            renders[i].enabled = true;
+        }
+    }
+
     protected override void OnPause()
     {
         animSpeed = anim_base.speed;

@@ -174,10 +174,12 @@ public class BetoBoss : EnemyBase
         deadCinematic.SetLookAtPos(new Vector3(transform.position.x, deadCinematic.transform.position.y, transform.position.z), rootTransform.forward);
         deadCinematic.StartCinematic();
         animator.Play("Dead");
+        Main.instance.GetChar().Invisible();
     }
 
     void EndDeadAnimation()
     {
+        Main.instance.GetChar().Visible();
         EndFinalScene.Invoke();
         deadCinematic.CinematicOver();
         gameObject.SetActive(false);
