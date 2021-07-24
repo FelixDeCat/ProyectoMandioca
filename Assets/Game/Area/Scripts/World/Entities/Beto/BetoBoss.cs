@@ -193,6 +193,7 @@ public class BetoBoss : EnemyBase
         Stuned = false;
         StopMove();
         rb.useGravity = true;
+        rb.constraints = RigidbodyConstraints.FreezeRotation;
         animator.Play("Idle");
         animator.SetFloat("Flying", 0);
         animator.SetBool("PoisonLake", false);
@@ -213,7 +214,6 @@ public class BetoBoss : EnemyBase
     public bool Fly()
     {
         rb.velocity = Vector3.up * ascendSpeed;
-
         if (transform.localPosition.y >= yMaxPos)
         {
             transform.localPosition = new Vector3(transform.localPosition.x, yMaxPos, transform.localPosition.z);
