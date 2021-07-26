@@ -21,7 +21,7 @@ public class Main : MonoBehaviour
 
     public bool useMouse;
 
-    public bool CaronteDefeated { get; private set; }
+    public bool CaronteDefeated;
 
 
     [Header("Inspector References")]

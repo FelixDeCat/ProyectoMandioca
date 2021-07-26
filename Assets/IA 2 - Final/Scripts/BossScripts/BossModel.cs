@@ -220,6 +220,7 @@ public class BossModel : EnemyBase
     void EndBoss()
     {
         Main.instance.GetChar().Visible();
+        Main.instance.CaronteDefeated = true;
         Main.instance.eventManager.TriggerEvent(GameEvents.CARONTE_DEFEAT_IN_JOJO_DUNGEON);
         caronteCinematic.StartCinematic();
         EndFinalScene.Invoke();
