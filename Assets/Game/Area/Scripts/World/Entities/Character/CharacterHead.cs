@@ -759,6 +759,7 @@ public class CharacterHead : CharacterControllable
     {
         for (int i = 0; i < renders.Length; i++)
         {
+            if (renders[i] == null) continue;
             renders[i].enabled = true;
         }
     }
