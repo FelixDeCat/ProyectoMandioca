@@ -85,6 +85,7 @@ public class Brazalete_event : MonoBehaviour, ISpawner, IPauseable, IScriptedEve
 
     [Header("Events")]
     [SerializeField] UnityEvent BeginEvent = new UnityEvent();
+    [SerializeField] UnityEvent OnAtenaKillEnemies = new UnityEvent();
     [SerializeField] UnityEvent EndEvent = new UnityEvent();
     [SerializeField] UnityEvent OnResetIfPlayerDead = new UnityEvent();
 
@@ -231,7 +232,7 @@ public class Brazalete_event : MonoBehaviour, ISpawner, IPauseable, IScriptedEve
 
         tentaculos.CloseTentacles();
 
-        tentaculos.StartRandomTentacles();
+        
         tentaculos_fijos.OpenTentacles();
     }
 
@@ -257,7 +258,7 @@ public class Brazalete_event : MonoBehaviour, ISpawner, IPauseable, IScriptedEve
     {
         animator_fountain.Play(Atenea_Clear_Fountain_Animation);
         fountain_tentacles.CloseTentacles();
-
+        OnAtenaKillEnemies.Invoke();
         KillAllEnemies();
     }
     void KillAllEnemies()
@@ -382,6 +383,7 @@ public class Brazalete_event : MonoBehaviour, ISpawner, IPauseable, IScriptedEve
         fountain_tentacles.OpenTentacles();
         //play agua
         //play tentaculos
+        
     }
 
     void OnBetoSpellCollideWithStatue(Vector3 v3)
@@ -401,6 +403,7 @@ public class Brazalete_event : MonoBehaviour, ISpawner, IPauseable, IScriptedEve
     void EndDestroyStatueCinematic()
     {
         StartSummonWaves();
+        tentaculos.StartRandomTentacles();
     }
 
     void Update()
