@@ -745,22 +745,20 @@ public class CharacterHead : CharacterControllable
     #region Pause & Resume
     Vector3 force;
     float animSpeed;
-    Renderer[] renders;
+    [SerializeField] Renderer[] rendersToShutDown = new Renderer[0];
     public void Invisible()
     {
-        renders = GetComponentsInChildren<Renderer>().Where(x => x.enabled).Where(x => !x.GetComponent<ShutDownRenderOnPlay>()).ToArray();
-        for (int i = 0; i < renders.Length; i++)
+        for (int i = 0; i < rendersToShutDown.Length; i++)
         {
-            renders[i].enabled = false;
+            rendersToShutDown[i].enabled = false;
         }
     }
 
     public void Visible()
     {
-        for (int i = 0; i < renders.Length; i++)
+        for (int i = 0; i < rendersToShutDown.Length; i++)
         {
-            if (renders[i] == null) continue;
-            renders[i].enabled = true;
+            rendersToShutDown[i].enabled = true;
         }
     }
 

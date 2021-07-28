@@ -6,12 +6,8 @@ using System;
 public class SceneFire : PlayObject
 {
     [SerializeField] ParticleSystem mainParticle = null;
-    Dictionary<EffectReceiver, float> myTargetsTimers = new Dictionary<EffectReceiver, float>();
-    Dictionary<EffectReceiver, Action> targetUpdates = new Dictionary<EffectReceiver, Action>();
     [SerializeField] float timeToTick = 4;
     [SerializeField] EffectName effectType = EffectName.OnFire;
-
-    Action UpdateTicks = delegate { };
 
     private void Start()
     {
@@ -29,8 +25,6 @@ public class SceneFire : PlayObject
 
     protected override void OnUpdate()
     {
-        if(myTargetsTimers.Count > 0)
-            UpdateTicks();
     }
 
     protected override void OnPause()
@@ -45,7 +39,6 @@ public class SceneFire : PlayObject
 
     protected override void OnTurnOff()
     {
-        myTargetsTimers = new Dictionary<EffectReceiver, float>();
     }
 
     protected override void OnTurnOn()
@@ -56,32 +49,9 @@ public class SceneFire : PlayObject
     {
         var dmgReceiver = other.gameObject.GetComponent<EffectReceiver>();
         if(dmgReceiver == null) dmgReceiver = other.gameObject.GetComponentInParent<EffectReceiver>();
-        if (dmgReceiver != null && !myTargetsTimers.ContainsKey(dmgReceiver))
+        if (dmgReceiver != null)
         {
-            myTargetsTimers.Add(dmgReceiver, 0);
-            targetUpdates.Add(dmgReceiver, () =>
-            {
-                myTargetsTimers[dmgReceiver] += Time.deltaTime;
-
-                if (myTargetsTimers[dmgReceiver] >= timeToTick)
-                {
-                    myTargetsTimers[dmgReceiver] = 0;
-                    dmgReceiver.TakeEffect(effectType);
-                }
-            });
-            UpdateTicks += targetUpdates[dmgReceiver];
             dmgReceiver.TakeEffect(effectType);
-        }
-    }
-
-    private void OnTriggerExit(Collider other)
-    {
-        var dmgReceiver = other.gameObject.GetComponent<EffectReceiver>();
-        if (dmgReceiver != null && myTargetsTimers.ContainsKey(dmgReceiver))
-        {
-            UpdateTicks -= targetUpdates[dmgReceiver];
-            targetUpdates.Remove(dmgReceiver);
-            myTargetsTimers.Remove(dmgReceiver);
         }
     }
 }

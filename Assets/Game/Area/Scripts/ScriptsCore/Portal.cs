@@ -53,6 +53,7 @@ public class Portal : MonoBehaviour
                 return;
             }
             conection.TPToPortal(other.transform, other.transform.position - myMesh.transform.position);
+            particle.Play();
         }
     }
 }
