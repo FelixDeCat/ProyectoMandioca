@@ -2645,6 +2645,7 @@ GameObject:
   - component: {fileID: 662656616}
   - component: {fileID: 662656615}
   - component: {fileID: 662656617}
+  - component: {fileID: 662656618}
   m_Layer: 0
   m_Name: z32
   m_TagString: Untagged
@@ -2707,6 +2708,17 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 1
         m_CallState: 2
+      - m_Target: {fileID: 662656618}
+        m_MethodName: UE_TURN_ON
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 1
+        m_CallState: 2
   Turn_OFF_LOW:
     m_PersistentCalls:
       m_Calls:
@@ -2721,7 +2733,31 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 662656618}
+        m_MethodName: UE_TURN_OFF
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   contentParent: {fileID: 1927483148}
+--- !u!114 &662656618
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 662656614}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 67317c14676467e4aadc94e41c312f6f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  element_name: zona_faro
 --- !u!1001 &691184104
 PrefabInstance:
   m_ObjectHideFlags: 0
