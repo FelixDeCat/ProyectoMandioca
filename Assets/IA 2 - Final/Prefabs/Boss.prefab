@@ -4831,6 +4831,8 @@ MonoBehaviour:
   slashSound: {fileID: 8300000, guid: 112a6f372118c4a439bc4418afbcda39, type: 3}
   screamSound: {fileID: 8300000, guid: 9124bb71da51cbd42ab12fb0f31b32d7, type: 3}
   earthquakeSound: {fileID: 8300000, guid: c423f6d83e1919b43a08e42fae490455, type: 3}
+  bossName: Caronte
+  bossDesc: "Guardi\xE1n del templo"
   openPortal: {fileID: 8300000, guid: 6a25738a1f25b0c4c80c0df7aeb42ced, type: 3}
   enterToPortal: {fileID: 8300000, guid: 5aae9d1dfdcffac40a5f30fe88456c8f, type: 3}
 --- !u!114 &7414475045539071568
@@ -19331,7 +19333,7 @@ MonoBehaviour:
     otherMask:
       serializedVersion: 2
       m_Bits: 8421377
-    spawnSpot: {fileID: 7414475044974519404}
+    spawnSpot: {fileID: 0}
     clampPos: 1
   minSpawn: 2
   maxSpawn: 4
@@ -19354,36 +19356,6 @@ MonoBehaviour:
   shieldDownSound: {fileID: 8300000, guid: 358c7e7474b29d5418b547a92c7ff5f1, type: 3}
   spawnLoop: {fileID: 8300000, guid: 5e188a042c899b949a229909827c9e0f, type: 3}
   spawnOver: {fileID: 8300000, guid: cc98bb9b1008b524ea646977e9447093, type: 3}
---- !u!1 &7414475044974519405
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 7414475044974519404}
-  m_Layer: 10
-  m_Name: Spot
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &7414475044974519404
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7414475044974519405}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 7414475045041992170}
-  m_RootOrder: 3
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &7414475045041992165
 GameObject:
   m_ObjectHideFlags: 0
@@ -19421,7 +19393,6 @@ Transform:
   - {fileID: 4037731099908786208}
   - {fileID: 7414475045795428452}
   - {fileID: 2566828637018090870}
-  - {fileID: 7414475044974519404}
   - {fileID: 5466755521106417624}
   - {fileID: 7949192394013467416}
   m_Father: {fileID: 0}
@@ -20071,7 +20042,7 @@ MonoBehaviour:
     otherMask:
       serializedVersion: 2
       m_Bits: 8421377
-    spawnSpot: {fileID: 7414475044974519404}
+    spawnSpot: {fileID: 0}
     clampPos: 1
   minSpawn: 1
   maxSpawn: 2
@@ -29790,7 +29761,7 @@ PrefabInstance:
     - target: {fileID: 8613014963813651194, guid: 239357b113e8ca04294353b54f418b17,
         type: 3}
       propertyPath: m_RootOrder
-      value: 4
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 8613014963813651194, guid: 239357b113e8ca04294353b54f418b17,
         type: 3}
@@ -29992,7 +29963,7 @@ PrefabInstance:
     - target: {fileID: 627325915008372734, guid: ce278b015dd76b54f9d24824e68043bb,
         type: 3}
       propertyPath: m_RootOrder
-      value: 5
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 627325915008372734, guid: ce278b015dd76b54f9d24824e68043bb,
         type: 3}
@@ -33351,9 +33322,9 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 7414475045539071596}
   m_PrefabAsset: {fileID: 0}
---- !u!1 &1568498225258012517 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: -927199367670048503, guid: 690bdcd3eb185864c94548608febc12b,
+--- !u!95 &5554405957093015564 stripped
+Animator:
+  m_CorrespondingSourceObject: {fileID: -6057140222963153312, guid: 690bdcd3eb185864c94548608febc12b,
     type: 3}
   m_PrefabInstance: {fileID: 7414475045539071596}
   m_PrefabAsset: {fileID: 0}
@@ -33363,9 +33334,9 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 7414475045539071596}
   m_PrefabAsset: {fileID: 0}
---- !u!95 &5554405957093015564 stripped
-Animator:
-  m_CorrespondingSourceObject: {fileID: -6057140222963153312, guid: 690bdcd3eb185864c94548608febc12b,
+--- !u!1 &1568498225258012517 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: -927199367670048503, guid: 690bdcd3eb185864c94548608febc12b,
     type: 3}
   m_PrefabInstance: {fileID: 7414475045539071596}
   m_PrefabAsset: {fileID: 0}
