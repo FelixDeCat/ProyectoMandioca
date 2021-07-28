@@ -352,7 +352,11 @@ MonoBehaviour:
     mask:
       serializedVersion: 2
       m_Bits: 2097152
+    otherMask:
+      serializedVersion: 2
+      m_Bits: 31
     spawnSpot: {fileID: 0}
+    clampPos: 0
   prefab: {fileID: 5162584254767064864, guid: 2596304084befab44897fdd8e02f55da, type: 3}
   totemFeedback:
     goToPos: {fileID: 3958526303383395777, guid: 9e3854d97844ae747993f6893668c5b0,
@@ -369,6 +373,7 @@ MonoBehaviour:
   OnKillAllEnemies:
     m_PersistentCalls:
       m_Calls: []
+  EventIsEnded: 0
   bridgePos: {fileID: 2268458800056496318}
   exitPos: {fileID: 3570232252141828588}
   totemSummon_pos: {fileID: 3780796238788050120}
@@ -782,6 +787,54 @@ MonoBehaviour:
   goTime: 1.5
   cinematicTime: 5
   returnTime: 1.5
+  moveSmooth:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 1
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  lookAtSmooth:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 1
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
 --- !u!1 &6331336239689352775
 GameObject:
   m_ObjectHideFlags: 0
@@ -868,6 +921,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2cd0e1cf35d48c34a93c6a494b926756, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  startBlock: {fileID: 0}
+  finishBlock: {fileID: 0}
+  dashBash: {fileID: 0}
 --- !u!1 &7069446005332858201
 GameObject:
   m_ObjectHideFlags: 0
@@ -980,7 +1036,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7784546612540689914}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 6.700001, y: -4.99, z: 7.54}
+  m_LocalPosition: {x: 4.19, y: -4.99, z: 4.35}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 135377047041501709}
@@ -1010,7 +1066,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7836093015049094322}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 7.0699997, y: -5.1499996, z: 12.9}
+  m_LocalPosition: {x: 4.48, y: -4.57, z: 4.24}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 135377047041501709}
@@ -1065,6 +1121,54 @@ MonoBehaviour:
   goTime: 2.5
   cinematicTime: 7.5
   returnTime: 1.5
+  moveSmooth:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 1
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  lookAtSmooth:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 1
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
 --- !u!1001 &2243126
 PrefabInstance:
   m_ObjectHideFlags: 0
