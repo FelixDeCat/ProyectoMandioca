@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class SpawnSkill : BossSkills, ISpawner
 {
@@ -9,7 +10,7 @@ public class SpawnSkill : BossSkills, ISpawner
     [SerializeField] int maxSpawn = 5;
     [SerializeField] TotemFeedback totemFeedback = new TotemFeedback();
     [SerializeField] EnemyBase entAcorazed = null;
-    int currentEnemies;
+    int currentEnemies = 0;
     [SerializeField] string currentScene = "bossRoom";
     [SerializeField] Animator shieldObject = null;
     [SerializeField] Animator anim = null;
@@ -22,7 +23,7 @@ public class SpawnSkill : BossSkills, ISpawner
     [SerializeField] AudioClip spawnOver = null;
     SoundPool pool;
     public Action OnSpawn;
-    List<PlayObject> currentSpawnedEnemies = new List<PlayObject>();
+    List<EnemyBase> currentSpawnedEnemies = new List<EnemyBase>();
 
     public override void Initialize()
     {
@@ -42,7 +43,7 @@ public class SpawnSkill : BossSkills, ISpawner
         int enemies = currentSpawnedEnemies.Count;
         for (int i = 0; i < enemies; i++)
         {
-            currentSpawnedEnemies[currentEnemies-1].ReturnToSpawner();
+            currentSpawnedEnemies[currentEnemies-1].GetComponent<DamageReceiver>().InstaKill();
         }
     }
 
@@ -98,7 +99,20 @@ public class SpawnSkill : BossSkills, ISpawner
 
     public void SpawnPrefab(Vector3 pos, string sceneName = null)
     {
-        currentSpawnedEnemies.Add(spot.SpawnPrefab(pos, entAcorazed, sceneName, this));
+        EnemyBase enemy = spot.SpawnPrefab(pos, entAcorazed, sceneName, this).GetComponent<EnemyBase>();
+        currentSpawnedEnemies.Add(enemy);
+
+        UnityAction ReturnObjectCallback = delegate { };
+
+        ReturnObjectCallback = () =>
+        {
+            currentSpawnedEnemies.Remove(enemy);
+            currentEnemies -= 1;
+            enemy.OnDeath.RemoveListener(ReturnObjectCallback);
+            if (currentEnemies <= 0) OverSkill();
+        };
+        enemy.OnDeath.AddListener(ReturnObjectCallback);
+
         currentEnemies += 1;
     }
 
@@ -107,7 +121,6 @@ public class SpawnSkill : BossSkills, ISpawner
         currentEnemies -= 1;
         newPrefab.Spawner = null;
         newPrefab.Off();
-        currentSpawnedEnemies.Remove(newPrefab);
         PoolManager.instance.ReturnObject(newPrefab);
         if (currentEnemies <= 0) OverSkill();
     }
