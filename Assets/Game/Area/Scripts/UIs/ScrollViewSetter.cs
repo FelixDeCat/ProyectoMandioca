@@ -15,20 +15,27 @@ public class ScrollViewSetter : MonoBehaviour
     int currentSelection;
 
     AchieveUI[] achieves = new AchieveUI[0];
+    List<AchieveUI> toNavigate = new List<AchieveUI>();
 
     private void Awake()
     {
+        toNavigate = new List<AchieveUI>();
         achieves = new AchieveUI[AchievesManager.instance.allAchieves.Count];
         for (int i = 0; i < achieves.Length; i++)
         {
             achieves[i] = Instantiate(achievePrefab, parent);
             achieves[i].SetAchieve(AchievesManager.instance.allAchieves[i], AchievesManager.instance.achieves.achievesComplete[i]);
+            if(!AchievesManager.instance.achieves.achievesComplete[i]) toNavigate.Add(achieves[i]);
         }
         for (int i = achieves.Length - 1; i >= 0; i--)
         {
-            if (AchievesManager.instance.achieves.achievesComplete[i]) achieves[i].GetComponent<RectTransform>().SetAsFirstSibling();
+            if (AchievesManager.instance.achieves.achievesComplete[i])
+            {
+                achieves[i].GetComponent<RectTransform>().SetAsFirstSibling();
+                toNavigate.Insert(0, achieves[i]);
+            }
+            StartCoroutine(WaitSeconds());
         }
-        StartCoroutine(WaitSeconds());
     }
 
     IEnumerator WaitSeconds()
@@ -39,13 +46,19 @@ public class ScrollViewSetter : MonoBehaviour
 
     public void RefreshAchieves()
     {
+        toNavigate = new List<AchieveUI>();
         for (int i = 0; i < achieves.Length; i++)
         {
             achieves[i].SetAchieve(AchievesManager.instance.allAchieves[i], AchievesManager.instance.achieves.achievesComplete[i]);
+            if (!AchievesManager.instance.achieves.achievesComplete[i]) toNavigate.Add(achieves[i]);
         }
         for (int i = achieves.Length - 1; i >= 0; i--)
         {
-            if (AchievesManager.instance.achieves.achievesComplete[i]) achieves[i].GetComponent<RectTransform>().SetAsFirstSibling();
+            if (AchievesManager.instance.achieves.achievesComplete[i])
+            {
+                achieves[i].GetComponent<RectTransform>().SetAsFirstSibling();
+                toNavigate.Insert(0, achieves[i]);
+            }
         }
         StartCoroutine(WaitSeconds());
     }
@@ -58,7 +71,8 @@ public class ScrollViewSetter : MonoBehaviour
 
     public void Open()
     {
-        selectedAchieve = achieves[0];
+        RefreshAchieves();
+        selectedAchieve = toNavigate[0];
         currentSelection = 0;
         selectedAchieve.SelectAchieve();
         MoveParent();
@@ -113,7 +127,7 @@ public class ScrollViewSetter : MonoBehaviour
         begintimer = true;
         selectedAchieve.UnselectAchieve();
         currentSelection = dir;
-        selectedAchieve = achieves[currentSelection];
+        selectedAchieve = toNavigate[currentSelection];
         selectedAchieve.SelectAchieve();
 
         MoveParent();
