@@ -18,6 +18,7 @@ public class PauseManager : MonoBehaviour
     [SerializeField] GameObject mainButtons = null;
     [SerializeField] GameObject cheatsHud = null;
     [SerializeField] Settings settingsHud = null;
+    [SerializeField] ScrollViewSetter achievesHud = null;
     public SavedTutorial tutorialHud = null;
 
     public bool inPauseHud;
@@ -118,6 +119,13 @@ public class PauseManager : MonoBehaviour
         pauseHud.gameObject.SetActive(false);
     }
 
+    public void AchievesScreen()
+    {
+        mainButtons.SetActive(false);
+        achievesHud.gameObject.SetActive(true);
+        achievesHud.Open();
+    }
+
     public void Cheats()
     {
         mainButtons.SetActive(false);
@@ -132,6 +140,11 @@ public class PauseManager : MonoBehaviour
         Debug_UI_Tools.instance.Toggle(false);
         cheatsHud.SetActive(false);
         settingsHud.gameObject.SetActive(false);
+        if (achievesHud.gameObject.activeSelf)
+        {
+            achievesHud.Close();
+            achievesHud.gameObject.SetActive(false);
+        }
         tutorialHud.Close();
         inTutorial = false;
         inSettings = false;
