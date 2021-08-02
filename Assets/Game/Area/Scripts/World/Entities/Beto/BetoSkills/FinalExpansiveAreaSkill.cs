@@ -9,6 +9,7 @@ public class FinalExpansiveAreaSkill : BossSkills
     [SerializeField] float timeToMaxScale = 2;
 
     [SerializeField] ParticleSystem expansiveOver = null;
+    [SerializeField] ParticleSystem expansiveCharge = null;
     [SerializeField] LayerMask obstacleMask = 1 << 0;
     [SerializeField] DamageData dmgData = null;
 
@@ -37,12 +38,14 @@ public class FinalExpansiveAreaSkill : BossSkills
     {
         dmgData.SetDamage(damage).SetKnockback(knockback).SetDamageInfo(DamageInfo.NonBlockAndParry).SetDamageType(dmgType);
         anim.Play("StartExpansive");
+        expansiveCharge.Play();
         AudioManager.instance.PlaySound(chargeSound.name, transform);
     }
 
     void StartAbility()
     {
         AudioManager.instance.PlaySound(endCharge.name, transform);
+        expansiveCharge.Stop();
         explosionSensor.gameObject.SetActive(true);
         explosionSensor.transform.localScale = Vector3.one;
         finalScale = explosionSensor.transform.localScale * maxScale;
@@ -63,6 +66,7 @@ public class FinalExpansiveAreaSkill : BossSkills
 
     protected override void OnInterruptSkill()
     {
+        expansiveCharge.Stop();
     }
 
     protected override void OnOverSkill()

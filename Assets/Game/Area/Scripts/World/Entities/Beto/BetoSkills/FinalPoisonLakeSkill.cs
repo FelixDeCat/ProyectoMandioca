@@ -20,6 +20,8 @@ public class FinalPoisonLakeSkill : BossSkills
     [SerializeField] AudioClip upLakeSound = null;
     [SerializeField] AudioClip downLakeSound = null;
 
+    [SerializeField] ParticleSystem psBaston = null;
+
     Vector3 downPos;
     Vector3 upPos;
 
@@ -45,6 +47,7 @@ public class FinalPoisonLakeSkill : BossSkills
     {
         anim.Play("StartOrb");
         anim.SetBool("PoisonLake", true);
+        psBaston.Play();
     }
 
     void ActiveLake()
@@ -68,8 +71,9 @@ public class FinalPoisonLakeSkill : BossSkills
 
             lake.localPosition = Vector3.Lerp(downPos, upPos, movingTimer / timeToUp);
 
-            if(movingTimer >= timeToUp)
+            if (movingTimer >= timeToUp)
             {
+                psBaston.Stop();
                 lake.localPosition = upPos;
                 movingTimer = 0;
                 active = true;
@@ -104,6 +108,7 @@ public class FinalPoisonLakeSkill : BossSkills
     protected override void OnInterruptSkill()
     {
         lake.localPosition = downPos;
+        psBaston.Stop();
     }
 
     protected override void OnOverSkill()

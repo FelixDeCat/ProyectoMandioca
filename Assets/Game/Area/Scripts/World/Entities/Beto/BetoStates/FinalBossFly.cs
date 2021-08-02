@@ -34,11 +34,13 @@ namespace IA2Final.FSM
             rb.useGravity = false;
             anim.SetBool("StartFly", true);
             anim.Play("StartFly");
+            boss.StartFly();
             boss.Flying = true;
         }
 
         public override Dictionary<string, object> Exit(IState to)
         {
+            boss.EndFly();
             flyOver = false;
             anim.SetBool("StartFly", false);
             anim.SetFloat("Flying", 1);

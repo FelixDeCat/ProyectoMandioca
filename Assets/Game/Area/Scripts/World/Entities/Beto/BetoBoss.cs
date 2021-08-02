@@ -29,6 +29,7 @@ public class BetoBoss : EnemyBase
 
     [SerializeField] AudioClip bossBattleMusic = null;
     [SerializeField] ParticleSystem takeDamagePS = null;
+    [SerializeField] ParticleSystem flyParticle = null;
     [SerializeField] AudioClip takeDamageSound = null;
     [SerializeField] SkinnedMeshRenderer[] myMeshes = new SkinnedMeshRenderer[0];
 
@@ -58,6 +59,7 @@ public class BetoBoss : EnemyBase
         brain.Initialize(this, StartCoroutine, rb);
         obsAvoid.Configure(rootTransform);
         dmgReceiver.ChangeKnockback((x) => { }, () => true);
+        ParticlesManager.Instance.GetParticlePool(takeDamagePS.name, takeDamagePS);
         AudioManager.instance.GetSoundPool(takeDamageSound.name, AudioManager.SoundDimesion.ThreeD, AudioGroups.GAME_FX, takeDamageSound);
         animator.GetComponent<AnimEvent>().Add_Callback("EndDead", EndDeadAnimation);
         //ParticlesManager.Instance.GetParticlePool(takeDamagePS.name, takeDamagePS);
@@ -124,8 +126,8 @@ public class BetoBoss : EnemyBase
         cooldown = true;
         cdModule.AddCD("TakeDamageCD", () => { cooldown = false; animator.SetBool("takeDamage", false); }, recallTime);
         BossBarGeneric.SetLife(lifesystem.Life, lifesystem.LifeMax);
-        //var part = ParticlesManager.Instance.PlayParticle(takeDamagePS.name, transform.position + Vector3.up);
-        //part.transform.forward = (transform.position - data.owner_position).normalized;
+        var part = ParticlesManager.Instance.PlayParticle(takeDamagePS.name, transform.position + Vector3.up);
+        part.transform.forward = (data.owner_position - transform.position).normalized;
         StartCoroutine(OnHitted(onHitFlashTime, onHitColor, myMeshes));
         animator.SetBool("takeDamage", true);
         AudioManager.instance.PlaySound(takeDamageSound.name, rootTransform);
@@ -163,6 +165,7 @@ public class BetoBoss : EnemyBase
 
     protected override void Die(Vector3 dir)
     {
+        flyParticle.Stop();
         brain.ResetBrain();
         StopAllCoroutines();
         BossBarGeneric.Close();
@@ -187,6 +190,7 @@ public class BetoBoss : EnemyBase
 
     void ResetBossOnDead()
     {
+        flyParticle.Stop();
         AudioAmbienceSwitcher.instance.EnterOnBossBattle(false, bossBattleMusic);
         trigger.gameObject.SetActive(true);
         brain.ResetBrain();
@@ -224,6 +228,17 @@ public class BetoBoss : EnemyBase
         }
         return false;
     }
+
+    public void StartFly()
+    {
+        flyParticle.Play();
+    }
+
+    public void EndFly()
+    {
+        flyParticle.Stop();
+    }
+
     public void ChangeLastAbility(string last)
     {
         MyAbilityMostUsed = last;

@@ -13,11 +13,13 @@ public class FinalLaserSkill : BossSkills
     [SerializeField] Animator anim = null;
     [SerializeField] AnimEvent animEvent = null;
     [SerializeField] AudioClip shootSound = null;
+    [SerializeField] ParticleSystem shootParticle = null;
 
     public override void Initialize()
     {
         base.Initialize();
         ThrowablePoolsManager.instance.CreateAPool(projectile.name, projectile);
+        ParticlesManager.Instance.GetParticlePool(shootParticle.name, shootParticle);
         SetTarget(Main.instance.GetChar().transform);
         animEvent.Add_Callback("Shoot", ShootEvent);
         AudioManager.instance.GetSoundPool(shootSound.name, AudioManager.SoundDimesion.ThreeD, AudioGroups.GAME_FX, shootSound);
@@ -45,6 +47,7 @@ public class FinalLaserSkill : BossSkills
     void ShootEvent()
     {
         AudioManager.instance.PlaySound(shootSound.name, shootPos);
+        ParticlesManager.Instance.PlayParticle(shootParticle.name, shootPos.position);
         throwData.Position = shootPos.position;
         throwData.Direction = (target.position + Vector3.up - shootPos.position).normalized;
         ThrowablePoolsManager.instance.Throw(projectile.name, throwData);
