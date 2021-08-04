@@ -31,14 +31,13 @@ public class CaronteCinematicSounds : MonoBehaviour
         AudioManager.instance.GetSoundPool(slashSound.name, AudioManager.SoundDimesion.ThreeD, AudioGroups.GAME_FX, slashSound);
         AudioManager.instance.GetSoundPool(screamSound.name, AudioManager.SoundDimesion.ThreeD, AudioGroups.GAME_FX, screamSound);
         AudioManager.instance.GetSoundPool(earthquakeSound.name, AudioManager.SoundDimesion.ThreeD, AudioGroups.GAME_FX, earthquakeSound);
-         transform.localPosition = Vector3.up *2000;
+        transform.localPosition = Vector3.up *2000;
     }
 
     public void StartCinematic()
     {
         transform.localPosition = Vector3.zero;
         GetComponent<Animator>().Play("StartCinematic");
-        Debug.Log("???!?!");
     }
 
     void DEAD_OpenPortal()

@@ -14,7 +14,7 @@ public class BetoCinematicSounds : MonoBehaviour
     [SerializeField] AudioClip earthquakeSound = null;
     [SerializeField] string bossName = "Deimos";
     [SerializeField] string bossDesc = "Dios Corrupto";
-
+    [SerializeField] Renderer[] statueEyes = new Renderer[0];
 
     [Header("Dead")]
     [SerializeField] AudioClip tentaclesSound = null;
@@ -23,11 +23,11 @@ public class BetoCinematicSounds : MonoBehaviour
     private void Start()
     {
         AudioManager.instance.GetSoundPool(statueOn.name, AudioManager.SoundDimesion.ThreeD, AudioGroups.GAME_FX, statueOn);
-        AudioManager.instance.GetSoundPool(tentaclesSound.name, AudioManager.SoundDimesion.ThreeD, AudioGroups.GAME_FX, tentaclesSound);
+        //AudioManager.instance.GetSoundPool(tentaclesSound.name, AudioManager.SoundDimesion.ThreeD, AudioGroups.GAME_FX, tentaclesSound);
         AudioManager.instance.GetSoundPool(colorOffSound.name, AudioManager.SoundDimesion.ThreeD, AudioGroups.GAME_FX, colorOffSound);
         AudioManager.instance.GetSoundPool(screamSound.name, AudioManager.SoundDimesion.ThreeD, AudioGroups.GAME_FX, screamSound);
         AudioManager.instance.GetSoundPool(earthquakeSound.name, AudioManager.SoundDimesion.ThreeD, AudioGroups.GAME_FX, earthquakeSound);
-        //transform.localPosition = Vector3.up * 2000;
+        transform.localPosition = Vector3.up * 2000;
     }
 
     public void StartCinematic()
@@ -55,6 +55,12 @@ public class BetoCinematicSounds : MonoBehaviour
     void START_StatueOn()
     {
         AudioManager.instance.PlaySound(statueOn.name, transform);
+        for (int i = 0; i < statueEyes.Length; i++)
+        {
+            statueEyes[i].material.SetColor("_TintColor", new Color32(229, 16, 16, 255));
+            statueEyes[i].material.SetColor("_EmissionColor", new Color32(185, 0, 20, 255));
+        }
+
     }
 
     void START_StopFlyParticle()
