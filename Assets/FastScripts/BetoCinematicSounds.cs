@@ -55,11 +55,11 @@ public class BetoCinematicSounds : MonoBehaviour
     void START_StatueOn()
     {
         AudioManager.instance.PlaySound(statueOn.name, transform);
-        for (int i = 0; i < statueEyes.Length; i++)
-        {
-            statueEyes[i].material.SetColor("_TintColor", new Color32(229, 16, 16, 255));
-            statueEyes[i].material.SetColor("_EmissionColor", new Color32(185, 0, 20, 255));
-        }
+        //for (int i = 0; i < statueEyes.Length; i++)
+        //{
+        //    statueEyes[i].material.SetColor("_TintColor", new Color32(229, 16, 16, 255));
+        //    statueEyes[i].material.SetColor("_EmissionColor", new Color32(185, 0, 20, 255));
+        //}
 
     }
 
