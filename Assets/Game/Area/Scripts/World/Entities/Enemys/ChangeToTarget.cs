@@ -9,6 +9,8 @@ public class ChangeToTarget : MonoBehaviour
 
     [SerializeField] bool activeWithTrigger = false;
 
+    bool isChanged;
+
     public void TRIGGER_ActiveFirstTarget()
     {
         Main.instance.GetCombatDirector().AddNewTarget(firstTarget);
@@ -40,12 +42,15 @@ public class ChangeToTarget : MonoBehaviour
 
     public void ChangeTarget()
     {
+        if (isChanged) return;
+
         for (int i = 0; i < enemies.Length; i++)
         {
             enemies[i].GetComponent<CombatDirectorElement>().ChangeTarget(Main.instance.GetChar().transform);
         }
 
         Main.instance.GetCombatDirector().RemoveTarget(firstTarget);
+        isChanged = true;
     }
 
     
