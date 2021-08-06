@@ -206,6 +206,7 @@ public class BossModel : EnemyBase
     {
         brain.ResetBrain();
         StopAllCoroutines();
+        death = true;
         BossBarGeneric.Close();
         AudioAmbienceSwitcher.instance.EnterOnBossBattle(false, bossBattleMusic);
         Main.instance.eventManager.UnsubscribeToEvent(GameEvents.ON_PLAYER_RESPAWN, ResetBossOnDead);

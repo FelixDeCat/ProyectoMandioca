@@ -87,8 +87,12 @@ public class InteractSensor : MonoBehaviour
         {
             if (most_close.InDistance())
             {
-                ContextualBarSimple.instance.Show();
-                ContextualBarSimple.instance.Set_Sprite_Button_Custom(InputImageDatabase.InputImageType.interact);
+                if (!most_close.autoexecute)
+                {
+                    ContextualBarSimple.instance.Show();
+                    ContextualBarSimple.instance.Set_Sprite_Button_Custom(InputImageDatabase.InputImageType.interact);
+                }
+                else ContextualBarSimple.instance.Hide();
                 most_close.Enter(collector);
             }
             else

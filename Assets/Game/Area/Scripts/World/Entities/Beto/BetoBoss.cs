@@ -169,6 +169,7 @@ public class BetoBoss : EnemyBase
     {
         flyParticle.Stop();
         brain.ResetBrain();
+        death = true;
         StopAllCoroutines();
         BossBarGeneric.Close();
         AudioAmbienceSwitcher.instance.EnterOnBossBattle(false, bossBattleMusic);

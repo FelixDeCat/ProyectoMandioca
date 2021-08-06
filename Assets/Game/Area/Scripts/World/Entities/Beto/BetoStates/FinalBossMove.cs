@@ -76,6 +76,7 @@ namespace IA2Final.FSM
 
         void OnGetPath(IEnumerable<AStarNode> _path)
         {
+            if (boss.death) return;
             path = _path.ToList();
             canWalk = true;
             anim.Play("Move");

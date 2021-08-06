@@ -211,6 +211,7 @@ public class Brazalete_event : MonoBehaviour, ISpawner, IPauseable, IScriptedEve
 
     public void InitEvent()
     {
+        Debug.Log("se inicia");
         BeginEvent.Invoke();
 
         PauseManager.Instance.AddToPause(this);
