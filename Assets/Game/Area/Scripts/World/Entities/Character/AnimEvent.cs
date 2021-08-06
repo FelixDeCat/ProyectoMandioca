@@ -16,7 +16,7 @@ public class AnimEvent : MonoBehaviour
         if (dashBash != null) AudioManager.instance.GetSoundPool(dashBash.name, AudioManager.SoundDimesion.TwoD, AudioGroups.GAME_FX, dashBash);
         if (finishBlock != null) AudioManager.instance.GetSoundPool(finishBlock.name, AudioManager.SoundDimesion.TwoD, AudioGroups.GAME_FX, finishBlock);
     }
-    public void Add_Callback(string s, Action receiver) { if (myeventManager != null) myeventManager.SubscribeToEvent(s, receiver); else { Debug.Log("ME ESTAN QUERIENDO AGREGAR UN CALLBACK ANTES DE MI AWAKE"); } }
+    public void Add_Callback(string s, Action receiver) { if (myeventManager != null) { myeventManager.SubscribeToEvent(s, receiver); } else { Debug.Log("ME ESTAN QUERIENDO AGREGAR UN CALLBACK ANTES DE MI AWAKE"); } }
     public void Remove_Callback(string s, Action receiver) { if (myeventManager != null) myeventManager.UnsubscribeToEvent(s, receiver); }
 
     //este es la funcion que vamos a disparar desde las animaciones

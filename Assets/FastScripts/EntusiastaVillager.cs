@@ -19,8 +19,10 @@ public class EntusiastaVillager : MonoBehaviour
 
     private void Start()
     {
-        anim.GetComponent<AnimEvent>().Add_Callback("FinishAbility", () => { endThunderAnim.Invoke(); Debug.Log("la puta madre"); } );
+        anim.GetComponent<AnimEvent>().Add_Callback("FinishAbility", () => { endThunderAnim.Invoke(); } );
         anim.GetComponent<AnimEvent>().Add_Callback("SpawnOrb", ray.Attack);
+
+        Debug.Log("a ver, acá entro");
     }
 
     public void GoToWaypoint(int waypoint)

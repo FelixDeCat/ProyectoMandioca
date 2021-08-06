@@ -171,9 +171,9 @@ public class EnemyManager : MonoBehaviour
         {
             if (!enemiesPerScenes[sceneName][i].death)
             {
-                var aux = EnemySaveConverterAux.CreateEnemyState(enemiesPerScenes[sceneName][i]);
-                aux.SaveState(enemiesPerScenes[sceneName][i]);
-                scenesStates[sceneName].Add(aux);
+                //var aux = EnemySaveConverterAux.CreateEnemyState(enemiesPerScenes[sceneName][i]);
+                //aux.SaveState(enemiesPerScenes[sceneName][i]);
+                //scenesStates[sceneName].Add(aux);
             }
             enemiesPerScenes[sceneName][i].ReturnToSpawner();
             yield return null;
