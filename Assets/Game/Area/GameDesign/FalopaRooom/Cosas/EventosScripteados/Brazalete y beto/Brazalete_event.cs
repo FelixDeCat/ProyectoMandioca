@@ -61,6 +61,7 @@ public class Brazalete_event : MonoBehaviour, ISpawner, IPauseable, IScriptedEve
     bool betoMoveToStatuePosition = false;
     [SerializeField] ParticleSystem statue_explotion;
     [SerializeField] Animator animator_fountain;
+    bool oneshot_anim_fountain = false;
     [SerializeField] TentacleWall_controller fountain_tentacles;
     const string Beto_Corrupt_Fountain_Animation = "Beto_Corrupt_Fountain";
     const string Atenea_Clear_Fountain_Animation = "Atenea_Clear_Fountain";
@@ -217,6 +218,8 @@ public class Brazalete_event : MonoBehaviour, ISpawner, IPauseable, IScriptedEve
         PauseManager.Instance.AddToPause(this);
         ateneaDialogue_ground.gameObject.SetActive(false);
         SetResetThings();
+
+        initTrigger.SetActive(false);
 
         eventOn = true;
 
@@ -380,7 +383,12 @@ public class Brazalete_event : MonoBehaviour, ISpawner, IPauseable, IScriptedEve
 
     void BetoReachedPosition_StatuePosition()
     {
-        animator_fountain.Play(Beto_Corrupt_Fountain_Animation);
+        if (!oneshot_anim_fountain)
+        {
+            oneshot_anim_fountain = true;
+            animator_fountain.Play(Beto_Corrupt_Fountain_Animation);
+        }
+        
         fountain_tentacles.OpenTentacles();
         //play agua
         //play tentaculos
@@ -506,7 +514,7 @@ public class Brazalete_event : MonoBehaviour, ISpawner, IPauseable, IScriptedEve
 
     public void ResetEvent()
     {
-        
+        oneshot_anim_fountain = false;
         Debug.Log("Reseteo el evento del brazalete");
         PauseManager.Instance.RemoveToPause(this);
         initTrigger.SetActive(true);
