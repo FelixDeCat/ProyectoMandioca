@@ -135,13 +135,15 @@ public class BossModel : EnemyBase
     protected override void OnPause()
     {
         base.OnPause();
-        brain.DesactiveFSM();
+        if (onCombat)
+            brain.DesactiveFSM();
     }
 
     protected override void OnResume()
     {
         base.OnResume();
-        brain.ActiveFSM();
+        if(onCombat)
+            brain.ActiveFSM();
     }
 
     protected override void OnReset()
@@ -224,11 +226,13 @@ public class BossModel : EnemyBase
         Main.instance.eventManager.TriggerEvent(GameEvents.CARONTE_DEFEAT_IN_JOJO_DUNGEON);
         caronteCinematic.StartCinematic();
         EndFinalScene.Invoke();
+        Off();
         gameObject.SetActive(false);
     }
 
     void ResetBossOnDead()
     {
+        Debug.Log("?");
         AudioAmbienceSwitcher.instance.EnterOnBossBattle(false, bossBattleMusic);
         brain.ResetBrain();
         StopAllCoroutines();

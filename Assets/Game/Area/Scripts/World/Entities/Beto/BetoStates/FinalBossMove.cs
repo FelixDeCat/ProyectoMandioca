@@ -32,11 +32,17 @@ namespace IA2Final.FSM
         public override void UpdateLoop()
         {
             if (!canWalk || dest) return;
+            if(currentNode >= path.Count)
+            {
+                dest = true;
+                anim.Play("Idle");
+                return;
+            }
 
             if(boss.WalkToNextNode(path[currentNode]))
             {
                 currentNode += 1;
-
+                timer = 0;
                 if(currentNode >= path.Count)
                 {
                     dest = true;
@@ -44,7 +50,20 @@ namespace IA2Final.FSM
                     return;
                 }
             }
+            else
+            {
+                timer += Time.deltaTime;
+
+                if(timer >= maxTimeToNode)
+                {
+                    dest = true;
+                    anim.Play("Idle");
+                    return;
+                }
+            }
         }
+        float timer;
+        float maxTimeToNode = 10;
 
         public override void Enter(IState from, Dictionary<string, object> transitionParameters = null)
         {
@@ -65,6 +84,7 @@ namespace IA2Final.FSM
         public override Dictionary<string, object> Exit(IState to)
         {
             currentNode = 0;
+            timer = 0;
             dest = false;
             canWalk = false;
             anim.Play("Idle");

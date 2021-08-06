@@ -100,13 +100,15 @@ public class BetoBoss : EnemyBase
     protected override void OnPause()
     {
         base.OnPause();
-        brain.DesactiveFSM();
+        if (onCombat)
+            brain.DesactiveFSM();
     }
 
     protected override void OnResume()
     {
         base.OnResume();
-        brain.ActiveFSM();
+        if (onCombat)
+            brain.ActiveFSM();
     }
 
     protected override void OnReset()
@@ -185,6 +187,7 @@ public class BetoBoss : EnemyBase
         Main.instance.GetChar().Visible();
         EndFinalScene.Invoke();
         deadCinematic.CinematicOver();
+        Off();
         gameObject.SetActive(false);
     }
 
