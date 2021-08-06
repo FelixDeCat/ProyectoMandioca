@@ -547,7 +547,9 @@ public class Brazalete_event : MonoBehaviour, ISpawner, IPauseable, IScriptedEve
             aldeanosAsustados[i].PlayAnim("Cry");
         }
 
-        
+        statue_to_hide.gameObject.SetActive(true);
+        animator_fountain.Play(Atenea_Clear_Fountain_Animation);
+
         KillAllEnemies();
         summonedEnemies.Clear();
     }
