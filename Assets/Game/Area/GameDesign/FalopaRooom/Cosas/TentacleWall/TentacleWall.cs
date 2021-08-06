@@ -102,6 +102,17 @@ public class TentacleWall : EnemyBase
         transform.forward += Vector3.Lerp(transform.forward, auxDir, Time.fixedDeltaTime * rotSpeed);
     }
 
+    protected override void OnPause()
+    {
+        base.OnPause();
+        animator.speed = 0;
+    }
+    protected override void OnResume()
+    {
+        base.OnResume();
+        animator.speed = 1;
+    }
+
     protected override void OnReset() { }
     protected override void TakeDamageFeedback(DamageData data) { }
     protected override void Die(Vector3 dir) { }
