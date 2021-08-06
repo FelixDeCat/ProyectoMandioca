@@ -154,7 +154,7 @@ public class BossBrain
                                               new GOAPAction(GOAPStatesName.OnShootAttack)
                                                  .Pre(x=> x.floatValues[GOAPParametersName.CharDistance]>distanceToMele || x.intValues[GOAPParametersName.OwnLife] <= model.lifesystem.LifeMax * lifeToChangePhase ? true : false)
                                                  .Pre(x=> !x.boolValues[GOAPParametersName.AttackOnCooldown] ? true : false)
-                                                 .Pre(x=>x.intValues[GOAPParametersName.Stamina] > 0)
+                                                 .Pre(x=> (x.intValues[GOAPParametersName.Stamina] > 0) || (x.boolValues[GOAPParametersName.ShieldActive] && x.intValues[GOAPParametersName.Stamina] <= 0))
                                                  .Effect(x=> x.boolValues[GOAPParametersName.AttackOnCooldown] = true)
                                                  .Effect(x => {
                                                      x.intValues[GOAPParametersName.CharLife] -= x.boolValues[GOAPParametersName.ShieldActive] ?3000 : shootDamage;
