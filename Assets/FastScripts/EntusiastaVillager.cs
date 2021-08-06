@@ -19,7 +19,7 @@ public class EntusiastaVillager : MonoBehaviour
 
     private void Start()
     {
-        anim.GetBehaviour<ANIM_SCRIPT_Base>().ConfigureCallback(() => endThunderAnim.Invoke());
+        anim.GetComponent<AnimEvent>().Add_Callback("FinishAbility", () => { endThunderAnim.Invoke(); Debug.Log("la puta madre"); } );
         anim.GetComponent<AnimEvent>().Add_Callback("SpawnOrb", ray.Attack);
     }
 

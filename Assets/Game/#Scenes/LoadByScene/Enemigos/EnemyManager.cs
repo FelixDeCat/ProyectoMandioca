@@ -166,7 +166,6 @@ public class EnemyManager : MonoBehaviour
     {
         if (!enemiesPerScenes.ContainsKey(sceneName)) enemiesPerScenes.Add(sceneName, new List<EnemyBase>());
 
-        Debug.Log("count" + enemiesPerScenes[sceneName].Count);
 
         for (int i = 0; i < enemiesPerScenes[sceneName].Count; i++)
         {

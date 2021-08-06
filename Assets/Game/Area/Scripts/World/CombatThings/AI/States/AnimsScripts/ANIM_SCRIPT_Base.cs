@@ -17,6 +17,7 @@ public class ANIM_SCRIPT_Base : StateMachineBehaviour
         
         callback_end.Invoke();
         OnAnimationExit(animator);
+        Debug.Log("funciona");
     }
     protected virtual void OnAnimationExit(Animator anim)
     {

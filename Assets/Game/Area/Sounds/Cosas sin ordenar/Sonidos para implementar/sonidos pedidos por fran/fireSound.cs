@@ -10,7 +10,6 @@ public class fireSound : MonoBehaviour
     {
         AudioManager.instance.GetSoundPool(_soundEffect.name, AudioManager.SoundDimesion.ThreeD, AudioGroups.GAME_FX, _soundEffect, true);
         AudioManager.instance.PlaySound(_soundEffect.name,transform);
-        Debug.Log("ndea");
     }
 
     // Update is called once per frame

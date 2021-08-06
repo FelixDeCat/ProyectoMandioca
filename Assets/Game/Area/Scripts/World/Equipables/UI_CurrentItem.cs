@@ -44,7 +44,6 @@ public class UI_CurrentItem : UI_Base
 
     public void SetBlock(bool b)
     {
-        if (spot_to_represent == SpotType.Waist2) Debug.Log(b);
         if (b)
         {
             currentSolidColor = blockColor;

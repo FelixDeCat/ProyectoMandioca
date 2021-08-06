@@ -31,7 +31,6 @@ public class ObjetiveSubscriber : MonoBehaviour
     void CatchedObjetives(Collider[] colls)
     {
         objetive_cant = colls.Length;
-        Debug.Log(objetive_cant);
 
         // Logica de Overrideo de Misiones
         if (OverrideMission)
@@ -92,8 +91,6 @@ public class ObjetiveSubscriber : MonoBehaviour
     void ObjetiveFinish()
     {
         current_cant++;
-        Debug.Log("current cant: " + current_cant);
-
         if (current_cant >= objetive_cant)
         {
             OnFinishObjetive.Invoke();

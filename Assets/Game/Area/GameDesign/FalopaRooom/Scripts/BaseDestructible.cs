@@ -39,7 +39,6 @@ public abstract class BaseDestructible : Environment
 
     public void DestroyDestructible()
     {
-        Debug.Log(gameObject.name);
         AudioManager.instance.PlaySound(destroyedSound.name, transform);
         OnDestroyDestructible(target ? target.position : transform.position);
     }

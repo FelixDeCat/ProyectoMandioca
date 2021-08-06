@@ -68,12 +68,10 @@ public abstract class Interactable : MonoBehaviour
     public void BUTTON_PressUp()
     {
         PressUp.Invoke();
-        Debug.Log("PRESS UP");
     }
     public void BUTTON_PressDown()
     {
         PressDown.Invoke();
-        Debug.Log("PRESS DOWN");
     }
     public void Execute(WalkingEntity entity)
     {

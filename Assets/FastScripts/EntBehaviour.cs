@@ -19,7 +19,7 @@ public class EntBehaviour : MonoBehaviour
 
     private void Start()
     {
-        anim.GetBehaviour<ANIM_SCRIPT_Base>().ConfigureCallback(() => endThunderAnim.Invoke());
+        anim.GetComponent<AnimEvent>().Add_Callback("FinishPiña", () => { endThunderAnim.Invoke(); Debug.Log("finisheo piña"); });
         anim.GetComponent<AnimEvent>().Add_Callback("DealDamage", Attack);
     }
 

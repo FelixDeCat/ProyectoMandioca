@@ -69,13 +69,13 @@ namespace DevelopTools
             if (eventsParam.ContainsKey(eventType))
             {
                 if (eventsParam[eventType] != null)
-                    eventsParam[eventType](parametersWrapper);
+                    eventsParam[eventType]?.Invoke(parametersWrapper);
             }
 
             if (events.ContainsKey(eventType))
             {
                 if (events[eventType] != null)
-                    events[eventType]();
+                    events[eventType]?.Invoke();
             }
         }
     }
