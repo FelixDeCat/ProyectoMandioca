@@ -4,7 +4,7 @@ public class CharacterAnimator : BaseAnimator
 {
     public CharacterAnimator(Animator _anim) : base(_anim) { }
     public void Move(float dirX, float dirY)
-    {       
+    {
         myAnim.SetFloat("moveX", dirX);
         myAnim.SetFloat("moveY", dirY);
     }
@@ -14,7 +14,14 @@ public class CharacterAnimator : BaseAnimator
     public void CatchProp() => myAnim.SetTrigger("catchProp");
     public void SetVerticalRoll(float x) => myAnim.SetFloat("dirX", x);
     public void SetHorizontalRoll(float y) => myAnim.SetFloat("dirY", y);
-    public void Block(bool _block) => myAnim.SetBool("BeginBlock", _block);
+    public void Block(bool _block) {
+        myAnim.SetBool("BeginBlock", _block);
+        if (_block)
+        {
+            myAnim.ResetTrigger("BlockSomething");
+            myAnim.ResetTrigger("IsParry");
+        }
+    }
     public void BlockSomething() => myAnim.SetTrigger("BlockSomething");
     public void Parry() => myAnim.SetTrigger("IsParry");
     public void OnAttackBegin(bool b) => myAnim.SetBool("CheckHeavy", b);

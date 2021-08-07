@@ -51,6 +51,7 @@ namespace Tools.StateMachine
         {
             base.Exit(input);
             UnityEngine.Debug.Log("a ver por donde salgo la ptm");
+            charAnim.CancelAttackAnimations();
             charAnim.Dead(false);
             timer = 0;
         }
