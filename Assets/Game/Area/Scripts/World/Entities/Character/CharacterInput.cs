@@ -10,7 +10,7 @@ using Tools;
 public class CharacterInput : MonoBehaviour
 {
     private const string Load = "0_Load";
-    private const string Menu = "NuevoMenu";
+    private const string Menu = "Menu";
 
     public enum InputType { Joystick, Mouse, Other }
     public InputType input_type;

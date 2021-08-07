@@ -105,6 +105,7 @@ public class MenuButtons : MonoBehaviour
     {
         animCredits.SetTrigger("Open");
         _currentAnim = animCredits;
+        backButton.gameObject.SetActive(true);
         foreach (var item in mainButtons) item.interactable = false;
         fadeAnim.SetTrigger("MenuFade");
     }
@@ -122,7 +123,7 @@ public class MenuButtons : MonoBehaviour
         //{
         //    StartCoroutine(BackCoroutine(0.2f));
         //}
-        if(_currentAnim != null && Input.GetKeyDown(KeyCode.Joystick1Button1))
+        if(_currentAnim != null && Input.GetButtonDown("Back"))
         {
             Back();
         }
