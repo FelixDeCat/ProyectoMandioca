@@ -750,7 +750,8 @@ public class CharacterHead : CharacterControllable
     {
         for (int i = 0; i < rendersToShutDown.Length; i++)
         {
-            rendersToShutDown[i].enabled = false;
+            if(rendersToShutDown[i].gameObject.activeSelf)
+                rendersToShutDown[i].enabled = false;
         }
     }
 
@@ -758,7 +759,8 @@ public class CharacterHead : CharacterControllable
     {
         for (int i = 0; i < rendersToShutDown.Length; i++)
         {
-            rendersToShutDown[i].enabled = true;
+            if (rendersToShutDown[i].gameObject.activeSelf)
+                rendersToShutDown[i].enabled = true;
         }
     }
 

@@ -320,11 +320,15 @@ public class CharacterAttack
         switch (attack_result)
         {
             case Attack_Result.sucessful:
-                if (damage_type == Damagetype.Heavy) { DealSuccesfullHeavy(); ApplySecondaryEffect?.Invoke(entityToDamage.GetComponent<EffectReceiver>()); }
+                if (damage_type == Damagetype.Heavy) {
+                    DealSuccesfullHeavy();
+                    if (entityToDamage.GetComponent<EffectReceiver>())
+                        ApplySecondaryEffect?.Invoke(entityToDamage.GetComponent<EffectReceiver>()); }
                 else
                 {
                     DealSuccesfullNormal();
-                    ApplySecondaryEffect?.Invoke(entityToDamage.GetComponent<EffectReceiver>());
+                    if(entityToDamage.GetComponent<EffectReceiver>())
+                        ApplySecondaryEffect?.Invoke(entityToDamage.GetComponent<EffectReceiver>());
                 }
 
                 break;
