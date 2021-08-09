@@ -116,6 +116,7 @@ public class GenericEnemyMove : MonoBehaviour
         }
         if (obs)
         {
+            Debug.Log(obs.name);
             Vector3 diraux = (root.position - obs.position).normalized;
             diraux = new Vector3(diraux.x, 0, diraux.z);
             dir += diraux * avoidWeight;
