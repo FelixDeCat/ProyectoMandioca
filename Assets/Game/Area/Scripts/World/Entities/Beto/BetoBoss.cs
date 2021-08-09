@@ -177,6 +177,7 @@ public class BetoBoss : EnemyBase
         Main.instance.eventManager.TriggerEvent(GameEvents.BETO_DEFEATED);
         Main.instance.eventManager.UnsubscribeToEvent(GameEvents.ON_PLAYER_RESPAWN, ResetBossOnDead);
         transform.position = initPos;
+        rootTransform.localEulerAngles = Vector3.zero;
         deadCinematic.SetLookAtPos(new Vector3(transform.position.x, deadCinematic.transform.position.y, transform.position.z), rootTransform.forward);
         deadCinematic.StartCinematic();
         animator.Play("Dead");

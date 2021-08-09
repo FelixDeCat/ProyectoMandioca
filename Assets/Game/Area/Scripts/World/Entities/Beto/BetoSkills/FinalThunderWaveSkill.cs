@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using System;
+using UnityEngine.Events;
 
 public class FinalThunderWaveSkill : BossSkills, ISpawner
 {
@@ -44,8 +45,9 @@ public class FinalThunderWaveSkill : BossSkills, ISpawner
         int enemies = currentSpawnedEnemies.Count;
         for (int i = 0; i < enemies; i++)
         {
-            currentSpawnedEnemies[currentEnemies - 1].ReturnToSpawner();
+            currentSpawnedEnemies[currentEnemies - 1].GetComponent<DamageReceiver>().InstaKill();
         }
+
         if (source != null)
         {
             source.Stop();
@@ -108,13 +110,24 @@ public class FinalThunderWaveSkill : BossSkills, ISpawner
 
     public void SpawnPrefab(EnemyBase enemy, Vector3 pos, string sceneName = null)
     {
-        currentSpawnedEnemies.Add(spot.SpawnPrefab(pos, enemy, sceneName, this).GetComponent<EnemyBase>());
+        var temp = spot.SpawnPrefab(pos, enemy, sceneName, this).GetComponent<EnemyBase>();
+        currentSpawnedEnemies.Add(temp);
+        UnityAction ReturnObjectCallback = delegate { };
+
+        ReturnObjectCallback = () =>
+        {
+            currentSpawnedEnemies.Remove(temp);
+            currentEnemies -= 1;
+            temp.OnDeath.RemoveListener(ReturnObjectCallback);
+            if (currentEnemies <= 0) OverSkill();
+        };
+        temp.OnDeath.AddListener(ReturnObjectCallback);
+
         currentEnemies += 1;
     }
 
     public void ReturnObject(PlayObject newPrefab)
     {
-        currentEnemies -= 1;
         newPrefab.Spawner = null;
         newPrefab.Off();
         currentSpawnedEnemies.Remove(newPrefab.GetComponent<EnemyBase>());

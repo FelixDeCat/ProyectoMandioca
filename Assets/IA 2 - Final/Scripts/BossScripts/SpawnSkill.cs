@@ -41,8 +41,6 @@ public class SpawnSkill : BossSkills, ISpawner
     {
         totemFeedback.InterruptCharge();
         int enemies = currentSpawnedEnemies.Count;
-        Debug.Log(enemies);
-        Debug.Log(currentEnemies);
         for (int i = 0; i < enemies; i++)
         {
             currentSpawnedEnemies[currentEnemies-1].GetComponent<DamageReceiver>().InstaKill();
