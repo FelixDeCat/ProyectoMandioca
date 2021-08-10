@@ -89,6 +89,7 @@ public class Tutorial_UIController : MonoBehaviour
         }
 
         current = settings;
+        currentOpen = true;
 
         BlindTutorial(settings, settings.actionToComplete);
 
@@ -96,10 +97,13 @@ public class Tutorial_UIController : MonoBehaviour
         message.Play("New State");
     }
 
+    bool currentOpen;
+
     public void CompleteTutorial(TutorialSettings tuto)
     {
         if(tuto == current)
         {
+            currentOpen = false;
             message.Play("CompleteAnim");
             AudioManager.instance.PlaySound(tutoCompleteFeedback.name);
 
@@ -127,7 +131,7 @@ public class Tutorial_UIController : MonoBehaviour
         yield return new WaitForSeconds(waitToDestroy);
         if(textToDestroy == message)
         {
-            if(tutorialStack.Count > 0)
+            if(tutorialStack.Count > 0 && !currentOpen)
             {
                 mainHud.Open();
                 message.Play("New State");
@@ -144,7 +148,7 @@ public class Tutorial_UIController : MonoBehaviour
                 Destroy(textStack[0].gameObject);
                 textStack.RemoveAt(0);
             }
-            else
+            else if(!currentOpen)
             {
                 mainHud.Close();
             }
