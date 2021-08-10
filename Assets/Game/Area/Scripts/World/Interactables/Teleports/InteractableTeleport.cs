@@ -84,6 +84,7 @@ public class InteractableTeleport : Interactable
         Main.instance.GetChar().GetCharMove().StopDamageFall();
         AudioManager.instance.Unmute();
         Main.instance.GetChar().transform.position = transform_destino.position;
+        Main.instance.GetMyCamera().InstantPosition();
     }
 
     public void On_FadeOn_Ended()

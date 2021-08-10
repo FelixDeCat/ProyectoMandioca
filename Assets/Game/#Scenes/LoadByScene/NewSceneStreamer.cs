@@ -119,12 +119,6 @@ public class NewSceneStreamer : MonoBehaviour
         yield return null;
     }
 
-    public void AddToInitializers(string sceneName, PlayObjectParentInitializer initializer)
-    {
-        //if (!playObjectInitializer.ContainsKey(sceneName))
-        //    playObjectInitializer.Add(sceneName, initializer);
-    }
-
     void TryToExecuteParameter(string sceneName, SceneData.Detail_Parameter parameter)
     {
         StartCoroutine(localref[sceneName].ExecuteLoadParameter(parameter));

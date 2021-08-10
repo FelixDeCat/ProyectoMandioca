@@ -27,7 +27,7 @@ public class Checkpoint_Manager : MonoBehaviour
         chr.StopMovement();
         chr.GetBackControl();
         chr.transform.position = current.Mytranform.position;
-        chr.Root.eulerAngles = current.Mytranform.eulerAngles;
+        chr.Root.localEulerAngles = current.Mytranform.localEulerAngles;
         chr.GetComponentInChildren<CameraRotate>().CameraStartPosition();
         Main.instance.GetMyCamera().InstantPosition();
     }
