@@ -38,14 +38,6 @@ public class MisionManager : MonoBehaviour
     Dictionary<MisionItemKey, int> stores = new Dictionary<MisionItemKey, int>();
 
     public bool MisionIsActive(Mision m) => active_misions.Contains(m);
-    private void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.J))
-        {
-            ui_panel.Enable();
-            feedbackSound.Play_OpenPanel();
-        }
-    }
     public void RefreshInPlace(string place)
     {
         foreach (var m in active_misions)
