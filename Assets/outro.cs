@@ -15,14 +15,5 @@ public class outro : MonoBehaviour
     void OnEnd()
     {
         PauseManager.Instance.ReturnToMenu();
-        var myGameCores = FindObjectsOfType<DontDestroy>().Where(x => x.transform != transform.parent).ToArray();
-        NewSceneStreamer.instance?.RemoveToSceneLoaded();
-
-        for (int i = 0; i < myGameCores.Length; i++)
-            Destroy(myGameCores[i].gameObject);
-        SceneManager.LoadScene(0);
-        Cursor.lockState = CursorLockMode.None;
-        Cursor.visible = true;
-        Destroy(transform.parent.gameObject);
     }
 }
