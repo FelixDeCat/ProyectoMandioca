@@ -53,6 +53,7 @@ public class SpawnSkill : BossSkills, ISpawner
         for (int i = 0; i < ammountToSpawn; i++)
         {
             Vector3 pos = spot.GetSurfacePos();
+            if (pos == Vector3.zero) pos = transform.position;
             pos.y += 1;
             totemFeedback.StartGoToFeedback(pos, (x) => SpawnPrefab(x, currentScene));
         }

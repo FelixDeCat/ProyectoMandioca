@@ -130,7 +130,11 @@ public class MandragoraEnemy : EnemyWithCombatDirector
         foreach (var item in enemiesToSpawnDic)
         {
             for (int i = 0; i < item.Value; i++)
-                spawnerSpot.SpawnPrefab(spawnerSpot.GetSurfacePos(), item.Key, CurrentScene);
+            {
+                var pos = spawnerSpot.GetSurfacePos();
+                if (pos == Vector3.zero) pos = transform.position;
+                spawnerSpot.SpawnPrefab(pos, item.Key, CurrentScene);
+            }
         }
 
         mandragoraIsTrap = false;

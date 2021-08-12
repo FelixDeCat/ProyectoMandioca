@@ -41,7 +41,7 @@ public class CultAbility_Spawn : GOAP_Skills_Base, ISpawner
         for (int i = 0; i < minimunWaveToSpawn[waveCount].Count; i++)
         {
             Vector3 pos = spot.GetSurfacePos();
-
+            if (pos == Vector3.zero) pos = transform.position;
             totemFeedback.StartGoToFeedback(pos, (x) => SpawnPrefab(x, ownerHead.CurrentScene, minimunWaveToSpawn[waveCount][i]));
             currentSpawn += 1;
         }
@@ -54,7 +54,7 @@ public class CultAbility_Spawn : GOAP_Skills_Base, ISpawner
         for (int i = 0; i < dif; i++)
         {
             Vector3 pos = spot.GetSurfacePos();
-
+            if (pos == Vector3.zero) pos = transform.position;
             totemFeedback.StartGoToFeedback(pos, (x) => SpawnPrefab(x, ownerHead.CurrentScene, RoulletteWheel.Roullette(possibleSpawns)));
         }
     }

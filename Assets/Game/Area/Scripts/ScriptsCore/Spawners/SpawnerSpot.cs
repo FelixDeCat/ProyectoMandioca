@@ -41,6 +41,7 @@ public class SpawnerSpot
     public Vector3 GetSurfacePos()
     {
         var pos = GetPosRandom(radious, spawnSpot);
+        watchdog += 1;
 
         if (clampPos) pos = ClampPos(pos, spawnSpot);
         pos.y = spawnSpot.position.y + radious;
@@ -51,10 +52,17 @@ public class SpawnerSpot
         {
             pos = hit.point;
         }
-        else return GetSurfacePos();
+        else if (watchdog > 15)
+        {
+            return Vector3.zero;
+        }
+        else
+            return GetSurfacePos();
 
+        watchdog = 0;
         return pos;
     }
+    int watchdog = 0;
 
     Vector3 ClampPos(Vector3 pos, Transform reference)
     {

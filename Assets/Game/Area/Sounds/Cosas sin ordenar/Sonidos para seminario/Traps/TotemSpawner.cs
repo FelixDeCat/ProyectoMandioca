@@ -21,7 +21,7 @@ public class TotemSpawner : Totem
         for (int i = 0; i < spawner.waveAmount; i++)
         {
             Vector3 pos = spawner.spot.GetSurfacePos();
-
+            if (pos == Vector3.zero) pos = transform.position;
             feedback.StartGoToFeedback(pos, (x) => spawner.SpawnPrefab(pos, CurrentScene));
         }
         AudioManager.instance.PlaySound(ac_Summon.name, transform);

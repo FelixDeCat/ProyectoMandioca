@@ -1,7 +1,6 @@
 ﻿using UnityEngine.SceneManagement;
 using UnityEngine;
 using System.Linq;
-using UnityEngine.UI;
 using Tools;
 using DevelopTools.UI;
 using System.Collections.Generic;

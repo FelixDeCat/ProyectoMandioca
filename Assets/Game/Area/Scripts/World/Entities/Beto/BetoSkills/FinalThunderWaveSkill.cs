@@ -64,6 +64,7 @@ public class FinalThunderWaveSkill : BossSkills, ISpawner
         for (int i = 0; i < enemiesDictionary[enemies].Length; i++)
         {
             Vector3 pos = spot.GetSurfacePos();
+            if (pos == Vector3.zero) pos = transform.position;
             pos.y += 1;
             var enemy = enemiesDictionary[enemies][i];
             spawnModifies.StartGoToFeedback(pos, (x) => SpawnPrefab(enemy, x, currentScene));
