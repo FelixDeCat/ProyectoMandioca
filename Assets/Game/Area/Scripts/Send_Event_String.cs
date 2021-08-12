@@ -10,4 +10,8 @@ public class Send_Event_String : MonoBehaviour
     {
         Main.instance.eventManager.TriggerEvent(Event_Name);
     }
+    public void SendEvent(string ev_name)
+    {
+        Main.instance.eventManager.TriggerEvent(ev_name);
+    }
 }

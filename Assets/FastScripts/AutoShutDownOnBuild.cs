@@ -21,6 +21,16 @@ public class AutoShutDownOnBuild : MonoBehaviour
         OnEnable.Invoke();
         en = true;
 #endif
+
+        Invoke("TurnOff", 0.1f);
+    }
+
+    void TurnOff()
+    {
+        en = false;
+        OnDisable.Invoke();
+        Main.instance.eventManager.TriggerEvent(GameEvents.INTERACTABLES_INITIALIZE);
+        if (DevelopToolsCenter.instance) DevelopToolsCenter.instance.ShowChilds(false);
     }
 
     // Update is called once per frame

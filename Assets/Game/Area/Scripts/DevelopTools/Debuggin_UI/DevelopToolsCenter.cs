@@ -14,6 +14,8 @@ public class DevelopToolsCenter : MonoBehaviour
 
     [SerializeField] GameObject[] childs = new GameObject[0];
 
+    CanvasGroup canvasGroup;
+
 
     #region God Mode
     bool godMode = false;
@@ -27,7 +29,10 @@ public class DevelopToolsCenter : MonoBehaviour
 
     private void Start()
     {
+        canvasGroup = GetComponent<CanvasGroup>();
+
         ToogleDebug(false);
+        
 
         Debug_UI_Tools.instance.CreateToogle("GODMODE", false, ToogleGodMOdeDebug);
         Debug_UI_Tools.instance.CreateToogle("Armas", false, Armas);
@@ -43,6 +48,9 @@ public class DevelopToolsCenter : MonoBehaviour
         
 
     }
+
+    public void On_Debug() { canvasGroup.alpha = 1; canvasGroup.interactable = true; }
+    public void Off_Debug() { canvasGroup.alpha = 0; canvasGroup.interactable = false; }
 
     #region Toggles [GODMODE]
     string ToogleGodMOdeDebug(bool active)
