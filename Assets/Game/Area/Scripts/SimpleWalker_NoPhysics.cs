@@ -11,6 +11,7 @@ public class SimpleWalker_NoPhysics : MonoBehaviour
 
     [Header("Events")]
     [SerializeField] UnityEvent OnFinish = new UnityEvent();
+    [SerializeField] UnityEvent OnBegin = new UnityEvent();
 
     [Header("Movement config")]
     [SerializeField] float close_distance = 0.5f;
@@ -27,12 +28,14 @@ public class SimpleWalker_NoPhysics : MonoBehaviour
         OneShot = false;
         anim = false;
         index = 0;
+        root.transform.position = path.nodes[0].position;
     }
 
     public void Go()
     {
         if (!OneShot)
         {
+            OnBegin.Invoke();
             OneShot = true;
             anim = true;
             index = 0;

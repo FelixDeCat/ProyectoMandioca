@@ -46,7 +46,8 @@ public class Brazalete_event : MonoBehaviour, ISpawner, IPauseable, IScriptedEve
     [SerializeField] float endlessDuration = 60;
 
     [Header("Miscelaneos")]
-    [SerializeField] NPCFleing[] aldeanosAsustados = new NPCFleing[0];
+    //[SerializeField] NPCFleing[] aldeanosAsustados = new NPCFleing[0];
+    [SerializeField] SimpleWalker_NoPhysics walker;
     [SerializeField] TentacleWall_controller tentaculos = null;
     [SerializeField] TentacleWall_controller tentaculos_fijos = null;
     [SerializeField] DamageData ateneaDmg = null;
@@ -103,13 +104,15 @@ public class Brazalete_event : MonoBehaviour, ISpawner, IPauseable, IScriptedEve
         wave_handler.Init();
         totemFeedback.Initialize(StartCoroutine);
 
-        originalVillager_Pos = new Vector3[aldeanosAsustados.Length];
-        for (int i = 0; i < aldeanosAsustados.Length; i++)
-        {
-            aldeanosAsustados[i].PlayAnim("Cry");
-            //reset thing
-            originalVillager_Pos[i] = aldeanosAsustados[i].transform.position;
-        }
+        ///8 aca inicializo a los aldeanos
+
+        //originalVillager_Pos = new Vector3[aldeanosAsustados.Length];
+        //for (int i = 0; i < aldeanosAsustados.Length; i++)
+        //{
+        //    aldeanosAsustados[i].PlayAnim("Cry");
+        //    //reset thing
+        //    originalVillager_Pos[i] = aldeanosAsustados[i].transform.position;
+        //}
 
 
         ateneaAnim = atenea.GetComponentInChildren<Animator>();
@@ -227,12 +230,15 @@ public class Brazalete_event : MonoBehaviour, ISpawner, IPauseable, IScriptedEve
 
         Main.instance.GetScriptedEventManager().RegisterEvents(this);
 
-        for (int i = 0; i < aldeanosAsustados.Length; i++)
-        {
-            aldeanosAsustados[i].PlayAnim("StopCry");
-            aldeanosAsustados[i].PlayAnim("RunDesesperated");
-            aldeanosAsustados[i].GoToPos_RunningDesesperated();
-        }
+        // aca empiezan a correr los aldeanos
+        walker.Go();
+
+        //for (int i = 0; i < aldeanosAsustados.Length; i++)
+        //{
+        //    aldeanosAsustados[i].PlayAnim("StopCry");
+        //    aldeanosAsustados[i].PlayAnim("RunDesesperated");
+        //    aldeanosAsustados[i].GoToPos_RunningDesesperated();
+        //}
 
         tentaculos.CloseTentacles();
 
@@ -383,6 +389,8 @@ public class Brazalete_event : MonoBehaviour, ISpawner, IPauseable, IScriptedEve
 
     void BetoReachedPosition_StatuePosition()
     {
+        Debug.Log("Beto llega a la posicion");
+
         if (!oneshot_anim_fountain)
         {
             oneshot_anim_fountain = true;
@@ -548,13 +556,15 @@ public class Brazalete_event : MonoBehaviour, ISpawner, IPauseable, IScriptedEve
             tentaculos.GetAllTentacles[i].gameObject.SetActive(tentaclesOn[i]);
         }
 
-        for (int i = 0; i < originalVillager_Pos.Length; i++)
-        {
-            aldeanosAsustados[i].StopMoving();
-            aldeanosAsustados[i].transform.position = originalVillager_Pos[i];
-            aldeanosAsustados[i].PlayAnim("StopRunDesesperated");
-            aldeanosAsustados[i].PlayAnim("Cry");
-        }
+        // aca hay que resetear a los aldeanos
+        walker.Reset();
+        //for (int i = 0; i < originalVillager_Pos.Length; i++)
+        //{
+        //    aldeanosAsustados[i].StopMoving();
+        //    aldeanosAsustados[i].transform.position = originalVillager_Pos[i];
+        //    aldeanosAsustados[i].PlayAnim("StopRunDesesperated");
+        //    aldeanosAsustados[i].PlayAnim("Cry");
+        //}
 
         statue_to_hide.gameObject.SetActive(true);
         animator_fountain.Play(Atenea_Clear_Fountain_Animation);
