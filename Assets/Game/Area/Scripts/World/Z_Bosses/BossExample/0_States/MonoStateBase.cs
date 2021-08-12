@@ -47,7 +47,7 @@ public abstract class MonoStateBase : MonoBehaviour
     public void Begin()
     {
         _monoStateBaseOptions.isactive = true;
-        DebugCustom.Log("WENDIGO", "State", gameObject.name);
+        //DebugCustom.Log("WENDIGO", "State", gameObject.name);
         OnBegin();
     }
 

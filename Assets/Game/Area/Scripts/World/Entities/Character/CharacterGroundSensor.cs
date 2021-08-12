@@ -73,7 +73,7 @@ public class CharacterGroundSensor : MonoBehaviour
                 VelY = Mathf.Clamp(VelY - timer * gravityMultiplier, -maxAceleration, 15);
                 timer += Time.deltaTime;
 
-                DebugCustom.Log("Gravity", "Gravity", "TRUE");
+                //DebugCustom.Log("Gravity", "Gravity", "TRUE");
 
                 if (!isFalling &&  lastY - (transform.position.y - height) >= disToFall)
                 {
@@ -118,7 +118,7 @@ public class CharacterGroundSensor : MonoBehaviour
             timer = 1;
 
             VelY = 0;
-            DebugCustom.Log("Gravity", "Gravity", "false");
+            //DebugCustom.Log("Gravity", "Gravity", "false");
             isGrounded = true;
 
             if (isFalling)

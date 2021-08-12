@@ -27,7 +27,7 @@ public abstract class Usable : Equipable
         bool cooldownActive = false;
         if (cooldown != null) cooldownActive = cooldown.IsRunning;
 
-        DebugCustom.Log("CanUSe", "CanUse", OnCanUse() + "," + predicate.Invoke() + "," + !cooldownActive);
+        //DebugCustom.Log("CanUSe", "CanUse", OnCanUse() + "," + predicate.Invoke() + "," + !cooldownActive);
 
         return OnCanUse() && predicate.Invoke() && !cooldownActive; 
     }

@@ -371,7 +371,7 @@ public class HitStore
             if (stored) return false;
             else
             {
-                DebugCustom.Log("Attack", "STORED", "ALAMACENO");
+                //DebugCustom.Log("Attack", "STORED", "ALAMACENO");
                 stored = true;
                 return true;
             }
