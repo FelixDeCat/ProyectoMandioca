@@ -5321,7 +5321,7 @@ Transform:
   m_LocalScale: {x: 5.2630334, y: 4.6515937, z: 6.3935227}
   m_Children: []
   m_Father: {fileID: 1327963091322133672}
-  m_RootOrder: 8
+  m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &1327963090336978540
 MeshFilter:
@@ -5594,139 +5594,6 @@ Transform:
   m_Father: {fileID: 1327963091322133672}
   m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &1327963090894448001
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1327963090894448006}
-  - component: {fileID: 1327963090894448004}
-  - component: {fileID: 1327963090894448007}
-  m_Layer: 0
-  m_Name: npc_interact_dialog_Agradecido
-  m_TagString: Untagged
-  m_Icon: {fileID: 419385456094870383, guid: 0000000000000000d000000000000000, type: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 0
---- !u!4 &1327963090894448006
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1327963090894448001}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 555.88, y: 51.48, z: -256.62}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 1327963091322133672}
-  m_RootOrder: 6
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1327963090894448004
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1327963090894448001}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: cfb6f4d620fc22949b66b08170c43333, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  distancetoInteract: 4
-  autoexecute: 0
-  isOneShot: 1
-  cd_autoexecute: 0
-  pointToMessage: {fileID: 0}
-  feedback: []
-  _withDelay: 0
-  delayTime: 0
-  drawGizmos: 0
-  IsUninterruptible: 0
-  UE_OnEnter:
-    m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 1327963090894448007}
-        m_MethodName: Talk
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-  UE_OnExit:
-    m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 1327963090894448007}
-        m_MethodName: StopDialogue
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-  PressDown:
-    m_PersistentCalls:
-      m_Calls: []
-  PressUp:
-    m_PersistentCalls:
-      m_Calls: []
-  executing: 0
-  auxiliars:
-    Feedback_HOVER_I_Can_Interact:
-      m_PersistentCalls:
-        m_Calls: []
-    Feedback_HOVER_I_Can_NOT_Interact:
-      m_PersistentCalls:
-        m_Calls: []
-    Feedback_EXECUTE_Sucessfull:
-      m_PersistentCalls:
-        m_Calls: []
-    Feedback_EXECUTE_Fail:
-      m_PersistentCalls:
-        m_Calls: []
-  UE_OnExecute:
-    m_PersistentCalls:
-      m_Calls: []
-  nombre_NPC: Entusisasta
-  mostrarFeedback: 1
-  custom_cartelito: 1
---- !u!114 &1327963090894448007
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1327963090894448001}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e6ebbc43fbf19b44e9bd02fe5b6d104d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  dialogues:
-  - {fileID: 11400000, guid: 5822645303fa2344b87c0106d10bcea7, type: 2}
-  currentDialoge: {fileID: 11400000, guid: 5822645303fa2344b87c0106d10bcea7, type: 2}
-  OnEndDialogueByIndex: []
-  useOneShot: 0
-  stopAllOnDialogue: 0
-  showButtons: 0
-  OnNewDialogue:
-    m_PersistentCalls:
-      m_Calls: []
-  DefaultEndDialogue:
-    m_PersistentCalls:
-      m_Calls: []
 --- !u!1 &1327963090964720893
 GameObject:
   m_ObjectHideFlags: 0
@@ -5755,7 +5622,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1327963091322133672}
-  m_RootOrder: 7
+  m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1327963091299635555
 GameObject:
@@ -5785,7 +5652,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1327963091322133672}
-  m_RootOrder: 9
+  m_RootOrder: 8
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1327963091322133675
 GameObject:
@@ -5820,7 +5687,6 @@ Transform:
   - {fileID: 1327963090525397481}
   - {fileID: 1327963090657799862}
   - {fileID: 1327963090154980614}
-  - {fileID: 1327963090894448006}
   - {fileID: 1327963090964720882}
   - {fileID: 1327963090336978538}
   - {fileID: 1327963091299635552}
@@ -5834,6 +5700,7 @@ Transform:
   - {fileID: 6800442012487059763}
   - {fileID: 7344319449689670540}
   - {fileID: 2459310197366692495}
+  - {fileID: 488164344464166268}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -5985,16 +5852,16 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-      - m_Target: {fileID: 870884155469303760}
-        m_MethodName: StartWalkingAnim
-        m_Mode: 1
+      - m_Target: {fileID: 9062320151208964318}
+        m_MethodName: NPC_Can_Interact
+        m_Mode: 6
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
-          m_BoolArgument: 0
+          m_BoolArgument: 1
         m_CallState: 2
   UEVENT_End:
     m_PersistentCalls:
@@ -6044,7 +5911,18 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   UEVENT_Begin:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 9062320151208964318}
+        m_MethodName: NPC_Can_Interact
+        m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   UEVENT_End:
     m_PersistentCalls:
       m_Calls: []
@@ -6137,7 +6015,7 @@ Transform:
   m_LocalScale: {x: 0.69521, y: 0.69521, z: 0.69521}
   m_Children: []
   m_Father: {fileID: 1327963091322133672}
-  m_RootOrder: 10
+  m_RootOrder: 9
   m_LocalEulerAnglesHint: {x: 0, y: -90.00001, z: 0}
 --- !u!65 &8045882523114126940
 BoxCollider:
@@ -6216,7 +6094,7 @@ RectTransform:
   m_Children:
   - {fileID: 165897265281636800}
   m_Father: {fileID: 1327963091322133672}
-  m_RootOrder: 18
+  m_RootOrder: 17
   m_LocalEulerAnglesHint: {x: 0, y: -90.630005, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -6716,7 +6594,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1327963091322133672}
-  m_RootOrder: 11
+  m_RootOrder: 10
   m_LocalEulerAnglesHint: {x: 0, y: 19.496, z: 0}
 --- !u!65 &1327963091750232656
 BoxCollider:
@@ -7788,7 +7666,7 @@ Transform:
   m_Children:
   - {fileID: 8624627288790106657}
   m_Father: {fileID: 1327963091322133672}
-  m_RootOrder: 15
+  m_RootOrder: 14
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &4335966398973108137
 GameObject:
@@ -8057,7 +7935,7 @@ RectTransform:
   m_Children:
   - {fileID: 2737425360696108257}
   m_Father: {fileID: 1327963091322133672}
-  m_RootOrder: 19
+  m_RootOrder: 18
   m_LocalEulerAnglesHint: {x: 0, y: 337.258, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -9043,7 +8921,7 @@ Transform:
   - {fileID: 1402588717254357819}
   - {fileID: 5509380072672195410}
   m_Father: {fileID: 1327963091322133672}
-  m_RootOrder: 17
+  m_RootOrder: 16
   m_LocalEulerAnglesHint: {x: -55.814003, y: 80.143005, z: 1.9750001}
 --- !u!114 &7689570868376217225
 MonoBehaviour:
@@ -9242,6 +9120,139 @@ Transform:
   m_Father: {fileID: 5603159978070054983}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: -0.2744441, y: 8.214249, z: -79.01749}
+--- !u!1 &7283442994613087483
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 488164344464166268}
+  - component: {fileID: 9062320151208964318}
+  - component: {fileID: 8730587242343125795}
+  m_Layer: 0
+  m_Name: npc_interact_dialog_Entusiasta (1)
+  m_TagString: Untagged
+  m_Icon: {fileID: 419385456094870383, guid: 0000000000000000d000000000000000, type: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &488164344464166268
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7283442994613087483}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 559.93, y: 53.15, z: -256.39}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 1327963091322133672}
+  m_RootOrder: 19
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &9062320151208964318
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7283442994613087483}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cfb6f4d620fc22949b66b08170c43333, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  distancetoInteract: 5
+  autoexecute: 0
+  isOneShot: 1
+  cd_autoexecute: 0
+  pointToMessage: {fileID: 0}
+  feedback: []
+  _withDelay: 0
+  delayTime: 0
+  drawGizmos: 0
+  IsUninterruptible: 0
+  UE_OnEnter:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 8730587242343125795}
+        m_MethodName: Talk
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  UE_OnExit:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 8730587242343125795}
+        m_MethodName: StopDialogue
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  PressDown:
+    m_PersistentCalls:
+      m_Calls: []
+  PressUp:
+    m_PersistentCalls:
+      m_Calls: []
+  executing: 0
+  auxiliars:
+    Feedback_HOVER_I_Can_Interact:
+      m_PersistentCalls:
+        m_Calls: []
+    Feedback_HOVER_I_Can_NOT_Interact:
+      m_PersistentCalls:
+        m_Calls: []
+    Feedback_EXECUTE_Sucessfull:
+      m_PersistentCalls:
+        m_Calls: []
+    Feedback_EXECUTE_Fail:
+      m_PersistentCalls:
+        m_Calls: []
+  UE_OnExecute:
+    m_PersistentCalls:
+      m_Calls: []
+  nombre_NPC: Jacinta
+  mostrarFeedback: 1
+  custom_cartelito: 1
+--- !u!114 &8730587242343125795
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7283442994613087483}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e6ebbc43fbf19b44e9bd02fe5b6d104d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  dialogues:
+  - {fileID: 11400000, guid: 5822645303fa2344b87c0106d10bcea7, type: 2}
+  currentDialoge: {fileID: 11400000, guid: 5822645303fa2344b87c0106d10bcea7, type: 2}
+  OnEndDialogueByIndex: []
+  useOneShot: 0
+  stopAllOnDialogue: 0
+  showButtons: 0
+  OnNewDialogue:
+    m_PersistentCalls:
+      m_Calls: []
+  DefaultEndDialogue:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!1 &7324696992928572691
 GameObject:
   m_ObjectHideFlags: 0
@@ -9447,7 +9458,7 @@ Transform:
   - {fileID: 6453471657521885916}
   - {fileID: 8127171311751512407}
   m_Father: {fileID: 1327963091322133672}
-  m_RootOrder: 14
+  m_RootOrder: 13
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &870884155469303760
 MonoBehaviour:
@@ -9483,7 +9494,7 @@ MonoBehaviour:
   OnFinishMyObjetive:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1327963090894448001}
+      - m_Target: {fileID: 0}
         m_MethodName: SetActive
         m_Mode: 6
         m_Arguments:
@@ -10786,7 +10797,7 @@ PrefabInstance:
     - target: {fileID: 2136407125564035090, guid: 0112950bbf3a01445a5bf294e72436e7,
         type: 3}
       propertyPath: m_RootOrder
-      value: 12
+      value: 11
       objectReference: {fileID: 0}
     - target: {fileID: 2136407125564035090, guid: 0112950bbf3a01445a5bf294e72436e7,
         type: 3}
@@ -11155,7 +11166,7 @@ PrefabInstance:
     - target: {fileID: 3090918597685797323, guid: 4614db5f32b9eb5458a5787c36b0b068,
         type: 3}
       propertyPath: m_RootOrder
-      value: 13
+      value: 12
       objectReference: {fileID: 0}
     - target: {fileID: 3090918597685797323, guid: 4614db5f32b9eb5458a5787c36b0b068,
         type: 3}
@@ -11215,12 +11226,6 @@ GameObject:
     type: 3}
   m_PrefabInstance: {fileID: 2770460636531894882}
   m_PrefabAsset: {fileID: 0}
---- !u!23 &1448672339032293120 stripped
-MeshRenderer:
-  m_CorrespondingSourceObject: {fileID: 3632171327774496098, guid: 4614db5f32b9eb5458a5787c36b0b068,
-    type: 3}
-  m_PrefabInstance: {fileID: 2770460636531894882}
-  m_PrefabAsset: {fileID: 0}
 --- !u!23 &722129545418192252 stripped
 MeshRenderer:
   m_CorrespondingSourceObject: {fileID: 3204068949802655518, guid: 4614db5f32b9eb5458a5787c36b0b068,
@@ -11230,6 +11235,12 @@ MeshRenderer:
 --- !u!4 &907336046308117417 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 3090918597685797323, guid: 4614db5f32b9eb5458a5787c36b0b068,
+    type: 3}
+  m_PrefabInstance: {fileID: 2770460636531894882}
+  m_PrefabAsset: {fileID: 0}
+--- !u!23 &1448672339032293120 stripped
+MeshRenderer:
+  m_CorrespondingSourceObject: {fileID: 3632171327774496098, guid: 4614db5f32b9eb5458a5787c36b0b068,
     type: 3}
   m_PrefabInstance: {fileID: 2770460636531894882}
   m_PrefabAsset: {fileID: 0}
@@ -11283,7 +11294,7 @@ PrefabInstance:
     - target: {fileID: 8245974427457149802, guid: b4e6701f6c2287840aefba48335319c5,
         type: 3}
       propertyPath: m_RootOrder
-      value: 16
+      value: 15
       objectReference: {fileID: 0}
     - target: {fileID: 8245974427457149802, guid: b4e6701f6c2287840aefba48335319c5,
         type: 3}
