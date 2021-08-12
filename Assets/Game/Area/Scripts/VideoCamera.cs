@@ -63,7 +63,7 @@ public class VideoCamera : MonoBehaviour
 
         if (video_is_on_screen)
         {
-            if (Input.GetKeyDown(KeyCode.Space) || Input.GetKeyDown(KeyCode.Escape))
+            if (Input.GetKeyDown(KeyCode.Space) || Input.GetKeyDown(KeyCode.Escape) || Input.GetButtonDown("Back"))
             {
                 submenu = !submenu;
                 if (submenu)
