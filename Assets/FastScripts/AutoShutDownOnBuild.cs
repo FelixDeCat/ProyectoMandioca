@@ -6,7 +6,7 @@ using UnityEngine.Events;
 
 public class AutoShutDownOnBuild : MonoBehaviour
 {
-    
+
     public UnityEvent OnEnable;
     public UnityEvent OnDisable;
     bool en;
@@ -33,13 +33,13 @@ public class AutoShutDownOnBuild : MonoBehaviour
             {
                 OnEnable.Invoke();
                 Main.instance.eventManager.TriggerEvent(GameEvents.INTERACTABLES_INITIALIZE);
-                DevelopToolsCenter.instance.ShowChilds(true);
+                if (DevelopToolsCenter.instance) DevelopToolsCenter.instance.ShowChilds(true);
             }
             else
             {
                 OnDisable.Invoke();
                 Main.instance.eventManager.TriggerEvent(GameEvents.INTERACTABLES_INITIALIZE);
-                DevelopToolsCenter.instance.ShowChilds(false);
+                if (DevelopToolsCenter.instance) DevelopToolsCenter.instance.ShowChilds(false);
             }
         }
     }
