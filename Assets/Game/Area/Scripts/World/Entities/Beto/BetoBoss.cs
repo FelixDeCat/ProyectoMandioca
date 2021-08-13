@@ -131,7 +131,7 @@ public class BetoBoss : EnemyBase
         var part = ParticlesManager.Instance.PlayParticle(takeDamagePS.name, transform.position + Vector3.up);
         part.transform.forward = (data.owner_position - transform.position).normalized;
         StartCoroutine(OnHitted(onHitFlashTime, onHitColor, myMeshes));
-        animator.SetBool("takeDamage", true);
+        //animator.SetBool("takeDamage", true);
         AudioManager.instance.PlaySound(takeDamageSound.name, rootTransform);
 
         if (data.ownerRoot == transform && !Stuned && Flying)

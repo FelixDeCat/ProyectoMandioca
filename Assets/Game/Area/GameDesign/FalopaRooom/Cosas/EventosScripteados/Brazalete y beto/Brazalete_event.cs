@@ -13,6 +13,7 @@ public class Brazalete_event : MonoBehaviour, ISpawner, IPauseable, IScriptedEve
     [SerializeField] GameObject beto = null;
     [SerializeField] GameObject atenea = null;
     //[SerializeField] GameObject brazalete = null;
+    bool isEventStart;
 
     Animator betoAnim;
     Animator ateneaAnim;
@@ -217,6 +218,7 @@ public class Brazalete_event : MonoBehaviour, ISpawner, IPauseable, IScriptedEve
     {
         Debug.Log("se inicia");
         BeginEvent.Invoke();
+        isEventStart = true;
 
         PauseManager.Instance.AddToPause(this);
         ateneaDialogue_ground.gameObject.SetActive(false);
@@ -270,6 +272,7 @@ public class Brazalete_event : MonoBehaviour, ISpawner, IPauseable, IScriptedEve
         fountain_tentacles.CloseTentacles();
         OnAtenaKillEnemies.Invoke();
         KillAllEnemies();
+        isEventStart = false;
     }
     void KillAllEnemies()
     {
@@ -289,10 +292,11 @@ public class Brazalete_event : MonoBehaviour, ISpawner, IPauseable, IScriptedEve
     void BetoStartsFlying()
     {
 
-       // OnReachedDestination_beto += StartSummonWaves;
+        // OnReachedDestination_beto += StartSummonWaves;
 
+        Debug.Log("es acá");
         timer.AddCD("timeToPlayFly",
-                     () => betoAnim.Play("StartFly"),
+                     () => { betoAnim.Play("StartFly");         Debug.Log("o acá"); },
                     2);
 
         timer.AddCD("ateneaSaveTheDay",
@@ -377,6 +381,7 @@ public class Brazalete_event : MonoBehaviour, ISpawner, IPauseable, IScriptedEve
 
     void GoToFlyPos()
     {
+        Debug.Log("o es acá");
         totemFeedback.StartChargeFeedback(Summon);
         cinematic_Beto_detroy_Statue.StartCinematic(EndDestroyStatueCinematic);
         currentPlaceToGo_beto = flyingPos;
@@ -508,6 +513,7 @@ public class Brazalete_event : MonoBehaviour, ISpawner, IPauseable, IScriptedEve
 
     public void Pause()
     {
+        if (!isEventStart) return;
         eventOn = false;
         betoAnim.speed = 0;
         atenea.GetComponentInChildren<Animator>().speed = 0;
@@ -515,6 +521,7 @@ public class Brazalete_event : MonoBehaviour, ISpawner, IPauseable, IScriptedEve
 
     public void Resume()
     {
+        if (!isEventStart) return;
         betoAnim.speed = 1;
         eventOn = true;
         atenea.GetComponentInChildren<Animator>().speed = 1;
@@ -522,6 +529,7 @@ public class Brazalete_event : MonoBehaviour, ISpawner, IPauseable, IScriptedEve
 
     public void ResetEvent()
     {
+        isEventStart = false;
         oneshot_anim_fountain = false;
         Debug.Log("Reseteo el evento del brazalete");
         PauseManager.Instance.RemoveToPause(this);
