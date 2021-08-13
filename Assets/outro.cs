@@ -10,10 +10,19 @@ public class outro : MonoBehaviour
     {
         VideoCamera.Play("outro", OnEnd);
         AudioAmbienceSwitcher.instance.StopAll();
+        Main.instance.GetChar().getInput.inMenu = true;
+        StartCoroutine(FuncionFeisima());
     }
-
+    bool oneshot;
     void OnEnd()
     {
+        if (oneshot) return;
+        oneshot = true;
         PauseManager.Instance.ReturnToMenu();
+    }
+    IEnumerator FuncionFeisima()
+    {
+        yield return new WaitForSeconds(123.4f);
+        VideoCamera.instance.SkipVideo();
     }
 }

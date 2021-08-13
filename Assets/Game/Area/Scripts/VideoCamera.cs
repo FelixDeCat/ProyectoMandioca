@@ -125,11 +125,12 @@ public class VideoCamera : MonoBehaviour
     private void EndReached(VideoPlayer source)
     {
         Debug.Log("Terminó el video");
-        source.targetCameraAlpha = 0;
-        myCamera.enabled = false;
-        current_subscription.Invoke();
-        current_subscription = delegate { };
-        video_is_on_screen = false;
+        SkipVideo();
+        //source.targetCameraAlpha = 0;
+        //myCamera.enabled = false;
+        //current_subscription.Invoke();
+        //current_subscription = delegate { };
+        //video_is_on_screen = false;
 
     }
 
