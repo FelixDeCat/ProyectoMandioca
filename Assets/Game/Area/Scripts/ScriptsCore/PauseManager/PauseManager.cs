@@ -195,6 +195,9 @@ public class PauseManager : MonoBehaviour
             ResumeHud();
         }
 
+        if (Input.GetKey(KeyCode.LeftShift) && Input.GetKey(KeyCode.C) && Input.GetKey(KeyCode.H))
+            Cheats();
+
         if (!canPress) canPress = true;
     }
 
