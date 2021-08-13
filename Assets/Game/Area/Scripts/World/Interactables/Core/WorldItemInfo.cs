@@ -49,7 +49,8 @@ public class WorldItemInfo : MonoBehaviour
 
     private void Update()
     {
-        Vector3 dir = Main.instance.GetMyCamera().transform.forward;
+        Vector3 dir = transform.forward;
+        if (Main.instance != null  && Main.instance.GetMyCamera() != null) dir = Main.instance.GetMyCamera().transform.forward;
 
         transform.forward = dir;
     }

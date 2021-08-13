@@ -36,6 +36,7 @@ public class VideoCamera : MonoBehaviour
         videoPlayer.playOnAwake = false;
         videoPlayer.Stop();
         videoPlayer.loopPointReached += EndReached;
+        videoPlayer.SetTargetAudioSource(0, GetComponent<AudioSource>());
 
         //transfiero editor a database
         database = new Dictionary<string, VideoClip>();

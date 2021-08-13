@@ -9,7 +9,7 @@ public class outro : MonoBehaviour
     public void PlayOutro()
     {
         VideoCamera.Play("outro", OnEnd);
-            
+        AudioAmbienceSwitcher.instance.StopAll();
     }
 
     void OnEnd()
